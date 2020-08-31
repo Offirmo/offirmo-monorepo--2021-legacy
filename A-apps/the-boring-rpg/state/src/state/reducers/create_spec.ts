@@ -18,7 +18,7 @@ describe(`${LIB} - reducer - create`, function() {
 		it('should be correct', function() {
 			const state = create()
 			expect(state).to.have.property('schema_version', SCHEMA_VERSION)
-			expect(Object.keys(state), 'quick key count check S').to.have.lengthOf(3) // because this test should be updated if that changes
+			expect(Object.keys(state), 'quick key count check').to.deep.equal(['schema_version', 'u_state', 't_state']) // because this test should be updated if that changes
 
 			const { u_state } = state
 
@@ -38,7 +38,7 @@ describe(`${LIB} - reducer - create`, function() {
 
 			const { t_state } = state
 			expect(t_state, 'energy').to.have.property('energy')
-			expect(Object.keys(t_state), 'quick key count check T').to.have.lengthOf(3) // because this test should be updated if that changes
+			expect(Object.keys(t_state), 'quick key count check T').to.have.lengthOf(4) // because this test should be updated if that changes
 
 			// init of custom values
 			expect(u_state).to.have.property('revision', 0)

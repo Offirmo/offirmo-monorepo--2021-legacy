@@ -3,7 +3,7 @@
 import { expect, assert } from 'chai'
 
 import {
-	ROOT_EXAMPLE,
+	DEMO_ROOT_STATE,
 } from '@offirmo-private/state/dist/src.es2019.cjs/_test_helpers'
 
 import { LIB } from '../consts'
@@ -44,75 +44,75 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 	const TEST_BASE_DATA_3b = { foo: { bar: { baz: 33 }}}
 
 	const TEST_ADV_DATA_v10_103 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 	}
 	const TEST_ADV_DATA_v10_123 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 123,
 		}
 	}
 	const TEST_ADV_DATA_v10_124 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 124,
 		}
 	}
 	const TEST_ADV_DATA_v10_125 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 125,
 		}
 	}
 
 	const TEST_ADV_DATA_v1_1 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		schema_version: 1,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 1,
 		},
 	}
 	let TEST_ADV_DATA_v1_2 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		schema_version: 1,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 2,
 		}
 	}
 	let TEST_ADV_DATA_v2_10 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		schema_version: 2,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 10,
 		}
 	}
 	let TEST_ADV_DATA_v2_11 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		schema_version: 2,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 11,
 		}
 	}
 	let TEST_ADV_DATA_v3_30 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		schema_version: 3,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 30,
 		}
 	}
 	let TEST_ADV_DATA_v3_31 = {
-		...ROOT_EXAMPLE,
+		...DEMO_ROOT_STATE,
 		schema_version: 3,
 		u_state: {
-			...ROOT_EXAMPLE.u_state,
+			...DEMO_ROOT_STATE.u_state,
 			revision: 31,
 		}
 	}
@@ -276,11 +276,11 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				await set_kv_entry({
 					user_id,
 					key,
-					value: ROOT_EXAMPLE,
+					value: DEMO_ROOT_STATE,
 				})
 
 				const actual = (await get({ user_id, key }))!
-				expect(actual.value).to.deep.equal(ROOT_EXAMPLE)
+				expect(actual.value).to.deep.equal(DEMO_ROOT_STATE)
 				expect(actual.bkp__recent).to.deep.equal(null)
 				expect(actual.bkp__old).to.deep.equal(null)
 				expect(actual.bkp__older).to.deep.equal(null)
@@ -290,11 +290,11 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				await set_kv_entry({
 					user_id,
 					key,
-					value: ROOT_EXAMPLE,
+					value: DEMO_ROOT_STATE,
 				})
 
 				let actual = (await get({ user_id, key }))!
-				expect(actual.value).to.deep.equal(ROOT_EXAMPLE)
+				expect(actual.value).to.deep.equal(DEMO_ROOT_STATE)
 				expect(actual.bkp__recent).to.deep.equal(null)
 				expect(actual.bkp__old).to.deep.equal(null)
 				expect(actual.bkp__older).to.deep.equal(null)
@@ -302,11 +302,11 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				await set_kv_entry({
 					user_id,
 					key,
-					value: ROOT_EXAMPLE,
+					value: DEMO_ROOT_STATE,
 				})
 
 				actual = (await get({ user_id, key }))!
-				expect(actual.value).to.deep.equal(ROOT_EXAMPLE)
+				expect(actual.value).to.deep.equal(DEMO_ROOT_STATE)
 				expect(actual.bkp__recent).to.deep.equal(null)
 				expect(actual.bkp__old).to.deep.equal(null)
 				expect(actual.bkp__older).to.deep.equal(null)
@@ -355,30 +355,30 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 
 			it('should work in update condition -- only increasing schema version x3 = major bkp pipeline', async () => {
 				let TEST_ADV_DATA_0 = {
-					...ROOT_EXAMPLE,
+					...DEMO_ROOT_STATE,
 					schema_version: 1,
 				}
 				let TEST_ADV_DATA_1 = {
-					...ROOT_EXAMPLE,
+					...DEMO_ROOT_STATE,
 					schema_version: 3,
 					u_state: {
-						...ROOT_EXAMPLE.u_state,
+						...DEMO_ROOT_STATE.u_state,
 						revision: 123,
 					}
 				}
 				let TEST_ADV_DATA_2 = {
-					...ROOT_EXAMPLE,
+					...DEMO_ROOT_STATE,
 					schema_version: 4,
 					u_state: {
-						...ROOT_EXAMPLE.u_state,
+						...DEMO_ROOT_STATE.u_state,
 						revision: 124,
 					}
 				}
 				let TEST_ADV_DATA_3 = {
-					...ROOT_EXAMPLE,
+					...DEMO_ROOT_STATE,
 					schema_version: 7,
 					u_state: {
-						...ROOT_EXAMPLE.u_state,
+						...DEMO_ROOT_STATE.u_state,
 						revision: 125,
 					}
 				}

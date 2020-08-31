@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 527);
+/******/ 	return __webpack_require__(__webpack_require__.s = 538);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(104);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(37);
+const ansiStyles = __webpack_require__(111);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(40);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(109);
+} = __webpack_require__(116);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(110);
+		template = __webpack_require__(117);
 	}
 
 	return template(chalk, parts.join(''));
@@ -323,7 +323,7 @@ module.exports = chalk;
 
 /***/ }),
 
-/***/ 104:
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -369,7 +369,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(105);
+		colorConvert = __webpack_require__(112);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -491,15 +491,15 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(59)(module)))
 
 /***/ }),
 
-/***/ 105:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(56);
-const route = __webpack_require__(107);
+const conversions = __webpack_require__(65);
+const route = __webpack_require__(114);
 
 const convert = {};
 
@@ -583,7 +583,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 106:
+/***/ 113:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -743,10 +743,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 107:
+/***/ 114:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(56);
+const conversions = __webpack_require__(65);
 
 /*
 	This function routes a model to all other models.
@@ -847,7 +847,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 108:
+/***/ 115:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -863,7 +863,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 109:
+/***/ 116:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -910,7 +910,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 110:
+/***/ 117:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1052,7 +1052,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 112:
+/***/ 118:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1063,10 +1063,10 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 // UNUSED EXPORTS: checkLevel
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
-var consts = __webpack_require__(6);
+var consts = __webpack_require__(9);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
-var consts_base = __webpack_require__(23);
+var consts_base = __webpack_require__(26);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
 // TODO externalize?
@@ -1208,6 +1208,32 @@ function create({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
+const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message']);
+const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used:
+'statusCode', 'shouldRedirect', 'framesToPop']);
+const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
+'details', 'SEC', '_temp']);
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* unused harmony export default */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
 /* global globalThis, self, window, global */
@@ -1229,7 +1255,7 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 18:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1239,10 +1265,10 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ create; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(36);
+var src_es2019 = __webpack_require__(39);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
-var consts_base = __webpack_require__(23);
+var consts_base = __webpack_require__(26);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-node/dist/src.es2019/consts.js
 const ENV_ROOT = 'UDA';
@@ -1441,7 +1467,7 @@ function create() {
 
 /***/ }),
 
-/***/ 23:
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1455,53 +1481,27 @@ const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 /***/ }),
 
-/***/ 25:
+/***/ 28:
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
 
-/***/ 27:
+/***/ 32:
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
 
-/***/ 288:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export STRICT_STANDARD_ERROR_FIELDS */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return QUASI_STANDARD_ERROR_FIELDS; });
-/* unused harmony export COMMON_ERROR_FIELDS */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
-const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message']);
-const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack']);
-const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used:
-'statusCode', 'shouldRedirect', 'framesToPop']);
-const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'details', 'SEC', '_temp']);
-
-/***/ }),
-
-/***/ 36:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
-/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(112);
-/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(62);
+/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(118);
+/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(71);
 
 
 const ORIGINAL_CONSOLE = console;
@@ -1527,14 +1527,14 @@ function createLogger(p = {}) {
 
 /***/ }),
 
-/***/ 37:
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(27);
-const tty = __webpack_require__(38);
-const hasFlag = __webpack_require__(108);
+const os = __webpack_require__(32);
+const tty = __webpack_require__(41);
+const hasFlag = __webpack_require__(115);
 
 const {env} = process;
 
@@ -1674,14 +1674,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 38:
+/***/ 41:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
 
-/***/ 522:
+/***/ 533:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1695,11 +1695,11 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20200813_22h11';
+exports.BUILD_DATE = '20200831_10h27';
 
 /***/ }),
 
-/***/ 527:
+/***/ 538:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1717,9 +1717,9 @@ process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 
-__webpack_require__(68);
+__webpack_require__(73);
 
-const build_1 = __webpack_require__(522); ////////////////////////////////////
+const build_1 = __webpack_require__(533); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -1739,7 +1739,7 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 53:
+/***/ 59:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -1768,12 +1768,12 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 56:
+/***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(106);
+const cssKeywords = __webpack_require__(113);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -2614,50 +2614,7 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
-const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
-// mnemonic:  100 = 100% = you will see 100% of the logs
-//              1 =   1% = you will see 1% of the logs (obviously the most important)
-
-const LOG_LEVEL_TO_INTEGER = {
-  fatal: 1,
-  emerg: 2,
-  alert: 10,
-  crit: 20,
-  error: 30,
-  warning: 40,
-  warn: 40,
-  notice: 45,
-  info: 50,
-  verbose: 70,
-  log: 80,
-  debug: 81,
-  trace: 90,
-  silly: 100
-};
-const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
-// generated to shave a few bytes
-// not using fromEntries bc not available in node <12
-
-const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
-  acc[ll] = {
-    em: 'emergency',
-    wa: 'warn'
-  }[ll.slice(0, 1)] || ll;
-  return acc;
-}, {});
-
-
-/***/ }),
-
-/***/ 62:
+/***/ 71:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2668,8 +2625,29 @@ const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
 var source = __webpack_require__(0);
 var source_default = /*#__PURE__*/__webpack_require__.n(source);
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/v2.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/injectable-lib--chalk.js
+// to make this lib isomorphic, we allow dependency injections
+////////////////////////////////////////////////////////////////////////////////////
+let chalk = null;
+function inject_lib__chalk(chalk_lib) {
+  chalk = chalk_lib;
+}
+function get_lib__chalk() {
+  return chalk;
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/utils.js
 ////////////////////////////////////
+// https://2ality.com/2012/03/signedzero.html (outdated)
+function is_negative_zero(x) {
+  return Object.is(x, -0);
+} // https://stackoverflow.com/a/51398944/587407
+
+function cmp(a, b) {
+  return -(a < b) || +(a > b);
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/options--compatible.js
+ ////////////////////////////////////////////////////////////////////////////////////
+
 const DEFAULTS_STYLE_OPTIONS = {
   max_width: null,
   outline: false,
@@ -2677,10 +2655,22 @@ const DEFAULTS_STYLE_OPTIONS = {
   max_primitive_str_size: null,
   should_recognize_constants: true,
   should_recognize_globals: true,
-  quote: '\''
+  quote: '\'',
+  date_serialization_fn: 'toLocaleString'
 };
+const DEFAULTS_STYLIZE_OPTIONS__NONE = {
+  stylize_dim: s => s,
+  stylize_suspicious: s => s,
+  stylize_error: s => s,
+  stylize_global: s => s,
+  stylize_primitive: s => s,
+  stylize_syntax: s => s,
+  stylize_user: s => s
+};
+const DEBUG = false;
 const DEFAULTS_PRETTIFY_OPTIONS = {
   // TODO follow max string size
+  // primitives
   prettify_string: (s, st) => {
     const {
       o
@@ -2747,6 +2737,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     } = st;
     return '' + o.stylize_global('Symbol') + o.stylize_syntax('(') + (s.description ? o.prettify_string(s.description, st) : '') + o.stylize_syntax(')');
   },
+  // objects
   prettify_function: (f, st, {
     as_prop = false
   } = {}) => {
@@ -2761,7 +2752,11 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     let result = '';
 
     if (f.name) {
-      if (!as_prop) result += o.stylize_syntax('function ');
+      if (!as_prop) {
+        // class detection may not work with Babel
+        result += o.stylize_syntax(f.toString().startsWith('class ') ? 'class ' : 'function ');
+      }
+
       result += o.stylize_user(f.name);
     }
 
@@ -2773,10 +2768,15 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     return result;
   },
   prettify_array: (a, st) => {
+    if (DEBUG) console.log('prettify_array', a);
+    st = { ...st,
+      circular: new Set([...Array.from(st.circular), a])
+    };
     const {
       o
     } = st;
-    return o.stylize_syntax('[') + a.map(e => o.to_prettified_str(e, st)).join(o.stylize_syntax(',')) + o.stylize_syntax(']');
+    return o.stylize_syntax('[') + a.map(e => o.prettify_any(e, st)) // NOTE when fully empty, map won't execute (but it looks nice, no pb)
+    .join(o.stylize_syntax(',')) + o.stylize_syntax(']');
   },
   prettify_property_name: (p, st) => {
     const {
@@ -2801,6 +2801,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
   prettify_object: (obj, st, {
     skip_constructor = false
   } = {}) => {
+    if (DEBUG) console.log('prettify_object', obj);
     const {
       o
     } = st;
@@ -2822,8 +2823,8 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
 
       if (p && p.constructor && p.constructor.name) {
         // can we do better?
-        if (globalThis[p.constructor.name] === p.constructor && p.constructor !== Object) {
-          return o.stylize_syntax('new ') + o.stylize_global(p.constructor.name) + o.stylize_syntax('(') + (() => {
+        if (p.constructor !== Object) {
+          return o.stylize_syntax('new ') + (globalThis[p.constructor.name] === p.constructor ? o.stylize_global(p.constructor.name) : o.stylize_user(p.constructor.name)) + o.stylize_syntax('(') + (() => {
             switch (p.constructor.name) {
               // all primitives that can be an Object
               case 'String':
@@ -2841,6 +2842,9 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
 
               case 'WeakSet':
                 return o.stylize_dim('/\*not enumerable*\/');
+
+              case 'Date':
+                return o.stylize_dim(`/*${obj[o.date_serialization_fn]()}*/`);
               // other
 
               default:
@@ -2871,19 +2875,24 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     });
 
     if (keys.length === 0 && skip_constructor) {
-      return o.stylize_dim('/\*???*\/');
+      return o.stylize_dim(`/*${obj.toString()}*/`);
     }
 
+    st = { ...st,
+      circular: new Set([...Array.from(st.circular), obj])
+    };
     return o.stylize_syntax('{') + keys.map(k => {
       const v = obj[k];
       if (typeof v === 'function' && v.name === k) return o.prettify_function(v, st, {
         as_prop: true
       });
-      return o.prettify_property_name(k, st) + o.stylize_syntax(': ') + o.to_prettified_str(v, st);
+      return o.prettify_property_name(k, st) + o.stylize_syntax(': ') + o.prettify_any(v, st);
     }).join(o.stylize_syntax(',')) + o.stylize_syntax('}');
   },
 
-  to_prettified_str(any, st) {
+  // root
+  prettify_any(any, st) {
+    if (DEBUG) console.log('prettify_any', any);
     const {
       o
     } = st;
@@ -2916,30 +2925,20 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
       case 'object':
         {
           if (any !== null) {
-            if (st.circular.has(any)) return o.stylize_error('<Circular ref!>');
-            st.circular.add(any);
+            if (st.circular.has(any)) return Array.isArray(any) ? o.stylize_error('[<Circular ref!>]') : o.stylize_error('{<Circular ref!>}');
           }
 
           return o.prettify_object(any, st);
         }
 
       default:
-        return `[unsupported primitive type:${typeof any}]`;
+        return `[unsupported type:${typeof any}]`;
     }
   }
 
 };
-const DEFAULTS_STYLIZE_OPTIONS__NONE = {
-  stylize_dim: s => s,
-  stylize_suspicious: s => s,
-  stylize_error: s => s,
-  stylize_global: s => s,
-  stylize_primitive: s => s,
-  stylize_syntax: s => s,
-  stylize_user: s => s
-};
-
-function get_stylize_options_chalk_ansi(chalk) {
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/options--ansi.js
+function get_stylize_options_ansi(chalk) {
   return {
     stylize_dim: s => chalk.dim(s),
     stylize_suspicious: s => chalk.bold(s),
@@ -2950,56 +2949,55 @@ function get_stylize_options_chalk_ansi(chalk) {
     stylize_user: s => chalk.blue(s)
   };
 }
-
-let default_options = { ...DEFAULTS_STYLE_OPTIONS,
-  ...DEFAULTS_PRETTIFY_OPTIONS,
-  ...DEFAULTS_STYLIZE_OPTIONS__NONE
-}; ////////////////////////////////////
-// https://2ality.com/2012/03/signedzero.html (outdated)
-
-function is_negative_zero(x) {
-  return Object.is(x, -0);
-} // https://stackoverflow.com/a/51398944/587407
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/options.js
 
 
-function cmp(a, b) {
-  return -(a < b) || +(a > b);
-} ////////////////////////////////////
+ ////////////////////////////////////////////////////////////////////////////////////
 
+function get_default_options() {
+  return { ...DEFAULTS_STYLE_OPTIONS,
+    ...DEFAULTS_PRETTIFY_OPTIONS,
+    ...DEFAULTS_STYLIZE_OPTIONS__NONE,
+    ...(get_lib__chalk() && get_stylize_options_ansi(get_lib__chalk()))
+  };
+}
+function get_options(options = {}) {
+  return { ...get_default_options(),
+    ...options
+  };
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/v2.js
+ ////////////////////////////////////
 
-function to_prettified_str(js, options = {}) {
+function create_state(options) {
+  return {
+    o: get_options(options),
+    circular: new WeakSet()
+  };
+}
+
+function prettify_any(js, options = {}) {
   try {
-    const st = {
-      o: { ...default_options,
-        ...options
-      },
-      circular: new WeakSet()
-    };
-    return st.o.to_prettified_str(js, st);
+    const st = create_state(get_options(options));
+    return st.o.prettify_any(js, st);
   } catch (err) {
     return `[error prettifying:${err.message}]`;
   }
 }
 function prettify_json(js, options = {}) {
-  const st = {
-    o: { ...default_options,
-      ...options
-    },
-    circular: new WeakSet()
-  };
-  return st.o.to_prettified_str(js, st);
+  const st = create_state(get_options(options)); // TODO show not JSON
+
+  return st.o.prettify_any(js, st);
 }
 function dump_prettified_any(msg, data, options = {}) {
   console.log(msg);
-  console.log(to_prettified_str(data, options));
+  console.log(prettify_any(data, options));
 }
-function inject_chalk(chalk) {
-  default_options = { ...default_options,
-    ...get_stylize_options_chalk_ansi(chalk)
-  };
+function is_pure_json(js) {
+  return false;
 }
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/fields.js
-var fields = __webpack_require__(288);
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
+var fields = __webpack_require__(17);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -3037,7 +3035,7 @@ function displayError(errLike = {}) {
     displayedProps.add('logicalStack');
   }
 
-  fields["a" /* COMMON_ERROR_FIELDS_EXTENDED */].forEach(prop => {
+  fields["b" /* COMMON_ERROR_FIELDS_EXTENDED */].forEach(prop => {
     if (prop in errLike && !displayedProps.has(prop)) {
       displayErrProp(errLike, prop);
     }
@@ -3046,7 +3044,7 @@ function displayError(errLike = {}) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
-var consts = __webpack_require__(6);
+var consts = __webpack_require__(9);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
 
@@ -3100,7 +3098,7 @@ const LEVEL_TO_STYLIZE = {
 
 
 
-inject_chalk(source_default.a);
+inject_lib__chalk(source_default.a);
 
 function createSink(options = {}) {
   const displayTime = options.displayTime || false;
@@ -3114,7 +3112,7 @@ function createSink(options = {}) {
       err
     } = payload;
     let line = '' + (displayTime ? source_default.a.dim(String(time)) + ' ' : '') + LEVEL_TO_ASCII[level] + '› ' + LEVEL_TO_STYLIZE[level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (Reflect.ownKeys(details).length === 0 ? '' //: (' ' + JSON.stringify(details))
-    : ' ' + to_prettified_str(details, {//line_width:
+    : ' ' + prettify_any(details, {//line_width:
       //first_line_already_used:
     }));
     console.log(line); // eslint-disable-line no-console
@@ -3126,7 +3124,7 @@ function createSink(options = {}) {
 
 /***/ }),
 
-/***/ 68:
+/***/ 73:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3136,11 +3134,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["b"]; });
 
-/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
 /* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__) if(["default","getLogger","exposeInternal","overrideHook","addDebugCommand","globalThis","createV1"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
@@ -3206,6 +3204,49 @@ const {
 } = instance;
  // types
 
+
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
+const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
+// mnemonic:  100 = 100% = you will see 100% of the logs
+//              1 =   1% = you will see 1% of the logs (obviously the most important)
+
+const LOG_LEVEL_TO_INTEGER = {
+  fatal: 1,
+  emerg: 2,
+  alert: 10,
+  crit: 20,
+  error: 30,
+  warning: 40,
+  warn: 40,
+  notice: 45,
+  info: 50,
+  verbose: 70,
+  log: 80,
+  debug: 81,
+  trace: 90,
+  silly: 100
+};
+const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
+// generated to shave a few bytes
+// not using fromEntries bc not available in node <12
+
+const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
+  acc[ll] = {
+    em: 'emergency',
+    wa: 'warn'
+  }[ll.slice(0, 1)] || ll;
+  return acc;
+}, {});
 
 
 /***/ })

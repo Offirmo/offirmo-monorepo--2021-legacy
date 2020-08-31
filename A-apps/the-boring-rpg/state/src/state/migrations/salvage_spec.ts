@@ -143,10 +143,10 @@ describe(`${LIB} - salvaging of an outdated savegame`, function() {
 	it('should be able to salvage a v.LATEST savegame', () => {
 		const salvaged_state = reset_and_salvage(DEMO_STATE as any)
 
-		expect(salvaged_state.u_state.avatar.name).to.equal('Perte')
-		expect(salvaged_state.u_state.avatar.klass).to.equal('paladin')
-		expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(12)
-		expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(3)
+		expect(salvaged_state.u_state.avatar.name).to.equal('PerteProd')
+		expect(salvaged_state.u_state.avatar.klass).to.equal('knight')
+		expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(1028)
+		expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(93)
 	})
 
 	it('should be able to salvage total crap', () => {
