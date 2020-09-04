@@ -4,6 +4,12 @@ import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { getRootSEC, SoftExecutionContext, OperationParams } from '@offirmo-private/soft-execution-context'
+import { XXError } from '@offirmo-private/error-utils'
+import {
+	OAServerResponseBody,
+	create_server_response_body__data,
+	create_server_response_body__error,
+} from '@online-adventur.es/functions-interface'
 
 import {
 	APIGatewayEvent,
@@ -53,13 +59,13 @@ export function use_middlewares_with_error_safety_net(
 ): Promise<Response> {
 	console.log('\n\n\n\n' +Array.from({length: 100}, () => '→').join(' '))
 
-	const SESSION_START_TIME = get_UTC_timestamp_ms()
+	const SESSION_START_TIME_MS = get_UTC_timestamp_ms()
 
 	return SEC.xTry('MWRunner', ({SEC, logger}) => {
 		const context: NetlifyContext = badly_typed_context as any
 
 		// overwrite to match handling
-		SEC.injectDependencies({ SESSION_START_TIME })
+		SEC.injectDependencies({ SESSION_START_TIME_MS })
 
 		///////////////////// Setup /////////////////////
 		return _run_with_safety_net(
@@ -67,16 +73,48 @@ export function use_middlewares_with_error_safety_net(
 			event, context, middlewares,
 		)
 	})
-	.then((response: any) => {
-		console.log('FYI Overall promise resolved with:', response)
+	.then(
+		(response: Response) => { console.log('FYI MWRunner promise resolved with:', response); return response },
+		(err: Error) => { console.warn('FYI MWRunner promise rejected with:', err); throw err },
+	)
+	.then((response: Response) => {
+		assert(response.statusCode >= 200)
+		assert(response.statusCode < 300)
+
+		response.body = create_server_response_body__data(JSON.parse(response.body)) as any // temporarily passing as string
+
 		return response
 	})
-	.catch(err => {
-		console.error('FYI Overall promise rejected with:', err)
-		throw err
+	.catch((err: XXError) => {
+		const response: Response = {
+			statusCode: err.statusCode || 500,
+			headers: {},
+			body: create_server_response_body__error(err) as any // temporarily passing as string
+		}
+
+		return response
 	})
+	.then((response: Response) => {
+		const body: OAServerResponseBody<any> = response.body as any
+
+		// add side infos TODO
+		body.side.latest_news = body.side.latest_news || []
+
+		// add meta
+		body.meta.processing_time_ms = get_UTC_timestamp_ms() - SESSION_START_TIME_MS
+		body.meta.request_summary = `${event.httpMethod.toUpperCase()}:${event.path}`
+
+		// finally stringify
+		response.body = JSON.stringify(body)
+
+		return response
+	})
+	.then(
+		(response: Response) => { console.log('FYI Overall promise resolved with:', response); return response },
+		(err: Error) => { console.warn('FYI Overall promise rejected with:', err); throw err },
+	)
 	.finally(() => {
-		console.log(`FYI processed in ${(get_UTC_timestamp_ms() - SESSION_START_TIME) / 1000.}s`)
+		console.log(`FYI processed in ${(get_UTC_timestamp_ms() - SESSION_START_TIME_MS) / 1000.}s`)
 	})
 }
 

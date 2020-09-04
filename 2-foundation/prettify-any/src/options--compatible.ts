@@ -8,6 +8,7 @@ import {
 	is_negative_zero,
 	cmp,
 } from './utils'
+import {get_options} from './options'
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const DEFAULTS_STYLE_OPTIONS: StyleOptions = {
@@ -79,11 +80,16 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 	},
 	prettify_symbol: (s: symbol, st: State) => {
 		const {o} = st
-		return ''
-			+ o.stylize_global('Symbol')
-			+ o.stylize_syntax('(')
-			+ (s.description ? o.prettify_string(s.description, st) : '')
-			+ o.stylize_syntax(')')
+		try {
+			return ''
+				+ o.stylize_global('Symbol')
+				+ o.stylize_syntax('(')
+				+ (s.description ? o.prettify_string(s.description, st) : '')
+				+ o.stylize_syntax(')')
+		}
+		catch (err) {
+			return o.stylize_error(`[error prettifying:${err.message}/ps]`)
+		}
 	},
 
 	// objects
@@ -129,152 +135,182 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 	prettify_property_name: (p: string | number | symbol, st: State) => {
 		const {o} = st
 
-		switch(typeof p) {
-			case 'number':
-				return o.prettify_number(p, st)
-			case 'string': {
-				// does it need to be quoted?
-				// https://mathiasbynens.be/notes/javascript-properties
-				return o.prettify_string(p, st)
+		try {
+			switch(typeof p) {
+				case 'number':
+					return o.prettify_number(p, st)
+				case 'string': {
+					// does it need to be quoted?
+					// https://mathiasbynens.be/notes/javascript-properties
+					return o.prettify_string(p, st)
+				}
+				case 'symbol':
+					return o.stylize_syntax('[')
+						+ o.prettify_symbol(p, st)
+						+ o.stylize_syntax(']')
 			}
-			case 'symbol':
-				return o.stylize_syntax('[')
-					+ o.prettify_symbol(p, st)
-					+ o.stylize_syntax(']')
+		}
+		catch (err) {
+			return o.stylize_error(`[error prettifying:${err.message}/ppn]`)
 		}
 	},
 	prettify_object: (obj: Object, st: State, { skip_constructor = false } = {}) => {
 		if (DEBUG) console.log('prettify_object', obj)
 		const { o } = st
 
-		if (obj === null) return o.stylize_primitive('null')
-		if (Array.isArray(obj)) return o.prettify_array(obj, st)
+		try {
+			if (obj === null) return o.stylize_primitive('null')
+			if (Array.isArray(obj)) return o.prettify_array(obj, st)
 
-		if (o.should_recognize_globals) {
-			switch(obj) {
-				case globalThis: return o.stylize_global('globalThis')
+			if (o.should_recognize_globals) {
+				try {
+					switch(obj) {
+						case globalThis: return o.stylize_global('globalThis')
 
-				default:
-				// fallback
-			}
-		}
-
-		if (!skip_constructor) {
-			const p = Object.getPrototypeOf(obj)
-			if (p && p.constructor && p.constructor.name) {
-				// can we do better?
-				if (p.constructor !== Object) {
-					return o.stylize_syntax('new ')
-						+ ((globalThis as any)[p.constructor.name] === p.constructor
-							? o.stylize_global(p.constructor.name)
-							: o.stylize_user(p.constructor.name)
-						)
-						+ o.stylize_syntax('(')
-						+ (() => {
-							switch (p.constructor.name) {
-								// all primitives that can be an Object
-								case 'String':
-									return o.prettify_string(obj as string, st)
-								case 'Number':
-									return o.prettify_number(obj as number, st)
-								case 'Boolean':
-									return o.prettify_boolean(obj as boolean, st)
-
-								// recognize some objects
-								case 'Set':
-									return o.prettify_array(Array.from((obj as Set<any>).keys()), st)
-								case 'WeakSet':
-									return o.stylize_dim('/\*not enumerable*\/')
-								case 'Date':
-									return o.stylize_dim(`/*${(obj as any)[o.date_serialization_fn]()}*/`)
-
-								// other
-								default:
-									if (p.constructor.name.endsWith('Error')) {
-										const err: Error = obj as any
-										// no need to pretty print it as copy/pastable to code,
-										// 99.9% chance that's not what we want here
-										return o.stylize_error(o.quote + err.message + o.quote)
-									}
-
-									return o.prettify_object(obj, st, { skip_constructor: true })
-							}
-						})()
-						+ o.stylize_syntax(')')
+						default:
+						// fallback
+					}
+				}
+				catch (err) {
+					return o.stylize_error(`[error prettifying:${err.message}/po.g]`)
 				}
 			}
-		}
 
-		const keys = Reflect.ownKeys(obj).sort((a: string | number | symbol, b: string | number | symbol) => {
-			let res = cmp(typeof a, typeof b)
+			if (!skip_constructor) {
+				try {
+					const p = Object.getPrototypeOf(obj)
+					if (p && p.constructor && p.constructor.name) {
+						// can we do better?
+						if (p.constructor !== Object) {
+							return o.stylize_syntax('new ')
+								+ ((globalThis as any)[p.constructor.name] === p.constructor
+									? o.stylize_global(p.constructor.name)
+									: o.stylize_user(p.constructor.name)
+								)
+								+ o.stylize_syntax('(')
+								+ (() => {
+									switch (p.constructor.name) {
+										// all primitives that can be an Object
+										case 'String':
+											return o.prettify_string(obj as string, st)
+										case 'Number':
+											return o.prettify_number(obj as number, st)
+										case 'Boolean':
+											return o.prettify_boolean(obj as boolean, st)
 
-			if (res === 0) {
-				res = cmp(a, b)
+										// recognize some objects
+										case 'Set':
+											return o.prettify_array(Array.from((obj as Set<any>).keys()), st)
+										case 'WeakSet':
+											return o.stylize_dim('/\*not enumerable*\/')
+										case 'Date':
+											return o.stylize_dim(`/*${(obj as any)[o.date_serialization_fn]()}*/`)
+
+										case 'Buffer':
+											// too big!
+											return '/*…*/'
+
+										// other
+										default:
+											if (p.constructor.name.endsWith('Error')) {
+												const err: Error = obj as any
+												// no need to pretty print it as copy/pastable to code,
+												// 99.9% chance that's not what we want here
+												return o.stylize_error(o.quote + err.message + o.quote)
+											}
+
+											// NO! This can turn into a huge thing, ex. a fetch response
+											return o.prettify_object(obj, st, { skip_constructor: true })
+											//return '/*…*/'
+									}
+								})()
+								+ o.stylize_syntax(')')
+						}
+					}
+				}
+				catch (err) {
+					return o.stylize_error(`[error prettifying:${err.message}/po.c]`)
+				}
 			}
 
-			return res
-		})
+			const keys = Reflect.ownKeys(obj).sort((a: string | number | symbol, b: string | number | symbol) => {
+				let res = cmp(typeof a, typeof b)
 
-		if (keys.length === 0 && skip_constructor) {
-			return o.stylize_dim(`/*${obj.toString()}*/`)
+				if (res === 0) {
+					res = cmp(a, b)
+				}
+
+				return res
+			})
+
+			if (keys.length === 0 && skip_constructor) {
+				return o.stylize_dim(`/*${obj.toString()}*/`)
+			}
+
+			st = {
+				...st,
+				circular: new Set([...Array.from(st.circular as any), obj])
+			}
+
+			return o.stylize_syntax('{')
+				+ keys.map(k => {
+					const v = (obj as any)[k]
+
+					if (typeof v === 'function' && v.name === k)
+						return o.prettify_function(v, st, { as_prop: true })
+
+					return o.prettify_property_name(k, st)
+						+ o.stylize_syntax(': ')
+						+ o.prettify_any(v, st)
+				}).join(o.stylize_syntax(','))
+				+ o.stylize_syntax('}')
 		}
-
-		st = {
-			...st,
-			circular: new Set([...Array.from(st.circular as any), obj])
+		catch (err) {
+			return o.stylize_error(`[error prettifying:${err.message}/po]`)
 		}
-
-		return o.stylize_syntax('{')
-			+ keys.map(k => {
-				const v = (obj as any)[k]
-
-				if (typeof v === 'function' && v.name === k)
-					return o.prettify_function(v, st, { as_prop: true })
-
-				return o.prettify_property_name(k, st)
-					+ o.stylize_syntax(': ')
-					+ o.prettify_any(v, st)
-			}).join(o.stylize_syntax(','))
-			+ o.stylize_syntax('}')
 	},
 
 	// root
 	prettify_any(any: any, st: State): string {
 		if (DEBUG) console.log('prettify_any', any)
-
 		const { o } = st
 
-		switch (typeof any) {
+		try {
+			switch (typeof any) {
 
-			/////// primitive type ///////
-			case 'string':
-				return o.prettify_string(any, st)
-			case 'number':
-				return o.prettify_number(any, st)
-			case 'bigint':
-				return o.prettify_bigint(any, st)
-			case 'boolean':
-				return o.prettify_boolean(any, st)
-			case 'undefined':
-				return o.prettify_undefined(any, st)
-			case 'symbol':
-				return o.prettify_symbol(any, st)
+				/////// primitive type ///////
+				case 'string':
+					return o.prettify_string(any, st)
+				case 'number':
+					return o.prettify_number(any, st)
+				case 'bigint':
+					return o.prettify_bigint(any, st)
+				case 'boolean':
+					return o.prettify_boolean(any, st)
+				case 'undefined':
+					return o.prettify_undefined(any, st)
+				case 'symbol':
+					return o.prettify_symbol(any, st)
 
-			/////// non-primitive type ///////
-			case 'function': // special sub-type of object
-				return o.prettify_function(any, st)
-			case 'object': {
-				if (any !== null) {
-					if (st.circular.has(any))
-						return Array.isArray(any)
-							? o.stylize_error('[<Circular ref!>]')
-							: o.stylize_error('{<Circular ref!>}')
+				/////// non-primitive type ///////
+				case 'function': // special sub-type of object
+					return o.prettify_function(any, st)
+				case 'object': {
+					if (any !== null) {
+						if (st.circular.has(any))
+							return Array.isArray(any)
+								? o.stylize_error('[<Circular ref!>]')
+								: o.stylize_error('{<Circular ref!>}')
+					}
+					return o.prettify_object(any, st)
 				}
-				return o.prettify_object(any, st)
-			}
 
-			default:
-				return `[unsupported type:${typeof any}]`
+				default:
+					return `[unsupported type:${typeof any}]`
+			}
+		}
+		catch (err) {
+			return o.stylize_error(`[error prettifying:${err.message}/pa]`)
 		}
 	},
 }

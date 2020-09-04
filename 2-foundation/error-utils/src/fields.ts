@@ -40,5 +40,7 @@ export const COMMON_ERROR_FIELDS_EXTENDED = new Set<string>([
 	'details',
 	'SEC',
 	'_temp', // used for passing state around between decorators
+
 	// TODO triage field? if needed.
+	// TODO timestamp?
 ])

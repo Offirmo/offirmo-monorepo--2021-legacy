@@ -7,6 +7,8 @@ process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 import '@offirmo/universal-debug-api-node'
 
+import { create_server_response_body__data } from '@online-adventur.es/functions-interface'
+
 import {
 	APIGatewayEvent,
 	Context,
@@ -34,7 +36,7 @@ export const handler: NetlifyHandler = async (
 	}
 
 
-	const all_the_things = JSON.stringify({
+	const all_the_things = {
 		badly_typed_context,
 		event,
 		derived: {
@@ -58,14 +60,16 @@ export const handler: NetlifyHandler = async (
 			versions: process.versions,
 			env: _filter_out_secrets(process.env),
 		},
-	}, null, 2)
+	}
 
 	console.log('will return:', all_the_things)
+
+	const body = create_server_response_body__data(all_the_things)
 
 	return {
 		statusCode: 200,
 		headers: {},
-		body: all_the_things,
+		body: JSON.stringify(body, null, 2),
 	}
 }
 

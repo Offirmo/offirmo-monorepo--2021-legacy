@@ -27,7 +27,6 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 /////////////////////
 
 // TODO all those actions should be in the state package! (v2)
-// TODO enrich actions with extra revert data
 interface BaseAction {
 	//v: 1 // not sure needed
 	time: TimestampUTCMs
@@ -111,17 +110,6 @@ type Action =
 	ActionUpdateToNow |
 	ActionHack
 
-// represent a passed action
-// XXX useful?
-/*
-interface PlayedAction {
-	action: Action
-
-	// XXX  TODO usage??
-	previous_last_user_action_tms: TimestampUTCMs
-	previous_revision: number
-}
-*/
 
 /////////////////////
 

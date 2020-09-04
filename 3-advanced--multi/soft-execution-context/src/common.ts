@@ -24,7 +24,7 @@ function decorateWithDetectedEnv(SEC: SoftExecutionContext<any>) {
 	const IS_DEV_MODE = false
 	const IS_VERBOSE = false
 	const CHANNEL = 'dev'
-	const SESSION_START_TIME = get_UTC_timestamp_ms()
+	const SESSION_START_TIME_MS = get_UTC_timestamp_ms()
 
 	SEC.injectDependencies({
 		ENV,
@@ -32,7 +32,7 @@ function decorateWithDetectedEnv(SEC: SoftExecutionContext<any>) {
 		IS_DEV_MODE,
 		IS_VERBOSE,
 		CHANNEL,
-		SESSION_START_TIME,
+		SESSION_START_TIME_MS,
 	})
 
 	SEC.setAnalyticsAndErrorDetails({

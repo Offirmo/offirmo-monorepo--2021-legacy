@@ -21,7 +21,7 @@ export default async function handle_cors(
 	if (event.httpMethod.toUpperCase() !== 'OPTIONS')
 		return next()
 
-	await SEC.xTry('handle_cors()', async ({ SEC, logger, CHANNEL }) => {
+	await SEC.xPromiseTry('handle_cors()', async ({ SEC, logger, CHANNEL }) => {
 		logger.log(`handling CORS preflight for ${event.path}…`)
 
 		const origin = event.headers.origin

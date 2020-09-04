@@ -1,3 +1,4 @@
+// explanation of the fields is in ./consts.ts
 
 // eXtended error
 export interface XError extends Error {
@@ -7,7 +8,8 @@ export interface XError extends Error {
 	message: string
 	stack?: string
 
-	// see comments in consts.ts
+	// optional
+	code?: string
 	statusCode?: number
 	shouldRedirect?: boolean
 	framesToPop?: number

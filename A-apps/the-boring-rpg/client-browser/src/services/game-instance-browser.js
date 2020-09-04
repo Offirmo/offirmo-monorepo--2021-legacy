@@ -89,8 +89,8 @@ const get = tiny_singleton(() => getRootSEC().xTry('creating game instance', ({S
 	window.ga && window.ga('send', 'event', {
 		eventCategory: 'boot',
 		eventAction: 'restoring-savegame',
-		eventValue: game_instance.queries.get_sub_state('avatar').name,
-		eventLabel: 'Loading…',
+		//eventValue: game_instance.queries.get_sub_state('avatar').name,
+		eventLabel: 'Loading...',
 		hitCallback: () => console.log('GA restoring-savegame sent!'),
 	})
 

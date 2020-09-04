@@ -529,3 +529,33 @@ intonation, pitch, adapting to the audience, ex. kid vs court
 Alliages
 https://en.wikipedia.org/wiki/Scandium
 https://en.wikipedia.org/wiki/Titanium_alloy
+
+Chevalerie
+https://fr.wikipedia.org/wiki/Chevalier_(chevalerie)
+https://fr.wikipedia.org/wiki/Chevalerie
+https://fr.wikipedia.org/wiki/Godefroy_de_Bouillon
+https://fr.wikipedia.org/wiki/Pierre_Terrail_de_Bayard
+https://fr.wikipedia.org/wiki/Bertrand_du_Guesclin
+https://fr.wikipedia.org/wiki/Neuf_Preux
+https://fr.wikipedia.org/wiki/Chevalier_au_cygne
+https://en.wikipedia.org/wiki/Grand_Constable_of_France
+https://en.wikipedia.org/wiki/Great_Officers_of_the_Crown_of_France
+https://en.wikipedia.org/wiki/Matter_of_France
+https://www.britannica.com/topic/knight-cavalryman
+https://en.wikipedia.org/wiki/Knight
+https://en.wikipedia.org/wiki/Chivalry
+
+https://wowwiki.fandom.com/wiki/Honor_system_(pre-2.0)
+https://www.mamytwink.com/guides/pvp-wow-classic-honneurs-rangs-et-recompenses
+https://www.millenium.org/guide/341997.html
+https://mmo-gs.com/rr-table/
+
+https://www.britannica.com/topic/tactics
+
+https://en.wikipedia.org/wiki/Grappling_hook
+
+7 lightsaber styles https://www.youtube.com/watch?v=WP7sbwbIzks
+dual blade https://www.youtube.com/watch?v=PQApbJ29QJQ
+
+https://en.wikipedia.org/wiki/Combat_engineer
+https://en.wikipedia.org/wiki/Middle-earth_peoples#Dragons

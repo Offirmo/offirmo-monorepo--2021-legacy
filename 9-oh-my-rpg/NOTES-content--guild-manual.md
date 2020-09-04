@@ -1,3 +1,6 @@
+https://overlordmaruyama.fandom.com/wiki/Adventurer%27s_Guild
+https://tvtropes.org/pmwiki/pmwiki.php/Main/AdventureGuild
+https://tvtropes.org/pmwiki/pmwiki.php/Main/HoldingOutForAHero
 
 * safety is the top priority!
 * you must first and foremost avoid endangering yourself and others
@@ -33,3 +36,11 @@
 * helping other adventurers is a benevolent act. The adventurers receiving your help may decide to reward you with a portion of the bounty or not.
 * don't steal kills!
 * supplement your income by learning to gather resources
+* love triangle
+* tell before you explore
+    45. The size of the combat bonus is inversely proportional to the likelihood of surviving to collect it.[39]
+    46. Don’t try to save money by conserving ammunition.
+    47. Don't expect the enemy to cooperate in the creation of your dream engagement.[40]
+    56. Infantry exists to paint targets for people with real guns.[24]
+
+https://krita-artists.org/u/pixel-boy/activity/portfolio

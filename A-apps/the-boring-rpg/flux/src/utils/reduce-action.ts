@@ -30,9 +30,8 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 		case ActionType.redeem_code:
 			return TBRPGState.attempt_to_redeem_code(state, action.code, action.time)
 
-		case ActionType.start_game: {
+		case ActionType.start_game:
 			throw new Error('Unexpected start game action dispatched!')
-		}
 		case ActionType.on_start_session:
 			return TBRPGState.on_start_session(state, action.is_web_diversity_supporter, action.time)
 		case ActionType.on_logged_in_refresh:
@@ -43,8 +42,13 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 			return TBRPGState.update_to_now(state, action.time)
 
 		case ActionType.hack:
-			// auto update-to-now for convenience
-			return action.custom_reducer(TBRPGState.update_to_now(state, action.time))
+			return action.custom_reducer(
+				// auto update-to-now for convenience
+				TBRPGState.update_to_now(
+					state,
+					action.time
+				)
+			)
 
 		default:
 			throw new Error('reduce_action(): Unhandled switch value(s)!')

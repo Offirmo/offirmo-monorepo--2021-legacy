@@ -13,10 +13,15 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"peerDependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
+		"tslib": "^2"
+	},
 	"dependencies": {
 		"@offirmo/universal-debug-api-placeholder": "^1",
+		"@offirmo-private/error-utils": "^0",
+		"fetch-ponyfill": "^6",
 		"tiny-invariant": "^1",
-		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 

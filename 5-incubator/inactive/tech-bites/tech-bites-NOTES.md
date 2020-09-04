@@ -180,3 +180,4 @@ Privacy:
   - consent
   - data minimization
 - right to erasure
+

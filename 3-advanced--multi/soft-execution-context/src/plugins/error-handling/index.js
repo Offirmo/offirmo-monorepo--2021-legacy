@@ -44,7 +44,7 @@ const PLUGIN = {
 			const autoDetails = {
 				ENV: state.plugins[ID_DI].context.ENV,
 				TIME: now,
-				SESSION_DURATION_MS: now - state.plugins[ID_DI].context.SESSION_START_TIME,
+				SESSION_DURATION_MS: now - state.plugins[ID_DI].context.SESSION_START_TIME_MS,
 			}
 			const userDetails = flattenToOwn(state.plugins[PLUGIN_ID].details)
 			err.details = {

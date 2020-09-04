@@ -1,4 +1,6 @@
 
+https://github.com/munrocket/parallax-effect
+
 - interactive maps https://github.com/dphilipson/graphs-and-paths
 - talents https://github.com/dphilipson/graphito#toc0
 - tree view https://github.com/elbywan/bosket

@@ -64,15 +64,13 @@ const { ENV, SEC, logger, foo } = SEC.getInjectedDependencies()
 SEC.xTry(operation, ({SEC, logger}) => {
 	...
 })
-// also
-return SEC.xTry('foo', async ({ SEC, ... }) => { ... })
 // !! will auto-catch, be careful!! (ex. used at top level)
 SEC.xTryCatch(...)
 
 
 /// ASYNCHRONOUS
-// classic Promise.try (but should use async?)
-SEC.xPromiseTry(operation, ({SEC, logger}) => {
+// classic Promise.try
+return await SEC.xPromiseTry(operation, async ({SEC, logger}) => {
 	...
 })
 // !! will auto-catch, be careful!!
@@ -103,7 +101,7 @@ SEC.emitter.emit('analytics', { SEC, eventId, details })
 | `IS_DEV_MODE` | yes✅ | - | - | default to `false`. Used to activate dev commands or reportings, ex. extra settings, extra UI |
 | `IS_VERBOSE` | yes✅ | - | - | default to `false`. Used to activate extra reporting on tasks, intent like --verbose |
 | `CHANNEL` | yes✅ | yes✅ | yes✅ | current channel of rollout deployment. Default to `'dev'`. Suggested possible values: `'dev'`, `'staging'`, `'prod'` |
-| `SESSION_START_TIME` | yes✅ | - | - | UTC timestamp in ms of the time of start |
+| `SESSION_START_TIME_MS` | yes✅ | - | - | UTC timestamp in ms of the time of start |
 | `TIME` | - | yes✅ | yes✅ | UTC timestamp in ms of the time of the error/analytics |
 | `SESSION_DURATION_MS` | - | yes✅ | yes✅ | ms elapsed from the start of the session |
 | `OS_NAME` | yes✅ | yes✅ | yes✅ | (Expected to be set by platform-specific code) |

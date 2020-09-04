@@ -13,7 +13,7 @@ export interface BaseInjections {
 	IS_DEV_MODE: boolean
 	IS_VERBOSE: boolean
 	CHANNEL: string
-	SESSION_START_TIME: TimestampUTCMs
+	SESSION_START_TIME_MS: TimestampUTCMs
 }
 
 export interface BaseAnalyticsDetails {
@@ -56,6 +56,7 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	// core
 	createChild: ()
 		=> SoftExecutionContext<Injections, AnalyticsDetails, ErrorDetails>
+
 	emitter: Emittery.Typed<EventDataMap>
 
 	// plugin: logical stack
@@ -97,6 +98,7 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	xTry: <T>(operation: string, fn: Operation<T, Injections, AnalyticsDetails, ErrorDetails>) => T
 	xTryCatch: <T>(operation: string, fn: Operation<T, Injections, AnalyticsDetails, ErrorDetails>) => T | undefined
 
+	xPromiseTry: <T>(operation: string, fn: Operation<Promise<T>, Injections, AnalyticsDetails, ErrorDetails>) => Promise<T>
 	xNewPromise: <T>(operation: string, fn: (
 		p: Injections
 			& BaseInjections
@@ -104,5 +106,4 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 		_resolve: (value?: T | PromiseLike<T>) => void,
 		_reject: (reason?: any) => void,
 	) => void) => Promise<T>
-	xPromiseTry: <T>(operation: string, fn: Operation<Promise<T>, Injections, AnalyticsDetails, ErrorDetails>) => Promise<T>
 }

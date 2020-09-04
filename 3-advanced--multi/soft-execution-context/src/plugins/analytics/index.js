@@ -42,7 +42,7 @@ const PLUGIN = {
 			const autoDetails = {
 				ENV,
 				TIME: now,
-				SESSION_DURATION_MS: now - root_state.plugins[ID_DI].context.SESSION_START_TIME,
+				SESSION_DURATION_MS: now - root_state.plugins[ID_DI].context.SESSION_START_TIME_MS,
 			}
 			const userDetails = SEC.getAnalyticsDetails()
 			details = {
