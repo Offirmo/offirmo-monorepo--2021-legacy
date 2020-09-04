@@ -78,8 +78,8 @@ export function use_middlewares_with_error_safety_net(
 		(err: Error) => { console.warn('FYI MWRunner promise rejected with:', err); throw err },
 	)
 	.then((response: Response) => {
-		assert(response.statusCode >= 200)
-		assert(response.statusCode < 300)
+		assert(response.statusCode >= 200, `status code is >= 200! (${response.statusCode})`)
+		assert(response.statusCode < 300, `status code is < 300! (${response.statusCode})`)
 
 		response.body = create_server_response_body__data(JSON.parse(response.body)) as any // temporarily passing as string
 
@@ -98,7 +98,7 @@ export function use_middlewares_with_error_safety_net(
 		const body: OAServerResponseBody<any> = response.body as any
 
 		// add side infos TODO
-		body.side.latest_news = body.side.latest_news || []
+		//body.side.latest_news = body.side.latest_news || []
 
 		// add meta
 		body.meta.processing_time_ms = get_UTC_timestamp_ms() - SESSION_START_TIME_MS
@@ -125,7 +125,7 @@ function _run_with_safety_net(
 	middlewares: MiddleWare[],
 ): Promise<Response> {
 	return SEC.xPromiseTry((event?.httpMethod?.toUpperCase() || '???') + '/' + (loosely_get_clean_path(event) || '???'), ({SEC}) =>
-		SEC.xNewPromise('⓵ ', ({SEC, logger}, resolve) => {
+		SEC.xNewPromise('⓵ ', ({SEC, logger}, resolve, reject) => {
 			const PREFIX = 'MR1'
 			logger.log(`[${PREFIX}] Starting handling: ${event.httpMethod.toUpperCase()} ${event.path}…`, {time: get_UTC_timestamp_ms(), mw_count: middlewares.length})
 
@@ -162,9 +162,8 @@ function _run_with_safety_net(
 
 				// note: once resolved, the code will be frozen by AWS lambda
 				// so this must be last
-				const response = _get_response_from_error(err)
-				logger.info(`[${PREFIX}] FYI resolving with:`, {status: response.statusCode})
-				resolve(response)
+				logger.info(`[${PREFIX}] FYI rejecting with the error.`)
+				reject(err)
 			}
 
 			async function on_final_error_h({err}: XSECEventDataMap['final-error']) {
@@ -240,7 +239,7 @@ async function _run_mw_chain(
 	let _previous_body: Response['body'] = response.body
 	function _check_response(SEC: LSoftExecutionContext, mw_index: number, stage: 'in' | 'out') {
 		const { logger } = SEC.getInjectedDependencies()
-		assert(mw_index >= 0 && mw_index < middlewares.length, 'mw_index')
+		assert(mw_index >= 0 && mw_index < middlewares.length, 'mw_index in range')
 		let { statusCode, body } = response
 		const current_mw_name = middlewares[mw_index].name || DEFAULT_MW_NAME
 		let mw_debug_id = current_mw_name
@@ -252,8 +251,8 @@ async function _run_mw_chain(
 			logger.trace(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set the statusCode:`, { statusCode })
 			if (!statusCode || Math.trunc(Number(statusCode)) !== statusCode)
 				throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an invalid statusCode!`)
-			if (statusCode >= 400) {
-				logger.warn(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set an error statusCode:`, {statusCode})
+			if (statusCode < 200 || statusCode >= 300) {
+				logger.error(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set a non-ok statusCode, it should have thrown instead!`, {statusCode})
 				last_manual_error_call_SEC = SEC
 			}
 
@@ -332,17 +331,16 @@ async function _run_mw_chain(
 		throw new Error(DEFAULT_RESPONSE_BODY)
 
 	if (response.statusCode === STATUS_CODE_NOT_SET_DETECTOR) {
-		throw new Error('Status code not set!')
+		throw new Error('Status code not set by any MW!')
 	}
 
 	let pseudo_err: LXXError | null = null
-	if (statusCode >= 400) {
-		assert(last_manual_error_call_SEC, 'error status should have caused a corresponding SEC to be memorized')
+	if (statusCode >= 300) {
+		assert(last_manual_error_call_SEC, 'non-OK status should have caused a corresponding SEC to be memorized')
 		// todo enhance non-stringified?
 		const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error')
 		pseudo_err = create_error(is_body_err_message ? body : statusCode, { statusCode }, last_manual_error_call_SEC)
 	}
-
 	if (pseudo_err)
 		throw pseudo_err // so that it get consistently reported
 

@@ -13,14 +13,31 @@ describe(`${LIB} - fetch`, function() {
 
 	describe('fetch_oa()', function() {
 
-		it('should work', async function () {
+		it('should work when receiving data', async function () {
 			this.timeout(10_000)
 
-			await fetch_oa({
+			const result = await fetch_oa({
 				SEC,
 				method: 'GET',
-				url: Endpoint.echo + '/foo?bar=42',
+				url: Endpoint['hello-world-advanced'] + '/foo?bar=42',
+				//url: Endpoint.echo + '/foo?bar=42',
 			})
+
+			expect(result).to.deep.equal({
+				data: "Hello, Fake User For Dev!",
+				side: {},
+			})
+		})
+
+
+		it.only('should work when receiving an error', function () {
+			this.timeout(10_000)
+
+			return fetch_oa({
+				SEC,
+				method: 'GET',
+				url: Endpoint['test-error-handling'] + '?mode=unhandled-rejection',
+			}).should.be.rejectedWith('xx')
 		})
 	})
 })

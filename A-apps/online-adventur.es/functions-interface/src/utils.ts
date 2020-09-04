@@ -56,7 +56,7 @@ export function create_server_response_body__error<T>(error: Readonly<XXError>):
 	body.error = {
 		message: error.message,
 		code: error.code,
-		logical_stack: error.SEC?.getLogicalStack(),
+		logical_stack: error._temp?.SEC?.getLogicalStack(),
 	}
 
 	return body

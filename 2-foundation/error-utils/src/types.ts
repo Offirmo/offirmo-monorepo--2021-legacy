@@ -17,7 +17,12 @@ export interface XError extends Error {
 
 export interface XXError extends XError {
 
-	details?: { [k: string]: boolean | number | string | null }
-	SEC?: any
-	_temp?: any
+	details?: {
+		logicalStack?: string
+		[k: string]: boolean | number | string | null | undefined
+	}
+	_temp?: {
+		SEC?: any
+		statePath?: string
+	}
 }

@@ -33,10 +33,6 @@ function displayError(errLike: Readonly<Partial<Error>> = {}) {
 		displayErrProp(errLike, 'details')
 		displayedProps.add('details')
 	}
-	if ((errLike as any).logicalStack) {
-		displayErrProp(errLike, 'logicalStack')
-		displayedProps.add('logicalStack')
-	}
 
 	COMMON_ERROR_FIELDS_EXTENDED.forEach(prop => {
 		if (prop in errLike && !displayedProps.has(prop)) {

@@ -78,6 +78,7 @@ export async function test_failure(
 
 		case FailureMode['unhandled-rejection']:
 			Promise.reject(get_test_err()) // unhandled
+			// pretend otherwise OK
 			response.statusCode = 200
 			response.body = JSON.stringify('All good.')
 			await next()

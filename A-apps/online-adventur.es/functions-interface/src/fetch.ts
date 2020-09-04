@@ -3,6 +3,7 @@ import { getRootSEC, SoftExecutionContext } from '@offirmo-private/soft-executio
 
 import { ReleaseChannel, OAServerResponseBody, OAResponse } from './types'
 import { get_api_base_url } from './utils'
+import { XXError, createError } from '@offirmo-private/error-utils'
 
 const { fetch, Response: ResponseV, Headers: HeadersV } = fetch_ponyfill()
 export { HeadersV }
@@ -47,8 +48,9 @@ export async function fetch_oa<Req, Res>({
 			...headers,
 			'Content-Type': 'application/json',
 		}
-		let is_status_success = false // so far
+		let fetch_response: undefined | FetchResponse = undefined
 		let response_for_logging: undefined | FetchResponse | OAServerResponseBody<Res>| OAResponse<Res>
+		let candidate_error: XXError | null = null
 
 		return Promise.race([
 				new Promise((resolve, reject) => setTimeout(() => {
@@ -62,14 +64,17 @@ export async function fetch_oa<Req, Res>({
 			])
 			.then((response: FetchResponse) => {
 				logger.trace(`fetch_it() #${request_id}: got fetch response`, { method, url, response })
-				response_for_logging = response.clone()
+				response_for_logging = fetch_response = response.clone()
 
 				// reminder: we can't destructure response because .json() needs a binding to response
+
 				if (!response.ok) {
-					const err = new Error(`HTTP error ${response.status} "${response.statusText}"!`)
-					;(err as any).statusCode = response.status
-					throw err
+					candidate_error = createError(`HTTP error ${response.status} "${response.statusText}"!`, {
+						statusCode: response.status
+					})
 				}
+				// even if the response has an error status, we still need to attempt decoding the json
+				// since it can hold error data
 
 				return response.json()
 			})
@@ -78,21 +83,23 @@ export async function fetch_oa<Req, Res>({
 				response_for_logging = response
 
 				if (!response)
-					throw new Error('No response data!')
+					throw candidate_error || new Error('No response data!')
 
 				const { v, error, data, side = {}, meta = {} } = response
 				if (!v)
 					throw new Error('body doesnt have the expected OA response format!')
 				if (v !== 1)
 					throw new Error('Invalid OA response format version!')
-
 				if (error) {
-					// TODO create error with all details
-					// incl. status
-					const err = Error(error.message)
-					//err.statusCode =
-					throw err
+					throw createError('', error)
 				}
+				// now that we handled the possible error in body, we can fall back to the auto one
+				if (!fetch_response.ok) {
+					throw candidate_error
+				}
+
+				logger.trace(`fetch_it() #${request_id}: got OA response body`, { method, url, v, error, data, side, meta })
+
 
 				if (!data) {
 					throw new Error('No response data!')
@@ -101,7 +108,7 @@ export async function fetch_oa<Req, Res>({
 				return { data, side }
 			})
 			.catch((err: Error) => {
-				logger.warn(`fetch_it #${request_id} failed!`, { method, url, response: response_for_logging, err, err_message: err.message})
+				logger.warn(`fetch_it #${request_id} ended with an error!`, { method, url, response: response_for_logging, err, err_message: err.message})
 				throw err
 			})
 	})
