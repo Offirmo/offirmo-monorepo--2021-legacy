@@ -12478,7 +12478,7 @@ if (esm_carrier.__SENTRY__) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.use_middlewares_with_error_safety_net = void 0;
+exports.use_middlewares_with_error_safety_net = exports.DEFAULT_RESPONSE_BODY = void 0;
 
 const tslib_1 = __webpack_require__(28);
 
@@ -12502,18 +12502,8 @@ const utils_1 = __webpack_require__(69); ////////////////////////////////////
 // note: deducted from the overall running budget
 
 
-const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? -5000 : -1000; ////////////////////////////////////
-
-function _get_response_from_error(err) {
-  const statusCode = (err === null || err === void 0 ? void 0 : err.statusCode) || 500;
-  const body = (err === null || err === void 0 ? void 0 : err.res) || `[Error] ${(err === null || err === void 0 ? void 0 : err.message) || 'Unknown error!'}`;
-  return {
-    statusCode,
-    headers: {},
-    body
-  };
-} ////////////////////////////////////
-
+const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? -5000 : -1000;
+exports.DEFAULT_RESPONSE_BODY = `[MWRunner] Bad middleware chain: no response set!`; ////////////////////////////////////
 
 function use_middlewares_with_error_safety_net(event, badly_typed_context, middlewares, SEC = soft_execution_context_1.getRootSEC()) {
   console.log('\n\n\n\n' + Array.from({
@@ -12678,13 +12668,12 @@ async function _run_mw_chain({
 }, event, context, middlewares) {
   const PREFIX = 'MR2';
   const STATUS_CODE_NOT_SET_DETECTOR = -1;
-  const DEFAULT_RESPONSE_BODY = `[${PREFIX}] Bad middleware chain: no response set!`;
   const DEFAULT_MW_NAME = 'anonymous';
   logger.trace(`[${PREFIX}] Invoking a chain of ${middlewares.length} middlewares…`);
   const response = {
     statusCode: STATUS_CODE_NOT_SET_DETECTOR,
     headers: {},
-    body: DEFAULT_RESPONSE_BODY
+    body: exports.DEFAULT_RESPONSE_BODY
   }; ////////////////////////////////////
 
   let last_manual_error_call_SEC = null;
@@ -12790,7 +12779,7 @@ async function _run_mw_chain({
     statusCode,
     body
   } = response;
-  if (response.body === DEFAULT_RESPONSE_BODY) throw new Error(DEFAULT_RESPONSE_BODY);
+  if (response.body === exports.DEFAULT_RESPONSE_BODY) throw new Error(exports.DEFAULT_RESPONSE_BODY);
 
   if (response.statusCode === STATUS_CODE_NOT_SET_DETECTOR) {
     throw new Error('Status code not set by any MW!');
@@ -15494,7 +15483,7 @@ const test_failure_1 = __webpack_require__(544); ///////////////////////////////
 
 async function _handler(SEC, event, context, response, next) {
   response.statusCode = 200;
-  response.body = JSON.stringify('Error test ok: no error.');
+  if (response.body === runner_1.DEFAULT_RESPONSE_BODY) response.body = JSON.stringify('Test error handling default response (no error)!');
 }
 
 const handler = (event, badly_typed_context) => {
@@ -15537,7 +15526,11 @@ async function test_failure(SEC, event, context, response, next) {
     logger
   } = SEC.getInjectedDependencies();
   tiny_invariant_1.default(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
-  logger.info('[MW test_failure] will cause failure:', mode);
+  logger.info('[MW test_failure] will cause failure:', mode); // starts with a response manually set to a succes,
+  // to check that an error will overwrite it properly
+
+  response.statusCode = 200;
+  response.body = JSON.stringify('XXX You should NOT see that, there should be an error!');
   const get_test_err = memoize_one_1.default(() => utils_1.create_error(`TEST ${mode}!`, {
     statusCode: 555
   }, SEC));
@@ -15549,8 +15542,8 @@ async function test_failure(SEC, event, context, response, next) {
       break;
 
     case exports.FailureMode['none']:
-      response.statusCode = 200; //response.body = JSON.stringify('All good.')
-
+      response.statusCode = 200;
+      response.body = JSON.stringify('All good, test of no error');
       await next();
       break;
 
@@ -15580,9 +15573,8 @@ async function test_failure(SEC, event, context, response, next) {
     case exports.FailureMode['unhandled-rejection']:
       Promise.reject(get_test_err()); // unhandled
       // pretend otherwise OK
+      // (already done, see above)
 
-      response.statusCode = 200;
-      response.body = JSON.stringify('All good.');
       await next();
       return;
 

@@ -22579,7 +22579,7 @@ if (esm_carrier.__SENTRY__) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.use_middlewares_with_error_safety_net = void 0;
+exports.use_middlewares_with_error_safety_net = exports.DEFAULT_RESPONSE_BODY = void 0;
 
 const tslib_1 = __webpack_require__(28);
 
@@ -22603,18 +22603,8 @@ const utils_1 = __webpack_require__(69); ////////////////////////////////////
 // note: deducted from the overall running budget
 
 
-const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? -5000 : -1000; ////////////////////////////////////
-
-function _get_response_from_error(err) {
-  const statusCode = (err === null || err === void 0 ? void 0 : err.statusCode) || 500;
-  const body = (err === null || err === void 0 ? void 0 : err.res) || `[Error] ${(err === null || err === void 0 ? void 0 : err.message) || 'Unknown error!'}`;
-  return {
-    statusCode,
-    headers: {},
-    body
-  };
-} ////////////////////////////////////
-
+const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? -5000 : -1000;
+exports.DEFAULT_RESPONSE_BODY = `[MWRunner] Bad middleware chain: no response set!`; ////////////////////////////////////
 
 function use_middlewares_with_error_safety_net(event, badly_typed_context, middlewares, SEC = soft_execution_context_1.getRootSEC()) {
   console.log('\n\n\n\n' + Array.from({
@@ -22779,13 +22769,12 @@ async function _run_mw_chain({
 }, event, context, middlewares) {
   const PREFIX = 'MR2';
   const STATUS_CODE_NOT_SET_DETECTOR = -1;
-  const DEFAULT_RESPONSE_BODY = `[${PREFIX}] Bad middleware chain: no response set!`;
   const DEFAULT_MW_NAME = 'anonymous';
   logger.trace(`[${PREFIX}] Invoking a chain of ${middlewares.length} middlewares…`);
   const response = {
     statusCode: STATUS_CODE_NOT_SET_DETECTOR,
     headers: {},
-    body: DEFAULT_RESPONSE_BODY
+    body: exports.DEFAULT_RESPONSE_BODY
   }; ////////////////////////////////////
 
   let last_manual_error_call_SEC = null;
@@ -22891,7 +22880,7 @@ async function _run_mw_chain({
     statusCode,
     body
   } = response;
-  if (response.body === DEFAULT_RESPONSE_BODY) throw new Error(DEFAULT_RESPONSE_BODY);
+  if (response.body === exports.DEFAULT_RESPONSE_BODY) throw new Error(exports.DEFAULT_RESPONSE_BODY);
 
   if (response.statusCode === STATUS_CODE_NOT_SET_DETECTOR) {
     throw new Error('Status code not set by any MW!');

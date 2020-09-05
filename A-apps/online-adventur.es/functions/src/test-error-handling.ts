@@ -14,7 +14,7 @@ import {
 	Response,
 	NetlifyHandler,
 } from './sub/types'
-import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
+import { use_middlewares_with_error_safety_net, DEFAULT_RESPONSE_BODY } from './sub/middlewares/runner'
 import { XSoftExecutionContext } from './sub/services/sec'
 import { require_http_method, HttpMethod } from './sub/middlewares/require-http-method'
 import { test_failure } from './sub/middlewares/test-failure'
@@ -29,7 +29,8 @@ async function _handler(
 	next: Function
 ): Promise<void> {
 	response.statusCode = 200
-	response.body = JSON.stringify('Error test ok: no error.')
+	if (response.body === DEFAULT_RESPONSE_BODY)
+		response.body = JSON.stringify('Test error handling default response (no error)!')
 }
 
 
