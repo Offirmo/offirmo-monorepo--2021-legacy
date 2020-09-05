@@ -27,19 +27,9 @@ import { MiddleWare, XSoftExecutionContext } from './types'
 
 // note: deducted from the overall running budget
 const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? -5000 : -1000
+export const DEFAULT_RESPONSE_BODY = `[MWRunner] Bad middleware chain: no response set!`
 
 ////////////////////////////////////
-
-function _get_response_from_error(err: LXXError): Response {
-	const statusCode = err?.statusCode || 500
-	const body = err?.res || `[Error] ${err?.message || 'Unknown error!'}`
-
-	return {
-		statusCode,
-		headers: {},
-		body,
-	}
-}
 
 interface LocalLSInjections extends Injections {
 	local_mutable: {
@@ -221,7 +211,6 @@ async function _run_mw_chain(
 ): Promise<Response> {
 	const PREFIX = 'MR2'
 	const STATUS_CODE_NOT_SET_DETECTOR = -1
-	const DEFAULT_RESPONSE_BODY = `[${PREFIX}] Bad middleware chain: no response set!`
 	const DEFAULT_MW_NAME = 'anonymous'
 
 	logger.trace(`[${PREFIX}] Invoking a chain of ${middlewares.length} middlewares…`)

@@ -11,8 +11,8 @@ heroku apps
 
 heroku buildpacks:add --app online-adventures-staging heroku/nodejs
 heroku buildpacks:add --app online-adventures-staging https://github.com/heroku/heroku-buildpack-multi-procfile
+
 heroku config:set --app online-adventures-staging PROCFILE=A-apps/online-adventur.es/heroku/Procfile
-heroku buildpacks --app online-adventures-staging
 
 heroku buildpacks:add --app online-adventures-prod https://github.com/heroku/heroku-buildpack-multi-procfile
 heroku config:set --app online-adventures-prod PROCFILE=A-apps/online-adventur.es/heroku/Procfile
@@ -38,4 +38,15 @@ heroku pg:copy DATABASE_URL HEROKU_POSTGRESQL_BLACK --app online-adventures
 heroku pg:promote HEROKU_POSTGRESQL_BLACK --app online-adventures
 heroku maintenance:off --app online-adventures
 heroku addons:destroy HEROKU_POSTGRESQL_MAROON --app online-adventures
+```
+
+### troubleshoot
+
+```bash
+heroku apps
+
+heroku buildpacks --app online-adventures-staging
+heroku config --app online-adventures-staging
+heroku addons --app online-adventures-staging
+
 ```

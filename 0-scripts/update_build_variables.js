@@ -80,6 +80,17 @@ export const BUILD_DATE: string = '${BUILD_DATE}'
 		console.log('🧙️  wrote:', target_path)
 		break
 	}
+	case 'node': {
+		const target_path = path.resolve(cli.flags.outputDir || process.cwd(), './build.js')
+		fs.writeFileSync(target_path, `
+// THIS FILE IS AUTO GENERATED!
+const VERSION = '${VERSION}'
+const NUMERIC_VERSION = ${NUMERIC_VERSION} // for easy comparisons
+const BUILD_DATE = '${BUILD_DATE}'
+module.exports = { VERSION, NUMERIC_VERSION, BUILD_DATE }`);
+		console.log('🧙️  wrote:', target_path)
+		break
+	}
 	default:
 		throw new Error('Unrecognized mode!')
 }

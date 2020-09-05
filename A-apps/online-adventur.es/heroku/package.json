@@ -18,13 +18,14 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist",
 
+		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --mode=ts",
 		"build--dev--watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build--prod": "node ../../../0-scripts/build-typescript.js --onlyNode",
 
-		"dev": "run-s clean build--dev--watch",
+		"dev": "run-s clean refresh-build-variables build--dev--watch",
 		"start": "nodemon --delay 1 dist/src.es2019.cjs/index.js",
 
-		"build": "run-s build--prod",
+		"build": "run-s refresh-build-variables build--prod",
 		"start--prod": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 dist/src.es2019.cjs/index.js"
 	},
 	"devDependencies": {

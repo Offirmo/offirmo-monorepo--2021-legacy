@@ -40,6 +40,11 @@ export async function test_failure(
 
 	logger.info('[MW test_failure] will cause failure:', mode)
 
+	// starts with a response manually set to a succes,
+	// to check that an error will overwrite it properly
+	response.statusCode = 200
+	response.body = JSON.stringify('XXX You should NOT see that, there should be an error!')
+
 	const get_test_err = memoize_one(() => create_error(`TEST ${mode}!`, { statusCode: 555 }, SEC))
 
 	switch (mode) {
@@ -50,7 +55,7 @@ export async function test_failure(
 
 		case FailureMode['none']:
 			response.statusCode = 200
-			//response.body = JSON.stringify('All good.')
+			response.body = JSON.stringify('All good, test of no error')
 			await next()
 			break
 
@@ -79,8 +84,7 @@ export async function test_failure(
 		case FailureMode['unhandled-rejection']:
 			Promise.reject(get_test_err()) // unhandled
 			// pretend otherwise OK
-			response.statusCode = 200
-			response.body = JSON.stringify('All good.')
+			// (already done, see above)
 			await next()
 			return
 

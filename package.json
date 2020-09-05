@@ -14,7 +14,7 @@
 
 	"scripts": {
 		"heroku-prebuild": "echo This runs before Heroku installs dependencies.",
-		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies.",
+		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && ls -l && bolt",
 
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",
@@ -26,6 +26,7 @@
 		"lint": "run-s eslint:packages eslint:config eslint:misc",
 		"serve": "serve --listen 1981 --debug",
 		"puer": "puer --no-launch --port 1981 --allow-cors",
+
 		"deploy": "./0-scripts/deploy_tbrpg.sh"
 	},
 	"bolt": {
