@@ -63,6 +63,7 @@ SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 	console.groupEnd()
 })
 
+// remove all the listeners installed by AWS (if any)
 // TODO externalize in SEC-node
 //console.log('uncaughtException Listeners:', process.listenerCount('uncaughtException'))
 //console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'))

@@ -1,12 +1,13 @@
+import { XError, XXError } from './types'
 
-export const STRICT_STANDARD_ERROR_FIELDS = new Set<string>([
+export const STRICT_STANDARD_ERROR_FIELDS = new Set<keyof XError>([
 	// standard fields
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
 	'name',
 	'message',
 ])
 
-export const QUASI_STANDARD_ERROR_FIELDS = new Set<string>([
+export const QUASI_STANDARD_ERROR_FIELDS = new Set<keyof XError>([
 
 	// conv to array needed due to a babel bug 😢
 	...Array.from(STRICT_STANDARD_ERROR_FIELDS),
@@ -16,7 +17,7 @@ export const QUASI_STANDARD_ERROR_FIELDS = new Set<string>([
 	'stack',
 ])
 
-export const COMMON_ERROR_FIELDS = new Set<string>([
+export const COMMON_ERROR_FIELDS = new Set<keyof XError>([
 
 	// conv to array needed due to a babel bug 😢
 	...Array.from(QUASI_STANDARD_ERROR_FIELDS),
@@ -31,14 +32,13 @@ export const COMMON_ERROR_FIELDS = new Set<string>([
 	'framesToPop', // see facebook https://github.com/facebook/flux/blob/2.0.2/src/invariant.js
 ])
 
-export const COMMON_ERROR_FIELDS_EXTENDED = new Set<string>([
+export const COMMON_ERROR_FIELDS_EXTENDED = new Set<keyof XXError>([
 
 	// conv to array needed due to a babel bug 😢
 	...Array.from(COMMON_ERROR_FIELDS),
 
 	// My (Offirmo) extensions:
 	'details',
-	'SEC',
 	'_temp', // used for passing state around between decorators
 
 	// TODO triage field? if needed.

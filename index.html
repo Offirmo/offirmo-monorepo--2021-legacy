@@ -125,7 +125,7 @@
 	// Log out the user
 	//netlifyIdentity.logout();
 
-	window.query = (url) => {
+	window.query = (url, method = 'GET', body = undefined) => {
 		const user = netlifyIdentity.currentUser()
 		if (!user)
 			console.warn('Querying: Not logged in…')
@@ -138,13 +138,12 @@
 			'X-Foo': 'Bar',
 			 ...(user && { 'Authorization': `Bearer ${user.token.access_token}`, }),
 		}
-		console.log('fetching…', {url, headers})
+		console.log('fetching…', {url, headers, method, body})
 
-		fetch(url, {headers})
+		fetch(url, { headers, method, body })
 			.then(response => {
 				// WARN: we can't destructure response because .json() needs a binding to response
-				ok = response.ok
-				if (!ok)
+				if (!response.ok)
 					errorMessage += `, status="${response.status}"`
 
 				return response.text() // not JSON, we are not sure, will check ourselves
@@ -182,4 +181,4 @@
 	}
 </script>
 
-<small>20200718</small>
+<small>20200906</small>

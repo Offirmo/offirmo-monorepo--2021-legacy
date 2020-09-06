@@ -340,7 +340,7 @@ async function _run_mw_chain(
 		body = stable_stringify(body)
 	}
 
-	await new Promise(resolve => setTimeout(resolve, 0)) // to give time to unhandled to be detected. not 100% of course.
+	await new Promise(resolve => setTimeout(resolve, 1)) // to give time to unhandled rejections to be detected. not 100% reliable, of course.
 
 	return {
 		statusCode,

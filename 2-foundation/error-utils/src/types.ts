@@ -24,5 +24,6 @@ export interface XXError extends XError {
 	_temp?: {
 		SEC?: any
 		statePath?: string
+		[k: string]: any
 	}
 }

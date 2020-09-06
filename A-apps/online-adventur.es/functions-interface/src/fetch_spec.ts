@@ -30,7 +30,7 @@ describe(`${LIB} - fetch`, function() {
 		})
 
 
-		it.only('should work when receiving an error', function () {
+		it('should work when receiving an error', function () {
 			this.timeout(10_000)
 
 			return fetch_oa({
