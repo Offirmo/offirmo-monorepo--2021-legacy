@@ -140,7 +140,7 @@
 		}
 		console.log('fetching…', {url, headers, method, body})
 
-		fetch(url, { headers, method, body })
+		fetch(url, { headers, method, body: JSON.stringify(body) })
 			.then(response => {
 				// WARN: we can't destructure response because .json() needs a binding to response
 				if (!response.ok)
@@ -157,12 +157,14 @@
 				}
 			})
 			.then(responseData => {
-				console.log({url, responseData})
+				console.log('fetched response body:', {url, responseData})
 
-				if (responseData && responseData.errors) {
+				if (responseData && responseData.error) {
 					ok = false // just in case
-					const messages = responseData.errors.map(errorData => `"${errorData.message}"`).join(', ')
-					errorMessage += `, error(s)="[${messages}]"`
+					errorMessage += `, error="${responseData.error.message}"`
+				}
+				else {
+					ok = true
 				}
 			})
 			.catch(e => {
@@ -181,4 +183,4 @@
 	}
 </script>
 
-<small>20200906</small>
+<small>20200907</small>

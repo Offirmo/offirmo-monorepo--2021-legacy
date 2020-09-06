@@ -2,6 +2,7 @@ A node module to conveniently print JSON.
 
 
 ## Introduction
+
 Goals:
 * ✅ readable
 * safe, won't crash even if circular reference ✅ or huge object ✴️
@@ -16,7 +17,13 @@ Features:
 
 
 
+https://www.json.org/json-en.html
+https://thecodebarbarian.com/the-80-20-guide-to-json-stringify-in-javascript
+
+
+
 ## DEPRECATED
+
 ```ts
 // "@offirmo-private/prettify-any": "^0",
 import { prettify_json } from '@offirmo-private/prettify-any'
@@ -35,4 +42,3 @@ Note: was formerly using prettyjson and got inspired by it.
 "@types/prettyjson": "^0.0.29",
 
 
-https://thecodebarbarian.com/the-80-20-guide-to-json-stringify-in-javascript
