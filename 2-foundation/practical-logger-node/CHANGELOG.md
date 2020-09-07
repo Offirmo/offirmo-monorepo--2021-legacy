@@ -6,7 +6,7 @@
 * TODO pretty+intelligently print the details
 * XXX DO NOT PUBLISH BEFORE RESOLVING THE PRIVATE DEP (temporary, work in progress)
 * [doc] ++
-* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
 * ...
 

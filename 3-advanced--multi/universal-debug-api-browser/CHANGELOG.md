@@ -7,7 +7,7 @@ NOTE: Reminder to increase REVISION when releasing!
 * TODO extract core implementation common bw node & browser?
 * TODO better handle no local storage
 * TODO handle iframes?
-* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
 * ...
 

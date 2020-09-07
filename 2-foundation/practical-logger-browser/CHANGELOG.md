@@ -11,7 +11,7 @@ NOTE: not much reason to publish this lib since it's supposed to be bundled
 * TODO test Windows, Ubuntu
 * TODO local pictures
 * [doc] ++
-* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
 * ...
 

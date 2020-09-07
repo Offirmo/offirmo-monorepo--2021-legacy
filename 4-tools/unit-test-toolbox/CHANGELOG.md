@@ -5,7 +5,7 @@
 * [feat][fix] Optionally, the init script will now initialize a node SEC/UDA environment if those are available.
     This happens only in my monorepo thus I silenced an existing warning (fix)
 * [chore] @offirmo/universal-debug-api-node is now an `optionalDependencies` Should not change anything, it's for semantic reasons.
-* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
 * ...
 
