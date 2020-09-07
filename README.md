@@ -60,31 +60,35 @@ bolt ws run build --only @offirmo-private/*
 bolt ws run test  --only @offirmo-private/*
 ## make it work again step by step!
 bolt ws run test  --only-fs "0-meta/*"
-bolt ws run build --only-fs "1-stdlib/*"
-bolt ws run test  --only-fs "1-stdlib/*"
-bolt ws run build --only-fs "2-foundation/*"
-bolt ws run test  --only-fs "2-foundation/*"
-bolt ws run build --only-fs "3-advanced--isomorphic/*"
-bolt ws run test  --only-fs "3-advanced--isomorphic/*"
-bolt ws run build --only-fs "3-advanced--multi/*"
-bolt ws run test  --only-fs "3-advanced--multi/*"
-bolt ws run build --only-fs "3-advanced--browser/*"
-bolt ws run test  --only-fs "3-advanced--browser/*"
-bolt ws run build --only-fs "3-advanced--node/*"
-bolt ws run test  --only-fs "3-advanced--node/*"
-bolt ws run build --only-fs "4-tools/*"
-bolt ws run test --only-fs "4-tools/*"
-bolt ws run build --only-fs "5-incubator/**/*"
-bolt ws run test --only-fs "5-incubator/**/*"
-bolt ws run build --only @oh-my-rpg/*
-bolt ws run test  --only @oh-my-rpg/*
-bolt ws run build --only-fs "A-apps/the-boring-rpg/**/*"
-bolt ws run build --only-fs "A-apps/online-adventur.es/**/*"
-bolt ws run build --only-fs "A-apps/**/*"
-bolt ws run test --only-fs "A-apps/**/*"
-bolt ws run build --only-fs "B-minisites/*"
-bolt w @oh-my-rpg/definitions run build
+bolt --only-fs "1-stdlib/*" ws run build
+bolt --only-fs "1-stdlib/*" ws run test
+bolt --only-fs "2-foundation/*" ws run build
+bolt --only-fs "2-foundation/*" ws run test
+bolt --only-fs "3-advanced--multi/*" ws run build
+bolt --only-fs "3-advanced--multi/*" ws run test
+bolt --only-fs "3-advanced--isomorphic/*" ws run build
+bolt --only-fs "3-advanced--isomorphic/*" ws run test
+bolt --only-fs "3-advanced--browser/*" ws run build
+bolt --only-fs "3-advanced--browser/*" ws run test
+bolt --only-fs "3-advanced--node/*" ws run build
+bolt --only-fs "3-advanced--node/*" ws run test
+bolt --only-fs "4-tools/*" ws run build
+bolt --only-fs "4-tools/*" ws run test
+bolt --only-fs "5-incubator/**/*" ws run build
+bolt --only-fs "5-incubator/**/*" ws run test
+bolt --only-fs "9-oh-my-rpg/**/*" ws run build
+bolt --only-fs "9-oh-my-rpg/**/*" ws run test
+bolt --only-fs "A-apps/online-adventur.es/**/*" ws run build
+bolt --only-fs "A-apps/online-adventur.es/**/*" ws run test
+bolt --only-fs "A-apps/the-boring-rpg/**/*" ws run build
+bolt --only-fs "A-apps/the-boring-rpg/**/*" ws run test
+bolt --only-fs "B-minisites/*" ws run build
 
+Alt:
+bolt --only @oh-my-rpg/* ws run test
+bolt --only-fs "A-apps/**/*" ws run build
+bolt --only-fs "A-apps/**/*" ws run test
+bolt w @oh-my-rpg/definitions run build
 
 
 ## clean

@@ -34,6 +34,7 @@ Tools
 ```
 query('.netlify/functions/key-value/foo', 'GET', body = undefined)
 query('.netlify/functions/key-value/foo', 'PATCH', body = { foo: 42 })
+query('.netlify/functions/key-value/foo', 'PATCH', body = { schema_version: 1, revision: 1, foo: 42 })
 ```
 
 TODO  Access-Control-Allow-Origin header with the value https://oa XXX

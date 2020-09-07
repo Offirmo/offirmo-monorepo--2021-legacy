@@ -142,11 +142,14 @@
 
 		fetch(url, { headers, method, body: JSON.stringify(body) })
 			.then(response => {
-				// WARN: we can't destructure response because .json() needs a binding to response
+				// REM: we can't destructure response because .json() needs a binding to response
+
+				console.log('fetched response:', { ok: response.ok, status: response.statusCode })
+
 				if (!response.ok)
 					errorMessage += `, status="${response.status}"`
 
-				return response.text() // not JSON, we are not sure, will check ourselves
+				return response.text() // not JSON yet, we are not sure, will check ourselves
 			})
 			.then(responseData => {
 				try {
@@ -183,4 +186,4 @@
 	}
 </script>
 
-<small>20200907</small>
+<small>20200907b</small>

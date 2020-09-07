@@ -10,7 +10,7 @@ describe(`${LIB} - example usage`, function() {
 	function migrate_to_latest(state) {
 		if (state.schema_version > SCHEMA_VERSION)
 			throw new Error('More recent version!')
-		if ((state?.schema_version || 0) < SCHEMA_VERSION) {
+		if (((state || {}).schema_version || 0) < SCHEMA_VERSION) {
 			state = {
 				...state,
 				schema_version: 3,

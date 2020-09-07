@@ -9,7 +9,7 @@ describe(`${LIB} - fetch`, function() {
 	const SEC = getRootSEC()
 		.createChild()
 		.setLogicalStack({module: 'UT'})
-		//.injectDependencies({ CHANNEL: ReleaseChannel.staging })
+		.injectDependencies({ CHANNEL: ReleaseChannel.staging })
 
 	describe('fetch_oa()', function() {
 
