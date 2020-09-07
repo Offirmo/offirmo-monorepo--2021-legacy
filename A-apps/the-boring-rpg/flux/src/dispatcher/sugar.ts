@@ -25,7 +25,7 @@ import { LIB } from '../consts'
 
 const KNOWN_ACTIONS = 12
 
-function get_commands(
+export function get_commands(
 	dispatch: (action: Action) => void,
 ) {
 
@@ -146,8 +146,4 @@ function get_commands(
 		throw new Error(`${LIB}: commands are outdated!`)
 
 	return commands
-}
-
-export {
-	get_commands,
 }

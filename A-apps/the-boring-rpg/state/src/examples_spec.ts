@@ -3,7 +3,7 @@
 import { expect } from 'chai'
 
 import { LIB } from './consts'
-import { get_lib_SEC } from './sec'
+import { get_lib_SEC } from './services/sec'
 import { DEMO_STATE } from './examples'
 import { migrate_to_latest } from './state/migrations'
 

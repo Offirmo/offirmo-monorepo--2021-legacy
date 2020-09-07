@@ -1,6 +1,6 @@
 export * from './build'
 export * from './consts'
-export * from './engagement'
+export * from './data/engagement'
 export * from './examples'
 export * from './selectors'
 export * from './state'
