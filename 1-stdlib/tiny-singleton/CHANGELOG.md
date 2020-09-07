@@ -2,8 +2,8 @@
 **This package follows [semver](https://semver.org/).**
 
 ## pending
-* [test] TODO unit tests!
-* TODO exclude unit tests from npm publish?
+* [test] unit tests
+* [feat] improve typings (inspired from tiny-invariant)
 * TODO check the semantic (once?) + duplication handling
 * [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.

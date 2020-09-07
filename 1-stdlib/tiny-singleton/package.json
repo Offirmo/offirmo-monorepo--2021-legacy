@@ -27,13 +27,6 @@
 	},
 	"dependencies": {
 	},
-
-	"devDependencies": {
-		"@size-limit/preset-small-lib": "^4",
-		"np": "^6",
-		"npm-run-all": "^4",
-		"size-limit": "^4"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
 
@@ -42,11 +35,19 @@
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod",
 		"demo": "node doc/demo/index.js",
 
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
+		"@size-limit/preset-small-lib": "^4",
+		"np": "^6",
+		"npm-run-all": "^4",
+		"size-limit": "^4"
 	},
 
 	"files": [

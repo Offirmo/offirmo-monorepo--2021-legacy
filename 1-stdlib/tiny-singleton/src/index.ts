@@ -1,7 +1,9 @@
 
-export default function tiny_singleton<T extends (...args: any) => any>(generator: T): (...args: Parameters<T>) => ReturnType<T> {
+export default function tiny_singleton<
+	CreateFn extends (...args: any[]) => ReturnType<CreateFn>
+>(generator: CreateFn): (...args: Parameters<CreateFn>) => ReturnType<CreateFn> {
 	let instantiated = false
-	let instance: undefined | ReturnType<T>
+	let instance: undefined | ReturnType<CreateFn>
 
 	return function get(...args: any) {
 		if (!instantiated) {
@@ -9,7 +11,7 @@ export default function tiny_singleton<T extends (...args: any) => any>(generato
 			instantiated = true
 		}
 
-		return instance as ReturnType<T>
+		return instance as ReturnType<CreateFn>
 	}
 }
 

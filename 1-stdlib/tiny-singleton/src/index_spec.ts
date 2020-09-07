@@ -1,32 +1,58 @@
-// not a real unit test
-// this is a typescript test
+import { expect } from 'chai'
+
 import tiny_singleton from '.'
 
-interface Person {
-	name: string,
-	ask_name: () => string,
-}
 
-function create_person(name: string, logger: Console = console): Person {
-	return {
-		name,
-		ask_name() {
-			return name
-		},
+describe('tiny-singleton', function () {
+	interface Person {
+		name: string,
+		ask_name: () => string,
 	}
-}
 
-const get_person = tiny_singleton(() => create_person('Luke', console))
+	function create_person(name: string): Person {
+		return {
+			name,
+			ask_name() {
+				return name
+			},
+		}
+	}
 
-console.assert(get_person().ask_name() === 'Luke')
-console.assert(get_person().ask_name() === 'Luke')
+	context('when the generator is taking no params', function () {
+		it('should work and prevent subsequent creations', () => {
+			const get_person: () => Person = tiny_singleton(() => create_person('Luke'))
 
-// this line should not compile
-//get_person().foo
+			expect(get_person()).to.equal(get_person())
+			expect(get_person().ask_name()).to.equal('Luke')
+			expect(get_person().ask_name()).to.equal('Luke')
+			expect(get_person()).to.equal(get_person())
+
+			// this line should not compile
+			// @ts-expect-error
+			get_person().foo
+		})
+	})
+
+	context('when the generator is taking params', function () {
+
+		it('should forward the params the 1st time', () => {
+			const get_owner: (name?: string) => Person = tiny_singleton((name?: string) => create_person(name || 'Luke'))
+
+			expect(get_owner('Anakin').ask_name() === 'Anakin')
+			expect(get_owner('Luke').ask_name() === 'Anakin') // no change
+			expect(get_owner().ask_name() === 'Anakin')
+			expect(get_owner()).to.equal(get_owner())
+		})
+	})
+})
 
 
-const get_owner = tiny_singleton((name?: string) => create_person(name || 'Luke'))
 
-console.assert(get_owner('Anakin').ask_name() === 'Anakin')
-console.assert(get_owner('Luke').ask_name() === 'Anakin')
-console.assert(get_owner().ask_name() === 'Anakin')
+
+
+
+
+
+
+
+
