@@ -13,10 +13,13 @@ import { State } from '@tbrpg/state'
 import { Action, TbrpgStorage } from '@tbrpg/interfaces'
 
 import { OMRSoftExecutionContext } from './sec'
+import { create as create_dispatcher } from './dispatcher'
 import create_persistent_store from './stores/local'
+import create_persistent_store_v2 from './stores/local-storage'
 import create_in_memory_store from './stores/in-memory'
+import create_in_memory_store_v2 from './stores/in-memory-v2'
 import create_cloud_store from './stores/cloud-offline-first'
-import { get_commands } from './commands'
+import { get_commands } from './dispatcher/sugar'
 import { get_queries } from './queries'
 import { LIB } from './consts'
 
@@ -45,19 +48,23 @@ interface CreateParams<T extends AppState> {
 function create_game_instance<T extends AppState>({SEC, local_storage, storage, app_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}) => {
 
-		app_state = app_state || ({} as any as T)
-
 		const emitter = new EventEmitter.Typed<{
 			[Event.model_change]: string,
 			[Event.view_change]: string,
 		}>()
+
+		/////////////////////////////////////////////////
+
+		const dispatcher = create_dispatcher()
+
+		/////////////////////////////////////////////////
 
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far
 		// the savegame may also be outdated.
 		const persistent_store = create_persistent_store(SEC, storage)
 
-		const initial_state = SEC.xTry('auto creating/migrating', ({SEC, logger}): State => {
+		const initial_state = SEC.xTry('auto creating/migrating', ({ SEC, logger }): State => {
 			const recovered_state: any | null = persistent_store.get()
 
 			if (recovered_state) {
@@ -66,15 +73,17 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 				return state
 			}
 
+			/// XXX this new game creation is hard to spot?
 			const state = TBRPGState.reseed(TBRPGState.create(SEC))
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			return state
 		})
-
 		logger.silly(`[${LIB}] initial state:`, {state: initial_state})
 
 		// update after auto-migrating/creating
 		persistent_store.set(initial_state)
+
+		////////////////////////////////////
 
 		const in_memory_store = create_in_memory_store(
 			SEC,
@@ -84,14 +93,22 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			},
 		)
 
-		const cloud_store = create_cloud_store(
+		const in_memory_store_v2 = create_in_memory_store_v2(
 			SEC,
-			local_storage,
 			initial_state,
-			(new_state: Readonly<State>): void => {
-				in_memory_store.set(new_state)
-			},
 		)
+		dispatcher.register_store(in_memory_store_v2)
+
+		const persistent_store_v2 = create_persistent_store_v2(SEC, local_storage)
+		dispatcher.register_store(persistent_store_v2)
+
+		////////////////////////////////////
+
+		in_memory_store_v2.subscribe('game-instance', () => {
+			emitter.emit(Event.model_change, `${'game-instance'}[in-mem-v2]`)
+		})
+
+		app_state = app_state || ({} as any as T)
 
 		emitter.on(Event.model_change, (src: string) => {
 			app_state = {
@@ -107,6 +124,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			if (action.type !== 'update_to_now') console.groupEnd()
 			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: ${action.type} ⚡ ———————`)
 			setTimeout(() => console.groupEnd(), 0)
+
 			const { time, ...debug } = action
 			logger.log('⚡ action dispatched:', { action: debug })
 
@@ -120,9 +138,10 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 				}
 			})
 
+			dispatcher.dispatch(action)
 			in_memory_store.dispatch(action)
 			persistent_store.dispatch(action, in_memory_store.get())
-			cloud_store.dispatch(action, in_memory_store.get())
+			//cloud_store.dispatch(action, in_memory_store.get())
 		}
 
 		// currently used by the savegame editor
@@ -131,7 +150,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			// this also double down as a structure check
 			in_memory_store.set(new_state)
 			persistent_store.set(new_state)
-			cloud_store.set(new_state)
+			//cloud_store.set(new_state)
 		}
 
 		const gi = {

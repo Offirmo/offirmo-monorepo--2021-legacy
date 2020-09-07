@@ -8,8 +8,7 @@ import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
 import { ALL_GOOD_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
 
 import { UState } from '../types'
-import { STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC } from '../state/reducers/create'
-//import { appraise_item_power } from '../selectors'
+import { STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC } from '../reducers/create'
 
 // ’
 

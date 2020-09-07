@@ -19,6 +19,7 @@ const ACTION_TYPE_TO_CTA = {
 	'acknowledge_engagement_msg_seen': INTERNAL,
 	'update_to_now': INTERNAL,
 	'hack': INTERNAL,
+	'force_set': INTERNAL,
 }
 if (get_action_types().sort().join(';') !== Object.keys(ACTION_TYPE_TO_CTA).sort().join(';')) {
 	throw new Error('Internal error: ACTION_TYPE_TO_CTA needs an update!')
@@ -33,7 +34,7 @@ const ActionButtonViewM = React.memo(
 
 		const cta = ACTION_TYPE_TO_CTA[action.type]
 		if (cta === INTERNAL)
-			throw new Error('UI can\'t display an internal action!')
+			throw new Error('UI can’t display an internal action!')
 
 		const onClickWrap = () => {
 			onClick()

@@ -15,16 +15,16 @@ import * as Codes from '@oh-my-rpg/state-codes'
 import * as Progress from '@oh-my-rpg/state-progress'
 import * as MetaState from '@oh-my-rpg/state-meta'
 
-import {DEMO_WEAPON_1, Weapon} from '@oh-my-rpg/logic-weapons'
-import {Armor} from '@oh-my-rpg/logic-armors'
-import {DEMO_MONSTER_01} from '@oh-my-rpg/logic-monsters'
+import { DEMO_WEAPON_1, Weapon } from '@oh-my-rpg/logic-weapons'
+import { Armor } from '@oh-my-rpg/logic-armors'
+import { DEMO_MONSTER_01 } from '@oh-my-rpg/logic-monsters'
 
 /////////////////////
 
-import {SCHEMA_VERSION} from './consts'
-import {State, Adventure} from './types'
-import {cleanup} from './state/migrations'
-import {get_lib_SEC} from './sec'
+import { SCHEMA_VERSION } from './consts'
+import { State, Adventure } from './types'
+import { cleanup } from './state/migrations'
+import { get_lib_SEC } from './services/sec'
 
 /////////////////////
 

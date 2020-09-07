@@ -1,12 +1,5 @@
-import { VERSION, NUMERIC_VERSION } from './build'
+export { VERSION, NUMERIC_VERSION } from './build'
 
-const LIB = '@tbrpg/state'
+export const LIB = '@tbrpg/state'
 
-const SCHEMA_VERSION: number = 14
-
-export {
-	LIB,
-	SCHEMA_VERSION,
-	VERSION,
-	NUMERIC_VERSION ,
-}
+export const SCHEMA_VERSION: number = 14

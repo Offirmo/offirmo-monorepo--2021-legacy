@@ -6,7 +6,7 @@ import { State, CharacterClass } from '@tbrpg/state'
 
 /////////////////////
 
-const ActionType = Enum(
+export const ActionType = Enum(
 	'play',
 	'equip_item',
 	'sell_item',
@@ -20,14 +20,15 @@ const ActionType = Enum(
 	'acknowledge_engagement_msg_seen',
 	'update_to_now',
 
+	'force_set',
 	'hack',
 )
-type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
+export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 /////////////////////
 
 // TODO all those actions should be in the state package! (v2)
-interface BaseAction {
+export interface BaseAction {
 	//v: 1 // not sure needed
 	time: TimestampUTCMs
 	expected_revisions: {
@@ -35,108 +36,94 @@ interface BaseAction {
 	}
 }
 
-interface ActionStartGame extends BaseAction {
+export interface ActionStartGame extends BaseAction {
 	type: typeof ActionType.start_game
 	seed: number
 }
 
-interface ActionStartSession extends BaseAction {
+export interface ActionStartSession extends BaseAction {
 	type: typeof ActionType.on_start_session
 	is_web_diversity_supporter: boolean
 }
 
-interface ActionUpdateLoggedInInfos extends BaseAction {
+export interface ActionUpdateLoggedInInfos extends BaseAction {
 	type: typeof ActionType.on_logged_in_refresh
 	is_logged_in: boolean
 	roles: string[]
 }
 
-interface ActionPlay extends BaseAction {
+export interface ActionPlay extends BaseAction {
 	type: typeof ActionType.play
 }
 
-interface ActionEquipItem extends BaseAction {
+export interface ActionEquipItem extends BaseAction {
 	type: typeof ActionType.equip_item
 	target_uuid: UUID
 }
 
-interface ActionSellItem extends BaseAction {
+export interface ActionSellItem extends BaseAction {
 	type: typeof ActionType.sell_item
 	target_uuid: UUID
 }
 
-interface ActionRenameAvatar extends BaseAction {
+export interface ActionRenameAvatar extends BaseAction {
 	type: typeof ActionType.rename_avatar
 	new_name: string
 }
 
-interface ActionChangeAvatarClass extends BaseAction {
+export interface ActionChangeAvatarClass extends BaseAction {
 	type: typeof ActionType.change_avatar_class
 	new_class: CharacterClass
 }
 
-interface ActionRedeemCode extends BaseAction {
+export interface ActionRedeemCode extends BaseAction {
 	type: typeof ActionType.redeem_code
 	code: string
 }
 
-interface ActionAcknowledgeEngagementMsgSeen extends BaseAction {
+export interface ActionAcknowledgeEngagementMsgSeen extends BaseAction {
 	type: typeof ActionType.acknowledge_engagement_msg_seen
 	uid: number
 }
 
-interface ActionUpdateToNow extends BaseAction {
+export interface ActionUpdateToNow extends BaseAction {
 	type: typeof ActionType.update_to_now
+}
+
+// for ex. restoring a game from cloud or a previous save
+export interface ActionForceSet extends BaseAction {
+	type: typeof ActionType.force_set
+	state: Readonly<State>
 }
 
 // for debug / hacks = ex. replenishing energy during local tests
 // should never make it to the server!
-interface ActionHack extends BaseAction {
+export interface ActionHack extends BaseAction {
 	type: typeof ActionType.hack
 	custom_reducer: (state: Readonly<State>) => Readonly<State>
 }
 
-type Action =
-	ActionStartGame |
-	ActionStartSession |
-	ActionUpdateLoggedInInfos |
-	ActionPlay |
-	ActionEquipItem |
-	ActionSellItem |
-	ActionRenameAvatar |
-	ActionChangeAvatarClass |
-	ActionRedeemCode |
-	ActionAcknowledgeEngagementMsgSeen |
-	ActionUpdateToNow |
-	ActionHack
+export type Action =
+	| ActionStartGame
+	| ActionStartSession
+	| ActionUpdateLoggedInInfos
+	| ActionPlay
+	| ActionEquipItem
+	| ActionSellItem
+	| ActionRenameAvatar
+	| ActionChangeAvatarClass
+	| ActionRedeemCode
+	| ActionAcknowledgeEngagementMsgSeen
+	| ActionUpdateToNow
+	| ActionForceSet
+	| ActionHack
 
 
 /////////////////////
 
 // needed for some validations
-function get_action_types(): string[] {
+export function get_action_types(): string[] {
 	return Enum.keys(ActionType)
 }
 
 /////////////////////
-
-export {
-	ActionType,
-
-	ActionStartGame,
-	ActionStartSession,
-	ActionUpdateLoggedInInfos,
-	ActionPlay,
-	ActionEquipItem,
-	ActionSellItem,
-	ActionRenameAvatar,
-	ActionChangeAvatarClass,
-	ActionRedeemCode,
-	ActionAcknowledgeEngagementMsgSeen,
-	ActionUpdateToNow,
-	ActionHack,
-
-	Action,
-
-	get_action_types,
-}
