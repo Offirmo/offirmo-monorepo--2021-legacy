@@ -437,7 +437,9 @@ ideas for bad guys:
 - hithler
 - Trump
 - https://en.wikipedia.org/wiki/D-Company
-
+- Aleksander Lukashenko
+- “Unlimited power in the hands of limited people always leads to cruelty.” Aleksandr Solzhenitsyn
+-
 
 create a sustainable ecosystem of native birds. There, I learned the fascinating science of complex systems and understood how delicate the balance of creating equilibrium in an ecosystem is. You need populations of different species in harmony to keep the overall ecosystem healthy. We optimize for the whole, not just for one.
 

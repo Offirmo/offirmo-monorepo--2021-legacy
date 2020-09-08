@@ -1,8 +1,9 @@
 import { Enum } from 'typescript-string-enums'
 
 import { UUID } from '@offirmo-private/uuid'
-import { TimestampUTCMs } from '@offirmo-private/timestamps'
-import { State, CharacterClass } from '@tbrpg/state'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { State } from '@tbrpg/state'
+import { CharacterClass } from '@oh-my-rpg/state-character'
 
 /////////////////////
 
@@ -127,3 +128,18 @@ export function get_action_types(): string[] {
 }
 
 /////////////////////
+
+export function create_action(): BaseAction {
+	return {
+		time: get_UTC_timestamp_ms(),
+		expected_revisions: {},
+	}
+}
+
+export function create_action__force_set(state: Readonly<State>): ActionForceSet {
+	return {
+		...create_action(),
+		type: ActionType.force_set,
+		state,
+	}
+}

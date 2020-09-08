@@ -9,9 +9,9 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 
 /////////////////////
 
-import { State } from '../../../types'
+import { State } from '../../types'
 
-import { will_next_play_be_good_at } from '../../../selectors'
+import { will_next_play_be_good_at } from '../../selectors'
 import { _update_to_now } from '../internal'
 import { play_good } from './play_good'
 import { play_bad } from './play_bad'

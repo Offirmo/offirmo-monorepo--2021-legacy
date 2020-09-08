@@ -7,7 +7,7 @@ import {
 	AchievementSnapshot,
 } from '@oh-my-rpg/state-progress'
 
-import { State, UState } from '../types'
+import { UState } from '../types'
 
 import ACHIEVEMENT_DEFINITIONS from '../data/achievements'
 

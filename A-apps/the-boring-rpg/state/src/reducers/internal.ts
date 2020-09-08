@@ -1,6 +1,5 @@
 /////////////////////
 
-import { Random, Engine } from '@offirmo/random'
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
@@ -13,11 +12,7 @@ import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
 import { appraise_power_normalized } from '@oh-my-rpg/logic-shop'
 import {
 	CharacterAttribute,
-	CharacterAttributes,
-	CharacterClass,
 	increase_stat,
-	rename,
-	switch_class,
 } from '@oh-my-rpg/state-character'
 import { Currency } from '@oh-my-rpg/state-wallet'
 
@@ -28,14 +23,14 @@ import * as EngagementState from '@oh-my-rpg/state-engagement'
 
 /////////////////////
 
-import { State } from '../../types'
+import { State } from '../types'
 
 import {
 	appraise_item_value,
 	is_inventory_full,
-} from '../../selectors'
+} from '../selectors'
 
-import { get_lib_SEC } from '../../sec'
+import { get_lib_SEC } from '../services/sec'
 
 import {STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC} from './create'
 

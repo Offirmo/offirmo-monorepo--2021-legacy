@@ -17,9 +17,9 @@ import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 
-import { LIB } from '../../consts'
-import { State } from '../../types'
-import { get_logger } from '../../logger'
+import { LIB } from '../consts'
+import { State } from '../types'
+import { get_logger } from '../services/logger'
 
 import {
 	create,
@@ -28,7 +28,7 @@ import {
 	change_avatar_class,
 	autoplay,
 } from '../reducers'
-import {EngagementKey} from '../../engagement'
+import { EngagementKey } from '../data/engagement'
 
 /////////////////////
 

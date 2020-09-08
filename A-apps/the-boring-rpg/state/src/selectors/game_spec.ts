@@ -13,7 +13,8 @@ import {
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import {
 	_lose_all_energy,
-} from '../state/reducers/internal'
+} from '../reducers/internal'
+
 
 describe(`${LIB} - selectors - game`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())

@@ -4,7 +4,6 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'
-import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import { State, DEMO_STATE, EngagementKey } from '@tbrpg/state'
 import { StorageKey } from '@tbrpg/interfaces'
 
@@ -85,10 +84,10 @@ describe(`${LIB} - game-instance`, function() {
 				const model = game_instance.model.get()
 				expect(model).to.have.property('schema_version')
 
-				expect(model.u_state.avatar.name).to.equal('Perte')
-				expect(model.u_state.avatar.klass).to.equal('paladin')
-				expect(model.u_state.progress.statistics.good_play_count).to.equal(12)
-				expect(model.u_state.progress.statistics.bad_play_count).to.equal(3)
+				expect(model.u_state.avatar.name).to.equal('PerteProd')
+				expect(model.u_state.avatar.klass).to.equal('knight')
+				expect(model.u_state.progress.statistics.good_play_count).to.equal(1028)
+				expect(model.u_state.progress.statistics.bad_play_count).to.equal(93)
 			})
 		})
 	})

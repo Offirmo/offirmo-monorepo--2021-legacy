@@ -1,6 +1,5 @@
 /////////////////////
 
-import { Random, Engine } from '@offirmo/random'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { propagate_child_revision_increment_upward } from '@offirmo-private/state'
 
@@ -16,14 +15,12 @@ import { ItemQuality } from '@oh-my-rpg/definitions'
 import { get_prng } from '@oh-my-rpg/state-prng'
 import { create as create_weapon } from '@oh-my-rpg/logic-weapons'
 import { create as create_armor } from '@oh-my-rpg/logic-armors'
-import { CodeSpec } from '@oh-my-rpg/state-codes'
-import { switch_class } from '@oh-my-rpg/state-character'
 
 /////////////////////
 
-import { State } from '../../types'
-import { EngagementKey } from '../../engagement'
-import { CODE_SPECS_BY_KEY } from '../../data/codes'
+import { State } from '../types'
+import { EngagementKey } from '../data/engagement'
+import { CODE_SPECS_BY_KEY } from '../data/codes'
 
 import {
 	_update_to_now,

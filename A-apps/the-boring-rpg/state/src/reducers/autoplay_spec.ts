@@ -8,10 +8,10 @@ import { Weapon, matches as matches_weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
 
 
-import { LIB } from '../../consts'
+import { LIB } from '../consts'
 import {
 	is_inventory_full,
-} from '../../selectors'
+} from '../selectors'
 import {
 	STARTING_WEAPON_SPEC,
 	STARTING_ARMOR_SPEC,

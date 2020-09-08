@@ -17,13 +17,13 @@ import {
 
 /////////////////////
 
-import { State } from '../../types'
+import { State } from '../types'
 
 import {
 	get_available_energy_float,
 	find_better_unequipped_armor,
 	find_better_unequipped_weapon, get_available_classes,
-} from '../../selectors'
+} from '../selectors'
 
 import {
 	_lose_all_energy,

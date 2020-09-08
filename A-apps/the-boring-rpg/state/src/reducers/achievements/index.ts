@@ -10,10 +10,10 @@ import {
 	EngagementType,
 } from '@oh-my-rpg/state-engagement'
 
-import { State, UState } from '../../../types'
+import { State, UState } from '../../types'
 
-import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
-import {EngagementKey} from '../../../engagement'
+import ACHIEVEMENT_DEFINITIONS from '../../data/achievements'
+import {EngagementKey} from '../../data/engagement'
 
 /////////////////////
 

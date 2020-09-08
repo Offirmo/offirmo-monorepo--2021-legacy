@@ -3,8 +3,8 @@ import deep_freeze from 'deep-freeze-strict'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
-import { LIB } from '../../consts'
-import { EngagementKey } from '../../engagement'
+import { LIB } from '../consts'
+import { EngagementKey } from '../data/engagement'
 import {
 	create,
 	reseed,
@@ -15,7 +15,7 @@ import {
 	_lose_all_energy,
 	_ack_all_engagements,
 } from './internal'
-import {State} from '../../types'
+import {State} from '../types'
 
 describe(`${LIB} - reducer - codes`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())

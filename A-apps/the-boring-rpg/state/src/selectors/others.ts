@@ -1,20 +1,13 @@
-import { Enum } from 'typescript-string-enums'
-
 import { UUID } from '@offirmo-private/uuid'
 import * as RichText from '@offirmo-private/rich-text-format'
 
-import { CharacterClass } from '@oh-my-rpg/state-character'
 import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'
-import { appraise_sell_value, appraise_power } from '@oh-my-rpg/logic-shop'
-import { Weapon } from '@oh-my-rpg/logic-weapons'
-import { Armor } from '@oh-my-rpg/logic-armors'
+import { appraise_power } from '@oh-my-rpg/logic-shop'
 import {
-	Item,
 	get_item as _get_item,
 	get_item_in_slot as _get_item_in_slot,
 } from '@oh-my-rpg/state-inventory'
 import {
-	EngagementType,
 	PendingEngagement,
 	get_oldest_queued_flow,
 	get_oldest_queued_non_flow,
@@ -24,7 +17,7 @@ import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 /////////////////////
 
 import { UState } from '../types'
-import { get_engagement_message } from '../engagement'
+import { get_engagement_message } from '../data/engagement'
 import { get_achievement_snapshot_by_temporary_id } from './achievements'
 
 /////////////////////

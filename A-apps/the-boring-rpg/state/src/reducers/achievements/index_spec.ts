@@ -4,11 +4,12 @@ import { expect } from 'chai'
 import { AchievementStatus, AchievementDefinition } from '@oh-my-rpg/state-progress'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
-import { LIB } from '../../../consts'
-import { State, UState } from '../../../types'
+import { LIB } from '../../consts'
+import { State, UState } from '../../types'
 import { create } from '..'
 import { _refresh_achievements } from '.'
-import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
+import ACHIEVEMENT_DEFINITIONS from '../../data/achievements'
+
 
 describe(`${LIB} - reducer`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())

@@ -23,10 +23,10 @@ import * as MetaState from '@oh-my-rpg/state-meta'
 
 /////////////////////
 
-import { LIB } from '../../consts'
-import { State } from '../../types'
-import { get_lib_SEC } from '../../sec'
-import { get_available_classes } from '../../selectors'
+import { LIB } from '../consts'
+import { State } from '../types'
+import { get_lib_SEC } from '../services/sec'
+import { get_available_classes } from '../selectors'
 
 import { _refresh_achievements } from './achievements'
 import {

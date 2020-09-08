@@ -23,7 +23,7 @@ import { DEMO_MONSTER_01 } from '@oh-my-rpg/logic-monsters'
 
 import { SCHEMA_VERSION } from './consts'
 import { State, Adventure } from './types'
-import { cleanup } from './state/migrations'
+import { cleanup } from './migrations'
 import { get_lib_SEC } from './services/sec'
 
 /////////////////////

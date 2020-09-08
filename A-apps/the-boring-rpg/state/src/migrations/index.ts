@@ -1,4 +1,3 @@
-import deep_freeze from 'deep-freeze-strict'
 import { LastMigrationStep, MigrationStep, SubStatesMigrations, CleanupStep, generic_migrate_to_latest } from '@offirmo-private/state'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
@@ -12,9 +11,9 @@ import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 import * as MetaState from '@oh-my-rpg/state-meta'
 
-import { LIB, SCHEMA_VERSION } from '../../consts'
-import { State } from '../../types'
-import { OMRSoftExecutionContext } from '../../sec'
+import { LIB, SCHEMA_VERSION } from '../consts'
+import { State } from '../types'
+import { OMRSoftExecutionContext } from '../services/sec'
 import { _refresh_achievements } from '../reducers/achievements'
 import { reset_and_salvage } from './salvage'
 

@@ -3,16 +3,17 @@ import { expect } from 'chai'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import * as RichText from '@offirmo-private/rich-text-format'
 
+import { LIB } from '../../consts'
 import {
 	create,
-} from '..'
+} from '../..'
 
 import {
 	get_recap,
 } from './recap'
 
 
-describe('@tbrpg/state - engagement - recap', function() {
+describe(`${LIB} - engagement - recap`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('get recap', function() {

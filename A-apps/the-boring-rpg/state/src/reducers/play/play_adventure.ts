@@ -59,9 +59,9 @@ import {
 import {
 	State,
 	Adventure,
-} from '../../../types'
+} from '../../types'
 
-import { LIB } from '../../../consts'
+import { LIB } from '../../consts'
 
 import {
 	_receive_stat_increase,

@@ -6,11 +6,14 @@ import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { Storage } from '@offirmo-private/ts-types'
-import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
-import { Action, TbrpgStorage } from '@tbrpg/interfaces'
+import {
+	Action,
+	TbrpgStorage,
+	create_action__force_set,
+} from '@tbrpg/interfaces'
 
 import { OMRSoftExecutionContext } from './sec'
 import { create as create_dispatcher } from './dispatcher'
@@ -18,9 +21,8 @@ import create_persistent_store from './stores/local'
 import create_persistent_store_v2 from './stores/local-storage'
 import create_in_memory_store from './stores/in-memory'
 import create_in_memory_store_v2 from './stores/in-memory-v2'
-import create_cloud_store from './stores/cloud-offline-first'
 import { get_commands } from './dispatcher/sugar'
-import { get_queries } from './queries'
+import { get_queries } from './selectors'
 import { LIB } from './consts'
 
 // tslint:disable-next-line: variable-name
@@ -93,20 +95,20 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			},
 		)
 
-		const in_memory_store_v2 = create_in_memory_store_v2(
+		/*const in_memory_store_v2 = create_in_memory_store_v2(
 			SEC,
 			initial_state,
 		)
-		dispatcher.register_store(in_memory_store_v2)
+		dispatcher.register_store(in_memory_store_v2)*/
 
-		const persistent_store_v2 = create_persistent_store_v2(SEC, local_storage)
-		dispatcher.register_store(persistent_store_v2)
+		/*const persistent_store_v2 = create_persistent_store_v2(SEC, local_storage)
+		dispatcher.register_store(persistent_store_v2)*/
 
 		////////////////////////////////////
 
-		in_memory_store_v2.subscribe('game-instance', () => {
-			emitter.emit(Event.model_change, `${'game-instance'}[in-mem-v2]`)
-		})
+		/*in_memory_store_v2.subscribe('game-instance', () => {
+			emitter.emit(Event.model_change, `[in-mem-v2]`)
+		})*/
 
 		app_state = app_state || ({} as any as T)
 
@@ -138,7 +140,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 				}
 			})
 
-			dispatcher.dispatch(action)
+			//dispatcher.dispatch(action)
 			in_memory_store.dispatch(action)
 			persistent_store.dispatch(action, in_memory_store.get())
 			//cloud_store.dispatch(action, in_memory_store.get())
@@ -146,11 +148,10 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 		// currently used by the savegame editor
 		function set(new_state: State) {
-			// re-force persistence id to null in case s/o played with it in the editor
-			// this also double down as a structure check
 			in_memory_store.set(new_state)
 			persistent_store.set(new_state)
-			//cloud_store.set(new_state)
+
+			//dispatcher.dispatch(create_action__force_set(new_state))
 		}
 
 		const gi = {

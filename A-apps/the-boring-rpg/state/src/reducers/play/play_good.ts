@@ -24,8 +24,8 @@ import {
 
 /////////////////////
 
-import { LIB } from '../../../consts'
-import { State, UState } from '../../../types'
+import { LIB } from '../../consts'
+import { State, UState } from '../../types'
 import { play_adventure } from './play_adventure'
 
 /////////////////////

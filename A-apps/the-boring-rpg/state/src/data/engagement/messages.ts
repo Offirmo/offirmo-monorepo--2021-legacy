@@ -1,10 +1,10 @@
 import * as RichText from '@offirmo-private/rich-text-format'
-import {PendingEngagement} from '@oh-my-rpg/state-engagement'
-import {
-	EngagementKey,
-} from './types'
+import { PendingEngagement } from '@oh-my-rpg/state-engagement'
+import { EngagementKey } from './types'
 
-function get_engagement_message(pe: Readonly<PendingEngagement>): RichText.Document {
+////////////////////////////////////
+
+export function get_engagement_message(pe: Readonly<PendingEngagement>): RichText.Document {
 	const { engagement: {key}, params} = pe
 
 	switch(key) {
@@ -57,10 +57,4 @@ function get_engagement_message(pe: Readonly<PendingEngagement>): RichText.Docum
 		default:
 			throw new Error(`Missing engagement message for "${key}"! (not implemented?)`)
 	}
-}
-
-////////////////////////////////////
-
-export {
-	get_engagement_message,
 }

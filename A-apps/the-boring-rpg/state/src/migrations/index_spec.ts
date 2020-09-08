@@ -15,12 +15,12 @@ import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 import * as MetaState from '@oh-my-rpg/state-meta'
 
-import { LIB, SCHEMA_VERSION } from '../../consts'
+import { LIB, SCHEMA_VERSION } from '../consts'
 import { migrate_to_latest } from '.'
-import { get_lib_SEC } from '../../sec'
+import { get_lib_SEC } from '../services/sec'
 
 import {create} from '..'
-import { DEMO_STATE } from '../../examples'
+import { DEMO_STATE } from '../examples'
 
 // some hints may be needed to migrate to demo state
 const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
@@ -57,7 +57,7 @@ describe(`${LIB} - schema migration`, function() {
 				return new_state
 			},
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
-			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_blank_state_specs'),
+			absolute_dir_path: require('path').join(__dirname, '../../../src/migrations/migrations_of_blank_state_specs'),
 			clean_json_diff,
 			describe, context, it, expect,
 		})
@@ -72,7 +72,7 @@ describe(`${LIB} - schema migration`, function() {
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: DEMO_STATE,
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
-			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_active_state_specs'),
+			absolute_dir_path: require('path').join(__dirname, '../../../src/migrations/migrations_of_active_state_specs'),
 			clean_json_diff,
 			describe, context, it, expect,
 		})

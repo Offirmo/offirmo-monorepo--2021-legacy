@@ -4,20 +4,21 @@ import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import * as RichText from '@offirmo-private/rich-text-format'
 import { EngagementType } from '@oh-my-rpg/state-engagement'
 
+import { LIB } from '../../consts'
 import {
-	create,
+	//create,
 	EngagementKey,
 	get_engagement_message,
-} from '..'
+} from '../..'
 
 
-describe('@tbrpg/state - engagement messages', function() {
+describe(`${LIB} - engagement messages`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('tip--first_play', function() {
 
 		it('should suggest to play', () => {
-			const state = create()
+			//const state = create()
 			const doc = get_engagement_message({
 				uid: 0,
 				engagement: {

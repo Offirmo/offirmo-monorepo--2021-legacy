@@ -1,6 +1,6 @@
 import * as RichText from '@offirmo-private/rich-text-format'
 
-import { UState } from '../types'
+import { UState } from '../../types'
 
 function get_recap(u_state: Readonly<UState>): RichText.Document {
 	const isNewGame = (u_state.revision === 0)

@@ -12,11 +12,11 @@ import {
 	get_currency_amount,
 } from '@oh-my-rpg/state-wallet'
 
-import { LIB } from '../../../consts'
+import { LIB } from '../../consts'
 
 import {
 	get_available_energy_float,
-} from '../../../selectors'
+} from '../../selectors'
 
 import {
 	_lose_all_energy,

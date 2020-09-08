@@ -1,19 +1,10 @@
 import { expect } from 'chai'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
-import {
-	get_unequipped_item_count,
-	get_equipped_item_count,
-	get_item,
-} from '@oh-my-rpg/state-inventory'
 
-import {
-	Currency,
-	get_currency_amount,
-} from '@oh-my-rpg/state-wallet'
 
 import { LIB } from '../consts'
-import {create} from '../state/reducers'
+import {create} from '../reducers'
 import {appraise_item_value} from './inventory'
 
 

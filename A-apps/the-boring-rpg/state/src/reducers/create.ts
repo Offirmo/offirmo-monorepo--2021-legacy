@@ -1,6 +1,5 @@
 /////////////////////
 
-import { Random, Engine } from '@offirmo/random'
 import { get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 import assert from 'tiny-invariant'
 
@@ -35,10 +34,10 @@ import {
 
 /////////////////////
 
-import { SCHEMA_VERSION } from '../../consts'
-import { OMRSoftExecutionContext, get_lib_SEC } from '../../sec'
-import { State } from '../../types'
-import { EngagementKey } from '../../engagement'
+import { SCHEMA_VERSION } from '../consts'
+import { OMRSoftExecutionContext, get_lib_SEC } from '../services/sec'
+import { State } from '../types'
+import { EngagementKey } from '../data/engagement'
 import {
 	_update_to_now,
 	_receive_item,

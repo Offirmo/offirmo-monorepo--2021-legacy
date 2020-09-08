@@ -7,8 +7,9 @@ import {
 } from '@oh-my-rpg/state-inventory'
 import { DEFAULT_SEED } from '@oh-my-rpg/state-prng'
 
-import { LIB, SCHEMA_VERSION } from '../../consts'
+import { LIB, SCHEMA_VERSION } from '../consts'
 import { create, reseed } from '.'
+
 
 describe(`${LIB} - reducer - create`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
