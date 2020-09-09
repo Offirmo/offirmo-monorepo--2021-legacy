@@ -38,15 +38,15 @@ export function create(
 	SEC: OMRSoftExecutionContext,
 	storage: Storage
 ): Store {
-	const LIB = `${ROOT_LIB}/local-storage`
+	const LIB = `Store--local-storage`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
-		let state: State | null = SEC.xTryCatch('loading existing savegame', ({logger}): State | null => {
+		let state: State | undefined = SEC.xTryCatch('loading existing savegame', ({logger}): State | undefined => {
 			logger.verbose(`[${LIB}] savegame storage key = "${StorageKey.savegame}"`)
 
 			// LS access can throw
 			const ls_content = storage.getItem(StorageKey.savegame)
 			if (!ls_content)
-				return null
+				return undefined
 
 			// XXX try catch?
 			const recovered_state = JSON.parse(ls_content)
@@ -54,13 +54,18 @@ export function create(
 			// need this check due to some serializations returning {} for empty
 			const is_empty_state: boolean = !recovered_state || Object.keys(recovered_state).length === 0
 			if (is_empty_state)
-				return null
+				return undefined
 
 			logger.verbose(`[${LIB}] restored state`)
 			logger.trace(`[${LIB}] restored state =`, { snapshot: JSON.parse(ls_content) })
 
 			return recovered_state
-		}) ?? null
+		})
+
+		function set(_state: Readonly<State>): void {
+			state = _state
+		}
+
 		/*let last_minor_bkp: any =
 		let last_major_bkp
 		bkp__recent: null | any
@@ -104,29 +109,43 @@ export function create(
 			}
 		}
 */
+		function _optimized_store_key_value(key: string, json: any): Promise<void> {
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					try {
+						const value = stable_stringify(json)
+						logger.log(`[${LIB}] 💾 saving ${key} <- #${json?.u_state?.revision}...`)
+						storage.setItem(key, value)
+						logger.trace(`[${LIB}] 💾 saved ${key} <- #${json?.u_state?.revision}.`, { snapshot: JSON.parse(value) })
+						resolve()
+					}
+					catch (err) {
+						reject(err)
+					}
+				}, 1)
+			})
+		}
 
 		function _persist(): Promise<void> {
-			throw new Error('NIMP!')
-			/*const semantic_difference = get_semantic_difference(new_state, state)
-			if (semantic_difference === SemanticDifference.none) return // no need
+			return _optimized_store_key_value(StorageKey.savegame, state)
 
-			const storage_value = stable_stringify(new_state)
-			logger.log(`[${LIB}] 💾 saving #${new_state.u_state.revision}...`)
-			storage.setItem(StorageKey.savegame, storage_value)
-			state = new_state
-			logger.trace(`[${LIB}] 💾 saved #${new_state.u_state.revision}`, { snapshot: JSON.parse(storage_value) })*/
+			/*
+			const semantic_difference = get_semantic_difference(new_state, state)
+			if (semantic_difference === SemanticDifference.none) return // no need
+			*/
 		}
 
 		const emitter = new EventEmitter.Typed<{}, 'change'>()
 
-		function get(): Readonly<State> | undefined {
-			return state || undefined
+		function get(): Readonly<State> {
+			assert(state, `${LIB}.get(): never initialized`)
+			return state
 		}
 
 		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
 			logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`)
-			assert(state || eventual_state_hint, `${LIB} should be provided a hint or a previous state`)
-			assert(!!eventual_state_hint, `${LIB} (upper level architectural invariant) hint is mandatory in this store`)
+			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
+			assert(!!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint is mandatory in this store`)
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
@@ -135,7 +154,7 @@ export function create(
 			_persist()
 				.then(() => emitter.emit(EMITTER_EVT))
 				.catch(err => {
-					// TODO report error through an action
+					// TODO report error through an action?
 					throw err
 				})
 		}
@@ -149,6 +168,7 @@ export function create(
 			get,
 			on_dispatch,
 			subscribe,
+			set,
 		}
 	})
 }

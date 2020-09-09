@@ -1,6 +1,6 @@
 /* A helper for actual games using this model
  */
-
+import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
@@ -12,14 +12,11 @@ import { State } from '@tbrpg/state'
 import {
 	Action,
 	TbrpgStorage,
-	create_action__force_set,
 } from '@tbrpg/interfaces'
 
 import { OMRSoftExecutionContext } from './sec'
 import { create as create_dispatcher } from './dispatcher'
-import create_persistent_store from './stores/local'
 import create_persistent_store_v2 from './stores/local-storage'
-import create_in_memory_store from './stores/in-memory'
 import create_in_memory_store_v2 from './stores/in-memory-v2'
 import { get_commands } from './dispatcher/sugar'
 import { get_queries } from './selectors'
@@ -40,14 +37,27 @@ function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
+function try_or_fallback<
+	Fn extends () => ReturnType<Fn>,
+	T,
+>(fn: Fn, fallback: T): ReturnType<Fn> | T {
+	try {
+		return fn()
+	}
+	catch {
+		return fallback
+	}
+}
+
+
+
 // TODO improve logging (too verbose)
 interface CreateParams<T extends AppState> {
 	SEC: OMRSoftExecutionContext
 	local_storage: Storage,
-	storage: TbrpgStorage,
 	app_state: T
 }
-function create_game_instance<T extends AppState>({SEC, local_storage, storage, app_state}: CreateParams<T>) {
+function create_game_instance<T extends AppState>({SEC, local_storage, app_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}) => {
 
 		const emitter = new EventEmitter.Typed<{
@@ -57,75 +67,13 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 		/////////////////////////////////////////////////
 
-		const dispatcher = create_dispatcher()
-
-		/////////////////////////////////////////////////
-
-		// this special store will auto un-persist a potentially existing savegame
-		// but may end up empty if none existing so far
-		// the savegame may also be outdated.
-		const persistent_store = create_persistent_store(SEC, storage)
-
-		const initial_state = SEC.xTry('auto creating/migrating', ({ SEC, logger }): State => {
-			const recovered_state: any | null = persistent_store.get()
-
-			if (recovered_state) {
-				const state = TBRPGState.migrate_to_latest(SEC, recovered_state)
-				logger.trace(`[${LIB}] automigrated state.`)
-				return state
-			}
-
-			/// XXX this new game creation is hard to spot?
-			const state = TBRPGState.reseed(TBRPGState.create(SEC))
-			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
-			return state
-		})
-		logger.silly(`[${LIB}] initial state:`, {state: initial_state})
-
-		// update after auto-migrating/creating
-		persistent_store.set(initial_state)
-
-		////////////////////////////////////
-
-		const in_memory_store = create_in_memory_store(
-			SEC,
-			initial_state,
-			(state: Readonly<State>, debugId: string) => {
-				emitter.emit(Event.model_change, `${debugId}[in-mem]`)
-			},
-		)
-
-		/*const in_memory_store_v2 = create_in_memory_store_v2(
-			SEC,
-			initial_state,
-		)
-		dispatcher.register_store(in_memory_store_v2)*/
-
-		/*const persistent_store_v2 = create_persistent_store_v2(SEC, local_storage)
-		dispatcher.register_store(persistent_store_v2)*/
-
-		////////////////////////////////////
-
-		/*in_memory_store_v2.subscribe('game-instance', () => {
-			emitter.emit(Event.model_change, `[in-mem-v2]`)
-		})*/
-
-		app_state = app_state || ({} as any as T)
-
-		emitter.on(Event.model_change, (src: string) => {
-			app_state = {
-				...(app_state as any),
-				model: in_memory_store.get(),
-			}
-			emitter.emit(Event.view_change, `model.${src}`)
-		})
-
-		emitter.emit(Event.model_change, 'init')
+		const _dispatcher = create_dispatcher()
 
 		function dispatch(action: Action) {
 			if (action.type !== 'update_to_now') console.groupEnd()
+
 			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: ${action.type} ⚡ ———————`)
-			setTimeout(() => console.groupEnd(), 0)
+			setTimeout(() => console.groupEnd(), 5)
 
 			const { time, ...debug } = action
 			logger.log('⚡ action dispatched:', { action: debug })
@@ -140,21 +88,68 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 				}
 			})
 
-			//dispatcher.dispatch(action)
-			in_memory_store.dispatch(action)
-			persistent_store.dispatch(action, in_memory_store.get())
-			//cloud_store.dispatch(action, in_memory_store.get())
+			_dispatcher.dispatch(action)
 		}
 
-		// currently used by the savegame editor
 		function set(new_state: State) {
-			in_memory_store.set(new_state)
-			persistent_store.set(new_state)
+			//in_memory_store.set(new_state)
+			//persistent_store.set(new_state)
 
-			//dispatcher.dispatch(create_action__force_set(new_state))
+			_dispatcher.set(new_state)
 		}
 
-		const gi = {
+		/////////////////////////////////////////////////
+
+		const in_memory_store = create_in_memory_store_v2(SEC)
+		_dispatcher.register_store(in_memory_store)
+
+		// this special store will auto un-persist a potentially existing savegame
+		// but may end up empty if none existing so far
+		// the savegame may also be outdated.
+		const persistent_store = create_persistent_store_v2(SEC, local_storage)
+		_dispatcher.register_store(persistent_store)
+
+		// TODO cloud store
+
+		/////////////////////////////////////////////////
+
+		try {
+			const raw_recovered_state: any = persistent_store.get()
+			assert(raw_recovered_state)
+
+			const recovered_state = TBRPGState.migrate_to_latest(SEC, raw_recovered_state)
+			logger.trace(`[${LIB}] automigrated state.`)
+
+			set(recovered_state)
+		}
+		catch {
+			const new_game = TBRPGState.reseed(TBRPGState.create(SEC))
+			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
+			set(new_game)
+		}
+		logger.silly(`[${LIB}] initial state:`, { state: in_memory_store.get() })
+
+		////////////////////////////////////
+
+		app_state = app_state || ({} as any as T)
+
+		in_memory_store.subscribe('game-instance', () => {
+			emitter.emit(Event.model_change, `[in-mem-v2]`)
+		})
+
+		emitter.on(Event.model_change, (src: string) => {
+			app_state = {
+				...(app_state as any),
+				model: in_memory_store.get(),
+			}
+			emitter.emit(Event.view_change, `model.${src}`)
+		})
+
+		emitter.emit(Event.model_change, 'init')
+
+		////////////////////////////////////
+
+		return {
 			commands: {
 				...get_commands(dispatch),
 				dispatch,
@@ -172,7 +167,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 				// currently used by the savegame editor
 				reset() {
 					const new_state = TBRPGState.reseed(TBRPGState.create())
-					logger.info('Savegame reseted:', {new_state})
+					logger.info('Savegame reseted:', { new_state })
 
 					set(new_state)
 				},
@@ -218,8 +213,6 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 				'@tbrpg/state': TBRPGState,
 			},
 		}
-
-		return gi
 	})
 }
 

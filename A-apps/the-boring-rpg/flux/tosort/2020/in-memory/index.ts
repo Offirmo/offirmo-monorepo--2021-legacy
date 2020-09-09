@@ -21,6 +21,7 @@ function create(
 
 		function dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
 			logger.log(`[${LIB}/in-mem] ⚡ action dispatched: ${action.type}`)
+			assert(state || eventual_state_hint, `${LIB} should be provided a hint or a previous state`)
 
 			assert(!eventual_state_hint, 'in mem dispatch hint')
 			state = reduce_action(state, action)

@@ -29,9 +29,18 @@ export function create(): Dispatcher {
 		})
 	}
 
+	function set(state: Readonly<State>): void {
+		assert(stores.length, 'Dispatcher: set() before registering any stores!')
+
+		stores.forEach(store => {
+			store.set(state)
+		})
+	}
+
 	return {
 		dispatch,
 		register_store,
+		set,
 	}
 }
 

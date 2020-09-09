@@ -1,4 +1,3 @@
-/*import memoize_one from 'memoize-one'*/
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import { State } from '@tbrpg/state'
@@ -14,25 +13,30 @@ const EMITTER_EVT = 'change'
 
 export function create(
 	SEC: OMRSoftExecutionContext,
-	initial_state: State, // can be an old version to be salvaged, can be null...
 ): Store {
-	const LIB = `${ROOT_LIB}/In-mem-v2`
+	const LIB = `Store--In-mem-v2`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
-		let state: State = initial_state
-		assert(initial_state, 'in-mem store initial state')
+		let state: Readonly<State> | undefined = undefined
 
 		const emitter = new EventEmitter.Typed<{}, 'change'>()
 
+		function set(_state: Readonly<State>): void {
+			state = _state
+		}
+
 		function get(): Readonly<State> {
+			assert(state, `get(): ${LIB} never initialized!`)
+
 			return state
 		}
 
 		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
 			logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`)
-			assert(!eventual_state_hint, `${LIB} (upper level architectural invariant) hint not expected in this store`)
+			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
+			assert(!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint not expected in this store`)
 
 			const previous_state = state
-			state = eventual_state_hint || reduce_action(state, action)
+			state = eventual_state_hint || reduce_action(state!, action)
 			if (state === previous_state) return
 
 			emitter.emit(EMITTER_EVT)
@@ -47,6 +51,7 @@ export function create(
 			get,
 			on_dispatch,
 			subscribe,
+			set,
 		}
 	})
 }

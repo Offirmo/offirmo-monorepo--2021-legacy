@@ -21,7 +21,6 @@ interface AppState {
 describe(`${LIB} - game-instance`, function() {
 
 	const local_storage = createLocalStorage({ mode : 'memory' })
-	let storage = create_in_mem_tbrpg_storage()
 	const logger = createLogger({
 		name: LIB,
 		suggestedLevel: 'log', // change here if bug
@@ -33,7 +32,6 @@ describe(`${LIB} - game-instance`, function() {
 		SEC = get_lib_SEC()
 			.injectDependencies({ logger })
 		local_storage.clear()
-		storage = create_in_mem_tbrpg_storage()
 	})
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers(START_MS)
@@ -49,7 +47,6 @@ describe(`${LIB} - game-instance`, function() {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
-					storage,
 					app_state: {} as any,
 				})
 
@@ -59,11 +56,10 @@ describe(`${LIB} - game-instance`, function() {
 
 		context('when passed no game ({})', function() {
 			it('should create a new game', () => {
-				storage.set_item(StorageKey.savegame, '{}')
+				local_storage.setItem(StorageKey.savegame, '{}')
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
-					storage,
 					app_state: {} as any,
 				})
 
@@ -73,11 +69,10 @@ describe(`${LIB} - game-instance`, function() {
 
 		context('when passed an existing game', function() {
 			it('should use it and automatically migrate to latest', () => {
-				storage.set_item(StorageKey.savegame, JSON.stringify(DEMO_STATE))
+				local_storage.setItem(StorageKey.savegame, JSON.stringify(DEMO_STATE))
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
-					storage,
 					app_state: {} as any,
 				})
 
@@ -104,7 +99,6 @@ describe(`${LIB} - game-instance`, function() {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
-					storage,
 					app_state: {} as any,
 				})
 
@@ -142,7 +136,6 @@ describe(`${LIB} - game-instance`, function() {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
-					storage,
 					app_state: {} as any,
 				})
 
@@ -223,7 +216,6 @@ describe(`${LIB} - game-instance`, function() {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
-					storage,
 					app_state: {} as any,
 				})
 

@@ -7,11 +7,11 @@ import get_game_instance from '../../../services/game-instance-browser'
 import './index.css'
 
 const ACE_BASE_PATH = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/'
-let ace_injected = null
-function ensureACE() {
-	if (!ace_injected) {
+let ↆace = null
+function ↆensureACE() {
+	if (!ↆace) {
 		console.log('injecting ACE editor…')
-		ace_injected = fetch_inject([`${ACE_BASE_PATH}/ace.js`])
+		ↆace = fetch_inject([`${ACE_BASE_PATH}/ace.js`])
 			.then(() => {
 				console.log('ACE injected ✅')
 				return window.ace
@@ -21,12 +21,11 @@ function ensureACE() {
 				ace.config.set('basePath', ACE_BASE_PATH)
 
 				// TODO maybe https://github.com/ajaxorg/ace/wiki/Syntax-validation
-
 				return ace
 			})
 	}
 
-	return ace_injected
+	return ↆace
 }
 
 
@@ -75,10 +74,12 @@ export default class PageSavegameEditorView extends Component {
 
 	componentDidMount() {
 		//console.log('Savegame did mount')
-		const { initial_data } = this.props
-		ensureACE()
+		ↆensureACE()
 			.then(ace => {
-				const editor = window.ace.edit('ace-editor')
+				const editor = ace.edit('ace-editor')
+				if (!editor) return // TODO report?
+				this.editor = editor
+
 				editor.setTheme('ace/theme/monokai')
 				editor.session.setMode('ace/mode/json')
 				editor.renderer.setOption({
@@ -87,16 +88,12 @@ export default class PageSavegameEditorView extends Component {
 				editor.setOption({
 					tabSize: 3,
 				})
-				this.editor = editor
-
-				if (!this.editor) return
-
-				this.editor.setValue(this.get_formatted_ace_data())
+				editor.setValue(this.get_formatted_ace_data())
 
 				// https://stackoverflow.com/questions/12823456/programmatically-fold-code-in-ace-editor#comment17377281_12840753
 				setTimeout(() => {
-					this.editor.session.foldAll()
-					this.editor.session.unfold(1)
+					editor.session.foldAll()
+					editor.session.unfold(1)
 				}, 500)
 				// or ?
 				// https://stackoverflow.com/a/37796568/587407
