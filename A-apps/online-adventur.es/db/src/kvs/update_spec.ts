@@ -4,7 +4,7 @@ import { expect, assert } from 'chai'
 
 import {
 	DEMO_ROOT_STATE,
-} from '@offirmo-private/state/dist/src.es2019.cjs/_test_helpers'
+} from '@offirmo-private/state-utils/dist/src.es2019.cjs/_test_helpers'
 
 import { LIB } from '../consts'
 import get_db from '../db'

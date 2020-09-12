@@ -5,7 +5,7 @@ import {
 	generic_migrate_to_latest,
 	SubStatesMigrations,
 	CleanupStep,
-} from '@offirmo-private/state'
+} from '@offirmo-private/state-utils'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'

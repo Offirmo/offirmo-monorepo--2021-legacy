@@ -24,7 +24,7 @@ import {
 
 describe(`${LIB} - migration`, function() {
 	const TEST_SEC = getRootSEC()
-	const LIB = '@offirmo-private/state--UNIT-TEST'
+	const LIB = '@offirmo-private/state-utils--UNIT-TEST'
 	TEST_SEC.setLogicalStack({module: LIB})
 
 	describe('generic_migrate_to_latest()', function() {

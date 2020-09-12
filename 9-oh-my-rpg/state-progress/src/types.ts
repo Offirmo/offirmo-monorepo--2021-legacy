@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
-import { BaseUState } from '@offirmo-private/state'
+import { BaseUState } from '@offirmo-private/state-utils'
 
 import { Element } from '@oh-my-rpg/definitions'
 import { HumanReadableTimestampUTCDays } from '@offirmo-private/timestamps'

@@ -18,7 +18,7 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/state": "^0",
+		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@oh-my-rpg/definitions": "^0",
 		"deep-freeze-strict": "^1",

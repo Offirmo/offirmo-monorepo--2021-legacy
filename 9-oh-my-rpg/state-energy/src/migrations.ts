@@ -1,5 +1,5 @@
 import deep_freeze from 'deep-freeze-strict'
-import { LastMigrationStep, MigrationStep, generic_migrate_to_latest } from '@offirmo-private/state'
+import { LastMigrationStep, MigrationStep, generic_migrate_to_latest } from '@offirmo-private/state-utils'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { UState, TState } from './types'

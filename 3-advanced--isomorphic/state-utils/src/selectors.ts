@@ -13,8 +13,6 @@ import {
 import {
 	has_versioned_schema,
 	is_revisioned,
-	is_UState,
-	is_TState,
 	is_RootState,
 	is_bundled_UT,
 } from './type-guards'
@@ -70,10 +68,10 @@ export function get_revision<
 	BR extends BaseRootState,
 >(s: Readonly<V> | Readonly<B> | Readonly<BundledStates<BU, BT>> | Readonly<BR>): number {
 	if (is_bundled_UT(s)) {
-		return get_revision(s[0])
+		return get_revision(s[0]) + get_revision(s[1])
 	}
 	if (is_RootState(s)) {
-		return get_revision(s.u_state)
+		return get_revision(s.u_state) + get_revision(s.t_state)
 	}
 
 	assert(is_revisioned(s), 'get_revision() structure')
@@ -95,7 +93,7 @@ export function get_revision_loose<
 
 	// loose bundles
 	if (Array.isArray(s) && is_revisioned(s[0]))
-		return get_revision(s[0])
+		return get_revision(s[0]) + get_revision_loose(s[1])
 
 	if (is_RootState(s))
 		return get_revision(s)

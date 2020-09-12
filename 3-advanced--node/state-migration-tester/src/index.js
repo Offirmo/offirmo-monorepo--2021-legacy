@@ -7,7 +7,7 @@ const sinon = require('sinon')
 const { cloneDeep } = require('lodash')
 const { prettify_json } = require('@offirmo-private/prettify-any')
 const { TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes } = require('@offirmo-private/timestamps')
-const { get_schema_version, get_schema_version_loose } = require('@offirmo-private/state')
+const { get_schema_version, get_schema_version_loose } = require('@offirmo-private/state-utils')
 
 const { LIB, HINTS_FILENAME } = require('./consts')
 const fs = require('./utils-fs')

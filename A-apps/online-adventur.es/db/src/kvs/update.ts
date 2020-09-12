@@ -6,7 +6,7 @@ import {
 	is_RootState,
 	get_semantic_difference,
 	SemanticDifference,
-} from '@offirmo-private/state'
+} from '@offirmo-private/state-utils'
 
 import { WithoutTimestamps } from '../types'
 import get_db from '../db'
