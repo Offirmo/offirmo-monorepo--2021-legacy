@@ -59,8 +59,8 @@ chai.use(chai_subset)
 chai.use(chai_moment)
 
 try {
-	const chai_fetch_mock = require('chai-fetch-mock')
-	chai.use(chai_fetch_mock);
+	//const chai_fetch_mock = require('chai-fetch-mock')
+	//chai.use(chai_fetch_mock);
 }
 catch (e) { /* ignore */ }
 
