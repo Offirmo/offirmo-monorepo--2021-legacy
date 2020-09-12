@@ -51,7 +51,7 @@ interface Adventure {
 	readonly uuid: UUID
 	hid: string
 	good: boolean
-	encounter?: Monster,
+	encounter: Monster | null,
 	gains: {
 		level: number
 		health: number

@@ -23,10 +23,15 @@ Abstrait
 free items/icons (+ links to others) https://www.deviantart.com/7soul1/art/420-Pixel-Art-Icons-for-RPG-129892453
 
 
+### fonts
+https://fonts.google.com/specimen/Varela+Round
+
+
 ### tosort
 homme préhisto https://www.instagram.com/tombjorklundart/
 image resizer https://waifu2x.booru.pics/
 ...
+
 
 
 ## Audio

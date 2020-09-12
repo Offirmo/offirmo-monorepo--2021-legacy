@@ -6,7 +6,8 @@ import {
 	BaseState,
 	BaseTState,
 	BaseUState,
-	BaseRootState, BundledStates,
+	BaseRootState,
+	BundledStates,
 } from './types'
 
 

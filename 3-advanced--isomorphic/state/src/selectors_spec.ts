@@ -7,6 +7,7 @@ import {
 	get_schema_version_loose,
 	get_revision,
 	get_revision_loose,
+	get_base_loose,
 } from './selectors'
 
 import {
@@ -61,6 +62,7 @@ describe(`${LIB} - selectors`, function() {
 				).to.throw()
 
 				expect(
+					// @ts-expect-error
 					() => get_schema_version([DEMO_TSTATE, DEMO_USTATE])
 				).to.throw()
 
@@ -109,9 +111,13 @@ describe(`${LIB} - selectors`, function() {
 	describe('get_schema_version_loose()', function() {
 
 		it('should work on non matching', () => {
+			// @ts-expect-error
 			expect(get_schema_version_loose(undefined)).to.equal(0)
+			// @ts-expect-error
 			expect(get_schema_version_loose(null)).to.equal(0)
+			// @ts-expect-error
 			expect(get_schema_version_loose(0)).to.equal(0)
+			// @ts-expect-error
 			expect(get_schema_version_loose(new Error('Test!'))).to.equal(0)
 		})
 
@@ -125,6 +131,7 @@ describe(`${LIB} - selectors`, function() {
 
 		it('should work on special aggregated data, even when old', () => {
 			expect(get_schema_version_loose([DEMO_USTATE, DEMO_TSTATE] as any)).to.equal(DEMO_USTATE.schema_version)
+			// @ts-expect-error
 			expect(get_schema_version_loose([{ schema_version: 33}, null])).to.equal(33)
 		})
 	})
@@ -158,6 +165,29 @@ describe(`${LIB} - selectors`, function() {
 		it('should return 0 on non-matching', () => {
 			// @ts-expect-error
 			expect(get_revision_loose({ foo: 42 })).to.equal(0)
+		})
+	})
+
+	describe('get_base_loose()', function() {
+
+		it('should work', () => {
+			// @ts-expect-error
+			expect(get_base_loose('foo'))
+				.to.deep.equal({ schema_version: 0, revision: 0 })
+
+			// @ts-expect-error
+			expect(get_base_loose({ revision: 33 }))
+				.to.deep.equal({ schema_version: 0, revision: 33 })
+
+			// @ts-expect-error
+			expect(get_base_loose({ schema_version: 33 }))
+				.to.deep.equal({ schema_version: 33, revision: 0 })
+
+			expect(get_base_loose(DEMO_USTATE))
+				.to.deep.equal({ schema_version: 5, revision: 24 })
+
+			expect(get_base_loose(DEMO_ROOT_STATE))
+				.to.deep.equal({ schema_version: 8, revision: 103 })
 		})
 	})
 })

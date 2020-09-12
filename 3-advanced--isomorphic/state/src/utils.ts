@@ -1,10 +1,8 @@
 import assert from 'tiny-invariant'
 
 import {
-	WithSchemaVersion,
 	WithRevision,
-	BaseUState,
-	BaseTState,
+	BaseState,
 	BaseRootState,
 } from './types'
 import {

@@ -208,7 +208,7 @@ function instantiate_adventure_archetype(
 		uuid: generate_uuid(),
 		hid,
 		good,
-		encounter: type === AdventureType.fight ? create_monster(rng, {level: character.attributes.level}) : undefined,
+		encounter: type === AdventureType.fight ? create_monster(rng, {level: character.attributes.level}) : null,
 		gains: {
 			level:    should_gain.level    ? 1 : 0,
 			health:   should_gain.health   ? 1 : 0,

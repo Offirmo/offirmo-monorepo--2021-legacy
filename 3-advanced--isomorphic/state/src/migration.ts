@@ -83,7 +83,7 @@ export function generic_migrate_to_latest<State>({
 		let state: State = legacy_state as State // for starter, may actually be true
 
 		if (existing_version < SCHEMA_VERSION) {
-			logger.warn(`attempting to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}…`)
+			logger.info(`attempting to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}…`)
 			RSEC.fireAnalyticsEvent('schema_migration.began')
 
 			function previous(

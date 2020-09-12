@@ -5,12 +5,11 @@ import sinon from 'sinon'
 import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'
 import { State, DEMO_STATE, EngagementKey } from '@tbrpg/state'
-import { StorageKey } from '@tbrpg/interfaces'
+import { StorageKey } from './stores/local-storage'
 
 import { LIB } from './consts'
 import { get_lib_SEC } from './sec'
 import { create_game_instance } from '.'
-import create_in_mem_tbrpg_storage from './utils/in-mem-tbrpg-storage'
 
 /////////////////////
 
@@ -56,7 +55,7 @@ describe(`${LIB} - game-instance`, function() {
 
 		context('when passed no game ({})', function() {
 			it('should create a new game', () => {
-				local_storage.setItem(StorageKey.savegame, '{}')
+				local_storage.setItem(StorageKey.main, '{}')
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
@@ -69,7 +68,7 @@ describe(`${LIB} - game-instance`, function() {
 
 		context('when passed an existing game', function() {
 			it('should use it and automatically migrate to latest', () => {
-				local_storage.setItem(StorageKey.savegame, JSON.stringify(DEMO_STATE))
+				local_storage.setItem(StorageKey.main, JSON.stringify(DEMO_STATE))
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,

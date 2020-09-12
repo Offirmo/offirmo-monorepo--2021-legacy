@@ -74,95 +74,6 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Re
 	return state
 }
 
-/*
-function xxx_migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-		// 2nd part (can re-reset...)
-		try {
-			// migrate sub-reducers if any...
-			let { u_state, t_state } = state
-
-			;(function migrate_u_state() {
-				u_state = { ...u_state } // TODO remove this systematic mutation if possible
-
-
-				// up-to-date check
-				if (Object.keys(u_state).length !== SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT) {
-					logger.error('migrate_to_latest', {
-						SUB_U_REDUCERS_COUNT,
-						SUB_U_OTHER_KEYS_COUNT,
-						expected_count: SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT,
-						actual_count: Object.keys(u_state).length,
-						actual_keys: Object.keys(u_state),
-					})
-					throw new Error('migrate_to_latest src [S.U.1] is outdated, please update!')
-				}
-
-				const sub_reducer_migrated = []
-				u_state.avatar = CharacterState.migrate_to_latest(SEC, u_state.avatar, hints.avatar)
-				sub_reducer_migrated.push('avatar')
-				u_state.inventory = InventoryState.migrate_to_latest(SEC, u_state.inventory, hints.inventory)
-				sub_reducer_migrated.push('inventory')
-				u_state.wallet = WalletState.migrate_to_latest(SEC, u_state.wallet, hints.wallet)
-				sub_reducer_migrated.push('wallet')
-				u_state.prng = PRNGState.migrate_to_latest(SEC, u_state.prng, hints.prng)
-				sub_reducer_migrated.push('prng')
-				u_state.energy = EnergyState.migrate_to_latest(SEC, [ u_state.energy, t_state.energy ], hints.energy)[0]
-				sub_reducer_migrated.push('energy')
-				u_state.engagement = EngagementState.migrate_to_latest(SEC, u_state.engagement, hints.engagement)
-				sub_reducer_migrated.push('engagement')
-				u_state.codes = CodesState.migrate_to_latest(SEC, u_state.codes, hints.codes)
-				sub_reducer_migrated.push('codes')
-				u_state.progress = ProgressState.migrate_to_latest(SEC, u_state.progress, hints.progress)
-				sub_reducer_migrated.push('progress')
-				u_state.meta = MetaState.migrate_to_latest(SEC, u_state.meta, hints.meta)
-				sub_reducer_migrated.push('meta')
-
-				if (sub_reducer_migrated.length !== SUB_U_REDUCERS_COUNT)
-					throw new Error('migrate_to_latest src [S.U.2] is outdated, please update!')
-			})()
-
-			;(function migrate_t_state() {
-				if (Object.keys(t_state).length !== SUB_T_REDUCERS_COUNT + SUB_T_OTHER_KEYS_COUNT) {
-					logger.error('migrate_to_latest', {
-						SUB_T_REDUCERS_COUNT,
-						SUB_T_OTHER_KEYS_COUNT,
-						expected_count: SUB_T_REDUCERS_COUNT + SUB_T_OTHER_KEYS_COUNT,
-						actual_count: Object.keys(t_state).length,
-						actual_keys: Object.keys(t_state),
-					})
-					throw new Error('migrate_to_latest src [S.T.1] is outdated, please update!')
-				}
-
-				t_state = { ...t_state } // TODO remove this mutation if possible
-
-				const sub_reducer_migrated = []
-				t_state.energy = EnergyState.migrate_to_latest(SEC, [ u_state.energy, t_state.energy ], hints.energy)[1]
-				sub_reducer_migrated.push('energy')
-
-				if (sub_reducer_migrated.length !== SUB_T_REDUCERS_COUNT)
-					throw new Error('migrate_to_latest src [S.T.2] is outdated, please update!')
-			})()
-
-			state = {
-				...state,
-				u_state,
-				t_state,
-			}
-			logger.info(`${LIB}: schema migration from v${legacy_version} to v${SCHEMA_VERSION} successful.`)
-			SEC.fireAnalyticsEvent('schema migration.ended')
-		}
-		catch (err) {
-			SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'sub' })
-			// attempt to salvage
-			logger.error(`${LIB}: failed migrating sub-reducers, reseting and salvaging!`, {err})
-			state = reset_and_salvage(legacy_state)
-			SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'sub' })
-		}
-
-		return state
-	})
-}
-*/
 /////////////////////
 
 export const cleanup: CleanupStep<State> = (SEC, state, hints,) => {
@@ -206,8 +117,13 @@ const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints,
 	if (legacy_schema_version < 13)
 		legacy_state = previous(SEC, legacy_state, hints)
 
-	let state: State = legacy_state as State // for starter
+	let state = legacy_state as any // for starter
+
 	state.t_state.revision = 0 // new prop
+
+	if (state.u_state.last_adventure) {
+		state.u_state.last_adventure.encounter = state.u_state.last_adventure.encounter || null
+	}
 
 	state.schema_version = 14
 	state.t_state.schema_version = 14
@@ -217,10 +133,10 @@ const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints,
 }
 
 const migrate_to_13: MigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
-	if (legacy_state.schema_version < 12)
+	if (legacy_schema_version < 12)
 		legacy_state = previous(SEC, legacy_state, hints)
 
-	let state: State = legacy_state as State // for starter
+	let state = legacy_state as any // for starter
 
 	if (state.u_state.last_adventure) {
 		state.u_state.last_adventure = {
@@ -233,10 +149,6 @@ const migrate_to_13: MigrationStep<State, any> = (SEC, legacy_state, hints, prev
 		}
 		delete (state.u_state.last_adventure?.gains as any)?.armor_improvement
 		delete (state.u_state.last_adventure?.gains as any)?.weapon_improvement
-	}
-	state.u_state.meta = {
-		...state.u_state.meta,
-		persistence_id: state.u_state.meta.persistence_id || undefined,
 	}
 
 	state.schema_version = 13

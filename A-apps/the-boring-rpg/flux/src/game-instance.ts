@@ -6,21 +6,19 @@ import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { Storage } from '@offirmo-private/ts-types'
-
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
-import {
-	Action,
-	TbrpgStorage,
-} from '@tbrpg/interfaces'
+import { Action} from '@tbrpg/interfaces'
+
+
+import { LIB } from './consts'
 
 import { OMRSoftExecutionContext } from './sec'
 import { create as create_dispatcher } from './dispatcher'
-import create_persistent_store_v2 from './stores/local-storage'
-import create_in_memory_store_v2 from './stores/in-memory-v2'
+import create_store__local_storage from './stores/local-storage'
+import create_store__in_memory from './stores/in-memory'
 import { get_commands } from './dispatcher/sugar'
 import { get_queries } from './selectors'
-import { LIB } from './consts'
 
 // tslint:disable-next-line: variable-name
 const Event = Enum(
@@ -37,17 +35,6 @@ function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
-function try_or_fallback<
-	Fn extends () => ReturnType<Fn>,
-	T,
->(fn: Fn, fallback: T): ReturnType<Fn> | T {
-	try {
-		return fn()
-	}
-	catch {
-		return fallback
-	}
-}
 
 
 
@@ -100,13 +87,13 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 
 		/////////////////////////////////////////////////
 
-		const in_memory_store = create_in_memory_store_v2(SEC)
+		const in_memory_store = create_store__in_memory(SEC)
 		_dispatcher.register_store(in_memory_store)
 
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far
 		// the savegame may also be outdated.
-		const persistent_store = create_persistent_store_v2(SEC, local_storage)
+		const persistent_store = create_store__local_storage(SEC, local_storage)
 		_dispatcher.register_store(persistent_store)
 
 		// TODO cloud store

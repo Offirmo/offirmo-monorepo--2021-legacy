@@ -3,24 +3,15 @@
 import { Enum } from 'typescript-string-enums'
 
 import { JSONObject, JSON } from '@offirmo-private/ts-types'
-import { Random, Engine } from '@offirmo/random'
+import { get_schema_version_loose } from '@offirmo-private/state'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import { CharacterClass } from '@oh-my-rpg/state-character'
-
-import * as CharacterState from '@oh-my-rpg/state-character'
-import * as WalletState from '@oh-my-rpg/state-wallet'
-import * as InventoryState from '@oh-my-rpg/state-inventory'
-import * as PRNGState from '@oh-my-rpg/state-prng'
-import * as EnergyState from '@oh-my-rpg/state-energy'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
-import * as CodesState from '@oh-my-rpg/state-codes'
-import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import { LIB } from '../consts'
 import { State } from '../types'
 import { get_logger } from '../services/logger'
-
 import {
 	create,
 	reseed,
@@ -78,7 +69,7 @@ const get_bad_play_count = (ls: any) => coerce_to_number_or_zero(
 /////////////////////
 
 function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> {
-	console.info(`${LIB}: salvaging some data from a v${legacy_state && legacy_state.schema_version} legacy savegame…`)
+	get_logger().info(`${LIB}: salvaging some data from a v${get_schema_version_loose(legacy_state as any)} legacy savegame…`)
 
 	xxx_internal_reset_prng_cache() // don't do this at home, kids!
 	let state = create()
@@ -133,7 +124,7 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 		},
 	}
 
-	console.info(`${LIB}: salvaged some data from a v${legacy_state && legacy_state.schema_version} legacy savegame.`)
+	get_logger().info(`${LIB}: salvaged some data from a v${get_schema_version_loose(legacy_state as any)} legacy savegame.`)
 
 	return state
 }

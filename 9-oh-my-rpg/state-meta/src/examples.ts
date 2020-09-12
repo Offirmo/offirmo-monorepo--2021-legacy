@@ -10,10 +10,10 @@ import { State } from './types'
 // needed for demos
 
 const DEMO_STATE: Readonly<State> = deep_freeze<State>({
-	schema_version: 2,
+	schema_version: 3,
 	revision: 5,
 
-	persistence_id: undefined,
+	slot_id: 0,
 
 	is_web_diversity_supporter: true,
 	is_logged_in: true,

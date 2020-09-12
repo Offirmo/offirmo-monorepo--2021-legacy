@@ -7,7 +7,7 @@ import { Action, ActionType } from '@tbrpg/interfaces'
 import { LIB } from '../consts'
 
 
-const KNOWN_ACTIONS = 13
+const KNOWN_ACTIONS = 12
 if (KNOWN_ACTIONS !== Enum.keys(ActionType).length)
 	throw new Error(`${LIB}: reduce_action() is outdated! ${Enum.keys(ActionType).length} vs. ${KNOWN_ACTIONS}`)
 
@@ -49,8 +49,6 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 					action.time
 				)
 			)
-		case ActionType.force_set:
-			throw new Error(`Action ${action.type} should not reach here!`)
 
 		default:
 			throw new Error('reduce_action(): Unhandled switch value(s)!')

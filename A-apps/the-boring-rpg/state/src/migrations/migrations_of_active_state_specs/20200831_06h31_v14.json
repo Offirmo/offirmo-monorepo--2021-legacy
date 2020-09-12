@@ -135,19 +135,21 @@
 				"wisdom": 0
 			},
 			"good": true,
+			"encounter": null,
 			"hid": "found_random_mushroom",
 			"uuid": "uu1FXVTOup-drVDr9t-nXR3a"
 		},
 		"last_user_action_tms": 1598854698575,
 		"meta": {
 			"is_logged_in": true,
+			"slot_id": 0,
 			"is_web_diversity_supporter": false,
 			"revision": 1,
 			"roles": [
 				"admin",
 				"tbrpg:alpha"
 			],
-			"schema_version": 2
+			"schema_version": 3
 		},
 		"prng": {
 			"recently_encountered_by_id": {

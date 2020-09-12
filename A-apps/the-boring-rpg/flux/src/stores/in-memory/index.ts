@@ -3,22 +3,24 @@ import EventEmitter from 'emittery'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
 
-import { LIB as ROOT_LIB } from '../../consts'
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store } from '../../types'
 import { reduce_action } from '../../utils/reduce-action'
 
+/////////////////////////////////////////////////
 
 const EMITTER_EVT = 'change'
 
 export function create(
 	SEC: OMRSoftExecutionContext,
 ): Store {
-	const LIB = `Store--In-mem-v2`
-	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
+	const LIB = `Store--in-mem-v2`
+	return SEC.xTry(`creating ${LIB}…`, ({ logger }) => {
 		let state: Readonly<State> | undefined = undefined
 
 		const emitter = new EventEmitter.Typed<{}, 'change'>()
+
+		/////////////////////////////////////////////////
 
 		function set(_state: Readonly<State>): void {
 			state = _state

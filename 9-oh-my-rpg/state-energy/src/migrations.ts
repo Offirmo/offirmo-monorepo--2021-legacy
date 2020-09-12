@@ -35,11 +35,10 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 
 const migrate_to_4x: LastMigrationStep<StateForMigration, [any, any]> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 	//console.log('hello from migrate_to_4x', legacy_state, hints, previous, legacy_schema_version)
-	let [legacy_u_state, legacy_t_state] = legacy_state
 	if (legacy_schema_version < 3)
-		[ legacy_u_state, legacy_t_state ] = previous(SEC, [legacy_u_state, legacy_t_state], hints)
+		legacy_state = previous(SEC, legacy_state, hints)
 
-	let [ u_state, t_state ] = [ legacy_u_state, legacy_t_state ]
+	let [ u_state, t_state ] = legacy_state
 	u_state = {
 		...u_state,
 		schema_version: 4,
@@ -49,9 +48,8 @@ const migrate_to_4x: LastMigrationStep<StateForMigration, [any, any]> = (SEC, le
 		schema_version: 4,
 
 		// this field was added
-		revision: legacy_u_state.revision,
+		revision: u_state.revision,
 	}
-
 
 	return [ u_state, t_state ]
 }

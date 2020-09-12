@@ -59,6 +59,7 @@ const DEMO_ADVENTURE_02: Readonly<Adventure> = deep_freeze<Adventure>({
 	hid: 'dying_man',
 	uuid: 'uu1~example~adventure~02',
 	good: true,
+	encounter: null,
 	gains: {
 		level: 0,
 		health: 0,
@@ -81,6 +82,7 @@ const DEMO_ADVENTURE_03: Readonly<Adventure> = deep_freeze<Adventure>({
 	hid: 'rare_goods_seller',
 	uuid: 'uu1~example~adventure~03',
 	good: true,
+	encounter: null,
 	gains: {
 		level: 0,
 		health: 0,
@@ -103,6 +105,7 @@ const DEMO_ADVENTURE_04: Adventure = deep_freeze<Adventure>({
 	hid: 'princess',
 	uuid: 'uu1~example~adventure~04',
 	good: true,
+	encounter: null,
 	gains: {
 		level: 0,
 		health: 0,
@@ -234,16 +237,19 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>(cleanup(get_lib_SEC(), {
 				'token': 0,
 				'weapon': null,
 				'wisdom': 0,
-			}, 'good': true, 'hid': 'found_random_mushroom', 'uuid': 'uu1FXVTOup-drVDr9t-nXR3a',
+			}, 'good': true,
+			encounter: null,
+			'hid': 'found_random_mushroom',
+			'uuid': 'uu1FXVTOup-drVDr9t-nXR3a',
 		},
 		'last_user_action_tms': 1598854698575,
 		'meta': {
 			'is_logged_in': true,
 			'is_web_diversity_supporter': false,
-			persistence_id: undefined,
+			slot_id: 0,
 			'revision': 1,
 			'roles': ['admin', 'tbrpg:alpha'],
-			'schema_version': 2,
+			'schema_version': 3,
 		},
 		'prng': {
 			'recently_encountered_by_id': {

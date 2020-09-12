@@ -1,4 +1,11 @@
 import deep_freeze from 'deep-freeze-strict'
+import {
+	LastMigrationStep,
+	MigrationStep,
+	generic_migrate_to_latest,
+	SubStatesMigrations,
+	CleanupStep,
+} from '@offirmo-private/state'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
@@ -6,58 +13,47 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
-const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
+export const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
 })
 
 /////////////////////
 
-function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-	const existing_version = (legacy_state && legacy_state.schema_version) || 0
+type StateForMigration = State
 
-	SEC = get_lib_SEC(SEC)
-		.setAnalyticsAndErrorDetails({
-			version_from: existing_version,
-			version_to: SCHEMA_VERSION,
-		})
-
-	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
-
-		if (existing_version > SCHEMA_VERSION)
-			throw new Error('Your data is from a more recent version of this lib. Please update!')
-
-		let state: State = legacy_state as State // for starter
-
-		if (existing_version < SCHEMA_VERSION) {
-			logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
-			SEC.fireAnalyticsEvent('schema_migration.began')
-
-			try {
-				state = migrate_to_2(SEC, legacy_state, hints)
-			}
-			catch (err) {
-				SEC.fireAnalyticsEvent('schema_migration.failed')
-				throw err
-			}
-
-			logger.info(`${LIB}: schema migration successful.`)
-			SEC.fireAnalyticsEvent('schema_migration.ended')
-		}
-
-		// migrate sub-reducers if any...
-
-		return state
+export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): StateForMigration {
+	return generic_migrate_to_latest({
+		SEC: SEC as any,
+		LIB,
+		SCHEMA_VERSION,
+		legacy_state,
+		hints,
+		sub_states_migrate_to_latest: {},
+		pipeline: [
+			migrate_to_3x,
+			migrate_to_2,
+		]
 	})
 }
 
 /////////////////////
 
-function migrate_to_2(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
+const migrate_to_3x: LastMigrationStep<StateForMigration, [any, any]> = (SEC, legacy_state, hints, next, legacy_schema_version) => {
+	console.log('hello from migrate_to_3x', legacy_state, hints, legacy_schema_version)
+	if (legacy_schema_version < 2)
+		legacy_state = next(SEC, legacy_state, hints)
+
+	let state: any = {
+		...legacy_state,
+		schema_version: 3,
+		slot_id: 0,
+	}
+	delete state.persistence_id
+
+	return state
+}
+
+const migrate_to_2: MigrationStep<[any, any], [any, any]> = () => {
 	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }
 
 /////////////////////
-
-export {
-	migrate_to_latest,
-	MIGRATION_HINTS_FOR_TESTS,
-}

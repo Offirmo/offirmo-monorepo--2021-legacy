@@ -13,7 +13,7 @@ function create(): Readonly<State> {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
-		persistence_id: undefined,
+		slot_id: 0,
 
 		is_web_diversity_supporter: false, // so far
 		is_logged_in: false, // so far
