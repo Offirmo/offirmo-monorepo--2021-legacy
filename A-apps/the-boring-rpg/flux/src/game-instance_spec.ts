@@ -22,7 +22,7 @@ describe(`${LIB} - game-instance`, function() {
 	const local_storage = createLocalStorage({ mode : 'memory' })
 	const logger = createLogger({
 		name: LIB,
-		suggestedLevel: 'log', // change here if bug
+		suggestedLevel: 'info', // change here if bug
 	})
 	let SEC = get_lib_SEC()
 	const START_MS = 100_000
@@ -55,7 +55,7 @@ describe(`${LIB} - game-instance`, function() {
 
 		context('when passed no game ({})', function() {
 			it('should create a new game', () => {
-				local_storage.setItem(StorageKey.main, '{}')
+				local_storage.setItem(StorageKey.bkp_main, '{}')
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
@@ -68,7 +68,7 @@ describe(`${LIB} - game-instance`, function() {
 
 		context('when passed an existing game', function() {
 			it('should use it and automatically migrate to latest', () => {
-				local_storage.setItem(StorageKey.main, JSON.stringify(DEMO_STATE))
+				local_storage.setItem(StorageKey.bkp_main, JSON.stringify(DEMO_STATE))
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,

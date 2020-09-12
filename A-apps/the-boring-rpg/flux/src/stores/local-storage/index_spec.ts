@@ -27,11 +27,11 @@ async function elapsed_time_ms(duration_ms: number): Promise<void> {
 
 const SAFE_SETTLE_MS = 5 * OPTIMIZATION_DELAY_MS
 
-describe.only(`${LIB} - store - local storage`, function() {
+describe(`${LIB} - store - local storage`, function() {
 	const local_storage = createLocalStorage({ mode : 'memory' })
 	const logger = createLogger({
 		name: LIB,
-		suggestedLevel: 'silly', // change here if bug
+		suggestedLevel: 'info', // change here if bug
 	})
 	let SEC = get_lib_SEC()
 	const STUB_ACTION = create_action_noop()
@@ -140,6 +140,9 @@ describe.only(`${LIB} - store - local storage`, function() {
 		})
 	})
 
+	context('when local storage is not available', function () {
+	})
+
 	context('when starting fresh', function () {
 
 		it('should work', async () => {
@@ -152,47 +155,120 @@ describe.only(`${LIB} - store - local storage`, function() {
 
 			await elapsed_time_ms(SAFE_SETTLE_MS)
 			expect(local_storage, '1').to.have.lengthOf(1)
-			expect(local_storage.getItem(StorageKey.main), '1').to.equal(stable_stringify(DEMO_LATEST))
+			expect(local_storage.getItem(StorageKey.bkp_main), '1').to.equal(stable_stringify(DEMO_LATEST))
 
 			store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
 
 			await elapsed_time_ms(SAFE_SETTLE_MS)
 			expect(local_storage, '2').to.have.lengthOf(2)
-			expect(local_storage.getItem(StorageKey.main), '2').to.equal(stable_stringify(DEMO_LATEST_ALT))
+			expect(local_storage.getItem(StorageKey.bkp_main), '2').to.equal(stable_stringify(DEMO_LATEST_ALT))
 			expect(local_storage.getItem(StorageKey.bkp_minor), '2').to.equal(stable_stringify(DEMO_LATEST))
 
 			store.on_dispatch(STUB_ACTION, DEMO_LATEST)
 
 			await elapsed_time_ms(SAFE_SETTLE_MS)
 			expect(local_storage, '3').to.have.lengthOf(2)
-			expect(local_storage.getItem(StorageKey.main), '3').to.equal(stable_stringify(DEMO_LATEST))
+			expect(local_storage.getItem(StorageKey.bkp_main), '3').to.equal(stable_stringify(DEMO_LATEST))
 			expect(local_storage.getItem(StorageKey.bkp_minor), '3').to.equal(stable_stringify(DEMO_LATEST_ALT))
 		})
 	})
 
-	context('when local storage is not available', function () {
-	})
-
 	context('when starting with existing content', function () {
 
-		context('when the content is crap', function () {
+		context('when the content is totally crap', function () {
+			const BAD_LS_CONTENT = '{bad json, maybe edited by hand}'
+			beforeEach(() => {
+				local_storage.setItem(StorageKey.bkp_main, BAD_LS_CONTENT)
+			})
+
+			it('should work', async () => {
+				const store = create(SEC, local_storage)
+
+				await elapsed_time_ms(SAFE_SETTLE_MS)
+				// nothing changed in LS
+				expect(local_storage, 'unpersist ls size').to.have.lengthOf(1)
+				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist main').to.equal(BAD_LS_CONTENT)
+				// no state
+				expect(store.get).to.throw('never init')
+			})
+		})
+
+		context('when the content is crap but recoverable', function () {
+			beforeEach(() => {
+				local_storage.setItem(StorageKey.bkp_main, '{bad json, maybe edited by hand}')
+				local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
+			})
+
+			it('should work', async () => {
+				const store = create(SEC, local_storage)
+
+				await elapsed_time_ms(SAFE_SETTLE_MS)
+				expect(local_storage, 'unpersist ls size').to.have.lengthOf(2)
+				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
+				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
+				expect(store.get(), 'unpersist get').to.deep.equal(main_bkp)
+				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDEST))
+			})
 		})
 
 		context('when the content is ok and full', function () {
+
+			beforeEach(() => {
+				local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_LATEST))
+				local_storage.setItem(StorageKey.bkp_minor, stable_stringify(DEMO_LATEST_ALT))
+				local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDER))
+				local_storage.setItem(StorageKey.bkp_major_older, stable_stringify(DEMO_OLDEST))
+			})
+
+			it('should work', async () => {
+				const store = create(SEC, local_storage)
+
+				await elapsed_time_ms(SAFE_SETTLE_MS)
+				expect(local_storage, 'unpersist ls size').to.have.lengthOf(4)
+				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
+				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
+				expect(store.get(), 'unpersist get').to.deep.equal(main_bkp)
+				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST))
+				expect(local_storage.getItem(StorageKey.bkp_minor), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
+				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
+				expect(local_storage.getItem(StorageKey.bkp_major_older), 'unpersist older').to.equal(stable_stringify(DEMO_OLDEST))
+
+				// echo from dispatcher
+				store.set(store.get())
+
+				// no change
+				await elapsed_time_ms(SAFE_SETTLE_MS)
+				expect(local_storage, 'set').to.have.lengthOf(4)
+				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST))
+				expect(local_storage.getItem(StorageKey.bkp_minor), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
+				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
+				expect(local_storage.getItem(StorageKey.bkp_major_older), 'unpersist older').to.equal(stable_stringify(DEMO_OLDEST))
+				let previous_state = main_bkp
+
+				store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
+
+				await elapsed_time_ms(SAFE_SETTLE_MS)
+				expect(local_storage, 'dispatch').to.have.lengthOf(4)
+				expect(store.get(), 'dispatch').to.deep.equal(DEMO_LATEST_ALT)
+				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
+				expect(local_storage.getItem(StorageKey.bkp_minor), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST))
+				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
+				expect(local_storage.getItem(StorageKey.bkp_major_older), 'unpersist older').to.equal(stable_stringify(DEMO_OLDEST))
+			})
 		})
 
 		context('when the content is ok and partial', function () {
 			beforeEach(() => {
-				local_storage.setItem(StorageKey.main, stable_stringify(DEMO_OLDER))
+				local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_OLDER))
 				local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
 			})
 
-			it.only('should work', async () => {
+			it('should work', async () => {
 				const store = create(SEC, local_storage)
 
 				await elapsed_time_ms(SAFE_SETTLE_MS)
 				expect(local_storage, 'unpersist ls size').to.have.lengthOf(3)
-				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.main)!)
+				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
 				expect(store.get(), 'unpersist get').to.deep.equal(main_bkp)
 				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
@@ -204,36 +280,24 @@ describe.only(`${LIB} - store - local storage`, function() {
 				// no change
 				await elapsed_time_ms(SAFE_SETTLE_MS)
 				expect(local_storage, 'set').to.have.lengthOf(3)
-				main_bkp = JSON.parse(local_storage.getItem(StorageKey.main)!)
+				main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(get_schema_version_loose(main_bkp), 'set').to.equal(SCHEMA_VERSION)
 				expect(store.get(), 'set').to.deep.equal(main_bkp)
 				expect(local_storage.getItem(StorageKey.bkp_major_old), 'set').to.equal(stable_stringify(DEMO_OLDER))
 				expect(local_storage.getItem(StorageKey.bkp_major_older), 'set').to.equal(stable_stringify(DEMO_OLDEST))
+				let previous_state = main_bkp
 
 				store.on_dispatch(STUB_ACTION, DEMO_LATEST)
 
 				await elapsed_time_ms(SAFE_SETTLE_MS)
-				expect(local_storage, 'dispatch').to.have.lengthOf(3)
-				main_bkp = JSON.parse(local_storage.getItem(StorageKey.main)!)
+				expect(local_storage, 'dispatch').to.have.lengthOf(4)
+				main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(main_bkp, 'dispatch').to.deep.equal(DEMO_LATEST)
 				expect(store.get(), 'dispatch').to.deep.equal(main_bkp)
+				let previous_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_minor)!)
+				expect(previous_bkp, 'dispatch').to.deep.equal(previous_state)
 				expect(local_storage.getItem(StorageKey.bkp_major_old), 'dispatch').to.equal(stable_stringify(DEMO_OLDER))
 				expect(local_storage.getItem(StorageKey.bkp_major_older), 'dispatch').to.equal(stable_stringify(DEMO_OLDEST))
-
-				/*
-				store.set(DEMO_LATEST_ALT)
-
-				await elapsed_time_ms(2 * OPTIMIZATION_DELAY_MS)
-				expect(local_storage).to.have.lengthOf(2)
-				expect(local_storage.getItem(StorageKey.main)).to.equal(stable_stringify(DEMO_LATEST_ALT))
-				expect(local_storage.getItem(StorageKey.bkp_minor)).to.equal(stable_stringify(DEMO_LATEST))
-
-				store.set(DEMO_LATEST)
-
-				await elapsed_time_ms(2 * OPTIMIZATION_DELAY_MS)
-				expect(local_storage).to.have.lengthOf(2)
-				expect(local_storage.getItem(StorageKey.main)).to.equal(stable_stringify(DEMO_LATEST))
-				expect(local_storage.getItem(StorageKey.bkp_minor)).to.equal(stable_stringify(DEMO_LATEST_ALT))*/
 			})
 		})
 	})

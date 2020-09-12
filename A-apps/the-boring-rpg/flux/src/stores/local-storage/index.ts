@@ -29,7 +29,7 @@ const EMITTER_EVT = 'change'
 export const OPTIMIZATION_DELAY_MS = 1
 
 export const StorageKey = {
-	main:            'the-boring-rpg.savegame',
+	bkp_main:        'the-boring-rpg.savegame',
 	bkp_minor:       'the-boring-rpg.savegame-bkp',
 	bkp_major_old:   'the-boring-rpg.savegame-bkp-m1',
 	bkp_major_older: 'the-boring-rpg.savegame-bkp-m2',
@@ -113,7 +113,7 @@ export function create(
 		/////////////////////////////////////////////////
 		// bkp pipeline
 
-		let bkp__current: Readonly<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.main, _on_error)
+		let bkp__current: Readonly<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_main, _on_error)
 		let bkp__recent: Readonly<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_minor, _on_error)
 		let bkp__older: Array<Readonly<JSONObject> | undefined> = [
 			_safe_read_parse_and_validate_from_storage<any>(storage, StorageKey.bkp_major_old, _on_error),
@@ -133,7 +133,7 @@ export function create(
 
 			bkp__recent = bkp__current
 			bkp__current = some_state
-			await _optimized_store_key_value(StorageKey.main, bkp__current)
+			await _optimized_store_key_value(StorageKey.bkp_main, bkp__current)
 			if (bkp__recent && get_schema_version_loose(bkp__recent) === SCHEMA_VERSION)
 				await _optimized_store_key_value(StorageKey.bkp_minor, bkp__recent)
 
@@ -171,6 +171,8 @@ export function create(
 
 		// recover from potentially sparse bkp pipeline
 		try {
+			logger.verbose(`[${LIB}] attempting to unpersist…`)
+
 			// XXX this code block is tricky, beware sync/async
 			let promise: Promise<any> = Promise.resolve()
 
@@ -182,6 +184,8 @@ export function create(
 				.filter(s => !!s)
 				.sort(compare_state)
 				.pop()
+			logger.trace(`[${LIB}] found candidate state to be restored`, get_base_loose(most_recent_restored))
+
 			const raw_recovered_states_ordered: any[] = [
 					bkp__current,
 					bkp__recent,
@@ -197,12 +201,13 @@ export function create(
 			}
 
 			if (most_recent_restored) {
-				logger.trace(`[${LIB}] automigrating restored state…`, { base: get_base_loose(most_recent_restored) })
+				logger.trace(`[${LIB}] automigrating restored state…`, get_base_loose(most_recent_restored))
 				const recovered_state = TBRPGState.migrate_to_latest(SEC, most_recent_restored)
-				promise = promise.then(() => set(recovered_state))
+				const persisted = set(recovered_state) // immediate sync restoration
+				promise = promise.then(() => persisted) // however further persist should happen in order
 			}
 
-			console.log({ raw_recovered_states_ordered: raw_recovered_states_ordered.map(get_base_loose) })
+			//console.log({ raw_recovered_states_ordered: raw_recovered_states_ordered.map(get_base_loose) })
 			while(raw_recovered_states_ordered.length) {
 				const some_state = raw_recovered_states_ordered.shift()
 				if (get_schema_version_loose(some_state) < SCHEMA_VERSION)

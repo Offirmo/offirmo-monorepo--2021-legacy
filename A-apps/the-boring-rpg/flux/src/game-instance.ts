@@ -101,15 +101,13 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 		/////////////////////////////////////////////////
 
 		try {
-			const raw_recovered_state: any = persistent_store.get()
-			assert(raw_recovered_state)
-
-			const recovered_state = TBRPGState.migrate_to_latest(SEC, raw_recovered_state)
-			logger.trace(`[${LIB}] automigrated state.`)
-
+			// arguably this is not 100% flux
+			// but this should be good enough
+			const recovered_state: any = persistent_store.get()
+			assert(!!recovered_state, 'ls get defined')
 			set(recovered_state)
 		}
-		catch {
+		catch (err) {
 			const new_game = TBRPGState.reseed(TBRPGState.create(SEC))
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			set(new_game)
