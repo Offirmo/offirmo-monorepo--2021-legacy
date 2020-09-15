@@ -80,10 +80,18 @@ export function compare(a: any, b: any): number {
 	if (is_root__a !== is_root__b)
 		return (is_root__a ? 1 : 0) - (is_root__b ? 1 : 0)
 
+	const u_state_rev__a = get_revision(a.u_state)
+	const u_state_rev__b = get_revision(b.u_state)
+	if (u_state_rev__a !== u_state_rev__b)
+		return u_state_rev__a - u_state_rev__b
+
 	const t_state_rev__a = get_revision(a.t_state)
 	const t_state_rev__b = get_revision(b.t_state)
 	if (t_state_rev__a !== t_state_rev__b)
 		return t_state_rev__a - t_state_rev__b
+
+	// we intentionally don't compare t_state timestamps
+	// as they don't imply a difference
 
 	return 0
 }

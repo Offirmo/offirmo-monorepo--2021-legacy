@@ -17,7 +17,6 @@ import {
 	DEMO_TSTATE,
 	DEMO_ROOT_STATE,
 } from './_test_helpers'
-import {get_semantic_difference} from './comparators'
 
 
 describe(`${LIB} - selectors`, function() {
@@ -140,6 +139,15 @@ describe(`${LIB} - selectors`, function() {
 
 		it('should work on correct data', () => {
 			expect(get_revision({ revision: 33 })).to.equal(33)
+			expect(get_revision(DEMO_ROOT_STATE)).to.equal(
+				DEMO_ROOT_STATE.u_state.revision + DEMO_ROOT_STATE.t_state.revision
+			)
+			expect(get_revision([
+				DEMO_ROOT_STATE.u_state,
+				DEMO_ROOT_STATE.t_state
+			])).to.equal(
+				DEMO_ROOT_STATE.u_state.revision + DEMO_ROOT_STATE.t_state.revision
+			)
 			expect(get_revision(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.revision)
 			expect(get_revision(DEMO_USTATE)).to.equal(DEMO_USTATE.revision)
 			expect(get_revision(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(DEMO_BASE_STATE_WITH_SUBS.subA.revision)
@@ -157,6 +165,15 @@ describe(`${LIB} - selectors`, function() {
 
 		it('should work on correct data', () => {
 			expect(get_revision_loose({ revision: 33 })).to.equal(33)
+			expect(get_revision_loose(DEMO_ROOT_STATE)).to.equal(
+				DEMO_ROOT_STATE.u_state.revision + DEMO_ROOT_STATE.t_state.revision
+			)
+			expect(get_revision_loose([
+				DEMO_ROOT_STATE.u_state,
+				DEMO_ROOT_STATE.t_state
+			])).to.equal(
+				DEMO_ROOT_STATE.u_state.revision + DEMO_ROOT_STATE.t_state.revision
+			)
 			expect(get_revision_loose(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.revision)
 			expect(get_revision_loose(DEMO_USTATE)).to.equal(DEMO_USTATE.revision)
 			expect(get_revision_loose(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(DEMO_BASE_STATE_WITH_SUBS.subA.revision)
@@ -187,7 +204,7 @@ describe(`${LIB} - selectors`, function() {
 				.to.deep.equal({ schema_version: 5, revision: 24 })
 
 			expect(get_base_loose(DEMO_ROOT_STATE))
-				.to.deep.equal({ schema_version: 8, revision: 103 })
+				.to.deep.equal({ schema_version: 8, revision: 136 })
 		})
 	})
 })
