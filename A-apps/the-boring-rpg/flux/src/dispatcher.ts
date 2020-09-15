@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 import { tiny_singleton } from '@offirmo/tiny-singleton'
-import { get_schema_version_loose, is_RootState } from '@offirmo-private/state'
+import { get_schema_version_loose, is_RootState } from '@offirmo-private/state-utils'
 
 import { Action } from '@tbrpg/interfaces'
 import { State, SCHEMA_VERSION } from '@tbrpg/state'

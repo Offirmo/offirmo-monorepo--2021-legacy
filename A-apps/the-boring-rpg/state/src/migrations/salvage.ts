@@ -3,7 +3,7 @@
 import { Enum } from 'typescript-string-enums'
 
 import { JSONObject, JSON } from '@offirmo-private/ts-types'
-import { get_schema_version_loose } from '@offirmo-private/state'
+import { get_schema_version_loose } from '@offirmo-private/state-utils'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import { CharacterClass } from '@oh-my-rpg/state-character'

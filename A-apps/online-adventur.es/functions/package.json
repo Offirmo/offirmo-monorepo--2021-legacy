@@ -14,9 +14,8 @@
 	],
 
 	"dependencies": {
-		"@offirmo-private/error-utils": "^0",
 		"@offirmo-private/db": "^0",
-		"@online-adventur.es/functions-interface": "^0",
+		"@offirmo-private/error-utils": "^0",
 		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/soft-execution-context-node": "^0",
 		"@offirmo-private/timestamps": "^0",
@@ -25,6 +24,7 @@
 		"@offirmo/universal-debug-api-node": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
+		"@online-adventur.es/functions-interface": "^0",
 		"@sentry/node": "^5",
 		"json-stable-stringify": "^1",
 		"memoize-one": "^5",

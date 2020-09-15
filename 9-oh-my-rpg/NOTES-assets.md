@@ -10,6 +10,7 @@ https://commons.wikimedia.org/wiki/File:USDA_Mineral_Quartz_Crystal_93c3951.jpg
 ## Graphic
 
 commisions: https://yessys.carrd.co/
+* https://www.forgeandfortune.com/about
 
 ### backgrounds
 Sources
@@ -26,6 +27,8 @@ free items/icons (+ links to others) https://www.deviantart.com/7soul1/art/420-P
 ### fonts
 https://fonts.google.com/specimen/Varela+Round
 
+### icons
+https://game-icons.net/
 
 ### tosort
 homme préhisto https://www.instagram.com/tombjorklundart/

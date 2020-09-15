@@ -3,7 +3,7 @@
 import { Random, Engine } from '@offirmo/random'
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { propagate_child_revision_increment_upward } from '@offirmo-private/state'
+import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
 
 /////////////////////
 

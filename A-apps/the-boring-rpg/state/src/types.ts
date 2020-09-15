@@ -6,7 +6,7 @@ import {
 	BaseUState,
 	BaseTState,
 	BaseRootState,
-} from '@offirmo-private/state'
+} from '@offirmo-private/state-utils'
 
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'

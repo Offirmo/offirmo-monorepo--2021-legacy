@@ -11,7 +11,7 @@ import {
 	get_semantic_difference,
 	SemanticDifference,
 	compare as compare_state,
-} from '@offirmo-private/state'
+} from '@offirmo-private/state-utils'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State, SCHEMA_VERSION } from '@tbrpg/state'

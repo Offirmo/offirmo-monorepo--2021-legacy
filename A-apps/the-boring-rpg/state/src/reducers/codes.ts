@@ -1,7 +1,7 @@
 /////////////////////
 
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { propagate_child_revision_increment_upward } from '@offirmo-private/state'
+import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
 
 /////////////////////
 

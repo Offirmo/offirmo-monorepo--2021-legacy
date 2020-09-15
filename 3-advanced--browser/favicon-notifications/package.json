@@ -12,9 +12,9 @@
 	"sideEffects": false,
 
 	"dependencies": {
+		"@offirmo-private/xoff": "^0",
 		"favico.js": "^0.3",
-		"piecon": "^0.5",
-		"@offirmo-private/xoff": "^0"
+		"piecon": "^0.5"
 	},
 
 	"scripts": {

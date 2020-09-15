@@ -1,5 +1,5 @@
 import { Enum } from 'typescript-string-enums'
-import { are_ustate_revision_requirements_met } from '@offirmo-private/state'
+import { are_ustate_revision_requirements_met } from '@offirmo-private/state-utils'
 import { State } from '@tbrpg/state'
 import * as TBRPGState from '@tbrpg/state'
 import { Action, ActionType } from '@tbrpg/interfaces'

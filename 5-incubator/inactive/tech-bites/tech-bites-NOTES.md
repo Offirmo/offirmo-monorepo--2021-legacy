@@ -3,7 +3,7 @@ Senior Dev tips!
 * TL vs PM vs PM vs EM
 * "DRY"
   * don't repeat yourself
-  *
+  * WET https://overreacted.io/the-wet-codebase/
 * "dependency hell" https://en.wikipedia.org/wiki/Dependency_hell
 * "dry run"
 * "shaving the yak"
@@ -16,7 +16,7 @@ Senior Dev tips!
 * submarine
 * better ask for forgiveness than for permission
 * journalists
-
+* shim vs polyfill vs ponyfill
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
 

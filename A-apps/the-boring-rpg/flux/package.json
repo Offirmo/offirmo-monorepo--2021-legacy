@@ -20,7 +20,7 @@
 	"dependencies": {
 		"@offirmo-private/murmurhash": "^0",
 		"@offirmo-private/rich-text-format": "^0",
-		"@offirmo-private/state": "^0",
+		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",

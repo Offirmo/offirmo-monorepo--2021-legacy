@@ -16,7 +16,7 @@ describe('@offirmo-private/timestamps', function() {
 	describe('get_UTC_timestamp_ms()', function() {
 
 		it('should return correct UTC unix timestamps in ms', function() {
-			console.log(get_UTC_timestamp_ms())
+			//console.log(get_UTC_timestamp_ms())
 
 			for(let i = 0; i < 10; ++i) {
 				const stamp = get_UTC_timestamp_ms()
@@ -63,7 +63,7 @@ describe('@offirmo-private/timestamps', function() {
 	describe('get_human_readable_UTC_timestamp_ms()', function() {
 
 		it('should return correct UTC timestamps up to the millisecond', function() {
-			console.log(get_human_readable_UTC_timestamp_ms())
+			//console.log(get_human_readable_UTC_timestamp_ms())
 
 			for(let i = 0; i < 10; ++i) {
 				const stamp = get_human_readable_UTC_timestamp_ms()
@@ -77,7 +77,7 @@ describe('@offirmo-private/timestamps', function() {
 	describe('get_human_readable_UTC_timestamp_seconds()', function() {
 
 		it('should return correct UTC timestamps up to the second', function() {
-			console.log(get_human_readable_UTC_timestamp_seconds())
+			//console.log(get_human_readable_UTC_timestamp_seconds())
 
 			for(let i = 0; i < 10; ++i) {
 				const stamp = get_human_readable_UTC_timestamp_seconds()
@@ -91,7 +91,7 @@ describe('@offirmo-private/timestamps', function() {
 	describe('get_human_readable_UTC_timestamp_minutes()', function() {
 
 		it('should return correct UTC timestamps up to the minute', function() {
-			console.log(get_human_readable_UTC_timestamp_minutes())
+			//console.log(get_human_readable_UTC_timestamp_minutes())
 
 			for(let i = 0; i < 10; ++i) {
 				const stamp = get_human_readable_UTC_timestamp_minutes()
@@ -105,7 +105,7 @@ describe('@offirmo-private/timestamps', function() {
 	describe('get_human_readable_UTC_timestamp_days()', function() {
 
 		it('should return correct UTC timestamps up to the day', function() {
-			console.log(get_human_readable_UTC_timestamp_days())
+			//console.log(get_human_readable_UTC_timestamp_days())
 
 			for(let i = 0; i < 10; ++i) {
 				const stamp = get_human_readable_UTC_timestamp_days()

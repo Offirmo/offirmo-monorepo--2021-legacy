@@ -6,7 +6,7 @@ import deep_freeze from 'deep-freeze-strict'
 import stable_stringify from 'json-stable-stringify'
 import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'
-import {BaseRootState, get_schema_version_loose, WithRevision, WithSchemaVersion} from '@offirmo-private/state'
+import {BaseRootState, get_schema_version_loose, WithRevision, WithSchemaVersion} from '@offirmo-private/state-utils'
 import { State, DEMO_STATE, EngagementKey, SCHEMA_VERSION } from '@tbrpg/state'
 import { create_action_force_set, create_action_noop } from '@tbrpg/interfaces'
 
