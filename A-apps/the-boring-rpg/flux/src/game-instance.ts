@@ -61,7 +61,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			if (action.type !== 'update_to_now') console.groupEnd()
 
 			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: ${action.type} ⚡ ———————`)
-			setTimeout(() => console.groupEnd(), 5)
+			asap_but_out_of_current_event_loop(console.groupEnd)
 
 			const { time, ...debug } = action
 			logger.log('⚡ action dispatched:', { action: debug })

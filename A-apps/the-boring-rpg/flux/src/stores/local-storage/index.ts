@@ -12,6 +12,7 @@ import {
 	SemanticDifference,
 	compare as compare_state,
 } from '@offirmo-private/state-utils'
+import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State, SCHEMA_VERSION } from '@tbrpg/state'
@@ -26,7 +27,6 @@ import try_or_fallback from '../../utils/try_or_fallback'
 /////////////////////////////////////////////////
 
 const EMITTER_EVT = 'change'
-export const OPTIMIZATION_DELAY_MS = 1
 
 export const StorageKey = {
 	bkp_main:        'the-boring-rpg.savegame',
@@ -97,14 +97,14 @@ export function create(
 
 		function _optimized_store_key_value(key: string, json: any): Promise<void> {
 			return new Promise((resolve, reject) => {
-				setTimeout(() => {
+				schedule_when_idle_but_not_too_far(() => {
 					try {
 						resolve(_store_key_value(key, json))
 					}
 					catch (err) {
 						reject(err)
 					}
-				}, OPTIMIZATION_DELAY_MS)
+				})
 			})
 		}
 

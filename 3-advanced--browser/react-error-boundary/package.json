@@ -16,6 +16,7 @@
 		"react": "^16"
 	},
 	"dependencies": {
+		"@offirmo-private/async-utils": "^0",
 		"memoize-one": "^5",
 		"tiny-invariant": "^1"
 	},

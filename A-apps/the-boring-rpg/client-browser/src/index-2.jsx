@@ -1,4 +1,6 @@
-setTimeout(() => {
+import { asap_but_out_of_immediate_execution } from '@offirmo-private/async-utils'
+
+asap_but_out_of_immediate_execution(() => {
 	console.groupCollapsed('——————— end of immediate, synchronous, non-import code ———————')
 	console.log({ BUILD_DATE, CHANNEL })
 	console.groupEnd()
@@ -39,9 +41,9 @@ get_loader().configure({
 
 setTextEncoder(TextEncoder)
 
-setTimeout(() => ReactDOM.render(
+asap_but_out_of_immediate_execution(() => ReactDOM.render(
 	<ErrorBoundary name={'tbrpg_root'}>
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
-), 25)
+))

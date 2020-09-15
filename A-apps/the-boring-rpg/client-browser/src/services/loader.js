@@ -14,7 +14,7 @@ import logger from './logger'
 
 
 const declare_app_loaded = memoize_one(function _declare_app_loaded() {
-	setTimeout(() => {
+	setTimeout(/*XXX*/() => {
 		logger.info('🙌 🙌 🙌 App loaded! 🙌 🙌 🙌')
 
 		// @offirmo-private/iframe-loading

@@ -2,6 +2,8 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 const promiseFinally = require('p-finally')
+import { elapsed_time_ms } from '@offirmo-private/async-utils'
+import schedule_on_next_repaint from 'raf-schd'
 
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import { create as create_chat } from '@offirmo-private/view-chat'
@@ -145,9 +147,7 @@ class Chat extends React.Component {
 		}
 
 		const pretend_to_think = duration_ms => {
-			return spin_until_resolution(new Promise(resolve => {
-				setTimeout(resolve, duration_ms)
-			}))
+			return spin_until_resolution(elapsed_time_ms(duration_ms))
 		}
 
 		const display_progress = async ({progress_promise, msg = 'loading', msgg_acknowledge} = {}) => {
@@ -348,9 +348,9 @@ class Chat extends React.Component {
 		)
 
 		if (this.state.reading_string) {
-			setTimeout(() => {
+			schedule_on_next_repaint(() => {
 				if (this.input) this.input.focus()
-			}, 100)
+			})
 		}
 
 		const penultimate_bubble = this.state.bubbles.slice(0, -1)

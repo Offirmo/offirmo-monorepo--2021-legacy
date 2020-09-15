@@ -91,7 +91,7 @@ export default class PageSavegameEditorView extends Component {
 				editor.setValue(this.get_formatted_ace_data())
 
 				// https://stackoverflow.com/questions/12823456/programmatically-fold-code-in-ace-editor#comment17377281_12840753
-				setTimeout(() => {
+				setTimeout(/*XXX*/() => {
 					editor.session.foldAll()
 					editor.session.unfold(1)
 				}, 500)

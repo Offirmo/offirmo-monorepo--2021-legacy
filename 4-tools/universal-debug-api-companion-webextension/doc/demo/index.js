@@ -7,6 +7,7 @@ import {
 	addDebugCommand,
 	globalThis,
 } from '@offirmo/universal-debug-api-placeholder'
+import { asap_but_out_of_immediate_execution } from '@offirmo-private/async-utils'
 
 import {
 	demo_legacy_console,
@@ -65,7 +66,7 @@ function render() {
 	span_c.innerText = String(custom)
 }
 setInterval(render, 1000)
-setTimeout(render, 1) // just for it not to be sync
+asap_but_out_of_immediate_execution(render)
 
 //////////// communication ////////////
 

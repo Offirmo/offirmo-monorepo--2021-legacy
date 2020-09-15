@@ -53,7 +53,7 @@ function restart({channel_id, nickname} = {}) {
 	if (document.getElementById(ELEMENT_ID))
 		optimization_delay_ms = 0 // no need
 
-	setTimeout(() => {
+	setTimeout(/*XXX*/() => {
 		console.info('starting the chat...')
 		let anchor_elem = document.getElementById(ELEMENT_ID)
 		if (anchor_elem) {

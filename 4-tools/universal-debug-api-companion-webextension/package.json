@@ -35,6 +35,7 @@
 		"@atlaskit/theme": "^9",
 		"@atlaskit/toggle": "^8",
 		"@babel/core": "^7",
+		"@offirmo-private/async-utils": "^0",
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/view-css": "^0",

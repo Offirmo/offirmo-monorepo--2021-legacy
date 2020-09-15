@@ -6,7 +6,7 @@ import { overrideHook } from '@offirmo/universal-debug-api-browser'
 
 import { VERSION } from '../build.json'
 
-setTimeout(() => {
+setTimeout(/*XXX*/() => {
 	getRootSEC().xTry('configuring ga (1/2)…', ({ IS_DEV_MODE, CHANNEL, logger }) => {
 		logger.group('setting up ga… (1/2)', { IS_DEV_MODE, CHANNEL })
 		assert(ga && ga.l)
@@ -41,7 +41,7 @@ setTimeout(() => {
 }, 10)
 
 
-setTimeout(() => {
+setTimeout(/*XXX*/() => {
 	getRootSEC().xTry('configuring ga (2/2)…', ({ IS_DEV_MODE, CHANNEL, logger }) => {
 		let ga_script_url = 'https://www.google-analytics.com/analytics.js'
 		if (IS_DEV_MODE || CHANNEL !== 'prod') {

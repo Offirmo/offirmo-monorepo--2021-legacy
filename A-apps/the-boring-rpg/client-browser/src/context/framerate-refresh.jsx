@@ -2,6 +2,7 @@ import throttle from 'lodash/throttle'
 import * as React from 'react'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { asap_but_out_of_current_event_loop } from '@offirmo-private/async-utils'
 
 import ReactAnimationFrame from 'react-animation-frame'
 import {get_UTC_timestamp_ms} from '@offirmo-private/timestamps'
@@ -56,7 +57,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 		logger.groupEnd()
 		logger.groupCollapsed(`——————— onInterval/onAnimationFrame #${this.iteration_count} / ${now_ms} ———————`)
 		this.iteration_count++
-		setTimeout(() => logger.groupEnd())
+		asap_but_out_of_current_event_loop(logger.groupEnd)
 
 		get_game_instance().commands.update_to_now()
 

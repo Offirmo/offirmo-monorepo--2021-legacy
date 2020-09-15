@@ -8,6 +8,7 @@
 
 	"dependencies": {
 		"@babel/core": "^7",
+		"@offirmo-private/async-utils": "^0",
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"@offirmo-private/favicon-notifications": "^0",
 		"@offirmo-private/features-detection-browser": "^0",

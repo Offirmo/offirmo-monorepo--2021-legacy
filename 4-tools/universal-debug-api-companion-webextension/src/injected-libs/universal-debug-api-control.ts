@@ -3,6 +3,7 @@ import { LogLevel } from '@offirmo/practical-logger-types'
 import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
 import { getOverrideKeyForLogger, getLSKeyForOverride } from '@offirmo/universal-debug-api-browser/src/v1/keys'
+import { asap_but_out_of_current_event_loop } from '@offirmo-private/async-utils'
 
 import { Report, create_msg_report_debug_api_usage, OverrideReport } from '../common/messages/report-usage'
 import { StringifiedJSON, sjson_stringify } from '../common/utils/stringified-json'
@@ -37,7 +38,7 @@ function schedule_sync() {
 		return
 
 	sync_in_flight = true
-	setTimeout(() => {
+	asap_but_out_of_current_event_loop(() => {
 		if (DEBUG) console.log('🧩UWDTi: posting create_msg_report_debug_api_usage...')
 		try {
 			window.postMessage(

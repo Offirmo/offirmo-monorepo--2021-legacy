@@ -9,23 +9,14 @@ import { createLogger } from '@offirmo/practical-logger-node'
 import {BaseRootState, get_schema_version_loose, WithRevision, WithSchemaVersion} from '@offirmo-private/state-utils'
 import { State, DEMO_STATE, EngagementKey, SCHEMA_VERSION } from '@tbrpg/state'
 import { create_action_force_set, create_action_noop } from '@tbrpg/interfaces'
+import { elapsed_time_ms, end_of_current_event_loop, next_idle, all_planned_idle_executed } from '@offirmo-private/async-utils'
 
 import { LIB } from '../../consts'
 import { get_lib_SEC } from '../../sec'
 
-import { create, StorageKey, OPTIMIZATION_DELAY_MS } from '.'
+import { create, StorageKey } from '.'
 
 /////////////////////
-
-async function elapsed_time_ms(duration_ms: number): Promise<void> {
-	return new Promise(resolve => {
-		setTimeout(() => {
-			setTimeout(resolve, 0)
-		}, duration_ms)
-	})
-}
-
-const SAFE_SETTLE_MS = 5 * OPTIMIZATION_DELAY_MS
 
 describe(`${LIB} - store - local storage`, function() {
 	const local_storage = createLocalStorage({ mode : 'memory' })
@@ -74,27 +65,27 @@ describe(`${LIB} - store - local storage`, function() {
 
 					listener.resetHistory()
 					store.subscribe('test', listener)
-					await elapsed_time_ms(SAFE_SETTLE_MS)
+					await end_of_current_event_loop()
 					expect(listener, '0').to.not.have.been.called // bc the store is not initialized yet
 
 					store.set(DEMO_LATEST)
-					await elapsed_time_ms(OPTIMIZATION_DELAY_MS)
+					await end_of_current_event_loop()
 					expect(listener, '1').to.have.been.calledOnce
 					listener.resetHistory()
 
-					await elapsed_time_ms(SAFE_SETTLE_MS)
+					await all_planned_idle_executed()
 					expect(listener, '1b').to.not.have.been.called
 
 					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
-					await elapsed_time_ms(SAFE_SETTLE_MS)
+					await end_of_current_event_loop()
 					expect(listener, '2').to.not.have.been.called // bc no change
 
 					store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
-					await elapsed_time_ms(OPTIMIZATION_DELAY_MS)
+					await end_of_current_event_loop()
 					expect(listener, '3').to.have.been.calledOnce
 					listener.resetHistory()
 
-					await elapsed_time_ms(SAFE_SETTLE_MS)
+					await all_planned_idle_executed()
 					expect(listener, '3b').to.not.have.been.called
 				})
 			})
@@ -104,28 +95,28 @@ describe(`${LIB} - store - local storage`, function() {
 				it('should work', async () => {
 					const store = create(SEC, local_storage)
 					store.set(DEMO_LATEST)
-					await elapsed_time_ms(SAFE_SETTLE_MS)
+					await all_planned_idle_executed()
 
 					const listener = sinon.spy(
 						() => console.log('listener called')
 					)
 
 					store.subscribe('test', listener)
-					await elapsed_time_ms(OPTIMIZATION_DELAY_MS)
+					await end_of_current_event_loop()
 					expect(listener, '0').to.have.been.calledOnce // bc was already inited
 					listener.resetHistory()
 
-					await elapsed_time_ms(SAFE_SETTLE_MS)
+					await all_planned_idle_executed()
 					expect(listener, '0b').to.not.have.been.called
 
 					listener.resetHistory()
 					store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
-					await elapsed_time_ms(OPTIMIZATION_DELAY_MS)
+					await end_of_current_event_loop()
 					expect(listener, '1').to.have.been.calledOnce // bc change
 
 					listener.resetHistory()
 					store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
-					await elapsed_time_ms(SAFE_SETTLE_MS)
+					await end_of_current_event_loop()
 					expect(listener, '2').to.not.have.been.called // bc no change
 				})
 			})
@@ -141,6 +132,7 @@ describe(`${LIB} - store - local storage`, function() {
 	})
 
 	context('when local storage is not available', function () {
+		it('should report it')
 	})
 
 	context('when starting fresh', function () {
@@ -148,25 +140,25 @@ describe(`${LIB} - store - local storage`, function() {
 		it('should work', async () => {
 			const store = create(SEC, local_storage)
 
-			await elapsed_time_ms(SAFE_SETTLE_MS)
+			await all_planned_idle_executed()
 			expect(local_storage, '0').to.have.lengthOf(0)
 
 			store.set(DEMO_LATEST)
 
-			await elapsed_time_ms(SAFE_SETTLE_MS)
+			await all_planned_idle_executed()
 			expect(local_storage, '1').to.have.lengthOf(1)
 			expect(local_storage.getItem(StorageKey.bkp_main), '1').to.equal(stable_stringify(DEMO_LATEST))
 
 			store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
 
-			await elapsed_time_ms(SAFE_SETTLE_MS)
+			await all_planned_idle_executed()
 			expect(local_storage, '2').to.have.lengthOf(2)
 			expect(local_storage.getItem(StorageKey.bkp_main), '2').to.equal(stable_stringify(DEMO_LATEST_ALT))
 			expect(local_storage.getItem(StorageKey.bkp_minor), '2').to.equal(stable_stringify(DEMO_LATEST))
 
 			store.on_dispatch(STUB_ACTION, DEMO_LATEST)
 
-			await elapsed_time_ms(SAFE_SETTLE_MS)
+			await all_planned_idle_executed()
 			expect(local_storage, '3').to.have.lengthOf(2)
 			expect(local_storage.getItem(StorageKey.bkp_main), '3').to.equal(stable_stringify(DEMO_LATEST))
 			expect(local_storage.getItem(StorageKey.bkp_minor), '3').to.equal(stable_stringify(DEMO_LATEST_ALT))
@@ -184,7 +176,7 @@ describe(`${LIB} - store - local storage`, function() {
 			it('should work', async () => {
 				const store = create(SEC, local_storage)
 
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				// nothing changed in LS
 				expect(local_storage, 'unpersist ls size').to.have.lengthOf(1)
 				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist main').to.equal(BAD_LS_CONTENT)
@@ -202,7 +194,7 @@ describe(`${LIB} - store - local storage`, function() {
 			it('should work', async () => {
 				const store = create(SEC, local_storage)
 
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				expect(local_storage, 'unpersist ls size').to.have.lengthOf(2)
 				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
@@ -223,7 +215,7 @@ describe(`${LIB} - store - local storage`, function() {
 			it('should work', async () => {
 				const store = create(SEC, local_storage)
 
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				expect(local_storage, 'unpersist ls size').to.have.lengthOf(4)
 				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
@@ -237,7 +229,7 @@ describe(`${LIB} - store - local storage`, function() {
 				store.set(store.get())
 
 				// no change
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				expect(local_storage, 'set').to.have.lengthOf(4)
 				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST))
 				expect(local_storage.getItem(StorageKey.bkp_minor), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
@@ -247,7 +239,7 @@ describe(`${LIB} - store - local storage`, function() {
 
 				store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
 
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				expect(local_storage, 'dispatch').to.have.lengthOf(4)
 				expect(store.get(), 'dispatch').to.deep.equal(DEMO_LATEST_ALT)
 				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
@@ -266,7 +258,7 @@ describe(`${LIB} - store - local storage`, function() {
 			it('should work', async () => {
 				const store = create(SEC, local_storage)
 
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				expect(local_storage, 'unpersist ls size').to.have.lengthOf(3)
 				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
@@ -278,7 +270,7 @@ describe(`${LIB} - store - local storage`, function() {
 				store.set(store.get())
 
 				// no change
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				expect(local_storage, 'set').to.have.lengthOf(3)
 				main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(get_schema_version_loose(main_bkp), 'set').to.equal(SCHEMA_VERSION)
@@ -289,7 +281,7 @@ describe(`${LIB} - store - local storage`, function() {
 
 				store.on_dispatch(STUB_ACTION, DEMO_LATEST)
 
-				await elapsed_time_ms(SAFE_SETTLE_MS)
+				await all_planned_idle_executed()
 				expect(local_storage, 'dispatch').to.have.lengthOf(4)
 				main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
 				expect(main_bkp, 'dispatch').to.deep.equal(DEMO_LATEST)

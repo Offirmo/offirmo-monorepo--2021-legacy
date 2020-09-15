@@ -1,6 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import assert from 'tiny-invariant'
+import { asap_but_not_synchronous } from '@offirmo-private/async-utils'
 
 import { get_lib_SEC } from './sec'
 import { render_any } from './render-any'
@@ -87,7 +88,7 @@ class ErrorBoundary extends React.Component {
 			return render_any(this.props)
 		}
 		catch (err) {
-			setTimeout(() => this.componentDidCatch(err, 'crash in ErrorBoundary.render()'))
+			asap_but_not_synchronous(() => this.componentDidCatch(err, 'crash in ErrorBoundary.render()'))
 		}
 
 		return null

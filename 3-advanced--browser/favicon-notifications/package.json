@@ -12,6 +12,7 @@
 	"sideEffects": false,
 
 	"dependencies": {
+		"@offirmo-private/async-utils": "^0",
 		"@offirmo-private/xoff": "^0",
 		"favico.js": "^0.3",
 		"piecon": "^0.5"

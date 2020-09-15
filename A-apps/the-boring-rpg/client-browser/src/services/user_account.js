@@ -37,7 +37,7 @@ const ↆNetlifyIdentity = new Deferred()
 	console.warn('Netlify failed to load, won’t be able to login.', { err }, err)
 })
 
-setTimeout(() => {
+setTimeout(/*XXX*/() => {
 	load_script_from_top('https://identity.netlify.com/v1/netlify-identity-widget.js')
 		.then((s) => {
 			console.log('✅ netlify script loaded from top')
@@ -51,7 +51,7 @@ setTimeout(() => {
 				}, get_log_prefix(get_top_ish_window()) + ' ← ' + get_log_prefix())
 				.then(() => {
 					return new Promise((resolve, reject) => {
-						setTimeout(() => {
+						setTimeout(/*XXX*/() => {
 							try {
 								assert(window.oᐧextra?.netlifyIdentity, 'window.oᐧextra.netlifyIdentity ✓')
 								ↆNetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)

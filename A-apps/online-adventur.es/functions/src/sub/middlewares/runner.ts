@@ -10,6 +10,7 @@ import {
 	create_server_response_body__data,
 	create_server_response_body__error,
 } from '@online-adventur.es/functions-interface'
+import { end_of_current_event_loop } from '@offirmo-private/async-utils'
 
 import {
 	APIGatewayEvent,
@@ -340,7 +341,7 @@ async function _run_mw_chain(
 		body = stable_stringify(body)
 	}
 
-	await new Promise(resolve => setTimeout(resolve, 1)) // to give time to unhandled rejections to be detected. not 100% reliable, of course.
+	await end_of_current_event_loop() // to give time to unhandled rejections to be detected. not 100% reliable, of course.
 
 	return {
 		statusCode,

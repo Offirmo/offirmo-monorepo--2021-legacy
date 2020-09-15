@@ -1,4 +1,6 @@
 import { get_top_ish_window } from '@offirmo-private/xoff'
+import { schedule_when_idle_but_within_human_perception } from '@offirmo-private/async-utils'
+
 import Piecon from './piecon'
 import Favico from './favico.js'
 
@@ -70,7 +72,7 @@ function ensure_libs_initialized() {
 // we don't do any memoization for we don't know
 // if another context didn't change our expected state.
 function set_number_in_favicon(x) {
-	setTimeout(() => { // delay for perf
+	schedule_when_idle_but_within_human_perception(() => {
 		if (DEBUG) console.group(`[${LIB}] set_number_in_favicon(${x})`)
 
 		try {
