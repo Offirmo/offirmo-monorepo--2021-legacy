@@ -72,7 +72,7 @@ export default function create(): DebugApiV1 {
 	catch (err) {
 		_ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`)
 	}
-	_ownLogger.log(`Instantiated. (revision: ${REVISION})`)
+	_ownLogger.debug(`Instantiated. (revision: ${REVISION})`)
 
 	function _getOverride(key: string): OverrideStatus {
 		if (!overrides[key]) {

@@ -8,6 +8,7 @@ NOTE: Reminder to increase REVISION when releasing!
 * TODO better handle no local storage
 * TODO handle iframes?
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
+* [chore] tweaked some logs
 * [chore] bumped dependencies (minor)
 * ...
 

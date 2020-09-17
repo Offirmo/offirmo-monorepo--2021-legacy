@@ -17,10 +17,10 @@ const root: DebugApiRoot = globalThis._debug
 root.v1 = ((existing) => {
 	const candidate = createV1()
 	let ownLogger = candidate.getLogger({name: OWN_LOGGER_NAME})
-	ownLogger.log('as a candidate, attempting to attach…')
+	ownLogger.debug('as a candidate, attempting to attach…')
 
 	if (!existing) {
-		ownLogger.log('nominal install ✅')
+		ownLogger.debug('nominal install ✅')
 		return candidate // nominal case, this implementation is first
 	}
 	// something is wrong.
