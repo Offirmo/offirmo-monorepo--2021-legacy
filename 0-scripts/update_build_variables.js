@@ -1,14 +1,12 @@
 console.log('🧙️  Hello from update_build_variables.js!')
 
 const path = require('path')
+
 const write_json_file = require('write-json-file')
 const meow = require('meow')
 const fs = require('fs-extra')
 const semver = require('semver')
 const assert = require('tiny-invariant').default
-
-
-const { get_human_readable_UTC_timestamp_minutes } = require('../1-stdlib/timestamps')
 
 /////////////////////
 
@@ -28,6 +26,18 @@ const cli = meow('build', {
 		},
 	},
 })
+
+
+// ex. 20181121_06h00
+function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
+	const YYYY = now.getUTCFullYear()
+	const MM = String(now.getUTCMonth() + 1).padStart(2, '0')
+	const DD = String(now.getUTCDate()).padStart(2, '0')
+	const hh = String(now.getUTCHours()).padStart(2, '0')
+	const mm = String(now.getUTCMinutes()).padStart(2, '0')
+
+	return `${YYYY}${MM}${DD}_${hh}h${mm}`
+}
 
 /////////////////////
 
