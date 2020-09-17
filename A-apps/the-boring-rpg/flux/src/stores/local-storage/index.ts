@@ -4,13 +4,14 @@ import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
 import {JSONObject, Storage} from '@offirmo-private/ts-types'
 import {
+	get_revision,
 	get_schema_version_loose,
 	get_base_loose,
 	is_BaseState,
 	is_RootState,
 	get_semantic_difference,
 	SemanticDifference,
-	compare as compare_state,
+	compare as compare_state, has_versioned_schema, get_revision_loose,
 } from '@offirmo-private/state-utils'
 import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 
@@ -54,13 +55,16 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 
 			// can throw as well
 			const json = JSON.parse(ls_content)
+			//console.log('parsed', json)
 
 			// need this check due to some serializations returning {} for empty
 			const is_empty: boolean = !json || Object.keys(json).length === 0
 			if (is_empty)
 				return fallback
 
-			const is_valid_state: boolean = is_BaseState(json) || is_RootState(json)
+			// NO! base/root was harmonized recently, can be valid while not passing those type guards
+			//const is_valid_state: boolean = is_BaseState(json) || is_RootState(json)
+			const is_valid_state: boolean = has_versioned_schema(json)
 			if (!is_valid_state)
 				throw new Error(`Content of storage key "${key}" is not a base nor a root state!`)
 
@@ -80,6 +84,8 @@ export function create(
 		logger.verbose(`[${LIB}] FYI storage keys = "${Object.values(StorageKey).join(', ')}"`)
 
 		let state: Readonly<State> | undefined = undefined
+		let recovered_states_unmigrated_ordered: any[] = []
+		let restored_migrated: Readonly<State> | undefined = undefined
 
 		/////////////////////////////////////////////////
 
@@ -90,9 +96,9 @@ export function create(
 
 		function _store_key_value(key: string, json: any): void {
 			const value = stable_stringify(json)
-			logger.log(`[${LIB}] 💾 writing "${key}"…`, { base: get_base_loose(json)})
+			logger.trace(`[${LIB}] 💾 writing "${key}"…`, { base: get_base_loose(json)})
 			storage.setItem(key, value)
-			logger.trace(`[${LIB}] 💾 written "${key}" ✔`, { snapshot: JSON.parse(value) })
+			logger.trace(`[${LIB}] 💾 written "${key}" ✔`, { /*snapshot: JSON.parse(value)*/ })
 		}
 
 		function _optimized_store_key_value(key: string, json: any): Promise<void> {
@@ -123,26 +129,45 @@ export function create(
 		// should allow any minor overwrite,
 		// in case manual revert or cloud sync.
 		async function _enqueue_in_bkp_pipeline(some_state?: Readonly<any>): Promise<boolean> {
-			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline()`, { base: get_base_loose(some_state as any) })
+			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline()`, {
+				candidate_rev: get_revision_loose(some_state as any),
+				current_rev: get_revision_loose(state as any),
+				bkp_rev: get_revision_loose(bkp__current as any),
+				'legacy.length': recovered_states_unmigrated_ordered.length,
+				some_state,
+			})
 			if (!some_state) return false
 			assert(get_schema_version_loose(some_state) === SCHEMA_VERSION, `schema version === ${SCHEMA_VERSION} (current)!`)
-
-			if (bkp__current
-				&& get_semantic_difference(some_state, bkp__current, { assert_newer: false }) === SemanticDifference.none)
+			if (some_state === restored_migrated) {
+				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): echo from restoration, no change ✔`)
 				return false
+			}
+			const semantic_difference = get_semantic_difference(some_state, bkp__current, { assert_newer: false })
+			if (bkp__current && semantic_difference === SemanticDifference.none) {
+				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): no change ✔`)
+				return false
+			}
 
+			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): ${semantic_difference} change…`)
+			const promises: Promise<any>[] = []
 			bkp__recent = bkp__current
 			bkp__current = some_state
-			await _optimized_store_key_value(StorageKey.bkp_main, bkp__current)
+			promises.push(_optimized_store_key_value(StorageKey.bkp_main, bkp__current))
 			if (bkp__recent && get_schema_version_loose(bkp__recent) === SCHEMA_VERSION)
-				await _optimized_store_key_value(StorageKey.bkp_minor, bkp__recent)
+				promises.push(_optimized_store_key_value(StorageKey.bkp_minor, bkp__recent))
+			while(recovered_states_unmigrated_ordered.length) {
+				const some_legacy_state = recovered_states_unmigrated_ordered.shift()
+				if (get_schema_version_loose(some_legacy_state) < SCHEMA_VERSION)
+					promises.push(_enqueue_in_major_bkp_pipeline(some_legacy_state))
+			}
+			await Promise.all(promises)
 
 			return true
 		}
 
 		// EXPECTED: values are presented from the oldest to the newest!
 		async function _enqueue_in_major_bkp_pipeline(legacy_state?: Readonly<any>): Promise<boolean> {
-			logger.trace('_enqueue_in_major_bkp_pipeline()', { base: get_base_loose(legacy_state as any) })
+			logger.trace('_enqueue_in_major_bkp_pipeline()', get_base_loose(legacy_state as any))
 
 			const most_recent_previous_major_version = bkp__older[0]
 			const semantic_difference = get_semantic_difference(legacy_state, most_recent_previous_major_version)
@@ -171,50 +196,45 @@ export function create(
 
 		// recover from potentially sparse bkp pipeline
 		try {
-			logger.verbose(`[${LIB}] attempting to unpersist…`)
+			logger.verbose(`[${LIB}] attempting to restore…`)
 
 			// XXX this code block is tricky, beware sync/async
-			let promise: Promise<any> = Promise.resolve()
 
 			// read and store everything needed in memory
-			const most_recent_restored: any = [
-					bkp__current || bkp__recent, // REM: recent can be younger than current if restored, but shouldn't use it
-					...bkp__older,
-				]
-				.filter(s => !!s)
-				.sort(compare_state)
-				.pop()
-			logger.trace(`[${LIB}] found candidate state to be restored`, get_base_loose(most_recent_restored))
-
-			const raw_recovered_states_ordered: any[] = [
-					bkp__current,
-					bkp__recent,
+			recovered_states_unmigrated_ordered = [
+					bkp__current || bkp__recent,
 					...bkp__older,
 				]
 				.filter(s => !!s)
 				.sort(compare_state)
 
-			// synchronous cleanup so that set() can work properly
-			if (get_schema_version_loose(bkp__recent as any) < SCHEMA_VERSION) {
-				bkp__recent = undefined
-				storage.removeItem(StorageKey.bkp_minor)
-			}
+			if (recovered_states_unmigrated_ordered.length)
+				logger.trace(`[${LIB}] found past backups`, {
+					...((bkp__current || bkp__recent) && { main: bkp__current || bkp__recent }),
+					...(bkp__older[0] && { major_1: bkp__older[0]}),
+					...(bkp__older[1] && { major_1: bkp__older[1]}),
+				})
 
-			if (most_recent_restored) {
-				logger.trace(`[${LIB}] automigrating restored state…`, get_base_loose(most_recent_restored))
-				const recovered_state = TBRPGState.migrate_to_latest(SEC, most_recent_restored)
-				const persisted = set(recovered_state) // immediate sync restoration
-				promise = promise.then(() => persisted) // however further persist should happen in order
-			}
+			const most_recent_unmigrated_bkp = recovered_states_unmigrated_ordered.slice(-1)[0]
 
-			//console.log({ raw_recovered_states_ordered: raw_recovered_states_ordered.map(get_base_loose) })
-			while(raw_recovered_states_ordered.length) {
-				const some_state = raw_recovered_states_ordered.shift()
-				if (get_schema_version_loose(some_state) < SCHEMA_VERSION)
-					promise = promise.then(() => _enqueue_in_major_bkp_pipeline(some_state))
+			if (!most_recent_unmigrated_bkp) {
+				logger.trace(`[${LIB}] found NO candidate state to be restored.`)
 			}
+			else {
+				logger.trace(`[${LIB}] found candidate state to be restored`, get_base_loose(most_recent_unmigrated_bkp))
+				logger.trace(`[${LIB}] automigrating restored state…`)
 
-			promise.catch(_on_error)
+				// memorize it for later
+				restored_migrated = TBRPGState.migrate_to_latest(SEC, most_recent_unmigrated_bkp)
+
+				// in case it's legacy, synchronous cleanup so that set() can work properly
+				/*if (get_schema_version_loose(bkp__recent as any) < SCHEMA_VERSION) {
+					bkp__recent = undefined
+					storage.removeItem(StorageKey.bkp_minor)
+				}*/
+
+				set(restored_migrated) // immediate sync restoration
+			}
 		}
 		catch (err) {
 			_on_error(err)
@@ -222,13 +242,21 @@ export function create(
 
 		/////////////////////////////////////////////////
 
-		function set(some_state: Readonly<State>): void {
-			logger.trace('set()', { base: get_base_loose(some_state) })
+		function set(new_state: Readonly<State>): void {
+			logger.trace('set()', get_base_loose(new_state))
 
-			state = some_state
+			if (state && get_semantic_difference(new_state, state, { assert_newer: false }) === SemanticDifference.none) {
+				logger.trace('set(): no semantic change ✔')
+				return
+			}
+			if (!state) {
+				logger.trace('set(): init ✔')
+			}
 
-			_enqueue_in_bkp_pipeline(some_state)
-				.then(had_change => { if (had_change) emitter.emit(EMITTER_EVT) })
+			state = new_state
+			emitter.emit(EMITTER_EVT)
+
+			_enqueue_in_bkp_pipeline(state)
 				.catch(_on_error)
 		}
 
@@ -238,26 +266,33 @@ export function create(
 		}
 
 		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
-			logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`)
+			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
+				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
+			})
 			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
 			assert(!!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint is mandatory in this store`)
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
-			if (state === previous_state) {
-				logger.log(`[${LIB}] ⚡ action dispatched: ${action.type} => no state change.`)
+			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
+				current_rev: get_revision_loose(previous_state as any),
+				new_rev: get_revision_loose(state as any),
+			})
+			if (get_semantic_difference(state, previous_state, { assert_newer: false }) === SemanticDifference.none) {
+				logger.trace(`[${LIB}] ⚡ action dispatched: no semantic change.`)
 				return
 			}
 
+			emitter.emit(EMITTER_EVT)
+
 			_enqueue_in_bkp_pipeline(state)
-				.then(had_change => { if (had_change) emitter.emit(EMITTER_EVT) })
 				.catch(_on_error)
 		}
 
 		function subscribe(debug_id: string, listener: () => void): () => void {
 			emitter.on(EMITTER_EVT, listener)
 
-			if (state) listener()
+			if (state) listener() // semantically disputable, but for convenience
 
 			return () => emitter.off(EMITTER_EVT, listener)
 		}

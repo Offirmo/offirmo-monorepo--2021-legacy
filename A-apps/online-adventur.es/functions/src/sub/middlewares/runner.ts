@@ -337,7 +337,7 @@ async function _run_mw_chain(
 	// as a convenience, stringify the body automatically
 	// no need to retest, was validated before
 	if (typeof body !== 'string') {
-		logger.log(`[${PREFIX}] stringifying automatically…`)
+		logger.debug(`[${PREFIX}] stringifying automatically…`)
 		body = stable_stringify(body)
 	}
 

@@ -10,9 +10,27 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+
+## v0.65.10
+- 😷 chore: progress toward cloud save:
+  - new API endpoint able to intelligently store and save the latest version
+  - clarified the savegame structure
+  - rewrote the flux architecture and the bkp to local storage
+- 😷 chore: improved timing semantics (and maybe perf but not a goal)
+- 😷 chore: improved logs
+- 😷 chore: some internal refactors, bump dependencies
+
+## v0.65.9
+- 😷 chore: progress toward cloud save:
+  - many things
+  - the server code catches errors better (needed to troubleshoot the DB connexion)
+- 😅 fix: tweaks, typos, small bugs…
+- 😷 chore: some internal refactors, bump dependencies
+
 ## v0.65.8
 - 😷 chore: progress toward server
 - 😅 fix: tweaks, typos, small bugs…
+- 😷 chore: some internal refactors, bump dependencies
 
 ## v0.65.7
 - 😷 chore: improved analytics (more events, not sending them for me the developer)

@@ -9,7 +9,7 @@ import { Storage } from '@offirmo-private/ts-types'
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
 import { Action} from '@tbrpg/interfaces'
-import { asap_but_out_of_current_event_loop } from '@offirmo-private/async-utils'
+import { asap_but_out_of_current_event_loop, schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 
 
 import { LIB } from './consts'
@@ -61,7 +61,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			if (action.type !== 'update_to_now') console.groupEnd()
 
 			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: ${action.type} ⚡ ———————`)
-			asap_but_out_of_current_event_loop(console.groupEnd)
+			schedule_when_idle_but_not_too_far(console.groupEnd)
 
 			const { time, ...debug } = action
 			logger.log('⚡ action dispatched:', { action: debug })

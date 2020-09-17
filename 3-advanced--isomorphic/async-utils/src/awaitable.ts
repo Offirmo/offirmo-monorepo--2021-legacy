@@ -15,6 +15,13 @@ export async function end_of_current_event_loop(): Promise<void> {
 	})
 }
 
+export async function elapsed_time_ms(duration_ms: number): Promise<void> {
+	await new Promise(resolve => {
+		setTimeout(resolve, duration_ms)
+	})
+	await end_of_current_event_loop() // extra wait for stuff that would fire exactly at the limit
+}
+
 export async function next_idle(): Promise<IdleDeadline> {
 	return new Promise<IdleDeadline>(resolve => {
 		requestIdleCallback(resolve)
@@ -30,11 +37,4 @@ export async function all_planned_idle_executed(): Promise<void> {
 		info = await next_idle()
 		//console.log({ safety, dt: info?.didTimeout ?? true})
 	}
-}
-
-export async function elapsed_time_ms(duration_ms: number): Promise<void> {
-	await new Promise(resolve => {
-		setTimeout(resolve, duration_ms)
-	})
-	await end_of_current_event_loop() // extra wait for stuff that would fire exactly at the limit
 }

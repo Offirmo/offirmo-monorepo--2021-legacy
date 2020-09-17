@@ -58,7 +58,7 @@ export function sanitize_persisted<T extends BaseUser>(
 	}
 
 	if (!deep_equals(input, output)) {
-		logger.log('FYI base was sanitized:', { input, output })
+		logger.debug('FYI base was sanitized:', { input, output })
 	}
 
 	return output

@@ -1,10 +1,12 @@
 
 ## policy
 
-We strive for the latest stable.
+We strive for the latest LTS unless feature needed.
+
+Using `yarn outdated`
 
 
-## Actual exceptions
+## Actual exceptions to `yarn outdated`
 
 In alphabetical order:
 * `@atlaskit/*` requires work to upgrade
@@ -12,7 +14,7 @@ In alphabetical order:
 * `pg` there is a breaking change that we can't overcome yet through our ORM (knex)
 * `react-overlays` requires work to upgrade
 * `styled-components` old version required by @atlaskit
-
+* `typescript` always tricky to update
 
 ## Pending
 

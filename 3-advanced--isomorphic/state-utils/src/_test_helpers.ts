@@ -7,8 +7,8 @@ import {
 } from './types'
 
 // needed only for changing the default level
-import { _force_uda_logger_with_level } from '@offirmo-private/soft-execution-context-node'
-_force_uda_logger_with_level('silly')
+//import { _force_uda_logger_with_level } from '@offirmo-private/soft-execution-context-node'
+//_force_uda_logger_with_level('silly')
 
 /////////////////////////////////////////////////
 

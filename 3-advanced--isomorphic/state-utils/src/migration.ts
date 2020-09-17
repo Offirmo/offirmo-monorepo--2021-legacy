@@ -201,7 +201,7 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 			if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
 				// combo
 				const legacy_sub_state = [ previous_sub_ustate, previous_sub_tstate]
-				logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, { legacy_sub_state })
+				logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, legacy_sub_state)
 				;[new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(
 					SEC,
 					legacy_sub_state,
@@ -209,7 +209,7 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 				)
 			}
 			else if (sub_u_states_found.has(key)) {
-				logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, { previous_sub_ustate })
+				logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, previous_sub_ustate)
 				new_sub_ustate = migrate_sub_to_latest(
 					SEC,
 					previous_sub_ustate,
@@ -217,7 +217,7 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 				)
 			}
 			else if (sub_t_states_found.has(key)) {
-				logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, { previous_sub_tstate })
+				logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, previous_sub_tstate)
 				new_sub_tstate = migrate_sub_to_latest(
 					SEC,
 					previous_sub_tstate,

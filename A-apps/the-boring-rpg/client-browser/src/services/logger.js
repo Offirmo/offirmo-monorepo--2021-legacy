@@ -13,7 +13,7 @@ const logger = getLogger({
 })
 
 
-logger.notice(`Hello from "${LIB}", v${ENGINE_VERSION} ${BUILD_DATE}! Logger up with level = "${logger.getLevel()}".`)
+logger.verbose(`Hello from "${LIB}" v${ENGINE_VERSION} from ${BUILD_DATE}! Logger up with level = "${logger.getLevel()}" ✔`)
 
 // test
 if (false) {

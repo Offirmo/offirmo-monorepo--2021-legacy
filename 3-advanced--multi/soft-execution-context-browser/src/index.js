@@ -48,7 +48,7 @@ function listenToErrorEvents() {
 			//evt.preventDefault(); // XXX should we?
 		})
 
-		logger.verbose('Root SEC now listening to errors.')
+		logger.verbose('Root SEC is now listening to error events ✔')
 	})
 }
 
@@ -74,7 +74,7 @@ function listenToUnhandledRejections() {
 			}, err)
 		})
 
-		logger.verbose('Root SEC now listening to unhandled rejections.')
+		logger.verbose('Root SEC is now listening to unhandled rejection events ✔')
 	})
 }
 
@@ -110,7 +110,9 @@ function decorateWithDetectedEnv(SEC) {
 	}
 
 	SEC.setAnalyticsAndErrorDetails(details)
+	//logger.verbose('Root SEC is now decorated with env infos ✔', { bowser, details: SEC.getAnalyticsDetails() })
 }
+
 
 export * from '@offirmo-private/soft-execution-context'
 export {

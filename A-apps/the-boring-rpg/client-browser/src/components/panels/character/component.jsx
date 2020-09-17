@@ -49,7 +49,7 @@ function * gen_next_step() {
 								window.ga && window.ga('send', 'event', {
 									eventCategory: 'game',
 									eventAction: 'change_class',
-									//eventValue: game_instance.queries.get_last_adventure().good,
+									//eventValue: ...,
 									//eventLabel: CTA,
 									hitCallback: () => console.log('GA cc sent!'),
 								})
@@ -77,7 +77,7 @@ function * gen_next_step() {
 						window.ga && window.ga('send', 'event', {
 							eventCategory: 'game',
 							eventAction: 'rename_avatar',
-							//eventValue: game_instance.queries.get_last_adventure().good,
+							//eventValue: ...,
 							//eventLabel: CTA,
 							hitCallback: () => console.log('GA ra sent!'),
 						})

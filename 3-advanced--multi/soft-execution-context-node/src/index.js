@@ -71,5 +71,5 @@ module.exports = {
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
-	_force_uda_logger_with_level,
+	_force_uda_logger_with_level, // for convenience, especially unit tests
 }

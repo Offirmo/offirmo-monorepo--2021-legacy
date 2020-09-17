@@ -33,7 +33,7 @@ export function create(
 		}
 
 		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
-			logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`)
+			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`)
 			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
 			assert(!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint not expected in this store`)
 

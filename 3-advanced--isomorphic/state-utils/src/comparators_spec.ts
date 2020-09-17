@@ -12,6 +12,7 @@ import {
 	SemanticDifference,
 	get_semantic_difference,
 } from './comparators'
+import {get_revision_loose} from './selectors'
 
 
 describe(`${LIB} - comparators`, function() {
@@ -37,9 +38,9 @@ describe(`${LIB} - comparators`, function() {
 
 		context('on advanced Offirmo’s base state', function() {
 
-			it('should return major when no previous', () => {
-				expect(get_semantic_difference(DEMO_BASE_STATE)).to.equal(SemanticDifference.major)
-				expect(get_semantic_difference(DEMO_BASE_STATE, null)).to.equal(SemanticDifference.major)
+			it('should return minor when no previous', () => {
+				expect(get_semantic_difference(DEMO_BASE_STATE)).to.equal(SemanticDifference.minor)
+				expect(get_semantic_difference(DEMO_BASE_STATE, null)).to.equal(SemanticDifference.minor)
 			})
 
 			it('should return major when the previous has no schema', () => {
@@ -64,6 +65,28 @@ describe(`${LIB} - comparators`, function() {
 				expect(get_semantic_difference(DEMO_BASE_STATE, DEMO_BASE_STATE)).to.equal(SemanticDifference.none)
 			})
 
+			it('should return none on equality -- init state (past bug)', () => {
+				expect(get_semantic_difference({
+					schema_version: 14,
+					revision: 0,
+				},{
+					schema_version: 14,
+					revision: 0,
+				})).to.equal(SemanticDifference.none)
+			})
+
+			it('should return none on equality -- tstate', () => {
+				expect(get_semantic_difference({
+					schema_version: 14,
+					revision: 3,
+					timestamp_ms: 1500000000000,
+				},{
+					schema_version: 14,
+					revision: 3,
+					timestamp_ms: 1600321784251,
+				})).to.equal(SemanticDifference.none)
+			})
+
 			it('should throw on reversed order -- schema version', () => {
 				expect(() => get_semantic_difference(DEMO_BASE_STATE, {
 					...DEMO_BASE_STATE,
@@ -81,9 +104,9 @@ describe(`${LIB} - comparators`, function() {
 
 		context('on advanced Offirmo’s Root state', function() {
 
-			it('should return major when no previous', () => {
-				expect(get_semantic_difference(DEMO_ROOT_STATE)).to.equal(SemanticDifference.major)
-				expect(get_semantic_difference(DEMO_ROOT_STATE, null)).to.equal(SemanticDifference.major)
+			it('should return minor when no previous', () => {
+				expect(get_semantic_difference(DEMO_ROOT_STATE)).to.equal(SemanticDifference.minor)
+				expect(get_semantic_difference(DEMO_ROOT_STATE, null)).to.equal(SemanticDifference.minor)
 			})
 
 			it('should return major when previous has no schema', () => {

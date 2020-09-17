@@ -48,7 +48,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 		if (!this.time_1st_iteration) {
 			// debug
 			this.time_1st_iteration = now_ms
-			logger.log('++++++++++++ starting animation frame ++++++++++++', {
+			logger.debug('++++++++++++ starting animation frame ++++++++++++', {
 				now_ms,
 				time,
 			})

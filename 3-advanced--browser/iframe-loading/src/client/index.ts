@@ -36,12 +36,13 @@ let loader_full
 try { loader_full = (window.parent as any)[PROP] } catch {}
 loader_full = loader_full || (window as any)[PROP]
 if (!loader_full) {
-	const { searchParams } = new URL(window.location.href)
+	const url = new URL(window.location.href)
+	const { searchParams } = url
 	const hint_at_loader = searchParams.has(PROP)
 	if (!hint_at_loader)
-		console.info('iframe-loading: loader not found, are you properly set up?')
+		console.info('iframe-loading: loader not found, are you properly set up?' + url.hostname === 'localhost' ? ' (looks like dev mode ✔)' : '')
 	else
-		console.info('iframe-loading: loader not found in domain, will postMessage().')
+		console.info('iframe-loading: loader not found or cross-domain, will postMessage().')
 }
 
 const loader = loader_full || loader_fallback

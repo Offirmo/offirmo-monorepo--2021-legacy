@@ -6,7 +6,7 @@ import deep_freeze from 'deep-freeze-strict'
 import stable_stringify from 'json-stable-stringify'
 import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'
-import {BaseRootState, get_schema_version_loose, WithRevision, WithSchemaVersion} from '@offirmo-private/state-utils'
+import { get_schema_version_loose, WithRevision, WithSchemaVersion } from '@offirmo-private/state-utils'
 import { State, DEMO_STATE, EngagementKey, SCHEMA_VERSION } from '@tbrpg/state'
 import { create_action_force_set, create_action_noop } from '@tbrpg/interfaces'
 import { elapsed_time_ms, end_of_current_event_loop, next_idle, all_planned_idle_executed } from '@offirmo-private/async-utils'
@@ -18,11 +18,18 @@ import { create, StorageKey } from '.'
 
 /////////////////////
 
+function storage_to_string(storage: ReturnType<typeof createLocalStorage>): string {
+	return Array.from(storage)
+		.map((v, i) => storage.key(i))
+		.toString()
+}
+
+
 describe(`${LIB} - store - local storage`, function() {
 	const local_storage = createLocalStorage({ mode : 'memory' })
 	const logger = createLogger({
 		name: LIB,
-		suggestedLevel: 'info', // change here if bug
+		suggestedLevel: 'warn', // change here if bug
 	})
 	let SEC = get_lib_SEC()
 	const STUB_ACTION = create_action_noop()
@@ -46,11 +53,11 @@ describe(`${LIB} - store - local storage`, function() {
 	}) as any
 	const DEMO_OLDER: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
 		schema_version: SCHEMA_VERSION - 1,
-		revision: 22,
+		revision: 222,
 	})
 	const DEMO_OLDEST: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
 		schema_version: SCHEMA_VERSION - 3,
-		revision: 3,
+		revision: 11,
 	})
 
 	describe('basic features', function () {
@@ -98,7 +105,7 @@ describe(`${LIB} - store - local storage`, function() {
 					await all_planned_idle_executed()
 
 					const listener = sinon.spy(
-						() => console.log('listener called')
+						() => { /*console.log('listener called')*/ }
 					)
 
 					store.subscribe('test', listener)
@@ -123,173 +130,291 @@ describe(`${LIB} - store - local storage`, function() {
 		})
 	})
 
-	describe('safety feature -- get', function() {
+	describe('side features', function() {
 
-		it('should crash when not initialized', () => {
+		it('get() should crash when not initialized', () => {
 			const store = create(SEC, local_storage)
 			expect(store.get).to.throw('initialized')
 		})
+
+		it('set() should not signal when no change')
 	})
 
-	context('when local storage is not available', function () {
-		it('should report it')
-	})
+	describe('storage', function() {
 
-	context('when starting fresh', function () {
-
-		it('should work', async () => {
-			const store = create(SEC, local_storage)
-
-			await all_planned_idle_executed()
-			expect(local_storage, '0').to.have.lengthOf(0)
-
-			store.set(DEMO_LATEST)
-
-			await all_planned_idle_executed()
-			expect(local_storage, '1').to.have.lengthOf(1)
-			expect(local_storage.getItem(StorageKey.bkp_main), '1').to.equal(stable_stringify(DEMO_LATEST))
-
-			store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
-
-			await all_planned_idle_executed()
-			expect(local_storage, '2').to.have.lengthOf(2)
-			expect(local_storage.getItem(StorageKey.bkp_main), '2').to.equal(stable_stringify(DEMO_LATEST_ALT))
-			expect(local_storage.getItem(StorageKey.bkp_minor), '2').to.equal(stable_stringify(DEMO_LATEST))
-
-			store.on_dispatch(STUB_ACTION, DEMO_LATEST)
-
-			await all_planned_idle_executed()
-			expect(local_storage, '3').to.have.lengthOf(2)
-			expect(local_storage.getItem(StorageKey.bkp_main), '3').to.equal(stable_stringify(DEMO_LATEST))
-			expect(local_storage.getItem(StorageKey.bkp_minor), '3').to.equal(stable_stringify(DEMO_LATEST_ALT))
+		context('when local storage is not available', function () {
+			it('should report it')
 		})
-	})
 
-	context('when starting with existing content', function () {
-
-		context('when the content is totally crap', function () {
-			const BAD_LS_CONTENT = '{bad json, maybe edited by hand}'
-			beforeEach(() => {
-				local_storage.setItem(StorageKey.bkp_main, BAD_LS_CONTENT)
-			})
+		context('when starting fresh', function () {
 
 			it('should work', async () => {
 				const store = create(SEC, local_storage)
+				let step = 'A'
 
 				await all_planned_idle_executed()
-				// nothing changed in LS
-				expect(local_storage, 'unpersist ls size').to.have.lengthOf(1)
-				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist main').to.equal(BAD_LS_CONTENT)
-				// no state
-				expect(store.get).to.throw('never init')
-			})
-		})
+				expect(local_storage, step).to.have.lengthOf(0)
 
-		context('when the content is crap but recoverable', function () {
-			beforeEach(() => {
-				local_storage.setItem(StorageKey.bkp_main, '{bad json, maybe edited by hand}')
-				local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
-			})
+				store.set(DEMO_LATEST)
 
-			it('should work', async () => {
-				const store = create(SEC, local_storage)
-
+				step = 'B'
 				await all_planned_idle_executed()
-				expect(local_storage, 'unpersist ls size').to.have.lengthOf(2)
-				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
-				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
-				expect(store.get(), 'unpersist get').to.deep.equal(main_bkp)
-				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDEST))
-			})
-		})
-
-		context('when the content is ok and full', function () {
-
-			beforeEach(() => {
-				local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_LATEST))
-				local_storage.setItem(StorageKey.bkp_minor, stable_stringify(DEMO_LATEST_ALT))
-				local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDER))
-				local_storage.setItem(StorageKey.bkp_major_older, stable_stringify(DEMO_OLDEST))
-			})
-
-			it('should work', async () => {
-				const store = create(SEC, local_storage)
-
 				await all_planned_idle_executed()
-				expect(local_storage, 'unpersist ls size').to.have.lengthOf(4)
-				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
-				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
-				expect(store.get(), 'unpersist get').to.deep.equal(main_bkp)
-				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST))
-				expect(local_storage.getItem(StorageKey.bkp_minor), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
-				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
-				expect(local_storage.getItem(StorageKey.bkp_major_older), 'unpersist older').to.equal(stable_stringify(DEMO_OLDEST))
-
-				// echo from dispatcher
-				store.set(store.get())
-
-				// no change
-				await all_planned_idle_executed()
-				expect(local_storage, 'set').to.have.lengthOf(4)
-				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST))
-				expect(local_storage.getItem(StorageKey.bkp_minor), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
-				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
-				expect(local_storage.getItem(StorageKey.bkp_major_older), 'unpersist older').to.equal(stable_stringify(DEMO_OLDEST))
-				let previous_state = main_bkp
+				expect(local_storage, step).to.have.lengthOf(1)
+				expect(local_storage.getItem(StorageKey.bkp_main), step).to.equal(stable_stringify(DEMO_LATEST))
 
 				store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
 
+				step = 'C'
 				await all_planned_idle_executed()
-				expect(local_storage, 'dispatch').to.have.lengthOf(4)
-				expect(store.get(), 'dispatch').to.deep.equal(DEMO_LATEST_ALT)
-				expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST_ALT))
-				expect(local_storage.getItem(StorageKey.bkp_minor), 'unpersist old').to.equal(stable_stringify(DEMO_LATEST))
-				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
-				expect(local_storage.getItem(StorageKey.bkp_major_older), 'unpersist older').to.equal(stable_stringify(DEMO_OLDEST))
-			})
-		})
-
-		context('when the content is ok and partial', function () {
-			beforeEach(() => {
-				local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_OLDER))
-				local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
-			})
-
-			it('should work', async () => {
-				const store = create(SEC, local_storage)
-
 				await all_planned_idle_executed()
-				expect(local_storage, 'unpersist ls size').to.have.lengthOf(3)
-				let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
-				expect(get_schema_version_loose(main_bkp), 'unpersist main').to.equal(SCHEMA_VERSION)
-				expect(store.get(), 'unpersist get').to.deep.equal(main_bkp)
-				expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
-				expect(local_storage.getItem(StorageKey.bkp_major_older), 'unpersist older').to.equal(stable_stringify(DEMO_OLDEST))
-
-				// echo from dispatcher
-				store.set(store.get())
-
-				// no change
-				await all_planned_idle_executed()
-				expect(local_storage, 'set').to.have.lengthOf(3)
-				main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
-				expect(get_schema_version_loose(main_bkp), 'set').to.equal(SCHEMA_VERSION)
-				expect(store.get(), 'set').to.deep.equal(main_bkp)
-				expect(local_storage.getItem(StorageKey.bkp_major_old), 'set').to.equal(stable_stringify(DEMO_OLDER))
-				expect(local_storage.getItem(StorageKey.bkp_major_older), 'set').to.equal(stable_stringify(DEMO_OLDEST))
-				let previous_state = main_bkp
+				expect(local_storage, step).to.have.lengthOf(2)
+				expect(local_storage.getItem(StorageKey.bkp_main), step).to.equal(stable_stringify(DEMO_LATEST_ALT))
+				expect(local_storage.getItem(StorageKey.bkp_minor), step).to.equal(stable_stringify(DEMO_LATEST))
 
 				store.on_dispatch(STUB_ACTION, DEMO_LATEST)
 
+				step = 'D'
 				await all_planned_idle_executed()
-				expect(local_storage, 'dispatch').to.have.lengthOf(4)
-				main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
-				expect(main_bkp, 'dispatch').to.deep.equal(DEMO_LATEST)
-				expect(store.get(), 'dispatch').to.deep.equal(main_bkp)
-				let previous_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_minor)!)
-				expect(previous_bkp, 'dispatch').to.deep.equal(previous_state)
-				expect(local_storage.getItem(StorageKey.bkp_major_old), 'dispatch').to.equal(stable_stringify(DEMO_OLDER))
-				expect(local_storage.getItem(StorageKey.bkp_major_older), 'dispatch').to.equal(stable_stringify(DEMO_OLDEST))
+				await all_planned_idle_executed()
+				expect(local_storage, 'D').to.have.lengthOf(2)
+				expect(local_storage.getItem(StorageKey.bkp_main), step).to.equal(stable_stringify(DEMO_LATEST))
+				expect(local_storage.getItem(StorageKey.bkp_minor), step).to.equal(stable_stringify(DEMO_LATEST_ALT))
+			})
+		})
+
+		context('when starting with existing content', function () {
+
+			context('when the content is totally crap', function () {
+				const BAD_LS_CONTENT = '{bad json, maybe edited by hand}'
+				beforeEach(() => {
+					local_storage.setItem(StorageKey.bkp_main, BAD_LS_CONTENT)
+				})
+
+				it('should work', async () => {
+					const store = create(SEC, local_storage)
+
+					await all_planned_idle_executed()
+					// nothing changed in LS
+					expect(local_storage, 'unpersist ls size').to.have.lengthOf(1)
+					expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist main').to.equal(BAD_LS_CONTENT)
+					// no state at all
+					expect(store.get).to.throw('never init')
+				})
+			})
+
+			context('when the content is crap but some old stuff is recoverable', function () {
+				const BAD_JSON = '{bad json, maybe edited by hand}'
+				beforeEach(() => {
+					local_storage.setItem(StorageKey.bkp_main, BAD_JSON)
+					local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
+				})
+
+				it('should work', async () => {
+					const store = create(SEC, local_storage)
+
+					let step = 'sync'
+					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
+
+					step = 'unpersist'
+					await all_planned_idle_executed()
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(2) // no change on load
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(BAD_JSON)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDEST))
+
+					// echo from dispatcher = no new info
+					step = 'set'
+					store.set(store.get())
+
+					// still no change, no new info
+					await all_planned_idle_executed()
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(2) // no change on load
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(BAD_JSON)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDEST))
+
+					// actual activity = new info
+					step = 'new'
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
+
+					// NOW the bkp pipeline should have triggered
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(2)
+					let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
+					expect(get_schema_version_loose(main_bkp), `${step} main`).to.equal(SCHEMA_VERSION)
+					expect(store.get(), `${step} get`).to.deep.equal(main_bkp)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(null)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
+				})
+			})
+
+			context('when the content is ok and full', function () {
+
+				beforeEach(() => {
+					local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_LATEST_ALT))
+					local_storage.setItem(StorageKey.bkp_minor, stable_stringify(DEMO_LATEST))
+					local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDER))
+					local_storage.setItem(StorageKey.bkp_major_older, stable_stringify(DEMO_OLDEST))
+				})
+
+				it('should work', async () => {
+					const store = create(SEC, local_storage)
+
+					let step = 'sync'
+					expect(store.get(), `${step} get`).to.deep.equal(DEMO_LATEST_ALT)
+
+					step = 'unpersist'
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					// no change
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(4)
+					let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
+					expect(get_schema_version_loose(main_bkp), `${step} main`).to.equal(SCHEMA_VERSION)
+					expect(store.get(), `${step} get`).to.deep.equal(main_bkp)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.deep.equal(stable_stringify(DEMO_LATEST_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.deep.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old str`).to.deep.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older str`).to.deep.equal(stable_stringify(DEMO_OLDEST))
+
+					// echo from dispatcher
+					store.set(store.get())
+
+					// still no change
+					step = 'unpersist2'
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					expect(local_storage, 'set').to.have.lengthOf(4)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.deep.equal(stable_stringify(DEMO_LATEST_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.deep.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old str`).to.deep.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older str`).to.deep.equal(stable_stringify(DEMO_OLDEST))
+
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
+
+					step = 'dispatch'
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					expect(local_storage, 'dispatch').to.have.lengthOf(4)
+					expect(store.get(), 'dispatch').to.deep.equal(DEMO_LATEST)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(stable_stringify(DEMO_LATEST_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old str`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older str`).to.equal(stable_stringify(DEMO_OLDEST))
+				})
+			})
+
+			context('when the content is ok but old (only main)', function () {
+				beforeEach(() => {
+					local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_OLDER))
+				})
+
+				it('should work', async () => {
+					const store = create(SEC, local_storage)
+
+					let step = 'sync'
+					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
+
+					step = 'unpersist'
+					await all_planned_idle_executed()
+					// no change
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(1)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_OLDER))
+
+					// echo from dispatcher = no new info
+					step = 'set'
+					store.set(store.get())
+
+					// still no change, no new info
+					await all_planned_idle_executed()
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(1) // no change on load
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_OLDER))
+
+					// actual activity = new info
+					step = 'new'
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
+
+					// NOW the bkp pipeline should have triggered
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(2)
+					let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
+					expect(get_schema_version_loose(main_bkp), `${step} main`).to.equal(SCHEMA_VERSION)
+					expect(store.get(), `${step} get`).to.deep.equal(main_bkp)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(null)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
+
+					// actual activity = new info
+					step = 'new2'
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
+
+					// normal
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(3)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_old), 'unpersist old').to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
+				})
+			})
+
+			context('when the content is ok and old (partial)', function () {
+				beforeEach(() => {
+					local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_OLDER))
+					local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
+				})
+
+				it('should work', async () => {
+					const store = create(SEC, local_storage)
+
+
+					let step = 'sync'
+					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
+
+					// no change in LS
+					step = 'unpersist'
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(2)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(null)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
+
+					// echo from dispatcher
+					store.set(store.get())
+
+					// no change
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(2)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(null)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
+
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
+
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(3)
+					let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
+					expect(get_schema_version_loose(main_bkp), `${step} main`).to.equal(SCHEMA_VERSION)
+					expect(store.get(), `${step} get`).to.deep.equal(main_bkp)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(null)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(stable_stringify(DEMO_OLDEST))
+				})
 			})
 		})
 	})

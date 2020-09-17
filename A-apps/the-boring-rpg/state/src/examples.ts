@@ -139,6 +139,8 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>(cleanup(get_lib_SEC(), {
 		},
 	},
 	'u_state': {
+		'schema_version': 14,
+		'revision': 1185,
 		'avatar': {
 			'attributes': {
 				'agility': 87,
@@ -629,8 +631,6 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>(cleanup(get_lib_SEC(), {
 				'tokens_gained': 44,
 			}, 'wiki': null,
 		},
-		'revision': 1185,
-		'schema_version': 14,
 		'wallet': {'coin_count': 669470, 'revision': 336, 'schema_version': 1, 'token_count': 44},
 	},
 }, {}))
