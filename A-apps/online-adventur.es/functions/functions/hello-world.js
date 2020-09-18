@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 535);
+/******/ 	return __webpack_require__(__webpack_require__.s = 536);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -323,45 +323,27 @@ module.exports = chalk;
 
 /***/ }),
 
-/***/ 11:
+/***/ 10:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
-const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
-// mnemonic:  100 = 100% = you will see 100% of the logs
-//              1 =   1% = you will see 1% of the logs (obviously the most important)
+/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
 
-const LOG_LEVEL_TO_INTEGER = {
-  fatal: 1,
-  emerg: 2,
-  alert: 10,
-  crit: 20,
-  error: 30,
-  warning: 40,
-  warn: 40,
-  notice: 45,
-  info: 50,
-  verbose: 70,
-  log: 80,
-  debug: 81,
-  trace: 90,
-  silly: 100
-};
-const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
-// generated to shave a few bytes
-// not using fromEntries bc not available in node <12
+  if (typeof global !== 'undefined') return global; // @ts-ignore
 
-const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
-  acc[ll] = {
-    em: 'emergency',
-    wa: 'warn'
-  }[ll.slice(0, 1)] || ll;
-  return acc;
-}, {});
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
 
 
 /***/ }),
@@ -1096,6 +1078,49 @@ module.exports = {
 
 /***/ }),
 
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
+const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
+// mnemonic:  100 = 100% = you will see 100% of the logs
+//              1 =   1% = you will see 1% of the logs (obviously the most important)
+
+const LOG_LEVEL_TO_INTEGER = {
+  fatal: 1,
+  emerg: 2,
+  alert: 10,
+  crit: 20,
+  error: 30,
+  warning: 40,
+  warn: 40,
+  notice: 45,
+  info: 50,
+  verbose: 70,
+  log: 80,
+  debug: 81,
+  trace: 90,
+  silly: 100
+};
+const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
+// generated to shave a few bytes
+// not using fromEntries bc not available in node <12
+
+const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
+  acc[ll] = {
+    em: 'emergency',
+    wa: 'warn'
+  }[ll.slice(0, 1)] || ll;
+  return acc;
+}, {});
+
+
+/***/ }),
+
 /***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1249,7 +1274,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 // UNUSED EXPORTS: checkLevel
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
-var consts = __webpack_require__(11);
+var consts = __webpack_require__(12);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
 var consts_base = __webpack_require__(33);
@@ -1390,7 +1415,7 @@ function create({
 
 /***/ }),
 
-/***/ 18:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1413,31 +1438,6 @@ const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 
 const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
 ...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
 'details', '_temp']);
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
-
 
 /***/ }),
 
@@ -1523,7 +1523,7 @@ function create() {
     _ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`);
   }
 
-  _ownLogger.log(`Instantiated. (revision: ${REVISION})`);
+  _ownLogger.debug(`Instantiated. (revision: ${REVISION})`);
 
   function _getOverride(key) {
     if (!overrides[key]) {
@@ -1713,7 +1713,7 @@ function createLogger(p = {}) {
 
 /***/ }),
 
-/***/ 530:
+/***/ 531:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1727,11 +1727,11 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20200906_12h17';
+exports.BUILD_DATE = '20200918_00h22';
 
 /***/ }),
 
-/***/ 535:
+/***/ 536:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1751,7 +1751,7 @@ process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 
 __webpack_require__(76);
 
-const build_1 = __webpack_require__(530); ////////////////////////////////////
+const build_1 = __webpack_require__(531); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -3071,7 +3071,7 @@ function is_pure_json(js) {
   return false;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
-var fields = __webpack_require__(18);
+var fields = __webpack_require__(19);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -3113,7 +3113,7 @@ function displayError(errLike = {}) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
-var consts = __webpack_require__(11);
+var consts = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
 
@@ -3210,7 +3210,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["b"]; });
 
@@ -3235,10 +3235,10 @@ root.v1 = (existing => {
   let ownLogger = candidate.getLogger({
     name: _v1__WEBPACK_IMPORTED_MODULE_1__[/* OWN_LOGGER_NAME */ "a"]
   });
-  ownLogger.log('as a candidate, attempting to attach…');
+  ownLogger.debug('as a candidate, attempting to attach…');
 
   if (!existing) {
-    ownLogger.log('nominal install ✅');
+    ownLogger.debug('nominal install ✅');
     return candidate; // nominal case, current = real implementation is first
   } // something is wrong,
   // help the user figure it out

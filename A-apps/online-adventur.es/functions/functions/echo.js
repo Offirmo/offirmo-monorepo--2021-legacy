@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 533);
+/******/ 	return __webpack_require__(__webpack_require__.s = 534);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -335,45 +335,27 @@ const INTERNAL_PROP = '_SEC';
 
 /***/ }),
 
-/***/ 11:
+/***/ 10:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
-const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
-// mnemonic:  100 = 100% = you will see 100% of the logs
-//              1 =   1% = you will see 1% of the logs (obviously the most important)
+/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
 
-const LOG_LEVEL_TO_INTEGER = {
-  fatal: 1,
-  emerg: 2,
-  alert: 10,
-  crit: 20,
-  error: 30,
-  warning: 40,
-  warn: 40,
-  notice: 45,
-  info: 50,
-  verbose: 70,
-  log: 80,
-  debug: 81,
-  trace: 90,
-  silly: 100
-};
-const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
-// generated to shave a few bytes
-// not using fromEntries bc not available in node <12
+  if (typeof global !== 'undefined') return global; // @ts-ignore
 
-const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
-  acc[ll] = {
-    em: 'emergency',
-    wa: 'warn'
-  }[ll.slice(0, 1)] || ll;
-  return acc;
-}, {});
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
 
 
 /***/ }),
@@ -1193,6 +1175,49 @@ module.exports = {
 
 /***/ }),
 
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
+const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
+// mnemonic:  100 = 100% = you will see 100% of the logs
+//              1 =   1% = you will see 1% of the logs (obviously the most important)
+
+const LOG_LEVEL_TO_INTEGER = {
+  fatal: 1,
+  emerg: 2,
+  alert: 10,
+  crit: 20,
+  error: 30,
+  warning: 40,
+  warn: 40,
+  notice: 45,
+  info: 50,
+  verbose: 70,
+  log: 80,
+  debug: 81,
+  trace: 90,
+  silly: 100
+};
+const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
+// generated to shave a few bytes
+// not using fromEntries bc not available in node <12
+
+const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
+  acc[ll] = {
+    em: 'emergency',
+    wa: 'warn'
+  }[ll.slice(0, 1)] || ll;
+  return acc;
+}, {});
+
+
+/***/ }),
+
 /***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1346,7 +1371,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 // UNUSED EXPORTS: checkLevel
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
-var consts = __webpack_require__(11);
+var consts = __webpack_require__(12);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
 var consts_base = __webpack_require__(33);
@@ -1487,7 +1512,7 @@ function create({
 
 /***/ }),
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("zlib");
@@ -1504,10 +1529,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Response", function() { return Response; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FetchError", function() { return FetchError; });
 /* harmony import */ var stream__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
 /* harmony import */ var https__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(28);
-/* harmony import */ var zlib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(13);
+/* harmony import */ var zlib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
 
 
 
@@ -1969,6 +1994,12 @@ function convertBody(buffer, headers) {
 	// html4
 	if (!res && str) {
 		res = /<meta[\s]+?http-equiv=(['"])content-type\1[\s]+?content=(['"])(.+?)\2/i.exec(str);
+		if (!res) {
+			res = /<meta[\s]+?content=(['"])(.+?)\1[\s]+?http-equiv=(['"])content-type\3/i.exec(str);
+			if (res) {
+				res.pop(); // drop last quote
+			}
+		}
 
 		if (res) {
 			res = /charset=(.*)/i.exec(res.pop());
@@ -2976,7 +3007,7 @@ function fetch(url, opts) {
 				// HTTP fetch step 5.5
 				switch (request.redirect) {
 					case 'error':
-						reject(new FetchError(`redirect mode is set to error: ${request.url}`, 'no-redirect'));
+						reject(new FetchError(`uri requested responds with a redirect, redirect mode is set to error: ${request.url}`, 'no-redirect'));
 						finalize();
 						return;
 					case 'manual':
@@ -3015,7 +3046,8 @@ function fetch(url, opts) {
 							method: request.method,
 							body: request.body,
 							signal: request.signal,
-							timeout: request.timeout
+							timeout: request.timeout,
+							size: request.size
 						};
 
 						// HTTP-redirect fetch step 9
@@ -3143,14 +3175,14 @@ fetch.Promise = global.Promise;
 
 /***/ }),
 
-/***/ 16:
+/***/ 17:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
 
-/***/ 18:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3176,7 +3208,7 @@ const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a b
 
 /***/ }),
 
-/***/ 197:
+/***/ 198:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3250,7 +3282,7 @@ exports.get_netlify_user_data = get_netlify_user_data;
 
 /***/ }),
 
-/***/ 21:
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3303,31 +3335,6 @@ exports.Enum = Enum;
     Enum.isType = isType;
 })(Enum = exports.Enum || (exports.Enum = {}));
 //# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
-
 
 /***/ }),
 
@@ -3413,7 +3420,7 @@ function create() {
     _ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`);
   }
 
-  _ownLogger.log(`Instantiated. (revision: ${REVISION})`);
+  _ownLogger.debug(`Instantiated. (revision: ${REVISION})`);
 
   function _getOverride(key) {
     if (!overrides[key]) {
@@ -3575,7 +3582,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["b"]; });
 
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flattenToOwn", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["c"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_getSECStatePath", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["b"]; });
@@ -3797,7 +3804,7 @@ function set_operation(state, operation) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/utils.js
-var utils = __webpack_require__(5);
+var utils = __webpack_require__(6);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/plugins/logical-stack/index.js
 
@@ -4403,7 +4410,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(91);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "STRICT_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_1__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QUASI_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_1__["c"]; });
@@ -4434,7 +4441,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
 /* unused harmony export addDebugCommand */
 /* unused harmony export globalThis */
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(54);
 
 
@@ -4468,7 +4475,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CHANNEL = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(21);
+const typescript_string_enums_1 = __webpack_require__(22);
 
 const functions_interface_1 = __webpack_require__(65); /////////////////////////////////////////////////
 
@@ -4518,62 +4525,7 @@ function createLogger(p = {}) {
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return flattenToOwn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _getSECStatePath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _flattenSEC; });
-/* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-
-
-function flattenToOwn(object) {
-  if (!object) return object;
-  if (Array.isArray(object)) return object;
-  if (typeof object !== 'object') return object;
-  const res = Object.create(null);
-
-  for (const property in object) {
-    res[property] = object[property];
-  }
-
-  return res;
-} // needed for various tree traversal algorithms
-
-
-function _getSECStatePath(SEC) {
-  if (!SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath) {
-    const path = [];
-    let state = SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]];
-
-    while (state) {
-      path.unshift(state);
-      state = state.parent;
-    }
-
-    SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath = path;
-  }
-
-  return SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath;
-} // for debug
-
-
-function _flattenSEC(SEC) {
-  const plugins = { ...SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].plugins
-  };
-  plugins.analytics.details = flattenToOwn(plugins.analytics.details);
-  plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
-  plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
-  plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
-  return plugins;
-}
-
-
-
-/***/ }),
-
-/***/ 530:
+/***/ 531:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4587,11 +4539,11 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20200906_12h17';
+exports.BUILD_DATE = '20200918_00h22';
 
 /***/ }),
 
-/***/ 533:
+/***/ 534:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4616,9 +4568,9 @@ __webpack_require__(76);
 
 const functions_interface_1 = __webpack_require__(65);
 
-const netlify_1 = __webpack_require__(197);
+const netlify_1 = __webpack_require__(198);
 
-const build = tslib_1.__importStar(__webpack_require__(530));
+const build = tslib_1.__importStar(__webpack_require__(531));
 
 const utils_1 = __webpack_require__(68); ////////////////////////////////////
 
@@ -4755,6 +4707,61 @@ function create() {
 
 /***/ }),
 
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return flattenToOwn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _getSECStatePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _flattenSEC; });
+/* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+
+
+function flattenToOwn(object) {
+  if (!object) return object;
+  if (Array.isArray(object)) return object;
+  if (typeof object !== 'object') return object;
+  const res = Object.create(null);
+
+  for (const property in object) {
+    res[property] = object[property];
+  }
+
+  return res;
+} // needed for various tree traversal algorithms
+
+
+function _getSECStatePath(SEC) {
+  if (!SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath) {
+    const path = [];
+    let state = SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]];
+
+    while (state) {
+      path.unshift(state);
+      state = state.parent;
+    }
+
+    SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath = path;
+  }
+
+  return SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath;
+} // for debug
+
+
+function _flattenSEC(SEC) {
+  const plugins = { ...SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].plugins
+  };
+  plugins.analytics.details = flattenToOwn(plugins.analytics.details);
+  plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
+  plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
+  plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
+  return plugins;
+}
+
+
+
+/***/ }),
+
 /***/ 64:
 /***/ (function(module, exports) {
 
@@ -4806,7 +4813,7 @@ __webpack_require__.d(__webpack_exports__, "create_server_response_body__error",
 __webpack_require__.d(__webpack_exports__, "create_server_response_body__data", function() { return /* reexport */ create_server_response_body__data; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(21);
+var dist = __webpack_require__(22);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/functions-interface/dist/src.es2019/consts.js
  /////////////////////////////////////////////////
@@ -5893,7 +5900,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean_path = exports.get_relevant_path_segments = exports.create_error = void 0;
 
-const http_1 = __webpack_require__(16);
+const http_1 = __webpack_require__(17);
 
 const error_utils_1 = __webpack_require__(40);
 
@@ -5999,13 +6006,6 @@ function get_id_from_path(event, params = {}) {
 }
 
 exports.get_id_from_path = get_id_from_path;
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
 
 /***/ }),
 
@@ -6434,7 +6434,7 @@ function is_pure_json(js) {
   return false;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
-var fields = __webpack_require__(18);
+var fields = __webpack_require__(19);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -6476,7 +6476,7 @@ function displayError(errLike = {}) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
-var consts = __webpack_require__(11);
+var consts = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
 
@@ -6573,7 +6573,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["b"]; });
 
@@ -6598,10 +6598,10 @@ root.v1 = (existing => {
   let ownLogger = candidate.getLogger({
     name: _v1__WEBPACK_IMPORTED_MODULE_1__[/* OWN_LOGGER_NAME */ "a"]
   });
-  ownLogger.log('as a candidate, attempting to attach…');
+  ownLogger.debug('as a candidate, attempting to attach…');
 
   if (!existing) {
-    ownLogger.log('nominal install ✅');
+    ownLogger.debug('nominal install ✅');
     return candidate; // nominal case, current = real implementation is first
   } // something is wrong,
   // help the user figure it out
@@ -6659,7 +6659,7 @@ const {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getRootSEC; });
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 /* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(39);
 
@@ -6682,6 +6682,13 @@ function getRootSEC() {
 
 
 
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
 
 /***/ }),
 
@@ -7416,7 +7423,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return normalizeError; });
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
  // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.
 // Normalize any thrown object into a true, normal error.
@@ -7455,7 +7462,7 @@ function normalizeError(err_like = {}) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createError; });
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 
 function createError(message, attributes = {}, ctor = Error) {
   message = String(message || attributes.message || 'Unknown error!');
