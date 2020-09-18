@@ -13,8 +13,8 @@
 	},
 
 	"scripts": {
-		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && test -f Procfile",
-		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && ls -l",
+		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && test -f Procfile && yarn global add bolt",
+		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && ls -l && bolt",
 
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",
