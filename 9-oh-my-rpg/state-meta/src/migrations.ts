@@ -38,7 +38,7 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Re
 /////////////////////
 
 const migrate_to_3x: LastMigrationStep<StateForMigration, [any, any]> = (SEC, legacy_state, hints, next, legacy_schema_version) => {
-	console.log('hello from migrate_to_3x', legacy_state, hints, legacy_schema_version)
+	//console.log('hello from migrate_to_3x', legacy_state, hints, legacy_schema_version)
 	if (legacy_schema_version < 2)
 		legacy_state = next(SEC, legacy_state, hints)
 
