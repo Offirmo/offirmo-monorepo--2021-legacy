@@ -14,7 +14,7 @@
 
 	"scripts": {
 		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && test -f Procfile",
-		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && ls -l && bolt",
+		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && ls -l",
 
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",
@@ -64,7 +64,7 @@
 		"deep-freeze-strict": "^1",
 		"deepmerge": "^4",
 		"emittery": "^0.7",
-		"exiftool-vendored": "^11",
+		"exiftool-vendored": "^12",
 		"express": "^4",
 		"favico.js": "^0.3",
 		"fetch-inject": "^2",
