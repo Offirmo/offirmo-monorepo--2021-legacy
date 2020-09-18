@@ -1,6 +1,52 @@
 // Note: the name of this file is because it appears in the dev tools!
 
-const PATCHED_METHODS = [ 'debug', 'log', 'info', 'warn', 'error', 'group', 'groupCollapsed', 'groupEnd' ]
+const PATCHED_METHODS: Array<keyof Console> = [
+	'debug', 'log', 'info', 'warn', 'error',
+
+	'group', 'groupCollapsed', 'groupEnd',
+
+	'table', 'trace', 'dir', 'dirxml', 'count',
+
+	'assert',
+]
+
+/*
+
+group: ƒ group()
+groupCollapsed: ƒ groupCollapsed()
+groupEnd: ƒ groupEnd()
+
+debug: ƒ debug()
+log: ƒ log()
+info: ƒ info()
+warn: ƒ warn()
+error: ƒ error()
+
+table: ƒ table()
+trace: ƒ trace()
+dir: ƒ dir()
+dirxml: ƒ dirxml()
+count: ƒ count()
+
+// tricky, need extra work
+clear: ƒ clear()
+assert: ƒ assert()
+
+// doesn't display anything:
+countReset: ƒ countReset()
+timeStamp: ƒ timeStamp()
+
+// accessors
+context: ƒ context()
+memory: (...)
+
+// to sort
+profile: ƒ profile()
+profileEnd: ƒ profileEnd()
+time: ƒ time()
+timeEnd: ƒ timeEnd()
+timeLog: ƒ timeLog()
+ */
 
 interface GroupInvocation {
 	params: any[]
@@ -126,15 +172,35 @@ function install({ uncollapse_level = 'warn', lazy = true, original_console = co
 		if (DEBUG) original_method('<<<after output', { depth: group_invocations.length})
 	}
 
-	console.group = better_group
-	console.groupCollapsed = better_groupCollapsed
-	console.groupEnd = better_groupEnd
+	const patched = new Set<keyof Console>()
 
-	console.debug = better_output.bind(null, ORIGINAL_METHODS.debug, false)
-	console.log = better_output.bind(null, ORIGINAL_METHODS.log, false)
-	console.info = better_output.bind(null, ORIGINAL_METHODS.info, false)
+	console.group = better_group
+	patched.add('group')
+	console.groupCollapsed = better_groupCollapsed
+	patched.add('groupCollapsed')
+	console.groupEnd = better_groupEnd
+	patched.add('groupEnd')
+
 	console.warn = better_output.bind(null, ORIGINAL_METHODS.warn, uncollapse_level === 'warn')
+	patched.add('warn')
 	console.error = better_output.bind(null, ORIGINAL_METHODS.error, true)
+	patched.add('error')
+	console.assert = (assertion: boolean, ...args: any[]) => {
+		if (assertion) {
+			// do nothing
+		}
+		else {
+			better_output(ORIGINAL_METHODS.assert, true, assertion, ...args)
+		}
+	}
+	patched.add('assert')
+
+	PATCHED_METHODS.forEach(method => {
+		if (patched.has(method)) return
+
+		console[method] = better_output.bind(null, ORIGINAL_METHODS[method], false)
+		patched.add(method)
+	})
 }
 
 export { install as improve_console_groups }

@@ -67,6 +67,7 @@ function demo_group(logger) {
 			// no output
 			logger.group('level 3a (NOT collapsed)')
 				// no output
+				console.assert(true)
 			logger.groupEnd()
 		logger.groupEnd()
 
@@ -84,6 +85,11 @@ function demo_group(logger) {
 				logger.log('in level 3b')
 			logger.groupEnd()
 			logger.log('in level 2d')
+		logger.groupEnd()
+
+		logger.groupCollapsed('level 2e (collapsed)')
+			logger.log('in level 2e')
+			console.assert(false, 'foo')
 		logger.groupEnd()
 
 		logger.log('where am I? (should be in level 1)')
