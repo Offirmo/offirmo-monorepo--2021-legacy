@@ -1,1 +1,1 @@
-web: node ./node_modules/.bin/bolt w @offirmo-private/heroku run start--prod
+web: pwd && node ../node_modules/.bin/bolt w @offirmo-private/heroku run start--prod
