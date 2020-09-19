@@ -13,6 +13,10 @@ function displayErrProp(errLike: Readonly<any>, prop: string) {
 			console.error(chalk.red(chalk.dim(`    ${key}: "`) + value + chalk.dim('"')))
 		})
 	}
+	else if (prop === 'stack') {
+		// TODO clean / shorten / relative
+		console.error(chalk.red(chalk.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk.dim('"')))
+	}
 	else
 		console.error(chalk.red(chalk.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk.dim('"')))
 }

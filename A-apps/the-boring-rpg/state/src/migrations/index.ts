@@ -76,7 +76,7 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Re
 
 /////////////////////
 
-export const cleanup: CleanupStep<State> = (SEC, state, hints,) => {
+export const cleanup: CleanupStep<State> = (SEC, state, hints) => {
 	let has_change = false
 
 	// useful if the achievements were modified
@@ -86,12 +86,18 @@ export const cleanup: CleanupStep<State> = (SEC, state, hints,) => {
 
 	// micro migrations TODO clean
 	if ((u_state as any).uuid) {
-		has_change = true
+		u_state = {
+			...u_state
+		}
 		delete (u_state as any).uuid
+		has_change = true
 	}
 	if (!u_state.last_user_action_tms) {
+		u_state = {
+			...u_state,
+			last_user_action_tms: get_UTC_timestamp_ms(),
+		}
 		has_change = true
-		u_state.last_user_action_tms = get_UTC_timestamp_ms()
 	}
 
 	// introduced late: min wallet always >0
@@ -119,15 +125,36 @@ const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints,
 
 	let state = legacy_state as any // for starter
 
-	state.t_state.revision = 0 // new prop
-
-	if (state.u_state.last_adventure) {
-		state.u_state.last_adventure.encounter = state.u_state.last_adventure.encounter || null
+	state = {
+		...state,
+		t_state: {
+			...state.t_state,
+			revision: 0 // new prop
+		},
 	}
 
-	state.schema_version = 14
-	state.t_state.schema_version = 14
-	state.u_state.schema_version = 14
+	if (state.u_state.last_adventure) {
+		state.u_state = {
+			...state.u_state,
+			last_adventure: {
+				...state.u_state.last_adventure,
+				encounter: state.u_state.last_adventure.encounter || null,
+			}
+		}
+	}
+
+	state = {
+		...state,
+		schema_version: 14,
+		u_state: {
+			...state.u_state,
+			schema_version: 14,
+		},
+		t_state: {
+			...state.t_state,
+			schema_version: 14,
+		},
+	}
 
 	return state
 }
@@ -139,21 +166,36 @@ const migrate_to_13: MigrationStep<State, any> = (SEC, legacy_state, hints, prev
 	let state = legacy_state as any // for starter
 
 	if (state.u_state.last_adventure) {
-		state.u_state.last_adventure = {
-			...legacy_state.u_state.last_adventure,
-			gains: {
-				...legacy_state.u_state.last_adventure.gains,
-				improvementⵧarmor: legacy_state.u_state.last_adventure.gains.armor_improvement,
-				improvementⵧweapon: legacy_state.u_state.last_adventure.gains.weapon_improvement,
-			},
+		state = {
+			...state,
+			u_state: {
+				...state.u_state,
+				last_adventure: {
+					...state.u_state.last_adventure,
+					gains: {
+						...state.u_state.last_adventure.gains,
+						improvementⵧarmor: legacy_state.u_state.last_adventure.gains.armor_improvement,
+						improvementⵧweapon: legacy_state.u_state.last_adventure.gains.weapon_improvement,
+					},
+				}
+			}
 		}
-		delete (state.u_state.last_adventure?.gains as any)?.armor_improvement
-		delete (state.u_state.last_adventure?.gains as any)?.weapon_improvement
+		delete (state.u_state.last_adventure.gains as any)?.armor_improvement
+		delete (state.u_state.last_adventure.gains as any)?.weapon_improvement
 	}
 
-	state.schema_version = 13
-	state.t_state.schema_version = 13
-	state.u_state.schema_version = 13
+	state = {
+		...state,
+		schema_version: 13,
+		u_state: {
+			...state.u_state,
+			schema_version: 13,
+		},
+		t_state: {
+			...state.t_state,
+			schema_version: 13,
+		},
+	}
 
 	return state
 }

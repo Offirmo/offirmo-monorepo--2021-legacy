@@ -134,7 +134,7 @@ export function create(
 				current_rev: get_revision_loose(state as any),
 				bkp_rev: get_revision_loose(bkp__current as any),
 				'legacy.length': recovered_states_unmigrated_ordered.length,
-				some_state,
+				//some_state,
 			})
 			if (!some_state) return false
 			assert(get_schema_version_loose(some_state) === SCHEMA_VERSION, `schema version === ${SCHEMA_VERSION} (current)!`)
@@ -153,8 +153,15 @@ export function create(
 			bkp__recent = bkp__current
 			bkp__current = some_state
 			promises.push(_optimized_store_key_value(StorageKey.bkp_main, bkp__current))
-			if (bkp__recent && get_schema_version_loose(bkp__recent) === SCHEMA_VERSION)
-				promises.push(_optimized_store_key_value(StorageKey.bkp_minor, bkp__recent))
+			if (bkp__recent) {
+				if (get_schema_version_loose(bkp__recent) === SCHEMA_VERSION)
+					promises.push(_optimized_store_key_value(StorageKey.bkp_minor, bkp__recent))
+				else {
+					// cleanup, will be stored in the major pipeline, cf. lines below
+					storage.removeItem(StorageKey.bkp_minor)
+					bkp__recent = undefined
+				}
+			}
 			while(recovered_states_unmigrated_ordered.length) {
 				const some_legacy_state = recovered_states_unmigrated_ordered.shift()
 				if (get_schema_version_loose(some_legacy_state) < SCHEMA_VERSION)
@@ -225,13 +232,12 @@ export function create(
 				logger.trace(`[${LIB}] automigrating restored state…`)
 
 				// memorize it for later
-				restored_migrated = TBRPGState.migrate_to_latest(SEC, most_recent_unmigrated_bkp)
-
-				// in case it's legacy, synchronous cleanup so that set() can work properly
-				/*if (get_schema_version_loose(bkp__recent as any) < SCHEMA_VERSION) {
-					bkp__recent = undefined
-					storage.removeItem(StorageKey.bkp_minor)
-				}*/
+				restored_migrated = TBRPGState.migrate_to_latest(SEC,
+					// deep clone in case the migration is not immutable (seen!)
+					JSON.parse(JSON.stringify(
+						most_recent_unmigrated_bkp
+					))
+				)
 
 				set(restored_migrated) // immediate sync restoration
 			}

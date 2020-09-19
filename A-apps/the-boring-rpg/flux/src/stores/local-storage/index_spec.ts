@@ -52,12 +52,16 @@ describe(`${LIB} - store - local storage`, function() {
 		}
 	}) as any
 	const DEMO_OLDER: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
-		schema_version: SCHEMA_VERSION - 1,
-		revision: 222,
+		schema_version: 11,
+		revision: 111,
 	})
+	const DEMO_OLDER_ALT: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
+		...DEMO_OLDER,
+		revision: DEMO_OLDER.revision - 1,
+	} as any)
 	const DEMO_OLDEST: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
-		schema_version: SCHEMA_VERSION - 3,
-		revision: 11,
+		schema_version: 10,
+		revision: 10,
 	})
 
 	describe('basic features', function () {
@@ -389,6 +393,7 @@ describe(`${LIB} - store - local storage`, function() {
 					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
 
 					// echo from dispatcher
+					step = 'echo'
 					store.set(store.get())
 
 					// no change
@@ -400,6 +405,7 @@ describe(`${LIB} - store - local storage`, function() {
 					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDEST))
 					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
 
+					step = 'd1'
 					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
 
 					// pipeline updated
@@ -415,6 +421,75 @@ describe(`${LIB} - store - local storage`, function() {
 					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDER))
 					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(stable_stringify(DEMO_OLDEST))
 
+					step = 'd2'
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
+
+					// pipeline updated
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(4)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(stable_stringify(DEMO_OLDEST))
+				})
+			})
+
+			context('when the content is ok and old = new version -- main & minor & m1', function () {
+				beforeEach(() => {
+					local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_OLDER))
+					local_storage.setItem(StorageKey.bkp_minor, stable_stringify(DEMO_OLDER_ALT))
+					local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
+				})
+
+				it('should work', async () => {
+					const store = create(SEC, local_storage)
+
+					let step = 'sync'
+					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
+
+					// no change in LS
+					step = 'unpersist'
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(3)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(stable_stringify(DEMO_OLDER_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
+
+					// echo from dispatcher
+					step = 'echo'
+					store.set(store.get())
+
+					// no change
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(3)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(stable_stringify(DEMO_OLDER_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDEST))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(null)
+
+					step = 'd1'
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
+
+					// pipeline updated
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(3)
+					let main_bkp = JSON.parse(local_storage.getItem(StorageKey.bkp_main)!)
+					expect(get_schema_version_loose(main_bkp), `${step} main`).to.equal(SCHEMA_VERSION)
+					expect(store.get(), `${step} get`).to.deep.equal(main_bkp)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(null)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(stable_stringify(DEMO_OLDEST))
+
+					step = 'd2'
 					store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
 
 					// pipeline updated
