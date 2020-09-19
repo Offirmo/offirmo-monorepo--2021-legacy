@@ -5590,6 +5590,9 @@ function displayErrProp(errLike, prop) {
     Object.entries(details).forEach(([key, value]) => {
       console.error(source_default.a.red(source_default.a.dim(`    ${key}: "`) + value + source_default.a.dim('"')));
     });
+  } else if (prop === 'stack') {
+    // TODO clean / shorten / relative
+    console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + source_default.a.dim('"')));
   } else console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + source_default.a.dim('"')));
 }
 

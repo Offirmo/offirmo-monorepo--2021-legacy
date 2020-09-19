@@ -4539,7 +4539,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20200918_00h22';
+exports.BUILD_DATE = '20200919_06h37';
 
 /***/ }),
 
@@ -6448,6 +6448,9 @@ function displayErrProp(errLike, prop) {
     Object.entries(details).forEach(([key, value]) => {
       console.error(source_default.a.red(source_default.a.dim(`    ${key}: "`) + value + source_default.a.dim('"')));
     });
+  } else if (prop === 'stack') {
+    // TODO clean / shorten / relative
+    console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + source_default.a.dim('"')));
   } else console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + source_default.a.dim('"')));
 }
 
