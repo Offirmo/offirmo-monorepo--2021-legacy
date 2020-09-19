@@ -306,7 +306,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 			})
 
-			context('when the content is ok but old (only main)', function () {
+			context('when the content is ok but old = new version -- only main', function () {
 				beforeEach(() => {
 					local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_OLDER))
 				})
@@ -365,7 +365,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 			})
 
-			context('when the content is ok and old (partial)', function () {
+			context('when the content is ok and old = new version -- main & m1', function () {
 				beforeEach(() => {
 					local_storage.setItem(StorageKey.bkp_main, stable_stringify(DEMO_OLDER))
 					local_storage.setItem(StorageKey.bkp_major_old, stable_stringify(DEMO_OLDEST))
@@ -373,7 +373,6 @@ describe(`${LIB} - store - local storage`, function() {
 
 				it('should work', async () => {
 					const store = create(SEC, local_storage)
-
 
 					let step = 'sync'
 					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
@@ -403,6 +402,7 @@ describe(`${LIB} - store - local storage`, function() {
 
 					store.on_dispatch(STUB_ACTION, DEMO_LATEST)
 
+					// pipeline updated
 					await all_planned_idle_executed()
 					await all_planned_idle_executed()
 					//console.log(storage_to_string(local_storage))
@@ -412,6 +412,18 @@ describe(`${LIB} - store - local storage`, function() {
 					expect(store.get(), `${step} get`).to.deep.equal(main_bkp)
 					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST))
 					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(null)
+					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDER))
+					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(stable_stringify(DEMO_OLDEST))
+
+					store.on_dispatch(STUB_ACTION, DEMO_LATEST_ALT)
+
+					// pipeline updated
+					await all_planned_idle_executed()
+					await all_planned_idle_executed()
+					//console.log(storage_to_string(local_storage))
+					expect(local_storage, `${step} ls size`).to.have.lengthOf(4)
+					expect(local_storage.getItem(StorageKey.bkp_main), `${step} main str`).to.equal(stable_stringify(DEMO_LATEST_ALT))
+					expect(local_storage.getItem(StorageKey.bkp_minor), `${step} minor str`).to.equal(stable_stringify(DEMO_LATEST))
 					expect(local_storage.getItem(StorageKey.bkp_major_old), `${step} old`).to.equal(stable_stringify(DEMO_OLDER))
 					expect(local_storage.getItem(StorageKey.bkp_major_older), `${step} older`).to.equal(stable_stringify(DEMO_OLDEST))
 				})
