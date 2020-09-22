@@ -20,8 +20,10 @@ export async function up(knex: Knex): Promise<any> {
 			roles: [ 'admin', 'tbrpg:admin']
 		},
 	)
+	// 2020/09/19 note: this was useless!
 	await knex(NETLIFY_USERS_TABLE).insert(
 		{
+			// 2020/09/19 note: also seems the id changed
 			own_id: '546d79ab-5240-4dd0-af66-782afbc0a044',
 			user_id: 0,
 		},
@@ -30,5 +32,5 @@ export async function up(knex: Knex): Promise<any> {
 
 
 export async function down(knex: Knex): Promise<any> {
-	return knex(USERS_TABLE).where({ 'id': 1 }).del()
+	return knex(USERS_TABLE).where({ 'id': 0 }).del()
 }

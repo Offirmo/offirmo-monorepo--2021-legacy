@@ -80,7 +80,7 @@ export async function ensure_user_through_netlify(
 		user = await get_by_email(data.email, trx)
 		logger.log('ensure_user_through_netlify #2 / get_by_email', {user})
 
-		if (!user?.id) {
+		if (!user) {
 			logger.log('nothing found, creating everything...')
 
 			const { user_id } = await create_user_through_netlify(data, trx)

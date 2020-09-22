@@ -166,25 +166,28 @@ function init(SEC, game_instance) {
 				// refresh token, https://github.com/netlify/netlify-identity-widget/issues/108
 				return user.jwt()
 					.then(() => {
-						logger.info('NetlifyIdentity: user refreshed', user)
+						logger.info('NetlifyIdentity: user refreshed (1/2)', user)
 
+						// seen that user is not immediately fully populated
+						// we need to wait a bit
+						return poll(
+							() => !!user.user_metadata && !!user.app_metadata,
+							{ timeoutMs: 30 * 1000 }
+							)
+					})
+					.then(() => {
+						logger.info('NetlifyIdentity: user refreshed (2/2)', user)
 						get_game_instance().commands.on_logged_in_refresh(
 							true,
 							user.app_metadata.roles,
 						)
-
-						// user may not be fully populated immediately
-						// we need to wait a bit
-						return poll(() => !!user.user_metadata, { timeoutMs: 30 * 1000 })
 					})
 					.catch(err => {
 						logger.error('NetlifyIdentity⚡ on trying to finalize user', err)
 						/* swallow the error */
+
 						// TODO ??
-						/*
-                      // clean up
-                      ↆNetlifyIdentity.logout()
-                      */
+						// ↆNetlifyIdentity.logout()
 					})
 					.then(() => {
 						update_state({

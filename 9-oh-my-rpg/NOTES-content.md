@@ -561,3 +561,4 @@ dual blade https://www.youtube.com/watch?v=PQApbJ29QJQ
 
 https://en.wikipedia.org/wiki/Combat_engineer
 https://en.wikipedia.org/wiki/Middle-earth_peoples#Dragons
++++ https://worldbuilding.stackexchange.com/questions/185781/why-would-sentient-weapons-be-created
