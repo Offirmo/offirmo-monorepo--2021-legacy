@@ -172,7 +172,7 @@
 		"browserslist": "^4",
 		"chai": "^4",
 		"chai-as-promised": "^7",
-		"chai-fetch-mock": "^2",
+		"chai-fetch-mock": "^3",
 		"chai-moment": "^0.1",
 		"chai-subset": "^1",
 		"clean-css-cli": "^4",

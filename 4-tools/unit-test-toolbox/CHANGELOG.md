@@ -2,7 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* XXX disabled chai-fetch-mock because of a conflict with sinon-chai
+* [major][fix] major bump chai-fetch-mock because of a conflict with sinon-chai (which [I reported]())
 * [feat][fix] Optionally, the init script will now initialize a node SEC/UDA environment if those are available.
     This happens only in my monorepo thus I silenced an existing warning (fix)
 * [chore] @offirmo/universal-debug-api-node is now an `optionalDependencies` Should not change anything, it's for semantic reasons.

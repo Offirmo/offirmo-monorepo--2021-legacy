@@ -52,15 +52,14 @@ global.expect = chai.expect
 global.sinon = sinon
 
 // activate chai extensions
-// order is important: https://github.com/prodatakey/dirty-chai#use-with-chai-as-promised
-chai.use(chai_as_promised)
+chai.use(chai_as_promised) // order is important: https://github.com/prodatakey/dirty-chai#use-with-chai-as-promised
 chai.use(sinon_chai)
 chai.use(chai_subset)
 chai.use(chai_moment)
 
 try {
-	//const chai_fetch_mock = require('chai-fetch-mock')
-	//chai.use(chai_fetch_mock);
+	const chai_fetch_mock = require('chai-fetch-mock')
+	chai.use(chai_fetch_mock) // order is important https://github.com/gakimball/chai-fetch-mock/issues/3#issuecomment-696493670
 }
 catch (e) { /* ignore */ }
 

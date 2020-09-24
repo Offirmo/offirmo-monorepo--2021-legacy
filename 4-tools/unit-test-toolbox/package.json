@@ -30,7 +30,7 @@
 	},
 	"optionalDependencies": {
 		"@offirmo/universal-debug-api-node": "^0",
-		"chai-fetch-mock": "^2"
+		"chai-fetch-mock": "^3"
 	},
 
 	"scripts": {
