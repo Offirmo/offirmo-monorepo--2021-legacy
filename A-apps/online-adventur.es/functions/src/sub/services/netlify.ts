@@ -56,7 +56,7 @@ export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData 
 		sub: netlify_id,
 		app_metadata: { provider, roles },
 		user_metadata: { avatar_url, full_name },
-	} = context.clientContext.user!;
+	} = context.clientContext.user!
 
 	return {
 		netlify_id,

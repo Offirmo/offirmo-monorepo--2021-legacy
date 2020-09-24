@@ -20,10 +20,10 @@ function get_db() {
 				// in this example we use pg driver's connection API
 				conn.query('SET timezone="UTC";', function (err) {
 					done(err, conn)
-				});
+				})
 			}
 		}
-	});
+	})
 }
 
 module.exports = get_db

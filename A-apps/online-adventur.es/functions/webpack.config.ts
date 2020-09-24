@@ -15,4 +15,4 @@ module.exports = {
 		// https://www.npmjs.com/package/webpack-bundle-analyzer
 		//new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
 	],
-};
+}

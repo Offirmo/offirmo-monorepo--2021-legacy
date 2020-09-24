@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-console.log('Mixing emojis');
+console.log('Mixing emojis')
 
 const stylize = require('chalk')
 

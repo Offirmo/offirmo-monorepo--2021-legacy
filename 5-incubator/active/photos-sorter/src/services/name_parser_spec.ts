@@ -17,7 +17,7 @@ import {
 	parse,
 	ParseResult,
 } from './name_parser'
-import {get_current_timezone} from "./params";
+import { get_current_timezone } from "./params"
 
 /////////////////////
 

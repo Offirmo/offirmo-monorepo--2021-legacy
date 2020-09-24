@@ -83,7 +83,7 @@ error_reporter
 		//debug: true,
 		//instrument:
 	})
-	//.install();
+	//.install()
 
 
 // https://docs.sentry.io/clients/javascript/usage/#tracking-users
@@ -97,14 +97,14 @@ Raven.captureException(new Error('Oops!')
 
 Raven.wrap({
 		tags: {git_commit: 'c0deb10c4'}
-	}, function () { … });
+	}, function () { … })
 
 Raven.captureMessage('Test captureMessage1')
 Raven.captureMessage('Test captureMessage2', {
 	level: 'info' // one of 'info', 'warning', or 'error'
 })
 
-Raven.showReportDialog();
+Raven.showReportDialog()
 */
 
 export default error_reporter

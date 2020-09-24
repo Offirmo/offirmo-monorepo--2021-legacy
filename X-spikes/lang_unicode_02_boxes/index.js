@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-console.log('The boring RPG');
+console.log('The boring RPG')
 // http://jrgraphix.net/r/Unicode/2500-257F
 
 console.log('┃ Hello') // 2503

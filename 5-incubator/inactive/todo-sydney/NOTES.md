@@ -13,3 +13,4 @@ https://sydneyuncovered.com/ku-ring-gai-chase-national-park-walks/
 https://www.goget.com.au/blog/places-to-visit-in-nsw-with-goget/
 https://www.australiantraveller.com/nsw/blue-mountains/greater-blue-mountains/
 https://www.australiantraveller.com/100-ways-to-holiday-here-this-year/
+https://100beachchallenge.com/

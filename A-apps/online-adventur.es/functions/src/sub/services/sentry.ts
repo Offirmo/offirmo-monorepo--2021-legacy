@@ -30,7 +30,7 @@ Sentry.configureScope((scope: any) => {
 	scope.setExtra('channel', CHANNEL)
 	scope.setExtra('node', process.versions.node)
 	// TODO node version etc. ?
-});
+})
 
 export async function on_error(err: XXError): Promise<void> {
 	console.log('💣 Reporting to Sentry...', err.message)

@@ -65,11 +65,11 @@ function format_weapon(g, w) {
 
 	/*
 	 if (libs._s.startsWith(parts[0], 'of')) {
-	 var q2 = parts.shift();
-	 parts.push(q2);
+	 var q2 = parts.shift()
+	 parts.push(q2)
 	 }
 
-	 return libs._s.words(parts.join(' ')).map(libs._s.capitalize).join(' ');
+	 return libs._s.words(parts.join(' ')).map(libs._s.capitalize).join(' ')
 	 */
 	return parts.join(' ')
 }

@@ -23,7 +23,7 @@ type NetlifyHandler = Handler<APIGatewayEvent, Response>
 
 // Re-typing of the context according to what we really see
 interface NetlifyContext extends Omit<Omit<Context, 'identity'>, 'clientContext'> {
-	clientContext: NetlifyClientContext;
+	clientContext: NetlifyClientContext
 }
 
 interface NetlifyClientContext extends Omit<ClientContext, 'env'> {

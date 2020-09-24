@@ -48,7 +48,7 @@ function render() {
 			// options
 			itemSelector: '.grid-item',
 			layoutMode: 'fitRows'
-		});
+		})
 	}
 	else {
 		const previous_css_class = `tbrpg⋄bg-image⁚${state.previous_bg_id}`

@@ -22,7 +22,7 @@ import {
 	get_human_readable_timestamp_auto,
 } from './date_generator'
 import logger from './logger'
-import {SimpleYYYYMMDD, TimeZone} from "../types";
+import { SimpleYYYYMMDD } from "../types"
 import { get_current_timezone } from './params'
 
 

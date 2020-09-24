@@ -22,10 +22,10 @@ export const nextTick: (callback: Function, ...args: any[]) => void
 // Schedules the "immediate" execution of the callback after I/O events' callbacks.
 // that could happen in current event loop or in the next one, depending on where we are
 interface Immediate { // credits: node typings
-	hasRef(): boolean;
-	ref(): this;
-	unref(): this;
-	_onImmediate: Function; // to distinguish it from the Timeout class
+	hasRef(): boolean
+	ref(): this
+	unref(): this
+	_onImmediate: Function // to distinguish it from the Timeout class
 }
 export const setImmediate: (callback: (...args: any[]) => void, ...args: any[]) => Immediate
 	= getGlobalThis().setImmediate

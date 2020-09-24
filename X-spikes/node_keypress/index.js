@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-console.log('The boring RPG');
+console.log('The boring RPG')
 
 const readline = require('readline')
 
@@ -42,7 +42,7 @@ process.stdin.on('keypress', (str, key_pressed) => {
 		throw new Error('keypress: Y U no key?!')
 
 	if (key_pressed.ctrl) // ctrl C, ctrl D, whatever
-		process.kill(process.pid, 'SIGINT');
+		process.kill(process.pid, 'SIGINT')
 
 	if (!current_screen_id)
 		throw new Error('keypress: unknown current screen!')

@@ -43,4 +43,4 @@ module.exports = {
 		connection: process.env.SECRET_DATABASE_URL,
 	},
 
-};
+}

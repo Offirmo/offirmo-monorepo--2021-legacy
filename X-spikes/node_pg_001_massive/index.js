@@ -1,4 +1,4 @@
-const massive = require('massive');
+const massive = require('massive')
 
 // postgres://someuser:somepassword@somehost:381/somedatabase
 const connectionString = 'postgres://postgres:@localhost:32768'
@@ -9,6 +9,5 @@ massive({
 	database: 'postgres',
 	user: 'postgres',
 }).then(db => {
-
 	console.log(db)
-});
+})

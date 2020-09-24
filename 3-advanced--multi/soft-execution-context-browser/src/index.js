@@ -20,8 +20,8 @@ function listenToErrors() {
 			shouldRethrow: false,
 		}, err)
 
-		return true; // same as preventDefault XXX should we?
-	};
+		return true // same as preventDefault XXX should we?
+	}
 }
 */
 
@@ -45,7 +45,7 @@ function listenToErrorEvents() {
 				shouldRethrow: false,
 			}, err)
 
-			//evt.preventDefault(); // XXX should we?
+			//evt.preventDefault() // XXX should we?
 		})
 
 		logger.verbose('Root SEC is now listening to error events ✔')

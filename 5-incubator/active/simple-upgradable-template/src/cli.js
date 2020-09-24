@@ -44,10 +44,10 @@ try {
 	const template_path = path.resolve(process.cwd(), cli.flags.template)
 	const destination_path = path.resolve(process.cwd(), cli.flags.destination)
 
-	const template = fs.readFileSync(template_path, 'utf8');
+	const template = fs.readFileSync(template_path, 'utf8')
 	const existing_target = (() => {
 		try {
-			return fs.readFileSync(destination_path, 'utf8');
+			return fs.readFileSync(destination_path, 'utf8')
 		} catch (err) {
 			if (!err.message.startsWith('ENOENT')) {
 				throw err

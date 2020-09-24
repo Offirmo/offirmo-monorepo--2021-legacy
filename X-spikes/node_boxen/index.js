@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-console.log('The boring RPG');
+console.log('The boring RPG')
 
 const boxen = require('boxen')
 

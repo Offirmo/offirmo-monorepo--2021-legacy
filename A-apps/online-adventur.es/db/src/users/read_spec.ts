@@ -19,7 +19,7 @@ import {
 	get_test_netlify_user_01,
 	cleanup
 } from './_test_helpers'
-import {sanitize_persisted} from "./common";
+import { sanitize_persisted } from './common'
 
 /////////////////////
 

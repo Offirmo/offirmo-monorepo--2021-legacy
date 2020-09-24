@@ -10,10 +10,10 @@ import {
 /////////////////////
 
 function _get_relevant_media_queries() {
-	const result = {};
+	const result = {}
 
 	// https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
-	[
+	;[
 		// https://developer.mozilla.org/en-US/docs/Web/CSS/@media/any-hover
 		'(any-hover: none)',
 		'(any-hover: hover)',

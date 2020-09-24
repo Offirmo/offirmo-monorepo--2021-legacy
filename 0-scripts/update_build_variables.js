@@ -86,7 +86,7 @@ switch(cli.flags.mode || 'json') {
 export const VERSION: string = '${VERSION}'
 export const NUMERIC_VERSION: number = ${NUMERIC_VERSION} // for easy comparisons
 export const BUILD_DATE: string = '${BUILD_DATE}'
-`);
+`)
 		console.log('🧙️  wrote:', target_path)
 		break
 	}
@@ -97,7 +97,8 @@ export const BUILD_DATE: string = '${BUILD_DATE}'
 const VERSION = '${VERSION}'
 const NUMERIC_VERSION = ${NUMERIC_VERSION} // for easy comparisons
 const BUILD_DATE = '${BUILD_DATE}'
-module.exports = { VERSION, NUMERIC_VERSION, BUILD_DATE }`);
+module.exports = { VERSION, NUMERIC_VERSION, BUILD_DATE }
+`)
 		console.log('🧙️  wrote:', target_path)
 		break
 	}

@@ -267,18 +267,18 @@ describe('@offirmo-private/prettify-any', function() {
 
 				it('should work with common object types: classes', () => {
 					class Greeter {
-						greeting: string;
+						greeting: string
 
 						constructor(message: string) {
-							this.greeting = message;
+							this.greeting = message
 						}
 
 						greet() {
-							return "Hello, " + this.greeting;
+							return "Hello, " + this.greeting
 						}
 					}
 
-					let greeter = new Greeter("world");
+					let greeter = new Greeter("world")
 
 					test_to_console(Greeter)
 					test_to_console(greeter)

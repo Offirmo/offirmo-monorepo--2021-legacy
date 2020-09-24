@@ -1,4 +1,4 @@
-import * as Knex from "knex";
+import * as Knex from 'knex'
 
 import { NAME as USERS_TABLE } from './20190915112614_create-users'
 import { NAME as NETLIFY_USERS_TABLE } from './20190915181842_create-netlify-users'

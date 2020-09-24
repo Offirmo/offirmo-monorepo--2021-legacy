@@ -41,6 +41,8 @@ repo of bite-sized programming concepts
 * https://lethain.com/distributed-systems-vocabulary/
 * https://github.com/labs42io/clean-code-typescript
 
+https://en.wikipedia.org/wiki/God_object
+
 programming book:
 https://twitter.com/dan_abramov/status/1190762799338790913
 https://medium.com/better-programming/7-essential-books-for-programmers-869bca83b360

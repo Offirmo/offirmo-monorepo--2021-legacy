@@ -26,9 +26,8 @@ import {
 	on_exif_read,
 	on_hash_computed, on_notes_unpersisted, get_best_creation_year,
 } from './file'
-import logger from "../services/logger";
-import {get_compact_date, get_human_readable_timestamp_auto} from "../services/date_generator";
-import {get_current_timezone} from "../services/params";
+import {get_compact_date, get_human_readable_timestamp_auto} from "../services/date_generator"
+import {get_current_timezone} from "../services/params"
 
 /////////////////////
 
