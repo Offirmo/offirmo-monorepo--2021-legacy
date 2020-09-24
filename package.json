@@ -64,6 +64,7 @@
 		"classnames": "^2",
 		"deep-freeze-strict": "^1",
 		"deepmerge": "^4",
+		"dequal": "^2",
 		"emittery": "^0.7",
 		"exiftool-vendored": "^12",
 		"express": "^4",

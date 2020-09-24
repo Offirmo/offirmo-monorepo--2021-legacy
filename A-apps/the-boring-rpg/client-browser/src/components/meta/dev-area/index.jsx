@@ -38,7 +38,7 @@ export default class DevArea extends Component {
 	}
 
 	onPlayPause = () => {
-		if (! this.props.onPlayPause) return
+		if (!this.props.onPlayPause) return
 
 		this.setState({ paused: !this.state.paused })
 		this.props.onPlayPause(!this.state.paused)
