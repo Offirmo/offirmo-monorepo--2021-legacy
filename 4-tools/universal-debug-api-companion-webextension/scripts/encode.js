@@ -13,8 +13,8 @@ function btoa(s) {
 	// can be fed into btoa.
 	return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
 		function toSolidBytes(match, p1) {
-			return String.fromCharCode('0x' + p1);
-		}));
+			return String.fromCharCode('0x' + p1)
+		}))
 }*/
 
 /////////////////////
@@ -38,7 +38,7 @@ fs.writeFileSync(lib1_target_path, `
 // ../src/injected-libs/universal-debug-api-from-webext.ts
 const lib = '${lib1_encoded}'
 export default lib
-`);
+`)
 
 /////////////////////
 
@@ -59,6 +59,6 @@ fs.writeFileSync(lib2_target_path, `
 // ../src/injected-libs/universal-debug-api-control.ts
 const lib = '${lib2_encoded}'
 export default lib
-`);
+`)
 
 /////////////////////

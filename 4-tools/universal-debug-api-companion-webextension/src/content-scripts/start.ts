@@ -75,8 +75,8 @@ if (should_inject) {
 function _UWDT_b64DecodeUnicode(str) {
 	// Going backwards: from bytestream, to percent-encoding, to original string.
 	return decodeURIComponent(atob(str).split('').map(function(c) {
-	  return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-	}).join(''));
+	  return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+	}).join(''))
 }`
 	document.documentElement.prepend(scriptElement0)
 

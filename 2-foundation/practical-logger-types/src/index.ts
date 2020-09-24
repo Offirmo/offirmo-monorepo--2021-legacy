@@ -40,25 +40,25 @@ export interface Logger {
 	getLevel: () => LogLevel
 	addCommonDetails: (hash: Readonly<LogDetails>) => void
 
-	fatal: LogPrimitive,
-	emerg: LogPrimitive,
-	alert: LogPrimitive,
-	crit: LogPrimitive,
-	error: LogPrimitive,
-	warning: LogPrimitive,
-	warn: LogPrimitive,
-	notice: LogPrimitive,
-	info: LogPrimitive,
-	verbose: LogPrimitive,
-	log: LogPrimitive,
-	debug: LogPrimitive,
-	trace: LogPrimitive,
-	silly: LogPrimitive,
+	fatal: LogPrimitive
+	emerg: LogPrimitive
+	alert: LogPrimitive
+	crit: LogPrimitive
+	error: LogPrimitive
+	warning: LogPrimitive
+	warn: LogPrimitive
+	notice: LogPrimitive
+	info: LogPrimitive
+	verbose: LogPrimitive
+	log: LogPrimitive
+	debug: LogPrimitive
+	trace: LogPrimitive
+	silly: LogPrimitive
 
 	// for convenience. Not guaranteed to do anything.
-	group(groupTitle?: string): void;
-	groupCollapsed(groupTitle?: string): void;
-	groupEnd(): void;
+	group(groupTitle?: string): void
+	groupCollapsed(groupTitle?: string): void
+	groupEnd(): void
 }
 
 //////////// Private interface (for logger implementations) ////////////

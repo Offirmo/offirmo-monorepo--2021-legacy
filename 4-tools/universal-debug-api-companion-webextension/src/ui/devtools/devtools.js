@@ -49,9 +49,9 @@ browser.devtools.panels.create(
 			"Offirmo Sidebar",
 			function(sidebar) {
 				 // sidebar initialization code here
-				 sidebar.setObject({ some_data: "Some data to show" });
+				 sidebar.setObject({ some_data: "Some data to show" })
 			}
-	  );*/
+	  )*/
 })
 
 

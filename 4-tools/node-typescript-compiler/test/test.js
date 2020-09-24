@@ -4,7 +4,7 @@
 
 const tsc = require('..')
 
-console.log('TEST: tsc exported =', tsc);
+console.log('TEST: tsc exported =', tsc)
 
 (async () => {
 
