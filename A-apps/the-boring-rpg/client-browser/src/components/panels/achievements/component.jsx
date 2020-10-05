@@ -9,7 +9,7 @@ import './index.css'
 
 const AchievementsPanelViewM = React.memo(
 	function AchievementsPanelView({achievements_snapshot}) {
-		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 AchievementsPanelView')
+		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 AchievementsPanelView')
 
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--achievements o⋄flex--column">

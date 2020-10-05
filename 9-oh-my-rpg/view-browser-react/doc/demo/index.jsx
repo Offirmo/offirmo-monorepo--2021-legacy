@@ -24,7 +24,7 @@ class Main extends Component {
 	}
 
 	render() {
-		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 Main (demo)')
+		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 Main (demo)')
 		// XXX TODO fix imbricated themes
 
 		return (
@@ -37,7 +37,7 @@ class Main extends Component {
 
 export default class ViewBrowserReactDemo extends Component {
 	render() {
-		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 ViewBrowserReactDemo')
+		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 ViewBrowserReactDemo')
 
 		return (
 			<OhMyRpg

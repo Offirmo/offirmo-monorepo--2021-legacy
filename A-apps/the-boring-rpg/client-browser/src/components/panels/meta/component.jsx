@@ -162,7 +162,7 @@ export function render_meta(statistics) {
 
 const MetaPanelViewM = React.memo(
 	function MetaPanelView({statistics, navigate_to_savegame_editor}) {
-		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 MetaPanelView', {statistics, navigate_to_savegame_editor})
+		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 MetaPanelView', {statistics, navigate_to_savegame_editor})
 
 		return (
 			<div className="tbrpg-panel o⋄flex--column">

@@ -14,7 +14,7 @@ import { LS_KEYS } from '../../../services/consts'
 let start_notifs_displayed = false
 const OMRUINotifierC1 = React.memo(
 	function OMRUINotifierC1({enqueueNotification, u_state}) {
-		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 OMRUINotifierC1')
+		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 OMRUINotifierC1')
 
 		if (!start_notifs_displayed) {
 			enqueueNotification({

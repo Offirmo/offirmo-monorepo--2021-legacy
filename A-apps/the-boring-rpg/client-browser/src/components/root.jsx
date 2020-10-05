@@ -67,7 +67,7 @@ export default class Root extends Component {
 	}
 
 	render() {
-		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 Root')
+		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 Root')
 		return (
 			<Fragment>
 

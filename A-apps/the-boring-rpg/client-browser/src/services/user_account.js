@@ -53,7 +53,7 @@ setTimeout(/*XXX*/() => {
 					return new Promise((resolve, reject) => {
 						setTimeout(/*XXX*/() => {
 							try {
-								assert(window.oᐧextra?.netlifyIdentity, 'window.oᐧextra.netlifyIdentity ✓')
+								assert(window.oᐧextra.netlifyIdentity, 'window.oᐧextra.netlifyIdentity ✓')
 								ↆNetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
 								resolve()
 							}

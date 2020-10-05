@@ -41,7 +41,7 @@
 		"@size-limit/preset-small-lib": "^4",
 		"npm-run-all": "^4",
 		"size-limit": "^4",
-		"ts-node": "^8"
+		"ts-node": "^9"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",

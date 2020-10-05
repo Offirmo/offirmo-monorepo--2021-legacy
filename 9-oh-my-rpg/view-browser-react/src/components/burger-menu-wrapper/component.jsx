@@ -14,7 +14,7 @@ const OUTER_CONTAINER_ID = 'oh-my-rpg-ui__outer-container'
 
 const BurgerMenuWrapperViewM = React.memo(
 	function BurgerMenuWrapperView({isBurgerMenuOpen, onUpdateBurgerMenu, mainContent, logo, burgerPanelContent}) {
-		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 [OMR]BurgerMenuWrapperView')
+		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 [OMR]BurgerMenuWrapperView')
 
 		return (
 			<div id={OUTER_CONTAINER_ID} className="o⋄top-container">
