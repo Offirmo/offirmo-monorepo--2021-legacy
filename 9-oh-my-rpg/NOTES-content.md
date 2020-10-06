@@ -564,3 +564,5 @@ https://en.wikipedia.org/wiki/Middle-earth_peoples#Dragons
 +++ https://worldbuilding.stackexchange.com/questions/185781/why-would-sentient-weapons-be-created
 
 climbing
+
+https://news.un.org/en/story/2020/06/1067182  Extraordinary ‘megaflash’ lightning strikes cover several hundred kilometres, smashing records

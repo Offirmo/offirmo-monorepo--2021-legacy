@@ -18,7 +18,8 @@
 	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, .33);
 
 	/* levels */
-	--o⋄color--fg⁚error: hsl(19, 81%, 56%);
+	/*--o⋄color--fg⁚error: hsl(19, 81%, 56%);*/
+	--o⋄color--fg⁚error: red;
 	--o⋄color--fg⁚warning: var(--o⋄color__boz__yellow);
 	--o⋄color--fg⁚info: var(--o⋄color__boz__blue);
 	--o⋄color--fg⁚success: var(--o⋄color__boz__green);

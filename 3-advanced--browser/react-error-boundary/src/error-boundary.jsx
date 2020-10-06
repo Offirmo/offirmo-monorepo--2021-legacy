@@ -74,12 +74,16 @@ class ErrorBoundary extends React.Component {
 		if (this.state.error || this.state.errorInfo) {
 			return (
 				<div key={name} className={`o⋄error-report error-boundary-report-${name}`}>
-					<h2>Boundary "{name}": Something went wrong</h2>
-					<details open={true} style={{ whiteSpace: 'pre-wrap' }}>
-						{this.state.error && this.state.error.toString()}
-						<br />
+					<h2 style={{margin: '0'}}>Boundary "{name}": Something went wrong</h2>
+					<details open={false} style={{ whiteSpace: 'pre-wrap', margin: '.7em 0' }}>
+						<summary>{this.state.error && this.state.error.toString()}</summary>
 						{this.state.errorInfo && this.state.errorInfo.componentStack}
 					</details>
+					<button
+						style={{'--o⋄color--fg⁚main': 'var(--o⋄color--fg⁚error)'}}
+						onClick={() => window.location.reload()}>
+						Reload
+					</button>
 				</div>
 			)
 		}

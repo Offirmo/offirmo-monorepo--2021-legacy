@@ -12,7 +12,7 @@ function getRootSEC<Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}>()
 	const global_this = getGlobalThis()
 
 	if (!global_this[GLOBAL_VAR_NAME]) {
-		console.log(`[${LIB}: Creating root SEC…]`) // XXX
+		console.log(`[${LIB}] Creating root context…`)
 		global_this[GLOBAL_VAR_NAME] = createSEC()
 	}
 

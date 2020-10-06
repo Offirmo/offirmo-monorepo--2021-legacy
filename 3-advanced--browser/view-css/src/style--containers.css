@@ -39,8 +39,9 @@
 .o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
-	color: red; /* TODO */
-	background-color: rgba(0, 0, 0, .3); /* TODO */
+	color: var(--o⋄color--fg⁚error);
+	/*background-color: rgba(0, 0, 0, .3); /* TODO */
+	background-color: var(--o⋄color--bg⁚main--backdrop);
 	margin: auto;
 	z-index: 100000; /* just in case TODO check */
 }
