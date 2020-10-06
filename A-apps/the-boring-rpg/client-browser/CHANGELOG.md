@@ -11,6 +11,9 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 
+## v0.65.11
+- 😷 chore: some internal refactors, bump dependencies
+
 ## v0.65.10
 - 😷 chore: progress toward cloud save:
   - new API endpoint able to intelligently store and save the latest version

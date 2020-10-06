@@ -89,8 +89,7 @@ export async function test_failure(
 			return
 
 		case FailureMode['bad-status-code']:
-			delete response.statusCode
-			delete response.body
+			delete (response as any).body
 			response.statusCode = 'foo' as any
 			break
 

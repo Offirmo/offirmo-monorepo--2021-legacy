@@ -43,6 +43,6 @@
 		"@offirmo/universal-debug-api-node": "^0",
 		"@types/node": "^12",
 		"npm-run-all": "^4",
-		"typescript": "^3"
+		"typescript": "^4"
 	}
 }

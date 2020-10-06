@@ -34,6 +34,6 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"npm-run-all": "^4",
-		"typescript": "^3"
+		"typescript": "^4"
 	}
 }

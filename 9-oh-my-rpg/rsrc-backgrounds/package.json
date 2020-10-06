@@ -46,6 +46,6 @@
 		"fs-extra": "^9",
 		"lodash": "^4",
 		"npm-run-all": "^4",
-		"typescript": "^3"
+		"typescript": "^4"
 	}
 }

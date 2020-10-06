@@ -39,6 +39,6 @@
 		"@offirmo/unit-test-toolbox": "^6",
 		"@offirmo/universal-debug-api-node": "^0",
 		"npm-run-all": "^4",
-		"typescript": "^3"
+		"typescript": "^4"
 	}
 }
