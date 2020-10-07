@@ -108,7 +108,8 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			// but this should be good enough
 			const recovered_state: any = persistent_store.get()
 			assert(!!recovered_state, 'ls get defined')
-			_set(recovered_state)
+			_set(TBRPGState.update_to_now(recovered_state))
+
 		}
 		catch (err) {
 			const new_game = TBRPGState.reseed(TBRPGState.create(SEC))
