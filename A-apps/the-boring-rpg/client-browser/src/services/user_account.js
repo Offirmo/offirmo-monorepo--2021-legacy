@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 
 import { poll } from '@offirmo-private/poll-window-variable'
 import Deferred from '@offirmo/deferred'
-import { load_script_from_top, execute_from_top, get_log_prefix, get_top_ish_window } from '@offirmo-private/xoff'
+import { load_script_from_top, execute_from_top, get_log_symbol, get_top_ish_window } from '@offirmo-private/xoff'
 import { get_api_base_url, Endpoint } from '@online-adventur.es/functions-interface'
 
 import { CHANNEL } from './channel'
@@ -48,7 +48,7 @@ setTimeout(/*XXX*/() => {
 						return
 					}
 					window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
-				}, get_log_prefix(get_top_ish_window()) + ' ← ' + get_log_prefix())
+				}, get_log_symbol(get_top_ish_window()) + ' ← ' + get_log_symbol())
 				.then(() => {
 					return new Promise((resolve, reject) => {
 						setTimeout(/*XXX*/() => {
@@ -75,12 +75,6 @@ setTimeout(/*XXX*/() => {
 
 function init(SEC, game_instance) {
 	SEC.xTry('initializing user account', ({logger}) => {
-
-		function update_state(props) {
-			game_instance.view.set_state(state => ({
-				...props,
-			}))
-		}
 
 		ↆNetlifyIdentity.then(() => {
 			logger.verbose('NetlifyIdentity lib loaded ✅')
@@ -147,19 +141,19 @@ function init(SEC, game_instance) {
 		}, () => {})
 
 		function refresh_login_state() {
-			update_state({
+			game_instance.view.set_state(_ => ({
 				login_state: ACCOUNT_STATE.pending,
 				logged_in_user: null,
-			})
+			}))
 
 			return ↆNetlifyIdentity.then(function refresh_login_state(NetlifyIdentity) {
 				const user = NetlifyIdentity.currentUser()
 
 				if (!user) {
-					update_state({
+					game_instance.view.set_state(_ => ({
 						login_state: ACCOUNT_STATE.not_logged_in,
 						logged_in_user: null,
-					})
+					}))
 					return
 				}
 
@@ -190,10 +184,10 @@ function init(SEC, game_instance) {
 						// ↆNetlifyIdentity.logout()
 					})
 					.then(() => {
-						update_state({
+						game_instance.view.set_state(_ => ({
 							login_state: ACCOUNT_STATE.logged_in,
 							logged_in_user: user,
-						})
+						}))
 						return user
 					})
 			}, () => {})

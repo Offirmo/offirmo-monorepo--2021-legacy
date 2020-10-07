@@ -21,7 +21,7 @@ export const ActionType = Enum(
 	'acknowledge_engagement_msg_seen',
 	'update_to_now',
 
-	//'force_set',
+	'set',
 	'hack',
 )
 export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
@@ -92,10 +92,11 @@ export interface ActionUpdateToNow extends BaseAction {
 }
 
 // for ex. restoring a game from cloud or a previous save
-/*export interface ActionForceSet extends BaseAction {
-	type: typeof ActionType.force_set
+export interface ActionSet extends BaseAction {
+	type: typeof ActionType.set
 	state: Readonly<State>
-}*/
+	// force: boolean
+}
 
 // for debug / hacks = ex. replenishing energy during local tests
 // should never make it to the server!
@@ -116,7 +117,7 @@ export type Action =
 	| ActionRedeemCode
 	| ActionAcknowledgeEngagementMsgSeen
 	| ActionUpdateToNow
-	//| ActionForceSet
+	| ActionSet
 	| ActionHack
 
 
@@ -152,18 +153,18 @@ export function create_action_noop(): ActionHack {
 	})
 }
 
-export function create_action_force_set(eventual_state: Readonly<State>): ActionHack {
+/*export function create_action_force_set(eventual_state: Readonly<State>): ActionHack {
 	return create_action<ActionHack>({
 		type: ActionType.hack,
 		expected_revisions: {},
 		custom_reducer: () => eventual_state,
 	})
-}
-
-/*export function create_action__force_set(state: Readonly<State>): ActionForceSet {
-	return {
-		...create_action(),
-		type: ActionType.force_set,
-		state,
-	}
 }*/
+
+export function create_action__set(state: Readonly<State>): ActionSet {
+	return create_action<ActionSet>({
+		type: ActionType.set,
+		expected_revisions: {},
+		state,
+	})
+}

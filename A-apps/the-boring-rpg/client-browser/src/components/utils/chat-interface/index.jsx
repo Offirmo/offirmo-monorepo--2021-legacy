@@ -139,10 +139,10 @@ class Chat extends React.Component {
 		}
 
 		const spin_until_resolution = anything => {
-			this.set_state(s => {true})
+			this.set_state(s => {spinning: true})
 			return promiseFinally(
 				Promise.resolve(anything),
-				() => { this.set_state(s => {false}) },
+				() => { this.set_state(s => {spinning: false}) },
 			)
 		}
 

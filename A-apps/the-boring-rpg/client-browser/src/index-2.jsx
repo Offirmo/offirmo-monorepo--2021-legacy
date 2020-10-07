@@ -32,6 +32,9 @@ import './index-2.css'
 
 set_xoff_flag('debug_render', overrideHook('should_trace_renders', false))
 set_xoff_flag('is_paused', overrideHook('should_start_paused', false))
+if (overrideHook('should_start_paused', false)) {
+	console.warn('🛠 GAME STARTING IN PAUSE MODE')
+}
 
 get_loader().configure({
 	bg_color: 'rgb(84, 61, 70)',

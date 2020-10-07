@@ -12,6 +12,9 @@
 
 
 ## v0.65.11
+- 😅 fix: the savegame editor works again!
+- 😅 fix: the administrator (me) can log in again!
+- 😷 chore: improved logs
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.65.10

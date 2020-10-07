@@ -18,6 +18,7 @@ import { OMRSoftExecutionContext } from './sec'
 import { create as create_dispatcher } from './dispatcher'
 import create_store__local_storage from './stores/local-storage'
 import create_store__in_memory from './stores/in-memory'
+import create_store__cloud_storage from './stores/cloud'
 import { get_commands } from './dispatcher/sugar'
 import { get_queries } from './selectors'
 
@@ -79,7 +80,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			_dispatcher.dispatch(action)
 		}
 
-		function set(new_state: State) {
+		function _set(new_state: State) {
 			//in_memory_store.set(new_state)
 			//persistent_store.set(new_state)
 
@@ -94,10 +95,11 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far
 		// the savegame may also be outdated.
-		const persistent_store = create_store__local_storage(SEC, local_storage)
+		const persistent_store = create_store__local_storage(SEC, local_storage, _dispatcher)
 		_dispatcher.register_store(persistent_store)
 
-		// TODO cloud store
+		const cloud_store = create_store__cloud_storage(SEC, local_storage, _dispatcher)
+		_dispatcher.register_store(cloud_store)
 
 		/////////////////////////////////////////////////
 
@@ -106,12 +108,12 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			// but this should be good enough
 			const recovered_state: any = persistent_store.get()
 			assert(!!recovered_state, 'ls get defined')
-			set(recovered_state)
+			_set(recovered_state)
 		}
 		catch (err) {
 			const new_game = TBRPGState.reseed(TBRPGState.create(SEC))
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
-			set(new_game)
+			_set(new_game)
 		}
 		logger.silly(`[${LIB}] initial state:`, { state: in_memory_store.get() })
 
@@ -148,14 +150,14 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			model: {
 				get: in_memory_store.get,
 
-				set,
+				//set,
 
 				// currently used by the savegame editor
 				reset() {
 					const new_state = TBRPGState.reseed(TBRPGState.create())
 					logger.info('Savegame reseted:', { new_state })
 
-					set(new_state)
+					_set(new_state)
 				},
 
 				subscribe(id: string, fn: () => void): () => void {
@@ -179,9 +181,10 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 				set_state(fn: (state: T) => Partial<T>): void {
 					const changed = fn(app_state)
 					console.log('⚡ view change requested', changed)
+					assert(!changed.model, 'no model change allowed in view.set_state()')
 					app_state = {
 						...deep_merge(app_state, changed, { arrayMerge: overwriteMerge }),
-						model: in_memory_store.get(),
+						model: in_memory_store.get(), // safety
 					}
 					emitter.emit(Event.view_change, 'set_state(…)')
 				},

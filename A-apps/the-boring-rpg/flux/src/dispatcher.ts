@@ -1,6 +1,7 @@
 import assert from 'tiny-invariant'
 import { tiny_singleton } from '@offirmo/tiny-singleton'
 import { get_schema_version_loose, is_RootState } from '@offirmo-private/state-utils'
+import { dequal as is_deep_equal } from 'dequal'
 
 import { Action } from '@tbrpg/interfaces'
 import { State, SCHEMA_VERSION } from '@tbrpg/state'
@@ -19,7 +20,6 @@ export function create(): Dispatcher {
 		assert(!seen_dispatches, 'Dispatcher: adding stores after dispatches began!')
 
 		stores.push(store)
-		// TODO find a way for stores to back pressure
 	}
 
 	function dispatch(action: Action, eventual_state_hint?: Readonly<State>): void {
@@ -29,7 +29,11 @@ export function create(): Dispatcher {
 
 		stores.forEach(store => {
 			store.on_dispatch(action, eventual_state_hint)
-			eventual_state_hint = eventual_state_hint || store.get()
+			const store_state = store.get()
+			if (eventual_state_hint) {
+				assert(is_deep_equal(eventual_state_hint, store_state), 'dispatcher: state hint = store state')
+			}
+			eventual_state_hint = eventual_state_hint || store_state
 		})
 	}
 

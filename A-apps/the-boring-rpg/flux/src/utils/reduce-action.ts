@@ -7,9 +7,9 @@ import { Action, ActionType } from '@tbrpg/interfaces'
 import { LIB } from '../consts'
 
 
-const KNOWN_ACTIONS = 12
-if (KNOWN_ACTIONS !== Enum.keys(ActionType).length)
-	throw new Error(`${LIB}: reduce_action() is outdated! ${Enum.keys(ActionType).length} vs. ${KNOWN_ACTIONS}`)
+const KNOWN_ACTIONS_COUNT = 13
+if (KNOWN_ACTIONS_COUNT !== Enum.keys(ActionType).length)
+	throw new Error(`${LIB}: reduce_action() is outdated! ${Enum.keys(ActionType).length} vs. ${KNOWN_ACTIONS_COUNT}`)
 
 function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readonly<State> {
 	if (!are_ustate_revision_requirements_met(state, action.expected_revisions)) {
@@ -41,6 +41,8 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 		case ActionType.update_to_now:
 			return TBRPGState.update_to_now(state, action.time)
 
+		case ActionType.set:
+			return action.state
 		case ActionType.hack:
 			return action.custom_reducer(
 				// auto update-to-now for convenience

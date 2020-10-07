@@ -91,7 +91,7 @@ const get = tiny_singleton(() => getRootSEC().xTry('creating game instance', ({S
 		eventAction: 'restoring-savegame',
 		//eventValue: game_instance.queries.get_sub_state('avatar').name,
 		eventLabel: 'Loading...',
-		hitCallback: () => console.log('GA restoring-savegame sent!'),
+		//hitCallback: () => console.log('GA restoring-savegame sent!'),
 	})
 
 	init(SEC, game_instance)

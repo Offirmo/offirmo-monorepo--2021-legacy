@@ -55,7 +55,7 @@ export function get_xoff<T = {}>(win: Window = window): OffirmoExtras & T {
 	const xoff = _get_xoff(win) as OffirmoExtras & T
 
 	if (!xoff)
-		throw new Error('ⓧ get_xoff(): not found on target!')
+		throw new Error('🆇ⓧ get_xoff(): not found on target!')
 
 	return xoff
 }
@@ -98,7 +98,7 @@ export function get_xoff_depth(win: Window = window): number {
 	return 0
 }
 
-export function get_log_prefix(win: Window = window): string {
+export function get_log_symbol(win: Window = window): string {
 	const xoff = _get_xoff(win)
 	if (!xoff)
 		return 'ⓧ'
@@ -108,6 +108,10 @@ export function get_log_prefix(win: Window = window): string {
 		return '⓪' // no zero, we use o
 
 	return String.fromCodePoint(0x245F + xdepth)
+}
+
+function get_log_prefix(win: Window = window): string {
+	return `🆇 ${get_log_symbol(win)}`
 }
 
 function get_script_memo_attribute(url: string): string {
@@ -127,7 +131,7 @@ export function get_xoff_flag<T = boolean>(name: string, win: Window = window): 
 ////////////////////////////////////
 
 function ensure_xoff(win: Window = window): OffirmoExtras {
-	//console.log('ⓧ ensure_xoff()', { win, existing_xoff_depth: get_xoff_depth(win) || undefined })
+	//console.log('🆇 ensure_xoff()', { win, existing_xoff_depth: get_xoff_depth(win) || undefined })
 
 	if (!_get_xoff(win)) {
 		let root: OffirmoExtras | null = null
@@ -166,7 +170,7 @@ function ensure_xoff(win: Window = window): OffirmoExtras {
 					writable: false,
 				},
 			}
-		//console.log({properties})
+			//console.log('🆇', {properties})
 		;(win as any)[PROP] = Object.create(root, properties)
 		//console.log(`${get_log_prefix(win)} ensure_xoff() installed`, { xdepth: get_xoff(win).xdepth, xoff: get_xoff(win) })
 	}
@@ -197,7 +201,7 @@ export function set_xoff_flag<T = boolean>(name: string, value: T, win: Window =
 // needed to bypass X-Frame preventions
 
 export function load_script_from_top(url: string, target_win: Window = get_top_ish_window()): Promise<HTMLElementTagNameMap['script']> {
-	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} load_script_from_top()…`, { url })
+	console.log(`${get_log_prefix()} → ${get_log_symbol(target_win)} load_script_from_top()…`, { url })
 	return Promise.resolve().then(() => {
 		if (!_get_xoff(target_win))
 			throw new Error(`${get_log_prefix()} load_script_from_top(): invalid target window! (cross origin?)`)
@@ -243,7 +247,7 @@ function _stringify_fn_call<A, R>(fn: (...args: A[]) => R, ...args: A[]): string
 export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): Promise<void> {
 	const target_win: Window = get_top_ish_window()
 	const code = _stringify_fn_call(fn, ...args)
-	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top()…`, { fn, code, target_win })
+	console.log(`${get_log_prefix()} → ${get_log_symbol(target_win)} execute_from_top()…`, { fn, code, target_win })
 	return Promise.resolve()
 		.then(() => {
 			const target_is_me = target_win === window
@@ -264,7 +268,7 @@ export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): P
 			// TODO some sort of callback?
 		})
 		.catch(err => {
-			console.warn(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top() failed!`, { fn, code, err })
+			console.warn(`${get_log_prefix()} → ${get_log_symbol(target_win)} execute_from_top() failed!`, { fn, code, err })
 			throw err
 		})
 }

@@ -6,7 +6,7 @@ const tsc = require('..')
 
 console.log('TEST: tsc exported =', tsc)
 
-(async () => {
+;(async () => {
 
 	try {
 		console.log('TEST: ************ 01 ************')

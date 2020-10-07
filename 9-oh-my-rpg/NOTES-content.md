@@ -566,3 +566,20 @@ https://en.wikipedia.org/wiki/Middle-earth_peoples#Dragons
 climbing
 
 https://news.un.org/en/story/2020/06/1067182  Extraordinary ‘megaflash’ lightning strikes cover several hundred kilometres, smashing records
+
+"pocket pets" https://en.wikipedia.org/wiki/Rodents_as_pets https://en.wikipedia.org/wiki/Common_degu https://en.wikipedia.org/wiki/Golden_hamster
+
+
+
+Ten Crucial Qualities of High-Character Employees   https://www.getabstract.com/en/summary/the-good-ones/24533
+    Employees with strong character are honest and truthful.
+    They hold themselves responsible for their actions.
+    They demonstrate care for their co-workers.
+    They speak their minds with courage and stand up for what they believe.
+    They operate fairly, including how they hire and promote.
+    They are grateful, feel good about their circumstances and make others feel good, too.
+    They exhibit humility and know that they depend on their colleagues to do well.
+    They are loyal to their employers.
+    They focus on the work at hand without getting distracted.
+    They are patient, persistent, flexible and willing to wait for long-term gratification.
+

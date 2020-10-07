@@ -8,7 +8,7 @@ import { VERSION } from '../build.json'
 
 setTimeout(/*XXX*/() => {
 	getRootSEC().xTry('configuring ga (1/2)…', ({ IS_DEV_MODE, CHANNEL, logger }) => {
-		logger.groupCollapsed('setting up ga… (1/2)', { IS_DEV_MODE, CHANNEL })
+		logger.groupCollapsed('🕴setting up ga… (1/2)', { IS_DEV_MODE, CHANNEL })
 		assert(ga && ga.l)
 
 		ga('create', 'UA-103238291-2', 'auto')
@@ -32,7 +32,7 @@ setTimeout(/*XXX*/() => {
 		ga('set', 'appName', 'The Boring RPG')
 		ga('set', 'appId', 'com.OffirmoOnlineAdventures.TheBoringRPG')
 		ga('set', 'appVersion', VERSION)
-		ga(() => logger.log('ga informed!'))
+		ga(() => logger.log('🕴 ga informed!'))
 
 		ga('send', 'pageview')
 
@@ -49,14 +49,14 @@ setTimeout(/*XXX*/() => {
 			ga_script_url = ga_script_url.slice(0, -3) + '_debug.js'
 		}
 
-		logger.trace('setting up ga… (2/2)', {ga_script_url})
+		logger.trace('🕴setting up ga… (2/2)', {ga_script_url})
 
 		load_script_from_top(ga_script_url, window)
 			.then((script) => {
 				logger.log(`✅ analytics script loaded from top`, { script, window })
 			})
 			.catch(err => {
-				logger.error('analytics script failed to load:', { err })
+				logger.warn('analytics script failed to load:', { err })
 				// swallow
 			})
 	})

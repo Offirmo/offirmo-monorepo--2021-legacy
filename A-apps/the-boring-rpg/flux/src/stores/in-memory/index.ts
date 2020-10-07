@@ -2,6 +2,7 @@ import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
+import { get_revision_loose, get_semantic_difference, SemanticDifference } from '@offirmo-private/state-utils'
 
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store } from '../../types'
@@ -39,7 +40,14 @@ export function create(
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
-			if (state === previous_state) return
+			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
+				current_rev: get_revision_loose(previous_state as any),
+				new_rev: get_revision_loose(state as any),
+			})
+			if (get_semantic_difference(state, previous_state, { assert_newer: false }) === SemanticDifference.none) {
+				logger.trace(`[${LIB}] ⚡ action dispatched: no semantic change.`)
+				return
+			}
 
 			emitter.emit(EMITTER_EVT)
 		}

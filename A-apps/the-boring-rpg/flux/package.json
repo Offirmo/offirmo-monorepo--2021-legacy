@@ -37,6 +37,7 @@
 		"@online-adventur.es/functions-interface": "^0",
 		"@tbrpg/interfaces": "^0",
 		"@tbrpg/state": "^0",
+		"dequal": "^2",
 		"fetch-ponyfill": "^6",
 		"json-stable-stringify": "^1",
 		"tiny-invariant": "^1",

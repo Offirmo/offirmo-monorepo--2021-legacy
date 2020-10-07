@@ -4,24 +4,21 @@ import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
 import {JSONObject, Storage} from '@offirmo-private/ts-types'
 import {
-	get_revision,
 	get_schema_version_loose,
 	get_base_loose,
-	is_BaseState,
-	is_RootState,
 	get_semantic_difference,
 	SemanticDifference,
 	compare as compare_state, has_versioned_schema, get_revision_loose,
 } from '@offirmo-private/state-utils'
-import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
+import { asap_but_not_synchronous, schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State, SCHEMA_VERSION } from '@tbrpg/state'
-import { Action } from '@tbrpg/interfaces'
+import { Action, create_action__set } from '@tbrpg/interfaces'
 
 
 import { OMRSoftExecutionContext } from '../../sec'
-import { Store } from '../../types'
+import { Store, Dispatcher } from '../../types'
 import { reduce_action } from '../../utils/reduce-action'
 import try_or_fallback from '../../utils/try_or_fallback'
 
@@ -77,7 +74,8 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 
 export function create(
 	SEC: OMRSoftExecutionContext,
-	storage: Storage
+	storage: Storage,
+	dispatcher?: Dispatcher,
 ): Store {
 	const LIB = `Store--local-storage-v2`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
@@ -201,7 +199,7 @@ export function create(
 
 		/////////////////////////////////////////////////
 
-		// recover from potentially sparse bkp pipeline
+		// recover from bkp (we handle potentially sparse bkp pipeline)
 		try {
 			logger.verbose(`[${LIB}] attempting to restore…`)
 
@@ -239,7 +237,13 @@ export function create(
 					))
 				)
 
-				set(restored_migrated) // immediate sync restoration
+				// immediate sync restoration
+				set(restored_migrated)
+
+				if (dispatcher) {
+					// ASYNC so that the synchronous code has time to finish plugging all the stores
+					asap_but_not_synchronous(() => dispatcher.dispatch(create_action__set(restored_migrated!)))
+				}
 			}
 		}
 		catch (err) {
@@ -249,14 +253,14 @@ export function create(
 		/////////////////////////////////////////////////
 
 		function set(new_state: Readonly<State>): void {
-			logger.trace('set()', get_base_loose(new_state))
+			logger.trace(`${LIB}.set()`, get_base_loose(new_state))
 
 			if (state && get_semantic_difference(new_state, state, { assert_newer: false }) === SemanticDifference.none) {
-				logger.trace('set(): no semantic change ✔')
+				logger.trace(`${LIB}.set(): no semantic change ✔`)
 				return
 			}
 			if (!state) {
-				logger.trace('set(): init ✔')
+				logger.trace(`${LIB}.set(): init ✔`)
 			}
 
 			state = new_state
