@@ -14,6 +14,7 @@
 ## v0.65.11
 - 😅 fix: the savegame editor works again!
 - 😅 fix: the administrator (me) can log in again!
+- 😍 (behind a feature flag) progress on the cloud save
 - 😷 chore: improved logs
 - 😷 chore: some internal refactors, bump dependencies
 

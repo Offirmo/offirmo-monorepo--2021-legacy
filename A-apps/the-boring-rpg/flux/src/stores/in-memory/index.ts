@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
-import { get_revision_loose, get_semantic_difference, SemanticDifference } from '@offirmo-private/state-utils'
+import { get_revision_loose, get_semantic_difference, SemanticDifference, get_base_loose } from '@offirmo-private/state-utils'
 
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store } from '../../types'
@@ -23,8 +23,20 @@ export function create(
 
 		/////////////////////////////////////////////////
 
-		function set(_state: Readonly<State>): void {
-			state = _state
+		function set(new_state: Readonly<State>): void {
+			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
+			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), semantic_difference })
+
+			if (!state) {
+				logger.trace(`${LIB}.set(): init ✔`)
+			}
+			else if (semantic_difference === SemanticDifference.none) {
+				logger.trace(`${LIB}.set(): no semantic change ✔`)
+				return
+			}
+
+			state = new_state
+			emitter.emit(EMITTER_EVT)
 		}
 
 		function get(): Readonly<State> {
@@ -34,18 +46,21 @@ export function create(
 		}
 
 		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
-			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`)
+			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
+				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
+			})
 			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
 			assert(!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint not expected in this store`)
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
+			const semantic_difference = get_semantic_difference(state, previous_state, { assert_newer: false })
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
 				current_rev: get_revision_loose(previous_state as any),
 				new_rev: get_revision_loose(state as any),
+				semantic_difference,
 			})
-			if (get_semantic_difference(state, previous_state, { assert_newer: false }) === SemanticDifference.none) {
-				logger.trace(`[${LIB}] ⚡ action dispatched: no semantic change.`)
+			if (state === previous_state) {
 				return
 			}
 
