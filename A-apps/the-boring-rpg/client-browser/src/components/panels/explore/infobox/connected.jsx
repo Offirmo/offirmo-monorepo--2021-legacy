@@ -6,6 +6,7 @@ import get_game_instance from '../../../../services/game-instance-browser'
 import { AppStateContext } from '../../../../context'
 
 import InfoboxView from './component'
+import ErrorBoundary from "@offirmo-private/react-error-boundary"
 
 
 
@@ -30,12 +31,14 @@ function InfoBoxC2() {
 	//console.log('🔄 InfoboxC2'/*, this.context, get_available_energy_float(this.context.model)*/)
 
 	return (
-		<AppStateContext.Consumer>
-			{app_state => {
-				//console.log('InfoboxC2 context received:', app_state)
-				return <InfoboxC1 m_state={app_state.model} />
-			}}
-		</AppStateContext.Consumer>
+		<ErrorBoundary name={'tbrpg:infobox'}>
+			<AppStateContext.Consumer>
+				{app_state => {
+					//console.log('InfoboxC2 context received:', app_state)
+					return <InfoboxC1 m_state={app_state.model} />
+				}}
+			</AppStateContext.Consumer>
+		</ErrorBoundary>
 	)
 }
 

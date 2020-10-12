@@ -72,17 +72,24 @@ class ErrorBoundary extends React.Component {
 		const {name} = this.props
 
 		if (this.state.error || this.state.errorInfo) {
+			const { error, errorInfo } = this.state
 			return (
-				<div key={name} className={`o⋄error-report error-boundary-report-${name}`}>
+				<div key={name} className={`o⋄error-report error-boundary-report-${name}`} style={{padding: '.3em'}}>
 					<h2 style={{margin: '0'}}>Boundary "{name}": Something went wrong</h2>
-					<details open={false} style={{ whiteSpace: 'pre-wrap', margin: '.7em 0' }}>
-						<summary>{this.state.error && this.state.error.toString()}</summary>
-						{this.state.errorInfo && this.state.errorInfo.componentStack}
+					<details open={false} style={{ whiteSpace: 'pre-wrap', margin: '.3em 0' }}>
+						<summary>{error && error.toString()}</summary>
+						{errorInfo && errorInfo.componentStack.trim()}
 					</details>
+					<a href="https://github.com/Offirmo/offirmo-monorepo/issues"
+					   target="_blank"
+					   referrerPolicy="no-referrer-when-downgrade"
+					   rel="external"
+					><strong>Report bug</strong></a>
+					&nbsp;
 					<button
 						style={{'--o⋄color--fg⁚main': 'var(--o⋄color--fg⁚error)'}}
 						onClick={() => window.location.reload()}>
-						Reload
+						Reload page
 					</button>
 				</div>
 			)

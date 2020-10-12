@@ -583,3 +583,88 @@ Ten Crucial Qualities of High-Character Employees   https://www.getabstract.com/
     They focus on the work at hand without getting distracted.
     They are patient, persistent, flexible and willing to wait for long-term gratification.
 
+meteplastic bone
+
+
+
+Great Place to Work® Trust Index© Survey
+    I am given the resources and equipment to do my job.
+    This is a physically safe place to work.
+    Everyone has an opportunity to get special recognition.
+    People here are willing to give extra to get the job done.
+    You can count on people to cooperate.
+    Management makes its expectations clear.
+    I can ask management any reasonable question and get a straight answer.
+    I am offered training or development to further myself professionally.
+    Management shows appreciation for good work and extra effort.
+    People here are paid fairly for the work they do.
+    My work has special meaning: this is not "just a job."
+    When people change jobs or work units, they are made to feel right at home.
+    Management is approachable, easy to talk with.
+    Management recognizes honest mistakes as part of doing business.
+    Management genuinely seeks and responds to suggestions and ideas.
+    When I look at what we accomplish, I feel a sense of pride.
+    I feel I receive a fair share of the profits made by this organization.
+    Management keeps me informed about important issues and changes.
+    Management has a clear view of where the organization is going and how to get there.
+    Management trusts people to do a good job without watching over their shoulders.
+    Management involves people in decisions that affect their jobs or work environment.
+    Managers avoid playing favorites.
+    I feel good about the ways we contribute to the community.
+    Management does a good job of assigning and coordinating people.
+    People here are given a lot of responsibility.
+    This is a psychologically and emotionally healthy place to work.
+    People here are treated fairly regardless of their age.
+    Promotions go to those who best deserve them.
+    People look forward to coming to work here.
+    I can be myself around here.
+    Management delivers on its promises.
+    People here are treated fairly regardless of their race.
+    People care about each other here.
+    Management's actions match its words.
+    Our facilities contribute to a good working environment.
+    People here are treated fairly regardless of their gender.
+    I'm proud to tell others I work here.
+    People celebrate special events around here.
+    I believe management would lay people off only as a last resort.
+    People avoid politicking and backstabbing as ways to get things done.
+    People are encouraged to balance their work life and their personal life.
+    People here are treated fairly regardless of their sexual orientation.
+    Management is competent at running the business.
+    If I am unfairly treated, I believe I'll be given a fair shake if I appeal.
+    We have special and unique benefits here.
+    Management is honest and ethical in its business practices.
+    Management shows a sincere interest in me as a person, not just an employee.
+    I want to work here for a long time.
+    I am treated as a full member here regardless of my position.
+    I am able to take time off from work when I think it's necessary.
+    I feel I make a difference here.
+    When you join the company, you are made to feel welcome.
+    This is a fun place to work.
+    Management hires people who fit in well here.
+    I would strongly endorse my company to friends and family as a great place to work.
+    Our customers would rate the service we deliver as "excellent."
+    Our executives fully embody the best characteristics of our company.
+    We celebrate people who try new and better ways of doing things, regardless of the outcome.
+    People here quickly adapt to changes needed for our organization's success.
+    Our HR Team delivers programs to support me.
+    I would rate the experience of working here as excellent.
+    Taking everything into account, I would say this is a great place to work.
+    Which best describes your managerial level?
+    Employee/Individual Contributor (no people management responsibility)
+    Frontline Manager or Supervisor (first tier manager; supervises other employees, not other managers)
+    Mid-Level Manager (runs major departments or divisions, but not part of executive team)
+    Executive/C-Level Leader (Highest level leaders; CEO/President and the C-suite executives who report to CEO)
+    How much confidence do you have in your executive team's judgement?
+    Great deal
+    Fair amount
+    Just some
+    Very little or none
+    Over the last year, how many meaningful opportunities have you had to develop new and better ways of doing things at work?
+    A lot
+    Some
+    Just a few
+    None
+    Is there anything unique or unusual about this company that makes it a great place to work? Please give specific examples.
+    If you could change one thing about this company to make it a better place to work, what would it be?
+2017-2020 ©Great Place To Work®. All Rights Reserved.

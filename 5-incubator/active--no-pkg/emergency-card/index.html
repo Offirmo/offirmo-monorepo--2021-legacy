@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!-- OT⋄GENERATED-FROM-TEMPLATE html5 micro template v2.1.0 -->
+
+<!-- maximum language hints to prevent Chrome from incorrectly suggesting a translation -->
+<html lang="en" xml:lang="en" class="o⋄top-container">
+<head>
+	<!-- https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML -->
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- OT⋄CUSTOM BEGIN meta description -->
+	<meta name="description" content="blah blah">
+	<meta name="keywords" content="HTML, CSS, JavaScript">
+	<meta name="author" content="John Smith">
+	<!-- OT⋄CUSTOM END meta description -->
+
+	<!-- OT⋄CUSTOM BEGIN open graph -->
+	<!-- TODO https://ogp.me/ -->
+	<!-- OT⋄CUSTOM END open graph -->
+
+	<title>Emergency card</title>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gridforms@^1/gridforms/gridforms.css" />
+	<style type="text/css">
+		/* OT⋄CUSTOM BEGIN early styles */
+		/* super early styles while the page is loading */
+		:root {
+			--bg: white;
+			--fg: black;
+			--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
+			--font-size: xx-small;
+
+			--cc-long-side-length: 85.6mm;
+			--cc-short-side-length: 53.98mm;
+
+			--scale: 1.34;
+		}
+
+		* {
+			background-color: var(--bg);
+			color: var(--fg);
+			font-family: var(--font);
+		}
+
+		/* apply a natural box layout model to all elements, but allowing components to change
+		 * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+		 * https://github.com/mike-engel/a11y-css-reset/pull/12#issuecomment-516582884
+		 */
+		html                 { box-sizing: border-box; }
+		*, *::before, *::after { box-sizing: inherit; }
+
+		html {
+			/*font-size: 12px;*/
+		}
+
+		main {
+			margin: 4em auto 0;
+
+			transform: scale(var(--scale));
+			transform-origin: 0 0;
+
+			font-size: var(--font-size);
+			width: var(--cc-long-side-length);
+			text-transform: uppercase;
+
+			display: grid;
+			grid-template-rows: calc(1 / 9 * var(--cc-short-side-length)) calc(8 / 9 * var(--cc-short-side-length)) var(--cc-short-side-length);
+			grid-template-columns: calc(10 / 11 * var(--cc-long-side-length)) calc(1 / 11 * var(--cc-long-side-length));
+		}
+		header, footer, legend {
+			--bg: red;
+			--fg: white;
+			color: var(--fg) !important;
+			border-bottom: 0 !important;
+			font-size: large;
+		}
+		.full-grid-width {
+			grid-column-start: 1;
+			grid-column-end: none;
+		}
+		header {
+			grid-column-start: 1;
+			grid-column-end: none;
+			padding-left: calc(1 / 11 * var(--cc-long-side-length));
+		}
+		footer {
+			writing-mode: vertical-lr;
+			grid-column-start: 2;
+			grid-row-start: 2;
+		}
+		article {
+			grid-column-start: 1;
+		}
+
+		.grid-form * {
+			letter-spacing: unset !important;
+			/*font-size: x-small !important;*/
+			padding-bottom: 0 !important;
+			margin-bottom: 0 !important;
+		}
+		.grid-form [data-row-span] [data-field-span] {
+			padding: 0;
+		}
+		.grid-form fieldset legend {
+			font-size: small !important;
+		}
+		.grid-form label {
+			margin-left: .2em;
+		}
+
+		#main {
+			border-left: solid 1px red;
+		}
+		#main input,
+		#main textarea {
+			font-size: 1.2em;
+		}
+		/* OT⋄CUSTOM END early styles */
+	</style>
+</head>
+
+<!-- OT⋄CUSTOM BEGIN body -->
+<body>
+<h1></h1>
+<pre>document.documentElement.style.setProperty('--scale', 1.4)</pre>
+
+<main>
+	<header>⬇ Emergency infos ⬇</header>
+
+	<section>
+		<form class="grid-form" id="main">
+			<fieldset>
+				<legend>In emergency, call 🇦🇺 000 🇪🇺 112 🇺🇸 911</legend>
+
+				<div data-row-span="1">
+					<div data-field-span="1">
+						<label>
+							name SURNAME
+							<input type="text">
+						</label>
+					</div>
+				</div>
+
+				<div data-row-span="12">
+					<div data-field-span="4">
+						<label>
+							Phone
+							<input type="tel">
+						</label>
+					</div>
+
+					<div data-field-span="8">
+						<label>
+							e-mail
+							<input type="email">
+						</label>
+					</div>
+				</div>
+
+				<div data-row-span="12">
+					<div data-field-span="3">
+						<label>
+							Blood type
+							<input type="text">
+						</label>
+					</div>
+
+					<div data-field-span="5">
+						<label>
+							D.O.Birth
+							<input type="text">
+						</label>
+					</div>
+
+					<div data-field-span="4">
+						<label>
+							organ donor
+							<input type="text">
+						</label>
+					</div>
+				</div>
+
+				<div data-row-span="1">
+					<div data-field-span="1">
+						<label>
+							other medical notes
+							<textarea></textarea>
+						</label>
+					</div>
+				</div>
+
+				<div data-row-span="1">
+					<div data-field-span="1">
+						<label>
+							other instructions
+							<textarea></textarea>
+						</label>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</section>
+
+	<section class="full-grid-width">
+		<form class="grid-form">
+			<fieldset>
+				<legend>Relatives to call</legend>
+				<div data-row-span="2">
+					<label>
+						name SURNAME
+						<input type="text">
+					</label>
+				</div>
+				<div data-row-span="2">
+					<label>
+						phone
+						<input type="text">
+					</label>
+					<label>
+						email
+						<input type="email">
+					</label>
+				</div>
+			</fieldset>
+		</form>
+	</section>
+
+	<footer>⬇ Emergency ⬇</footer>
+</main>
+
+<!-- OT⋄CUSTOM END body -->
+
+<script type="module">
+	document.querySelector('h1').textContent = document.querySelector('h1').textContent || document.title
+	Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+		el.href || (el.href = el.text)
+	})
+</script>
+
+<!-- https://perfops.net/rum -->
+<script async src="https://cdn.jsdelivr.net/npm/perfops-rom"></script>
