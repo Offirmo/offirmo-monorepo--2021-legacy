@@ -25,6 +25,7 @@ Notes:
 oldest active LTS node is no longer 12, now 14
 
 ### FUTURE update ???
+https://webpack.js.org/blog/2020-10-10-webpack-5-release/
 webpack 5 featuring Acorn 7 released = able to parse ES2020
 https://github.com/webpack/webpack/milestone/18
 

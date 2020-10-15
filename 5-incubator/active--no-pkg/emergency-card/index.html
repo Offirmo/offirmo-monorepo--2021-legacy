@@ -30,18 +30,23 @@
 			--bg: white;
 			--fg: black;
 			--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
-			--font-size: xx-small;
 
 			--cc-long-side-length: 85.6mm;
 			--cc-short-side-length: 53.98mm;
 
-			--scale: 1.34;
+			--scale: 1;
+
+			--card--main--visual-position: 3;
+			--card--relatives--visual-position: 2;
+			--card--other-notes--visual-position: 1;
+			--card--other-numbers--visual-position: 4;
 		}
 
 		* {
 			background-color: var(--bg);
 			color: var(--fg);
 			font-family: var(--font);
+			font-size: var(--font-size, revert);
 		}
 
 		/* apply a natural box layout model to all elements, but allowing components to change
@@ -51,32 +56,45 @@
 		html                 { box-sizing: border-box; }
 		*, *::before, *::after { box-sizing: inherit; }
 
-		html {
-			/*font-size: 12px;*/
+		body {
+		}
+
+		@media print {
+			pre {
+				display: none;
+			}
+			main {
+				--scale: 1;
+			}
+			.grid-form [data-row-span] {
+				height: unset !important;
+			}
 		}
 
 		main {
-			margin: 4em auto 0;
+			--font-size: xx-small;
+			margin: 0 auto 0;
 
+			/* for convenience while developing, to match the screen size with the physical size */
 			transform: scale(var(--scale));
 			transform-origin: 0 0;
 
-			font-size: var(--font-size);
 			width: var(--cc-long-side-length);
 			text-transform: uppercase;
-
+/*
 			display: grid;
 			grid-template-rows: calc(1 / 9 * var(--cc-short-side-length)) calc(8 / 9 * var(--cc-short-side-length)) var(--cc-short-side-length);
-			grid-template-columns: calc(10 / 11 * var(--cc-long-side-length)) calc(1 / 11 * var(--cc-long-side-length));
+			grid-template-columns: calc(10 / 11 * var(--cc-long-side-length)) calc(1 / 11 * var(--cc-long-side-length));*/
 		}
-		header, footer, legend {
-			--bg: red;
-			--fg: white;
-			color: var(--fg) !important;
-			border-bottom: 0 !important;
-			font-size: large;
+		form {
+			display: grid;
+			grid-template-rows: var(--cc-short-side-length) var(--cc-short-side-length) var(--cc-short-side-length) var(--cc-short-side-length);
+			grid-template-columns: calc(1 / 11 * var(--cc-long-side-length)) calc(9 / 11 * var(--cc-long-side-length)) calc(1 / 11 * var(--cc-long-side-length));
 		}
-		.full-grid-width {
+		form > * {
+			overflow: hidden;
+		}
+		/*.full-grid-width {
 			grid-column-start: 1;
 			grid-column-end: none;
 		}
@@ -92,6 +110,8 @@
 		}
 		article {
 			grid-column-start: 1;
+		}*/
+		aside {
 		}
 
 		.grid-form * {
@@ -100,22 +120,88 @@
 			padding-bottom: 0 !important;
 			margin-bottom: 0 !important;
 		}
+		.grid-form legend,
+		.header-like {
+			--bg: red;
+			--fg: white;
+			color: var(--fg) !important;
+			border-bottom: 0 !important;
+			font-size: small !important;
+			margin: 0;
+		}
 		.grid-form [data-row-span] [data-field-span] {
 			padding: 0;
-		}
-		.grid-form fieldset legend {
-			font-size: small !important;
 		}
 		.grid-form label {
 			margin-left: .2em;
 		}
+		.grid-form fieldset {
+			border-bottom: 1px solid red;
+		}
 
 		#main {
 			border-left: solid 1px red;
+			grid-column-start: 1;
+			grid-column-end: 3;
+			grid-row-start: var(--card--main--visual-position);
 		}
 		#main input,
 		#main textarea {
+			/* fine adjustment for vertical fit */
 			font-size: 1.2em;
+		}
+		#main ~ aside {
+			writing-mode: vertical-rl;
+			grid-column-start: 3;
+			grid-row-start: var(--card--main--visual-position);
+		}
+
+		#relatives {
+			border-right: solid 1px red;
+			grid-column-start: 1;
+			grid-column-end: 3;
+			grid-row-start: var(--card--relatives--visual-position);
+
+			transform: rotate(180deg);
+			transform-origin: center;
+		}
+		#relatives [data-row-span]:nth-child(odd) {
+			border-bottom-width: 2px;
+		}
+		#relatives input,
+		#relatives textarea {
+			/* fine adjustment for vertical fit */
+			font-size: 1.5em;
+		}
+		#relatives ~ aside {
+			writing-mode: vertical-rl;
+			grid-column-start: 3;
+			grid-row-start: var(--card--relatives--visual-position);
+		}
+
+		#notes {
+			border: solid 1px red;
+			border-top-width: 0;
+			grid-column-start: 1;
+			grid-column-end: 4;
+			grid-row-start: var(--card--other-notes--visual-position);
+
+			transform: rotate(180deg);
+			transform-origin: center;
+		}
+		#notes textarea {
+			font-size: x-small;
+		}
+
+		#numbers {
+			border: solid 1px red;
+			border-top-width: 0;
+			grid-column-start: 1;
+			grid-column-end: 4;
+			grid-row-start: var(--card--other-numbers--visual-position);
+		}
+		#numbers textarea {
+			font-size: x-small;
 		}
 		/* OT⋄CUSTOM END early styles */
 	</style>
@@ -123,113 +209,215 @@
 
 <!-- OT⋄CUSTOM BEGIN body -->
 <body>
-<h1></h1>
-<pre>document.documentElement.style.setProperty('--scale', 1.4)</pre>
+	<center>
+		<h1></h1>
+		<pre>document.documentElement.style.setProperty('--scale', 1.34)</pre>
+	</center>
 
-<main>
-	<header>⬇ Emergency infos ⬇</header>
+	<main>
+		<section>
+			<form class="grid-form">
 
-	<section>
-		<form class="grid-form" id="main">
-			<fieldset>
-				<legend>In emergency, call 🇦🇺 000 🇪🇺 112 🇺🇸 911</legend>
+				<fieldset id="main">
+					<legend>⬇ Emergency infos ⬇</legend>
+					<p class="header-like">In emergency, call 🇦🇺 000 🇪🇺 112 🇺🇸 911</p>
 
-				<div data-row-span="1">
-					<div data-field-span="1">
-						<label>
-							name SURNAME
-							<input type="text">
-						</label>
-					</div>
-				</div>
-
-				<div data-row-span="12">
-					<div data-field-span="4">
-						<label>
-							Phone
-							<input type="tel">
-						</label>
+					<div data-row-span="1">
+						<div data-field-span="1">
+							<label>
+								<span style="text-transform: lowercase">name</span> SURNAME
+								<input type="text">
+							</label>
+						</div>
 					</div>
 
-					<div data-field-span="8">
-						<label>
-							e-mail
-							<input type="email">
-						</label>
-					</div>
-				</div>
+					<div data-row-span="12">
+						<div data-field-span="4">
+							<label>
+								Phone
+								<input type="tel">
+							</label>
+						</div>
 
-				<div data-row-span="12">
-					<div data-field-span="3">
-						<label>
-							Blood type
-							<input type="text">
-						</label>
-					</div>
-
-					<div data-field-span="5">
-						<label>
-							D.O.Birth
-							<input type="text">
-						</label>
+						<div data-field-span="8">
+							<label>
+								e-mail
+								<input type="email">
+							</label>
+						</div>
 					</div>
 
-					<div data-field-span="4">
-						<label>
-							organ donor
-							<input type="text">
-						</label>
+					<div data-row-span="12">
+						<div data-field-span="3">
+							<label>
+								Blood type
+								<input type="text">
+							</label>
+						</div>
+
+						<div data-field-span="5">
+							<label>
+								D.O.Birth
+								<input type="text">
+							</label>
+						</div>
+
+						<div data-field-span="4">
+							<label>
+								organ donor
+								<input type="text">
+							</label>
+						</div>
 					</div>
-				</div>
 
-				<div data-row-span="1">
-					<div data-field-span="1">
-						<label>
-							other medical notes
-							<textarea></textarea>
-						</label>
+					<div data-row-span="1">
+						<div data-field-span="1">
+							<label>
+								other medical notes
+								<textarea></textarea>
+							</label>
+						</div>
 					</div>
-				</div>
 
-				<div data-row-span="1">
-					<div data-field-span="1">
-						<label>
-							other instructions
-							<textarea></textarea>
-						</label>
+					<div data-row-span="1">
+						<div data-field-span="1">
+							<label>
+								other instructions
+								<textarea></textarea>
+							</label>
+						</div>
 					</div>
-				</div>
-			</fieldset>
-		</form>
-	</section>
+				</fieldset>
+				<aside class="header-like">⬇ Emergency infos ⬇</aside>
 
-	<section class="full-grid-width">
-		<form class="grid-form">
-			<fieldset>
-				<legend>Relatives to call</legend>
-				<div data-row-span="2">
-					<label>
-						name SURNAME
-						<input type="text">
-					</label>
-				</div>
-				<div data-row-span="2">
-					<label>
-						phone
-						<input type="text">
-					</label>
-					<label>
-						email
-						<input type="email">
-					</label>
-				</div>
-			</fieldset>
-		</form>
-	</section>
+				<fieldset id="relatives">
+					<legend>⬇ Relatives to call ⬇</legend>
 
-	<footer>⬇ Emergency ⬇</footer>
-</main>
+					<div data-row-span="12">
+						<div data-field-span="9">
+							<label>
+								<span style="text-transform: lowercase">name</span> SURNAME
+								<input type="text">
+							</label>
+						</div>
+						<div data-field-span="3">
+							<label>
+								relation
+								<input type="text">
+							</label>
+						</div>
+					</div>
+					<div data-row-span="12">
+						<div data-field-span="4">
+							<label>
+								Phone
+								<input type="tel">
+							</label>
+						</div>
 
+						<div data-field-span="8">
+							<label>
+								e-mail
+								<input type="email">
+							</label>
+						</div>
+					</div>
+
+					<div data-row-span="12">
+						<div data-field-span="9">
+							<label>
+								<span style="text-transform: lowercase">name</span> SURNAME
+								<input type="text">
+							</label>
+						</div>
+						<div data-field-span="3">
+							<label>
+								relation
+								<input type="text">
+							</label>
+						</div>
+					</div>
+					<div data-row-span="12">
+						<div data-field-span="4">
+							<label>
+								Phone
+								<input type="tel">
+							</label>
+						</div>
+
+						<div data-field-span="8">
+							<label>
+								e-mail
+								<input type="email">
+							</label>
+						</div>
+					</div>
+
+					<div data-row-span="12">
+						<div data-field-span="9">
+							<label>
+								<span style="text-transform: lowercase">name</span> SURNAME
+								<input type="text">
+							</label>
+						</div>
+						<div data-field-span="3">
+							<label>
+								relation
+								<input type="text">
+							</label>
+						</div>
+					</div>
+					<div data-row-span="12">
+						<div data-field-span="4">
+							<label>
+								Phone
+								<input type="tel">
+							</label>
+						</div>
+
+						<div data-field-span="8">
+							<label>
+								e-mail
+								<input type="email">
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+				<aside class="header-like">⬇ Emergency infos ⬇</aside>
+
+				<fieldset id="notes">
+					<div data-row-span="1">
+						<div data-field-span="1">
+							<label>
+								other notes
+								<textarea rows="16">Citizenship(s):</textarea>
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+				<fieldset id="numbers">
+					<div data-row-span="1">
+						<div data-field-span="1">
+							<label>
+								other emergency numbers
+								<textarea rows="16">lost credit card:
+lost credit card (international):
+travel insurance:
+road assistance:
+company assistance:
+consulate: </textarea>
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+			</form>
+		</section>
+
+	</main>
+</body>
 <!-- OT⋄CUSTOM END body -->
 
 <script type="module">
