@@ -22,10 +22,3 @@ Remember to tweak the body and root! (see demo)
 * https://github.com/negomi/react-burger-menu
   * scale-down
   * slide
-
-## TODO
-* https://github.com/oliviertassinari/react-swipeable-views
-* https://github.com/javierbyte/react-blur
-
-		"react-swipeable-views": "^0.13",
-		"react-swipeable-views-utils": "^0.13"
