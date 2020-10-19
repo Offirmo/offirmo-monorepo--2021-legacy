@@ -1,0 +1,29 @@
+/******* OMR customization *******/
+
+/* parameters we can't compute automatically */
+:root {
+	--omr⋄ui__logo-content--width_: 163px;
+}
+
+/* customizations */
+.omr⋄logo {
+	padding-bottom: calc(4px * var(--scale));
+}
+.omr⋄logo img {
+	image-rendering: crisp-edges;
+}
+
+.status⁚avatar--icon {
+	align-self: center;
+	font-size: 26px;
+	margin-right: 4px;
+}
+.status⁚avatar--details {
+	line-height: 14px;
+}
+
+
+/* Debug */
+/*.o⋄top-container {
+	border-width: 1px;
+}*/
