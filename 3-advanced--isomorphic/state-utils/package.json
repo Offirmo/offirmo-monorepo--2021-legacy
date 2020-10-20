@@ -18,9 +18,10 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"tiny-invariant": "^1",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ts-types": "^0",
+		"dequal": "^2",
+		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
 

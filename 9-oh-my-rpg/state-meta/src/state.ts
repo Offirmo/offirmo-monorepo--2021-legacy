@@ -23,26 +23,30 @@ function create(): Readonly<State> {
 
 /////////////////////
 
-function on_start_session(state: Readonly<State>, is_web_diversity_supporter: boolean): Readonly<State> {
-	if (state.is_web_diversity_supporter === is_web_diversity_supporter) return state
+function on_start_session(previous_state: Readonly<State>, is_web_diversity_supporter: boolean): Readonly<State> {
+	if (previous_state.is_web_diversity_supporter === is_web_diversity_supporter) return previous_state
 
 	return {
-		...state,
+		...previous_state,
 
 		is_web_diversity_supporter,
 
-		revision: state.revision + 1,
+		revision: previous_state.revision + 1,
 	}
 }
 
+/*interface OnLoggedIn {
+	is_logged_in: boolean
+	roles: string[]
+}*/
 function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[] = []): Readonly<State> {
-	let state = previous_state
 	const sorted_roles = [...roles].sort()
 
 	if (previous_state.is_logged_in === is_logged_in
 		&& previous_state.roles.join(',') === sorted_roles.join(','))
-		return state // no change
+		return previous_state // no change
 
+	let state = previous_state
 	state = {
 		...state,
 

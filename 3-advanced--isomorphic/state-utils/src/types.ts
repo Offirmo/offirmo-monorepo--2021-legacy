@@ -11,6 +11,11 @@ export interface WithRevision {
 	revision: number
 }
 
+export interface WithTimestamp {
+	timestamp_ms: TimestampUTCMs
+}
+
+
 export interface BaseState extends WithSchemaVersion, WithRevision {
 	//last_user_action_tms: TimestampUTCMs
 	//[k: string]: JSONAny | BaseUState
@@ -20,10 +25,8 @@ export interface BaseState extends WithSchemaVersion, WithRevision {
 export interface BaseUState extends BaseState {
 }
 
-
 // state which changes with User actions but also with Time
-export interface BaseTState extends BaseState {
-	timestamp_ms: TimestampUTCMs
+export interface BaseTState extends BaseState, WithTimestamp {
 }
 
 

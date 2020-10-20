@@ -7,14 +7,13 @@ import {
 	BaseTState,
 	BaseUState,
 	BundledStates,
-	BaseRootState,
+	BaseRootState, WithTimestamp,
 } from './types'
-
 import {
 	has_versioned_schema,
 	is_revisioned,
 	is_RootState,
-	is_bundled_UT,
+	is_bundled_UT, has_timestamp,
 } from './type-guards'
 
 
@@ -67,6 +66,8 @@ export function get_revision<
 	BT extends BaseTState,
 	BR extends BaseRootState,
 >(s: Readonly<V> | Readonly<B> | Readonly<BundledStates<BU, BT>> | Readonly<BR>): number {
+	//console.log('get_revision()', s)
+
 	if (is_bundled_UT(s)) {
 		return get_revision(s[0]) + get_revision(s[1])
 	}
@@ -97,6 +98,46 @@ export function get_revision_loose<
 
 	if (is_RootState(s))
 		return get_revision(s)
+
+	return 0
+}
+
+
+export function get_timestamp<
+	V extends WithTimestamp,
+	BU extends BaseUState,
+	BT extends BaseTState,
+	BR extends BaseRootState,
+>(s: Readonly<V> | Readonly<BundledStates<BU, BT>> | Readonly<BR>): number {
+	if (is_bundled_UT(s)) {
+		return get_timestamp(s[1])
+	}
+	if (is_RootState(s)) {
+		return get_timestamp(s.t_state)
+	}
+
+	assert(has_timestamp(s), 'get_timestamp() structure')
+	const { timestamp_ms } = s
+	assert(Number.isSafeInteger(timestamp_ms), 'get_timestamp() safeInteger')
+
+	return timestamp_ms
+}
+
+export function get_timestamp_loose<
+	V extends WithTimestamp,
+	BU extends BaseUState,
+	BT extends BaseTState,
+	BR extends BaseRootState,
+>(s: Readonly<V> | Readonly<BundledStates<BU, BT>> | Readonly<BR>): number {
+	if (has_timestamp(s))
+		return get_timestamp(s)
+
+	// loose bundles
+	if (Array.isArray(s) && has_timestamp(s[1]))
+		return get_timestamp(s[1])
+
+	if (is_RootState(s))
+		return get_timestamp(s)
 
 	return 0
 }

@@ -4,7 +4,7 @@ import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 
 import { AnyRootState } from './types--internal'
 import { get_schema_version_loose } from './selectors'
-import {is_UState, is_TState, is_RootState, is_BaseState, has_versioned_schema} from './type-guards'
+import { is_RootState, has_versioned_schema} from './type-guards'
 
 
 ////////////////////////////////////////////////////////////////////////////////////

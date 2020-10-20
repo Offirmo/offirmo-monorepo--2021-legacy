@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import { LIB } from './consts'
 
 import {
+	is_BaseState,
 	is_UState,
 	is_TState,
 	is_RootState,
@@ -15,6 +16,21 @@ import {
 
 
 describe(`${LIB} - type guards`, function() {
+
+	describe('is_BaseState', function() {
+		it('should work on non matching: FALSE', () => {
+			expect(is_BaseState(undefined)).to.be.false
+			expect(is_BaseState(null)).to.be.false
+			expect(is_BaseState(0)).to.be.false
+			expect(is_BaseState(new Error('Test!'))).to.be.false
+			expect(is_BaseState(DEMO_ROOT_STATE)).to.be.false
+		})
+
+		it('should work on matching: TRUE', () => {
+			expect(is_BaseState(DEMO_ROOT_STATE.t_state)).to.be.true
+			expect(is_BaseState(DEMO_ROOT_STATE.u_state)).to.be.true
+		})
+	})
 
 	describe('is_UState', function() {
 		it('should work on non matching: FALSE', () => {

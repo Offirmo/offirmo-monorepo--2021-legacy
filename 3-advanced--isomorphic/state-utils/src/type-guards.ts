@@ -3,6 +3,7 @@ import assert from 'tiny-invariant'
 import {
 	WithSchemaVersion,
 	WithRevision,
+	WithTimestamp,
 	BaseState,
 	BaseTState,
 	BaseUState,
@@ -19,6 +20,10 @@ export function is_revisioned<T extends WithRevision>(s: Readonly<T> | any): s i
 	return Number.isInteger(s?.revision)
 }
 
+export function has_timestamp<T extends WithTimestamp>(s: Readonly<T> | any): s is T {
+	return Number.isInteger(s?.timestamp_ms)
+}
+
 
 export function is_BaseState<T extends BaseState>(s: Readonly<T> | any): s is T {
 	return has_versioned_schema<T>(s)
@@ -28,11 +33,11 @@ export function is_BaseState<T extends BaseState>(s: Readonly<T> | any): s is T 
 
 export function is_UState<T extends BaseUState>(s: Readonly<T> | any): s is T {
 	return is_BaseState<T>(s)
-		&& !Number.isInteger((s as any)?.timestamp_ms)
+		&& !has_timestamp(s)
 }
 export function is_TState<T extends BaseTState>(s: Readonly<T> | any): s is T {
 	return is_BaseState<T>(s)
-		&& Number.isInteger(s?.timestamp_ms)
+		&& has_timestamp(s)
 }
 export function is_RootState<T extends BaseRootState>(s: Readonly<T> | any): s is T {
 	return is_UState(s?.u_state)

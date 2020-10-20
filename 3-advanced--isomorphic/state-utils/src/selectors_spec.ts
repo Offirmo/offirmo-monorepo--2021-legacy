@@ -7,6 +7,8 @@ import {
 	get_schema_version_loose,
 	get_revision,
 	get_revision_loose,
+	get_timestamp,
+	get_timestamp_loose,
 	get_base_loose,
 } from './selectors'
 
@@ -182,6 +184,89 @@ describe(`${LIB} - selectors`, function() {
 		it('should return 0 on non-matching', () => {
 			// @ts-expect-error
 			expect(get_revision_loose({ foo: 42 })).to.equal(0)
+		})
+	})
+
+	describe('get_timestamp()', function() {
+
+		describe('on a NON WithTimestamp', function() {
+			it('should throw', () => {
+				expect(
+					// @ts-expect-error
+					() => get_timestamp({ foo: 42 })
+				).to.throw()
+			})
+		})
+
+		describe('on WithTimestamp', function() {
+			it('should work on correct data', () => {
+				expect(get_timestamp({ timestamp_ms: 33})).to.equal(33)
+			})
+		})
+
+		describe('on a BaseState', function() {
+
+			it('should throw', () => {
+				expect(
+					// @ts-expect-error
+					() => get_timestamp(DEMO_BASE_STATE)
+				).to.throw()
+			})
+		})
+
+		describe('on an bundled U+T state', function() {
+
+			it('should work on special aggregated data', () => {
+				expect(get_timestamp([DEMO_USTATE, DEMO_TSTATE])).to.equal(DEMO_TSTATE.timestamp_ms)
+			})
+
+			it('should throw on non-matching', () => {
+				expect(
+					// @ts-expect-error
+					() => get_timestamp([])
+				).to.throw()
+
+				expect(
+					// @ts-expect-error
+					() => get_timestamp([DEMO_TSTATE, DEMO_USTATE])
+				).to.throw()
+
+				expect(
+					// @ts-expect-error
+					() => get_timestamp([DEMO_USTATE, DEMO_TSTATE, DEMO_USTATE])
+				).to.throw()
+			})
+		})
+
+		describe('on a root state', function() {
+
+			it('should work on correct data', () => {
+				expect(get_timestamp(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.t_state.timestamp_ms)
+			})
+		})
+	})
+
+	describe('get_timestamp_loose()', function () {
+
+		it('should work on correct data', () => {
+			expect(get_timestamp_loose({ timestamp_ms: 33 })).to.equal(33)
+			expect(get_timestamp_loose(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.t_state.timestamp_ms)
+			expect(get_timestamp_loose([
+				DEMO_ROOT_STATE.u_state,
+				DEMO_ROOT_STATE.t_state
+			])).to.equal(
+				DEMO_ROOT_STATE.t_state.timestamp_ms
+			)
+			expect(get_timestamp_loose(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.timestamp_ms)
+		})
+
+		it('should return 0 on non-matching', () => {
+			// @ts-expect-error
+			expect(get_timestamp_loose({ foo: 42 })).to.equal(0)
+			// @ts-expect-error
+			expect(get_timestamp_loose(DEMO_USTATE)).to.equal(0)
+			// @ts-expect-error
+			expect(get_timestamp_loose(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(0)
 		})
 	})
 

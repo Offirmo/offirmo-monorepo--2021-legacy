@@ -9,7 +9,7 @@ interface State extends BaseUState {
 
 	is_web_diversity_supporter: boolean
 
-	is_logged_in: boolean
+	is_logged_in: boolean // useful for achievements
 	roles: string[]
 }
 
