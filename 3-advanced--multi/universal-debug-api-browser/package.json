@@ -71,5 +71,6 @@
 		"logger",
 		"typescript"
 	],
-	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-browser"
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-browser",
+	"bugs": { "url": "https://github.com/Offirmo/offirmo-monorepo/issues" }
 }

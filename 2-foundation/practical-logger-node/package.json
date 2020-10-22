@@ -69,5 +69,6 @@
 		"logger",
 		"typescript"
 	],
-	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-foundation/practical-logger-node"
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-foundation/practical-logger-node",
+	"bugs": { "url": "https://github.com/Offirmo/offirmo-monorepo/issues" }
 }
