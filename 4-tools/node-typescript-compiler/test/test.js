@@ -21,7 +21,7 @@ console.log('TEST: tsc exported =', tsc)
 
 	try {
 		console.log('TEST: ************ 02 ************')
-		await tsc.compile({}, [ 'wrong file path for test' ], { /*verbose: true*/ })
+		await tsc.compile({}, [ 'WRONG FILE PATH FOR TEST' ], { /*verbose: true*/ })
 		console.log('TEST: Promise resolved: OK')
 	}
 	catch (err) {

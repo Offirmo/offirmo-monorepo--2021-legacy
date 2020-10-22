@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
-
 const path = require('path')
+
+const json = require('./json')
 
 // hat tip to http://stackoverflow.com/a/24594123/587407
 function lsDirsSync(srcpath, options = {}) {
@@ -20,7 +21,6 @@ function lsDirsSync(srcpath, options = {}) {
 
 	return result.sort()
 }
-fs.lsDirsSync = lsDirsSync
 
 function lsFilesSync(srcpath, options = {}) {
 	options = {
@@ -39,6 +39,10 @@ function lsFilesSync(srcpath, options = {}) {
 
 	return result.sort()
 }
-fs.lsFilesSync = lsFilesSync
 
-module.exports = fs
+module.exports = {
+	...fs,
+	json,
+	lsDirsSync,
+	lsFilesSync
+}

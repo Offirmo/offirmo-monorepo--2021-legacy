@@ -26,24 +26,29 @@
 		"test": "npm run demo"
 	},
 	"devDependencies": {
-		"loud-rejection": "^1",
-		"pokemon": "^1",
+		"loud-rejection": "^2",
+		"pokemon": "^2",
 		"sum-up": "^3"
 	},
 
+	"files": [
+		"framework",
+		"fs",
+		"stdout",
+		"string"
+	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Offirmo/cli-toolbox.git"
+		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
 	},
 	"keywords": [
 		"cli",
 		"node",
 		"modules"
 	],
-	"bugs": {
-		"url": "https://github.com/Offirmo/cli-toolbox/issues"
-	},
-	"homepage": "https://github.com/Offirmo/cli-toolbox",
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--node/cli-toolbox",
+	"bugs": { "url": "https://github.com/Offirmo/offirmo-monorepo/issues" },
+
 	"toreview": {
 		"bytes": "^2",
 		"cfonts": "^1",

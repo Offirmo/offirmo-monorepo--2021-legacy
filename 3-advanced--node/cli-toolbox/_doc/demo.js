@@ -101,10 +101,16 @@ sequence = sequence.then(() => demo(
 	() => {
 		const json = require('@offirmo/cli-toolbox/fs/json')
 
-		return json.read(path.join(__dirname, ROOT_RELATIVE_PATH, 'package.json'))
-			.then(({name, version, description, author, license}) => {
-				console.log({name, version, description, author, license})
-			})
+		const filepath = path.join(__dirname, ROOT_RELATIVE_PATH, 'package.json')
+
+		function process_data({name, version, description, author, license}) {
+			console.log({name, version, description, author, license})
+		}
+
+		process_data(json.readSync(filepath))
+
+		return json.read(filepath)
+			.then(process_data)
 	}
 ))
 ////////////////////////////////////

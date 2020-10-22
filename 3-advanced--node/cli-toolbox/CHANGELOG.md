@@ -2,6 +2,14 @@
 **This package follows [semver](https://semver.org/).**
 
 
+## pending
+* [fix] expose json functions through fs as well
+* [chore] moved code to a new repo
+* [chore] updated dev dependencies
+* [chore] reduced the number files published
+* [doc] improved doc
+
+
 ## v2.0.0
 2020/10/22
 * [BREAKING] greatly reduced the number of embedded modules, restricted to the really most useful ones

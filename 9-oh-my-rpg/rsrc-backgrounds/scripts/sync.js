@@ -3,7 +3,7 @@ const path = require('path')
 const { /*trim, replace,*/ capitalize } = require('lodash')
 const { dump_prettified_any } = require('@offirmo-private/prettify-any')
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
-const fs = require('../../../../cli-toolbox/fs/extra')
+const fs = require('@offirmo/cli-toolbox/fs/extra')
 
 const { AUTHORS_BY_NAME, ELEMENTS, render_artwork_legend } = require('../dist/src.es2019.cjs')
 

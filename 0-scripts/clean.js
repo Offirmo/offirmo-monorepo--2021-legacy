@@ -1,9 +1,10 @@
 'use strict'
 
 const path = require('path')
-const stylize_string = require('chalk')
-const meow = require('meow')
-const fs = require('@offirmo/cli-toolbox/fs/extra')
+
+const stylize_string = require('../3-advanced--node/cli-toolbox/string/stylize')
+const meow = require('../3-advanced--node/cli-toolbox/framework/meow')
+const fs = require('../3-advanced--node/cli-toolbox/fs/extra')
 
 /////////////////////
 

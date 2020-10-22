@@ -1,9 +1,9 @@
 'use strict'
 
-const assert = require('tiny-invariant')
 const path = require('path')
-const stylize_string = require('chalk')
-const meow = require('meow')
+
+const stylize_string = require('../3-advanced--node/cli-toolbox/string/stylize')
+const meow = require('../3-advanced--node/cli-toolbox/framework/meow')
 const tsc = require('../4-tools/node-typescript-compiler')
 
 /////////////////////

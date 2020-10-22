@@ -23,6 +23,7 @@ https://github.com/mohsinulhaq/react-popper-tooltip
 "package-json": "^6",
 "package-json-cleanup-loader": "^1",
 "puer": "^2",
+"react-swipeable-views-utils": "^0.13",
 "ship-hold": "^2",
 "spawn-sync": "^2",
 "stacktrace-js": "^2",
@@ -49,5 +50,13 @@ features) and regenerator-runtime/runtime
   > import "regenerator-runtime/runtime";
 
 
+warning np@6.5.0: The engine "git" appears to be invalid.
 
-
+warning " > fetch-mock@9.10.7" has unmet peer dependency "node-fetch@*".
+warning " > knex@0.21.6" has unmet peer dependency "mssql@^6.2.1".
+warning " > knex@0.21.6" has unmet peer dependency "mysql@^2.18.1".
+warning " > knex@0.21.6" has unmet peer dependency "mysql2@^2.1.0".
+warning " > knex@0.21.6" has incorrect peer dependency "pg@^8.3.0".
+warning " > knex@0.21.6" has unmet peer dependency "sqlite3@^5.0.0".
+warning "massive > pg-promise > pg@8.4.0" has unmet peer dependency "pg-native@>=2.0.0".
+warning " > chai-fetch-mock@3.0.0" has incorrect peer dependency "fetch-mock@5.1.x || 6.x".

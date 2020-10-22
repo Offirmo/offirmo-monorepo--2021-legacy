@@ -13,10 +13,9 @@
 		"@offirmo-private/prettify-any": "^0",
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
+		"@offirmo/cli-toolbox": "^2",
 		"jsondiffpatch": "^0.4",
-		"load-json-file": "^6",
-		"lodash": "^4",
-		"write-json-file": "^4"
+		"lodash": "^4"
 	},
 
 	"scripts": {

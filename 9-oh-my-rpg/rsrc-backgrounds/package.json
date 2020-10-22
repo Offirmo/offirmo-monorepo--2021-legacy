@@ -42,6 +42,7 @@
 		"@babel/core": "^7",
 		"@offirmo-private/prettify-any": "^0",
 		"@offirmo-private/rich-text-format-to-ansi": "^0",
+		"@offirmo/cli-toolbox": "^2",
 		"@offirmo/unit-test-toolbox": "^6",
 		"fs-extra": "^9",
 		"lodash": "^4",

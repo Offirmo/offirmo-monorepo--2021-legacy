@@ -2,6 +2,7 @@
 
 const path = require('path')
 
+const fs = require('@offirmo/cli-toolbox/fs/extra')
 const { expect } = require('chai')
 const sinon = require('sinon')
 const { cloneDeep } = require('lodash')
@@ -10,7 +11,6 @@ const { TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes } = require(
 const { get_schema_version, get_schema_version_loose } = require('@offirmo-private/state-utils')
 
 const { LIB, HINTS_FILENAME } = require('./consts')
-const fs = require('./utils-fs')
 const { get_advanced_diff: base_get_json_diff } = require('./json-diff')
 
 
@@ -134,14 +134,14 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 		if (can_update_snapshots) fs.mkdirpSync(absolute_dir_path)
 
 		try {
-			fs.lsFilesSync(absolute_dir_path)
+			fs.lsFilesSync(absolute_dir_path, { full_path: false })
 		}
 		catch (err) {
 			if (should_skip) return
 			throw err
 		}
 
-		const ALL_FILES = fs.lsFilesSync(absolute_dir_path)
+		const ALL_FILES = fs.lsFilesSync(absolute_dir_path, { full_path: false })
 			.filter(snap_path => !snap_path.startsWith('.')) // skip .DS_STORE and like
 			.filter(snap_path => snap_path.endsWith('.json')) // allows README :)
 			.sort()
