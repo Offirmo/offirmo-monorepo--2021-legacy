@@ -141,8 +141,9 @@ export function create(
 				return false
 			}
 			const semantic_difference = get_semantic_difference(some_state, bkp__current, { assert_newer: false })
-			if (bkp__current && semantic_difference === SemanticDifference.none) {
-				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): no change ✔`)
+			const is_different_enough = semantic_difference !== SemanticDifference.none && semantic_difference !== SemanticDifference.time
+			if (bkp__current && !is_different_enough) {
+				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): no relevant change ✔`, { semantic_difference })
 				return false
 			}
 
@@ -178,6 +179,7 @@ export function create(
 			const semantic_difference = get_semantic_difference(legacy_state, most_recent_previous_major_version)
 			switch (semantic_difference) {
 				case SemanticDifference.none:
+				case SemanticDifference.time:
 					return false
 
 				case SemanticDifference.minor: {
@@ -292,7 +294,7 @@ export function create(
 				new_rev: get_revision_loose(state as any),
 				semantic_difference,
 			})
-			if (state === previous_state) {
+			if (semantic_difference === SemanticDifference.none) {
 				return
 			}
 

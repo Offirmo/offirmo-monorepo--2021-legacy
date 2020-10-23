@@ -159,7 +159,7 @@ function update_to_now(
 			d: available_energy.d,
 		},
 
-		// should we increase revision?
+		// no revision upgrade, this is just a time change
 	}
 }
 
@@ -190,6 +190,7 @@ function use_energy(
 		...t_state,
 
 		available_energy: {
+			// don't store sign
 			n: available_energy.n,
 			d: available_energy.d,
 		},

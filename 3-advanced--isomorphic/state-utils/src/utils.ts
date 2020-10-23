@@ -9,6 +9,7 @@ import {
 	AnyRootState,
 } from './types--internal'
 import {
+	is_revisioned,
 	is_RootState,
 	is_TState,
 	is_UState,
@@ -19,20 +20,25 @@ import {
 
 
 
-// if a child state's revision increased, increase ours
-// TODO go deep! not just 1st level
+// if a child state's revision increased, increase ours.
+// TODO improve:
+// - supports bundled
+// - uses type guards
+// - go deep! not just 1st level
 export function propagate_child_revision_increment_upward<S extends WithRevision, R extends BaseRootState, T = S | R>(
 	previous: any,
 	current: Readonly<T>,
 ): T {
 	if (!previous)
 		return current
+	if (previous === current)
+		return current
 
 	let has_child_revision_increment = false
 
 	if (is_RootState(current)) {
 		// this is a more advanced state
-		assert(is_RootState(previous), 'previous has root data structure!')
+		assert(is_RootState(previous), 'previous also has root data structure!')
 		const final_u_state = propagate_child_revision_increment_upward(previous.u_state, current.u_state)
 		const final_t_state = propagate_child_revision_increment_upward(previous.t_state, current.t_state)
 		if (final_u_state === current.u_state && final_t_state === current.t_state)
@@ -45,10 +51,10 @@ export function propagate_child_revision_increment_upward<S extends WithRevision
 		}
 	}
 
-	assert(is_UState(current) || is_TState(current), 'previous has U/TState data structure!') // uneeded except for helping TS type inference
-	assert(is_UState(previous) && is_UState(current) || is_TState(previous) || is_TState(current), 'previous has U/TState data structure!')
+	assert(is_UState(current) || is_TState(current), 'current has U/TState data structure!') // unneeded except for helping TS type inference
+	assert(is_UState(previous) && is_UState(current) || is_TState(previous) && is_TState(current), 'previous also has U/TState data structure!')
 
-	if (Number.isInteger(previous.revision as any) && current.revision !== previous.revision)
+	if (is_revisioned(current) && current.revision !== previous.revision)
 		throw new Error('propagate_child_revision_increment_upward(): revision already incremented!')
 
 	const typed_previous: AnyBaseState = previous as any
@@ -73,7 +79,7 @@ export function propagate_child_revision_increment_upward<S extends WithRevision
 
 	return {
 		...current,
-		revision: (current.revision || 0) + 1,
+		revision: get_revision_loose(current) + 1,
 	}
 }
 

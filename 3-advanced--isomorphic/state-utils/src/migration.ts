@@ -3,8 +3,8 @@ import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 
 import { AnyRootState } from './types--internal'
-import { get_schema_version_loose } from './selectors'
-import { is_RootState, has_versioned_schema} from './type-guards'
+import { get_schema_version_loose, get_base_loose } from './selectors'
+import { is_RootState, has_versioned_schema } from './type-guards'
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +15,8 @@ export interface Libs {
 const LIBS: Libs = {
 	deep_freeze: deep_freeze,
 }
+
+const get_state_summary = get_base_loose
 
 export type GenericMigration<State = any, OlderState = any> = (
 	SEC: SoftExecutionContext<any, any, any>,
@@ -105,7 +107,9 @@ export function generic_migrate_to_latest<State>({
 					const legacy_schema_version = get_schema_version_loose(legacy_state)
 					//_last_SEC = SEC
 					//console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
-					logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}"…`, {legacy_state})
+					logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}"…`,
+						get_state_summary(legacy_state)
+					)
 					const state = migrate_step(
 						SEC,
 						legacy_state,
@@ -115,7 +119,9 @@ export function generic_migrate_to_latest<State>({
 						LIBS,
 					)
 					assert(!!state, 'migration step should return something')
-					logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}".`, {state})
+					logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}".`,
+						get_state_summary(state)
+					)
 					//_check_response(SEC, index, 'out')
 					return state
 				})
@@ -131,7 +137,9 @@ export function generic_migrate_to_latest<State>({
 				throw err
 			}
 
-			logger.info(`${LIB}: schema migration successful.`, { state })
+			logger.info(`${LIB}: schema migration successful.`,
+				get_state_summary(state as any)
+			)
 			RSEC.fireAnalyticsEvent('schema_migration.ended')
 		}
 
@@ -198,10 +206,13 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 		let new_sub_tstate = previous_sub_tstate
 
 		SEC.xTry(`migration of sub-state "${key}"`, ({SEC, logger}) => {
+
 			if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
 				// combo
 				const legacy_sub_state = [ previous_sub_ustate, previous_sub_tstate]
-				logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, legacy_sub_state)
+				logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`,
+					get_state_summary(legacy_sub_state as any)
+				)
 				;[new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(
 					SEC,
 					legacy_sub_state,
@@ -209,7 +220,9 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 				)
 			}
 			else if (sub_u_states_found.has(key)) {
-				logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, previous_sub_ustate)
+				logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`,
+					get_state_summary(previous_sub_ustate)
+				)
 				new_sub_ustate = migrate_sub_to_latest(
 					SEC,
 					previous_sub_ustate,
@@ -217,7 +230,9 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 				)
 			}
 			else if (sub_t_states_found.has(key)) {
-				logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, previous_sub_tstate)
+				logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`,
+					get_state_summary(previous_sub_tstate)
+				)
 				new_sub_tstate = migrate_sub_to_latest(
 					SEC,
 					previous_sub_tstate,
@@ -227,7 +242,7 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 			else {
 				throw new Error(`Expected sub-state "${key}" was not found!`)
 			}
-			logger.trace(`⭅ returned from migration fn of sub-UState "${key}".`)
+			logger.trace(`⭅ returned from migration fn of sub-*state "${key}".`)
 		})
 
 		if (previous_sub_ustate && new_sub_ustate !== previous_sub_ustate) {

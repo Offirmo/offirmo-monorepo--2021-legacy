@@ -95,10 +95,9 @@ function equip_item(previous_state: Readonly<State>, uuid: UUID, now_ms: Timesta
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			inventory: InventoryState.equip_item(state.u_state.inventory, uuid),
-			revision: state.u_state.revision + 1,
 		},
 	}
-
+	state = propagate_child_revision_increment_upward(previous_state, state)
 	return _refresh_achievements(state)
 }
 
@@ -125,10 +124,9 @@ function rename_avatar(previous_state: Readonly<State>, new_name: string, now_ms
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			avatar: rename(get_lib_SEC(), state.u_state.avatar, new_name),
-			revision: state.u_state.revision + 1,
 		},
 	}
-
+	state = propagate_child_revision_increment_upward(previous_state, state)
 	return _refresh_achievements(state)
 }
 
@@ -144,10 +142,9 @@ function change_avatar_class(previous_state: Readonly<State>, new_class: Charact
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			avatar: switch_class(get_lib_SEC(), state.u_state.avatar, new_class),
-			revision: state.u_state.revision + 1,
 		},
 	}
-
+	state = propagate_child_revision_increment_upward(previous_state, state)
 	return _refresh_achievements(state)
 }
 

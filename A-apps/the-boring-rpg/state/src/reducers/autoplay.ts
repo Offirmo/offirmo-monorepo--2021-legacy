@@ -3,7 +3,7 @@
 import { Enum } from 'typescript-string-enums'
 import { Random, Engine } from '@offirmo/random'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
-import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
+import { get_revision, propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
 
 /////////////////////
 
@@ -186,7 +186,7 @@ function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_go
 
 	state = _refresh_achievements(state)
 	state = _ack_all_engagements(state)
-	if (state.u_state.revision === previous_state.u_state.revision)
+	if (get_revision(state) === get_revision(previous_state))
 		state = propagate_child_revision_increment_upward(previous_state, state)
 
 	return state

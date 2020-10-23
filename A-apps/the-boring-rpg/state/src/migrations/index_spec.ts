@@ -53,7 +53,7 @@ describe(`${LIB} - schema migration`, function() {
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: () => {
 				const new_state = deep_freeze<any>(create(get_lib_SEC(), 1234))
-				dump_prettified_any('fresh state', new_state)
+				//dump_prettified_any('fresh state', new_state)
 				return new_state
 			},
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),

@@ -109,7 +109,8 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 
 	// we couldn't find any semantic difference.
 	// however, the objects are different so bad immutability could have kicked in...
-	assert(is_deep_equal(newer, older), 'get_semantic_difference() deep eq of semantically equal objects')
+	const is_truely_equal = is_deep_equal(newer, older)
+	assert(is_truely_equal, 'get_semantic_difference() deep eq of semantically equal objects')
 
 	return SemanticDifference.none
 }

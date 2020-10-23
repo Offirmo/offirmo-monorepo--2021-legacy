@@ -106,13 +106,14 @@ function create(rng: Engine, hints: Readonly<Partial<Armor>> = {}): Armor {
 	return temp
 }
 
-// TODO state, immu
 function enhance(armor: Armor): Armor {
 	if (armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
 		throw new Error('can’t enhance a armor above the maximal enhancement level!')
 
-	armor.enhancement_level++
-	return armor
+	return {
+		...armor,
+		enhancement_level: armor.enhancement_level + 1,
+	}
 }
 
 /////////////////////

@@ -1,7 +1,7 @@
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
-import {JSONObject, Storage} from '@offirmo-private/ts-types'
+import { JSONObject, Storage } from '@offirmo-private/ts-types'
 import {
 	get_schema_version_loose,
 	get_base_loose,
@@ -13,7 +13,7 @@ import { asap_but_not_synchronous, schedule_when_idle_but_not_too_far } from '@o
 
 import * as TBRPGState from '@tbrpg/state'
 import { State, SCHEMA_VERSION } from '@tbrpg/state'
-import { Action, create_action__set } from '@tbrpg/interfaces'
+import { Action, ActionType, create_action__set } from '@tbrpg/interfaces'
 import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/functions-interface'
 
 import { OMRSoftExecutionContext } from '../../sec'
@@ -28,7 +28,6 @@ import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 const EMITTER_EVT = 'change'
 
 function get_cloud_key(state: Readonly<State> | undefined): string {
-
 	const slot_id = state?.u_state.meta.slot_id
 
 	return 'the-boring-rpg.savegame' + (slot_id ? `#${slot_id}` : '')
@@ -61,44 +60,55 @@ export function create(
 		const emitter = new EventEmitter.Typed<{}, 'change'>()
 
 		/////////////////////////////////////////////////
+		let is_logged_in = false // AFAWK
 		let last_known_cloud_state: Readonly<State> | undefined = undefined
+		let last_cloud_sync = new Date()
 
 		// TODO debounce / throttle
 		// TODO handle offline
 		// TODO retries
+		// TODO spontaneous periodic sync
 		async function _sync_with_cloud(some_state: Readonly<State>): Promise<void> {
 			const cloud_key = get_cloud_key(some_state)
+			const semantic_difference = get_semantic_difference(some_state, last_known_cloud_state)
+			const now = new Date()
+			const elapsed_time_since_last_sync = +now - +last_cloud_sync
+
 			logger.trace(`[${LIB}] _sync_with_cloud()`, {
 				candidate_rev: get_revision_loose(some_state as any),
 				current_rev: get_revision_loose(state as any),
-				cloud_key
+				cloud_key,
+				semantic_difference,
+				elapsed_time_since_last_sync,
 			})
 
-			if (!last_known_cloud_state) {
-				logger.trace(`[${LIB}] _sync_with_cloud(): skipping for now because we didn't get any news from the cloud yet.`)
+			if (!is_enabled) {
+				logger.log(`${LIB} TODO enable sync with cloud!`)
+				return
 			}
-			else if (!is_enabled) {
-				console.log(`${LIB} TODO sync with cloud!`)
+
+			const is_worth_syncing =
+				elapsed_time_since_last_sync >= 10 * 60 * 1000
+				|| semantic_difference === SemanticDifference.minor
+				|| semantic_difference === SemanticDifference.major
+			if (!is_worth_syncing) {
+				logger.trace(`${LIB} not worth syncing for now ✔`)
+				return
 			}
-			else {
-				// TODO don't re-send if already in-flight? or sth
-				const result = await fetch_oa<State, State>({
-					SEC: SEC as any,
-					method: 'PATCH',
-					url: Endpoint['key-value'] + '/' + cloud_key,
-					body: some_state
-				})
-				// TODO dispatch side channel data
-			}
+
+			// TODO don't re-send if already in-flight? or sth
+			const result = await fetch_oa<State, State>({
+				SEC: SEC as any,
+				method: 'PATCH',
+				url: Endpoint['key-value'] + '/' + cloud_key,
+				body: some_state
+			})
+			// TODO dispatch side channel data
+			logger.warn(`[${LIB}] _sync_with_cloud() TODO handle result`, result)
 		}
 
-		/////////////////////////////////////////////////
 
-		// recover from server
-		if (!is_enabled) {
-			console.log(`${LIB} TODO sync with cloud!`)
-		}
-		else {
+		async function recover_from_cloud() {
 			logger.verbose(`${LIB} initiating cloud restoration (will take time)…`)
 			fetch_oa<void, State>({
 				SEC: SEC as any,
@@ -131,8 +141,10 @@ export function create(
 			state = new_state
 			emitter.emit(EMITTER_EVT)
 
-			_sync_with_cloud(state)
-				.catch(_on_error)
+			if (is_logged_in) {
+				_sync_with_cloud(state)
+					.catch(_on_error)
+			}
 		}
 
 		function get(): Readonly<State> {
@@ -145,6 +157,7 @@ export function create(
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
 			})
+
 			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
 			assert(!!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint is mandatory in this store`)
 
@@ -156,14 +169,33 @@ export function create(
 				new_rev: get_revision_loose(state as any),
 				semantic_difference,
 			})
-			if (state === previous_state) {
+
+			// snoop on actions
+			switch(action.type) {
+				case ActionType.on_logged_in_refresh: {
+					if (is_logged_in !== action.is_logged_in) {
+						is_logged_in = action.is_logged_in
+						logger.verbose(`${LIB} logged in status snooped:`, { is_logged_in })
+						if (is_logged_in) {
+							// TODO force a sync
+						}
+					}
+					break
+				}
+				default:
+					break
+			}
+
+			if (semantic_difference === SemanticDifference.none) {
 				return
 			}
 
 			emitter.emit(EMITTER_EVT)
 
-			_sync_with_cloud(state)
-				.catch(_on_error)
+			if (is_logged_in) {
+				_sync_with_cloud(state)
+					.catch(_on_error)
+			}
 		}
 
 		function subscribe(debug_id: string, listener: () => void): () => void {

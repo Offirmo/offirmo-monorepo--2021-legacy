@@ -45,9 +45,9 @@ function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>)
 
 /////////////////////
 
-// XXX those internal reducers:
+// WARN those internal reducers:
 // - do not refresh achievements or update the T-state
-// - do not increment the root revision (but this has to be done by the parent)
+// - do not increment the root revision (this has to be done by the parent)
 
 function _lose_all_energy(state: Readonly<State>): Readonly<State> {
 	return {
@@ -56,6 +56,7 @@ function _lose_all_energy(state: Readonly<State>): Readonly<State> {
 			...state.u_state,
 			energy: {
 				...state.u_state.energy,
+				revision: state.u_state.energy.revision + 1,
 				total_energy_consumed_so_far: Math.max(7, state.u_state.energy.total_energy_consumed_so_far),
 			},
 		},
@@ -135,6 +136,7 @@ function _receive_coins(state: Readonly<State>, amount: number): Readonly<State>
 		},
 	}
 }
+
 function _lose_coins(state: Readonly<State>, amount: number): Readonly<State> {
 	const { u_state } = state
 

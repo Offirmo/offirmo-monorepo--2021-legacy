@@ -1,6 +1,7 @@
 /////////////////////
 
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
 
 /////////////////////
 
@@ -109,9 +110,9 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 				tokens_gained: u_state.last_adventure!.gains.token,
 				items_gained: (u_state.last_adventure!.gains.armor ? 1 : 0) + (u_state.last_adventure!.gains.weapon ? 1 : 0),
 			}),
-			revision: state.u_state.revision + 1,
 		},
 	}
+	state = propagate_child_revision_increment_upward(previous_state, state)
 
 	return _refresh_achievements(state)
 }

@@ -90,13 +90,14 @@ function create(rng: Engine, hints: Readonly<Partial<Weapon>> = {}): Weapon {
 	return temp
 }
 
-// TODO state, immu
 function enhance(weapon: Weapon): Weapon {
 	if (weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
 		throw new Error('can’t enhance a weapon above the maximal enhancement level!')
 
-	weapon.enhancement_level++
-	return weapon
+	return {
+		...weapon,
+		enhancement_level: weapon.enhancement_level + 1,
+	}
 }
 
 /////////////////////

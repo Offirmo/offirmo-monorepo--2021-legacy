@@ -8,8 +8,14 @@
 - 🤩 feature: X new achievements (now totalling X!)
 - 👋 feature dropped: X
 - 😅 fix: tweaks, typos, small bugs…
-- 😷 chore: some internal refactors, bump dependencies
+- 😷 chore: some internal refactors
+- 😷 chore: bump dependencies
 
+
+## v0.65.12
+- 👋 feature: (feature flagged) progress on the cloud save
+- 😷 chore: some internal refactors
+- 😷 chore: bump dependencies
 
 ## v0.65.11
 - 😅 fix: the savegame editor works again!

@@ -1,4 +1,5 @@
 import { expect } from 'chai'
+import icepick from 'icepick'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import { ALL_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
@@ -140,10 +141,17 @@ describe(`${LIB} - reducer - play`, function() {
 
 				it('should generate a suitable enemy', () => {
 					let state = create()
-					state.u_state.avatar.attributes.level = 500
+					state = icepick.setIn(state, ['u_state', 'avatar', 'attributes', 'level'], 500) || (() => {
+						// This is for typechecking the icepick above
+						state.u_state.avatar.attributes.level = 500
+					})
 
 					for(let i = 0; i < 100; ++i) {
-						state.t_state.energy.available_energy = { n: 7, d: 1 } // force replenish for tests
+						state = icepick.setIn(state, ['t_state', 'energy', 'available_energy'], { n: 7, d: 1 }) || (() => {
+							// This is for typechecking the icepick above
+							state.t_state.energy.available_energy = { n: 7, d: 1 }
+						})
+
 						state = play(state)
 						if (state.u_state.last_adventure!.hid.startsWith('fight_'))
 							break
