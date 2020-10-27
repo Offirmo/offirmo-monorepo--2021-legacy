@@ -15,7 +15,5 @@ export interface AnyBaseUState extends BaseUState {
 export interface AnyBaseTState extends BaseTState {
 	[k: string]: any
 }
-export interface AnyRootState extends BaseRootState {
-	u_state: AnyBaseUState
-	t_state: AnyBaseTState
+export interface AnyRootState extends BaseRootState<AnyBaseUState, AnyBaseTState> {
 }

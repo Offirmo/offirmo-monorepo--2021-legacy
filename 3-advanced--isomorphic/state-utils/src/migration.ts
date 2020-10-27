@@ -1,33 +1,35 @@
 import deep_freeze from 'deep-freeze-strict'
 import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
+import { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types'
 
 import { AnyRootState } from './types--internal'
 import { get_schema_version_loose, get_base_loose } from './selectors'
 import { is_RootState, has_versioned_schema } from './type-guards'
+import { BaseTState, BaseUState, OffirmoState } from './types'
 
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface Libs {
-	deep_freeze: typeof deep_freeze,
+	//deep_freeze: ImmutabilityEnforcer,
 }
 const LIBS: Libs = {
-	deep_freeze: deep_freeze,
+	//deep_freeze: deep_freeze, // TODO rework
 }
 
 const get_state_summary = get_base_loose
 
 export type GenericMigration<State = any, OlderState = any> = (
 	SEC: SoftExecutionContext<any, any, any>,
-	legacy_state: Readonly<OlderState>,
-	hints: Readonly<any>,
+	legacy_state: OlderState, // NOT immutable since we may return it unchanged
+	hints: Immutable<any>,
 ) => State
 
 export type MigrationStep<State = any, OlderState = any> = (
 	SEC: SoftExecutionContext<any, any, any>,
-	legacy_state: Readonly<OlderState>,
-	hints: Readonly<any>,
+	legacy_state: OlderState, // NOT immutable since we may return it unchanged
+	hints: Immutable<any>,
 	previous: GenericMigration<OlderState>,
 	// for convenience:
 	legacy_schema_version: number,
@@ -38,8 +40,8 @@ export type LastMigrationStep<State, OlderState = any> = MigrationStep<State, Ol
 
 export type CleanupStep<State> = (
 	SEC: SoftExecutionContext<any, any, any>,
-	state: Readonly<State>,
-	hints: Readonly<any>,
+	state: State, // NOT immutable since we may return it unchanged
+	hints: Immutable<any>,
 ) => State
 
 export type SubStatesMigrations = { [key: string]: GenericMigration }
@@ -60,17 +62,17 @@ export function generic_migrate_to_latest<State>({
 	SEC: SoftExecutionContext
 	LIB: string
 	SCHEMA_VERSION: number
-	legacy_state: Readonly<any>
-	hints: any
+	legacy_state: any // NOT immutable since we may return it unchanged
+	hints: Immutable<any>
 	sub_states_migrate_to_latest: SubStatesMigrations
 	cleanup?: CleanupStep<State>
-	pipeline: readonly [
+	pipeline: Immutable<[
 		LastMigrationStep<State>,
 		...MigrationStep[],
-	]
+	]>
 }): State {
 	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
-		const existing_version = get_schema_version_loose(legacy_state)
+		const existing_version = get_schema_version_loose(legacy_state as OffirmoState)
 
 		const RSEC = SEC
 		RSEC.setLogicalStack({ module: LIB })
@@ -82,7 +84,7 @@ export function generic_migrate_to_latest<State>({
 		if (existing_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
-		let state: State = legacy_state as State // for starter, may actually be true
+		let state = legacy_state as State // for starter, may actually be true
 
 		if (existing_version < SCHEMA_VERSION) {
 			logger.info(`attempting to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}…`)
@@ -91,8 +93,8 @@ export function generic_migrate_to_latest<State>({
 			function previous(
 				index: number,
 				SEC: SoftExecutionContext,
-				legacy_state: Readonly<any>,
-				hints: Readonly<any>,
+				legacy_state: Immutable<any>,
+				hints: Immutable<any>,
 			): any {
 				const migrate_step = pipeline[index]
 				const current_step_name = index >= pipeline.length
@@ -144,7 +146,7 @@ export function generic_migrate_to_latest<State>({
 		}
 
 		// migrate sub-reducers if any...
-		if (is_RootState(state)) {
+		if (is_RootState(state as any)) {
 			state = _migrate_sub_states__root<State>(SEC, state, sub_states_migrate_to_latest, hints)
 		}
 		else {
@@ -159,9 +161,9 @@ export function generic_migrate_to_latest<State>({
 
 function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 	SEC: SoftExecutionContext,
-	state: Readonly<State>,
+	state: State, // NOT immutable since we may return it unchanged
 	sub_states_migrate_to_latest: SubStatesMigrations,
-	hints: any,
+	hints: Immutable<any>,
 ): State {
 	let has_change = false
 	let { u_state, t_state } = state as any as AnyRootState
@@ -279,9 +281,9 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 
 function _migrate_sub_states__base<State /*extends BaseState*/>(
 	SEC: SoftExecutionContext,
-	state: Readonly<State>,
+	state: State, // NOT immutable since we may return it unchanged
 	sub_states_migrate_to_latest: SubStatesMigrations,
-	hints: any,
+	hints: Immutable<any>,
 ): State {
 	//let has_change = false
 	const legacy_state: any = state

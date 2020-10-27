@@ -26,7 +26,7 @@ describe(`${LIB} - selectors`, function() {
 	describe('get_schema_version()', function() {
 
 		describe('on a NON WithSchemaVersion', function() {
-			it('should throw', () => {
+			it('should typecheck and throw', () => {
 				expect(
 					// @ts-expect-error
 					() => get_schema_version({ foo: 42 })
@@ -56,7 +56,7 @@ describe(`${LIB} - selectors`, function() {
 				expect(get_schema_version([DEMO_USTATE, DEMO_TSTATE])).to.equal(DEMO_TSTATE.schema_version)
 			})
 
-			it('should throw on non-matching', () => {
+			it('should typecheck and throw on non-matching', () => {
 				expect(
 					// @ts-expect-error
 					() => get_schema_version([])
@@ -86,7 +86,24 @@ describe(`${LIB} - selectors`, function() {
 		describe('on a root state', function() {
 
 			it('should work on correct data', () => {
-				expect(get_schema_version(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.schema_version)
+				expect(get_schema_version(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.u_state.schema_version)
+			})
+
+			it('should typecheck and throw on non-matching', () => {
+				expect(
+					// @ts-expect-error
+					() => get_schema_version({})
+				).to.throw()
+
+				expect(
+					// @ts-expect-error
+					() => get_schema_version({ u_state: DEMO_TSTATE, t_state: DEMO_USTATE})
+				).to.throw()
+
+				expect(
+					// @ts-expect-error
+					() => get_schema_version({ u_state: DEMO_USTATE })
+				).to.throw()
 			})
 
 			it('should throw when any U/T schemas is mismatching', () => {
@@ -124,7 +141,7 @@ describe(`${LIB} - selectors`, function() {
 
 		it('should work on nominal correct data', () => {
 			expect(get_schema_version_loose({ schema_version: 33})).to.equal(33)
-			expect(get_schema_version_loose(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.schema_version)
+			expect(get_schema_version_loose(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.u_state.schema_version)
 			expect(get_schema_version_loose(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.schema_version)
 			expect(get_schema_version_loose(DEMO_USTATE)).to.equal(DEMO_USTATE.schema_version)
 			expect(get_schema_version_loose(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(DEMO_BASE_STATE_WITH_SUBS.subA.schema_version)

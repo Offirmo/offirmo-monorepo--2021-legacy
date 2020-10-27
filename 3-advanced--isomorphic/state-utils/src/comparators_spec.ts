@@ -19,7 +19,7 @@ import {
 	BaseRootState,
 	BaseState,
 	BaseTState,
-	BundledStates,
+	UTBundle,
 } from './types'
 
 
@@ -219,7 +219,14 @@ describe(`${LIB} - comparators`, function() {
 			it('should throw on reversed order -- schema version', () => {
 				expect(() => get_semantic_difference(DEMO_ROOT_STATE, {
 					...DEMO_ROOT_STATE,
-					schema_version: 9999,
+					u_state: {
+						...DEMO_ROOT_STATE.u_state,
+						schema_version: 9999,
+					},
+					t_state: {
+						...DEMO_ROOT_STATE.t_state,
+						schema_version: 9999,
+					},
 				})).to.throw()
 			})
 		})
@@ -241,12 +248,11 @@ describe(`${LIB} - comparators`, function() {
 		}
 		function gen_rootstate(d: SemanticDifference): BaseRootState {
 			return {
-				schema_version: d === SemanticDifference.major ? 3 : 2,
 				u_state: gen_base(d),
 				t_state: gen_tstate(d),
 			}
 		}
-		function gen_aggregated(d: SemanticDifference): BundledStates<BaseState, BaseTState> {
+		function gen_aggregated(d: SemanticDifference): UTBundle<BaseState, BaseTState> {
 			return [
 				gen_base(d),
 				gen_tstate(d),

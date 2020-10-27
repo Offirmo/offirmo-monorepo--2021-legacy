@@ -1,9 +1,10 @@
 import assert from 'tiny-invariant'
 import { Enum } from 'typescript-string-enums'
 import { dequal as is_deep_equal } from 'dequal'
+const jsondiffpatch = require('jsondiffpatch')
 
 import {
-	has_timestamp,
+	is_time_stamped,
 	is_revisioned,
 	is_RootState,
 } from './type-guards'
@@ -95,8 +96,8 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 	}
 
 	// major & minor equal, only diff left is time
-	const newer_has_timestamp = has_timestamp(newer)
-	const older_has_timestamp = has_timestamp(older)
+	const newer_has_timestamp = is_time_stamped(newer)
+	const older_has_timestamp = is_time_stamped(older)
 	if (newer_has_timestamp && older_has_timestamp) {
 		const newer_timestamp = get_timestamp(newer)
 		const older_timestamp = get_timestamp(older)
@@ -110,6 +111,16 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 	// we couldn't find any semantic difference.
 	// however, the objects are different so bad immutability could have kicked in...
 	const is_truely_equal = is_deep_equal(newer, older)
+	if (!is_truely_equal) {
+		const advanced_comparator = jsondiffpatch.create({
+			// used to match objects when diffing arrays, by default only === operator is used
+			objectHash: (obj: any) => JSON.stringify(obj),
+		})
+		const get_advanced_diff = advanced_comparator.diff.bind(advanced_comparator)
+		const diff = get_advanced_diff(newer, older)
+		console.error('ERROR get_semantic_difference() deep eq of semantically equal objects!', diff)
+		debugger
+	}
 	assert(is_truely_equal, 'get_semantic_difference() deep eq of semantically equal objects')
 
 	return SemanticDifference.none

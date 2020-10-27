@@ -1,8 +1,8 @@
 import assert from 'tiny-invariant'
 
 import {
-	WithRevision,
-	BaseRootState,
+	BaseState,
+	BaseRootState, WithRevision, BaseUState, BaseTState, UTBundle,
 } from './types'
 import {
 	AnyBaseState,
@@ -15,6 +15,7 @@ import {
 	is_UState,
 } from './type-guards'
 import {
+	get_revision,
 	get_revision_loose,
 } from './selectors'
 
@@ -25,9 +26,14 @@ import {
 // - supports bundled
 // - uses type guards
 // - go deep! not just 1st level
-export function propagate_child_revision_increment_upward<S extends WithRevision, R extends BaseRootState, T = S | R>(
+export function propagate_child_revision_increment_upward<
+	BU extends BaseUState,
+	BT extends BaseTState,
+	BR extends BaseRootState,
+	T = BU | BT | BR,
+>(
 	previous: any,
-	current: Readonly<T>,
+	current: T, // not immutable since we can return it unchanged
 ): T {
 	if (!previous)
 		return current
@@ -54,7 +60,7 @@ export function propagate_child_revision_increment_upward<S extends WithRevision
 	assert(is_UState(current) || is_TState(current), 'current has U/TState data structure!') // unneeded except for helping TS type inference
 	assert(is_UState(previous) && is_UState(current) || is_TState(previous) && is_TState(current), 'previous also has U/TState data structure!')
 
-	if (is_revisioned(current) && current.revision !== previous.revision)
+	if (current.revision !== previous.revision)
 		throw new Error('propagate_child_revision_increment_upward(): revision already incremented!')
 
 	const typed_previous: AnyBaseState = previous as any
@@ -79,7 +85,7 @@ export function propagate_child_revision_increment_upward<S extends WithRevision
 
 	return {
 		...current,
-		revision: get_revision_loose(current) + 1,
+		revision: get_revision(current as any) + 1,
 	}
 }
 

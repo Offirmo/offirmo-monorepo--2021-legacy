@@ -110,8 +110,6 @@ export interface DemoRootState_T_v8 extends BaseTState {
 	subC: StateC_T
 }
 export interface DemoRootState_v8 extends BaseRootState {
-	schema_version: 8
-
 	u_state: DemoRootState_U_v8
 	t_state: DemoRootState_T_v8
 }
@@ -119,7 +117,6 @@ export type DemoRootState = DemoRootState_v8
 
 /////////////////////////////////////////////////
 export const DEMO_ROOT_v8: Readonly<DemoRootState_v8> = deep_freeze<DemoRootState_v8>({
-	schema_version: 8,
 
 	u_state: {
 		schema_version: 8,

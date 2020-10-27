@@ -1,4 +1,5 @@
 /////////////////////
+// pb. error TS7053: Element implicitly has an 'any' type because expression of type '3' can't be used to index type 'Number'.
 
 /* JSON
  * https://devblogs.microsoft.com/typescript/announcing-typescript-3-7-rc/#more-recursive-type-aliases

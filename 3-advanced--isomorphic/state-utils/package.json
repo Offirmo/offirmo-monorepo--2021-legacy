@@ -20,7 +20,9 @@
 	"dependencies": {
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ts-types": "^0",
+		"deep-freeze-strict": "^1",
 		"dequal": "^2",
+		"jsondiffpatch": "^0.4",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
@@ -40,7 +42,6 @@
 		"@offirmo/universal-debug-api-node": "^0",
 		"@offirmo-private/soft-execution-context-node": "^0",
 		"@offirmo/unit-test-toolbox": "^6",
-		"deep-freeze-strict": "^1",
 		"npm-run-all": "^4"
 	}
 }
