@@ -1,7 +1,5 @@
-//import deep_freeze from 'deep-freeze-strict'
-import icepick from 'icepick'
-
 import { ImmutabilityEnforcer } from '@offirmo-private/ts-types'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 import { BaseInjections, SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Logger } from '@offirmo/practical-logger-types'
 
@@ -18,14 +16,9 @@ type OMRSoftExecutionContext = SoftExecutionContext<OMRInjections>
 
 /////////////////////
 
-//const enforce_immutability: ImmutabilityEnforcer = (state: T): T => state
-//const enforce_immutability = <T>(state: T): T => deep_freeze<T>(state)
-const enforce_immutability = <T>(state: T): T => icepick.freeze<T>(state)
-
-
 function decorate_SEC(SEC: OMRSoftExecutionContext): OMRSoftExecutionContext {
 	SEC.injectDependencies({
-		enforce_immutability,
+		enforce_immutability, // TODO remove
 	})
 
 	SEC.setAnalyticsAndErrorDetails({

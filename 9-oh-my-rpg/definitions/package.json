@@ -18,7 +18,7 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/ts-types": "^0",
+		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/practical-logger-types": "^3",
 		"@offirmo/random": "^2",
@@ -39,8 +39,8 @@
 		"cheatsheet": "node doc/cheatsheet.js"
 	},
 	"devDependencies": {
+		"@offirmo-private/ts-types": "^0",
 		"@offirmo/unit-test-toolbox": "^6",
-		"npm-run-all": "^4",
-		"icepick": "^2"
+		"npm-run-all": "^4"
 	}
 }

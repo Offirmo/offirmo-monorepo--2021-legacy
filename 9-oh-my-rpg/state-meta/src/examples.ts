@@ -1,4 +1,4 @@
-import deep_freeze from 'deep-freeze-strict'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { State } from './types'
 
@@ -9,7 +9,7 @@ import { State } from './types'
 // a full featured, non-trivial demo state
 // needed for demos
 
-const DEMO_STATE: Readonly<State> = deep_freeze<State>({
+const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 	schema_version: 3,
 	revision: 5,
 

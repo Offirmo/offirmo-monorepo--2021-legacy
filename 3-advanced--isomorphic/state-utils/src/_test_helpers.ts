@@ -1,10 +1,11 @@
-import deep_freeze from 'deep-freeze-strict'
 import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import {
 	BaseRootState, BaseTState,
 	BaseUState, WithSchemaVersion,
 } from './types'
+import { enforce_immutability } from './utils'
 
 // needed only for changing the default level
 //import { _force_uda_logger_with_level } from '@offirmo-private/soft-execution-context-node'
@@ -16,7 +17,7 @@ import {
 export interface StateA_U_v0 {
 	foo: number
 }
-export const DEMO_STATE_A_U_v0: StateA_U_v0 = deep_freeze<StateA_U_v0>({
+export const DEMO_STATE_A_U_v0: StateA_U_v0 = enforce_immutability<StateA_U_v0>({
 	foo: 42
 })
 
@@ -26,7 +27,7 @@ export interface StateA_U_v1 extends WithSchemaVersion {
 		bar: number
 	}
 }
-export const DEMO_STATE_A_U_v1: StateA_U_v1 = deep_freeze<StateA_U_v1>({
+export const DEMO_STATE_A_U_v1: StateA_U_v1 = enforce_immutability<StateA_U_v1>({
 	schema_version: 1,
 	foo: {
 		bar: 42
@@ -41,7 +42,7 @@ export interface StateA_U_v2 extends BaseUState {
 		}
 	}
 }
-export const DEMO_STATE_A_U_v2: StateA_U_v2 = deep_freeze<StateA_U_v2>({
+export const DEMO_STATE_A_U_v2: StateA_U_v2 = enforce_immutability<StateA_U_v2>({
 	schema_version: 2,
 	revision: 333,
 	foo: {
@@ -60,7 +61,7 @@ export const SCHEMA_VERSION_A = 2
 export interface StateB_T_v4 extends BaseTState {
 	energy: number
 }
-export const DEMO_STATE_B_T_v4: StateB_T_v4 = deep_freeze<StateB_T_v4>({
+export const DEMO_STATE_B_T_v4: StateB_T_v4 = enforce_immutability<StateB_T_v4>({
 	schema_version: 4,
 	timestamp_ms: TEST_TIMESTAMP_MS,
 	revision: 0,
@@ -78,7 +79,7 @@ export interface StateC_U_v5 extends BaseUState {
 
 	fizz: string
 }
-export const DEMO_STATE_C_U_v5: StateC_U_v5 = deep_freeze<StateC_U_v5>({
+export const DEMO_STATE_C_U_v5: StateC_U_v5 = enforce_immutability<StateC_U_v5>({
 	schema_version: 5,
 	revision: 24,
 
@@ -89,7 +90,7 @@ export interface StateC_T_v5 extends BaseTState {
 
 	buzz: number
 }
-export const DEMO_STATE_C_T_v5: StateC_T_v5 = deep_freeze<StateC_T_v5>({
+export const DEMO_STATE_C_T_v5: StateC_T_v5 = enforce_immutability<StateC_T_v5>({
 	schema_version: 5,
 	timestamp_ms: TEST_TIMESTAMP_MS,
 	revision: 12,
@@ -116,7 +117,7 @@ export interface DemoRootState_v8 extends BaseRootState {
 export type DemoRootState = DemoRootState_v8
 
 /////////////////////////////////////////////////
-export const DEMO_ROOT_v8: Readonly<DemoRootState_v8> = deep_freeze<DemoRootState_v8>({
+export const DEMO_ROOT_v8: Immutable<DemoRootState_v8> = enforce_immutability<DemoRootState_v8>({
 
 	u_state: {
 		schema_version: 8,

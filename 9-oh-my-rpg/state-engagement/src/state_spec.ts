@@ -1,4 +1,3 @@
-import deep_freeze from 'deep-freeze-strict'
 import { expect } from 'chai'
 
 import { SCHEMA_VERSION } from './consts'

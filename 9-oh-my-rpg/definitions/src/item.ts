@@ -1,3 +1,5 @@
+import { Immutable } from '@offirmo-private/ts-types'
+
 import { ElementType, Item, ItemQuality, InventorySlot } from './types'
 import { ITEM_SLOTS_TO_INT, ITEM_QUALITIES_TO_INT } from './consts'
 import { create_element_base } from './element'
@@ -10,7 +12,7 @@ function create_item_base(slot: InventorySlot, quality: ItemQuality = ItemQualit
 	}
 }
 
-function compare_items_by_slot(a: Readonly<Item>, b: Readonly<Item>): number {
+function compare_items_by_slot(a: Immutable<Item>, b: Immutable<Item>): number {
 	const rank_a = ITEM_SLOTS_TO_INT[a.slot]
 	if (!Number.isInteger(rank_a))
 		throw new Error('compare items by slots: unhandled slot! (A)')
@@ -22,7 +24,7 @@ function compare_items_by_slot(a: Readonly<Item>, b: Readonly<Item>): number {
 	return rank_a - rank_b
 }
 
-function compare_items_by_quality(a: Readonly<Item>, b: Readonly<Item>): number {
+function compare_items_by_quality(a: Immutable<Item>, b: Immutable<Item>): number {
 	const rank_a = ITEM_QUALITIES_TO_INT[a.quality]
 	if (!Number.isInteger(rank_a))
 		throw new Error('compare items by quality: unhandled quality! (A)')

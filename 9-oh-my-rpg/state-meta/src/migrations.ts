@@ -1,4 +1,4 @@
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 import {
 	LastMigrationStep,
 	MigrationStep,
@@ -13,7 +13,7 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
-export const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
+export const MIGRATION_HINTS_FOR_TESTS: any = enforce_immutability<any>({
 })
 
 /////////////////////

@@ -1,5 +1,4 @@
 import { expect } from 'chai'
-import deep_freeze from 'deep-freeze-strict'
 
 import { LIB } from './consts'
 
@@ -11,11 +10,21 @@ import {
 import {
 	propagate_child_revision_increment_upward,
 	are_ustate_revision_requirements_met,
+	enforce_immutability,
 } from './utils'
 
 
 describe(`${LIB} - utils`, function() {
 
+	describe('enforce_immutability', function () {
+
+		it('should work', () => {
+			expect(() => {
+				// @ts-expect-error
+				enforce_immutability(DEMO_BASE_STATE_WITH_SUBS).subA.foo = 33
+			}).to.throw('read only')
+		})
+	})
 	describe('propagate_child_revision_increment_upward()', function() {
 
 		context('on a base state with sub states', function() {
@@ -27,7 +36,7 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should not touch the object if no sub-increments', () => {
-				const current_base = deep_freeze<typeof previous>({
+				const current_base = enforce_immutability<typeof previous>({
 					...previous,
 					subC: {
 						...previous.subC,
@@ -39,7 +48,7 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should increment if sub-increments', () => {
-				const current_base = deep_freeze<typeof previous>({
+				const current_base = enforce_immutability<typeof previous>({
 					...previous,
 					subC: {
 						...previous.subC,
@@ -47,7 +56,7 @@ describe(`${LIB} - utils`, function() {
 						fizz: 'hello',
 					},
 				})
-				const expected = deep_freeze<typeof previous>({
+				const expected = enforce_immutability<typeof previous>({
 					...current_base,
 					revision: 104,
 				})
@@ -57,7 +66,7 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should throw if already incremented', () => {
-				const current_base = deep_freeze<typeof previous>({
+				const current_base = enforce_immutability<typeof previous>({
 					...previous,
 					revision: 104, // bad
 					subC: {
@@ -80,7 +89,7 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should not touch the object if no sub-increments', () => {
-				const current_root = deep_freeze<typeof previous>({
+				const current_root = enforce_immutability<typeof previous>({
 					...previous,
 					u_state: {
 						...previous.u_state,
@@ -95,7 +104,7 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should increment if sub-increments', () => {
-				const current_root = deep_freeze<typeof previous>({
+				const current_root = enforce_immutability<typeof previous>({
 					...previous,
 					u_state: {
 						...previous.u_state,
@@ -106,7 +115,7 @@ describe(`${LIB} - utils`, function() {
 						},
 					},
 				})
-				const expected = deep_freeze<typeof previous>({
+				const expected = enforce_immutability<typeof previous>({
 					...current_root,
 					u_state: {
 						...current_root.u_state,
@@ -119,7 +128,7 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should throw if already incremented', () => {
-				const current_root = deep_freeze<typeof previous>({
+				const current_root = enforce_immutability<typeof previous>({
 					...previous,
 					u_state: {
 						...previous.u_state,

@@ -37,7 +37,7 @@ export interface BaseRootState<U extends BaseUState = BaseUState, T extends Base
 }
 
 // TODO review
-/*export type OffirmoState<
+export type OffirmoState<
 	U extends BaseUState = BaseUState,
 	T extends BaseTState = BaseTState,
-> = U | T | UTBundle<U, T> | BaseRootState<U, T>*/
+> = U | T | UTBundle<U, T> | BaseRootState<U, T>

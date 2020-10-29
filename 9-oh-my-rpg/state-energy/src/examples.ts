@@ -1,4 +1,4 @@
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 
 import { UState, TState } from './types'
@@ -7,7 +7,7 @@ import { UState, TState } from './types'
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
 
-const DEMO_U_STATE: Readonly<UState> = deep_freeze<UState>({
+const DEMO_U_STATE: Readonly<UState> = enforce_immutability<UState>({
 	schema_version: 4,
 	revision: 3,
 
@@ -15,7 +15,7 @@ const DEMO_U_STATE: Readonly<UState> = deep_freeze<UState>({
 	total_energy_consumed_so_far: 3,
 })
 
-const DEMO_T_STATE: Readonly<TState> = deep_freeze<TState>({
+const DEMO_T_STATE: Readonly<TState> = enforce_immutability<TState>({
 	schema_version: 4,
 	revision: 3,
 

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 import { itㆍshouldㆍmigrateㆍcorrectly } from '@offirmo-private/state-migration-tester'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -17,7 +17,7 @@ describe(`${LIB} - migration`, function() {
 			use_hints: false,
 			//can_update_snapshots: true, // uncomment temporarily to update the snaphots
 			SCHEMA_VERSION,
-			LATEST_EXPECTED_DATA: () => deep_freeze<any>(create()),
+			LATEST_EXPECTED_DATA: () => enforce_immutability<any>(create()),
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_blank_state_specs'),
 			describe, context, it, expect,

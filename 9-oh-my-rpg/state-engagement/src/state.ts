@@ -1,6 +1,7 @@
 /////////////////////
 
 import assert from 'tiny-invariant'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { SCHEMA_VERSION } from './consts'
 
@@ -14,9 +15,9 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
-		return enforce_immutability({
+function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
+	return get_lib_SEC(SEC).xTry('create', () => {
+		return enforce_immutability<State>({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
 

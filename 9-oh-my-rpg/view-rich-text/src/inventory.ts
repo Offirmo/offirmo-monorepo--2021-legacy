@@ -17,8 +17,8 @@ import { appraise_power } from '@oh-my-rpg/logic-shop'
 
 import { render_item_short } from './items'
 import { render_wallet } from './wallet'
-import {RenderItemOptions} from './types'
-import {DEFAULT_RENDER_ITEM_OPTIONS} from './consts'
+import { RenderItemOptions } from './types'
+import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
 
 // we want the slots sorted by types according to an arbitrary order

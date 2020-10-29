@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import {
 	create,

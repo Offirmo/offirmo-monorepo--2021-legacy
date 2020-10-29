@@ -1,15 +1,17 @@
 import assert from 'tiny-invariant'
+import icepick from 'icepick'
+import { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types'
 
 import {
-	BaseState,
-	BaseRootState, WithRevision, BaseUState, BaseTState, UTBundle,
+	BaseUState,
+	BaseTState,
+	BaseRootState,
 } from './types'
 import {
 	AnyBaseState,
 	AnyRootState,
 } from './types--internal'
 import {
-	is_revisioned,
 	is_RootState,
 	is_TState,
 	is_UState,
@@ -19,6 +21,11 @@ import {
 	get_revision_loose,
 } from './selectors'
 
+
+export const enforce_immutability: ImmutabilityEnforcer = <T>(state: T): Immutable<T> => icepick.freeze<T>(state) as Immutable<T>
+//const enforce_immutability: ImmutabilityEnforcer = (state: T): Immutable<T> => state
+//const enforce_immutability: ImmutabilityEnforcer = <T>(state: T): Immutable<T> => deep_freeze<T>(state)
+export { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types' // for convenience
 
 
 // if a child state's revision increased, increase ours.
@@ -89,9 +96,10 @@ export function propagate_child_revision_increment_upward<
 	}
 }
 
+
 // check if the state is still in the revision we expect
 // ex. for an action, check it's still valid, ex. object already sold?
-export function are_ustate_revision_requirements_met<S extends BaseRootState>(state: Readonly<S>, requirements: { [k: string]: number } = {}): boolean {
+export function are_ustate_revision_requirements_met<S extends BaseRootState>(state: Immutable<S>, requirements: { [k: string]: number } = {}): boolean {
 	for(const k in requirements) {
 		assert((state as AnyRootState).u_state[k], `are_ustate_revision_requirements_met(): sub state not found: "${k}"!`)
 		const current_revision = ((state as AnyRootState).u_state[k]! as any).revision

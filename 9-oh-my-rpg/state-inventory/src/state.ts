@@ -1,7 +1,7 @@
 /////////////////////
 
 import { UUID } from '@offirmo-private/uuid'
-
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 import { InventorySlot } from '@oh-my-rpg/definitions'
 
 
@@ -13,9 +13,9 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}) => {
-		return enforce_immutability({
+function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
+	return get_lib_SEC(SEC).xTry('rename', () => {
+		return enforce_immutability<State>({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
 
@@ -29,24 +29,28 @@ function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function _auto_sort(state: State): State {
-	state.unslotted.sort(compare_items_by_slot_then_strength)
-	return state
+function _auto_sort(state: Immutable<State>): Immutable<State> {
+	return {
+		...state,
+		unslotted: [...state.unslotted].sort(compare_items_by_slot_then_strength)
+	}
 }
 
-function internal_remove_item(state: State, uuid: UUID): State {
+function _internal_remove_item_from_unslotted(state: Immutable<State>, uuid: UUID): Immutable<State> {
 	const new_unslotted = state.unslotted.filter(i => i.uuid !== uuid)
 	if (new_unslotted.length === state.unslotted.length)
 		throw new Error(`state-inventory: can’t remove item #${uuid}, not found!`)
 
 	// removing won't change the sort order, so no need to auto-sort
-	state.unslotted = new_unslotted
-	return state
+	return {
+		...state,
+		unslotted: new_unslotted,
+	}
 }
 
 /////////////////////
 
-function add_item(state: Readonly<State>, item: Item): Readonly<State> {
+function add_item(state: Immutable<State>, item: Item): Immutable<State> {
 	if (is_full(state))
 		throw new Error('state-inventory: can’t add item, inventory is full!')
 
@@ -59,14 +63,14 @@ function add_item(state: Readonly<State>, item: Item): Readonly<State> {
 	})
 }
 
-function remove_item_from_unslotted(state: Readonly<State>, uuid: UUID): Readonly<State> {
-	return internal_remove_item({
+function remove_item_from_unslotted(state: Immutable<State>, uuid: UUID): Immutable<State> {
+	return _internal_remove_item_from_unslotted({
 		...state,
 		revision: state.revision + 1,
 	}, uuid)
 }
 
-function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
+function equip_item(state: Immutable<State>, uuid: UUID): Immutable<State> {
 	const item_to_equip = state.unslotted.find(i => i.uuid === uuid)
 	if (!item_to_equip)
 		throw new Error(`state-inventory: can’t equip item #${uuid}, not found!`)
@@ -84,9 +88,10 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 		},
 		revision: state.revision + 1,
 	}
-	new_state = internal_remove_item(new_state, item_to_equip.uuid)
-	if (item_previously_in_slot)
-		new_state.unslotted.push(item_previously_in_slot)
+	new_state = _internal_remove_item_from_unslotted(new_state, item_to_equip.uuid)
+	if (item_previously_in_slot) {
+		new_state.unslotted = [...new_state.unslotted, item_previously_in_slot]
+	}
 
 	return _auto_sort(new_state)
 }

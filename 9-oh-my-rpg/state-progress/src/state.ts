@@ -2,6 +2,7 @@
 
 import assert from 'tiny-invariant'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 
@@ -17,8 +18,8 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 /////////////////////
 
 function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
-		return enforce_immutability({
+	return get_lib_SEC(SEC).xTry('create', () => {
+		return enforce_immutability<State>({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
 

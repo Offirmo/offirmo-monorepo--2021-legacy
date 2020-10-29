@@ -1,12 +1,11 @@
-import deep_freeze from 'deep-freeze-strict'
 import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
-import { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { AnyRootState } from './types--internal'
 import { get_schema_version_loose, get_base_loose } from './selectors'
 import { is_RootState, has_versioned_schema } from './type-guards'
-import { BaseTState, BaseUState, OffirmoState } from './types'
+import { OffirmoState } from './types'
 
 
 ////////////////////////////////////////////////////////////////////////////////////

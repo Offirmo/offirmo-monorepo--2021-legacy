@@ -20,7 +20,6 @@
 	"dependencies": {
 		"@offirmo-private/state-utils": "^0",
 		"@oh-my-rpg/definitions": "^0",
-		"deep-freeze-strict": "^1",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
@@ -36,8 +35,9 @@
 		"build": "run-s build:prod"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
 		"@offirmo-private/state-migration-tester": "^0",
+		"@offirmo-private/ts-types": "^0",
+		"@offirmo/unit-test-toolbox": "^6",
 		"npm-run-all": "^4"
 	}
 }

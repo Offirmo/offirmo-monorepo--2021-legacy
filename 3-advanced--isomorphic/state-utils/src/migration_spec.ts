@@ -1,5 +1,4 @@
 import { expect } from 'chai'
-import deep_freeze from 'deep-freeze-strict'
 import { SoftExecutionContext, getRootSEC } from '@offirmo-private/soft-execution-context'
 
 import { LIB } from './consts'

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB } from './consts'
 import {
@@ -49,7 +49,7 @@ describe(`${LIB} - selectors`, function() {
 		//context('when the code is not valid')
 
 		context('when the code is known', function() {
-			const BASE_INFOS: Readonly<CodesConditions> = deep_freeze<CodesConditions>({
+			const BASE_INFOS: Readonly<CodesConditions> = enforce_immutability<CodesConditions>({
 				has_energy_depleted: false,
 				good_play_count: 0,
 				is_alpha_player: true,

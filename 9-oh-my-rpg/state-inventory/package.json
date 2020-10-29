@@ -23,7 +23,6 @@
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/logic-armors": "^0",
 		"@oh-my-rpg/logic-weapons": "^0",
-		"deep-freeze-strict": "^1",
 		"tiny-invariant": "^1"
 	},
 
@@ -38,8 +37,9 @@
 		"build": "run-s build:prod"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
 		"@offirmo-private/state-migration-tester": "^0",
+		"@offirmo-private/ts-types": "^0",
+		"@offirmo/unit-test-toolbox": "^6",
 		"npm-run-all": "^4"
 	}
 }
