@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
-import { get_revision_loose, get_semantic_difference, SemanticDifference, get_base_loose } from '@offirmo-private/state-utils'
+import { Immutable, get_revision_loose, get_semantic_difference, SemanticDifference, get_base_loose } from '@offirmo-private/state-utils'
 
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store } from '../../types'
@@ -17,13 +17,13 @@ export function create(
 ): Store {
 	const LIB = `Store--in-mem-v2`
 	return SEC.xTry(`creating ${LIB}…`, ({ logger }) => {
-		let state: Readonly<State> | undefined = undefined
+		let state: Immutable<State> | undefined = undefined
 
 		const emitter = new EventEmitter.Typed<{}, 'change'>()
 
 		/////////////////////////////////////////////////
 
-		function set(new_state: Readonly<State>): void {
+		function set(new_state: Immutable<State>): void {
 			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
 			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), semantic_difference })
 
@@ -39,13 +39,13 @@ export function create(
 			emitter.emit(EMITTER_EVT)
 		}
 
-		function get(): Readonly<State> {
+		function get(): Immutable<State> {
 			assert(state, `get(): ${LIB} never initialized!`)
 
 			return state
 		}
 
-		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
+		function on_dispatch(action: Immutable<Action>, eventual_state_hint?: Immutable<State>): void {
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
 			})

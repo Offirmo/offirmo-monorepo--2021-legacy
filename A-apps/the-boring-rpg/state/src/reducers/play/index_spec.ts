@@ -14,15 +14,13 @@ import {
 } from '@oh-my-rpg/state-wallet'
 
 import { LIB } from '../../consts'
-
+import { State} from '../../types'
 import {
 	get_available_energy_float,
 } from '../../selectors'
-
 import {
 	_lose_all_energy,
 } from '../internal'
-
 import {
 	create,
 	play,
@@ -74,7 +72,16 @@ describe(`${LIB} - reducer - play`, function() {
 				state = _lose_all_energy(state)
 
 				// force (for tests)
-				state.t_state.energy.available_energy = { n: 8, d: 10 }
+				state = {
+					...state,
+					t_state: {
+						...state.t_state,
+						energy: {
+							...state.t_state.energy,
+							available_energy: { n: 8, d: 10 },
+						}
+					}
+				}
 
 				state = play(state)
 				expect(state.u_state.last_adventure).not.to.be.null
@@ -143,14 +150,14 @@ describe(`${LIB} - reducer - play`, function() {
 					let state = create()
 					state = icepick.setIn(state, ['u_state', 'avatar', 'attributes', 'level'], 500) || (() => {
 						// This is for typechecking the icepick above
-						state.u_state.avatar.attributes.level = 500
-					})
+						;(state as State).u_state.avatar.attributes.level = 500
+					})()
 
 					for(let i = 0; i < 100; ++i) {
 						state = icepick.setIn(state, ['t_state', 'energy', 'available_energy'], { n: 7, d: 1 }) || (() => {
 							// This is for typechecking the icepick above
-							state.t_state.energy.available_energy = { n: 7, d: 1 }
-						})
+							;(state as State).t_state.energy.available_energy = { n: 7, d: 1 }
+						})()
 
 						state = play(state)
 						if (state.u_state.last_adventure!.hid.startsWith('fight_'))

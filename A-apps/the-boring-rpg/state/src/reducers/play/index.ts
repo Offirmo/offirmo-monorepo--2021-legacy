@@ -1,5 +1,6 @@
 /////////////////////
 
+import { Immutable} from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
 
@@ -21,7 +22,7 @@ import { _refresh_achievements } from '../achievements'
 /////////////////////
 
 // note: allows passing an explicit adventure archetype for testing
-function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms(), explicit_adventure_archetype_hid?: string): Readonly<State> {
+function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms(), explicit_adventure_archetype_hid?: string): Immutable<State> {
 	let state = _update_to_now(previous_state, now_ms)
 
 	//let { u_state, t_state } = state

@@ -1,5 +1,6 @@
 /////////////////////
 
+import { Immutable} from '@offirmo-private/ts-types'
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
@@ -36,7 +37,7 @@ import {STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC} from './create'
 
 /////////////////////
 
-function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>): number {
+function compare_items_by_normalized_power(a: Immutable<Item>, b: Immutable<Item>): number {
 	const power_a = appraise_power_normalized(a)
 	const power_b = appraise_power_normalized(b)
 
@@ -49,7 +50,7 @@ function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>)
 // - do not refresh achievements or update the T-state
 // - do not increment the root revision (this has to be done by the parent)
 
-function _lose_all_energy(state: Readonly<State>): Readonly<State> {
+function _lose_all_energy(state: Immutable<State>): Immutable<State> {
 	return {
 		...state,
 		u_state: {
@@ -67,7 +68,7 @@ function _lose_all_energy(state: Readonly<State>): Readonly<State> {
 	}
 }
 
-function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs): Readonly<State> {
+function _update_to_now(state: Immutable<State>, now_ms: TimestampUTCMs): Immutable<State> {
 	const { u_state, t_state } = state
 
 	const t_state_e = EnergyState.update_to_now([u_state.energy, t_state.energy], now_ms)
@@ -85,7 +86,7 @@ function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs): Readonl
 	}
 }
 
-function _receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
+function _receive_stat_increase(state: Immutable<State>, stat: CharacterAttribute, amount = 1): Immutable<State> {
 	const { u_state } = state
 
 	return {
@@ -97,7 +98,7 @@ function _receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute
 	}
 }
 
-function _receive_item(state: Readonly<State>, item: Item): Readonly<State> {
+function _receive_item(state: Immutable<State>, item: Item): Immutable<State> {
 	// inventory shouldn't be full since we prevent playing in this case
 	const { u_state } = state
 
@@ -110,7 +111,7 @@ function _receive_item(state: Readonly<State>, item: Item): Readonly<State> {
 	}
 }
 
-function _sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
+function _sell_item(state: Immutable<State>, uuid: UUID): Immutable<State> {
 	const { u_state } = state
 
 	const price = appraise_item_value(u_state, uuid)
@@ -125,7 +126,7 @@ function _sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 	}
 }
 
-function _receive_coins(state: Readonly<State>, amount: number): Readonly<State> {
+function _receive_coins(state: Immutable<State>, amount: number): Immutable<State> {
 	const { u_state } = state
 
 	return {
@@ -137,7 +138,7 @@ function _receive_coins(state: Readonly<State>, amount: number): Readonly<State>
 	}
 }
 
-function _lose_coins(state: Readonly<State>, amount: number): Readonly<State> {
+function _lose_coins(state: Immutable<State>, amount: number): Immutable<State> {
 	const { u_state } = state
 
 	return {
@@ -149,7 +150,7 @@ function _lose_coins(state: Readonly<State>, amount: number): Readonly<State> {
 	}
 }
 
-function _receive_tokens(state: Readonly<State>, amount: number): Readonly<State> {
+function _receive_tokens(state: Immutable<State>, amount: number): Immutable<State> {
 	const { u_state } = state
 
 	return {
@@ -163,7 +164,7 @@ function _receive_tokens(state: Readonly<State>, amount: number): Readonly<State
 
 ////////////
 
-function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
+function _ack_all_engagements(state: Immutable<State>): Immutable<State> {
 	const { u_state } = state
 
 	if (!u_state.engagement.queue.length) return state
@@ -177,7 +178,7 @@ function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
 	}
 }
 
-function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = {}): Readonly<State> {
+function _auto_make_room(state: Immutable<State>, options: { DEBUG?: boolean } = {}): Immutable<State> {
 	const { DEBUG } = options
 
 	if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${state.u_state.inventory.unslotted.length} items)`)
@@ -190,7 +191,7 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 		// sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
 		const original_unslotted = state.u_state.inventory.unslotted
 		Array.from(original_unslotted)
-			.filter((e: Readonly<Item>) => {
+			.filter((e: Immutable<Item>) => {
 				switch (e.slot) {
 					case InventorySlot.armor:
 						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))
@@ -207,7 +208,7 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 			})
 			.sort(compare_items_by_normalized_power)
 			.reverse() // to put the lowest quality items first
-			.forEach((e: Readonly<Item>) => {
+			.forEach((e: Immutable<Item>) => {
 				//console.log(e.quality, e.slot, appraise_power_normalized(e))
 				switch(e.slot) {
 					case InventorySlot.armor:

@@ -1,7 +1,7 @@
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
-import { JSONObject, Storage } from '@offirmo-private/ts-types'
+import { Immutable, Storage } from '@offirmo-private/ts-types'
 import {
 	get_schema_version_loose,
 	get_base_loose,
@@ -27,7 +27,7 @@ import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
 const EMITTER_EVT = 'change'
 
-function get_cloud_key(state: Readonly<State> | undefined): string {
+function get_cloud_key(state: Immutable<State> | undefined): string {
 	const slot_id = state?.u_state.meta.slot_id
 
 	return 'the-boring-rpg.savegame' + (slot_id ? `#${slot_id}` : '')
@@ -46,7 +46,7 @@ export function create(
 		const is_enabled = overrideHook('cloud_save_enabled', false)
 		logger.verbose(`[${LIB}] FYI API URL = "${get_api_base_url(CHANNEL as any)}"`)
 
-		let state: Readonly<State> | undefined = undefined
+		let state: Immutable<State> | undefined = undefined
 
 		/////////////////////////////////////////////////
 
@@ -61,14 +61,14 @@ export function create(
 
 		/////////////////////////////////////////////////
 		let is_logged_in = false // AFAWK
-		let last_known_cloud_state: Readonly<State> | undefined = undefined
+		let last_known_cloud_state: Immutable<State> | undefined = undefined
 		let last_cloud_sync = new Date()
 
 		// TODO debounce / throttle
 		// TODO handle offline
 		// TODO retries
 		// TODO spontaneous periodic sync
-		async function _sync_with_cloud(some_state: Readonly<State>): Promise<void> {
+		async function _sync_with_cloud(some_state: Immutable<State>): Promise<void> {
 			const cloud_key = get_cloud_key(some_state)
 			const semantic_difference = get_semantic_difference(some_state, last_known_cloud_state)
 			const now = new Date()
@@ -126,7 +126,7 @@ export function create(
 
 		/////////////////////////////////////////////////
 
-		function set(new_state: Readonly<State>): void {
+		function set(new_state: Immutable<State>): void {
 			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
 			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), semantic_difference })
 
@@ -147,13 +147,13 @@ export function create(
 			}
 		}
 
-		function get(): Readonly<State> {
+		function get(): Immutable<State> {
 			assert(state, `${LIB}.get(): never initialized`)
 
 			return state
 		}
 
-		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
+		function on_dispatch(action: Immutable<Action>, eventual_state_hint?: Immutable<State>): void {
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
 			})

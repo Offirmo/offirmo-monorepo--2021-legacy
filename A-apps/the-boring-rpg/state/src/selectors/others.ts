@@ -1,3 +1,4 @@
+import { Immutable} from '@offirmo-private/ts-types'
 import { UUID } from '@offirmo-private/uuid'
 import * as RichText from '@offirmo-private/rich-text-format'
 
@@ -24,7 +25,7 @@ import { get_achievement_snapshot_by_temporary_id } from './achievements'
 
 
 // TODO power
-function appraise_player_power(u_state: Readonly<UState>): number {
+function appraise_player_power(u_state: Immutable<UState>): number {
 	let power: number = 1
 
 	ITEM_SLOTS.forEach((slot: InventorySlot) => {
@@ -39,9 +40,9 @@ function appraise_player_power(u_state: Readonly<UState>): number {
 	return power
 }
 
-function find_element(u_state: Readonly<UState>, uuid: UUID): Readonly<Element> | Readonly<AchievementSnapshot> | null {
+function find_element(u_state: Immutable<UState>, uuid: UUID): Immutable<Element> | AchievementSnapshot | null {
 	// only inventory for now
-	let possible_achievement: Readonly<AchievementSnapshot> | null = null
+	let possible_achievement: AchievementSnapshot | null = null
 	try {
 		possible_achievement = get_achievement_snapshot_by_temporary_id(u_state, uuid)
 	}
@@ -52,7 +53,7 @@ function find_element(u_state: Readonly<UState>, uuid: UUID): Readonly<Element> 
 }
 
 // TODO code duplication
-function get_oldest_pending_flow_engagement(u_state: Readonly<UState>): { uid: number, $doc: RichText.Document, pe: PendingEngagement } | null {
+function get_oldest_pending_flow_engagement(u_state: Immutable<UState>): { uid: number, $doc: RichText.Document, pe: PendingEngagement } | null {
 	const pe = get_oldest_queued_flow(u_state.engagement)
 	if (!pe)
 		return null
@@ -63,7 +64,7 @@ function get_oldest_pending_flow_engagement(u_state: Readonly<UState>): { uid: n
 		pe,
 	}
 }
-function get_oldest_pending_non_flow_engagement(u_state: Readonly<UState>): { uid: number, $doc: RichText.Document, pe: PendingEngagement } | null {
+function get_oldest_pending_non_flow_engagement(u_state: Immutable<UState>): { uid: number, $doc: RichText.Document, pe: PendingEngagement } | null {
 	const pe = get_oldest_queued_non_flow(u_state.engagement)
 	if (!pe)
 		return null

@@ -2,6 +2,7 @@
 
 import { get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 import assert from 'tiny-invariant'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 /////////////////////
 
@@ -48,14 +49,14 @@ import { _refresh_achievements } from './achievements'
 
 /////////////////////
 
-const STARTING_WEAPON_SPEC: Readonly<Partial<Weapon>> = {
+const STARTING_WEAPON_SPEC: Immutable<Partial<Weapon>> = {
 	base_hid: 'spoon',
 	qualifier1_hid: 'used',
 	qualifier2_hid: 'noob',
 	quality: ItemQuality.common,
 	base_strength: 1,
 }
-const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
+const STARTING_ARMOR_SPEC: Immutable<Partial<Armor>> = {
 	base_hid: 'socks',
 	qualifier1_hid: 'used',
 	qualifier2_hid: 'noob',
@@ -63,13 +64,13 @@ const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
 	base_strength: 1,
 }
 
-function create(SEC?: OMRSoftExecutionContext, seed?: number): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
+function create(SEC?: OMRSoftExecutionContext, seed?: number): Immutable<State> {
+	return get_lib_SEC(SEC).xTry('create', () => {
 		const [ u_state_energy, t_state_energy ] = EnergyState.create()
 		const now = new Date()
 		//console.log('creation', now)
 
-		let state: Readonly<State> = {
+		let state: Immutable<State> = {
 			schema_version: SCHEMA_VERSION,
 
 			u_state: {
@@ -145,11 +146,11 @@ function create(SEC?: OMRSoftExecutionContext, seed?: number): Readonly<State> {
 		// hurts the unit tests!
 		//state = _update_to_now(state, now_ms) // not sure needed but doesn't hurt
 
-		return enforce_immutability(state)
+		return enforce_immutability<State>(state)
 	})
 }
 
-function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
+function reseed(state: Immutable<State>, seed?: number): Immutable<State> {
 	seed = seed || generate_random_seed()
 
 	state = {

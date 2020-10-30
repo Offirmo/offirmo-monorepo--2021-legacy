@@ -1,5 +1,6 @@
 /////////////////////
 
+import { Immutable} from '@offirmo-private/ts-types'
 import { Enum } from 'typescript-string-enums'
 
 import { generate_uuid } from '@offirmo-private/uuid'
@@ -154,11 +155,11 @@ if (Object.keys(SECONDARY_STATS_BY_CLASS).length !== Enum.keys(CharacterClass).l
 
 function instantiate_adventure_archetype(
 	rng: Engine,
-	aa: Readonly<AdventureArchetype>,
-	character: Readonly<CharacterState>,
-	inventory: Readonly<InventoryState.State>,
-	wallet: Readonly<WalletState.State>,
-): Readonly<Adventure> {
+	aa: Immutable<AdventureArchetype>,
+	character: Immutable<CharacterState>,
+	inventory: Immutable<InventoryState.State>,
+	wallet: Immutable<WalletState.State>,
+): Adventure {
 	const {hid, good, type, outcome} = aa
 	const should_gain: OutcomeArchetype = {
 		...outcome,
@@ -234,7 +235,7 @@ function instantiate_adventure_archetype(
 
 /////////////////////
 
-function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>): Readonly<State> {
+function play_adventure(state: Immutable<State>, aa: Immutable<AdventureArchetype>): Immutable<State> {
 	const rng = get_prng(state.u_state.prng)
 
 	const adventure = instantiate_adventure_archetype(

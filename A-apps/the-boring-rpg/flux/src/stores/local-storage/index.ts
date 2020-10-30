@@ -2,13 +2,16 @@
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
-import {JSONObject, Storage} from '@offirmo-private/ts-types'
+import { JSONObject, Storage } from '@offirmo-private/ts-types'
 import {
+	Immutable,
 	get_schema_version_loose,
 	get_base_loose,
+	get_revision_loose,
 	get_semantic_difference,
 	SemanticDifference,
-	compare as compare_state, has_versioned_schema, get_revision_loose,
+	compare as compare_state, has_versioned_schema,
+	OffirmoState,
 } from '@offirmo-private/state-utils'
 import { asap_but_not_synchronous, schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 
@@ -39,7 +42,7 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 	storage: Storage,
 	key: string,
 	on_error: (err: Error) => void = (err) => { throw err },
-): Readonly<State> | undefined {
+): State | undefined {
 	const fallback = undefined
 	return try_or_fallback({
 		fallback,
@@ -51,7 +54,7 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 				return fallback
 
 			// can throw as well
-			const json = JSON.parse(ls_content)
+			const json: JSONObject = JSON.parse(ls_content)
 			//console.log('parsed', json)
 
 			// need this check due to some serializations returning {} for empty
@@ -65,7 +68,7 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 			if (!is_valid_state)
 				throw new Error(`Content of storage key "${key}" is not a base nor a root state!`)
 
-			return json as State
+			return json as any as State
 		}
 	})
 }
@@ -81,9 +84,9 @@ export function create(
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
 		logger.verbose(`[${LIB}] FYI storage keys = "${Object.values(StorageKey).join(', ')}"`)
 
-		let state: Readonly<State> | undefined = undefined
+		let state: Immutable<State> | undefined = undefined
 		let recovered_states_unmigrated_ordered: any[] = []
-		let restored_migrated: Readonly<State> | undefined = undefined
+		let restored_migrated: Immutable<State> | undefined = undefined
 
 		/////////////////////////////////////////////////
 
@@ -117,8 +120,8 @@ export function create(
 		/////////////////////////////////////////////////
 		// bkp pipeline
 
-		let bkp__current: Readonly<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_main, _on_error)
-		let bkp__recent: Readonly<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_minor, _on_error)
+		let bkp__current: Immutable<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_main, _on_error)
+		let bkp__recent: Immutable<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_minor, _on_error)
 		let bkp__older: Array<Readonly<JSONObject> | undefined> = [
 			_safe_read_parse_and_validate_from_storage<any>(storage, StorageKey.bkp_major_old, _on_error),
 			_safe_read_parse_and_validate_from_storage<any>(storage, StorageKey.bkp_major_older, _on_error),
@@ -126,11 +129,11 @@ export function create(
 
 		// should allow any minor overwrite,
 		// in case manual revert or cloud sync.
-		async function _enqueue_in_bkp_pipeline(some_state?: Readonly<any>): Promise<boolean> {
+		async function _enqueue_in_bkp_pipeline(some_state?: Immutable<State>): Promise<boolean> {
 			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline()`, {
-				candidate_rev: get_revision_loose(some_state as any),
-				current_rev: get_revision_loose(state as any),
-				bkp_rev: get_revision_loose(bkp__current as any),
+				candidate_rev: some_state ? get_revision_loose(some_state) : null,
+				current_rev: state ? get_revision_loose(state) : null,
+				bkp_rev: bkp__current ? get_revision_loose(bkp__current) : null,
 				'legacy.length': recovered_states_unmigrated_ordered.length,
 				//some_state,
 			})
@@ -254,7 +257,7 @@ export function create(
 
 		/////////////////////////////////////////////////
 
-		function set(new_state: Readonly<State>): void {
+		function set(new_state: Immutable<State>): void {
 			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
 			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), semantic_difference })
 
@@ -273,13 +276,13 @@ export function create(
 				.catch(_on_error)
 		}
 
-		function get(): Readonly<State> {
+		function get(): Immutable<State> {
 			assert(state, `${LIB}.get(): never initialized`)
 
 			return state
 		}
 
-		function on_dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
+		function on_dispatch(action: Immutable<Action>, eventual_state_hint?: Immutable<State>): void {
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
 			})

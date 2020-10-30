@@ -1,6 +1,6 @@
 /////////////////////
 
-import { Enum } from 'typescript-string-enums'
+import { Immutable} from '@offirmo-private/ts-types'
 import { Random, Engine } from '@offirmo/random'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
 import { get_revision, propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
@@ -45,7 +45,7 @@ import { _refresh_achievements } from './achievements'
 
 /////////////////////
 
-function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): Readonly<State> {
+function _autogroom(state: Immutable<State>, options: { DEBUG?: boolean } = {}): Immutable<State> {
 	const { DEBUG } = options
 
 	if (DEBUG) console.log(`  - Autogroom… (inventory holding ${state.u_state.inventory.unslotted.length} items)`)
@@ -90,7 +90,7 @@ function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): 
  * as efficiently as possible,
  * trying to restore as much achievements as possible
  */
-function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Readonly<State> {
+function autoplay(previous_state: Immutable<State>, options: Immutable<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Immutable<State> {
 	let state = previous_state
 	let { target_good_play_count, target_bad_play_count, DEBUG } = options
 
@@ -180,8 +180,15 @@ function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_go
 	}
 
 	// make it so the remaining energy is the same as when we started, to not prevent immediate play
-	state.t_state.energy.available_energy = {
-		...previous_state.t_state.energy.available_energy,
+	state = {
+		...state,
+		t_state: {
+			...state.t_state,
+			energy: {
+				...state.t_state.energy,
+				available_energy: previous_state.t_state.energy.available_energy,
+			}
+		}
 	}
 
 	state = _refresh_achievements(state)
