@@ -1,5 +1,6 @@
 ////////////////////////////////////
 
+import { Immutable } from '@offirmo-private/ts-types'
 import { compare_items_by_quality } from '@oh-my-rpg/definitions'
 
 import { Armor } from './types'
@@ -8,7 +9,7 @@ import { get_ultimate_medium_damage_reduction } from './selectors'
 /////////////////////
 
 // for sorting
-function compare_armors_by_potential(a: Readonly<Armor>, b: Readonly<Armor>): number {
+function compare_armors_by_potential(a: Immutable<Armor>, b: Immutable<Armor>): number {
 	const a_dmg = get_ultimate_medium_damage_reduction(a)
 	const b_dmg = get_ultimate_medium_damage_reduction(b)
 	if (a_dmg !== b_dmg)

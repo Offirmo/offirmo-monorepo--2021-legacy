@@ -4,4 +4,5 @@ export * from './element'
 export * from './item'
 export * from './root_sec'
 export * from './logger'
-export { xxx_test_unrandomize_element } from '@offirmo-private/uuid'
+
+export { xxx_test_unrandomize_element } from '@offirmo-private/uuid' // for convenience

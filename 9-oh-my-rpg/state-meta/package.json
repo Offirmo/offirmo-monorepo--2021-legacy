@@ -36,8 +36,9 @@
 		"build": "run-s build:prod"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
 		"@offirmo-private/state-migration-tester": "^0",
+		"@offirmo-private/ts-types": "^0",
+		"@offirmo/unit-test-toolbox": "^6",
 		"npm-run-all": "^4"
 	}
 }

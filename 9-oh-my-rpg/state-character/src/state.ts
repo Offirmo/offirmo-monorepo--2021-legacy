@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Enum } from 'typescript-string-enums'
-import { enforce_immutability } from '@offirmo-private/state-utils'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 
@@ -38,7 +38,7 @@ const CHARACTER_CLASSES = Enum.keys(CharacterClass)
 
 ///////
 
-function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
+function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
 	return get_lib_SEC(SEC).xTry('create', () => {
 		return enforce_immutability<State>({
 			schema_version: SCHEMA_VERSION,
@@ -65,7 +65,7 @@ function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function rename(SEC: OMRSoftExecutionContext, state: Readonly<State>, new_name: string): Readonly<State> {
+function rename(SEC: OMRSoftExecutionContext, state: Immutable<State>, new_name: string): Immutable<State> {
 	return get_lib_SEC(SEC).xTry('rename', () => {
 		// TODO name normalization
 		if (!new_name)
@@ -81,7 +81,7 @@ function rename(SEC: OMRSoftExecutionContext, state: Readonly<State>, new_name: 
 	})
 }
 
-function switch_class(SEC: OMRSoftExecutionContext, state: Readonly<State>, klass: CharacterClass): Readonly<State> {
+function switch_class(SEC: OMRSoftExecutionContext, state: Immutable<State>, klass: CharacterClass): Immutable<State> {
 	return get_lib_SEC(SEC).xTry('switch_class', () => {
 		if (klass === state.klass)
 			return state
@@ -97,7 +97,7 @@ function switch_class(SEC: OMRSoftExecutionContext, state: Readonly<State>, klas
 	})
 }
 
-function increase_stat(SEC: OMRSoftExecutionContext, state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
+function increase_stat(SEC: OMRSoftExecutionContext, state: Immutable<State>, stat: CharacterAttribute, amount = 1): Immutable<State> {
 	return get_lib_SEC(SEC).xTry('increase_stat', () => {
 		if (amount <= 0)
 			throw new Error(`${LIB}: Error while increasing stat "${stat}": invalid amount!`) // TODO details

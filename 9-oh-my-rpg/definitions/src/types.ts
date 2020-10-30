@@ -10,8 +10,8 @@ const ElementType = Enum(
 	'item',
 	'achievement_snapshot',
 	// TODO expand
-	'location',
-	'lore',
+	//'location',
+	//'lore',
 )
 type ElementType = Enum<typeof ElementType> // eslint-disable-line no-redeclare
 
@@ -35,7 +35,7 @@ type ItemQuality = Enum<typeof ItemQuality> // eslint-disable-line no-redeclare
 const InventorySlot = Enum(
 	'weapon',
 	'armor',
-	'none', // = non slottable (TODO)
+	'none', // = non slottable
 )
 type InventorySlot = Enum<typeof InventorySlot> // eslint-disable-line no-redeclare
 
@@ -50,15 +50,6 @@ interface Item extends Element {
 
 /////////////////////
 
-// TODO use this
-// TODO use it in element?
-interface BaseState {
-	schema_version: number
-	revision: number
-}
-
-/////////////////////
-
 export {
 	ElementType,
 	Element,
@@ -66,8 +57,6 @@ export {
 	ItemQuality,
 	InventorySlot,
 	Item,
-
-	BaseState,
 }
 
 /////////////////////

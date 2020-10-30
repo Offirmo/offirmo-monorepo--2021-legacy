@@ -2,7 +2,7 @@
 
 import assert from 'tiny-invariant'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
-import { enforce_immutability } from '@offirmo-private/state-utils'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 
@@ -17,7 +17,7 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
+function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
 	return get_lib_SEC(SEC).xTry('create', () => {
 		return enforce_immutability<State>({
 			schema_version: SCHEMA_VERSION,
@@ -50,7 +50,7 @@ function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function _on_activity(state: Readonly<State>, previous_revision: number): Readonly<State> {
+function _on_activity(state: Immutable<State>, previous_revision: number): Immutable<State> {
 	const current_timestamp = get_human_readable_UTC_timestamp_days()
 	const is_new_day = state.statistics.last_visited_timestamp !== current_timestamp
 	if (is_new_day) {
@@ -60,11 +60,11 @@ function _on_activity(state: Readonly<State>, previous_revision: number): Readon
 			statistics: {
 				...state.statistics,
 				last_visited_timestamp: current_timestamp,
+				active_day_count: (state.statistics.active_day_count || 0) + 1,
 			},
 
 			revision: previous_revision + 1, // to avoid double increment
 		}
-		state.statistics.active_day_count = (state.statistics.active_day_count || 0) + 1
 	}
 
 	return state
@@ -79,7 +79,7 @@ interface PlayedDetails {
 	tokens_gained: number
 	items_gained: number
 }
-function on_played(previous_state: Readonly<State>, details: PlayedDetails): Readonly<State> {
+function on_played(previous_state: Immutable<State>, details: PlayedDetails): Immutable<State> {
 	let state = previous_state
 	const {
 		good,
@@ -91,19 +91,8 @@ function on_played(previous_state: Readonly<State>, details: PlayedDetails): Rea
 		items_gained,
 	} = details
 
-	state = {
-		...state,
-
-		// mutate the root of fields we'll change below
-		statistics: {
-			...state.statistics,
-		},
-
-		revision: state.revision + 1,
-	}
-
-	// shortcut
-	const stats = state.statistics
+	// shortcut + drop immutability
+	const stats: State['statistics'] = {...state.statistics}
 
 	if(!stats.encountered_adventures[adventure_key]) {
 		stats.encountered_adventures = {
@@ -148,12 +137,21 @@ function on_played(previous_state: Readonly<State>, details: PlayedDetails): Rea
 	stats.tokens_gained += tokens_gained
 	stats.items_gained += items_gained
 
+
+	state = {
+		...state,
+
+		statistics: stats,
+
+		revision: state.revision + 1,
+	}
+
 	return _on_activity(state, previous_state.revision)
 }
 
 /////////////////////
 
-function on_achieved(previous_state: Readonly<State>, key: string, new_status: AchievementStatus): Readonly<State> {
+function on_achieved(previous_state: Immutable<State>, key: string, new_status: AchievementStatus): Immutable<State> {
 	const last_known_status = get_last_known_achievement_status(previous_state, key)
 
 	if (last_known_status === new_status) return previous_state

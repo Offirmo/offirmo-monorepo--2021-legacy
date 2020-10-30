@@ -1,3 +1,5 @@
+import { Immutable } from '@offirmo-private/ts-types'
+
 import { State } from '@oh-my-rpg/state-meta'
 
 import * as RichText from '@offirmo-private/rich-text-format'
@@ -17,7 +19,7 @@ function render_meta_infos(metas: Readonly<{[k: string]: string | number | undef
 }
 
 
-function render_account_info(m: Readonly<State>, extra: Readonly<{[k: string]: string | number | undefined}> = {}): RichText.Document {
+function render_account_info(m: Immutable<State>, extra: Readonly<{[k: string]: string | number | undefined}> = {}): RichText.Document {
 	const meta_infos = extra
 
 	/* TODO rework

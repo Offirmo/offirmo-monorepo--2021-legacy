@@ -1,6 +1,6 @@
 /////////////////////
 
-import { enforce_immutability } from '@offirmo-private/state-utils'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 import { get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 import { SCHEMA_VERSION } from './consts'
@@ -17,8 +17,8 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
+function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
+	return get_lib_SEC(SEC).xTry('create', () => {
 		return enforce_immutability<State>({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
@@ -30,8 +30,8 @@ function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function attempt_to_redeem_code<T>(state: Readonly<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): Readonly<State> {
-	return get_lib_SEC().xTry('redeem_code', (): Readonly<State> => {
+function attempt_to_redeem_code<T>(state: Immutable<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): Immutable<State> {
+	return get_lib_SEC().xTry('redeem_code', (): Immutable<State> => {
 		if (!is_code_redeemable(state, code_spec, infos))
 			throw new Error('This code is either non-existing or non redeemable at the moment!')
 

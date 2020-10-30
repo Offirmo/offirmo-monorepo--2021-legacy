@@ -1,6 +1,7 @@
 /////////////////////
 
 import assert from 'tiny-invariant'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 import { Random, MT19937 } from '@offirmo/random'
 import { generate_uuid } from '@offirmo-private/uuid'
 
@@ -13,7 +14,7 @@ import { MT19937WithSeed, State } from './types'
 
 const DEFAULT_SEED = 987
 
-function create(seed: number = DEFAULT_SEED): Readonly<State> {
+function create(seed: number = DEFAULT_SEED): Immutable<State> {
 	return {
 		schema_version: SCHEMA_VERSION,
 		uuid: generate_uuid(),
@@ -28,7 +29,7 @@ function create(seed: number = DEFAULT_SEED): Readonly<State> {
 
 /////////////////////
 
-function set_seed(state: Readonly<State>, seed: number): Readonly<State> {
+function set_seed(state: Immutable<State>, seed: number): Immutable<State> {
 	return {
 		...state,
 
@@ -39,7 +40,7 @@ function set_seed(state: Readonly<State>, seed: number): Readonly<State> {
 	}
 }
 
-function update_use_count(state: Readonly<State>, prng: MT19937, options: any = {}): Readonly<State> {
+function update_use_count(state: Immutable<State>, prng: MT19937, options: any = {}): Immutable<State> {
 	assert(
 		(prng as MT19937WithSeed)._seed === state.seed,
 		`${LIB}: update PRNG state: different seed (different prng?)!`,
@@ -69,7 +70,7 @@ function update_use_count(state: Readonly<State>, prng: MT19937, options: any = 
 	}
 }
 
-function register_recently_used(state: Readonly<State>, id: string, value: number | string, max_memory_size: number): Readonly<State> {
+function register_recently_used(state: Immutable<State>, id: string, value: number | string, max_memory_size: number): Immutable<State> {
 	if (max_memory_size === 0)
 		return state
 

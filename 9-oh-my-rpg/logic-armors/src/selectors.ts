@@ -1,6 +1,7 @@
 ////////////////////////////////////
 
 import { Enum } from 'typescript-string-enums'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
 
@@ -88,7 +89,7 @@ function get_interval(base_strength: number, quality: ItemQuality, enhancement_l
 
 /////////////////////
 
-function get_damage_reduction_interval(armor: Readonly<Armor>): [number, number] {
+function get_damage_reduction_interval(armor: Immutable<Armor>): [number, number] {
 	return get_interval(
 		armor.base_strength,
 		armor.quality,
@@ -96,12 +97,12 @@ function get_damage_reduction_interval(armor: Readonly<Armor>): [number, number]
 	)
 }
 
-function get_medium_damage_reduction(armor: Readonly<Armor>): number {
+function get_medium_damage_reduction(armor: Immutable<Armor>): number {
 	const damage_range = get_damage_reduction_interval(armor)
 	return Math.round((damage_range[0] + damage_range[1]) / 2)
 }
 
-function get_ultimate_medium_damage_reduction(armor: Readonly<Armor>): number {
+function get_ultimate_medium_damage_reduction(armor: Immutable<Armor>): number {
 	const max_damage_range = get_interval(
 		armor.base_strength,
 		armor.quality,
@@ -110,7 +111,7 @@ function get_ultimate_medium_damage_reduction(armor: Readonly<Armor>): number {
 	return Math.round((max_damage_range[0] + max_damage_range[1]) / 2)
 }
 
-function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): boolean {
+function matches(armor: Immutable<Armor>, elements: Immutable<Partial<Armor>>): boolean {
 	let matches = true // so far
 	//console.log('matches', { armor, elements })
 
@@ -135,7 +136,7 @@ function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): bo
 	return matches
 }
 
-function is_at_max_enhancement(armor: Readonly<Armor>): boolean {
+function is_at_max_enhancement(armor: Immutable<Armor>): boolean {
 	return armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL
 }
 /////////////////////

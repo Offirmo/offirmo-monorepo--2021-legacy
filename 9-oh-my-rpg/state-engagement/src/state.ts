@@ -28,7 +28,7 @@ function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
 
 /////////////////////
 
-function enqueue(state: Readonly<State>, engagement: Readonly<Engagement>, params: Readonly<PendingEngagement['params']> = {}): Readonly<State> {
+function enqueue(state: Immutable<State>, engagement: Immutable<Engagement>, params: Immutable<PendingEngagement['params']> = {}): Immutable<State> {
 
 	// Avoid duplication? Possible bug? No, hard to detect, may have different params.
 	// ex. multiple level rises should be ok.
@@ -52,7 +52,7 @@ function enqueue(state: Readonly<State>, engagement: Readonly<Engagement>, param
 	}
 }
 
-function acknowledge_seen(state: Readonly<State>, uid: number): Readonly<State> {
+function acknowledge_seen(state: Immutable<State>, uid: number): Immutable<State> {
 	const is_in_queue = state.queue.some(queued => queued.uid === uid)
 	assert(is_in_queue, `Engagement: acknowledging a non-queued engagement "${uid}"!`)
 
@@ -65,7 +65,7 @@ function acknowledge_seen(state: Readonly<State>, uid: number): Readonly<State> 
 	}
 }
 
-function acknowledge_all_seen(state: Readonly<State>): Readonly<State> {
+function acknowledge_all_seen(state: Immutable<State>): Immutable<State> {
 	if (!state.queue.length) return state
 
 	return {

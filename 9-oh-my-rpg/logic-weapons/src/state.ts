@@ -1,5 +1,6 @@
 /////////////////////
 
+import { Immutable } from '@offirmo-private/ts-types'
 import {
 	Item,
 	ItemQuality,
@@ -68,7 +69,7 @@ function pick_random_base_strength(rng: Engine, quality: ItemQuality): number {
 
 /////////////////////
 
-function create(rng: Engine, hints: Readonly<Partial<Weapon>> = {}): Weapon {
+function create(rng: Engine, hints: Immutable<Partial<Weapon>> = {}): Weapon {
 	// TODO add a check for hints to be in existing components
 
 	const base = create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)) as Item & { slot: typeof InventorySlot.weapon }
@@ -90,7 +91,7 @@ function create(rng: Engine, hints: Readonly<Partial<Weapon>> = {}): Weapon {
 	return temp
 }
 
-function enhance(weapon: Weapon): Weapon {
+function enhance(weapon: Immutable<Weapon>): Immutable<Weapon> {
 	if (weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
 		throw new Error('can’t enhance a weapon above the maximal enhancement level!')
 

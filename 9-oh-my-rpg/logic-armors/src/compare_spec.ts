@@ -4,7 +4,6 @@ import { Random, Engine } from '@offirmo/random'
 
 import { LIB } from './consts'
 import {
-	create,
 	generate_random_demo_armor,
 	compare_armors_by_potential,
 	get_ultimate_medium_damage_reduction,

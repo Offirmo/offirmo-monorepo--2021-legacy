@@ -1,9 +1,9 @@
 import { Enum } from 'typescript-string-enums'
 
-import { BaseUState } from '@offirmo-private/state-utils'
+import { Immutable, BaseUState } from '@offirmo-private/state-utils'
+import { HumanReadableTimestampUTCDays } from '@offirmo-private/timestamps'
 
 import { Element } from '@oh-my-rpg/definitions'
-import { HumanReadableTimestampUTCDays } from '@offirmo-private/timestamps'
 
 /////////////////////
 
@@ -23,8 +23,8 @@ interface AchievementDefinition<S> {
 	icon: string
 	description: string
 	lore?: string
-	get_status: (state: S) => AchievementStatus
-	get_completion_rate?: (state: S) => [number, number]
+	get_status: (state: Immutable<S>) => AchievementStatus
+	get_completion_rate?: (state: Immutable<S>) => [number, number]
 }
 
 // useful for display
@@ -40,7 +40,7 @@ interface AchievementSnapshot extends Element {
 /////////////////////
 
 interface State extends BaseUState {
-	// NOTE: This state NOT contain stuff that can be inferred from the global state,
+	// NOTE: This state SHOULD NOT contain stuff that can be inferred from the global state,
 	// that would be redundant!
 
 	wiki: null // TODO

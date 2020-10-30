@@ -1,6 +1,7 @@
 /////////////////////
 
 import { Random, MT19937 } from '@offirmo/random'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { MT19937WithSeed, State } from './types'
 import { LIB } from './consts'
@@ -16,7 +17,7 @@ function generate_random_seed(): number {
 interface RegenerateParams {
 	id: string
 	generate: () => number | string
-	state: State
+	state: Immutable<State>
 	max_tries?: number
 }
 function regenerate_until_not_recently_encountered({

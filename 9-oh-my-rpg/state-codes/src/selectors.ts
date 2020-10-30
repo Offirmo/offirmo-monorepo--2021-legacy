@@ -1,3 +1,5 @@
+import { Immutable } from '@offirmo-private/ts-types'
+
 import { LIB } from './consts'
 import {State, CodeSpec, CodeRedemption} from './types'
 import normalize_code from './normalize-code'
@@ -15,7 +17,7 @@ function is_code(code: string): boolean {
 	return true
 }
 
-function is_code_redeemable<T>(state: Readonly<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): boolean {
+function is_code_redeemable<T>(state: Immutable<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): boolean {
 	if (!code_spec)
 		throw new Error(`${LIB}: is_code_redeemable() invalid invocation!`)
 	const code = normalize_code(code_spec.code)

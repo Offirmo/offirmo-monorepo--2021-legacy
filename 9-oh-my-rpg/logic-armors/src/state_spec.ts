@@ -88,7 +88,10 @@ describe(`${LIB} - logic`, function() {
 
 		it('should allow enhancing a armor', function() {
 			let armor = generate_random_demo_armor()
-			armor.enhancement_level = 0
+			armor = {
+				...armor,
+				enhancement_level: 0,
+			}
 
 			armor = enhance(armor)
 			expect(armor.enhancement_level, '1').to.equal(1)
@@ -103,7 +106,10 @@ describe(`${LIB} - logic`, function() {
 
 		it('should fail if armor is already at max enhancement level', () => {
 			let armor = generate_random_demo_armor()
-			armor.enhancement_level = MAX_ENHANCEMENT_LEVEL
+			armor = {
+				...armor,
+				enhancement_level: MAX_ENHANCEMENT_LEVEL,
+			}
 
 			function attempt_enhance() {
 				armor = enhance(armor)

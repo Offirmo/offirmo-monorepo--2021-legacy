@@ -1,5 +1,7 @@
 /////////////////////
 
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
+
 import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
@@ -8,7 +10,7 @@ import {
 
 /////////////////////
 
-function create(): Readonly<State> {
+function create(): Immutable<State> {
 	return {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
@@ -23,7 +25,7 @@ function create(): Readonly<State> {
 
 /////////////////////
 
-function on_start_session(previous_state: Readonly<State>, is_web_diversity_supporter: boolean): Readonly<State> {
+function on_start_session(previous_state: Immutable<State>, is_web_diversity_supporter: boolean): Immutable<State> {
 	if (previous_state.is_web_diversity_supporter === is_web_diversity_supporter) return previous_state
 
 	return {
@@ -39,7 +41,7 @@ function on_start_session(previous_state: Readonly<State>, is_web_diversity_supp
 	is_logged_in: boolean
 	roles: string[]
 }*/
-function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[] = []): Readonly<State> {
+function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: boolean, roles: string[] = []): Immutable<State> {
 	const sorted_roles = [...roles].sort()
 
 	if (previous_state.is_logged_in === is_logged_in

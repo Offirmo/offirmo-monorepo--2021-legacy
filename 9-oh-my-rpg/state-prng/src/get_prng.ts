@@ -1,6 +1,7 @@
 /////////////////////
 
 import assert from 'tiny-invariant'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 import { Random, MT19937 } from '@offirmo/random'
 
 import { get_logger } from '@oh-my-rpg/definitions'
@@ -18,7 +19,7 @@ let mode = 'dev' // TODO default to prod, later
 /////////////////////
 
 // inefficient but simple version
-function get_prng_simple(state: Readonly<State>): MT19937WithSeed {
+function get_prng_simple(state: Immutable<State>): MT19937WithSeed {
 	const prng: MT19937WithSeed = Random.engines.mt19937().seed(state.seed)
 	prng._seed = state.seed
 	prng.discard(state.use_count)
@@ -45,7 +46,7 @@ function xxx_internal_reset_prng_cache() {
 }
 
 // WARNING this method has expectations ! (see above)
-function get_prng_dev(state: Readonly<State>): MT19937WithSeed {
+function get_prng_dev(state: Immutable<State>): MT19937WithSeed {
 	/*console.trace('get PRNG', {
      state,
      cached_prng,
@@ -82,7 +83,7 @@ function get_prng_dev(state: Readonly<State>): MT19937WithSeed {
 
 /////////////////////
 
-function get_prng(state: Readonly<State>): MT19937WithSeed {
+function get_prng(state: Immutable<State>): MT19937WithSeed {
 	if (mode === 'dev')
 		return get_prng_dev(state)
 

@@ -1,5 +1,4 @@
-import { Enum } from 'typescript-string-enums'
-
+import { Immutable } from '@offirmo-private/ts-types'
 import { HumanReadableTimestampUTCMinutes } from '@offirmo-private/timestamps'
 import { BaseUState } from '@offirmo-private/state-utils'
 
@@ -8,9 +7,9 @@ import { BaseUState } from '@offirmo-private/state-utils'
 interface CodeSpec<T> {
 	code: string // also serves as unique key
 	redeem_limit: number | null // null = no limit or non-count limit (see is_redeemable)
-	is_redeemable: (infos: Readonly<T>, state: Readonly<State>) => boolean
+	is_redeemable: (infos: Readonly<T>, state: Immutable<State>) => boolean
 	redemption_success_message?: string
-	//redemption_success_reducer: (state: Readonly<State>) => Readonly<State>,
+	//redemption_success_reducer: (state: Immutable<State>) => Immutable<State>,
 }
 
 interface CodeRedemption {

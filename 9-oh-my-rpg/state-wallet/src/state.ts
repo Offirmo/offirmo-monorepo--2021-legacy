@@ -1,6 +1,6 @@
 /////////////////////
 
-import { enforce_immutability } from '@offirmo-private/state-utils'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 
@@ -16,7 +16,7 @@ const ALL_CURRENCIES: Currency[] = [
 	Currency.token,
 ]
 
-function create(): Readonly<State> {
+function create(): Immutable<State> {
 	return {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
@@ -39,7 +39,7 @@ function currency_to_state_entry(currency: Currency): string {
 	}
 }
 
-function change_amount_by(state: Readonly<State>, currency: Currency, amount: number): Readonly<State> {
+function change_amount_by(state: Immutable<State>, currency: Currency, amount: number): Immutable<State> {
 	const state_entry = currency_to_state_entry(currency)
 
 	return {
@@ -53,14 +53,14 @@ function change_amount_by(state: Readonly<State>, currency: Currency, amount: nu
 
 /////////////////////
 
-function add_amount(state: Readonly<State>, currency: Currency, amount: number): Readonly<State> {
+function add_amount(state: Immutable<State>, currency: Currency, amount: number): Immutable<State> {
 	if (amount <= 0)
 		throw new Error('state-wallet: can’t add a <= 0 amount')
 
 	return change_amount_by(state, currency, amount)
 }
 
-function remove_amount(state: Readonly<State>, currency: Currency, amount: number): Readonly<State> {
+function remove_amount(state: Immutable<State>, currency: Currency, amount: number): Immutable<State> {
 	if (amount <= 0)
 		throw new Error('state-wallet: can’t remove a <= 0 amount')
 
@@ -72,11 +72,11 @@ function remove_amount(state: Readonly<State>, currency: Currency, amount: numbe
 
 /////////////////////
 
-function get_currency_amount(state: Readonly<State>, currency: Currency): number {
+function get_currency_amount(state: Immutable<State>, currency: Currency): number {
 	return (state as any)[currency_to_state_entry(currency)]
 }
 
-function* iterables_currency(state: Readonly<State>) {
+function* iterables_currency(state: Immutable<State>) {
 	yield* ALL_CURRENCIES
 }
 

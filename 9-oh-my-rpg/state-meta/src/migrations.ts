@@ -1,4 +1,4 @@
-import { enforce_immutability } from '@offirmo-private/state-utils'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 import {
 	LastMigrationStep,
 	MigrationStep,
@@ -20,8 +20,8 @@ export const MIGRATION_HINTS_FOR_TESTS: any = enforce_immutability<any>({
 
 type StateForMigration = State
 
-export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): StateForMigration {
-	return generic_migrate_to_latest({
+export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Immutable<any>, hints: Immutable<any> = {}): Immutable<StateForMigration> {
+	return generic_migrate_to_latest<StateForMigration>({
 		SEC: SEC as any,
 		LIB,
 		SCHEMA_VERSION,
