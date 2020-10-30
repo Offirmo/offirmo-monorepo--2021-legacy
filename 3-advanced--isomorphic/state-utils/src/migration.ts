@@ -2,9 +2,14 @@ import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Immutable } from '@offirmo-private/ts-types'
 
-import {AnyBaseState, AnyRootState} from './types--internal'
-import { BaseState, BaseRootState, OffirmoState } from './types'
-import {is_RootState, has_versioned_schema, is_BaseState} from './type-guards'
+import { BaseState, UTBundle, BaseRootState, OffirmoState, BaseUState, BaseTState } from './types'
+import {
+	AnyBaseState,
+	AnyBaseUState,
+	AnyBaseTState,
+	AnyRootState,
+} from './types--internal'
+import { is_RootState, has_versioned_schema, is_BaseState, is_UTBundle } from './type-guards'
 import { get_schema_version_loose, get_base_loose } from './selectors'
 
 
@@ -143,14 +148,17 @@ export function generic_migrate_to_latest<State extends OffirmoState>({
 		}
 
 		// migrate sub-reducers if any...
-		if (is_RootState(state)) {
+		if (is_UTBundle(state)) {
+			state = _migrate_sub_states__bundle(SEC, state, sub_states_migrate_to_latest, hints) as unknown as Immutable<State>
+		}
+		else if (is_RootState(state)) {
 			state = _migrate_sub_states__root<BaseRootState>(SEC, state, sub_states_migrate_to_latest, hints) as unknown as Immutable<State>
 		}
 		else if (is_BaseState(state)) {
 			state = _migrate_sub_states__base<BaseState>(SEC, state as any, sub_states_migrate_to_latest, hints) as unknown as Immutable<State>
 		}
 		else {
-			assert(false, 'impossible case')
+			assert(false, 'should be a recognized OffirmoState!')
 		}
 
 		state = cleanup(SEC, state, hints)
@@ -159,14 +167,14 @@ export function generic_migrate_to_latest<State extends OffirmoState>({
 	})
 }
 
-function _migrate_sub_states__root<State extends BaseRootState = AnyRootState>(
+function _migrate_sub_states__bundle(
 	SEC: SoftExecutionContext,
-	state: Immutable<State>,
+	state: Immutable<UTBundle<AnyBaseUState, AnyBaseTState>>,
 	sub_states_migrate_to_latest: SubStatesMigrations,
 	hints: Immutable<any>,
-): Immutable<State> {
+): Immutable<UTBundle<AnyBaseUState, AnyBaseTState>> {
 	let has_change = false
-	let { u_state, t_state } = state as AnyRootState
+	let [ u_state, t_state ] = state
 
 	const unmigrated_sub_states = new Set<string>([...Object.keys(sub_states_migrate_to_latest)])
 	const sub_states_found = new Set<string>()
@@ -272,10 +280,35 @@ function _migrate_sub_states__root<State extends BaseRootState = AnyRootState>(
 	if (!has_change)
 		return state
 
-	return {
-		...state,
+	return [
 		u_state,
 		t_state,
+	]
+}
+
+function _migrate_sub_states__root<State extends BaseRootState = AnyRootState>(
+	SEC: SoftExecutionContext,
+	state: Immutable<State>,
+	sub_states_migrate_to_latest: SubStatesMigrations,
+	hints: Immutable<any>,
+): Immutable<State> {
+	const { u_state: previous_u_state, t_state: previous_t_state } = state as AnyRootState
+
+	const previous_state_as_bundle: UTBundle<AnyBaseUState, AnyBaseTState> = [ previous_u_state, previous_t_state ]
+	const migrated_bundle = _migrate_sub_states__bundle(
+		SEC,
+		previous_state_as_bundle,
+		sub_states_migrate_to_latest,
+		hints,
+	)
+
+	if (migrated_bundle === previous_state_as_bundle)
+		return state
+
+	return {
+		...state,
+		u_state: migrated_bundle[0],
+		t_state: migrated_bundle[1],
 	}
 }
 
