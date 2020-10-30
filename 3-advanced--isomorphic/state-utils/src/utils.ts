@@ -22,7 +22,7 @@ import {
 } from './selectors'
 
 
-export const enforce_immutability: ImmutabilityEnforcer = <T>(state: T): Immutable<T> => icepick.freeze<T>(state) as Immutable<T>
+export const enforce_immutability: ImmutabilityEnforcer = <T>(state: T | Immutable<T>): Immutable<T> => icepick.freeze<T>(state as T) as Immutable<T>
 //const enforce_immutability: ImmutabilityEnforcer = (state: T): Immutable<T> => state
 //const enforce_immutability: ImmutabilityEnforcer = <T>(state: T): Immutable<T> => deep_freeze<T>(state)
 export { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types' // for convenience

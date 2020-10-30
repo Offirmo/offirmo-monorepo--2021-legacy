@@ -2,11 +2,11 @@ import {
 	BaseRootState,
 	BaseTState,
 	BaseUState,
-	WithRevision,
+	BaseState,
 } from './types'
 
 
-export interface AnyBaseState extends WithRevision {
+export interface AnyBaseState extends BaseState {
 	[k: string]: any
 }
 export interface AnyBaseUState extends BaseUState {

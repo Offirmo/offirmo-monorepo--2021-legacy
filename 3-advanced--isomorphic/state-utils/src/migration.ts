@@ -2,52 +2,50 @@ import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Immutable } from '@offirmo-private/ts-types'
 
-import { AnyRootState } from './types--internal'
+import {AnyBaseState, AnyRootState} from './types--internal'
+import { BaseState, BaseRootState, OffirmoState } from './types'
+import {is_RootState, has_versioned_schema, is_BaseState} from './type-guards'
 import { get_schema_version_loose, get_base_loose } from './selectors'
-import { is_RootState, has_versioned_schema } from './type-guards'
-import { OffirmoState } from './types'
 
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface Libs {
-	//deep_freeze: ImmutabilityEnforcer,
 }
 const LIBS: Libs = {
-	//deep_freeze: deep_freeze, // TODO rework
 }
 
 const get_state_summary = get_base_loose
 
 export type GenericMigration<State = any, OlderState = any> = (
 	SEC: SoftExecutionContext<any, any, any>,
-	legacy_state: OlderState, // NOT immutable since we may return it unchanged
+	legacy_state: Immutable<OlderState>,
 	hints: Immutable<any>,
-) => State
+) => Immutable<State> // must be immutable as well since we may return the input unchanged
 
 export type MigrationStep<State = any, OlderState = any> = (
 	SEC: SoftExecutionContext<any, any, any>,
-	legacy_state: OlderState, // NOT immutable since we may return it unchanged
+	legacy_state: Immutable<OlderState>,
 	hints: Immutable<any>,
 	previous: GenericMigration<OlderState>,
 	// for convenience:
 	legacy_schema_version: number,
-	libs: Libs,
-) => State
+	libs: Immutable<Libs>,
+) => Immutable<State> // must be immutable as well since we may return the input unchanged
 
 export type LastMigrationStep<State, OlderState = any> = MigrationStep<State, OlderState>
 
 export type CleanupStep<State> = (
 	SEC: SoftExecutionContext<any, any, any>,
-	state: State, // NOT immutable since we may return it unchanged
+	state: Immutable<State>,
 	hints: Immutable<any>,
-) => State
+) => Immutable<State>
 
 export type SubStatesMigrations = { [key: string]: GenericMigration }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function generic_migrate_to_latest<State>({
+export function generic_migrate_to_latest<State extends OffirmoState>({
 	SEC,
 
 	LIB,
@@ -61,7 +59,7 @@ export function generic_migrate_to_latest<State>({
 	SEC: SoftExecutionContext
 	LIB: string
 	SCHEMA_VERSION: number
-	legacy_state: any // NOT immutable since we may return it unchanged
+	legacy_state: Immutable<any>
 	hints: Immutable<any>
 	sub_states_migrate_to_latest: SubStatesMigrations
 	cleanup?: CleanupStep<State>
@@ -69,9 +67,9 @@ export function generic_migrate_to_latest<State>({
 		LastMigrationStep<State>,
 		...MigrationStep[],
 	]>
-}): State {
+}): Immutable<State> {
 	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
-		const existing_version = get_schema_version_loose(legacy_state as OffirmoState)
+		const existing_version = get_schema_version_loose(legacy_state)
 
 		const RSEC = SEC
 		RSEC.setLogicalStack({ module: LIB })
@@ -83,7 +81,7 @@ export function generic_migrate_to_latest<State>({
 		if (existing_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
-		let state = legacy_state as State // for starter, may actually be true
+		let state = legacy_state as Immutable<State> // for starter, may actually be true
 
 		if (existing_version < SCHEMA_VERSION) {
 			logger.info(`attempting to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}…`)
@@ -94,7 +92,7 @@ export function generic_migrate_to_latest<State>({
 				SEC: SoftExecutionContext,
 				legacy_state: Immutable<any>,
 				hints: Immutable<any>,
-			): any {
+			): Immutable<any> {
 				const migrate_step = pipeline[index]
 				const current_step_name = index >= pipeline.length
 					? 'not-found'
@@ -139,17 +137,20 @@ export function generic_migrate_to_latest<State>({
 			}
 
 			logger.info(`${LIB}: schema migration successful.`,
-				get_state_summary(state as any)
+				get_state_summary(state)
 			)
 			RSEC.fireAnalyticsEvent('schema_migration.ended')
 		}
 
 		// migrate sub-reducers if any...
-		if (is_RootState(state as any)) {
-			state = _migrate_sub_states__root<State>(SEC, state, sub_states_migrate_to_latest, hints)
+		if (is_RootState(state)) {
+			state = _migrate_sub_states__root<BaseRootState>(SEC, state, sub_states_migrate_to_latest, hints) as unknown as Immutable<State>
+		}
+		else if (is_BaseState(state)) {
+			state = _migrate_sub_states__base<BaseState>(SEC, state as any, sub_states_migrate_to_latest, hints) as unknown as Immutable<State>
 		}
 		else {
-			state = _migrate_sub_states__base<State>(SEC, state, sub_states_migrate_to_latest, hints)
+			assert(false, 'impossible case')
 		}
 
 		state = cleanup(SEC, state, hints)
@@ -158,14 +159,14 @@ export function generic_migrate_to_latest<State>({
 	})
 }
 
-function _migrate_sub_states__root<State /*extends BaseRootState*/>(
+function _migrate_sub_states__root<State extends BaseRootState = AnyRootState>(
 	SEC: SoftExecutionContext,
-	state: State, // NOT immutable since we may return it unchanged
+	state: Immutable<State>,
 	sub_states_migrate_to_latest: SubStatesMigrations,
 	hints: Immutable<any>,
-): State {
+): Immutable<State> {
 	let has_change = false
-	let { u_state, t_state } = state as any as AnyRootState
+	let { u_state, t_state } = state as AnyRootState
 
 	const unmigrated_sub_states = new Set<string>([...Object.keys(sub_states_migrate_to_latest)])
 	const sub_states_found = new Set<string>()
@@ -278,14 +279,14 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 	}
 }
 
-function _migrate_sub_states__base<State /*extends BaseState*/>(
+function _migrate_sub_states__base<State extends BaseState>(
 	SEC: SoftExecutionContext,
-	state: State, // NOT immutable since we may return it unchanged
+	state: Immutable<State>,
 	sub_states_migrate_to_latest: SubStatesMigrations,
 	hints: Immutable<any>,
-): State {
+): Immutable<State> {
 	//let has_change = false
-	const legacy_state: any = state
+	const legacy_state = state as AnyBaseState
 
 	for (let key in sub_states_migrate_to_latest) {
 		if (has_versioned_schema(legacy_state[key])) {
