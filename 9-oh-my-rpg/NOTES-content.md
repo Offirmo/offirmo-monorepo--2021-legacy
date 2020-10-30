@@ -668,3 +668,47 @@ Great Place to Work® Trust Index© Survey
     Is there anything unique or unusual about this company that makes it a great place to work? Please give specific examples.
     If you could change one thing about this company to make it a better place to work, what would it be?
 2017-2020 ©Great Place To Work®. All Rights Reserved.
+
+Books https://twitter.com/shreyas/status/1269827402856665088
+On books, the non-fiction kind:
+2. Almost nothing in the world can match the ROI of a great book.
+3/
+There is no such thing as a cheap book.
+4/
+Don’t turn book reading into a status game.
+5/
+Books don’t come with a user manual for a reason. You can use them however you like. There are no rules that 𝘮𝘶𝘴𝘵 be followed.
+6/
+Books need not be finished. Develop the skill of not finishing okay books and bad books.
+7/
+A secret for super-learning: Buy many books, start most of them, but finish just a small fraction of them.
+8/
+Books need not be read sequentially.
+9/
+Most people 𝘳𝘦𝘢𝘥  books.
+
+But books have two purposes: they are meant to be 𝘳𝘦𝘢𝘥 AND they are meant to be 𝘶𝘴𝘦𝘥.
+10/
+A good book should be 𝘳𝘦𝘢𝘥  once, but 𝘶𝘴𝘦𝘥  multiple times.
+11/
+When reading a book the first time, you’re doing two distinct jobs: learning from it 𝘢𝘯𝘥  making it more user-friendly for the future-you.
+12/
+Shed the habit of keeping books in pristine condition. Best way to appreciate a good book is to make it look thoroughly tainted by the time you’re done reading it. With underlines, sidenotes, and dogears.
+14/
+You can use a good book (that you’ve already read) in multiple ways:
+
+Got 5 minutes? Skim through underlines on all the pages you’ve dogeared (the best stuff)
+
+15 min? Skim through all underlines
+
+60 min? Carefully read all the underlines & remind yourself why they resonated
+15/
+The types of books you choose to read reveal your true priorities better than your stated priorities.
+16/
+Book consumption is less about time availability & more about the physical setting.
+
+In some settings, it's impossible to read a book e.g., driving, walking. Might as well listen in such settings.
+
+Good policy: listen to a lot of books, buy & read the best ones (multiple times).
+
+Great post! A hack I find useful is trying to recall main concepts from previous chapters  before I continue reading/listening. Exposes gaps in understanding and helps to retain info.

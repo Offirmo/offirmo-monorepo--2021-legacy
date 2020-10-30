@@ -183,3 +183,4 @@ Privacy:
   - data minimization
 - right to erasure
 
+https://en.wikipedia.org/wiki/Dependency_hell

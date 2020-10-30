@@ -24,9 +24,9 @@ Compose and profit !
 
 
 ## TODO
-* analytics
+* TODO analytics
 
-All states (and logic) having...
+TODO All states (and logic) having...
 * ☑ readonly<>
 * ☐ immu
 * ☐ enforce_immu
