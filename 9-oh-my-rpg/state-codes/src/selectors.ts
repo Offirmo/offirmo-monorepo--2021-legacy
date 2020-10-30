@@ -17,7 +17,7 @@ function is_code(code: string): boolean {
 	return true
 }
 
-function is_code_redeemable<T>(state: Immutable<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): boolean {
+function is_code_redeemable<T>(state: Immutable<State>, code_spec: Immutable<CodeSpec<T>>, infos: Immutable<T>): boolean {
 	if (!code_spec)
 		throw new Error(`${LIB}: is_code_redeemable() invalid invocation!`)
 	const code = normalize_code(code_spec.code)

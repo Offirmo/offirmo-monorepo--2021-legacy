@@ -30,7 +30,7 @@ function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
 
 /////////////////////
 
-function attempt_to_redeem_code<T>(state: Immutable<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): Immutable<State> {
+function attempt_to_redeem_code<T>(state: Immutable<State>, code_spec: Immutable<CodeSpec<T>>, infos: Immutable<T>): Immutable<State> {
 	return get_lib_SEC().xTry('redeem_code', (): Immutable<State> => {
 		if (!is_code_redeemable(state, code_spec, infos))
 			throw new Error('This code is either non-existing or non redeemable at the moment!')

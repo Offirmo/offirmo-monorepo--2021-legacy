@@ -1,3 +1,4 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import { InventorySlot, ITEM_SLOTS } from '@oh-my-rpg/definitions'
 import { CHARACTER_ATTRIBUTES, CharacterAttribute } from '@oh-my-rpg/state-character'
 import { i18n_messages as I18N_ADVENTURES } from '@oh-my-rpg/logic-adventures'
@@ -13,7 +14,7 @@ import { RenderItemOptions } from './types'
 import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
 
-function render_adventure(a: Readonly<Adventure>, options: Readonly<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
+function render_adventure(a: Immutable<Adventure>, options: Immutable<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	const gains: any = a.gains // alias for typing
 
 	// in this special function, we'll be:

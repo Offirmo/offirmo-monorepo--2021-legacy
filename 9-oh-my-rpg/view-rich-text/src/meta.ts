@@ -5,7 +5,7 @@ import { State } from '@oh-my-rpg/state-meta'
 import * as RichText from '@offirmo-private/rich-text-format'
 
 
-function render_meta_infos(metas: Readonly<{[k: string]: string | number | undefined}>): RichText.Document {
+function render_meta_infos(metas: Immutable<{[k: string]: string | number | undefined}>): RichText.Document {
 	const $doc_list = RichText.unordered_list()
 
 	Object.keys(metas).forEach((key: string) => {
@@ -19,7 +19,7 @@ function render_meta_infos(metas: Readonly<{[k: string]: string | number | undef
 }
 
 
-function render_account_info(m: Immutable<State>, extra: Readonly<{[k: string]: string | number | undefined}> = {}): RichText.Document {
+function render_account_info(m: Immutable<State>, extra: Immutable<{[k: string]: string | number | undefined}> = {}): RichText.Document {
 	const meta_infos = extra
 
 	/* TODO rework

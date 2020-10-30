@@ -1,3 +1,4 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import {Builder} from '@offirmo-private/rich-text-format'
 import { InventorySlot } from '@oh-my-rpg/definitions'
 import {
@@ -14,12 +15,12 @@ import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
 /////////////////////
 
-function push_quality(builder: Builder, i: Readonly<Armor>): Builder {
+function push_quality(builder: Builder, i: Immutable<Armor>): Builder {
 	const $node = RichText.inline_fragment().pushText(i.quality).done()
 	return builder.pushNode($node, {id: 'quality'})
 }
 
-function push_values(builder: Builder, i: Readonly<Armor>, options: Readonly<{short: boolean}> = {short: false}): Builder {
+function push_values(builder: Builder, i: Immutable<Armor>, options: Immutable<{short: boolean}> = {short: false}): Builder {
 	const [min, max] = get_armor_damage_reduction_interval(i)
 	const $node = RichText.inline_fragment()
 		.addClass('item--values')
@@ -28,7 +29,7 @@ function push_values(builder: Builder, i: Readonly<Armor>, options: Readonly<{sh
 	return builder.pushNode($node, {id: 'values'})
 }
 
-function push_power(builder: Builder, i: Readonly<Armor>, options: Readonly<{short?: boolean, reference_power?: number}> = {short: false}): Builder {
+function push_power(builder: Builder, i: Immutable<Armor>, options: Immutable<{short?: boolean, reference_power?: number}> = {short: false}): Builder {
 	const power = appraise_power(i)
 
 	if (!options.short) {
@@ -66,7 +67,7 @@ function push_power(builder: Builder, i: Readonly<Armor>, options: Readonly<{sho
 	return builder
 }
 
-function push_sell_value(builder: Builder, i: Readonly<Armor>): Builder {
+function push_sell_value(builder: Builder, i: Immutable<Armor>): Builder {
 	const $node = RichText.inline_fragment()
 		.addClass('value--coin')
 		.pushText(`${appraise_sell_value(i)}`)
@@ -76,7 +77,7 @@ function push_sell_value(builder: Builder, i: Readonly<Armor>): Builder {
 
 /////////////////////
 
-function render_armor_name(i: Readonly<Armor>): RichText.Document {
+function render_armor_name(i: Immutable<Armor>): RichText.Document {
 	const _ = I18N_ARMORS.en as any
 	const b = _.armor.base[i.base_hid]
 	const q1 = _.armor.qualifier1[i.qualifier1_hid]
@@ -107,7 +108,7 @@ function render_armor_name(i: Readonly<Armor>): RichText.Document {
 	return $doc
 }
 
-function render_armor_short(i: Readonly<Armor>, options: Readonly<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
+function render_armor_short(i: Immutable<Armor>, options: Immutable<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	if (i.slot !== InventorySlot.armor)
 		throw new Error(`render_armor_short(): can't render a ${i.slot}!`)
 
@@ -143,7 +144,7 @@ function render_armor_short(i: Readonly<Armor>, options: Readonly<RenderItemOpti
 		.done()
 }
 
-function render_armor_detailed(i: Readonly<Armor>, reference_power?: number): RichText.Document {
+function render_armor_detailed(i: Immutable<Armor>, reference_power?: number): RichText.Document {
 	if (i.slot !== InventorySlot.armor)
 		throw new Error(`render_armor_detailed(): can't render a ${i.slot}!`)
 

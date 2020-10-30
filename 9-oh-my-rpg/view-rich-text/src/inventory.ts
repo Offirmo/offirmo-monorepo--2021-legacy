@@ -1,3 +1,4 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import {
 	InventorySlot,
 	Item,
@@ -22,7 +23,7 @@ import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
 
 // we want the slots sorted by types according to an arbitrary order
-function render_equipment(inventory: Readonly<InventoryState>, options?: Readonly<RenderItemOptions>): RichText.Document {
+function render_equipment(inventory: Immutable<InventoryState>, options?: Immutable<RenderItemOptions>): RichText.Document {
 	const $doc_list = RichText.unordered_list()
 		.addClass('inventory--equipment')
 		.done()
@@ -54,7 +55,7 @@ function render_equipment(inventory: Readonly<InventoryState>, options?: Readonl
 
 // we want the slots sorted by types according to an arbitrary order
 // = nothing to do, the inventory is auto-sorted
-function render_backpack(inventory: Readonly<InventoryState>, options?: Readonly<RenderItemOptions>): RichText.Document {
+function render_backpack(inventory: Immutable<InventoryState>, options?: Immutable<RenderItemOptions>): RichText.Document {
 	const builder = RichText.ordered_list()
 		.addClass('inventory--backpack')
 
@@ -92,7 +93,7 @@ function render_backpack(inventory: Readonly<InventoryState>, options?: Readonly
 	return $doc
 }
 
-function render_full_inventory(inventory: Readonly<InventoryState>, wallet: Readonly<WalletState>, options: Readonly<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
+function render_full_inventory(inventory: Immutable<InventoryState>, wallet: Immutable<WalletState>, options: Immutable<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	const $doc = RichText.block_fragment()
 		.pushNode(render_equipment(inventory, options), {id: 'equipped'})
 		.pushNode(render_wallet(wallet), {id: 'wallet'})

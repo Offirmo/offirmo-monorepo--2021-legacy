@@ -1,8 +1,9 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import { MonsterRank, Monster } from '@oh-my-rpg/logic-monsters'
 
 import * as RichText from '@offirmo-private/rich-text-format'
 
-function render_monster(m: Readonly<Monster>): RichText.Document {
+function render_monster(m: Immutable<Monster>): RichText.Document {
 	const $doc = RichText.inline_fragment()
 		.addClass('monster', 'monster--rank--' + m.rank)
 		.pushText('{{level}} {{rank}} {{name||Capitalize}}')

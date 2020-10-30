@@ -1,3 +1,5 @@
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
+
 import normalize_code from '../normalize-code'
 import { CodeSpec, State } from '../types'
 
@@ -11,7 +13,7 @@ interface CodesConditions {
 	is_player_since_alpha: boolean
 }
 
-const TEST_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<CodesConditions>>> }> = {
+const TEST_CODES = enforce_immutability<{ [key: string]: Partial<CodeSpec<CodesConditions>> }>({
 
 	TESTNEVER: {
 		redeem_limit: null,
@@ -32,15 +34,15 @@ const TEST_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<CodesCondi
 		redeem_limit: 2,
 		is_redeemable: () => true,
 	},
-}
+})
 
-const RAW_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<CodesConditions>>> }> = {
+const RAW_CODES = enforce_immutability<{ [key: string]: Partial<CodeSpec<CodesConditions>> }>({
 	...TEST_CODES,
-}
+})
 
 ////////////
 
-const ALL_CODESPECS: Readonly<CodeSpec<CodesConditions>>[] = Object.keys(RAW_CODES).map(key => {
+const ALL_CODESPECS: Immutable<CodeSpec<CodesConditions>>[] = Object.keys(RAW_CODES).map(key => {
 	const {
 		code,
 		redeem_limit,
@@ -59,12 +61,12 @@ const ALL_CODESPECS: Readonly<CodeSpec<CodesConditions>>[] = Object.keys(RAW_COD
 	} as CodeSpec<CodesConditions>
 })
 
-const CODESPECS_BY_KEY: { [key: string]: Readonly<CodeSpec<CodesConditions>> } = ALL_CODESPECS.reduce(
+const CODESPECS_BY_KEY: Immutable<{ [key: string]: CodeSpec<CodesConditions> }> = ALL_CODESPECS.reduce(
 	(acc, code_spec) => {
 		acc[code_spec.code] = code_spec
 		return acc
 	},
-	{} as { [key: string]: Readonly<CodeSpec<CodesConditions>> },
+	{} as { [key: string]: CodeSpec<CodesConditions> },
 )
 
 ////////////

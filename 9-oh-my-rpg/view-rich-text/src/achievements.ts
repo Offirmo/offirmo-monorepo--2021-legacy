@@ -1,3 +1,4 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import {
 	AchievementStatus,
 	AchievementSnapshot,
@@ -6,7 +7,7 @@ import {
 import * as RichText from '@offirmo-private/rich-text-format'
 
 
-function render_achievement_snapshot_short(achievement_snapshot: Readonly<AchievementSnapshot>): RichText.Document {
+function render_achievement_snapshot_short(achievement_snapshot: Immutable<AchievementSnapshot>): RichText.Document {
 	const { uuid, icon, name, status, completion_rate } = achievement_snapshot
 
 	const builder = RichText.inline_fragment()
@@ -61,7 +62,7 @@ function render_achievement_snapshot_short(achievement_snapshot: Readonly<Achiev
 	return builder.done()
 }
 
-function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<AchievementSnapshot>): RichText.Document {
+function render_achievement_snapshot_detailed(achievement_snapshot: Immutable<AchievementSnapshot>): RichText.Document {
 	const { uuid, icon, name, description, lore, status, completion_rate } = achievement_snapshot
 	const element_tags = [ 'achievement' ]
 
@@ -141,11 +142,11 @@ function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<Ach
 	return builder.done()
 }
 
-function render_achievements_snapshot(ordered_achievement_snapshots: Readonly<AchievementSnapshot>[]): RichText.Document {
+function render_achievements_snapshot(ordered_achievement_snapshots: Immutable<AchievementSnapshot>[]): RichText.Document {
 	const builder = RichText.unordered_list()
 		.addClass('achievements-snapshot')
 
-	ordered_achievement_snapshots.forEach((achievement_snapshot: AchievementSnapshot) => {
+	ordered_achievement_snapshots.forEach((achievement_snapshot) => {
 		const { uuid } = achievement_snapshot
 		//console.log(uuid)
 		builder.pushRawNode(render_achievement_snapshot_short(achievement_snapshot), {id: uuid})

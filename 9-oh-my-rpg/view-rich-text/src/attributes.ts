@@ -1,7 +1,8 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import * as RichText from '@offirmo-private/rich-text-format'
 import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTED } from '@oh-my-rpg/state-character'
 
-function render_avatar(state: Readonly<CharacterState>): RichText.Document {
+function render_avatar(state: Immutable<CharacterState>): RichText.Document {
 	const $doc_name = RichText.inline_fragment().addClass('avatar__name').pushText(state.name).done()
 	const $doc_class = RichText.inline_fragment().addClass('avatar__class').pushText(state.klass).done()
 
@@ -18,7 +19,7 @@ function render_avatar(state: Readonly<CharacterState>): RichText.Document {
 	return $doc
 }
 
-function render_attributes(state: Readonly<CharacterState>): RichText.Document {
+function render_attributes(state: Immutable<CharacterState>): RichText.Document {
 	const $doc_list = RichText.unordered_list()
 		.addClass('attributes')
 		.done()
@@ -40,7 +41,7 @@ function render_attributes(state: Readonly<CharacterState>): RichText.Document {
 	return $doc
 }
 
-function render_character_sheet(state: Readonly<CharacterState>): RichText.Document {
+function render_character_sheet(state: Immutable<CharacterState>): RichText.Document {
 	const $doc = RichText.block_fragment()
 		.pushNode(render_avatar(state), {id: 'avatar'})
 		.pushNode(render_attributes(state), {id: 'attributes'})
