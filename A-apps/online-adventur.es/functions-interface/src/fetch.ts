@@ -1,5 +1,6 @@
 import fetch_ponyfill from 'fetch-ponyfill'
 import { getRootSEC, SoftExecutionContext } from '@offirmo-private/soft-execution-context'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { ReleaseChannel, OAServerResponseBody, OAResponse } from './types'
 import { get_api_base_url } from './utils'
@@ -34,10 +35,10 @@ export async function fetch_oa<Req, Res>({
 	// like fetch:
 	method?: string
 	url?: string
-	headers?: FetchHeaders
-	body?: Readonly<Req>
+	headers?: Immutable<FetchHeaders>
+	body?: Immutable<Req>
 	timeout_ms?: number
-} = {}): Promise<OAResponse<Res>> {
+} = {}): Promise<Immutable<OAResponse<Res>>> {
 	return SEC.xPromiseTry('foo', async ({ SEC, logger, CHANNEL }) => {
 		const request_id = ++request_count
 		const channel: ReleaseChannel = CHANNEL as any
@@ -105,7 +106,7 @@ export async function fetch_oa<Req, Res>({
 					throw new Error('No response data!')
 				}
 
-				return { data, side }
+				return enforce_immutability<OAResponse<Res>>({ data, side })
 			})
 			.catch((err: Error) => {
 				logger.warn(`fetch_it #${request_id} ended with an error!`, { method, url, response: response_for_logging, err, err_message: err.message})

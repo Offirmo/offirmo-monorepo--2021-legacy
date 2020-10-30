@@ -18,8 +18,9 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@offirmo-private/error-utils": "^0",
+		"@offirmo-private/state-utils": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"fetch-ponyfill": "^6",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
