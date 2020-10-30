@@ -1,4 +1,5 @@
 import { UUID } from '@offirmo-private/uuid'
+import { Immutable} from '@offirmo-private/ts-types'
 
 import { InventorySlot, Element } from '@oh-my-rpg/definitions'
 import { is_full } from '@oh-my-rpg/state-inventory'
@@ -17,7 +18,7 @@ import { UState } from '../types'
 
 /////////////////////
 
-function appraise_item_value(u_state: Readonly<UState>, uuid: UUID): number {
+function appraise_item_value(u_state: Immutable<UState>, uuid: UUID): number {
 	const item = _get_item(u_state.inventory, uuid)
 	if (!item)
 		throw new Error('appraise_item_value(): No item!')
@@ -25,7 +26,7 @@ function appraise_item_value(u_state: Readonly<UState>, uuid: UUID): number {
 	return appraise_sell_value(item)
 }
 
-function appraise_item_power(u_state: Readonly<UState>, uuid: UUID): number {
+function appraise_item_power(u_state: Immutable<UState>, uuid: UUID): number {
 	const item = _get_item(u_state.inventory, uuid)
 	if (!item)
 		throw new Error('appraise_item_power(): No item!')
@@ -33,19 +34,19 @@ function appraise_item_power(u_state: Readonly<UState>, uuid: UUID): number {
 	return appraise_power(item)
 }
 
-function is_inventory_full(u_state: Readonly<UState>): boolean {
+function is_inventory_full(u_state: Immutable<UState>): boolean {
 	return is_full(u_state.inventory)
 }
 
-function get_item_in_slot(u_state: Readonly<UState>, slot: InventorySlot): Readonly<Item> | null {
+function get_item_in_slot(u_state: Immutable<UState>, slot: InventorySlot): Immutable<Item> | null {
 	return _get_item_in_slot(u_state.inventory, slot)
 }
 
-function get_item(u_state: Readonly<UState>, uuid: UUID): Readonly<Item> | null {
+function get_item(u_state: Immutable<UState>, uuid: UUID): Immutable<Item> | null {
 	return _get_item(u_state.inventory, uuid)
 }
 
-function find_best_unequipped_armor(u_state: Readonly<UState>): Readonly<Armor> | null {
+function find_best_unequipped_armor(u_state: Immutable<UState>): Immutable<Armor> | null {
 	// we take advantage of the fact that the inventory is auto-sorted
 	const best_unequipped_armor = u_state.inventory.unslotted.find(e => e.slot === InventorySlot.armor)
 
@@ -54,7 +55,7 @@ function find_best_unequipped_armor(u_state: Readonly<UState>): Readonly<Armor> 
 		: null
 }
 
-function find_better_unequipped_armor(u_state: Readonly<UState>): Readonly<Element> | null {
+function find_better_unequipped_armor(u_state: Immutable<UState>): Immutable<Element> | null {
 	const best_unequipped_armor = find_best_unequipped_armor(u_state)
 	if (!best_unequipped_armor)
 		return null
@@ -67,7 +68,7 @@ function find_better_unequipped_armor(u_state: Readonly<UState>): Readonly<Eleme
 	return null
 }
 
-function find_best_unequipped_weapon(u_state: Readonly<UState>): Readonly<Weapon> | null {
+function find_best_unequipped_weapon(u_state: Immutable<UState>): Immutable<Weapon> | null {
 	// we take advantage of the fact that the inventory is auto-sorted
 	const best_unequipped_weapon = u_state.inventory.unslotted.find(e => e.slot === InventorySlot.weapon)
 
@@ -76,7 +77,7 @@ function find_best_unequipped_weapon(u_state: Readonly<UState>): Readonly<Weapon
 		: null
 }
 
-function find_better_unequipped_weapon(u_state: Readonly<UState>): Readonly<Element> | null {
+function find_better_unequipped_weapon(u_state: Immutable<UState>): Immutable<Element> | null {
 	const best_unequipped_weapon = find_best_unequipped_weapon(u_state)
 	if (!best_unequipped_weapon)
 		return null

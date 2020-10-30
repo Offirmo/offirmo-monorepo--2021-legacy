@@ -131,7 +131,7 @@ export function get_commands(
 			}
 			dispatch(action)
 		},
-		custom(custom_reducer: (state: Readonly<State>) => Readonly<State>, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
+		custom(custom_reducer: ActionHack['custom_reducer'], time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionHack = {
 				time,
 				type: ActionType.hack,

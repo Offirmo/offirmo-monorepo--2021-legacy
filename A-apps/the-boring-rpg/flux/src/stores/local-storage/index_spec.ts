@@ -43,23 +43,23 @@ describe(`${LIB} - store - local storage`, function() {
 		local_storage.clear()
 	})
 
-	const DEMO_LATEST: Readonly<State> = DEMO_STATE
-	const DEMO_LATEST_ALT: Readonly<State> = deep_freeze<State>({
+	const DEMO_LATEST = DEMO_STATE
+	const DEMO_LATEST_ALT = enforce_immutability<State>({
 		...DEMO_STATE,
 		u_state: {
 			...DEMO_STATE.u_state,
 			revision: DEMO_STATE.u_state.revision - 3,
 		}
 	}) as any
-	const DEMO_OLDER: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
+	const DEMO_OLDER: Readonly<any> = enforce_immutability<WithSchemaVersion & WithRevision>({
 		schema_version: 11,
 		revision: 111,
 	})
-	const DEMO_OLDER_ALT: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
+	const DEMO_OLDER_ALT: Readonly<any> = enforce_immutability<WithSchemaVersion & WithRevision>({
 		...DEMO_OLDER,
 		revision: DEMO_OLDER.revision - 1,
 	} as any)
-	const DEMO_OLDEST: Readonly<any> = deep_freeze<WithSchemaVersion & WithRevision>({
+	const DEMO_OLDEST: Readonly<any> = enforce_immutability<WithSchemaVersion & WithRevision>({
 		schema_version: 10,
 		revision: 10,
 	})

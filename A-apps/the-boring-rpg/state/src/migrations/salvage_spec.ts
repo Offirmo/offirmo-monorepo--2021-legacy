@@ -1,6 +1,7 @@
 import {expect} from 'chai'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB } from '../consts'
 
@@ -18,7 +19,7 @@ describe(`${LIB} - salvaging of an outdated savegame`, function() {
 		const GOOD_PLAY_COUNT = 86
 		const BAD_PLAY_COUNT = 0
 
-		const PSEUDO_V4 = deep_freeze({
+		const PSEUDO_V4 = enforce_immutability({
 			'schema_version': 4,
 			'revision': 203,
 			'avatar': {
@@ -48,7 +49,7 @@ describe(`${LIB} - salvaging of an outdated savegame`, function() {
 		const GOOD_PLAY_COUNT = 429
 		const BAD_PLAY_COUNT = 433 - 429
 
-		const PSEUDO_V4 = deep_freeze({
+		const PSEUDO_V4 = enforce_immutability({
 			'schema_version': 6,
 			'revision': 485,
 			'uuid': 'uu1EO9VgTjPlR1YPj0yfdWjG',
@@ -94,7 +95,7 @@ describe(`${LIB} - salvaging of an outdated savegame`, function() {
 		const GOOD_PLAY_COUNT = 429
 		const BAD_PLAY_COUNT = 433 - 429
 
-		const PSEUDO_V7 = deep_freeze({
+		const PSEUDO_V7 = enforce_immutability({
 			'schema_version': 6,
 			'revision': 485,
 			'uuid': 'uu1EO9VgTjPlR1YPj0yfdWjG',

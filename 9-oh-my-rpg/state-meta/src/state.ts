@@ -11,7 +11,7 @@ import {
 /////////////////////
 
 function create(): Immutable<State> {
-	return {
+	return enforce_immutability<State>({
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
@@ -20,7 +20,7 @@ function create(): Immutable<State> {
 		is_web_diversity_supporter: false, // so far
 		is_logged_in: false, // so far
 		roles: [], // so far
-	}
+	})
 }
 
 /////////////////////
@@ -28,20 +28,20 @@ function create(): Immutable<State> {
 function on_start_session(previous_state: Immutable<State>, is_web_diversity_supporter: boolean): Immutable<State> {
 	if (previous_state.is_web_diversity_supporter === is_web_diversity_supporter) return previous_state
 
-	return {
+	return enforce_immutability<State>({
 		...previous_state,
 
 		is_web_diversity_supporter,
 
 		revision: previous_state.revision + 1,
-	}
+	})
 }
 
 /*interface OnLoggedIn {
 	is_logged_in: boolean
 	roles: string[]
 }*/
-function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: boolean, roles: string[] = []): Immutable<State> {
+function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: boolean, roles: Immutable<string[]> = []): Immutable<State> {
 	const sorted_roles = [...roles].sort()
 
 	if (previous_state.is_logged_in === is_logged_in
@@ -49,16 +49,15 @@ function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: bo
 		return previous_state // no change
 
 	let state = previous_state
-	state = {
+
+	return enforce_immutability<State>({
 		...state,
 
 		is_logged_in,
 		roles,
 
 		revision: state.revision + 1,
-	}
-
-	return state
+	})
 }
 
 /////////////////////

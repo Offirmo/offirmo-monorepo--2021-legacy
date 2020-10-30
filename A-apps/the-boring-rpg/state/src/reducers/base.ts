@@ -1,6 +1,6 @@
 /////////////////////
 
-import { Random, Engine } from '@offirmo/random'
+import { Immutable} from '@offirmo-private/ts-types'
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
@@ -36,7 +36,7 @@ import {
 
 /////////////////////
 
-function on_start_session(previous_state: Readonly<State>, is_web_diversity_supporter: boolean, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function on_start_session(previous_state: Immutable<State>, is_web_diversity_supporter: boolean, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	// update energy (not sure needed but good safety)
 	let state = _update_to_now(previous_state, now_ms)
 
@@ -58,7 +58,7 @@ function on_start_session(previous_state: Readonly<State>, is_web_diversity_supp
 	return _refresh_achievements(state)
 }
 
-function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[] = [], now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: boolean, roles: Immutable<string[]> = [], now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	let state = previous_state
 
 	// update energy (not sure needed but good safety)
@@ -83,11 +83,11 @@ function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boo
 	return _refresh_achievements(state)
 }
 
-function update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function update_to_now(state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	return _update_to_now(state, now_ms)
 }
 
-function equip_item(previous_state: Readonly<State>, uuid: UUID, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function equip_item(previous_state: Immutable<State>, uuid: UUID, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	let state = previous_state
 	state = {
 		...state,
@@ -101,7 +101,7 @@ function equip_item(previous_state: Readonly<State>, uuid: UUID, now_ms: Timesta
 	return _refresh_achievements(state)
 }
 
-function sell_item(previous_state: Readonly<State>, uuid: UUID, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function sell_item(previous_state: Immutable<State>, uuid: UUID, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	let state = previous_state
 	state = _sell_item(state, uuid)
 	state = {
@@ -115,7 +115,7 @@ function sell_item(previous_state: Readonly<State>, uuid: UUID, now_ms: Timestam
 	return _refresh_achievements(state)
 }
 
-function rename_avatar(previous_state: Readonly<State>, new_name: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function rename_avatar(previous_state: Immutable<State>, new_name: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	let state = previous_state
 	state = {
 		...state,
@@ -130,7 +130,7 @@ function rename_avatar(previous_state: Readonly<State>, new_name: string, now_ms
 	return _refresh_achievements(state)
 }
 
-function change_avatar_class(previous_state: Readonly<State>, new_class: CharacterClass, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function change_avatar_class(previous_state: Immutable<State>, new_class: CharacterClass, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	if (!get_available_classes(previous_state.u_state).includes(new_class))
 		throw new Error(`${LIB}: switch class: invalid class "${new_class}"!`)
 
@@ -148,7 +148,7 @@ function change_avatar_class(previous_state: Readonly<State>, new_class: Charact
 	return _refresh_achievements(state)
 }
 
-function acknowledge_engagement_msg_seen(previous_state: Readonly<State>, uid: number, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function acknowledge_engagement_msg_seen(previous_state: Immutable<State>, uid: number, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
 	let state = previous_state
 	state = {
 		...state,

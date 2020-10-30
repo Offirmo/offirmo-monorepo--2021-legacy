@@ -1,8 +1,9 @@
+import { Immutable} from '@offirmo-private/ts-types'
 import * as RichText from '@offirmo-private/rich-text-format'
 
 import { UState } from '../../types'
 
-function get_recap(u_state: Readonly<UState>): RichText.Document {
+function get_recap(u_state: Immutable<UState>): RichText.Document {
 	const isNewGame = (u_state.revision === 0)
 	if (isNewGame) {
 		return RichText.inline_fragment()

@@ -1,5 +1,6 @@
 /////////////////////
 
+import { Immutable} from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
 
@@ -34,8 +35,8 @@ import { reseed } from './create'
 
 /////////////////////
 
-function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
-	let previous_state: State | null = state
+function attempt_to_redeem_code(state: Immutable<State>, code: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
+	let previous_state: Immutable<State> | null = state
 	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed'] // so far
 	const engagement_params: any = {}
 

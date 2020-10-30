@@ -2,6 +2,8 @@ import { expect } from 'chai'
 
 import { JSONObject } from '@offirmo-private/ts-types'
 import { itㆍshouldㆍmigrateㆍcorrectly } from '@offirmo-private/state-migration-tester'
+import { enforce_immutability } from '@offirmo-private/state-utils'
+
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
@@ -20,7 +22,7 @@ import {create} from '..'
 import { DEMO_STATE } from '../examples'
 
 // some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
+const MIGRATION_HINTS_FOR_TESTS = enforce_immutability<any>({
 	to_v12: {
 	},
 
@@ -49,7 +51,7 @@ describe(`${LIB} - schema migration`, function() {
 			//can_update_snapshots: true, // uncomment when updating
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: () => {
-				const new_state = deep_freeze<any>(create(get_lib_SEC(), 1234))
+				const new_state = enforce_immutability<any>(create(get_lib_SEC(), 1234))
 				//dump_prettified_any('fresh state', new_state)
 				return new_state
 			},

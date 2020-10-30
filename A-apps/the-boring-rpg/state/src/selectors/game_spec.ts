@@ -22,7 +22,7 @@ describe(`${LIB} - selectors - game`, function() {
 	describe('get_available_classes()', function() {
 
 		it('should return class strings', () => {
-			const { u_state } = deep_freeze<State>(create())
+			const { u_state } = enforce_immutability<State>(create())
 
 			const klasses = get_available_classes(u_state)
 
@@ -34,7 +34,7 @@ describe(`${LIB} - selectors - game`, function() {
 		})
 
 		it('should filter out novice', () => {
-			const { u_state } = deep_freeze<State>(create())
+			const { u_state } = enforce_immutability<State>(create())
 
 			const klasses = get_available_classes(u_state)
 
@@ -45,7 +45,7 @@ describe(`${LIB} - selectors - game`, function() {
 	describe('will_next_play_be_good_at()', function() {
 
 		it('should return a correct boolean', () => {
-			let state = deep_freeze<State>(create())
+			let state = enforce_immutability<State>(create())
 
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms())).to.be.true
 
@@ -54,7 +54,7 @@ describe(`${LIB} - selectors - game`, function() {
 		})
 
 		it('should properly take into account the given time', () => {
-			let state = deep_freeze<State>(create())
+			let state = enforce_immutability<State>(create())
 
 			state = _lose_all_energy(state)
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms())).to.be.false

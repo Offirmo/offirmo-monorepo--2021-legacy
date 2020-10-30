@@ -5,7 +5,7 @@ import EventEmitter from 'emittery'
 import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { Storage } from '@offirmo-private/ts-types'
+import { Immutable, Storage } from '@offirmo-private/ts-types'
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
 import { Action} from '@tbrpg/interfaces'
@@ -69,7 +69,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 
 			// complete "action" object that may be missing some parts
 			action.time = action.time || get_UTC_timestamp_ms()
-			const state: State = in_memory_store.get()
+			const state: Immutable<State> = in_memory_store.get()
 			Object.keys(action.expected_revisions).forEach(sub_state_key => {
 				if (action.expected_revisions[sub_state_key] === -1) {
 					action.expected_revisions[sub_state_key] =
@@ -80,7 +80,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			_dispatcher.dispatch(action)
 		}
 
-		function _set(new_state: State) {
+		function _set(new_state: Immutable<State>) {
 			//in_memory_store.set(new_state)
 			//persistent_store.set(new_state)
 

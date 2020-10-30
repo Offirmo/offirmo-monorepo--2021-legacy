@@ -1,3 +1,4 @@
+import { Immutable} from '@offirmo-private/ts-types'
 import { get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 import { CodeSpec, normalize_code, State as ProgressState } from '@oh-my-rpg/state-codes'
@@ -14,7 +15,7 @@ import {
 // TODO move data outside?
 
 // for test only
-const TEST_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }> = {
+const TEST_CODES: Immutable<{ [key: string]: Immutable<Partial<CodeSpec<State>>> }> = {
 
 	TESTNOTIFS: {
 		redeem_limit: null,
@@ -32,7 +33,7 @@ const TEST_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }
 	},
 }
 
-const ALPHA_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }> = {
+const ALPHA_CODES: Immutable<{ [key: string]: Immutable<Partial<CodeSpec<State>>> }> = {
 
 	REBORN: {
 		redeem_limit: null,
@@ -46,11 +47,11 @@ const ALPHA_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> 
 
 }
 
-const POWER_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }> = {
+const POWER_CODES: Immutable<{ [key: string]: Immutable<Partial<CodeSpec<State>>> }> = {
 
 	BORED: {
 		redeem_limit: null,
-		is_redeemable: (state: Readonly<State>, progress_state: Readonly<ProgressState>) => {
+		is_redeemable: (state: Immutable<State>, progress_state: Immutable<ProgressState>) => {
 			const has_energy_depleted = get_available_energy_float(state.t_state) < 1.
 			if (!has_energy_depleted)
 				return false
@@ -76,7 +77,7 @@ const POWER_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> 
 	},
 }
 
-const RAW_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }> = {
+const RAW_CODES: Immutable<{ [key: string]: Immutable<Partial<CodeSpec<State>>> }> = {
 	...TEST_CODES,
 	...ALPHA_CODES,
 	...POWER_CODES,
@@ -84,7 +85,7 @@ const RAW_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }>
 
 ////////////
 
-const ALL_CODESPECS: Readonly<CodeSpec<State>>[] = Object.keys(RAW_CODES).map(key => {
+const ALL_CODESPECS: Immutable<CodeSpec<State>>[] = Object.keys(RAW_CODES).map(key => {
 	const {
 		code,
 		redeem_limit,
@@ -103,12 +104,12 @@ const ALL_CODESPECS: Readonly<CodeSpec<State>>[] = Object.keys(RAW_CODES).map(ke
 	} as CodeSpec<State>
 })
 
-const CODE_SPECS_BY_KEY: { [key: string]: Readonly<CodeSpec<State>> } = ALL_CODESPECS.reduce(
+const CODE_SPECS_BY_KEY: { [key: string]: Immutable<CodeSpec<State>> } = ALL_CODESPECS.reduce(
 	(acc, code_spec) => {
 		acc[code_spec.code] = code_spec
 		return acc
 	},
-	{} as { [key: string]: Readonly<CodeSpec<State>> },
+	{} as { [key: string]: Immutable<CodeSpec<State>> },
 )
 
 ////////////

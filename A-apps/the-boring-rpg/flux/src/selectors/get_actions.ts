@@ -1,4 +1,5 @@
 import { UUID } from '@offirmo-private/uuid'
+import { Immutable } from '@offirmo-private/ts-types'
 import { get_unslotted_item } from '@oh-my-rpg/state-inventory'
 import { UState } from '@tbrpg/state'
 import {
@@ -10,7 +11,7 @@ import {
 
 /////////////////////
 
-function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): Readonly<Action>[] {
+function get_actions_for_unslotted_item(u_state: Immutable<UState>, uuid: UUID): Action[] {
 	const actions: Action[] = []
 
 	const equip: ActionEquipItem = {
@@ -37,7 +38,7 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 }
 
 
-function get_actions_for_element(u_state: Readonly<UState>, uuid: UUID): Readonly<Action>[] {
+function get_actions_for_element(u_state: Immutable<UState>, uuid: UUID): Action[] {
 	const actions: Action[] = []
 
 	const as_unslotted_item = get_unslotted_item(u_state.inventory, uuid)

@@ -94,6 +94,8 @@ interface TState extends BaseTState {
 }
 
 interface State extends BaseRootState {
+	schema_version: number
+
 	u_state: UState
 	t_state: TState
 }

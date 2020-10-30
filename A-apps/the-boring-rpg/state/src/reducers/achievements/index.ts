@@ -1,3 +1,5 @@
+import { Immutable} from '@offirmo-private/ts-types'
+
 import {
 	State as ProgressState,
 	AchievementDefinition,
@@ -17,7 +19,7 @@ import {EngagementKey} from '../../data/engagement'
 
 /////////////////////
 
-function _refresh_achievements(state: Readonly<State>): Readonly<State> {
+function _refresh_achievements(state: Immutable<State>): Immutable<State> {
 	let { u_state } = state
 	let has_change = false
 	let progress: ProgressState = u_state.progress

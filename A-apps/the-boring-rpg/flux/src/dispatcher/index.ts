@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 import { tiny_singleton } from '@offirmo/tiny-singleton'
-import { get_schema_version_loose, is_RootState } from '@offirmo-private/state-utils'
+import { Immutable, get_schema_version_loose, is_RootState } from '@offirmo-private/state-utils'
 import { dequal as is_deep_equal } from 'dequal'
 
 import { Action } from '@tbrpg/interfaces'
@@ -22,7 +22,7 @@ export function create(): Dispatcher {
 		stores.push(store)
 	}
 
-	function dispatch(action: Action, eventual_state_hint?: Readonly<State>): void {
+	function dispatch(action: Action, eventual_state_hint?: Immutable<State>): void {
 		assert(stores.length, 'Dispatcher: dispatching before registering any stores!')
 		assert(seen_set, 'Dispatcher: dispatching before initialising!')
 		seen_dispatches = true
@@ -37,7 +37,7 @@ export function create(): Dispatcher {
 		})
 	}
 
-	function set(state: Readonly<State>): void {
+	function set(state: Immutable<State>): void {
 		assert(stores.length, 'Dispatcher: set() before registering any stores!')
 
 		assert(is_RootState(state), `Dispatcher: set() is_RootState()!`)

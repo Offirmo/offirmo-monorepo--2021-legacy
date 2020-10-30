@@ -1,4 +1,4 @@
-import { LastMigrationStep, MigrationStep, SubStatesMigrations, CleanupStep, generic_migrate_to_latest } from '@offirmo-private/state-utils'
+import { Immutable, LastMigrationStep, MigrationStep, SubStatesMigrations, CleanupStep, generic_migrate_to_latest } from '@offirmo-private/state-utils'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
@@ -36,8 +36,8 @@ const SUB_STATES_MIGRATIONS: SubStatesMigrations = {
 	meta:       MetaState.migrate_to_latest,
 }
 
-export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-	let state: State = legacy_state as any // for starter
+export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Immutable<any>, hints: Immutable<any> = {}): Immutable<State> {
+	let state = legacy_state as Immutable<State> // for starter
 
 	try {
 		state = generic_migrate_to_latest({

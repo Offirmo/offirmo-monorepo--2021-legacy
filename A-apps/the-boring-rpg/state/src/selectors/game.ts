@@ -1,4 +1,5 @@
 import { Enum } from 'typescript-string-enums'
+import { Immutable} from '@offirmo-private/ts-types'
 
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
@@ -11,12 +12,12 @@ import { _update_to_now } from '../reducers/internal'
 
 /////////////////////
 
-function get_available_classes(u_state: Readonly<UState>): CharacterClass[] {
+function get_available_classes(u_state: Immutable<UState>): CharacterClass[] {
 	return Enum.keys(CharacterClass)
 		.filter(klass => klass !== CharacterClass.novice)
 }
 
-function will_next_play_be_good_at(state: Readonly<State>, now_ms: TimestampUTCMs): boolean {
+function will_next_play_be_good_at(state: Immutable<State>, now_ms: TimestampUTCMs): boolean {
 	state = _update_to_now(state, now_ms)
 
 	const { t_state } = state

@@ -1,7 +1,7 @@
 /////////////////////
 
-import { enforce_immutability } from '@offirmo-private/state-utils'
-import {TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes} from '@offirmo-private/timestamps'
+import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
+import { TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 /////////////////////
 
@@ -32,7 +32,7 @@ import { get_lib_SEC } from './services/sec'
 
 // a full featured, non-trivial demo state
 // with dev gain
-const DEMO_ADVENTURE_01: Readonly<Adventure> = deep_freeze<Adventure>({
+const DEMO_ADVENTURE_01: Immutable<Adventure> = enforce_immutability<Adventure>({
 	hid: 'fight_lost_any',
 	uuid: 'uu1~example~adventure~01',
 	good: true,
@@ -55,7 +55,7 @@ const DEMO_ADVENTURE_01: Readonly<Adventure> = deep_freeze<Adventure>({
 	},
 })
 // with coin gain
-const DEMO_ADVENTURE_02: Readonly<Adventure> = deep_freeze<Adventure>({
+const DEMO_ADVENTURE_02: Immutable<Adventure> = enforce_immutability<Adventure>({
 	hid: 'dying_man',
 	uuid: 'uu1~example~adventure~02',
 	good: true,
@@ -78,7 +78,7 @@ const DEMO_ADVENTURE_02: Readonly<Adventure> = deep_freeze<Adventure>({
 	},
 })
 // with loot gain
-const DEMO_ADVENTURE_03: Readonly<Adventure> = deep_freeze<Adventure>({
+const DEMO_ADVENTURE_03: Immutable<Adventure> = enforce_immutability<Adventure>({
 	hid: 'rare_goods_seller',
 	uuid: 'uu1~example~adventure~03',
 	good: true,
@@ -101,7 +101,7 @@ const DEMO_ADVENTURE_03: Readonly<Adventure> = deep_freeze<Adventure>({
 	},
 })
 // with weapon enhancement gain
-const DEMO_ADVENTURE_04: Adventure = deep_freeze<Adventure>({
+const DEMO_ADVENTURE_04: Immutable<Adventure> = enforce_immutability<Adventure>({
 	hid: 'princess',
 	uuid: 'uu1~example~adventure~04',
 	good: true,
@@ -126,7 +126,7 @@ const DEMO_ADVENTURE_04: Adventure = deep_freeze<Adventure>({
 
 // can't build an example from disconnected sample states.
 // taken from a real savegame:
-const DEMO_STATE: Readonly<State> = deep_freeze<State>(cleanup(get_lib_SEC(), {
+const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib_SEC(), {
 	'schema_version': 14,
 	't_state': {
 		'schema_version': 14,
@@ -635,7 +635,7 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>(cleanup(get_lib_SEC(), {
 	},
 }, {}))
 
-const FAKE_DEMO_STATE: Readonly<State> = deep_freeze<State>(cleanup(get_lib_SEC(), {
+/*const FAKE_DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib_SEC(), {
 	schema_version: SCHEMA_VERSION,
 
 	u_state: {
@@ -664,7 +664,7 @@ const FAKE_DEMO_STATE: Readonly<State> = deep_freeze<State>(cleanup(get_lib_SEC(
 
 		energy: Energy.DEMO_T_STATE,
 	},
-}, {}))
+}, {}))*/
 
 /////////////////////
 

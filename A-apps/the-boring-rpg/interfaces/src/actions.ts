@@ -1,4 +1,5 @@
 import { Enum } from 'typescript-string-enums'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
@@ -94,7 +95,7 @@ export interface ActionUpdateToNow extends BaseAction {
 // for ex. restoring a game from cloud or a previous save
 export interface ActionSet extends BaseAction {
 	type: typeof ActionType.set
-	state: Readonly<State>
+	state: Immutable<State>
 	// force: boolean
 }
 
@@ -102,7 +103,7 @@ export interface ActionSet extends BaseAction {
 // should never make it to the server!
 export interface ActionHack extends BaseAction {
 	type: typeof ActionType.hack
-	custom_reducer: (state: Readonly<State>) => Readonly<State>
+	custom_reducer: (state: Immutable<State>) => Immutable<State>
 }
 
 export type Action =
@@ -153,7 +154,7 @@ export function create_action_noop(): ActionHack {
 	})
 }
 
-/*export function create_action_force_set(eventual_state: Readonly<State>): ActionHack {
+/*export function create_action_force_set(eventual_state: Immutable<State>): ActionHack {
 	return create_action<ActionHack>({
 		type: ActionType.hack,
 		expected_revisions: {},
@@ -161,7 +162,7 @@ export function create_action_noop(): ActionHack {
 	})
 }*/
 
-export function create_action__set(state: Readonly<State>): ActionSet {
+export function create_action__set(state: Immutable<State>): ActionSet {
 	return create_action<ActionSet>({
 		type: ActionType.set,
 		expected_revisions: {},

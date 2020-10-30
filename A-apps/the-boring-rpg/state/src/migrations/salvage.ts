@@ -2,7 +2,7 @@
 
 import { Enum } from 'typescript-string-enums'
 
-import { JSONObject, JSON } from '@offirmo-private/ts-types'
+import { Immutable, JSONObject, JSON } from '@offirmo-private/ts-types'
 import { get_schema_version_loose } from '@offirmo-private/state-utils'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
@@ -68,11 +68,11 @@ const get_bad_play_count = (ls: any) => coerce_to_number_or_zero(
 
 /////////////////////
 
-function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> {
+function reset_and_salvage(legacy_state: Immutable<any>): Immutable<State> {
 	get_logger().info(`${LIB}: salvaging some data from a v${get_schema_version_loose(legacy_state as any)} legacy savegame…`)
 
 	xxx_internal_reset_prng_cache() // don't do this at home, kids!
-	let state = create()
+	let state: Immutable<State> = create()
 
 	const seed = get_seed(legacy_state)
 	if (!Number.isInteger(seed as any)) {

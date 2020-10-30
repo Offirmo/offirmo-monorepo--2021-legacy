@@ -1,3 +1,4 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import { UUID } from '@offirmo-private/uuid'
 import { Document } from '@offirmo-private/rich-text-format'
 import { Element } from '@oh-my-rpg/definitions'
@@ -18,104 +19,104 @@ import { get_actions_for_element } from './get_actions'
 
 interface Queries {
 	get_item(
-		uuid: UUID, state: Readonly<State>
+		uuid: UUID, state: Immutable<State>
 	): Item | null
 	appraise_item_value(
-		uuid: UUID, state: Readonly<State>
+		uuid: UUID, state: Immutable<State>
 	): number
 	appraise_item_power(
-		uuid: UUID, state: Readonly<State>
+		uuid: UUID, state: Immutable<State>
 	): number
 	find_element(
-		uuid: UUID, state: Readonly<State>
-	): Readonly<Element> | Readonly<AchievementSnapshot> | null
+		uuid: UUID, state: Immutable<State>
+	): Immutable<Element> | Immutable<AchievementSnapshot> | null
 	get_actions_for_element(
-		uuid: UUID, state: Readonly<State>
+		uuid: UUID, state: Immutable<State>
 	): Action[]
 	get_oldest_pending_flow_engagement(
-		state: Readonly<State>
+		state: Immutable<State>
 	): { uid: number, $doc: Document, pe: PendingEngagement } | null
 	get_oldest_pending_non_flow_engagement(
-		state: Readonly<State>
+		state: Immutable<State>
 	): { uid: number, $doc: Document, pe: PendingEngagement } | null
 	get_achievements_snapshot(
-		state: Readonly<State>
-	): Readonly<AchievementSnapshot>[]
+		state: Immutable<State>
+	): Immutable<AchievementSnapshot>[]
 	get_available_energy_float(
-		state: Readonly<State>
+		state: Immutable<State>
 	): number
 	get_human_time_to_next_energy(
-		state: Readonly<State>
+		state: Immutable<State>
 	): string
 	get_achievements_completion(
-		state: Readonly<State>
+		state: Immutable<State>
 	): [number, number]
 	get_last_adventure(
-		state: Readonly<State>
-	): Readonly<Adventure> | null
+		state: Immutable<State>
+	): Immutable<Adventure> | null
 	get_recap(
-		state: Readonly<State>
+		state: Immutable<State>
 	): Document
 	is_inventory_full(
-		state: Readonly<State>
+		state: Immutable<State>
 	): boolean
 	get_available_classes(
-		state: Readonly<State>
+		state: Immutable<State>
 	): string[]
 	// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
 	get_sub_state<K extends keyof UState>(
-		key: K, state: Readonly<State>
+		key: K, state: Immutable<State>
 	): UState[K]
 }
 function get_queries(store: Store)/*: Queries*/ {
 	return {
-		get_item(uuid: UUID, state: Readonly<State> = store.get()): Item | null {
+		get_item(uuid: UUID, state: Immutable<State> = store.get()): Item | null {
 			return selectors.get_item(state.u_state, uuid)
 		},
-		appraise_item_value(uuid: UUID, state: Readonly<State> = store.get()): number {
+		appraise_item_value(uuid: UUID, state: Immutable<State> = store.get()): number {
 			return selectors.appraise_item_value(state.u_state, uuid)
 		},
-		appraise_item_power(uuid: UUID, state: Readonly<State> = store.get()): number {
+		appraise_item_power(uuid: UUID, state: Immutable<State> = store.get()): number {
 			return selectors.appraise_item_power(state.u_state, uuid)
 		},
-		find_element(uuid: UUID, state: Readonly<State> = store.get()): Readonly<Element> | Readonly<AchievementSnapshot> | null {
+		find_element(uuid: UUID, state: Immutable<State> = store.get()): Immutable<Element> | Immutable<AchievementSnapshot> | null {
 			return selectors.find_element(state.u_state, uuid)
 		},
-		get_actions_for_element(uuid: UUID, state: Readonly<State> = store.get()): Action[] {
+		get_actions_for_element(uuid: UUID, state: Immutable<State> = store.get()): Action[] {
 			return get_actions_for_element(state.u_state, uuid)
 		},
-		get_oldest_pending_flow_engagement(state: Readonly<State> = store.get()): { uid: number, $doc: Document, pe: PendingEngagement } | null {
+		get_oldest_pending_flow_engagement(state: Immutable<State> = store.get()): { uid: number, $doc: Document, pe: PendingEngagement } | null {
 			return selectors.get_oldest_pending_flow_engagement(state.u_state)
 		},
-		get_oldest_pending_non_flow_engagement(state: Readonly<State> = store.get()): { uid: number, $doc: Document, pe: PendingEngagement } | null {
+		get_oldest_pending_non_flow_engagement(state: Immutable<State> = store.get()): { uid: number, $doc: Document, pe: PendingEngagement } | null {
 			return selectors.get_oldest_pending_non_flow_engagement(state.u_state)
 		},
-		get_achievements_snapshot(state: Readonly<State> = store.get()): Readonly<AchievementSnapshot>[] {
+		get_achievements_snapshot(state: Immutable<State> = store.get()): Immutable<AchievementSnapshot[]> {
 			return selectors.get_achievements_snapshot(state.u_state)
 		},
-		get_available_energy_float(state: Readonly<State> = store.get()): number {
+		get_available_energy_float(state: Immutable<State> = store.get()): number {
 			return selectors.get_available_energy_float(state.t_state)
 		},
-		get_human_time_to_next_energy(state: Readonly<State> = store.get()): string {
+		get_human_time_to_next_energy(state: Immutable<State> = store.get()): string {
 			return selectors.get_human_time_to_next_energy(state)
 		},
-		get_achievements_completion(state: Readonly<State> = store.get()): [number, number] {
+		get_achievements_completion(state: Immutable<State> = store.get()): [number, number] {
 			return selectors.get_achievements_completion(state.u_state)
 		},
-		get_last_adventure(state: Readonly<State> = store.get()): Readonly<Adventure> | null {
+		get_last_adventure(state: Immutable<State> = store.get()): Immutable<Adventure> | null {
 			return state.u_state.last_adventure
 		},
-		get_recap(state: Readonly<State> = store.get()): Document {
+		get_recap(state: Immutable<State> = store.get()): Document {
 			return selectors.get_recap(state.u_state)
 		},
-		is_inventory_full(state: Readonly<State> = store.get()): boolean {
+		is_inventory_full(state: Immutable<State> = store.get()): boolean {
 			return selectors.is_inventory_full(state.u_state)
 		},
-		get_available_classes(state: Readonly<State> = store.get()): string[] {
+		get_available_classes(state: Immutable<State> = store.get()): string[] {
 			return selectors.get_available_classes(state.u_state)
 		},
 		// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
-		get_sub_state<K extends keyof UState>(key: K, state: Readonly<State> = store.get()): UState[K] {
+		get_sub_state<K extends keyof UState>(key: K, state: Immutable<State> = store.get()): Immutable<UState>[K] {
 			return state.u_state[key]
 		},
 	}
