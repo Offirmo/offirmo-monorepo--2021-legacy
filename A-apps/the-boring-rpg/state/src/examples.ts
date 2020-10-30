@@ -1,6 +1,6 @@
 /////////////////////
 
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 import {TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes} from '@offirmo-private/timestamps'
 
 /////////////////////

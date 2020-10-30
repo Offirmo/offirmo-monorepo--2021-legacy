@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'

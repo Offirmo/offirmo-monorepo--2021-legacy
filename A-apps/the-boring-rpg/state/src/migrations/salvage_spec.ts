@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-import deep_freeze from 'deep-freeze-strict'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 

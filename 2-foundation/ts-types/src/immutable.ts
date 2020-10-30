@@ -8,7 +8,7 @@ export type ImmutablePrimitive = undefined | null | boolean | string | number | 
 
 export type Immutable<T> =
 	T extends ImmutablePrimitive ? T
-		//: T extends Array<infer U> ? ImmutableArray<U>
+		//: T extends Array<infer U> ? ImmutableArray<U> no need!
 			: T extends Map<infer K, infer V> ? ImmutableMap<K, V>
 				: T extends Set<infer M> ? ImmutableSet<M>
 					: ImmutableObject<T>
@@ -20,6 +20,6 @@ export type ImmutableObject<T> = { readonly [K in keyof T]: Immutable<T[K]> }
 
 /////////////////////
 
-export type ImmutabilityEnforcer = <T>(x: T) => Immutable<T>
+export type ImmutabilityEnforcer = <T>(x: T | Immutable<T>) => Immutable<T>
 
 /////////////////////

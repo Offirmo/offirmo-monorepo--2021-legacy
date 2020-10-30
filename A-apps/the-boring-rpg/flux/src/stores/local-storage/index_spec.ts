@@ -2,7 +2,7 @@
 
 import { expect } from 'chai'
 import sinon from 'sinon'
-import deep_freeze from 'deep-freeze-strict'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 import stable_stringify from 'json-stable-stringify'
 import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'

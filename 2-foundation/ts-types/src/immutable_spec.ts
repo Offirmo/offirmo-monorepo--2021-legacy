@@ -73,5 +73,5 @@ testTuple(['foo'])
 
 const t2: Immutable<Test> = t
 
-const ie: ImmutabilityEnforcer = <T>(s: T) => s as Immutable<T>
+const ie: ImmutabilityEnforcer = <T>(s: T | Immutable<T>) => s as Immutable<T>
 

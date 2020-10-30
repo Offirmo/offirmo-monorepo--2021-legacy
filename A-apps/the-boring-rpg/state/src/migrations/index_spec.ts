@@ -1,7 +1,4 @@
 import { expect } from 'chai'
-import deep_freeze from 'deep-freeze-strict'
-import { dump_prettified_any} from '@offirmo-private/prettify-any'
-import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 
 import { JSONObject } from '@offirmo-private/ts-types'
 import { itㆍshouldㆍmigrateㆍcorrectly } from '@offirmo-private/state-migration-tester'
