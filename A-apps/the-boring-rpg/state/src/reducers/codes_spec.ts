@@ -29,7 +29,7 @@ describe(`${LIB} - reducer - codes`, function() {
 		'REBORNX',
 		'REBORN',
 		'ALPHATWINK',
-	]
+	]/*.filter(c => c === 'REBORNX')*/
 
 	CODES.forEach(code => {
 		describe(`good code "${code}"`, function() {

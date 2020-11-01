@@ -17,7 +17,7 @@ import {
 	STARTING_ARMOR_SPEC,
 	create,
 } from './create'
-import { autoplay } from './autoplay'
+import { _autoplay } from './autoplay'
 
 describe(`${LIB} - reducer`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
@@ -29,7 +29,7 @@ describe(`${LIB} - reducer`, function() {
 
 			try {
 				for (let i = 0; i < 1000; ++i) {
-					state = autoplay(state, { DEBUG: false })
+					state = _autoplay(state, { DEBUG: false })
 				}
 			}
 			catch (err) {
@@ -46,7 +46,7 @@ describe(`${LIB} - reducer`, function() {
 			let state = create()
 
 			try {
-				state = autoplay(state, {
+				state = _autoplay(state, {
 					target_good_play_count: 1000,
 				})
 			}
@@ -70,7 +70,7 @@ describe(`${LIB} - reducer`, function() {
 			let state = create()
 
 			try {
-				state = autoplay(state, {
+				state = _autoplay(state, {
 					target_good_play_count: 2000,
 					target_bad_play_count: 100,
 				})

@@ -10,6 +10,6 @@ import {
 	BaseUState,
 	BaseTState,
 	BaseRootState,
-	propagate_child_revision_increment_upward,
+	complete_or_cancel_eager_mutation_propagating_possible_child_mutation,
 } from '@offirmo-private/state-utils'
 ```

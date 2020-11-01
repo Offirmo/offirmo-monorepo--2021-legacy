@@ -27,7 +27,7 @@ import {
 
 import { LIB } from '../../consts'
 import { State, UState } from '../../types'
-import { play_adventure } from './play_adventure'
+import { _play_adventure } from './play_adventure'
 
 /////////////////////
 
@@ -61,7 +61,7 @@ function pick_ideal_non_repetitive_good_archetype(u_state: Immutable<UState>, rn
 	return pick_random_non_repetitive_good_archetype(u_state, rng)
 }
 
-function play_good(state: Immutable<State>, explicit_adventure_archetype_hid?: string): Immutable<State> {
+function _play_good(state: Immutable<State>, explicit_adventure_archetype_hid?: string): Immutable<State> {
 	let prng_state = state.u_state.prng
 	const rng = get_prng(prng_state)
 
@@ -92,7 +92,7 @@ function play_good(state: Immutable<State>, explicit_adventure_archetype_hid?: s
 		},
 	}
 
-	state = play_adventure(state, aa)
+	state = _play_adventure(state, aa)
 
 	return state
 }
@@ -100,7 +100,7 @@ function play_good(state: Immutable<State>, explicit_adventure_archetype_hid?: s
 /////////////////////
 
 export {
-	play_good,
+	_play_good,
 }
 
 /////////////////////

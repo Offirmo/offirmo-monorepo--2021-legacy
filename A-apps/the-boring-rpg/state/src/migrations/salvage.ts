@@ -17,7 +17,7 @@ import {
 	reseed,
 	rename_avatar,
 	change_avatar_class,
-	autoplay,
+	_autoplay,
 } from '../reducers'
 import { EngagementKey } from '../data/engagement'
 
@@ -107,7 +107,7 @@ function reset_and_salvage(legacy_state: Immutable<any>): Immutable<State> {
 
 	const bad_play_count = get_bad_play_count(legacy_state)
 
-	state = autoplay(state, {
+	state = _autoplay(state, {
 		target_good_play_count: good_play_count,
 		target_bad_play_count: bad_play_count,
 	})

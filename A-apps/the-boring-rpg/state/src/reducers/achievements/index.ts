@@ -21,34 +21,34 @@ import {EngagementKey} from '../../data/engagement'
 
 function _refresh_achievements(state: Immutable<State>): Immutable<State> {
 	let { u_state } = state
+	let { progress, engagement } = u_state
 	let has_change = false
-	let progress: ProgressState = u_state.progress
 
 	ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<UState>) => {
 		const { icon, name } = definition
 
-		// optims
 		const last_known_status = get_last_known_achievement_status(progress, name)
-		if (last_known_status === AchievementStatus.unlocked) return
+		if (last_known_status === AchievementStatus.unlocked) return // can't change, already best
+
 		const current_status = definition.get_status(u_state)
 		if (last_known_status === current_status) return
 
 		has_change = true
 		progress = on_achieved(progress, name, current_status)
-		// need to tell the user?
+
 		if (current_status === AchievementStatus.unlocked) {
-			u_state = {
-				...u_state,
-				engagement: enqueueEngagement(u_state.engagement, {
+			// tell the user
+			engagement = enqueueEngagement(engagement,
+				{
 					type: EngagementType.aside,
 					key: EngagementKey['achievement-unlocked'],
-				}, {
+				},
+				{
 					semantic_level: 'success',
-					auto_dismiss_delay_ms: 7_000,
+					auto_dismiss_delay_ms: 7_000, // TODO magic number!!
 					icon,
 					name,
-				}),
-			}
+				})
 		}
 	})
 
@@ -60,6 +60,7 @@ function _refresh_achievements(state: Immutable<State>): Immutable<State> {
 		u_state: {
 			...u_state,
 			progress,
+			engagement,
 		},
 	}
 }

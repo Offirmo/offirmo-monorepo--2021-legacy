@@ -235,7 +235,7 @@ function instantiate_adventure_archetype(
 
 /////////////////////
 
-function play_adventure(state: Immutable<State>, aa: Immutable<AdventureArchetype>): Immutable<State> {
+function _play_adventure(state: Immutable<State>, aa: Immutable<AdventureArchetype>): Immutable<State> {
 	const rng = get_prng(state.u_state.prng)
 
 	const adventure = instantiate_adventure_archetype(
@@ -357,7 +357,7 @@ function play_adventure(state: Immutable<State>, aa: Immutable<AdventureArchetyp
 /////////////////////
 
 export {
-	play_adventure,
+	_play_adventure,
 }
 
 /////////////////////

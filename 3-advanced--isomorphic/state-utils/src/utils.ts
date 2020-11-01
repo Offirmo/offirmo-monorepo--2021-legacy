@@ -5,7 +5,7 @@ import { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types'
 import {
 	BaseUState,
 	BaseTState,
-	BaseRootState,
+	BaseRootState, UTBundle,
 } from './types'
 import {
 	AnyBaseState,
@@ -14,7 +14,7 @@ import {
 import {
 	is_RootState,
 	is_TState,
-	is_UState,
+	is_UState, is_UTBundle, is_WithRevision,
 } from './type-guards'
 import {
 	get_revision,
@@ -28,59 +28,104 @@ export const enforce_immutability: ImmutabilityEnforcer = <T>(state: T | Immutab
 export { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types' // for convenience
 
 
-// if a child state's revision increased, increase ours.
-// TODO improve:
-// - supports bundled
-// - uses type guards
-// - go deep! not just 1st level
-export function propagate_child_revision_increment_upward<
+// Use this in case of reducing a child state while unsure whether this child state has changed or not.
+// - the best case is to return 'previous' = no mutation
+// - if a child state's revision increased, increase ours and keep the mutation
+// - it's possible that an "update to now" was invoked, it's ok to ignore that if that's the only change
+// - this fn will intentionally NOT go deeper than 1st level, each state is responsible for itself!
+// - this fn will intentionally NOT handle time changes, this should be done separately at the end! (separate update_to_now call)
+export function complete_or_cancel_eager_mutation_propagating_possible_child_mutation<
 	BU extends BaseUState,
 	BT extends BaseTState,
-	BR extends BaseRootState,
-	T = BU | BT | BR,
+	BR extends BaseRootState<BU, BT>,
+	T = BU | BT | UTBundle<BU, BT> | BR,
 >(
-	previous: any,
-	current: T, // not immutable since we can return it unchanged
-): T {
-	if (!previous)
-		return current
-	if (previous === current)
-		return current
+	previous: Immutable<T>,
+	current: Immutable<T>,
+	updated: Immutable<T> = previous,
+	debug_id: string = 'unknown src',
+): Immutable<T> {
+	const PREFIX = `CoCEMPPCM(${debug_id})`
+	assert(previous, `${PREFIX}: should have previous`)
+	/*if (!previous)
+		return current*/
+	if (current === previous)
+		return previous
+	if (current === updated)
+		return previous
 
-	let has_child_revision_increment = false
-
-	if (is_RootState(current)) {
+	if (is_UTBundle(current)) {
 		// this is a more advanced state
-		assert(is_RootState(previous), 'previous also has root data structure!')
-		const final_u_state = propagate_child_revision_increment_upward(previous.u_state, current.u_state)
-		const final_t_state = propagate_child_revision_increment_upward(previous.t_state, current.t_state)
-		if (final_u_state === current.u_state && final_t_state === current.t_state)
-			return current
+		assert(is_UTBundle(previous), `${PREFIX}: previous also has bundle data structure!`)
+		assert(is_UTBundle(updated), `${PREFIX}: updated also has bundle data structure!`)
+		const final_u_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous[0], current[0], updated?.[0])
+		const final_t_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous[1], current[1], updated?.[1])
+		if (final_u_state === previous[0] && final_t_state === previous[1])
+			return previous
+		if (final_u_state === updated[0] && final_t_state === updated[1])
+			return previous
 
-		return {
-			...current,
+		return enforce_immutability<T>([ final_u_state, final_t_state ] as any as T)
+	}
+	else if (is_RootState(current)) {
+		// this is a more advanced state
+		assert(is_RootState(previous), `${PREFIX}: previous also has root data structure!`)
+		assert(is_RootState(updated), `${PREFIX}: updated also has root data structure!`)
+		const final_u_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous.u_state, current.u_state, updated.u_state, debug_id + '.u_state')
+		const final_t_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous.t_state, current.t_state, updated.t_state, debug_id + '.t_state')
+		if (final_u_state === previous.u_state && final_t_state === previous.t_state)
+			return previous
+		if (final_u_state === updated.u_state && final_t_state === updated.t_state)
+			return previous
+
+		return enforce_immutability<T>({
+			...current as any,
 			u_state: final_u_state,
 			t_state: final_t_state,
-		}
+		})
 	}
 
-	assert(is_UState(current) || is_TState(current), 'current has U/TState data structure!') // unneeded except for helping TS type inference
-	assert(is_UState(previous) && is_UState(current) || is_TState(previous) && is_TState(current), 'previous also has U/TState data structure!')
+	//let is_t_state = is_TState(current)
+	assert(is_UState(current) || is_TState(current), `${PREFIX}: current has U/TState data structure!`) // unneeded except for helping TS type inference
+	assert(
+		is_UState(previous) && is_UState(updated) && is_UState(current)
+		|| is_TState(previous) && is_TState(updated) && is_TState(current),
+		`${PREFIX}: current+previous+updated have the same U/TState data structure!`
+	)
+	assert(previous.revision === updated.revision, `${PREFIX}: previous & updated should have the same revision`)
+	assert(current.revision >= previous.revision, `${PREFIX}: current >= previous revision`)
 
 	if (current.revision !== previous.revision)
-		throw new Error('propagate_child_revision_increment_upward(): revision already incremented!')
+		throw new Error(`${PREFIX}: revision already incremented! This call is not needed since you’re sure there was a change!`)
 
 	const typed_previous: AnyBaseState = previous as any
+	const typed_updated: AnyBaseState = updated as any
 	const typed_current: AnyBaseState = current as any
 
+	let has_child_revision_increment = false
+	//let has_non_child_key_change = false
+	//let has_timestamp_change: boolean | undefined = undefined
+
 	for (const k in typed_current) {
+		const previous_has_revision = is_WithRevision(typed_updated[k])
+		const current_has_revision = is_WithRevision(typed_current[k])
+		assert(previous_has_revision === current_has_revision, `${PREFIX}/${k}: revisioning should be coherent!`)
+		if (!current_has_revision) {
+			//let has_change = typed_updated[k] !== typed_current[k]
+			//has_non_child_key_change ||= has_change
+			assert(typed_updated[k] === typed_current[k], `${PREFIX}/${k}: manual change on Base/UState non-child key seen! This call is not needed since you’re sure there was a change!`)
+		}
+
 		const previous_revision = get_revision_loose(typed_previous[k])
+		const updated_revision = get_revision_loose(typed_updated[k])
+		assert(previous_revision === updated_revision, `${PREFIX}/${k}: previous & updated child should have the same revision`)
+
 		const current_revision = get_revision_loose(typed_current[k])
-		if (current_revision !== previous_revision) {
-			if (current_revision !== previous_revision + 1) {
+		if (current_revision !== updated_revision) {
+			if (current_revision !== updated_revision + 1) {
 				// NO! It may be normal for a sub to have been stimulated more than once,
 				// ex. gained 3 achievements
-				//throw new Error(`propagate_child_revision_increment_upward(): Invalid increment for "${k}"!`)
+				//throw new Error(...)
 			}
 
 			has_child_revision_increment = true
@@ -88,12 +133,12 @@ export function propagate_child_revision_increment_upward<
 		}
 	}
 
-	if (!has_child_revision_increment) return current
+	if (!has_child_revision_increment) return previous
 
-	return {
-		...current,
+	return enforce_immutability<T>({
+		...current as any,
 		revision: get_revision(current as any) + 1,
-	}
+	})
 }
 
 

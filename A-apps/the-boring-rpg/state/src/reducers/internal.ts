@@ -48,7 +48,7 @@ function compare_items_by_normalized_power(a: Immutable<Item>, b: Immutable<Item
 
 // WARN those internal reducers:
 // - do not refresh achievements or update the T-state
-// - do not increment the root revision (this has to be done by the parent)
+// - do not increment the root revision (this has to be done by the parent to avoid multiple increments)
 
 function _lose_all_energy(state: Immutable<State>): Immutable<State> {
 	return {
@@ -87,77 +87,65 @@ function _update_to_now(state: Immutable<State>, now_ms: TimestampUTCMs): Immuta
 }
 
 function _receive_stat_increase(state: Immutable<State>, stat: CharacterAttribute, amount = 1): Immutable<State> {
-	const { u_state } = state
-
 	return {
 		...state,
 		u_state: {
-			...u_state,
-			avatar: increase_stat(get_lib_SEC(), u_state.avatar, stat, amount),
+			...state.u_state,
+			avatar: increase_stat(get_lib_SEC(), state.u_state.avatar, stat, amount),
 		},
 	}
 }
 
 function _receive_item(state: Immutable<State>, item: Item): Immutable<State> {
-	// inventory shouldn't be full since we prevent playing in this case
-	const { u_state } = state
-
+	// inventory can't be full since we prevent playing in this case
 	return {
 		...state,
 		u_state: {
-			...u_state,
-			inventory: InventoryState.add_item(u_state.inventory, item),
+			...state.u_state,
+			inventory: InventoryState.add_item(state.u_state.inventory, item),
 		},
 	}
 }
 
 function _sell_item(state: Immutable<State>, uuid: UUID): Immutable<State> {
-	const { u_state } = state
-
-	const price = appraise_item_value(u_state, uuid)
+	const price = appraise_item_value(state.u_state, uuid)
 
 	return {
 		...state,
 		u_state: {
-			...u_state,
-			inventory: InventoryState.remove_item_from_unslotted(u_state.inventory, uuid),
-			wallet: WalletState.add_amount(u_state.wallet, Currency.coin, price),
+			...state.u_state,
+			inventory: InventoryState.remove_item_from_unslotted(state.u_state.inventory, uuid),
+			wallet: WalletState.add_amount(state.u_state.wallet, Currency.coin, price),
 		},
 	}
 }
 
 function _receive_coins(state: Immutable<State>, amount: number): Immutable<State> {
-	const { u_state } = state
-
 	return {
 		...state,
 		u_state: {
-			...u_state,
-			wallet: WalletState.add_amount(u_state.wallet, Currency.coin, amount),
+			...state.u_state,
+			wallet: WalletState.add_amount(state.u_state.wallet, Currency.coin, amount),
 		},
 	}
 }
 
 function _lose_coins(state: Immutable<State>, amount: number): Immutable<State> {
-	const { u_state } = state
-
 	return {
 		...state,
 		u_state: {
-			...u_state,
-			wallet: WalletState.remove_amount(u_state.wallet, Currency.coin, amount),
+			...state.u_state,
+			wallet: WalletState.remove_amount(state.u_state.wallet, Currency.coin, amount),
 		},
 	}
 }
 
 function _receive_tokens(state: Immutable<State>, amount: number): Immutable<State> {
-	const { u_state } = state
-
 	return {
 		...state,
 		u_state: {
-			...u_state,
-			wallet: WalletState.add_amount(u_state.wallet, Currency.token, amount),
+			...state.u_state,
+			wallet: WalletState.add_amount(state.u_state.wallet, Currency.token, amount),
 		},
 	}
 }
@@ -165,22 +153,20 @@ function _receive_tokens(state: Immutable<State>, amount: number): Immutable<Sta
 ////////////
 
 function _ack_all_engagements(state: Immutable<State>): Immutable<State> {
-	const { u_state } = state
-
-	if (!u_state.engagement.queue.length) return state
+	if (!state.u_state.engagement.queue.length)
+		return state
 
 	return {
 		...state,
 		u_state: {
-			...u_state,
-			engagement: EngagementState.acknowledge_all_seen(u_state.engagement),
+			...state.u_state,
+			engagement: EngagementState.acknowledge_all_seen(state.u_state.engagement),
 		},
 	}
 }
 
 function _auto_make_room(state: Immutable<State>, options: { DEBUG?: boolean } = {}): Immutable<State> {
 	const { DEBUG } = options
-
 	if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${state.u_state.inventory.unslotted.length} items)`)
 
 	// inventory full

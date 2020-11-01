@@ -2,7 +2,7 @@
 
 import { Immutable} from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
+import { complete_or_cancel_eager_mutation_propagating_possible_child_mutation } from '@offirmo-private/state-utils'
 
 /////////////////////
 
@@ -15,8 +15,8 @@ import { State } from '../../types'
 
 import { will_next_play_be_good_at } from '../../selectors'
 import { _update_to_now } from '../internal'
-import { play_good } from './play_good'
-import { play_bad } from './play_bad'
+import { _play_good } from './play_good'
+import { _play_bad } from './play_bad'
 import { _refresh_achievements } from '../achievements'
 
 /////////////////////
@@ -37,6 +37,7 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 				...state.t_state,
 				// punishment
 				energy: EnergyState.lose_all_energy([state.u_state.energy, state.t_state.energy]),
+				revision: state.t_state.revision + 1,
 			},
 		}
 	}
@@ -47,10 +48,12 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 			u_state: {
 				...state.u_state,
 				energy: u,
+				revision: state.t_state.revision + 1,
 			},
 			t_state: {
 				...state.t_state,
 				energy: t,
+				revision: state.t_state.revision + 1,
 			},
 		}
 
@@ -85,13 +88,12 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 			//
 			//
 		}
-
 	}
 
 	// actual play
 	state = is_good_play
-		? play_good(state, explicit_adventure_archetype_hid)
-		: play_bad(state, explicit_adventure_archetype_hid)
+		? _play_good(state, explicit_adventure_archetype_hid)
+		: _play_bad(state, explicit_adventure_archetype_hid)
 
 	// final updates
 	const u_state = state.u_state

@@ -4,11 +4,12 @@ import { LIB } from './consts'
 
 import {
 	DEMO_BASE_STATE_WITH_SUBS,
+	DEMO_BUNDLE_STATE,
 	DEMO_ROOT_STATE,
 } from './_test_helpers'
 
 import {
-	propagate_child_revision_increment_upward,
+	complete_or_cancel_eager_mutation_propagating_possible_child_mutation,
 	are_ustate_revision_requirements_met,
 	enforce_immutability,
 } from './utils'
@@ -25,26 +26,35 @@ describe(`${LIB} - utils`, function() {
 			}).to.throw('read only')
 		})
 	})
-	describe('propagate_child_revision_increment_upward()', function() {
+
+	describe('complete_or_cancel_eager_mutation_propagating_possible_child_mutation()', function() {
 
 		context('on a base state with sub states', function() {
 			const previous = DEMO_BASE_STATE_WITH_SUBS
 
-			it('should no touch the object if no change at all', () => {
-				const new_state = propagate_child_revision_increment_upward(previous, previous)
+			it('should avoid a mutation if the state has no change at all', () => {
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, previous)
 				expect(new_state).to.equal(previous)
 			})
 
-			it('should not touch the object if no sub-increments', () => {
+			it('should avoid a mutation if the state has no semantic increment', () => {
 				const current_base = enforce_immutability<typeof previous>({
 					...previous,
 					subC: {
+						// fake mutation, in truth there was no change
 						...previous.subC,
-						fizz: 'hello',
 					},
 				})
-				const new_state = propagate_child_revision_increment_upward(previous, current_base)
-				expect(new_state).to.equal(current_base)
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_base)
+				expect(new_state).to.equal(previous)
+			})
+
+			it('should throw if the state has an immediate increment', () => {
+				const current_base = enforce_immutability<typeof previous>({
+					...previous,
+					own_u: 'bad!',
+				})
+				expect(() => complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_base)).to.throw('not needed')
 			})
 
 			it('should increment if sub-increments', () => {
@@ -60,7 +70,8 @@ describe(`${LIB} - utils`, function() {
 					...current_base,
 					revision: 104,
 				})
-				const new_state = propagate_child_revision_increment_upward(previous, current_base)
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_base)
+				expect(new_state).not.to.equal(previous)
 				expect(new_state).not.to.equal(current_base)
 				expect(new_state).to.deep.equal(expected)
 			})
@@ -75,32 +86,64 @@ describe(`${LIB} - utils`, function() {
 						fizz: 'hello',
 					},
 				})
-				expect(() => propagate_child_revision_increment_upward(previous, current_base))
+				expect(() => complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_base))
 					.to.throw('already incremented')
+			})
+		})
+
+		context('on a bundled state', function() {
+			const previous = DEMO_BUNDLE_STATE
+
+			it('should avoid a mutation if the state has no change at all', () => {
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, previous)
+				expect(new_state).to.equal(previous)
+			})
+
+			it('should avoid a mutation if the state has no semantic increment', () => {
+				const current_base = enforce_immutability<typeof previous>([
+					{
+						...previous[0],
+						subC: {
+							// fake mutation, in truth there was no change
+							...previous[0].subC,
+						},
+					},
+					previous[1],
+				])
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_base)
+				expect(new_state).to.equal(previous)
 			})
 		})
 
 		context('on a root state', function() {
 			const previous = DEMO_ROOT_STATE
 
-			it('should no touch the object if no change at all', () => {
-				const new_state = propagate_child_revision_increment_upward(previous, previous)
+			it('should avoid a mutation if the state has no change at all', () => {
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, previous)
 				expect(new_state).to.equal(previous)
 			})
 
-			it('should not touch the object if no sub-increments', () => {
+			it('should avoid a mutation if the state has no semantic increment', () => {
 				const current_root = enforce_immutability<typeof previous>({
 					...previous,
 					u_state: {
 						...previous.u_state,
 						subC: {
 							...previous.u_state.subC,
-							fizz: 'hello',
 						},
 					},
 				})
-				const new_state = propagate_child_revision_increment_upward(previous, current_root)
-				expect(new_state).to.equal(current_root)
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_root)
+				expect(new_state).to.equal(previous)
+			})
+
+			it('should NOT throw if the state has an immediate increment', () => {
+				// this is outside of the semantic world (should rot be abused)
+				const current_root = enforce_immutability<typeof previous>({
+					...previous,
+					own_r: 888,
+				})
+				complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_root)
 			})
 
 			it('should increment if sub-increments', () => {
@@ -122,8 +165,9 @@ describe(`${LIB} - utils`, function() {
 						revision: 104,
 					},
 				})
-				const new_state = propagate_child_revision_increment_upward(previous, current_root)
+				const new_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_root)
 				expect(new_state).not.to.equal(current_root)
+				expect(new_state).not.to.equal(previous)
 				expect(new_state).to.deep.equal(expected)
 			})
 
@@ -140,7 +184,7 @@ describe(`${LIB} - utils`, function() {
 						},
 					},
 				})
-				expect(() => propagate_child_revision_increment_upward(previous, current_root))
+				expect(() => complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous, current_root))
 					.to.throw('already incremented')
 			})
 		})

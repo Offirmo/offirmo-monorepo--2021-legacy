@@ -3,7 +3,7 @@
 import { Immutable} from '@offirmo-private/ts-types'
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
+import { complete_or_cancel_eager_mutation_propagating_possible_child_mutation } from '@offirmo-private/state-utils'
 
 /////////////////////
 
@@ -45,13 +45,14 @@ function on_start_session(previous_state: Immutable<State>, is_web_diversity_sup
 		u_state: {
 			...state.u_state,
 			last_user_action_tms: now_ms,
+
 			meta: MetaState.on_start_session(state.u_state.meta, is_web_diversity_supporter),
+
+			revision: previous_state.u_state.revision + 1,
 		},
 	}
 
 	// TODO recap here ?
-
-	state = propagate_child_revision_increment_upward(previous_state, state)
 
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
@@ -59,10 +60,9 @@ function on_start_session(previous_state: Immutable<State>, is_web_diversity_sup
 }
 
 function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: boolean, roles: Immutable<string[]> = [], now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
-	let state = previous_state
-
 	// update energy (not sure needed but good safety)
-	state = _update_to_now(state, now_ms)
+	let updated_state = _update_to_now(previous_state, now_ms)
+	let state = updated_state
 
 	state = {
 		...state,
@@ -75,12 +75,10 @@ function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: bo
 
 	// TODO engagement here ?
 
-	state = propagate_child_revision_increment_upward(previous_state, state)
+	state = _refresh_achievements(state)
+	state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous_state, state, updated_state, 'on_logged_in_refresh')
 
-	// new achievements may have appeared
-	// (new content = not the same as a migration)
-	// this may indeed cause a revision
-	return _refresh_achievements(state)
+	return state
 }
 
 function update_to_now(state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
@@ -95,9 +93,10 @@ function equip_item(previous_state: Immutable<State>, uuid: UUID, now_ms: Timest
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			inventory: InventoryState.equip_item(state.u_state.inventory, uuid),
+			revision: previous_state.u_state.revision + 1,
 		},
 	}
-	state = propagate_child_revision_increment_upward(previous_state, state)
+
 	return _refresh_achievements(state)
 }
 
@@ -109,9 +108,10 @@ function sell_item(previous_state: Immutable<State>, uuid: UUID, now_ms: Timesta
 		u_state: {
 			...state.u_state,
 			last_user_action_tms: now_ms,
+			revision: previous_state.u_state.revision + 1,
 		},
 	}
-	state = propagate_child_revision_increment_upward(previous_state, state)
+
 	return _refresh_achievements(state)
 }
 
@@ -124,9 +124,10 @@ function rename_avatar(previous_state: Immutable<State>, new_name: string, now_m
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			avatar: rename(get_lib_SEC(), state.u_state.avatar, new_name),
+			revision: previous_state.u_state.revision + 1,
 		},
 	}
-	state = propagate_child_revision_increment_upward(previous_state, state)
+
 	return _refresh_achievements(state)
 }
 
@@ -142,9 +143,10 @@ function change_avatar_class(previous_state: Immutable<State>, new_class: Charac
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			avatar: switch_class(get_lib_SEC(), state.u_state.avatar, new_class),
+			revision: previous_state.u_state.revision + 1,
 		},
 	}
-	state = propagate_child_revision_increment_upward(previous_state, state)
+
 	return _refresh_achievements(state)
 }
 
@@ -157,10 +159,9 @@ function acknowledge_engagement_msg_seen(previous_state: Immutable<State>, uid: 
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			engagement: EngagementState.acknowledge_seen(state.u_state.engagement, uid),
+			revision: previous_state.u_state.revision + 1,
 		},
 	}
-
-	state = propagate_child_revision_increment_upward(previous_state, state)
 
 	return state
 }

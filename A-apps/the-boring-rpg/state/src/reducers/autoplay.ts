@@ -3,7 +3,7 @@
 import { Immutable} from '@offirmo-private/ts-types'
 import { Random, Engine } from '@offirmo/random'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
-import { get_revision, propagate_child_revision_increment_upward } from '@offirmo-private/state-utils'
+import { get_revision, complete_or_cancel_eager_mutation_propagating_possible_child_mutation } from '@offirmo-private/state-utils'
 
 /////////////////////
 
@@ -86,11 +86,10 @@ function _autogroom(state: Immutable<State>, options: { DEBUG?: boolean } = {}):
 	return state
 }
 
-/* Autoplay,
- * as efficiently as possible,
+/* Autoplay, as efficiently as possible,
  * trying to restore as much achievements as possible
  */
-function autoplay(previous_state: Immutable<State>, options: Immutable<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Immutable<State> {
+function _autoplay(previous_state: Immutable<State>, options: Immutable<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Immutable<State> {
 	let state = previous_state
 	let { target_good_play_count, target_bad_play_count, DEBUG } = options
 
@@ -102,11 +101,9 @@ function autoplay(previous_state: Immutable<State>, options: Immutable<{ target_
 		throw new Error('invalid target_good_play_count!')
 	if (target_bad_play_count < 0)
 		throw new Error('invalid target_bad_play_count!')
-	if (target_good_play_count === 0 && target_bad_play_count === 0)
-		target_good_play_count = state.u_state.progress.statistics.good_play_count + 1
 
 	let last_visited_timestamp_num = (() => {
-		const days_needed = Math.ceil((target_good_play_count - state.u_state.progress.statistics.good_play_count) / 8)
+		const days_needed = Math.ceil((target_good_play_count - state.u_state.progress.statistics.good_play_count) / 8) // TODO magic number!!!
 		const from_now = Number(get_human_readable_UTC_timestamp_days()) - days_needed
 		return Math.min(from_now, Number(state.u_state.progress.statistics.last_visited_timestamp))
 	})()
@@ -125,6 +122,7 @@ function autoplay(previous_state: Immutable<State>, options: Immutable<{ target_
 			},
 		}
 	}
+
 	state = _autogroom(state, options)
 
 	// do we have energy?
@@ -194,7 +192,7 @@ function autoplay(previous_state: Immutable<State>, options: Immutable<{ target_
 	state = _refresh_achievements(state)
 	state = _ack_all_engagements(state)
 	if (get_revision(state) === get_revision(previous_state))
-		state = propagate_child_revision_increment_upward(previous_state, state)
+		state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous_state, state, undefined, '_autoplay')
 
 	return state
 }
@@ -203,5 +201,5 @@ function autoplay(previous_state: Immutable<State>, options: Immutable<{ target_
 
 export {
 	_autogroom,
-	autoplay,
+	_autoplay,
 }

@@ -2,8 +2,11 @@ import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 import { Immutable } from '@offirmo-private/ts-types'
 
 import {
-	BaseRootState, BaseTState,
-	BaseUState, WithSchemaVersion,
+	BaseRootState,
+	UTBundle,
+	BaseTState,
+	BaseUState,
+	WithSchemaVersion,
 } from './types'
 import { enforce_immutability } from './utils'
 
@@ -103,25 +106,59 @@ export type StateC_T = StateC_T_v5
 /////////////////////////////////////////////////
 
 export interface DemoRootState_U_v8 extends BaseUState {
+	own_u: string
+
 	subA: StateA_U
+	// no subB
 	subC: StateC_U
 }
 export interface DemoRootState_T_v8 extends BaseTState {
+	own_t: number
+
+	// no subA
 	subB: StateB_T
 	subC: StateC_T
 }
+export type DemoBundleState_v8 = UTBundle<DemoRootState_U_v8, DemoRootState_T_v8>
 export interface DemoRootState_v8 extends BaseRootState {
+	own_r: number
+
 	u_state: DemoRootState_U_v8
 	t_state: DemoRootState_T_v8
 }
 export type DemoRootState = DemoRootState_v8
 
 /////////////////////////////////////////////////
+export const DEMO_BUNDLE_v8: Immutable<DemoBundleState_v8> = enforce_immutability<DemoBundleState_v8>([
+	{
+		schema_version: 8,
+		revision: 103,
+
+		own_u: 'hello',
+
+		subA: DEMO_STATE_A_U_v2,
+		subC: DEMO_STATE_C_U_v5,
+	},
+	{
+		schema_version: 8,
+		revision: 33,
+		timestamp_ms: TEST_TIMESTAMP_MS,
+
+		own_t: 42,
+
+		subB: DEMO_STATE_B_T_v4,
+		subC: DEMO_STATE_C_T_v5,
+	},
+])
+
 export const DEMO_ROOT_v8: Immutable<DemoRootState_v8> = enforce_immutability<DemoRootState_v8>({
+	own_r: 7,
 
 	u_state: {
 		schema_version: 8,
 		revision: 103,
+
+		own_u: 'hello',
 
 		subA: DEMO_STATE_A_U_v2,
 		subC: DEMO_STATE_C_U_v5,
@@ -130,6 +167,8 @@ export const DEMO_ROOT_v8: Immutable<DemoRootState_v8> = enforce_immutability<De
 		schema_version: 8,
 		revision: 33,
 		timestamp_ms: TEST_TIMESTAMP_MS,
+
+		own_t: 42,
 
 		subB: DEMO_STATE_B_T_v4,
 		subC: DEMO_STATE_C_T_v5,
@@ -143,4 +182,5 @@ export const DEMO_BASE_STATE_WITH_SUBS = DEMO_ROOT_v8.u_state
 
 export const DEMO_USTATE = DEMO_STATE_C_U_v5
 export const DEMO_TSTATE = DEMO_STATE_C_T_v5
+export const DEMO_BUNDLE_STATE = DEMO_BUNDLE_v8
 export const DEMO_ROOT_STATE = DEMO_ROOT_v8

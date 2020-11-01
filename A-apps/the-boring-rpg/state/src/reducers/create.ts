@@ -96,6 +96,7 @@ function create(SEC?: OMRSoftExecutionContext, seed?: number): Immutable<State> 
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
 				timestamp_ms: t_state_energy.timestamp_ms,
+
 				energy: t_state_energy,
 			},
 		}
@@ -111,8 +112,7 @@ function create(SEC?: OMRSoftExecutionContext, seed?: number): Immutable<State> 
 		state = equip_item(state, starting_armor.uuid)
 
 		state = _refresh_achievements(state) // there are some initial achievements
-		// reset engagements that may have been created by noisy initial achievements
-		state = _ack_all_engagements(state)
+		state = _ack_all_engagements(state) // reset engagements that may have been created by noisy initial achievements, distracting
 
 		// now insert some relevant start engagements
 		state = {
@@ -138,7 +138,6 @@ function create(SEC?: OMRSoftExecutionContext, seed?: number): Immutable<State> 
 				...state.u_state,
 
 				// to compensate sub-functions used during creation:
-				//last_user_action_tms: get_UTC_timestamp_ms(now),
 				revision: 0,
 			},
 		}
@@ -158,10 +157,11 @@ function reseed(state: Immutable<State>, seed?: number): Immutable<State> {
 		u_state: {
 			...state.u_state,
 			prng: PRNGState.set_seed(state.u_state.prng, seed),
+			revision: state.u_state.revision + 1,
 		},
 	}
 
-	return state
+	return enforce_immutability<State>(state)
 }
 
 /////////////////////
