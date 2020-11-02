@@ -85,24 +85,31 @@ bolt ws run cheatsheet --only @oh-my-rpg/*
 ```
 
 ## clean
+```bash
 bolt clean
-  bolt ws run clean
-  bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log
+# equivalent to:
+#  bolt ws run clean
+#  bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log
+```
 
 ## updates dependencies (minor + patch)
+```bash
 nvm i
 onn
 bolt clean && rm -rf node_modules yarn.lock package-lock.json && bolt && yarn outdated     && bolt build
 bolt clean && rm -rf node_modules yarn.lock package-lock.json && bolt && bolt build
 npx yarn-tools list-duplicates yarn.lock
 yarn eslint:packages --fix
+```
 
 ## serve for dev
+```bash
 ngrok http -subdomain=offirmo 1981
 yarn serve
-//yarn puer
+```
 
 ## publish a package
+```bash
 npm adduser
 user: offirmo
 email: offirmo.net@gmail.com
