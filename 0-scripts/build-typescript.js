@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path')
+const assert = require('tiny-invariant').default
 
 const stylize_string = require('../3-advanced--node/cli-toolbox/string/stylize')
 const meow = require('../3-advanced--node/cli-toolbox/framework/meow')
@@ -23,14 +24,10 @@ const cli = meow('build', {
 
 /////////////////////
 
-// Last updated 2020/06/29
-// https://en.wikipedia.org/wiki/ECMAScript#Versions
+// Last updated 2020/11/02
 const LATEST_CONVENIENT_ES = 'ES2019' // convenient = works with most tools, such as webpack
+const LATEST_ES_OLDEST_ACTIVE_NODE_LTS = 'ES2019' // should be <= LATEST_CONVENIENT_ES
 const LATEST_ES_MODULES = 'ES2015'
-// https://nodejs.org/en/about/releases/
-const OLDEST_ACTIVE_NODE_LTS = '12' // for info
-// https://node.green/
-const LATEST_ES_OLDEST_ACTIVE_NODE_LTS = 'ES2019'
 
 /////////////////////
 
@@ -42,13 +39,13 @@ console.log(`🛠  🔻 building ${stylize_string.bold(PKG_NAME)}…` + (cli.fla
 
 const LOCAL_TSCONFIG_JSON = require(path.join(PKG_PATH, 'tsconfig.json'))
 LOCAL_TSCONFIG_JSON.compilerOptions = LOCAL_TSCONFIG_JSON.compilerOptions || {}
-console.assert(!LOCAL_TSCONFIG_JSON.compilerOptions.target)
-console.assert(!LOCAL_TSCONFIG_JSON.compilerOptions.module)
+assert(!LOCAL_TSCONFIG_JSON.compilerOptions.target, 'local tsconfig should not override "target"')
+assert(!LOCAL_TSCONFIG_JSON.compilerOptions.module, 'local tsconfig should not override "module"')
 
 const ROOT_TSCONFIG_JSON = require(path.join(__dirname, '..', '0-meta', 'tsconfig.json'))
-console.assert(ROOT_TSCONFIG_JSON.compilerOptions.target === LATEST_CONVENIENT_ES)
-console.assert(ROOT_TSCONFIG_JSON.compilerOptions.lib.includes(LATEST_CONVENIENT_ES))
-console.assert(ROOT_TSCONFIG_JSON.compilerOptions.module === LATEST_ES_MODULES)
+assert(ROOT_TSCONFIG_JSON.compilerOptions.target === LATEST_CONVENIENT_ES, 'root tsconfig and this script should be in sync: target')
+assert(ROOT_TSCONFIG_JSON.compilerOptions.lib.includes(LATEST_CONVENIENT_ES), 'root tsconfig and this script should be in sync: lib')
+assert(ROOT_TSCONFIG_JSON.compilerOptions.module === LATEST_ES_MODULES, 'root tsconfig and this script should be in sync: module')
 
 /////////////////////
 

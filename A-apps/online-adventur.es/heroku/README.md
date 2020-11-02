@@ -54,4 +54,5 @@ heroku addons --app online-adventures-staging
 A-apps/online-adventur.es/heroku/Procfile <-- XXX any change to this path must be reflected in Heroku ENV vars "PROCFILE"!
 
 Node version
-- seen 12.18.3 = latest 12.x  2020/09/06
+- 2020/11/02 seen 12.19
+- 2020/09/06 seen 12.18.3 = latest 12.x

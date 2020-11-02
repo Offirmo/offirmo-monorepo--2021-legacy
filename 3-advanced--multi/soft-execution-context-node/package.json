@@ -6,10 +6,6 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"engines": {
-		"node": ">=8.5"
-	},
-
 	"esnext": "src/index.js",
 	"module": "src/index.js",
 	"main":   "src/index.js",

@@ -9,6 +9,8 @@ The public modules in this mono-repo ase exposed as:
 - as a convenience, pre-built CJS for latest ES (https://node.green/)
   supported by the oldest active LTS node (https://nodejs.org/en/about/releases/ or https://github.com/nodejs/Release)
 - for modules in Typescript, trying to use the latest Typescript, best effort.
+- while webpack is not used in this repo(*), we acknowledge that it's widely used and thus aim to support its latest version
+  - unfortunately we have an old webpack for netlify-lambda
 
 See below more exact numbers.
 
@@ -18,19 +20,44 @@ Notes:
 * when updating here, also update `0-scripts/build-typescript.js`
 * when updating node, also update
   * `.nvmrc`
-  * `engines` from root `package.json`
-  * `@types/node`
+  * `engines` from root `package.json` = `"node":`
+  * `"@types/node"`
+  * `tsconfig.json`: `"lib":`
+  * replace in `package.json`: `src.es202x`
+  * `A-apps/online-adventur.es/heroku/.babelrc`
+  * `A-apps/online-adventur.es/functions/.babelrc`
 
-### FUTURE update 2020-10-20
-oldest active LTS node is no longer 12, now 14
 
 ### FUTURE update ???
-https://webpack.js.org/blog/2020-10-10-webpack-5-release/
-webpack 5 featuring Acorn 7 released = able to parse ES2020
-https://github.com/webpack/webpack/milestone/18
+- 2021/10/26 oldest active LTS node 14 → 16  https://nodejs.org/en/about/releases/
+- ??? webpack release 5 → 6  https://github.com/webpack/webpack/milestones
+- ??? new ES 2020 → 2021
+
+### update 2020-10-20
+- 2020/10/27 oldest active LTS node 12 → 14
+- 2020/10/10 webpack release 4 → 5
+
+Updated state:
+* latest ES = [ES2020](https://en.wikipedia.org/wiki/ECMAScript#Versions)
+* oldest active LTS node = [14](https://nodejs.org/en/about/releases/)    ___⬅CHANGE___
+* latest ES supported by this node LTS = [ES2020](https://node.green/#ES2019)   ___⬅CHANGE___
+* latest ES syntax supported by Webpack (= Acorn supports it + webpack bumped Acorn) = ES2020   ___⬅CHANGE___
+  * latest webpack version = [5](https://webpack.js.org/)   ___⬅CHANGE___
+  * version of Acorn in this webpack version = [^8](https://github.com/webpack/webpack/blob/master/package.json)   ___⬅CHANGE___
+  * latest ES syntax supported by this Acorn = [2020](https://github.com/acornjs/acorn/tree/master/acorn)   ___⬅CHANGE___
+* (special use) latest ES syntax suuported by netlify-lambda = ES2019
+  * latest netlify-lambda version = [2.01](https://github.com/netlify/netlify-lambda)
+  * version of webpack in this version = [4](https://github.com/netlify/netlify-lambda/blob/master/package.json)
+  * version of Acorn in this webpack version = [^6](https://github.com/webpack/webpack/blob/webpack-4/package.json)
+  * latest ES syntax supported by this Acorn = ~[2019](https://github.com/acornjs/acorn/tree/6.x/acorn)
+* FYI compilers/polyfills https://kangax.github.io/compat-table/es2016plus/
+
+= latest supported node = 14    ___⬅CHANGE___
+= latest convenient ES = 2019 (:sad: due to netlify-lambda)
 
 ### update 2020-06-28
-ES2020 approved https://github.com/tc39/ecma262/releases/tag/es2020
+- 2020/06 ES2020 approved https://github.com/tc39/ecma262/releases/tag/es2020
+
 * latest ES = [ES2020](https://en.wikipedia.org/wiki/ECMAScript#Versions)
 * oldest active LTS node = [12](https://nodejs.org/en/about/releases/)
 * latest ES supported by this node LTS = [ES2019](https://node.green/#ES2019)

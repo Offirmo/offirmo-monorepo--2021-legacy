@@ -64,6 +64,8 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: ${action.type} ⚡ ———————`)
 			schedule_when_idle_but_not_too_far(console.groupEnd)
 
+			//logger.trace('current state:', { action: debug })
+
 			const { time, ...debug } = action
 			logger.log('⚡ action dispatched:', { action: debug })
 
