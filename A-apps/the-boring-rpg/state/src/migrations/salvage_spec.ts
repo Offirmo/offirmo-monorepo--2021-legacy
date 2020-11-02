@@ -154,7 +154,7 @@ describe(`${LIB} - salvaging of an outdated savegame`, function() {
 
 		expect(salvaged_state.u_state.avatar.name.startsWith('A')).to.be.true
 		expect(salvaged_state.u_state.avatar.klass).not.to.equal('novice')
-		expect(salvaged_state.u_state.progress.statistics.good_play_count, 'good').to.equal(1)
+		expect(salvaged_state.u_state.progress.statistics.good_play_count, 'good').to.equal(0)
 		expect(salvaged_state.u_state.progress.statistics.bad_play_count, 'bad').to.equal(0)
 	})
 

@@ -24,12 +24,15 @@ describe(`${LIB} - reducer`, function() {
 
 	describe('autoplay', function() {
 
-		it('should allow playing a huge number of time (interface 1)', () => {
+		it('should allow playing a huge number of time (repeated invocation)', () => {
 			let state = create()
 
 			try {
 				for (let i = 0; i < 1000; ++i) {
-					state = _autoplay(state, { DEBUG: false })
+					state = _autoplay(state, {
+						DEBUG: false,
+						target_good_play_count: i+1,
+					})
 				}
 			}
 			catch (err) {
@@ -42,7 +45,7 @@ describe(`${LIB} - reducer`, function() {
 			expect(state.u_state.progress.statistics.bad_play_count).to.equal(0)
 		})
 
-		it('should automatically make good decisions (interface 2)', () => {
+		it('should automatically make good decisions (bulk)', () => {
 			let state = create()
 
 			try {
@@ -56,6 +59,9 @@ describe(`${LIB} - reducer`, function() {
 			}
 
 			//dump_prettified_any('success', state)
+			expect(state.u_state.progress.statistics.good_play_count).to.equal(1000)
+			expect(state.u_state.progress.statistics.bad_play_count).to.equal(0)
+
 			expect(state.u_state.avatar.klass).not.to.equal('novice')
 			expect(is_inventory_full(state.u_state), 'inventory full').to.be.false
 			const equipped_armor: Armor = state.u_state.inventory.slotted[InventorySlot.armor]!
@@ -66,7 +72,7 @@ describe(`${LIB} - reducer`, function() {
 			expect(matches_armor(equipped_armor, STARTING_ARMOR_SPEC), 'no longer starting armor').to.be.false
 		})
 
-		it('should allow auto-looping with good and bad (interface 2)', () => {
+		it('should allow auto-looping with good and bad (bulk)', () => {
 			let state = create()
 
 			try {

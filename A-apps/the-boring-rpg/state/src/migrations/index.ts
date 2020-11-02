@@ -79,7 +79,12 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Im
 export const cleanup: CleanupStep<State> = (SEC, state, hints) => {
 	let has_change = false
 
-	// useful if the achievements were modified
+	// HACK
+	// new achievements may appear thanks to new content !== migration
+	// this is covered semantically in ~start_session()
+	// HOWEVER if we don't do it here,
+	// it makes it difficult to test the migration of old savegames with less content.
+	// HENCE we refresh the achievements here, for test simplicity, even when it's not 100% semantic
 	state = _refresh_achievements(state)
 
 	let { u_state, t_state } = state

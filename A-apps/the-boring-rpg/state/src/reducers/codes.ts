@@ -35,8 +35,11 @@ import { reseed } from './create'
 
 /////////////////////
 
-function attempt_to_redeem_code(state: Immutable<State>, code: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
-	let previous_state: Immutable<State> | null = state
+function attempt_to_redeem_code(_state: Immutable<State>, code: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Immutable<State> {
+	let previous_state: Immutable<State> | null = _state // allow null for special manipulation such as reset
+	let updated_state: Immutable<State> | null = _state // for now
+	let state: Immutable<State> = _state // for now
+
 	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed'] // so far
 	const engagement_params: any = {}
 
@@ -48,7 +51,8 @@ function attempt_to_redeem_code(state: Immutable<State>, code: string, now_ms: T
 		// will trigger an engagement rejection below
 	}
 	else {
-		state = _update_to_now(state, now_ms)
+		updated_state = _update_to_now(previous_state, now_ms) // need to compare to an updated
+		state = updated_state
 		state = {
 			...state,
 			u_state: {
@@ -187,7 +191,7 @@ function attempt_to_redeem_code(state: Immutable<State>, code: string, now_ms: T
 				break
 
 			case 'REBORNX':
-				previous_state = null // since we completely recreate the state
+				previous_state = updated_state = null // since we completely recreate the state
 				state = reseed(state) // force random reseed to see new stuff
 				state = reset_and_salvage(state as any)
 				u_state = state.u_state
@@ -198,7 +202,7 @@ function attempt_to_redeem_code(state: Immutable<State>, code: string, now_ms: T
 				}
 				break
 			case 'REBORN':
-				previous_state = null // since we completely recreate the state
+				previous_state = updated_state = null // since we completely recreate the state
 				state = reset_and_salvage(state as any)
 				u_state = state.u_state
 				t_state = state.t_state
@@ -260,9 +264,12 @@ function attempt_to_redeem_code(state: Immutable<State>, code: string, now_ms: T
 		},
 	}
 
-	state = propagate_child_revision_increment_upward(previous_state, state)
+	state = _refresh_achievements(state)
 
-	return _refresh_achievements(state)
+	if (previous_state)
+		state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous_state, state, updated_state || undefined, `attempt_to_redeem_code(${code})`)
+
+	return state
 }
 
 /////////////////////

@@ -23,9 +23,8 @@ import { _refresh_achievements } from '../achievements'
 
 // note: allows passing an explicit adventure archetype for testing
 function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms(), explicit_adventure_archetype_hid?: string): Immutable<State> {
-	let state = _update_to_now(previous_state, now_ms)
-
-	//let { u_state, t_state } = state
+	let updated_state = _update_to_now(previous_state, now_ms)
+	let state = updated_state
 
 	const is_good_play = will_next_play_be_good_at(state, now_ms)
 
@@ -48,7 +47,7 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 			u_state: {
 				...state.u_state,
 				energy: u,
-				revision: state.t_state.revision + 1,
+				// revision will be incremented below
 			},
 			t_state: {
 				...state.t_state,
@@ -76,17 +75,6 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 				'side_quests',
 				'fight_won_coins',
 			][good_play_count]
-
-
-			//
-			//
-			//
-			//
-			//
-			//
-			//
-			//
-			//
 		}
 	}
 
@@ -102,6 +90,7 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 		u_state: {
 			...u_state,
 			last_user_action_tms: now_ms,
+			revision: state.u_state.revision + 1,
 			progress: ProgressState.on_played(u_state.progress, {
 				good: is_good_play,
 				adventure_key: u_state.last_adventure!.hid,
@@ -115,7 +104,6 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 			}),
 		},
 	}
-	state = propagate_child_revision_increment_upward(previous_state, state)
 
 	return _refresh_achievements(state)
 }
