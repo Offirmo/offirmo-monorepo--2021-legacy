@@ -22,7 +22,7 @@
 	},
 
 	"devDependencies": {
-		"@types/node": "^12",
+		"@types/node": "^14",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

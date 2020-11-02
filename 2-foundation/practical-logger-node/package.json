@@ -52,7 +52,7 @@
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^6",
 		"@size-limit/preset-small-lib": "^4",
-		"@types/node": "^12",
+		"@types/node": "^14",
 		"np": "^6",
 		"npm-run-all": "^4"
 	},
