@@ -6,8 +6,8 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"engines": {
-		"node": "12.x"
+	"XXXengines": {
+		"node": "12.x // we can't restrict node version to != root version, breaks bolt :-( Also we don't have control on the heroku node selection, can't restrict too much."
 	},
 	"main": "dist/src.es2019.cjs/index.js",
 
