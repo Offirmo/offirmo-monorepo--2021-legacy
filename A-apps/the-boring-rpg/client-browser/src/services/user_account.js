@@ -75,13 +75,21 @@ function _ↆrefresh_login_state() {
 					{ timeoutMs: 30 * 1000 }
 				)
 			})
-			.then(function _forward_logged_in_details_to_game_state() {
-				logger.info('NetlifyIdentity: user refreshed (2/2)', user)
-				get_game_instance().commands.on_logged_in_refresh(
-					true,
-					user.app_metadata.roles,
-				)
-			})
+			.then(
+				function _forward_logged_in_details_to_game_state() {
+					logger.info('NetlifyIdentity: user refreshed (2a/2)', user)
+					get_game_instance().commands.on_logged_in_refresh(
+						true,
+						user.app_metadata.roles,
+					)
+				},
+				function _forward_NON_logged_in_to_game_state() {
+					logger.info('NetlifyIdentity: user refreshed (2b/2)', user)
+					get_game_instance().commands.on_logged_in_refresh(
+						false,
+					)
+				},
+			)
 			.catch(err => {
 				logger.error('NetlifyIdentity⚡ on trying to finalize user', err)
 				/* swallow the error */
@@ -136,9 +144,10 @@ export default function init(SEC = getRootSEC()) {
 
 		schedule_when_idle_but_not_too_far(() => {
 			load_script_from_top('https://identity.netlify.com/v1/netlify-identity-widget.js')
-				.then(() => {
+				.then(function _attach_netlify_to_global_scope() {
 					console.log('✅ netlify script loaded from top')
-					return execute_from_top((prefix) => {
+
+					const ↆattachment_to_global_scope_scheduled = execute_from_top((prefix) => {
 						console.log(`${prefix} following netlify loaded…`, window, window.netlifyIdentity, window.oᐧextra)
 						if (!window.netlifyIdentity || !window.oᐧextra) {
 							console.log('following netlify loaded: incorrect environment! Can’t finish loading!')
@@ -146,30 +155,25 @@ export default function init(SEC = getRootSEC()) {
 						}
 						window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
 					}, get_log_symbol(get_top_ish_window()) + ' ← ' + get_log_symbol())
-						.then(() => {
-							return new Promise((resolve, reject) => {
-								schedule_when_idle_but_not_too_far(() => {
-									try {
-										assert(window.oᐧextra.netlifyIdentity, 'window.oᐧextra.netlifyIdentity ✓')
-										ↆNetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
-										resolve()
-									}
-									catch (err) {
-										reject(err)
-									}
-								})
-							})
-						})
+
+					// setTimeout() should suffice but give extra margin
+					const ↆattachment_to_global_scope_executed_and_succeeded = ↆattachment_to_global_scope_scheduled.then(() => {
+						return poll(
+							() => !!oᐧextra.netlifyIdentity,
+							{ timeoutMs: 2 * 1000 }
+						)
+					})
+
+					return ↆattachment_to_global_scope_executed_and_succeeded
 				})
-				.catch((err = new Error('load_script_from_top() netlify failed!'))=> {
-					//console.error('netlify failed to load:', err)
-					ↆNetlifyIdentity.reject(err)
-					// swallow
-				})
+				.then(
+					() => ↆNetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity),
+					(err = new Error('load_script_from_top() netlify failed!')) => ↆNetlifyIdentity.reject(err),
+				)
 		})
 
 		ↆNetlifyIdentity.then(() => {
-			logger.verbose('NetlifyIdentity lib loaded ✅')
+			logger.verbose('NetlifyIdentity lib loaded and installed ✅')
 			_ↆrefresh_login_state() // needed if the user is already logged in
 		}, () => {})
 
@@ -188,11 +192,11 @@ export default function init(SEC = getRootSEC()) {
 				_ↆrefresh_login_state()
 			})
 
-			NetlifyIdentity.on('error', err => {
+			NetlifyIdentity.on('error', (err = new Error('Unknown NetlifyIdentity error!')) => {
 				logger.error('NetlifyIdentity⚡ error', err)
 				// TODO state to error?
+				// let's see in Sentry reports if this to happen
 				throw err // rethrow, to be caught by Sentry
-				// let's see if Sentry reports this to happen
 			})
 
 			NetlifyIdentity.on('open', () => {
@@ -206,9 +210,32 @@ export default function init(SEC = getRootSEC()) {
 	})
 }
 
+////////////////////////
+
+function open_ui() {
+	ↆNetlifyIdentity.then(() => {
+		request_redirect(window.location.href)
+		execute_from_top((prefix) => {
+			console.log(`${prefix} netlify open…`)
+			window.netlifyIdentity.open()
+		}, get_log_symbol(get_top_ish_window()) + ' ← ' + get_log_symbol())
+	}, () => {})
+}
+
+function log_out() {
+	ↆNetlifyIdentity.then(() => {
+		execute_from_top((prefix) => {
+			console.log(`${prefix} netlify logout…`)
+			window.netlifyIdentity.logout()
+		}, get_log_symbol(get_top_ish_window()) + ' ← ' + get_log_symbol())
+	}, () => {})
+}
+
+////////////////////////
+
 export {
-	get_netlify_user_name,
-	request_redirect,
-	ↆNetlifyIdentity,
 	init,
+	open_ui,
+	log_out,
+	get_netlify_user_name,
 }

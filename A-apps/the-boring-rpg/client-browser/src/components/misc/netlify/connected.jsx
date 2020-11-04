@@ -3,7 +3,7 @@ import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import get_game_instance from '../../../services/game-instance-browser'
-import { ↆNetlifyIdentity, request_redirect } from '../../../services/user_account'
+import { open_ui as open_netlify_identity_ui, log_out } from '../../../services/user_account'
 import { AppStateContext } from '../../../context'
 
 import View from './component'
@@ -11,14 +11,11 @@ import View from './component'
 
 
 function on_click_on_signin_button() {
-	ↆNetlifyIdentity.then(NetlifyIdentity => {
-		request_redirect(window.location.href)
-		NetlifyIdentity.open()
-	}, () => {})
+	open_netlify_identity_ui()
 }
 
 function on_request_logout() {
-	ↆNetlifyIdentity.then(NetlifyIdentity => NetlifyIdentity.logout(), () => {})
+	log_out()
 }
 
 
