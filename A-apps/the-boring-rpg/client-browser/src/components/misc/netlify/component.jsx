@@ -3,7 +3,7 @@ import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { ACCOUNT_STATE } from '../../../services/game-instance-browser'
-import { get_name } from '../../../services/user_account'
+import { get_netlify_user_name } from '../../../services/user_account'
 
 import './index.css'
 
@@ -34,7 +34,7 @@ export default class NetlifyLoggedIndicator extends Component {
 			case ACCOUNT_STATE.logged_in:
 				content = (
 					<Fragment>
-						Logged in as: {get_name(user) || '(pending…)'}
+						Logged in as: {get_netlify_user_name(user) || '(pending…)'}
 						<button onClick={on_request_logout}>log out</button>
 					</Fragment>
 				)

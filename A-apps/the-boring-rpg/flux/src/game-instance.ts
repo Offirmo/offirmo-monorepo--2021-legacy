@@ -48,6 +48,7 @@ interface CreateParams<T extends AppState> {
 }
 function create_game_instance<T extends AppState>({SEC, local_storage, app_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}) => {
+		logger.trace(`${LIB}.create_game_instance()…`)
 
 		const emitter = new EventEmitter.Typed<{
 			[Event.model_change]: string,
@@ -55,8 +56,59 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 		}>()
 
 		/////////////////////////////////////////////////
+		logger.trace(`[${LIB}] linking the flux architecture = dispatcher and stores…`)
 
-		const _dispatcher = create_dispatcher()
+		const _dispatcher = create_dispatcher(SEC)
+
+		const in_memory_store = create_store__in_memory(SEC)
+		_dispatcher.register_store(in_memory_store)
+
+		// this special store will auto un-persist a potentially existing savegame
+		// but may end up empty if none existing so far
+		// the savegame may also be outdated.
+		const persistent_store = create_store__local_storage(SEC, local_storage, _dispatcher)
+		_dispatcher.register_store(persistent_store)
+
+		const cloud_store = create_store__cloud_storage(SEC, local_storage, _dispatcher)
+		_dispatcher.register_store(cloud_store)
+
+		/////////////////////////////////////////////////
+
+		try {
+			// arguably this is not 100% flux
+			// but this should be good enough
+			const recovered_state: any = persistent_store.get()
+			assert(!!recovered_state, 'ls get defined')
+			logger.trace(`[${LIB}] restoring the state from the content of persistent_store… (incl. update to now)`)
+			// TODO should we update to now?
+			_dispatcher.set(TBRPGState.update_to_now(recovered_state))
+		}
+		catch (err) {
+			const new_game = TBRPGState.reseed(TBRPGState.create(SEC))
+			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
+			_dispatcher.set(new_game)
+		}
+		logger.silly(`[${LIB}] initial state:`, { state: in_memory_store.get() })
+
+		////////////////////////////////////
+
+		app_state = app_state || ({} as any as T)
+
+		in_memory_store.subscribe('game-instance', () => {
+			emitter.emit(Event.model_change, `[in-mem-v2]`)
+		})
+
+		emitter.on(Event.model_change, (src: string) => {
+			app_state = {
+				...(app_state as any),
+				model: in_memory_store.get(),
+			}
+			emitter.emit(Event.view_change, `model.${src}`)
+		})
+
+		emitter.emit(Event.model_change, 'init')
+
+		////////////////////////////////////
 
 		function dispatch(action: Action) {
 			if (action.type !== 'update_to_now') console.groupEnd()
@@ -82,64 +134,6 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			_dispatcher.dispatch(action)
 		}
 
-		function _set(new_state: Immutable<State>) {
-			//in_memory_store.set(new_state)
-			//persistent_store.set(new_state)
-
-			_dispatcher.set(new_state)
-		}
-
-		/////////////////////////////////////////////////
-
-		const in_memory_store = create_store__in_memory(SEC)
-		_dispatcher.register_store(in_memory_store)
-
-		// this special store will auto un-persist a potentially existing savegame
-		// but may end up empty if none existing so far
-		// the savegame may also be outdated.
-		const persistent_store = create_store__local_storage(SEC, local_storage, _dispatcher)
-		_dispatcher.register_store(persistent_store)
-
-		const cloud_store = create_store__cloud_storage(SEC, local_storage, _dispatcher)
-		_dispatcher.register_store(cloud_store)
-
-		/////////////////////////////////////////////////
-
-		try {
-			// arguably this is not 100% flux
-			// but this should be good enough
-			const recovered_state: any = persistent_store.get()
-			assert(!!recovered_state, 'ls get defined')
-			_set(TBRPGState.update_to_now(recovered_state))
-
-		}
-		catch (err) {
-			const new_game = TBRPGState.reseed(TBRPGState.create(SEC))
-			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
-			_set(new_game)
-		}
-		logger.silly(`[${LIB}] initial state:`, { state: in_memory_store.get() })
-
-		////////////////////////////////////
-
-		app_state = app_state || ({} as any as T)
-
-		in_memory_store.subscribe('game-instance', () => {
-			emitter.emit(Event.model_change, `[in-mem-v2]`)
-		})
-
-		emitter.on(Event.model_change, (src: string) => {
-			app_state = {
-				...(app_state as any),
-				model: in_memory_store.get(),
-			}
-			emitter.emit(Event.view_change, `model.${src}`)
-		})
-
-		emitter.emit(Event.model_change, 'init')
-
-		////////////////////////////////////
-
 		return {
 			commands: {
 				...get_commands(dispatch),
@@ -160,7 +154,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 					const new_state = TBRPGState.reseed(TBRPGState.create())
 					logger.info('Savegame reseted:', { new_state })
 
-					_set(new_state)
+					_dispatcher.set(new_state)
 				},
 
 				subscribe(id: string, fn: () => void): () => void {

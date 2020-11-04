@@ -15,8 +15,10 @@ const EMITTER_EVT = 'change'
 export function create(
 	SEC: OMRSoftExecutionContext,
 ): Store {
-	const LIB = `Store--in-mem-v2`
+	const LIB = `Store--in-mem`
 	return SEC.xTry(`creating ${LIB}…`, ({ logger }) => {
+		logger.trace(`${LIB}.create()…`)
+
 		let state: Immutable<State> | undefined = undefined
 
 		const emitter = new EventEmitter.Typed<{}, 'change'>()

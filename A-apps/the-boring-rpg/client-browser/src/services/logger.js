@@ -12,7 +12,6 @@ const logger = getLogger({
 	suggestedLevel: 'error',
 })
 
-
 logger.verbose(`Hello from "${LIB}" v${ENGINE_VERSION} from ${BUILD_DATE}! Logger up with level = "${logger.getLevel()}" ✔`)
 
 // test

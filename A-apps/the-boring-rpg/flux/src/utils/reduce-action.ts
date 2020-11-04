@@ -10,7 +10,7 @@ import { LIB } from '../consts'
 
 const KNOWN_ACTIONS_COUNT = 13
 if (KNOWN_ACTIONS_COUNT !== Enum.keys(ActionType).length)
-	throw new Error(`${LIB}: reduce_action() is outdated! ${Enum.keys(ActionType).length} vs. ${KNOWN_ACTIONS_COUNT}`)
+	throw new Error(`[${LIB}] reduce_action() is outdated! ${Enum.keys(ActionType).length} vs. ${KNOWN_ACTIONS_COUNT}`)
 
 function reduce_action(state: Immutable<State>, action: Immutable<Action>): Immutable<State> {
 	if (!are_ustate_revision_requirements_met(state, action.expected_revisions)) {

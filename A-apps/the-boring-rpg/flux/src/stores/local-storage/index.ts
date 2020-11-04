@@ -80,8 +80,9 @@ export function create(
 	storage: Storage,
 	dispatcher?: Dispatcher,
 ): Store {
-	const LIB = `Store--local-storage-v2`
+	const LIB = `Store--local`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
+		logger.trace(`${LIB}.create()…`)
 		logger.verbose(`[${LIB}] FYI storage keys = "${Object.values(StorageKey).join(', ')}"`)
 
 		let state: Immutable<State> | undefined = undefined
@@ -97,7 +98,7 @@ export function create(
 
 		function _store_key_value(key: string, json: any): void {
 			const value = stable_stringify(json)
-			logger.trace(`[${LIB}] 💾 writing "${key}"…`, { base: get_base_loose(json)})
+			logger.trace(`[${LIB}] 💾 writing "${key}"…`, get_base_loose(json))
 			storage.setItem(key, value)
 			logger.trace(`[${LIB}] 💾 written "${key}" ✔`, { /*snapshot: JSON.parse(value)*/ })
 		}
@@ -165,6 +166,7 @@ export function create(
 				}
 			}
 			while(recovered_states_unmigrated_ordered.length) {
+				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): since there was a change, moving restored states along the major bkp pipeline…`)
 				const some_legacy_state = recovered_states_unmigrated_ordered.shift()
 				if (get_schema_version_loose(some_legacy_state) < SCHEMA_VERSION)
 					promises.push(_enqueue_in_major_bkp_pipeline(some_legacy_state))
@@ -176,7 +178,7 @@ export function create(
 
 		// EXPECTED: values are presented from the oldest to the newest!
 		async function _enqueue_in_major_bkp_pipeline(legacy_state?: Readonly<any>): Promise<boolean> {
-			logger.trace('_enqueue_in_major_bkp_pipeline()', get_base_loose(legacy_state as any))
+			logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline()`, get_base_loose(legacy_state as any))
 
 			const most_recent_previous_major_version = bkp__older[0]
 			const semantic_difference = get_semantic_difference(legacy_state, most_recent_previous_major_version)
@@ -196,8 +198,12 @@ export function create(
 				default:
 					throw new Error(`Unexpected difference when injecting into the major bkp pipeline: "${semantic_difference}"!`)
 			}
+			logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline(): saving major`, get_base_loose(bkp__older[0] as any))
 			await _optimized_store_key_value(StorageKey.bkp_major_old, bkp__older[0])
-			if (bkp__older[1]) await _optimized_store_key_value(StorageKey.bkp_major_older, bkp__older[1])
+			if (bkp__older[1]) {
+				logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline(): saving major-1`, get_base_loose(bkp__older[1] as any))
+				await _optimized_store_key_value(StorageKey.bkp_major_older, bkp__older[1])
+			}
 
 			return true
 		}
@@ -219,7 +225,7 @@ export function create(
 				.sort(compare_state)
 
 			if (recovered_states_unmigrated_ordered.length)
-				logger.trace(`[${LIB}] found past backups`, {
+				logger.trace(`[${LIB}] found ${recovered_states_unmigrated_ordered.length} past backups:`, {
 					...((bkp__current || bkp__recent) && { main: bkp__current || bkp__recent }),
 					...(bkp__older[0] && { major_1: bkp__older[0]}),
 					...(bkp__older[1] && { major_1: bkp__older[1]}),
@@ -232,7 +238,7 @@ export function create(
 			}
 			else {
 				logger.trace(`[${LIB}] found candidate state to be restored`, get_base_loose(most_recent_unmigrated_bkp))
-				logger.trace(`[${LIB}] automigrating restored state…`)
+				logger.trace(`[${LIB}] automigrating and restoring this candidate state…`)
 
 				// memorize it for later
 				restored_migrated = TBRPGState.migrate_to_latest(SEC,
@@ -246,8 +252,12 @@ export function create(
 				set(restored_migrated)
 
 				if (dispatcher) {
-					// ASYNC so that the synchronous code has time to finish plugging all the stores
-					asap_but_not_synchronous(() => dispatcher.dispatch(create_action__set(restored_migrated!)))
+					// NO!
+					// - We can't do it SYNC because all the stores may not be plugged in yet
+					// - We can't do it ASYNC because dependents would need to wait with sth like a promise
+					// Eventually, we let the caller (plugging stores to dispatcher) do it.
+					//logger.trace(`[${LIB}] forwarding the restored state to the dispatcher…`)
+					//dispatcher.dispatch(create_action__set(restored_migrated!))
 				}
 			}
 		}
@@ -259,7 +269,13 @@ export function create(
 
 		function set(new_state: Immutable<State>): void {
 			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
-			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), semantic_difference })
+			logger.trace(`${LIB}.set()`, {
+				...get_base_loose(new_state),
+				...(state
+					? { previous: get_base_loose(state), semantic_difference }
+					: { previous: null }
+				),
+			})
 
 			if (!state) {
 				logger.trace(`${LIB}.set(): init ✔`)

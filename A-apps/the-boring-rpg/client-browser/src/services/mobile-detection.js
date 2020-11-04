@@ -1,3 +1,5 @@
+'use strict'
+
 import memoize_one from 'memoize-one'
 
 /////////////////////////////////////////////////
@@ -22,7 +24,6 @@ const is_likely_to_be_mobile = memoize_one(function is_likely_to_be_mobile() {
 
 	return is_mobile
 })
-
 
 export {
 	is_likely_to_be_mobile,

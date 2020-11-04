@@ -39,9 +39,10 @@ TODO Cancellation tokens?
 import { asap_but_not_synchronous } from '@offirmo-private/async-utils'
 import { asap_but_out_of_current_event_loop } from '@offirmo-private/async-utils'
 import { asap_but_out_of_immediate_execution } from '@offirmo-private/async-utils'
-import { elapsed_time_ms, end_of_current_event_loop, next_idle, all_planned_idle_executed } from '@offirmo-private/async-utils'
 import { schedule_when_idle_but_within_human_perception } from '@offirmo-private/async-utils'
 import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
+
+import { elapsed_time_ms, end_of_current_event_loop, next_idle, all_planned_idle_executed } from '@offirmo-private/async-utils'
 
 await end_of_current_event_loop()
 ```

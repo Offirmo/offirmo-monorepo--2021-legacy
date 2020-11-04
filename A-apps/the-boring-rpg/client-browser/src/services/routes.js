@@ -1,7 +1,11 @@
+'use strict'
+
 import logger from './logger'
 
 // auto-detect basename, correctly ignoring dynamic routes
-const BASE_ROUTE = (pathname => {
+export function get_base_route() {
+	const pathname = window.location.pathname
+
 	//console.log(`computing BASE_ROUTE from pathname = "${pathname}"…`)
 	// stable point, everything after is likely to be a route
 	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = (() => {
@@ -32,12 +36,12 @@ const BASE_ROUTE = (pathname => {
 		base_route,
 	})*/
 
+	logger.verbose(`BASE_ROUTE = "${base_route}"`)
+
 	return base_route
-})(window.location.pathname)
-logger.verbose(`BASE_ROUTE = "${BASE_ROUTE}"`)
+}
 
-
-const ROUTES = {
+export const ROUTES = {
 	// special routes
 	index: '/index-2.html', // technical route for redirection TODO auto from current file?
 
@@ -47,9 +51,4 @@ const ROUTES = {
 	dev: '/dev',
 	diagnostic: '/diag',
 	x: '/x',
-}
-
-export {
-	BASE_ROUTE,
-	ROUTES,
 }

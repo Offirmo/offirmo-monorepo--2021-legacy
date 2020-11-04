@@ -6,7 +6,7 @@ import { MemoryRouter as Router, Redirect, Route, Switch } from 'react-router-do
 import { get_xoff_flag, set_xoff_flag } from '@offirmo-private/xoff'
 
 import get_game_instance from '../services/game-instance-browser'
-import { BASE_ROUTE, ROUTES } from '../services/routes'
+import { get_base_route, ROUTES } from '../services/routes'
 import { CHANNEL } from '../services/channel'
 import { AppStateListenerAndProvider } from '../context'
 
@@ -66,12 +66,14 @@ export default class Root extends Component {
 	static propTypes = {
 	}
 
+	BASE_ROUTE = get_base_route()
+
 	render() {
 		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 Root')
 		return (
 			<Fragment>
 
-				<Router basename={BASE_ROUTE}>
+				<Router basename={this.BASE_ROUTE}>
 					<Switch>
 						<Route exact path={ROUTES.home} render={render_home} />
 						<Route exact path={ROUTES.savegame} render={render_savegame} />

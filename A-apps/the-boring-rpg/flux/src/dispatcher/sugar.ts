@@ -94,7 +94,7 @@ export function get_commands(
 			dispatch(action)
 		},
 
-		start_game() { throw new Error(`${LIB}: unexpected command !`)},
+		start_game() { throw new Error(`[${LIB}] unexpected command !`)},
 		on_start_session(is_web_diversity_supporter: boolean, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionStartSession = {
 				time,
@@ -143,7 +143,7 @@ export function get_commands(
 	}
 
 	if (Object.keys(commands).length !== KNOWN_ACTIONS)
-		throw new Error(`${LIB}: commands are outdated!`)
+		throw new Error(`[${LIB}] commands are outdated!`)
 
 	return commands
 }

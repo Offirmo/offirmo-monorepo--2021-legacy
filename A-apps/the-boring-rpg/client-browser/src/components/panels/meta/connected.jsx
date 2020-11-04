@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 
 import { UStateListenerAndProvider } from '../../../context'
-import {ROUTES} from '../../../services/routes'
+import { ROUTES } from '../../../services/routes'
 
 import View from './component'
 import get_game_instance from '../../../services/game-instance-browser'

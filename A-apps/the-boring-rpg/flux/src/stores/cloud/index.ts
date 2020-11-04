@@ -41,8 +41,10 @@ export function create(
 	storage: Storage,
 	dispatcher?: Dispatcher,
 ): Store {
-	const LIB = `Store--cloud-storage-v2`
+	const LIB = `Store--cloud`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger, CHANNEL}) => {
+		logger.trace(`${LIB}.create()…`)
+
 		const is_enabled = overrideHook('cloud_save_enabled', false)
 		logger.verbose(`[${LIB}] FYI API URL = "${get_api_base_url(CHANNEL as any)}"`)
 
@@ -107,7 +109,6 @@ export function create(
 			logger.warn(`[${LIB}] _sync_with_cloud() TODO handle result`, result)
 		}
 
-
 		async function recover_from_cloud() {
 			logger.verbose(`${LIB} initiating cloud restoration (will take time)…`)
 			fetch_oa<void, State>({
@@ -123,6 +124,10 @@ export function create(
 				.catch(_on_error)
 				// TODO periodically retry
 		}
+
+		/////////////////////////////////////////////////
+
+		logger.trace(`[${LIB}] store is empty, waiting for an init+being logged in before triggering a sync.`)
 
 		/////////////////////////////////////////////////
 

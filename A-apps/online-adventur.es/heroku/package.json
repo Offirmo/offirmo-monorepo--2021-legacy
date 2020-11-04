@@ -7,7 +7,7 @@
 	"private": true,
 
 	"XXXengines": {
-		"node": "12.x // we can't restrict node version to != root version, breaks bolt :-( Also we don't have control on the heroku node selection, can't restrict too much."
+		"node": "12.x // NO! 1) we can't restrict node version != root version, breaks bolt :-( 2) we don't have control on the heroku node selection, can't restrict too much."
 	},
 	"main": "dist/src.es2019.cjs/index.js",
 

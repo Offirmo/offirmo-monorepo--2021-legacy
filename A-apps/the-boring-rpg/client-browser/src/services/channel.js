@@ -1,3 +1,4 @@
+'use strict'
 
 import { is_loaded_from_cordova } from './cordova'
 

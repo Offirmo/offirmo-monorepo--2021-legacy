@@ -6,10 +6,6 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"engines": {
-		"node": ">=14"
-	},
-
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
 		"@offirmo-private/prettify-any": "^0",

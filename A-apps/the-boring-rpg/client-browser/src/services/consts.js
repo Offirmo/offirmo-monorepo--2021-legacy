@@ -1,3 +1,5 @@
+'use strict'
+
 import { StorageKey } from '@tbrpg/flux'
 
 /////////////////////////////////////////////////
