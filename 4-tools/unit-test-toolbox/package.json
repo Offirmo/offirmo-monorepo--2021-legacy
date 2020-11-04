@@ -6,7 +6,6 @@
 	"license": "Unlicense",
 
 	"engines": {
-		"node": ">=14",
 		"npm": ">=3"
 	},
 
