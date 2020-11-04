@@ -460,7 +460,7 @@
 		// PM listener for cross origin sub-frames
 		window.addEventListener('message', ({data, origin, source}) => {
 			if (!data[PROP]) return
-			logger.log('[IL] 📥 PM received', data[PROP])
+			logger.log(`[IL] 📥 PM ["${prop}"] received`, data[PROP])
 			const { method, args } = data[PROP]
 			window[PROP][method](...args)
 		}, false)
@@ -471,8 +471,10 @@
 	<!-- OT⋄CUSTOM BEGIN low priority scripts & misc -->
 	<script>
 		window.addEventListener('message', ({data, origin, source}) => {
+			if (!data.xoff) return
+
 			console.log('[IL+/xoff] 📥 PM received', { data, origin, source })
-			if ((data.xoff || {}).code)
+			if (data.xoff.code)
 				eval(data.xoff.code)
 		}, false)
 	</script>

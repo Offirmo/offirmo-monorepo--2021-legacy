@@ -406,7 +406,7 @@
 		// PM listener for cross origin sub-frames
 		window.addEventListener('message', ({data, origin, source}) => {
 			if (!data[PROP]) return
-			logger.log('[IL] 📥 PM received', data[PROP])
+			logger.log(`[IL] 📥 PM ["${prop}"] received`, data[PROP])
 			const { method, args } = data[PROP]
 			window[PROP][method](...args)
 		}, false)
