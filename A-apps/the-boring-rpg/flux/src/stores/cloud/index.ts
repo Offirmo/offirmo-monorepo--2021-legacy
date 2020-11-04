@@ -197,7 +197,10 @@ export function create(
 
 			emitter.emit(EMITTER_EVT)
 
-			if (is_logged_in) {
+			if (!is_logged_in) {
+				logger.trace(`[${LIB}] not logged in, ignoring for now.`)
+			}
+			else {
 				_sync_with_cloud(state)
 					.catch(_on_error)
 			}

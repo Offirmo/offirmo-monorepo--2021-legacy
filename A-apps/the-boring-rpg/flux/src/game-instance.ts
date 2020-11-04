@@ -177,7 +177,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 				// "set_state" because we mirror the similar React fn
 				set_state(fn: (state: T) => Partial<T>): void {
 					const changed = fn(app_state)
-					console.log('⚡ view change requested', changed)
+					logger.trace('⚡ view change requested', changed)
 					assert(!changed.model, 'no model change allowed in view.set_state()')
 					app_state = {
 						...deep_merge(app_state, changed, { arrayMerge: overwriteMerge }),
