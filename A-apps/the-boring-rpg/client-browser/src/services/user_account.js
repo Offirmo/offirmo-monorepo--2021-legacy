@@ -12,7 +12,7 @@ import { get_api_base_url, Endpoint } from '@online-adventur.es/functions-interf
 
 import { CHANNEL } from './channel'
 import { ACCOUNT_STATE } from './game-instance-browser'
-import { set_user_context as set_raven_user_context } from './raven'
+import { set_user_context as set_raven_user_context, report_error } from './raven'
 import logger from './logger'
 import get_game_instance from './game-instance-browser'
 
@@ -91,7 +91,7 @@ function _ↆrefresh_login_state() {
 				},
 			)
 			.catch(err => {
-				logger.error('NetlifyIdentity⚡ on trying to finalize user', err)
+				logger.warn('NetlifyIdentity⚡ error on trying to finalize user', err)
 				/* swallow the error */
 
 				// TODO ??
@@ -193,10 +193,10 @@ export default function init(SEC = getRootSEC()) {
 			})
 
 			NetlifyIdentity.on('error', (err = new Error('Unknown NetlifyIdentity error!')) => {
-				logger.error('NetlifyIdentity⚡ error', err)
+				logger.warn('NetlifyIdentity⚡ on(error)', err)
 				// TODO state to error?
 				// let's see in Sentry reports if this to happen
-				throw err // rethrow, to be caught by Sentry
+				report_error(err)
 			})
 
 			NetlifyIdentity.on('open', () => {
