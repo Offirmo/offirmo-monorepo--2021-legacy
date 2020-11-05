@@ -35,9 +35,11 @@ export default class PageSavegameEditorView extends Component {
 		navigate_home: PropTypes.func.isRequired,
 	}
 	editor = null
+	initial_revision = null
 
 	get_formatted_ace_data = () => {
 		const { initial_data } = this.props
+		this.initial_revision = initial_data.u_state.revision
 
 		return JSON.stringify(
 			initial_data,
@@ -45,17 +47,20 @@ export default class PageSavegameEditorView extends Component {
 			3,
 		)
 	}
+
 	on_save = () => {
 		if (!this.editor) return
 
 		try {
 			const data = JSON.parse(this.editor.getValue())
 			const { initial_data } = this.props
-			console.log('Replacing current data =', { initial_data })
-			get_game_instance().model.set(data)
+			console.log('Replacing current data =', initial_data)
+			if (data.u_state.revision === initial_data.u_state.revision)
+				data.u_state.revision = initial_data.u_state.revision + 1
+			get_game_instance().commands.set(data)
 		}
 		catch (err) {
-			window.alert('Invalid JSON, save aborted. ' + err)
+			window.alert('Save failed (invalid JSON?): ' + err)
 		}
 	}
 

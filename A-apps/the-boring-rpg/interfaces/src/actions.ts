@@ -131,17 +131,16 @@ export function get_action_types(): string[] {
 
 /////////////////////
 
-export function create_base_action(): BaseAction {
+export function create_base_action(time: TimestampUTCMs = get_UTC_timestamp_ms()): BaseAction {
 	return {
-		time: get_UTC_timestamp_ms(),
+		time,
 		expected_revisions: {},
 	}
 }
 
-
-export function create_action<SomeAction extends BaseAction>(attributes: Omit<SomeAction, 'time'>): SomeAction {
+export function create_action<SomeAction extends BaseAction>(attributes: Omit<SomeAction, 'time'>, time: TimestampUTCMs = get_UTC_timestamp_ms()): SomeAction {
 	return {
-		...create_base_action(),
+		...create_base_action(time),
 		...attributes,
 	} as SomeAction
 }
@@ -153,14 +152,6 @@ export function create_action_noop(): ActionHack {
 		custom_reducer: state => state,
 	})
 }
-
-/*export function create_action_force_set(eventual_state: Immutable<State>): ActionHack {
-	return create_action<ActionHack>({
-		type: ActionType.hack,
-		expected_revisions: {},
-		custom_reducer: () => eventual_state,
-	})
-}*/
 
 export function create_action__set(state: Immutable<State>): ActionSet {
 	return create_action<ActionSet>({

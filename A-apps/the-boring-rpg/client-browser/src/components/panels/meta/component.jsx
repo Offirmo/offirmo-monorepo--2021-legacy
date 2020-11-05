@@ -69,7 +69,7 @@ function * gen_next_step(navigate_to_savegame_editor) {
 			else {
 				steps.push({
 					msg_main: 'What do you want to do?',
-					callback: url => window.open(url, '_blank').opener = null,
+					callback: url => (window.open(url, '_blank') || { /* can fail if popup blocking for ex. */ }).opener = null,
 					choices: [
 						{
 							msg_cta: '👍 Like on social medias',

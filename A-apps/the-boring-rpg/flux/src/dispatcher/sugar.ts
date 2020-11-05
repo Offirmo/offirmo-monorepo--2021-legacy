@@ -1,8 +1,12 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { UUID } from '@offirmo-private/uuid'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { State } from '@tbrpg/state'
 import {
+	get_action_types,
+	create_action__set,
+
 	ActionType,
 
 	ActionStartSession,
@@ -15,6 +19,7 @@ import {
 	ActionRedeemCode,
 	ActionAcknowledgeEngagementMsgSeen,
 	ActionUpdateToNow,
+	ActionSet,
 	ActionHack,
 
 	Action,
@@ -23,7 +28,7 @@ import {
 import { LIB } from '../consts'
 
 
-const KNOWN_ACTIONS = 12
+const KNOWN_ACTIONS_COUNT = get_action_types().length
 
 export function get_commands(
 	dispatch: (action: Action) => void,
@@ -94,7 +99,7 @@ export function get_commands(
 			dispatch(action)
 		},
 
-		start_game() { throw new Error(`[${LIB}] unexpected command !`)},
+		start_game() { throw new Error(`[${LIB}] unexpected start_game !`)},
 		on_start_session(is_web_diversity_supporter: boolean, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionStartSession = {
 				time,
@@ -131,6 +136,10 @@ export function get_commands(
 			}
 			dispatch(action)
 		},
+
+		set(state: Immutable<State>) {
+			dispatch(create_action__set(state))
+		},
 		custom(custom_reducer: ActionHack['custom_reducer'], time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionHack = {
 				time,
@@ -142,7 +151,7 @@ export function get_commands(
 		},
 	}
 
-	if (Object.keys(commands).length !== KNOWN_ACTIONS)
+	if (Object.keys(commands).length !== KNOWN_ACTIONS_COUNT)
 		throw new Error(`[${LIB}] commands are outdated!`)
 
 	return commands

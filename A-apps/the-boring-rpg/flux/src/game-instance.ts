@@ -88,7 +88,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			_dispatcher.set(new_game)
 		}
-		logger.silly(`[${LIB}] initial state:`, { state: in_memory_store.get() })
+		logger.silly(`[${LIB}] state initialised:`, in_memory_store.get())
 
 		////////////////////////////////////
 
