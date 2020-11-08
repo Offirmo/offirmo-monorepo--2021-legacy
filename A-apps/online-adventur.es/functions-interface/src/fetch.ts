@@ -42,10 +42,12 @@ export async function fetch_oa<Req, Res>({
 	return SEC.xPromiseTry('foo', async ({ SEC, logger, CHANNEL }) => {
 		const request_id = ++request_count
 		const channel: ReleaseChannel = CHANNEL as any
-		logger.trace(`fetch_it() #${request_id}…`, { method, url, body, headers })
+		logger.trace(`fetch_oa() #${request_id}…`, { method, url, body, headers })
+		const headers_from_SEC = (SEC.getInjectedDependencies() as any).shared_fetch_headers || {}
 
 		url = [ get_api_base_url(channel), url ].join('/')
 		headers = {
+			...headers_from_SEC,
 			...headers,
 			'Content-Type': 'application/json',
 		}
@@ -64,7 +66,7 @@ export async function fetch_oa<Req, Res>({
 				}),
 			])
 			.then((response: FetchResponse) => {
-				logger.trace(`fetch_it() #${request_id}: got fetch response`, { method, url, response })
+				logger.trace(`fetch_oa() #${request_id}: got fetch response`, { method, url, response })
 				response_for_logging = fetch_response = response.clone()
 
 				// reminder: we can't destructure response because .json() needs a binding to response
@@ -80,7 +82,7 @@ export async function fetch_oa<Req, Res>({
 				return response.json()
 			})
 			.then((response: OAServerResponseBody<Res>) => {
-				logger.trace(`fetch_it() #${request_id}: got json body`, { method, url, response })
+				logger.trace(`fetch_oa() #${request_id}: got json body`, { method, url, response })
 				response_for_logging = response
 
 				if (!response)
@@ -99,7 +101,7 @@ export async function fetch_oa<Req, Res>({
 					throw candidate_error
 				}
 
-				logger.trace(`fetch_it() #${request_id}: got OA response body`, { method, url, v, error, data, side, meta })
+				logger.trace(`fetch_oa() #${request_id}: got OA response body`, { method, url, v, error, data, side, meta })
 
 
 				if (!data) {

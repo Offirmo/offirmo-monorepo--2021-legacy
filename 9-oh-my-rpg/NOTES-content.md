@@ -712,3 +712,6 @@ In some settings, it's impossible to read a book e.g., driving, walking. Might a
 Good policy: listen to a lot of books, buy & read the best ones (multiple times).
 
 Great post! A hack I find useful is trying to recall main concepts from previous chapters  before I continue reading/listening. Exposes gaps in understanding and helps to retain info.
+
+https://www.inverse.com/mind-body/humans-still-evolving-3-recent-adaptations
+https://en.wikipedia.org/wiki/Folk_memory

@@ -6,9 +6,9 @@ import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import { poll } from '@offirmo-private/poll-window-variable'
 import Deferred from '@offirmo/deferred'
-import fetch from '@tbrpg/flux/src/utils/fetch'
+//import fetch from '@tbrpg/flux/src/utils/fetch'
 import { load_script_from_top, execute_from_top, get_log_symbol, get_top_ish_window } from '@offirmo-private/xoff'
-import { get_api_base_url, Endpoint } from '@online-adventur.es/functions-interface'
+import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/functions-interface'
 
 import { CHANNEL } from './channel'
 import { ACCOUNT_STATE } from './game-instance-browser'
@@ -52,21 +52,16 @@ function _ↆrefresh_login_state() {
 		logged_in_user: null,
 	}))
 
+	let user
 	const ↆfully_loaded = ↆNetlifyIdentity.then(function _refresh_login_state(NetlifyIdentity) {
-		const user = NetlifyIdentity.currentUser()
+		user = NetlifyIdentity.currentUser()
 
-		if (!user) {
-			get_game_instance().view.set_state(_ => ({
-				login_state: ACCOUNT_STATE.not_logged_in,
-				logged_in_user: null,
-			}))
-			return
-		}
+		if (!user) return
 
 		// refresh token, https://github.com/netlify/netlify-identity-widget/issues/108
 		return user.jwt()
 			.then(function _wait_for_user_constructed() {
-				logger.info('NetlifyIdentity: user refreshed (1/2)', user)
+				logger.info('NetlifyIdentity: user refreshed (1/2)', JSON.parse(JSON.stringify(user)))
 
 				// seen that user is not immediately fully populated
 				// we need to wait a bit
@@ -75,21 +70,9 @@ function _ↆrefresh_login_state() {
 					{ timeoutMs: 30 * 1000 }
 				)
 			})
-			.then(
-				function _forward_logged_in_details_to_game_state() {
-					logger.info('NetlifyIdentity: user refreshed (2a/2)', user)
-					get_game_instance().commands.on_logged_in_refresh(
-						true,
-						user.app_metadata.roles,
-					)
-				},
-				function _forward_NON_logged_in_to_game_state() {
-					logger.info('NetlifyIdentity: user refreshed (2b/2)', user)
-					get_game_instance().commands.on_logged_in_refresh(
-						false,
-					)
-				},
-			)
+			.then(function _log() {
+				logger.info('NetlifyIdentity: user refreshed (2/2)', JSON.parse(JSON.stringify(user)))
+			})
 			.catch(err => {
 				logger.warn('NetlifyIdentity⚡ error on trying to finalize user', err)
 				/* swallow the error */
@@ -97,14 +80,7 @@ function _ↆrefresh_login_state() {
 				// TODO ??
 				// ↆNetlifyIdentity.logout()
 			})
-			.then(function _update_logged_in_view() {
-				get_game_instance().view.set_state(_ => ({
-					login_state: ACCOUNT_STATE.logged_in,
-					logged_in_user: user,
-				}))
-				return user
-			})
-	}, () => {})
+	})
 
 	ↆfully_loaded.then(function register_user_for_raven(user) {
 		const avatar_name = get_game_instance().queries.get_sub_state('avatar').name
@@ -125,16 +101,54 @@ function _ↆrefresh_login_state() {
 		})
 	})
 
-	ↆfully_loaded.then(function phone_home(user) {
+	ↆfully_loaded.then(function _forward_logged_in_details_to_game_state() {
+		if (!user) {
+			get_game_instance().commands.on_logged_in_refresh(
+				false,
+			)
+			return
+		}
+
+		get_game_instance().commands.on_logged_in_refresh(
+			true,
+			user.app_metadata.roles,
+		)
+	})
+
+	ↆfully_loaded.then(function _update_logged_in_view() {
+		if (!user) {
+			get_game_instance().view.set_state(_ => ({
+				login_state: ACCOUNT_STATE.not_logged_in,
+				logged_in_user: null,
+			}))
+			return
+		}
+
+		get_game_instance().view.set_state(_ => ({
+			login_state: ACCOUNT_STATE.logged_in,
+			logged_in_user: user,
+		}))
+	})
+
+	ↆfully_loaded.then(function _phone_home() {
+		getRootSEC().injectDependencies({
+			shared_fetch_headers: {
+				...(user && {'Authorization': `Bearer ${user.token.access_token}`}),
+			},
+		})
 		if (!user) return
 
-		const enpoint_url = get_api_base_url(CHANNEL) + '/' + Endpoint["whoami"]
+		return fetch_oa({
+			SEC: getRootSEC(),
+			url: Endpoint["whoami"],
+		})
+		/*const enpoint_url = get_api_base_url(CHANNEL) + '/' + Endpoint["whoami"]
 		fetch(enpoint_url, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${user.token.access_token}`,
 			},
-		})
+		})*/
 	})
 }
 
@@ -214,12 +228,13 @@ export default function init(SEC = getRootSEC()) {
 
 function open_ui() {
 	ↆNetlifyIdentity.then(() => {
-		request_redirect(window.location.href)
+		request_redirect(window.location.href) // needed for social logins
 		execute_from_top((prefix) => {
 			console.log(`${prefix} netlify open…`)
 			window.netlifyIdentity.open()
 		}, get_log_symbol(get_top_ish_window()) + ' ← ' + get_log_symbol())
 	}, () => {})
+	// any event will be handled in the handlers above
 }
 
 function log_out() {
@@ -229,6 +244,7 @@ function log_out() {
 			window.netlifyIdentity.logout()
 		}, get_log_symbol(get_top_ish_window()) + ' ← ' + get_log_symbol())
 	}, () => {})
+	// any event will be handled in the handlers above
 }
 
 ////////////////////////

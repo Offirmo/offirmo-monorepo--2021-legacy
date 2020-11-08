@@ -43,11 +43,11 @@ class AppStateListenerAndProviderRAF extends React.Component {
 	update_to_now = throttle((time) => {
 		if (window.oᐧextra.flagꓽis_paused) return
 
-		const now_ms = this.time_last_iteration = get_UTC_timestamp_ms()
+		const now_ms = get_UTC_timestamp_ms()
 
 		if (!this.time_1st_iteration) {
 			// debug
-			this.time_1st_iteration = now_ms
+			this.time_1st_iteration = this.time_last_iteration = now_ms
 			logger.debug('++++++++++++ starting animation frame ++++++++++++', {
 				now_ms,
 				time,
@@ -55,11 +55,12 @@ class AppStateListenerAndProviderRAF extends React.Component {
 		}
 
 		logger.groupEnd()
-		logger.groupCollapsed(`——————— onInterval/onAnimationFrame #${this.iteration_count} / ${now_ms} ———————`)
+		logger.groupCollapsed(`——————— onInterval/onAnimationFrame #${this.iteration_count} / ${now_ms} (+${((now_ms - this.time_last_iteration)/1000.).toFixed()}s) ———————`)
 		this.iteration_count++
 		asap_but_out_of_current_event_loop(logger.groupEnd)
 
 		get_game_instance().commands.update_to_now()
+		this.time_last_iteration = now_ms
 
 		if (MAX_ITERATIONS) {
 			if (this.iteration_count > MAX_ITERATIONS) {

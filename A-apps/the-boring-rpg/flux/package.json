@@ -26,6 +26,7 @@
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/deferred": "^3",
+		"@offirmo/globalthis-ponyfill": "^3",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
@@ -40,6 +41,7 @@
 		"dequal": "^2",
 		"fetch-ponyfill": "^6",
 		"json-stable-stringify": "^1",
+		"lodash.debounce": "^4",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
