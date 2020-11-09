@@ -192,6 +192,9 @@ export function create(
 			const _is_healthy = is_healthy(cloud_sync_state)
 			const _should_sync = _is_initialised && _is_online && _is_healthy
 			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, { _is_initialised, _is_online, _is_healthy, _should_sync, cloud_sync_state })
+			if (!_is_healthy) {
+				logger.warn(`[${LIB}] no longer saving to cloud, too many errors!`)
+			}
 			if (!_should_sync) return
 
 			logger.trace(`[${LIB}] scheduling a sync… (debounced)`)

@@ -1,4 +1,5 @@
 
+This app exists only for the sake of getting the free db addons!
 
 ## Admin
 

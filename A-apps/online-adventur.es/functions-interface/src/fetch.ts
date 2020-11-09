@@ -1,24 +1,19 @@
 import fetch_ponyfill from 'fetch-ponyfill'
+import { XXError, createError } from '@offirmo-private/error-utils'
 import { getRootSEC, SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { ReleaseChannel, OAServerResponseBody, OAResponse } from './types'
 import { get_api_base_url } from './utils'
-import { XXError, createError } from '@offirmo-private/error-utils'
+
+/////////////////////////////////////////////////
 
 const { fetch, Response: ResponseV, Headers: HeadersV } = fetch_ponyfill()
 export { HeadersV }
 export type FetchHeaders = typeof HeadersV
 type FetchResponse = typeof ResponseV
 
-/*export {
-	fetch,
-	Request,
-	OAResponse,
-	Headers,
-}*/
-
-
+/////////////////////////////////////////////////
 
 let request_count = 0 // for logging
 export async function fetch_oa<Req, Res>({
@@ -32,11 +27,14 @@ export async function fetch_oa<Req, Res>({
 	timeout_ms = 10_000,
 }: {
 	SEC?: SoftExecutionContext
+
 	// like fetch:
 	method?: string
 	url?: string
 	headers?: Immutable<FetchHeaders>
 	body?: Immutable<Req>
+
+	// extras
 	timeout_ms?: number
 } = {}): Promise<Immutable<OAResponse<Res>>> {
 	return SEC.xPromiseTry('fetch_oa', async ({ SEC, logger, CHANNEL }) => {
