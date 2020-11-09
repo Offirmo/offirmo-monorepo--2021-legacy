@@ -3528,21 +3528,23 @@ async function fetch_oa({
   body,
   timeout_ms = 10000
 } = {}) {
-  return SEC.xPromiseTry('foo', async ({
+  return SEC.xPromiseTry('fetch_oa', async ({
     SEC,
     logger,
     CHANNEL
   }) => {
     const request_id = ++request_count;
     const channel = CHANNEL;
-    logger.trace(`fetch_it() #${request_id}…`, {
+    logger.trace(`fetch_oa() #${request_id}…`, {
       method,
       url,
       body,
       headers
     });
+    const headers_from_SEC = SEC.getInjectedDependencies().shared_fetch_headers || {};
     url = [get_api_base_url(channel), url].join('/');
-    headers = { ...headers,
+    headers = { ...headers_from_SEC,
+      ...headers,
       'Content-Type': 'application/json'
     };
     let fetch_response = undefined;
@@ -3555,7 +3557,7 @@ async function fetch_oa({
       headers,
       body: JSON.stringify(body)
     })]).then(response => {
-      logger.trace(`fetch_it() #${request_id}: got fetch response`, {
+      logger.trace(`fetch_oa() #${request_id}: got fetch response`, {
         method,
         url,
         response
@@ -3572,7 +3574,7 @@ async function fetch_oa({
 
       return response.json();
     }).then(response => {
-      logger.trace(`fetch_it() #${request_id}: got json body`, {
+      logger.trace(`fetch_oa() #${request_id}: got json body`, {
         method,
         url,
         response
@@ -3598,7 +3600,7 @@ async function fetch_oa({
         throw candidate_error;
       }
 
-      logger.trace(`fetch_it() #${request_id}: got OA response body`, {
+      logger.trace(`fetch_oa() #${request_id}: got OA response body`, {
         method,
         url,
         v,
@@ -19842,6 +19844,7 @@ var scope_Scope = /** @class */ (function () {
      * @hidden
      */
     Scope.prototype.applyToEvent = function (event, hint) {
+        var _a;
         if (this._extra && Object.keys(this._extra).length) {
             event.extra = tslib_es6_assign(tslib_es6_assign({}, this._extra), event.extra);
         }
@@ -19865,6 +19868,10 @@ var scope_Scope = /** @class */ (function () {
         // errors with transaction and it relys on that.
         if (this._span) {
             event.contexts = tslib_es6_assign({ trace: this._span.getTraceContext() }, event.contexts);
+            var transactionName = (_a = this._span.transaction) === null || _a === void 0 ? void 0 : _a.name;
+            if (transactionName) {
+                event.tags = tslib_es6_assign({ transaction: transactionName }, event.tags);
+            }
         }
         this._applyFingerprint(event);
         event.breadcrumbs = tslib_es6_spread((event.breadcrumbs || []), this._breadcrumbs);
@@ -20685,7 +20692,7 @@ var hub_Hub = /** @class */ (function () {
         var _a = this.getStackTop(), scope = _a.scope, client = _a.client;
         if (!scope)
             return;
-        var session = scope.getSession();
+        var session = scope.getSession && scope.getSession();
         if (session) {
             session.close();
             if (client && client.captureSession) {
@@ -21999,7 +22006,7 @@ var external_url_ = __webpack_require__(8);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.27.2';
+var SDK_VERSION = '5.27.3';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -23006,7 +23013,7 @@ var baseclient_BaseClient = /** @class */ (function () {
             if (processedEvent === null) {
                 throw new error_SentryError('`beforeSend` returned `null`, will not send event.');
             }
-            var session = scope && scope.getSession();
+            var session = scope && scope.getSession && scope.getSession();
             if (!isTransaction && session) {
                 _this._updateSessionFromEvent(session, processedEvent);
             }
@@ -23694,8 +23701,11 @@ function tracingHandler() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         res.__sentry_transaction = transaction;
         res.once('finish', function () {
-            transaction.setHttpStatus(res.statusCode);
-            transaction.finish();
+            // We schedule the immediate execution of the `finish` to let all the spans being closed first.
+            setImmediate(function () {
+                transaction.setHttpStatus(res.statusCode);
+                transaction.finish();
+            });
         });
         next();
     };

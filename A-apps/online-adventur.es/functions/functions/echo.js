@@ -4231,21 +4231,23 @@ async function fetch_oa({
   body,
   timeout_ms = 10000
 } = {}) {
-  return SEC.xPromiseTry('foo', async ({
+  return SEC.xPromiseTry('fetch_oa', async ({
     SEC,
     logger,
     CHANNEL
   }) => {
     const request_id = ++request_count;
     const channel = CHANNEL;
-    logger.trace(`fetch_it() #${request_id}…`, {
+    logger.trace(`fetch_oa() #${request_id}…`, {
       method,
       url,
       body,
       headers
     });
+    const headers_from_SEC = SEC.getInjectedDependencies().shared_fetch_headers || {};
     url = [get_api_base_url(channel), url].join('/');
-    headers = { ...headers,
+    headers = { ...headers_from_SEC,
+      ...headers,
       'Content-Type': 'application/json'
     };
     let fetch_response = undefined;
@@ -4258,7 +4260,7 @@ async function fetch_oa({
       headers,
       body: JSON.stringify(body)
     })]).then(response => {
-      logger.trace(`fetch_it() #${request_id}: got fetch response`, {
+      logger.trace(`fetch_oa() #${request_id}: got fetch response`, {
         method,
         url,
         response
@@ -4275,7 +4277,7 @@ async function fetch_oa({
 
       return response.json();
     }).then(response => {
-      logger.trace(`fetch_it() #${request_id}: got json body`, {
+      logger.trace(`fetch_oa() #${request_id}: got json body`, {
         method,
         url,
         response
@@ -4301,7 +4303,7 @@ async function fetch_oa({
         throw candidate_error;
       }
 
-      logger.trace(`fetch_it() #${request_id}: got OA response body`, {
+      logger.trace(`fetch_oa() #${request_id}: got OA response body`, {
         method,
         url,
         v,
@@ -5203,7 +5205,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201102_03h10';
+exports.BUILD_DATE = '20201109_02h20';
 
 /***/ }),
 
