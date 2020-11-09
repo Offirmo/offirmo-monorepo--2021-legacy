@@ -20,7 +20,8 @@ In alphabetical order:
 ### Pending upgrade
 
 * parcel 2 when stable https://medium.com/@devongovett/parcel-2-beta-1-improved-stability-tree-shaking-source-map-performance-and-more-78179779e8b7
-
+* pg ^8 with https://github.com/brianc/node-postgres/blob/master/CHANGELOG.md#pg810
+* Atlaskit: replace with formix?
 
 ## prod vs dev
 

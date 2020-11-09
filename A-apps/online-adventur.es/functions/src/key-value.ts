@@ -17,6 +17,7 @@ import {
 import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
 import handle_cors from './sub/middlewares/handle_cors'
 import require_authenticated from './sub/middlewares/require-authenticated'
+import enrich_side_infos from './sub/middlewares/enrich_side_infos'
 import { XSoftExecutionContext } from './sub/services/sec'
 import { require_http_method, HttpMethod } from './sub/middlewares/require-http-method'
 import { create_error, get_key_from_path } from './sub/utils'
@@ -72,6 +73,7 @@ const handler: NetlifyHandler = (
 		require_http_method([ HttpMethod.GET, HttpMethod.PATCH ]),
 		handle_cors,
 		require_authenticated,
+		enrich_side_infos,
 		_handler,
 	])
 }

@@ -5,6 +5,7 @@ import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { getRootSEC, SoftExecutionContext, OperationParams } from '@offirmo-private/soft-execution-context'
 import { XXError } from '@offirmo-private/error-utils'
+import { get_base_loose, Immutable, is_revisioned } from '@offirmo-private/state-utils'
 import {
 	OAServerResponseBody,
 	create_server_response_body__data,
@@ -40,6 +41,42 @@ interface LocalLSInjections extends Injections {
 type LSoftExecutionContext = SoftExecutionContext<LocalLSInjections>
 type LOperationParams = OperationParams<LocalLSInjections>
 
+function _get_body_debug_representation(body: Immutable<any>): Object {
+	if (typeof body === 'string') {
+		try {
+			body = JSON.parse(body)
+		}
+		catch {}
+	}
+
+	if (is_revisioned(body))
+		body = { '[DEBUG]': get_base_loose(body) }
+
+	if (body.v && body.data) {
+		if (is_revisioned(body.data)) {
+			body = {
+				...body,
+				data: { '[DEBUG]': get_base_loose(body.data) }
+			}
+		}
+	}
+
+	if (typeof body !== 'string') {
+		body = JSON.stringify(body)
+	}
+
+	if (body.length > 120)
+		body = body.slice(0, 120) + '(…)'
+
+	return body
+}
+
+function _get_response_debug_representation(response: Immutable<Response>): Object {
+	return {
+		...response,
+		body: _get_body_debug_representation(response.body),
+	}
+}
 ////////////////////////////////////
 
 export function use_middlewares_with_error_safety_net(
@@ -65,7 +102,7 @@ export function use_middlewares_with_error_safety_net(
 		)
 	})
 	.then(
-		(response: Response) => { console.log('FYI MWRunner promise resolved with:', response); return response },
+		(response: Response) => { console.log('FYI MWRunner promise resolved with:', _get_response_debug_representation(response)); return response },
 		(err: Error) => { console.warn('FYI MWRunner promise rejected with:', err); throw err },
 	)
 	.then((response: Response) => {
@@ -101,7 +138,7 @@ export function use_middlewares_with_error_safety_net(
 		return response
 	})
 	.then(
-		(response: Response) => { console.log('FYI Overall promise resolved with:', response); return response },
+		(response: Response) => { console.log('FYI Overall promise resolved with:', _get_response_debug_representation(response)); return response },
 		(err: Error) => { console.warn('FYI Overall promise rejected with:', err); throw err },
 	)
 	.finally(() => {
@@ -250,7 +287,7 @@ async function _run_mw_chain(
 		}
 
 		if (body !== _previous_body) {
-			logger.trace(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set the body:`, { body })
+			logger.trace(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set the body:`, _get_body_debug_representation(body))
 			if (!body)
 				throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an invalid empty body!`)
 			if (statusCode < 400) {
@@ -315,7 +352,7 @@ async function _run_mw_chain(
 
 	////////////////////////////////////
 
-	let { statusCode, body } = response
+	let { statusCode, headers, body } = response
 
 	if (response.body === DEFAULT_RESPONSE_BODY)
 		throw new Error(DEFAULT_RESPONSE_BODY)
@@ -345,7 +382,7 @@ async function _run_mw_chain(
 
 	return {
 		statusCode,
-		headers: {},
+		headers,
 		body,
 	}
 }

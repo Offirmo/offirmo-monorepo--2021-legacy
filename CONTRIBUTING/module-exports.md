@@ -18,7 +18,7 @@ Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue
 
 Notes:
 * when updating here, also update `0-scripts/build-typescript.js`
-* when updating node, also update
+* when updating node/lib, also update
   * `.nvmrc`
   * `engines` from root `package.json` = `"node":`
   * `"@types/node"`
@@ -26,6 +26,7 @@ Notes:
   * replace in `package.json`: `src.es202x`
   * `A-apps/online-adventur.es/heroku/.babelrc`
   * `A-apps/online-adventur.es/functions/.babelrc`
+  * if applicable, go to Netlify admin and change AWS_LAMBDA_JS_RUNTIME = node14.x or sth
 
 
 ### FUTURE update ???

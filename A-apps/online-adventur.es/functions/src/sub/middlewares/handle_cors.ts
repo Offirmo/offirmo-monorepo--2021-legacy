@@ -18,24 +18,33 @@ export default async function handle_cors(
 	response: Response,
 	next: Function
 ): Promise<void> {
-	if (event.httpMethod.toUpperCase() !== 'OPTIONS')
-		return next()
-
 	await SEC.xPromiseTry('handle_cors()', async ({ SEC, logger, CHANNEL }) => {
-		logger.log(`handling CORS preflight for ${event.path}…`)
+		logger.log(`handling CORS for ${event.path}…`)
 
 		const origin = event.headers.origin
 		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
 		if (origin !== expected_origin) {
-			logger.warn('rejecting preflight', {expected_origin, origin})
-			throw create_error(HTTP_STATUS_CODE.error.client.method_not_allowed, {
+			logger.warn('rejecting due to wrong origin', {expected_origin, origin})
+			throw create_error(HTTP_STATUS_CODE.error.client.forbidden, {
 				expected_origin,
 				origin,
 			}, SEC)
 		}
 
-		response.statusCode = 200
-		response.headers['Access-Control-Allow-Origin'] = expected_origin
-		response.body = JSON.stringify('OK')
+		if (event.httpMethod.toUpperCase() === 'OPTIONS') {
+			logger.log(`handling CORS preflight for ${event.path}…`, { headers: event.headers })
+
+			response.statusCode = 200
+			response.headers['Access-Control-Allow-Headers'] = [
+				'authorization', // needed by our Netlify setup
+				'content-type', // we use it even when not mandatory
+			].join(',')
+			response.body = JSON.stringify('OK')
+		}
+		else {
+			await next()
+		}
+
+		response.headers['Access-Control-Allow-Origin'] = expected_origin // always needed
 	})
 }

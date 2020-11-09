@@ -3,7 +3,7 @@
 ## dev
 
 * Insomnia
-* pg 10.10
+* pg with proper version
 * pgAdmin
 * `yarn dev` + `yarn start`
 
@@ -19,7 +19,7 @@ doc:
     * see the root netlify.toml
     * see Netlify UI build variables
   * Versions seen (real-time from /echo)
-    * 2020/11/2 seen 12.18.4
+    * 2020/11/2 seen 12.18.4 (12.x manually required due to pg issue)
     * 2020/09/22 seen 12.18.3
     * 2020/08 seen 12.18.2
     * 2020/06 seen 12.16.3
@@ -31,16 +31,12 @@ doc:
 
 Tools
 * https://insomnia.rest/
-* https://www.getpostman.com/downloads/
-* https://offirmo-monorepo.netlify.app/
+* https://offirmo-monorepo.netlify.app/ test app:
 ```
 query('.netlify/functions/key-value/foo', 'GET', body = undefined)
 query('.netlify/functions/key-value/foo', 'PATCH', body = { foo: 42 })
 query('.netlify/functions/key-value/foo', 'PATCH', body = { schema_version: 1, revision: 1, foo: 42 })
 ```
-
-TODO  Access-Control-Allow-Origin header with the value https://oa XXX
-
 
 
 ## ...

@@ -1,10 +1,10 @@
 // Update with your config settings.
 
 // Defaults
+const DEFAULT_PG_PORT = 5432
 // https://hub.docker.com/_/postgres
 const DEFAULT_DOCKER_PG_USER = 'postgres'
 const DEFAULT_DOCKER_DB_NAME = DEFAULT_DOCKER_PG_USER
-const DEFAULT_PG_PORT = 5432
 
 // actual config
 const PG_USER = DEFAULT_DOCKER_PG_USER

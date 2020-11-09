@@ -57,16 +57,18 @@ function is_healthy(state: Immutable<CloudSyncState>): boolean {
 	return true
 }
 
-function is_likely_in_sync(state: Immutable<CloudSyncState>): boolean {
+function has_recent_sync(state: Immutable<CloudSyncState>): boolean {
 	const now = get_UTC_timestamp_ms()
 	if (now - state.last_successful_sync_tms >= 30 * 60 * 1000)
 		return false
 
-	throw new Error('TODO')
+	return true
 }
 
 function on_network_error(state: Immutable<CloudSyncState>, err: Error): Immutable<CloudSyncState> {
-	console.log('TODO switch', err.message)
+	console.warn('TODO switch network error', err.message)
+	// TODO snoop offline?
+
 	return {
 		...state,
 		error_count: state.error_count + 1,
@@ -119,35 +121,18 @@ export function create(
 		let last_known_cloud_state: Immutable<State> | undefined = undefined
 		let last_cloud_sync = 0
 
-		// TODO debounce / throttle
 		// TODO handle offline
-		// TODO retries
-		// TODO spontaneous periodic sync
+		// TODO retries?
+		// TODO spontaneous periodic sync -> for now we rely on periodic "time" sets
 		async function __sync_with_cloud(some_state: Immutable<State>): Promise<void> {
 			const cloud_key = get_cloud_key(some_state)
-			const semantic_difference = get_semantic_difference(some_state, last_known_cloud_state)
-			const now = new Date()
-			const elapsed_time_since_last_sync = +now - +last_cloud_sync
 
 			logger.trace(`[${LIB}] _sync_with_cloud()`, {
-				candidate_rev: get_revision_loose(some_state as any),
-				current_rev: get_revision_loose(state as any),
 				cloud_key,
-				semantic_difference,
-				elapsed_time_since_last_sync_s: (elapsed_time_since_last_sync/.1000).toFixed(2),
 			})
 
 			if (!is_enabled) {
 				logger.log(`${LIB} TODO enable sync with cloud!`)
-				return
-			}
-
-			const is_worth_syncing =
-				elapsed_time_since_last_sync >= 10 * 60 * 1000
-				|| semantic_difference === SemanticDifference.minor
-				|| semantic_difference === SemanticDifference.major
-			if (!is_worth_syncing) {
-				logger.trace(`${LIB} not worth syncing for now ✔`)
 				return
 			}
 
@@ -162,19 +147,23 @@ export function create(
 				cloud_sync_state = on_sync_result(cloud_sync_state)
 				logger.trace(`[${LIB}] _sync_with_cloud() got result:`, result)
 
-				// TODO dispatch side channel data
+				try {
+					// TODO handle side channel data
 
-				const sync_state: Immutable<State> = result.data
-				const semantic_difference = get_semantic_difference(sync_state, state)
-				logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, { semantic_difference, base: get_base_loose(sync_state), sync_state })
+					const sync_state: Immutable<State> = last_known_cloud_state = result.data
+					const semantic_difference = get_semantic_difference(sync_state, state)
+					logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, { semantic_difference, base: get_base_loose(sync_state), sync_state })
 
-				if (get_schema_version_loose(sync_state) > SCHEMA_VERSION) {
+					if (get_schema_version_loose(sync_state) > SCHEMA_VERSION) {
+						// TODO
+					}
 
+					//if (semantic_difference)
 				}
-
-				//if (semantic_difference)
-
-
+				catch (err) {
+					_on_error(err)
+					/* swallow */
+				}
 			}
 			catch (err) {
 				cloud_sync_state = on_network_error(cloud_sync_state, err)
@@ -190,14 +179,31 @@ export function create(
 			const _is_initialised = !!state
 			const _is_online = is_online(cloud_sync_state)
 			const _is_healthy = is_healthy(cloud_sync_state)
-			const _should_sync = _is_initialised && _is_online && _is_healthy
-			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, { _is_initialised, _is_online, _is_healthy, _should_sync, cloud_sync_state })
+			const semantic_difference = get_semantic_difference(state, last_known_cloud_state)
+			const _has_relevant_changes = semantic_difference === SemanticDifference.minor || semantic_difference === SemanticDifference.major
+			const _has_recent_sync = has_recent_sync(cloud_sync_state)
+			const _should_sync = _is_initialised && _is_online && _is_healthy && (_has_relevant_changes || !_has_recent_sync)
+			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, {
+				candidate_rev: get_revision_loose(state as any),
+				last_known_cloud_rev: get_revision_loose(last_known_cloud_state as any),
+				semantic_difference,
+				_is_initialised,
+				_is_online,
+				_is_healthy,
+				_has_relevant_changes,
+				_has_recent_sync,
+				_should_sync,
+				cloud_sync_state
+			})
 			if (!_is_healthy) {
-				logger.warn(`[${LIB}] no longer saving to cloud, too many errors!`)
+				logger.warn(`[${LIB}] no longer syncing with the cloud, too many errors!`)
 			}
-			if (!_should_sync) return
+			if (!_should_sync) {
+				logger.trace(`[${LIB}] skipping cloud sync: no reasons as of now ✔`, { semantic_difference })
+				return
+			}
 
-			logger.trace(`[${LIB}] scheduling a sync… (debounced)`)
+			logger.info(`[${LIB}] scheduling a cloud sync… (debounced)`)
 			_debounced_schedule_sync_with_cloud()
 		}
 
@@ -207,7 +213,7 @@ export function create(
 
 		if (getGlobalThis().addEventListener) {
 			getGlobalThis().addEventListener('online', () => {
-				if (state && is_logged_in && !is_likely_in_sync(cloud_sync_state))
+				if (state && is_logged_in && !has_recent_sync(cloud_sync_state))
 					_schedule_sync_with_cloud_if_possible()
 			})
 		}

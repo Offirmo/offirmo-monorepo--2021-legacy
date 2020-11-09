@@ -34,22 +34,22 @@ const NETLIFY_ROOT = '/.netlify/functions'
 // return [function id]/the/rest
 export function get_relevant_path_segments(event: Readonly<APIGatewayEvent>): string[] {
 	const original_path = event.path
-	let path = original_path
+	let normalized_path = original_path
 
-	const has_trailing_slash = path.endsWith('/')
+	const has_trailing_slash = normalized_path.endsWith('/')
 	if (has_trailing_slash)
-		path = path.slice(0, -1)
+		normalized_path = normalized_path.slice(0, -1)
 
-	const has_useless_root = path.startsWith(NETLIFY_ROOT)
+	const has_useless_root = normalized_path.startsWith(NETLIFY_ROOT)
 	if (has_useless_root)
-		path = path.slice(NETLIFY_ROOT.length)
+		normalized_path = normalized_path.slice(NETLIFY_ROOT.length)
 
-	const has_useless_prefix_slash = path.startsWith('/')
+	const has_useless_prefix_slash = normalized_path.startsWith('/')
 	if (has_useless_prefix_slash)
-		path = path.slice(1)
+		normalized_path = normalized_path.slice(1)
 
-	const segments = path.split('/')
-	console.log({ original_path, path, segments})
+	const segments = normalized_path.split('/')
+	console.log('get_relevant_path_segments()', { original_path, normalized_path, segments})
 
 	return segments
 }
