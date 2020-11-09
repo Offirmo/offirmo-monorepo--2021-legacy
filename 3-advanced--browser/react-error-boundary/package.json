@@ -13,7 +13,7 @@
 	"peerDependencies": {
 		"@offirmo-private/soft-execution-context": "^0",
 		"prop-types": "^15",
-		"react": "^16"
+		"react": "^17"
 	},
 	"dependencies": {
 		"@offirmo-private/async-utils": "^0",
@@ -29,6 +29,6 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"parcel-bundler": "^1",
-		"react-dom": "^16"
+		"react-dom": "^17"
 	}
 }

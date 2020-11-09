@@ -3,8 +3,8 @@ import assert from 'tiny-invariant'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { XXError } from '@offirmo-private/error-utils'
 
-import {ReleaseChannel, OAServerResponseBody} from './types'
-import {LIB, SERVER_RESPONSE_VERSION} from './consts'
+import { ReleaseChannel, OAServerResponseBody } from './types'
+import { LIB, SERVER_RESPONSE_VERSION } from './consts'
 
 /////////////////////////////////////////////////
 

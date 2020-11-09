@@ -12,9 +12,15 @@
 - 😷 chore: bump dependencies
 
 
-## v0.65.12
+## v0.65.13
 - 👋 feature: (feature flagged) progress on the cloud save
 - 😷 chore: some internal refactors
+- 😷 chore: bump dependencies (React 17)
+
+## v0.65.12
+- 👋 feature: (feature flagged) progress on the cloud save
+- 😅 fix: the login works again!
+- 😷 chore: some internal refactors (immutability)
 - 😷 chore: bump dependencies
 
 ## v0.65.11

@@ -74,7 +74,11 @@ function _ↆrefresh_login_state() {
 				logger.info('NetlifyIdentity: user refreshed (2/2)', JSON.parse(JSON.stringify(user)))
 			})
 			.catch(err => {
-				logger.warn('NetlifyIdentity⚡ error on trying to finalize user', err)
+				logger.warn('NetlifyIdentity⚡ error on trying to finalize user', {
+					err,
+					user,
+				})
+				report_error(new Error(`NetlifyIdentity⚡ error on trying to finalize user! (${!user.user_metadata},${!!user.app_metadata},${!!user.token},${!!(user.token || {}).access_token},)`))
 				/* swallow the error */
 
 				// TODO ??

@@ -160,16 +160,21 @@ export function create(
 					body: some_state
 				})
 				cloud_sync_state = on_sync_result(cloud_sync_state)
-
-				logger.trace(`[${LIB}] _sync_with_cloud() got result!`, result)
+				logger.trace(`[${LIB}] _sync_with_cloud() got result:`, result)
 
 				// TODO dispatch side channel data
 
 				const sync_state: Immutable<State> = result.data
-				/*if (get_schema_version_loose(sync_state) > SCHEMA_VERSION)
-					xxx
 				const semantic_difference = get_semantic_difference(sync_state, state)
-				if (semantic_difference)*/
+				logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, { semantic_difference, base: get_base_loose(sync_state), sync_state })
+
+				if (get_schema_version_loose(sync_state) > SCHEMA_VERSION) {
+
+				}
+
+				//if (semantic_difference)
+
+
 			}
 			catch (err) {
 				cloud_sync_state = on_network_error(cloud_sync_state, err)
