@@ -73,7 +73,7 @@
 		"favico.js": "^0.3",
 		"fetch-inject": "^2",
 		"fetch-mock": "^9",
-		"fetch-ponyfill": "^6",
+		"fetch-ponyfill": "^7",
 		"floating.js": "^2",
 		"fraction.js": "^4",
 		"fs-extra": "^9",
@@ -94,7 +94,7 @@
 		"log-symbols": "^4",
 		"massive": "^6",
 		"memoize-one": "^5",
-		"meow": "^7",
+		"meow": "^8",
 		"moment": "^2",
 		"moment-business": "^3",
 		"moment-parseformat": "^3",
@@ -201,7 +201,7 @@
 		"netlify-lambda": "^2",
 		"nodemon": "^2",
 		"normalize.css": "^8",
-		"np": "^6",
+		"np": "^7",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
 		"pokemon": "^2",
@@ -215,6 +215,6 @@
 		"sum-up": "^3",
 		"ts-node": "^9",
 		"typescript": "^4",
-		"webpack-bundle-analyzer": "^3"
+		"webpack-bundle-analyzer": "^4"
 	}
 }

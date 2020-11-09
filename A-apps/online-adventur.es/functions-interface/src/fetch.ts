@@ -39,7 +39,7 @@ export async function fetch_oa<Req, Res>({
 	body?: Immutable<Req>
 	timeout_ms?: number
 } = {}): Promise<Immutable<OAResponse<Res>>> {
-	return SEC.xPromiseTry('foo', async ({ SEC, logger, CHANNEL }) => {
+	return SEC.xPromiseTry('fetch_oa', async ({ SEC, logger, CHANNEL }) => {
 		const request_id = ++request_count
 		const channel: ReleaseChannel = CHANNEL as any
 		logger.trace(`fetch_oa() #${request_id}…`, { method, url, body, headers })

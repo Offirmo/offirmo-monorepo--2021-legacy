@@ -15,7 +15,7 @@
 	},
 
 	"devDependencies": {
-		"np": "^6",
+		"np": "^7",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"
 	},

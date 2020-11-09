@@ -51,6 +51,9 @@ function is_online(state: Immutable<CloudSyncState>): boolean {
 }
 
 function is_healthy(state: Immutable<CloudSyncState>): boolean {
+	if (state.error_count > 5)
+		return false
+
 	return true
 }
 
@@ -63,9 +66,18 @@ function is_likely_in_sync(state: Immutable<CloudSyncState>): boolean {
 }
 
 function on_network_error(state: Immutable<CloudSyncState>, err: Error): Immutable<CloudSyncState> {
+	console.log('TODO switch', err.message)
 	return {
 		...state,
 		error_count: state.error_count + 1,
+	}
+}
+
+function on_sync_result(state: Immutable<CloudSyncState>): Immutable<CloudSyncState> {
+	return {
+		...state,
+		last_successful_sync_tms: get_UTC_timestamp_ms(),
+		error_count: 0,
 	}
 }
 
@@ -147,8 +159,17 @@ export function create(
 					url: Endpoint['key-value'] + '/' + cloud_key,
 					body: some_state
 				})
+				cloud_sync_state = on_sync_result(cloud_sync_state)
+
+				logger.trace(`[${LIB}] _sync_with_cloud() got result!`, result)
+
 				// TODO dispatch side channel data
-				logger.warn(`[${LIB}] _sync_with_cloud() TODO handle result`, result)
+
+				const sync_state: Immutable<State> = result.data
+				/*if (get_schema_version_loose(sync_state) > SCHEMA_VERSION)
+					xxx
+				const semantic_difference = get_semantic_difference(sync_state, state)
+				if (semantic_difference)*/
 			}
 			catch (err) {
 				cloud_sync_state = on_network_error(cloud_sync_state, err)
@@ -165,10 +186,10 @@ export function create(
 			const _is_online = is_online(cloud_sync_state)
 			const _is_healthy = is_healthy(cloud_sync_state)
 			const _should_sync = _is_initialised && _is_online && _is_healthy
-			logger.trace(`[${LIB}] thinking about sheduling a sync… Is it appropriate?`, { _is_initialised, _is_online, _is_healthy, _should_sync })
+			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, { _is_initialised, _is_online, _is_healthy, _should_sync, cloud_sync_state })
 			if (!_should_sync) return
 
-			logger.trace(`[${LIB}] thinking about syncing… (debounced)`)
+			logger.trace(`[${LIB}] scheduling a sync… (debounced)`)
 			_debounced_schedule_sync_with_cloud()
 		}
 

@@ -39,7 +39,7 @@
 		"@tbrpg/interfaces": "^0",
 		"@tbrpg/state": "^0",
 		"dequal": "^2",
-		"fetch-ponyfill": "^6",
+		"fetch-ponyfill": "^7",
 		"json-stable-stringify": "^1",
 		"lodash.debounce": "^4",
 		"tiny-invariant": "^1",

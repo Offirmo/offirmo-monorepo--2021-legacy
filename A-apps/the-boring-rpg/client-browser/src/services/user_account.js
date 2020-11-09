@@ -66,7 +66,7 @@ function _ↆrefresh_login_state() {
 				// seen that user is not immediately fully populated
 				// we need to wait a bit
 				return poll(
-					() => !!user.user_metadata && !!user.app_metadata,
+					() => !!user.user_metadata && !!user.app_metadata && !!user.token && !!user.token.access_token,
 					{ timeoutMs: 30 * 1000 }
 				)
 			})
@@ -131,6 +131,7 @@ function _ↆrefresh_login_state() {
 	})
 
 	ↆfully_loaded.then(function _phone_home() {
+		// TODO use sth else
 		getRootSEC().injectDependencies({
 			shared_fetch_headers: {
 				...(user && {'Authorization': `Bearer ${user.token.access_token}`}),
