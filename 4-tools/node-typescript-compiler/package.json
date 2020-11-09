@@ -21,7 +21,7 @@
 	},
 
 	"devDependencies": {
-		"np": "^6"
+		"np": "^7"
 	},
 	"scripts": {
 		"np": "np --no-publish",

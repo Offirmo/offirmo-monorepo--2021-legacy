@@ -49,7 +49,7 @@
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/unit-test-toolbox": "^6",
 		"@size-limit/preset-small-lib": "^4",
-		"np": "^6",
+		"np": "^7",
 		"npm-run-all": "^4",
 		"size-limit": "^4"
 	},

@@ -51,7 +51,7 @@
 		"@babel/core": "^7",
 		"@offirmo/unit-test-toolbox": "^6",
 		"@size-limit/preset-small-lib": "^4",
-		"np": "^6",
+		"np": "^7",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"
 	},
