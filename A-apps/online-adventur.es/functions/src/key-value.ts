@@ -6,6 +6,11 @@ process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 import '@offirmo/universal-debug-api-node'
 
 import { get_db, KVs } from '@offirmo-private/db'
+import {
+	OAServerResponseBody,
+	create_server_response_body__data,
+	create_server_response_body__error,
+} from '@online-adventur.es/functions-interface'
 
 import {
 	APIGatewayEvent,
@@ -35,23 +40,25 @@ async function _handler(
 	const { p_user } = SEC.getInjectedDependencies()
 	const key = get_key_from_path(event)
 
+	const body: OAServerResponseBody<any> = response.body as any
+
 	switch(event.httpMethod) {
 		case HttpMethod.GET:
-			response.body = JSON.stringify(await KVs.get_value({
+			body.data = await KVs.get_value({
 				user_id: p_user!.id,
 				key,
-			}))
+			})
 			response.statusCode = 200 // never 404 since there is no "existence"
 			break
 		case HttpMethod.PATCH:
 			if (!event.body)
 				throw create_error('Missing body!', { statusCode: HTTP_STATUS_CODE.error.client.bad_request}, SEC)
 
-			response.body = JSON.stringify(await KVs.sync_kv_entry({
+			body.data = await KVs.sync_kv_entry({
 				user_id: p_user!.id,
 				key,
 				value: JSON.parse(event.body),
-			}))
+			})
 			response.statusCode = 200 // always succeed
 			break
 		default:
@@ -72,8 +79,8 @@ const handler: NetlifyHandler = (
 		// TODO ensure content type? "content-type": "application/json",
 		require_http_method([ HttpMethod.GET, HttpMethod.PATCH ]),
 		handle_cors,
-		require_authenticated,
 		enrich_side_infos,
+		require_authenticated,
 		_handler,
 	])
 }

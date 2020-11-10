@@ -4,6 +4,7 @@ import {
 	create_server_response_body__data,
 	create_server_response_body__error,
 } from '@online-adventur.es/functions-interface'
+import { VERSION, NUMERIC_VERSION, SCHEMA_VERSION } from '@tbrpg/state'
 
 import {
 	APIGatewayEvent,
@@ -29,6 +30,19 @@ export default async function enrich_side_infos(
 
 	const body: OAServerResponseBody<any> = response.body as any
 
+	const realm = 'tbrpg'
+	switch (realm) {
+		case 'tbrpg': {
+			body.side.tbrpg = {
+				VERSION,
+				NUMERIC_VERSION,
+				latest_news: [],
+			}
+			break
+		}
+		default:
+			throw new Error(`unknown realm "${realm}"!`)
+	}
 
 	//body.side
 

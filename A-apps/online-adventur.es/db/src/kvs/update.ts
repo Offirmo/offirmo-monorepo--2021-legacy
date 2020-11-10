@@ -77,7 +77,7 @@ export async function set_kv_entry<T>(
 
 		// TODO validate JSON
 
-		// EXPECTED: values are presented from the oldest to the newest!
+		// EXPECTED: calls to this function are expected from the oldest to the newest!
 		function enqueue_in_bkp_pipeline(old_val: any) {
 			if (!old_val) return
 			const semantic_difference = get_semantic_difference(value, old_val)
@@ -120,6 +120,7 @@ export async function set_kv_entry<T>(
 			catch {}
 
 			try {
+				// YES it's critical, that's how a lagging client will get the newest data
 				assert(get_semantic_difference(value, existing.value), 'new value should really be newer!')
 			}
 			catch (err) {

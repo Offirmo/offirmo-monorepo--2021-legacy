@@ -3,6 +3,7 @@ CLE Credibility Logic Emotion
 
 https://knowyourmeme.com/memes/thelegend27
 
+https://elijahmanor.com/blog/format-js-numbers
 
 [ ] Ftl-like fantasy comme douluo dalu
 [ ] Halos

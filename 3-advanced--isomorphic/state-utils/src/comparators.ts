@@ -42,6 +42,7 @@ export function s_max(a: SemanticDifference, b: SemanticDifference): SemanticDif
 
 
 // newer and older so that we get order check as a side-effect
+// TODO improve unclear params
 export function get_semantic_difference(newer: any, older?: any, { assert_newer = true }: { assert_newer?: boolean } = {}): SemanticDifference {
 	//console.log({ newer, older })
 	assert(newer, `get_semantic_difference() should have a newer at least!`)

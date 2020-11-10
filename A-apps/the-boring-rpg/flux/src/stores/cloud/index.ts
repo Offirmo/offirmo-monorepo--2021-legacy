@@ -15,7 +15,7 @@ import { asap_but_not_synchronous, schedule_when_idle_but_not_too_far } from '@o
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 
 import * as TBRPGState from '@tbrpg/state'
-import { State, SCHEMA_VERSION } from '@tbrpg/state'
+import { State, SCHEMA_VERSION, NUMERIC_VERSION } from '@tbrpg/state'
 import { Action, ActionType, create_action__set } from '@tbrpg/interfaces'
 import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/functions-interface'
 
@@ -98,7 +98,7 @@ export function create(
 			last_successful_sync_tms: 0,
 			error_count: 0,
 		}
-		const is_enabled = overrideHook('cloud_save_enabled', false)
+		let is_enabled = overrideHook('cloud_save_enabled', false)
 		logger.verbose(`[${LIB}] FYI API URL = "${get_api_base_url(CHANNEL as any)}"`)
 
 		/////////////////////////////////////////////////
@@ -138,6 +138,7 @@ export function create(
 
 			// TODO don't re-send if already in-flight? or sth
 			try {
+				logger.info(`[${LIB}] _sync_with_cloud()`)
 				const result = await fetch_oa<State, State>({
 					SEC: SEC as any,
 					method: 'PATCH',
@@ -145,20 +146,42 @@ export function create(
 					body: some_state
 				})
 				cloud_sync_state = on_sync_result(cloud_sync_state)
-				logger.trace(`[${LIB}] _sync_with_cloud() got result:`, result)
+				logger.info(`[${LIB}] _sync_with_cloud() got result:`, result)
 
 				try {
-					// TODO handle side channel data
+					const { data, side } = result
 
-					const sync_state: Immutable<State> = last_known_cloud_state = result.data
-					const semantic_difference = get_semantic_difference(sync_state, state)
-					logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, { semantic_difference, base: get_base_loose(sync_state), sync_state })
-
-					if (get_schema_version_loose(sync_state) > SCHEMA_VERSION) {
-						// TODO
+					if (side.tbrpg) {
+						if (side.tbrpg.NUMERIC_VERSION > NUMERIC_VERSION) {
+							// TODO force reload
+							is_enabled = false
+							throw new Error(`Outdated client!`)
+						}
+						if (side.tbrpg.latest_news.length) {
+							// TODO handle
+						}
 					}
 
-					//if (semantic_difference)
+					const sync_state: Immutable<State> = last_known_cloud_state = data
+					// sync result should always be >= by design
+					// UNLESS there was a race condition
+					// TODO handle race conditions
+					const semantic_difference = get_semantic_difference(sync_state, state, { assert_newer: false })
+					logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, { semantic_difference, base: get_base_loose(sync_state) /*, sync_state*/ })
+
+					switch (semantic_difference) {
+						case SemanticDifference.major: {
+							assert(get_schema_version_loose(sync_state) === SCHEMA_VERSION, 'schema version of cloud state should match')
+							break
+						}
+						case SemanticDifference.minor: {
+							console.error('NIMP')
+							break
+						}
+						default:
+							// minor diff, don't care
+							break
+					}
 				}
 				catch (err) {
 					_on_error(err)

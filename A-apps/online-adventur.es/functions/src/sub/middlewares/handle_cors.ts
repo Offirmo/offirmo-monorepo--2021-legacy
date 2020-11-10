@@ -23,7 +23,7 @@ export default async function handle_cors(
 
 		const origin = event.headers.origin
 		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
-		if (origin !== expected_origin) {
+		if (origin !== expected_origin && !expected_origin.startsWith('http://localhost')) {
 			logger.warn('rejecting due to wrong origin', {expected_origin, origin})
 			throw create_error(HTTP_STATUS_CODE.error.client.forbidden, {
 				expected_origin,

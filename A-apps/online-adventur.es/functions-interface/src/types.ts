@@ -10,8 +10,26 @@ export const ReleaseChannel = Enum(
 export type ReleaseChannel = Enum<typeof ReleaseChannel> // eslint-disable-line no-redeclar
 
 
+// response assuming no errors
+export interface OAResponse<T> {
+	data: T, // note: flat denormalized data or graph? Graph seems to be preferred ATM
 
-export interface OAServerResponseBody<T> {
+	side: {
+		tbrpg?: {
+			VERSION: string
+			NUMERIC_VERSION: number
+			latest_news: any[] // TODO refine this
+		}
+	}
+
+
+	// pagination?
+}
+
+
+// raw response potentially containing an error
+// that should be converted to a throw by the receiving code
+export interface OAServerResponseBody<T> extends Omit<OAResponse<T>, "data"> {
 	v: number,
 
 	// either error or data, not both
@@ -22,27 +40,11 @@ export interface OAServerResponseBody<T> {
 		code?: string // node
 	}
 
-	side: {
-		latest_news?: any[] // TODO refine this
-	}
-
+	// technical data, should not make it to the final caller
 	meta: {
 		// stats, uuid, debug, etc.
 		processing_time_ms?: number
+		request_summary?: string // infos on the request that triggered this
 		// also seen: copyright etc.
-		request_summary?: string // infos on the request that triggered this?
 	}
-
-	// pagination?
-}
-
-// validated response when no error
-export interface OAResponse<T> {
-	data: T, // note: flat denormalized data or graph? Graph seems to be preferred ATM
-
-	side: {
-		latest_news?: any[] // TODO refine this
-	}
-
-	// pagination?
 }

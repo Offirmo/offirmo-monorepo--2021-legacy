@@ -69,3 +69,7 @@ export function create_server_response_body__data<T>(data: T): OAServerResponseB
 
 	return body
 }
+
+export function is_server_response_body(body: any): body is OAServerResponseBody<any> {
+	return body && body.v && body.side && body.meta && (body.data || body.error)
+}

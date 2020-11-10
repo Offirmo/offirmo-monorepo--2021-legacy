@@ -13,9 +13,10 @@
 
 
 ## v0.65.13
+- 😅 fix: added circuit breakers on Sentry and Netlify to prevent draining the free tier on bug (ouch!)
 - 👋 feature: (feature flagged) progress on the cloud save
-- 😷 chore: some internal refactors
-- 😷 chore: bump dependencies (React 17)
+- 😷 chore: some internal refactors: mainly the serverless functions
+- 😷 chore: bump dependencies (incl. React 17)
 
 ## v0.65.12
 - 👋 feature: (feature flagged) progress on the cloud save

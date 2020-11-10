@@ -10,6 +10,7 @@ import {
 	OAServerResponseBody,
 	create_server_response_body__data,
 	create_server_response_body__error,
+	is_server_response_body,
 } from '@online-adventur.es/functions-interface'
 import { end_of_current_event_loop } from '@offirmo-private/async-utils'
 
@@ -41,16 +42,15 @@ interface LocalLSInjections extends Injections {
 type LSoftExecutionContext = SoftExecutionContext<LocalLSInjections>
 type LOperationParams = OperationParams<LocalLSInjections>
 
-function _get_body_debug_representation(body: Immutable<any>): Object {
+function _get_body_debug_representation(body: Immutable<any>): string {
 	if (typeof body === 'string') {
 		try {
 			body = JSON.parse(body)
 		}
 		catch {}
 	}
-
-	if (is_revisioned(body))
-		body = { '[DEBUG]': get_base_loose(body) }
+	if (!body)
+		return String(body)
 
 	if (body.v && body.data) {
 		if (is_revisioned(body.data)) {
@@ -60,6 +60,8 @@ function _get_body_debug_representation(body: Immutable<any>): Object {
 			}
 		}
 	}
+	else if (is_revisioned(body))
+		body = { '[DEBUG]': get_base_loose(body) }
 
 	if (typeof body !== 'string') {
 		body = JSON.stringify(body)
@@ -77,6 +79,7 @@ function _get_response_debug_representation(response: Immutable<Response>): Obje
 		body: _get_body_debug_representation(response.body),
 	}
 }
+
 ////////////////////////////////////
 
 export function use_middlewares_with_error_safety_net(
@@ -109,7 +112,13 @@ export function use_middlewares_with_error_safety_net(
 		assert(response.statusCode >= 200, `status code is >= 200! (${response.statusCode})`)
 		assert(response.statusCode < 300, `status code is < 300! (${response.statusCode})`)
 
-		response.body = create_server_response_body__data(JSON.parse(response.body)) as any // temporarily passing as string
+		try {
+			response.body = JSON.parse(response.body)
+		}
+		catch {}
+
+		if (!is_server_response_body(response.body))
+			response.body = create_server_response_body__data(response.body) as any
 
 		return response
 	})
@@ -295,7 +304,7 @@ async function _run_mw_chain(
 					try {
 						JSON.parse(body) // check if it's correct json
 					} catch (err) {
-						throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an non-json body!`)
+						throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an non-json string body!`)
 					}
 				} else {
 					try {

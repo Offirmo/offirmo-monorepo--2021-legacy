@@ -12,12 +12,15 @@ const DEVICE_UUID = ensureDeviceUUID()
 
 /////////////////////////////////////////////////
 
-let raven_client
-export function get_raven_client() {
-	if (!raven_client) {
-		raven_client = new Raven.Client()
+let _raven_client
+const MAX_ERROR_REPORTS = 10
+let _error_report_count = 0 // to avoid killing Sentry free tier
 
-		raven_client
+export function get_raven_client() {
+	if (!_raven_client) {
+		_raven_client = new Raven.Client()
+
+		_raven_client
 			.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 				// https://docs.sentry.io/clients/javascript/config/
 				// logger ?
@@ -80,7 +83,7 @@ export function get_raven_client() {
 			//.install()
 	}
 
-	return raven_client
+	return _raven_client
 }
 
 /////////////////////////////////////////////////
@@ -92,6 +95,11 @@ export function set_user_context({email, id, name}) {
 }
 
 export function report_error(err) {
+	_error_report_count++
+	if (_error_report_count > MAX_ERROR_REPORTS)
+		return
+	if (_error_report_count === MAX_ERROR_REPORTS)
+		err = new Error(`Too many errors!`)
 	Raven.captureException(err)
 }
 

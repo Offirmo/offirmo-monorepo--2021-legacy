@@ -15,7 +15,12 @@ type FetchResponse = typeof ResponseV
 
 /////////////////////////////////////////////////
 
-let request_count = 0 // for logging
+const _state = {
+	request_count: 0, // for logging
+	error_count: 0, // circuit breaker to avoid killing Netlify free tier
+}
+
+
 export async function fetch_oa<Req, Res>({
 	SEC = getRootSEC(),
 
@@ -38,10 +43,13 @@ export async function fetch_oa<Req, Res>({
 	timeout_ms?: number
 } = {}): Promise<Immutable<OAResponse<Res>>> {
 	return SEC.xPromiseTry('fetch_oa', async ({ SEC, logger, CHANNEL }) => {
-		const request_id = ++request_count
+		const request_id = ++_state.request_count
 		const channel: ReleaseChannel = CHANNEL as any
 		logger.trace(`fetch_oa() #${request_id}…`, { method, url, body, headers })
 		const headers_from_SEC = (SEC.getInjectedDependencies() as any).shared_fetch_headers || {}
+
+		if (_state.error_count > 25)
+			throw new Error(`fetch_oa(): too many errors in the past, circuit breaker!`) // TODO improve with debounce
 
 		url = [ get_api_base_url(channel), url ].join('/')
 		headers = {
@@ -50,7 +58,7 @@ export async function fetch_oa<Req, Res>({
 			'Content-Type': 'application/json',
 		}
 		let fetch_response: undefined | FetchResponse = undefined
-		let response_for_logging: undefined | FetchResponse | OAServerResponseBody<Res>| OAResponse<Res>
+		let response_for_logging: undefined | FetchResponse | OAServerResponseBody<Res> | OAResponse<Res>
 		let candidate_error: XXError | null = null
 
 		return Promise.race([
@@ -101,7 +109,6 @@ export async function fetch_oa<Req, Res>({
 
 				logger.trace(`fetch_oa() #${request_id}: got OA response body`, { method, url, v, error, data, side, meta })
 
-
 				if (!data) {
 					throw new Error('No response data!')
 				}
@@ -110,6 +117,7 @@ export async function fetch_oa<Req, Res>({
 			})
 			.catch((err: Error) => {
 				logger.warn(`fetch_it #${request_id} ended with an error!`, { method, url, response: response_for_logging, err, err_message: err.message})
+				_state.error_count++
 				throw err
 			})
 	})
