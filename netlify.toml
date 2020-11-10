@@ -9,6 +9,7 @@
 	# Directory with the serverless Lambda functions to deploy to AWS.
 	## https://www.netlify.com/docs/functions/#tools-for-building-javascript-functions
 	functions = "./A-apps/online-adventur.es/functions/functions"
+	command = "echo $TEST_ENV_VAR"
 	[build.processing]
 		skip_processing = true
 	[build.environment]
@@ -17,22 +18,23 @@
 		## won't use the latest, such a pain (seen 2020/11)
 		## can't use semver, such a pain
 		YARN_VERSION = "1.22.10"
-		# https://www.netlify.com/docs/functions/#javascript-runtime-settings
-		# https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
-		AWS_LAMBDA_JS_RUNTIME = "nodejs12.x"
+		## https://www.netlify.com/docs/functions/#javascript-runtime-settings
+		## https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
+		## does this take effect?
+		AWS_LAMBDA_JS_RUNTIME = "nodejs10.x"
 
+
+## 2020/11 not seen those env vars in FUNCTIONS, they must be for build only
 # Production context: All deploys from the main
 # repository branch will inherit these settings.
 [context.production]
 	[context.production.environment]
 		TEST_ENV_VAR = "production"
-
 # Deploy Preview context: All deploys generated from a pull/merge request
 # will inherit these settings.
 [context.deploy-preview]
 	[context.deploy-preview.environment]
 		TEST_ENV_VAR = "deploy-preview"
-
 # Branch deploy context: All deploys that are not from a pull/merge request
 # or from the production branch will inherit these settings.
 [context.branch-deploy]
