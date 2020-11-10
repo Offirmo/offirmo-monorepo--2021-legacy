@@ -1,4 +1,6 @@
-## this file reference https://www.netlify.com/docs/netlify-toml-reference/
+## referenceS
+## - https://www.netlify.com/docs/netlify-toml-reference/
+## - https://docs.netlify.com/configure-builds/file-based-configuration/
 
 
 # Settings in the [build] context are global and are applied to all contexts
@@ -11,6 +13,8 @@
 		skip_processing = true
 	[build.environment]
 		TEST_ENV_VAR = "build"
+		# https://docs.netlify.com/configure-builds/manage-dependencies/#yarn
+		YARN_VERSION = "^1"
 		# https://www.netlify.com/docs/functions/#javascript-runtime-settings
 		# https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
 		AWS_LAMBDA_JS_RUNTIME = "nodejs12.x"

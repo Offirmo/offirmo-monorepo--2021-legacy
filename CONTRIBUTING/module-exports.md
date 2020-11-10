@@ -26,7 +26,10 @@ Notes:
   * replace in `package.json`: `src.es202x`
   * `A-apps/online-adventur.es/heroku/.babelrc`
   * `A-apps/online-adventur.es/functions/.babelrc`
-  * if applicable, go to Netlify admin and change AWS_LAMBDA_JS_RUNTIME = node14.x or sth
+  * Netlify:
+    * ensure AWS_LAMBDA_JS_RUNTIME = "nodejsXX.x" is valid in `netlify.toml`
+    * in admin change AWS_LAMBDA_JS_RUNTIME = nodeXX.x or sth
+
 
 
 ### FUTURE update ???
