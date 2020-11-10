@@ -13,8 +13,10 @@
 		skip_processing = true
 	[build.environment]
 		TEST_ENV_VAR = "build"
-		# https://docs.netlify.com/configure-builds/manage-dependencies/#yarn
-		YARN_VERSION = "^1"
+		## https://docs.netlify.com/configure-builds/manage-dependencies/#yarn
+		## won't use the latest, such a pain (seen 2020/11)
+		## can't use semver, such a pain
+		YARN_VERSION = "1.22.10"
 		# https://www.netlify.com/docs/functions/#javascript-runtime-settings
 		# https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
 		AWS_LAMBDA_JS_RUNTIME = "nodejs12.x"
