@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 539);
+/******/ 	return __webpack_require__(__webpack_require__.s = 561);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(103);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(50);
+const ansiStyles = __webpack_require__(108);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(54);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(108);
+} = __webpack_require__(113);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(109);
+		template = __webpack_require__(114);
 	}
 
 	return template(chalk, parts.join(''));
@@ -323,7 +323,32 @@ module.exports = chalk;
 
 /***/ }),
 
-/***/ 103:
+/***/ 10:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
+
+  if (typeof global !== 'undefined') return global; // @ts-ignore
+
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
+
+
+/***/ }),
+
+/***/ 108:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -369,7 +394,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(104);
+		colorConvert = __webpack_require__(109);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -491,15 +516,15 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
 
 /***/ }),
 
-/***/ 104:
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(54);
-const route = __webpack_require__(106);
+const conversions = __webpack_require__(58);
+const route = __webpack_require__(111);
 
 const convert = {};
 
@@ -583,7 +608,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 105:
+/***/ 110:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -743,10 +768,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 106:
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(54);
+const conversions = __webpack_require__(58);
 
 /*
 	This function routes a model to all other models.
@@ -847,7 +872,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 107:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -863,7 +888,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 108:
+/***/ 113:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -910,7 +935,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 109:
+/***/ 114:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1052,7 +1077,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 16:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1078,14 +1103,14 @@ const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a b
 
 /***/ }),
 
-/***/ 27:
+/***/ 31:
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
 
-/***/ 40:
+/***/ 43:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -1114,14 +1139,14 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 50:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(27);
-const tty = __webpack_require__(51);
-const hasFlag = __webpack_require__(107);
+const os = __webpack_require__(31);
+const tty = __webpack_require__(55);
+const hasFlag = __webpack_require__(112);
 
 const {env} = process;
 
@@ -1257,14 +1282,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 51:
+/***/ 55:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
 
-/***/ 535:
+/***/ 553:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1278,11 +1303,11 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201109_18h49';
+exports.BUILD_DATE = '20201110_21h33';
 
 /***/ }),
 
-/***/ 539:
+/***/ 561:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1300,9 +1325,9 @@ process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 
-__webpack_require__(70);
+__webpack_require__(74);
 
-const build_1 = __webpack_require__(535); ////////////////////////////////////
+const build_1 = __webpack_require__(553); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -1322,12 +1347,12 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 54:
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(105);
+const cssKeywords = __webpack_require__(110);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -2168,7 +2193,7 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 70:
+/***/ 74:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2184,7 +2209,7 @@ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "createV1", function() { return /* reexport */ v1_create; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(9);
+var src_es2019 = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
 const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
@@ -2776,7 +2801,7 @@ function is_pure_json(js) {
   return false;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
-var fields = __webpack_require__(16);
+var fields = __webpack_require__(17);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -3176,31 +3201,6 @@ const {
 } = instance;
  // types
 
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
 
 
 /***/ })

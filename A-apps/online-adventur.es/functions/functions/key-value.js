@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 540);
+/******/ 	return __webpack_require__(__webpack_require__.s = 562);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -90,12 +90,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(103);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(50);
+const ansiStyles = __webpack_require__(108);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(54);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(108);
+} = __webpack_require__(113);
 
 const {isArray} = Array;
 
@@ -304,7 +304,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(109);
+		template = __webpack_require__(114);
 	}
 
 	return template(chalk, parts.join(''));
@@ -671,80 +671,6 @@ module.exports = require("util");
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-module.exports = require("zlib");
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-module.exports = require("events");
-
-/***/ }),
-/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -799,6 +725,80 @@ exports.Enum = Enum;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
+
+  if (typeof global !== 'undefined') return global; // @ts-ignore
+
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("zlib");
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
@@ -806,728 +806,6 @@ module.exports = require("http");
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports) {
-
-module.exports = require("fs");
-
-/***/ }),
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
-const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message']);
-const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack']);
-const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used:
-'statusCode', 'shouldRedirect', 'framesToPop']);
-const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'details', '_temp']);
-
-/***/ }),
-/* 17 */,
-/* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getGlobalObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return uuid4; });
-/* unused harmony export parseUrl */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getEventDescription; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return consoleSandbox; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addExceptionTypeValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addExceptionMechanism; });
-/* unused harmony export getLocationHref */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return parseSemver; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return parseRetryAfterHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return stripUrlQueryAndFragment; });
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
-
-
-var fallbackGlobalObject = {};
-/**
- * Safely get global scope object
- *
- * @returns Global scope object
- */
-function getGlobalObject() {
-    return (Object(_node__WEBPACK_IMPORTED_MODULE_0__[/* isNodeEnv */ "c"])()
-        ? global
-        : typeof window !== 'undefined'
-            ? window
-            : typeof self !== 'undefined'
-                ? self
-                : fallbackGlobalObject);
-}
-/**
- * UUID4 generator
- *
- * @returns string Generated UUID4.
- */
-function uuid4() {
-    var global = getGlobalObject();
-    var crypto = global.crypto || global.msCrypto;
-    if (!(crypto === void 0) && crypto.getRandomValues) {
-        // Use window.crypto API if available
-        var arr = new Uint16Array(8);
-        crypto.getRandomValues(arr);
-        // set 4 in byte 7
-        // eslint-disable-next-line no-bitwise
-        arr[3] = (arr[3] & 0xfff) | 0x4000;
-        // set 2 most significant bits of byte 9 to '10'
-        // eslint-disable-next-line no-bitwise
-        arr[4] = (arr[4] & 0x3fff) | 0x8000;
-        var pad = function (num) {
-            var v = num.toString(16);
-            while (v.length < 4) {
-                v = "0" + v;
-            }
-            return v;
-        };
-        return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
-    }
-    // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
-    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        // eslint-disable-next-line no-bitwise
-        var r = (Math.random() * 16) | 0;
-        // eslint-disable-next-line no-bitwise
-        var v = c === 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-    });
-}
-/**
- * Parses string form of URL into an object
- * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
- * // intentionally using regex and not <a/> href parsing trick because React Native and other
- * // environments where DOM might not be available
- * @returns parsed URL object
- */
-function parseUrl(url) {
-    if (!url) {
-        return {};
-    }
-    var match = url.match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
-    if (!match) {
-        return {};
-    }
-    // coerce to undefined values to empty string so we don't get 'undefined'
-    var query = match[6] || '';
-    var fragment = match[8] || '';
-    return {
-        host: match[4],
-        path: match[5],
-        protocol: match[2],
-        relative: match[5] + query + fragment,
-    };
-}
-/**
- * Extracts either message or type+value from an event that can be used for user-facing logs
- * @returns event's description
- */
-function getEventDescription(event) {
-    if (event.message) {
-        return event.message;
-    }
-    if (event.exception && event.exception.values && event.exception.values[0]) {
-        var exception = event.exception.values[0];
-        if (exception.type && exception.value) {
-            return exception.type + ": " + exception.value;
-        }
-        return exception.type || exception.value || event.event_id || '<unknown>';
-    }
-    return event.event_id || '<unknown>';
-}
-/** JSDoc */
-function consoleSandbox(callback) {
-    var global = getGlobalObject();
-    var levels = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
-    if (!('console' in global)) {
-        return callback();
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    var originalConsole = global.console;
-    var wrappedLevels = {};
-    // Restore all wrapped console methods
-    levels.forEach(function (level) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (level in global.console && originalConsole[level].__sentry_original__) {
-            wrappedLevels[level] = originalConsole[level];
-            originalConsole[level] = originalConsole[level].__sentry_original__;
-        }
-    });
-    // Perform callback manipulations
-    var result = callback();
-    // Revert restoration to wrapped state
-    Object.keys(wrappedLevels).forEach(function (level) {
-        originalConsole[level] = wrappedLevels[level];
-    });
-    return result;
-}
-/**
- * Adds exception values, type and value to an synthetic Exception.
- * @param event The event to modify.
- * @param value Value of the exception.
- * @param type Type of the exception.
- * @hidden
- */
-function addExceptionTypeValue(event, value, type) {
-    event.exception = event.exception || {};
-    event.exception.values = event.exception.values || [];
-    event.exception.values[0] = event.exception.values[0] || {};
-    event.exception.values[0].value = event.exception.values[0].value || value || '';
-    event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
-}
-/**
- * Adds exception mechanism to a given event.
- * @param event The event to modify.
- * @param mechanism Mechanism of the mechanism.
- * @hidden
- */
-function addExceptionMechanism(event, mechanism) {
-    if (mechanism === void 0) { mechanism = {}; }
-    // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
-    try {
-        // @ts-ignore Type 'Mechanism | {}' is not assignable to type 'Mechanism | undefined'
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
-        Object.keys(mechanism).forEach(function (key) {
-            // @ts-ignore Mechanism has no index signature
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            event.exception.values[0].mechanism[key] = mechanism[key];
-        });
-    }
-    catch (_oO) {
-        // no-empty
-    }
-}
-/**
- * A safe form of location.href
- */
-function getLocationHref() {
-    try {
-        return document.location.href;
-    }
-    catch (oO) {
-        return '';
-    }
-}
-// https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
-var SEMVER_REGEXP = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
-/**
- * Parses input into a SemVer interface
- * @param input string representation of a semver version
- */
-function parseSemver(input) {
-    var match = input.match(SEMVER_REGEXP) || [];
-    var major = parseInt(match[1], 10);
-    var minor = parseInt(match[2], 10);
-    var patch = parseInt(match[3], 10);
-    return {
-        buildmetadata: match[5],
-        major: isNaN(major) ? undefined : major,
-        minor: isNaN(minor) ? undefined : minor,
-        patch: isNaN(patch) ? undefined : patch,
-        prerelease: match[4],
-    };
-}
-var defaultRetryAfter = 60 * 1000; // 60 seconds
-/**
- * Extracts Retry-After value from the request header or returns default value
- * @param now current unix timestamp
- * @param header string representation of 'Retry-After' header
- */
-function parseRetryAfterHeader(now, header) {
-    if (!header) {
-        return defaultRetryAfter;
-    }
-    var headerDelay = parseInt("" + header, 10);
-    if (!isNaN(headerDelay)) {
-        return headerDelay * 1000;
-    }
-    var headerDate = Date.parse("" + header);
-    if (!isNaN(headerDate)) {
-        return headerDate - now;
-    }
-    return defaultRetryAfter;
-}
-/**
- * This function adds context (pre/post/line) lines to the provided frame
- *
- * @param lines string[] containing all lines
- * @param frame StackFrame that will be mutated
- * @param linesOfContext number of context lines we want to add pre/post
- */
-function addContextToFrame(lines, frame, linesOfContext) {
-    if (linesOfContext === void 0) { linesOfContext = 5; }
-    var lineno = frame.lineno || 0;
-    var maxLines = lines.length;
-    var sourceLine = Math.max(Math.min(maxLines, lineno - 1), 0);
-    frame.pre_context = lines
-        .slice(Math.max(0, sourceLine - linesOfContext), sourceLine)
-        .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
-    frame.context_line = Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(lines[Math.min(maxLines - 1, sourceLine)], frame.colno || 0);
-    frame.post_context = lines
-        .slice(Math.min(sourceLine + 1, maxLines), sourceLine + 1 + linesOfContext)
-        .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
-}
-/**
- * Strip the query string and fragment off of a given URL or path (if present)
- *
- * @param urlPath Full URL or path, including possible query string and/or fragment
- * @returns URL or path without query string or fragment
- */
-function stripUrlQueryAndFragment(urlPath) {
-    // eslint-disable-next-line no-useless-escape
-    return urlPath.split(/[\?#]/, 1)[0];
-}
-//# sourceMappingURL=misc.js.map
-
-/***/ }),
-/* 19 */,
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
-/* unused harmony export safeJoin */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-
-/**
- * Truncates given string to the maximum characters count
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function truncate(str, max) {
-    if (max === void 0) { max = 0; }
-    if (typeof str !== 'string' || max === 0) {
-        return str;
-    }
-    return str.length <= max ? str : str.substr(0, max) + "...";
-}
-/**
- * This is basically just `trim_line` from
- * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function snipLine(line, colno) {
-    var newLine = line;
-    var ll = newLine.length;
-    if (ll <= 150) {
-        return newLine;
-    }
-    if (colno > ll) {
-        // eslint-disable-next-line no-param-reassign
-        colno = ll;
-    }
-    var start = Math.max(colno - 60, 0);
-    if (start < 5) {
-        start = 0;
-    }
-    var end = Math.min(start + 140, ll);
-    if (end > ll - 5) {
-        end = ll;
-    }
-    if (end === ll) {
-        start = Math.max(end - 140, 0);
-    }
-    newLine = newLine.slice(start, end);
-    if (start > 0) {
-        newLine = "'{snip} " + newLine;
-    }
-    if (end < ll) {
-        newLine += ' {snip}';
-    }
-    return newLine;
-}
-/**
- * Join values in array
- * @param input array of values to be joined together
- * @param delimiter string to be placed in-between values
- * @returns Joined values
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function safeJoin(input, delimiter) {
-    if (!Array.isArray(input)) {
-        return '';
-    }
-    var output = [];
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (var i = 0; i < input.length; i++) {
-        var value = input[i];
-        try {
-            output.push(String(value));
-        }
-        catch (e) {
-            output.push('[value cannot be serialized]');
-        }
-    }
-    return output.join(delimiter);
-}
-/**
- * Checks if the value matches a regex or includes the string
- * @param value The string value to be checked against
- * @param pattern Either a regex or a string that must be contained in value
- */
-function isMatchingPattern(value, pattern) {
-    if (!Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isString */ "h"])(value)) {
-        return false;
-    }
-    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "g"])(pattern)) {
-        return pattern.test(value);
-    }
-    if (typeof pattern === 'string') {
-        return value.indexOf(pattern) !== -1;
-    }
-    return false;
-}
-//# sourceMappingURL=string.js.map
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(199);
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-module.exports = require("https");
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-/* 25 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __extends; });
-/* unused harmony export __assign */
-/* unused harmony export __rest */
-/* unused harmony export __decorate */
-/* unused harmony export __param */
-/* unused harmony export __metadata */
-/* unused harmony export __awaiter */
-/* unused harmony export __generator */
-/* unused harmony export __createBinding */
-/* unused harmony export __exportStar */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __values; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __read; });
-/* unused harmony export __spread */
-/* unused harmony export __spreadArrays */
-/* unused harmony export __await */
-/* unused harmony export __asyncGenerator */
-/* unused harmony export __asyncDelegator */
-/* unused harmony export __asyncValues */
-/* unused harmony export __makeTemplateObject */
-/* unused harmony export __importStar */
-/* unused harmony export __importDefault */
-/* unused harmony export __classPrivateFieldGet */
-/* unused harmony export __classPrivateFieldSet */
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return extendStatics(d, b);
-};
-
-function __extends(d, b) {
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return __assign.apply(this, arguments);
-}
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-function __createBinding(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}
-
-function __exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-
-function __values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function __read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(__read(arguments[i]));
-    return ar;
-}
-
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
-
-function __await(v) {
-    return this instanceof __await ? (this.v = v, this) : new __await(v);
-}
-
-function __asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function __asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function __asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function __makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-function __importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
-    return result;
-}
-
-function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function __classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-
-function __classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-}
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-module.exports = require("domain");
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1571,14 +849,14 @@ __webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() {
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/types.js
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(9);
+var src_es2019 = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/consts.js
 const LIB = 'soft-execution-context';
 const INTERNAL_PROP = '_SEC';
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(72);
+var emittery = __webpack_require__(76);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -1917,13 +1195,13 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(100);
+var generate = __webpack_require__(104);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--normalize.js
-var util_normalize = __webpack_require__(77);
+var util_normalize = __webpack_require__(81);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--create.js
-var util_create = __webpack_require__(78);
+var util_create = __webpack_require__(82);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -2344,7 +1622,1544 @@ function getRootSEC() {
 
 
 /***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
+const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message']);
+const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used:
+'statusCode', 'shouldRedirect', 'framesToPop']);
+const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
+'details', '_temp']);
+
+/***/ }),
+/* 18 */,
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getGlobalObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return uuid4; });
+/* unused harmony export parseUrl */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getEventDescription; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return consoleSandbox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addExceptionTypeValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addExceptionMechanism; });
+/* unused harmony export getLocationHref */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return parseSemver; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return parseRetryAfterHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return stripUrlQueryAndFragment; });
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(36);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+
+
+var fallbackGlobalObject = {};
+/**
+ * Safely get global scope object
+ *
+ * @returns Global scope object
+ */
+function getGlobalObject() {
+    return (Object(_node__WEBPACK_IMPORTED_MODULE_0__[/* isNodeEnv */ "c"])()
+        ? global
+        : typeof window !== 'undefined'
+            ? window
+            : typeof self !== 'undefined'
+                ? self
+                : fallbackGlobalObject);
+}
+/**
+ * UUID4 generator
+ *
+ * @returns string Generated UUID4.
+ */
+function uuid4() {
+    var global = getGlobalObject();
+    var crypto = global.crypto || global.msCrypto;
+    if (!(crypto === void 0) && crypto.getRandomValues) {
+        // Use window.crypto API if available
+        var arr = new Uint16Array(8);
+        crypto.getRandomValues(arr);
+        // set 4 in byte 7
+        // eslint-disable-next-line no-bitwise
+        arr[3] = (arr[3] & 0xfff) | 0x4000;
+        // set 2 most significant bits of byte 9 to '10'
+        // eslint-disable-next-line no-bitwise
+        arr[4] = (arr[4] & 0x3fff) | 0x8000;
+        var pad = function (num) {
+            var v = num.toString(16);
+            while (v.length < 4) {
+                v = "0" + v;
+            }
+            return v;
+        };
+        return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
+    }
+    // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
+    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        // eslint-disable-next-line no-bitwise
+        var r = (Math.random() * 16) | 0;
+        // eslint-disable-next-line no-bitwise
+        var v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
+/**
+ * Parses string form of URL into an object
+ * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
+ * // intentionally using regex and not <a/> href parsing trick because React Native and other
+ * // environments where DOM might not be available
+ * @returns parsed URL object
+ */
+function parseUrl(url) {
+    if (!url) {
+        return {};
+    }
+    var match = url.match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
+    if (!match) {
+        return {};
+    }
+    // coerce to undefined values to empty string so we don't get 'undefined'
+    var query = match[6] || '';
+    var fragment = match[8] || '';
+    return {
+        host: match[4],
+        path: match[5],
+        protocol: match[2],
+        relative: match[5] + query + fragment,
+    };
+}
+/**
+ * Extracts either message or type+value from an event that can be used for user-facing logs
+ * @returns event's description
+ */
+function getEventDescription(event) {
+    if (event.message) {
+        return event.message;
+    }
+    if (event.exception && event.exception.values && event.exception.values[0]) {
+        var exception = event.exception.values[0];
+        if (exception.type && exception.value) {
+            return exception.type + ": " + exception.value;
+        }
+        return exception.type || exception.value || event.event_id || '<unknown>';
+    }
+    return event.event_id || '<unknown>';
+}
+/** JSDoc */
+function consoleSandbox(callback) {
+    var global = getGlobalObject();
+    var levels = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
+    if (!('console' in global)) {
+        return callback();
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    var originalConsole = global.console;
+    var wrappedLevels = {};
+    // Restore all wrapped console methods
+    levels.forEach(function (level) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (level in global.console && originalConsole[level].__sentry_original__) {
+            wrappedLevels[level] = originalConsole[level];
+            originalConsole[level] = originalConsole[level].__sentry_original__;
+        }
+    });
+    // Perform callback manipulations
+    var result = callback();
+    // Revert restoration to wrapped state
+    Object.keys(wrappedLevels).forEach(function (level) {
+        originalConsole[level] = wrappedLevels[level];
+    });
+    return result;
+}
+/**
+ * Adds exception values, type and value to an synthetic Exception.
+ * @param event The event to modify.
+ * @param value Value of the exception.
+ * @param type Type of the exception.
+ * @hidden
+ */
+function addExceptionTypeValue(event, value, type) {
+    event.exception = event.exception || {};
+    event.exception.values = event.exception.values || [];
+    event.exception.values[0] = event.exception.values[0] || {};
+    event.exception.values[0].value = event.exception.values[0].value || value || '';
+    event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
+}
+/**
+ * Adds exception mechanism to a given event.
+ * @param event The event to modify.
+ * @param mechanism Mechanism of the mechanism.
+ * @hidden
+ */
+function addExceptionMechanism(event, mechanism) {
+    if (mechanism === void 0) { mechanism = {}; }
+    // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
+    try {
+        // @ts-ignore Type 'Mechanism | {}' is not assignable to type 'Mechanism | undefined'
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
+        Object.keys(mechanism).forEach(function (key) {
+            // @ts-ignore Mechanism has no index signature
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            event.exception.values[0].mechanism[key] = mechanism[key];
+        });
+    }
+    catch (_oO) {
+        // no-empty
+    }
+}
+/**
+ * A safe form of location.href
+ */
+function getLocationHref() {
+    try {
+        return document.location.href;
+    }
+    catch (oO) {
+        return '';
+    }
+}
+// https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+var SEMVER_REGEXP = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+/**
+ * Parses input into a SemVer interface
+ * @param input string representation of a semver version
+ */
+function parseSemver(input) {
+    var match = input.match(SEMVER_REGEXP) || [];
+    var major = parseInt(match[1], 10);
+    var minor = parseInt(match[2], 10);
+    var patch = parseInt(match[3], 10);
+    return {
+        buildmetadata: match[5],
+        major: isNaN(major) ? undefined : major,
+        minor: isNaN(minor) ? undefined : minor,
+        patch: isNaN(patch) ? undefined : patch,
+        prerelease: match[4],
+    };
+}
+var defaultRetryAfter = 60 * 1000; // 60 seconds
+/**
+ * Extracts Retry-After value from the request header or returns default value
+ * @param now current unix timestamp
+ * @param header string representation of 'Retry-After' header
+ */
+function parseRetryAfterHeader(now, header) {
+    if (!header) {
+        return defaultRetryAfter;
+    }
+    var headerDelay = parseInt("" + header, 10);
+    if (!isNaN(headerDelay)) {
+        return headerDelay * 1000;
+    }
+    var headerDate = Date.parse("" + header);
+    if (!isNaN(headerDate)) {
+        return headerDate - now;
+    }
+    return defaultRetryAfter;
+}
+/**
+ * This function adds context (pre/post/line) lines to the provided frame
+ *
+ * @param lines string[] containing all lines
+ * @param frame StackFrame that will be mutated
+ * @param linesOfContext number of context lines we want to add pre/post
+ */
+function addContextToFrame(lines, frame, linesOfContext) {
+    if (linesOfContext === void 0) { linesOfContext = 5; }
+    var lineno = frame.lineno || 0;
+    var maxLines = lines.length;
+    var sourceLine = Math.max(Math.min(maxLines, lineno - 1), 0);
+    frame.pre_context = lines
+        .slice(Math.max(0, sourceLine - linesOfContext), sourceLine)
+        .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
+    frame.context_line = Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(lines[Math.min(maxLines - 1, sourceLine)], frame.colno || 0);
+    frame.post_context = lines
+        .slice(Math.min(sourceLine + 1, maxLines), sourceLine + 1 + linesOfContext)
+        .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
+}
+/**
+ * Strip the query string and fragment off of a given URL or path (if present)
+ *
+ * @param urlPath Full URL or path, including possible query string and/or fragment
+ * @returns URL or path without query string or fragment
+ */
+function stripUrlQueryAndFragment(urlPath) {
+    // eslint-disable-next-line no-useless-escape
+    return urlPath.split(/[\?#]/, 1)[0];
+}
+//# sourceMappingURL=misc.js.map
+
+/***/ }),
+/* 20 */,
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
+/* unused harmony export safeJoin */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+
+/**
+ * Truncates given string to the maximum characters count
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function truncate(str, max) {
+    if (max === void 0) { max = 0; }
+    if (typeof str !== 'string' || max === 0) {
+        return str;
+    }
+    return str.length <= max ? str : str.substr(0, max) + "...";
+}
+/**
+ * This is basically just `trim_line` from
+ * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function snipLine(line, colno) {
+    var newLine = line;
+    var ll = newLine.length;
+    if (ll <= 150) {
+        return newLine;
+    }
+    if (colno > ll) {
+        // eslint-disable-next-line no-param-reassign
+        colno = ll;
+    }
+    var start = Math.max(colno - 60, 0);
+    if (start < 5) {
+        start = 0;
+    }
+    var end = Math.min(start + 140, ll);
+    if (end > ll - 5) {
+        end = ll;
+    }
+    if (end === ll) {
+        start = Math.max(end - 140, 0);
+    }
+    newLine = newLine.slice(start, end);
+    if (start > 0) {
+        newLine = "'{snip} " + newLine;
+    }
+    if (end < ll) {
+        newLine += ' {snip}';
+    }
+    return newLine;
+}
+/**
+ * Join values in array
+ * @param input array of values to be joined together
+ * @param delimiter string to be placed in-between values
+ * @returns Joined values
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function safeJoin(input, delimiter) {
+    if (!Array.isArray(input)) {
+        return '';
+    }
+    var output = [];
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (var i = 0; i < input.length; i++) {
+        var value = input[i];
+        try {
+            output.push(String(value));
+        }
+        catch (e) {
+            output.push('[value cannot be serialized]');
+        }
+    }
+    return output.join(delimiter);
+}
+/**
+ * Checks if the value matches a regex or includes the string
+ * @param value The string value to be checked against
+ * @param pattern Either a regex or a string that must be contained in value
+ */
+function isMatchingPattern(value, pattern) {
+    if (!Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isString */ "h"])(value)) {
+        return false;
+    }
+    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "g"])(pattern)) {
+        return pattern.test(value);
+    }
+    if (typeof pattern === 'string') {
+        return value.indexOf(pattern) !== -1;
+    }
+    return false;
+}
+//# sourceMappingURL=string.js.map
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;/*jshint eqnull:true*/
+(function (root) {
+  "use strict";
+
+  var GLOBAL_KEY = "Random";
+
+  var imul = (typeof Math.imul !== "function" || Math.imul(0xffffffff, 5) !== -5 ?
+    function (a, b) {
+      var ah = (a >>> 16) & 0xffff;
+      var al = a & 0xffff;
+      var bh = (b >>> 16) & 0xffff;
+      var bl = b & 0xffff;
+      // the shift by 0 fixes the sign on the high part
+      // the final |0 converts the unsigned value into a signed value
+      return (al * bl) + (((ah * bl + al * bh) << 16) >>> 0) | 0;
+    } :
+    Math.imul);
+
+  var stringRepeat = (typeof String.prototype.repeat === "function" && "x".repeat(3) === "xxx" ?
+    function (x, y) {
+      return x.repeat(y);
+    } : function (pattern, count) {
+      var result = "";
+      while (count > 0) {
+        if (count & 1) {
+          result += pattern;
+        }
+        count >>= 1;
+        pattern += pattern;
+      }
+      return result;
+    });
+
+  function Random(engine) {
+    if (!(this instanceof Random)) {
+      return new Random(engine);
+    }
+
+    if (engine == null) {
+      engine = Random.engines.nativeMath;
+    } else if (typeof engine !== "function") {
+      throw new TypeError("Expected engine to be a function, got " + typeof engine);
+    }
+    this.engine = engine;
+  }
+  var proto = Random.prototype;
+
+  Random.engines = {
+    nativeMath: function () {
+      return (Math.random() * 0x100000000) | 0;
+    },
+    mt19937: (function (Int32Array) {
+      // http://en.wikipedia.org/wiki/Mersenne_twister
+      function refreshData(data) {
+        var k = 0;
+        var tmp = 0;
+        for (;
+          (k | 0) < 227; k = (k + 1) | 0) {
+          tmp = (data[k] & 0x80000000) | (data[(k + 1) | 0] & 0x7fffffff);
+          data[k] = data[(k + 397) | 0] ^ (tmp >>> 1) ^ ((tmp & 0x1) ? 0x9908b0df : 0);
+        }
+
+        for (;
+          (k | 0) < 623; k = (k + 1) | 0) {
+          tmp = (data[k] & 0x80000000) | (data[(k + 1) | 0] & 0x7fffffff);
+          data[k] = data[(k - 227) | 0] ^ (tmp >>> 1) ^ ((tmp & 0x1) ? 0x9908b0df : 0);
+        }
+
+        tmp = (data[623] & 0x80000000) | (data[0] & 0x7fffffff);
+        data[623] = data[396] ^ (tmp >>> 1) ^ ((tmp & 0x1) ? 0x9908b0df : 0);
+      }
+
+      function temper(value) {
+        value ^= value >>> 11;
+        value ^= (value << 7) & 0x9d2c5680;
+        value ^= (value << 15) & 0xefc60000;
+        return value ^ (value >>> 18);
+      }
+
+      function seedWithArray(data, source) {
+        var i = 1;
+        var j = 0;
+        var sourceLength = source.length;
+        var k = Math.max(sourceLength, 624) | 0;
+        var previous = data[0] | 0;
+        for (;
+          (k | 0) > 0; --k) {
+          data[i] = previous = ((data[i] ^ imul((previous ^ (previous >>> 30)), 0x0019660d)) + (source[j] | 0) + (j | 0)) | 0;
+          i = (i + 1) | 0;
+          ++j;
+          if ((i | 0) > 623) {
+            data[0] = data[623];
+            i = 1;
+          }
+          if (j >= sourceLength) {
+            j = 0;
+          }
+        }
+        for (k = 623;
+          (k | 0) > 0; --k) {
+          data[i] = previous = ((data[i] ^ imul((previous ^ (previous >>> 30)), 0x5d588b65)) - i) | 0;
+          i = (i + 1) | 0;
+          if ((i | 0) > 623) {
+            data[0] = data[623];
+            i = 1;
+          }
+        }
+        data[0] = 0x80000000;
+      }
+
+      function mt19937() {
+        var data = new Int32Array(624);
+        var index = 0;
+        var uses = 0;
+
+        function next() {
+          if ((index | 0) >= 624) {
+            refreshData(data);
+            index = 0;
+          }
+
+          var value = data[index];
+          index = (index + 1) | 0;
+          uses += 1;
+          return temper(value) | 0;
+        }
+        next.getUseCount = function() {
+          return uses;
+        };
+        next.discard = function (count) {
+          uses += count;
+          if ((index | 0) >= 624) {
+            refreshData(data);
+            index = 0;
+          }
+          while ((count - index) > 624) {
+            count -= 624 - index;
+            refreshData(data);
+            index = 0;
+          }
+          index = (index + count) | 0;
+          return next;
+        };
+        next.seed = function (initial) {
+          var previous = 0;
+          data[0] = previous = initial | 0;
+
+          for (var i = 1; i < 624; i = (i + 1) | 0) {
+            data[i] = previous = (imul((previous ^ (previous >>> 30)), 0x6c078965) + i) | 0;
+          }
+          index = 624;
+          uses = 0;
+          return next;
+        };
+        next.seedWithArray = function (source) {
+          next.seed(0x012bd6aa);
+          seedWithArray(data, source);
+          return next;
+        };
+        next.autoSeed = function () {
+          return next.seedWithArray(Random.generateEntropyArray());
+        };
+        return next;
+      }
+
+      return mt19937;
+    }(typeof Int32Array === "function" ? Int32Array : Array)),
+    browserCrypto: (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function" && (typeof Int32Array === "function" || typeof Int32Array === "object")) ? (function () {
+      var data = null;
+      var index = 128;
+
+      return function () {
+        if (index >= 128) {
+          if (data === null) {
+            data = new Int32Array(128);
+          }
+          crypto.getRandomValues(data);
+          index = 0;
+        }
+
+        return data[index++] | 0;
+      };
+    }()) : ( true && typeof __webpack_require__(106).randomBytes === "function") ? function () {
+        var crypto = __webpack_require__(106);
+        var bytes = crypto.randomBytes(4);
+        return bytes.readInt32BE(0);
+      } : null
+  };
+  Random.generateEntropyArray = function () {
+    var array = [];
+    var engine = Random.engines.nativeMath;
+    for (var i = 0; i < 16; ++i) {
+      array[i] = engine() | 0;
+    }
+    array.push(new Date().getTime() | 0);
+    return array;
+  };
+
+  function returnValue(value) {
+    return function () {
+      return value;
+    };
+  }
+
+  // [-0x80000000, 0x7fffffff]
+  Random.int32 = function (engine) {
+    return engine() | 0;
+  };
+  proto.int32 = function () {
+    return Random.int32(this.engine);
+  };
+
+  // [0, 0xffffffff]
+  Random.uint32 = function (engine) {
+    return engine() >>> 0;
+  };
+  proto.uint32 = function () {
+    return Random.uint32(this.engine);
+  };
+
+  // [0, 0x1fffffffffffff]
+  Random.uint53 = function (engine) {
+    var high = engine() & 0x1fffff;
+    var low = engine() >>> 0;
+    return (high * 0x100000000) + low;
+  };
+  proto.uint53 = function () {
+    return Random.uint53(this.engine);
+  };
+
+  // [0, 0x20000000000000]
+  Random.uint53Full = function (engine) {
+    while (true) {
+      var high = engine() | 0;
+      if (high & 0x200000) {
+        if ((high & 0x3fffff) === 0x200000 && (engine() | 0) === 0) {
+          return 0x20000000000000;
+        }
+      } else {
+        var low = engine() >>> 0;
+        return ((high & 0x1fffff) * 0x100000000) + low;
+      }
+    }
+  };
+  proto.uint53Full = function () {
+    return Random.uint53Full(this.engine);
+  };
+
+  // [-0x20000000000000, 0x1fffffffffffff]
+  Random.int53 = function (engine) {
+    var high = engine() | 0;
+    var low = engine() >>> 0;
+    return ((high & 0x1fffff) * 0x100000000) + low + (high & 0x200000 ? -0x20000000000000 : 0);
+  };
+  proto.int53 = function () {
+    return Random.int53(this.engine);
+  };
+
+  // [-0x20000000000000, 0x20000000000000]
+  Random.int53Full = function (engine) {
+    while (true) {
+      var high = engine() | 0;
+      if (high & 0x400000) {
+        if ((high & 0x7fffff) === 0x400000 && (engine() | 0) === 0) {
+          return 0x20000000000000;
+        }
+      } else {
+        var low = engine() >>> 0;
+        return ((high & 0x1fffff) * 0x100000000) + low + (high & 0x200000 ? -0x20000000000000 : 0);
+      }
+    }
+  };
+  proto.int53Full = function () {
+    return Random.int53Full(this.engine);
+  };
+
+  function add(generate, addend) {
+    if (addend === 0) {
+      return generate;
+    } else {
+      return function (engine) {
+        return generate(engine) + addend;
+      };
+    }
+  }
+
+  Random.integer = (function () {
+    function isPowerOfTwoMinusOne(value) {
+      return ((value + 1) & value) === 0;
+    }
+
+    function bitmask(masking) {
+      return function (engine) {
+        return engine() & masking;
+      };
+    }
+
+    function downscaleToLoopCheckedRange(range) {
+      var extendedRange = range + 1;
+      var maximum = extendedRange * Math.floor(0x100000000 / extendedRange);
+      return function (engine) {
+        var value = 0;
+        do {
+          value = engine() >>> 0;
+        } while (value >= maximum);
+        return value % extendedRange;
+      };
+    }
+
+    function downscaleToRange(range) {
+      if (isPowerOfTwoMinusOne(range)) {
+        return bitmask(range);
+      } else {
+        return downscaleToLoopCheckedRange(range);
+      }
+    }
+
+    function isEvenlyDivisibleByMaxInt32(value) {
+      return (value | 0) === 0;
+    }
+
+    function upscaleWithHighMasking(masking) {
+      return function (engine) {
+        var high = engine() & masking;
+        var low = engine() >>> 0;
+        return (high * 0x100000000) + low;
+      };
+    }
+
+    function upscaleToLoopCheckedRange(extendedRange) {
+      var maximum = extendedRange * Math.floor(0x20000000000000 / extendedRange);
+      return function (engine) {
+        var ret = 0;
+        do {
+          var high = engine() & 0x1fffff;
+          var low = engine() >>> 0;
+          ret = (high * 0x100000000) + low;
+        } while (ret >= maximum);
+        return ret % extendedRange;
+      };
+    }
+
+    function upscaleWithinU53(range) {
+      var extendedRange = range + 1;
+      if (isEvenlyDivisibleByMaxInt32(extendedRange)) {
+        var highRange = ((extendedRange / 0x100000000) | 0) - 1;
+        if (isPowerOfTwoMinusOne(highRange)) {
+          return upscaleWithHighMasking(highRange);
+        }
+      }
+      return upscaleToLoopCheckedRange(extendedRange);
+    }
+
+    function upscaleWithinI53AndLoopCheck(min, max) {
+      return function (engine) {
+        var ret = 0;
+        do {
+          var high = engine() | 0;
+          var low = engine() >>> 0;
+          ret = ((high & 0x1fffff) * 0x100000000) + low + (high & 0x200000 ? -0x20000000000000 : 0);
+        } while (ret < min || ret > max);
+        return ret;
+      };
+    }
+
+    return function (min, max) {
+      min = Math.floor(min);
+      max = Math.floor(max);
+      if (min < -0x20000000000000 || !isFinite(min)) {
+        throw new RangeError("Expected min to be at least " + (-0x20000000000000));
+      } else if (max > 0x20000000000000 || !isFinite(max)) {
+        throw new RangeError("Expected max to be at most " + 0x20000000000000);
+      }
+
+      var range = max - min;
+      if (range <= 0 || !isFinite(range)) {
+        return returnValue(min);
+      } else if (range === 0xffffffff) {
+        if (min === 0) {
+          return Random.uint32;
+        } else {
+          return add(Random.int32, min + 0x80000000);
+        }
+      } else if (range < 0xffffffff) {
+        return add(downscaleToRange(range), min);
+      } else if (range === 0x1fffffffffffff) {
+        return add(Random.uint53, min);
+      } else if (range < 0x1fffffffffffff) {
+        return add(upscaleWithinU53(range), min);
+      } else if (max - 1 - min === 0x1fffffffffffff) {
+        return add(Random.uint53Full, min);
+      } else if (min === -0x20000000000000 && max === 0x20000000000000) {
+        return Random.int53Full;
+      } else if (min === -0x20000000000000 && max === 0x1fffffffffffff) {
+        return Random.int53;
+      } else if (min === -0x1fffffffffffff && max === 0x20000000000000) {
+        return add(Random.int53, 1);
+      } else if (max === 0x20000000000000) {
+        return add(upscaleWithinI53AndLoopCheck(min - 1, max - 1), 1);
+      } else {
+        return upscaleWithinI53AndLoopCheck(min, max);
+      }
+    };
+  }());
+  proto.integer = function (min, max) {
+    return Random.integer(min, max)(this.engine);
+  };
+
+  // [0, 1] (floating point)
+  Random.realZeroToOneInclusive = function (engine) {
+    return Random.uint53Full(engine) / 0x20000000000000;
+  };
+  proto.realZeroToOneInclusive = function () {
+    return Random.realZeroToOneInclusive(this.engine);
+  };
+
+  // [0, 1) (floating point)
+  Random.realZeroToOneExclusive = function (engine) {
+    return Random.uint53(engine) / 0x20000000000000;
+  };
+  proto.realZeroToOneExclusive = function () {
+    return Random.realZeroToOneExclusive(this.engine);
+  };
+
+  Random.real = (function () {
+    function multiply(generate, multiplier) {
+      if (multiplier === 1) {
+        return generate;
+      } else if (multiplier === 0) {
+        return function () {
+          return 0;
+        };
+      } else {
+        return function (engine) {
+          return generate(engine) * multiplier;
+        };
+      }
+    }
+
+    return function (left, right, inclusive) {
+      if (!isFinite(left)) {
+        throw new RangeError("Expected left to be a finite number");
+      } else if (!isFinite(right)) {
+        throw new RangeError("Expected right to be a finite number");
+      }
+      return add(
+        multiply(
+          inclusive ? Random.realZeroToOneInclusive : Random.realZeroToOneExclusive,
+          right - left),
+        left);
+    };
+  }());
+  proto.real = function (min, max, inclusive) {
+    return Random.real(min, max, inclusive)(this.engine);
+  };
+
+  Random.bool = (function () {
+    function isLeastBitTrue(engine) {
+      return (engine() & 1) === 1;
+    }
+
+    function lessThan(generate, value) {
+      return function (engine) {
+        return generate(engine) < value;
+      };
+    }
+
+    function probability(percentage) {
+      if (percentage <= 0) {
+        return returnValue(false);
+      } else if (percentage >= 1) {
+        return returnValue(true);
+      } else {
+        var scaled = percentage * 0x100000000;
+        if (scaled % 1 === 0) {
+          return lessThan(Random.int32, (scaled - 0x80000000) | 0);
+        } else {
+          return lessThan(Random.uint53, Math.round(percentage * 0x20000000000000));
+        }
+      }
+    }
+
+    return function (numerator, denominator) {
+      if (denominator == null) {
+        if (numerator == null) {
+          return isLeastBitTrue;
+        }
+        return probability(numerator);
+      } else {
+        if (numerator <= 0) {
+          return returnValue(false);
+        } else if (numerator >= denominator) {
+          return returnValue(true);
+        }
+        return lessThan(Random.integer(0, denominator - 1), numerator);
+      }
+    };
+  }());
+  proto.bool = function (numerator, denominator) {
+    return Random.bool(numerator, denominator)(this.engine);
+  };
+
+  function toInteger(value) {
+    var number = +value;
+    if (number < 0) {
+      return Math.ceil(number);
+    } else {
+      return Math.floor(number);
+    }
+  }
+
+  function convertSliceArgument(value, length) {
+    if (value < 0) {
+      return Math.max(value + length, 0);
+    } else {
+      return Math.min(value, length);
+    }
+  }
+  Random.pick = function (engine, array, begin, end) {
+    var length = array.length;
+    var start = begin == null ? 0 : convertSliceArgument(toInteger(begin), length);
+    var finish = end === void 0 ? length : convertSliceArgument(toInteger(end), length);
+    if (start >= finish) {
+      return void 0;
+    }
+    var distribution = Random.integer(start, finish - 1);
+    return array[distribution(engine)];
+  };
+  proto.pick = function (array, begin, end) {
+    return Random.pick(this.engine, array, begin, end);
+  };
+
+  function returnUndefined() {
+    return void 0;
+  }
+  var slice = Array.prototype.slice;
+  Random.picker = function (array, begin, end) {
+    var clone = slice.call(array, begin, end);
+    if (!clone.length) {
+      return returnUndefined;
+    }
+    var distribution = Random.integer(0, clone.length - 1);
+    return function (engine) {
+      return clone[distribution(engine)];
+    };
+  };
+
+  Random.shuffle = function (engine, array, downTo) {
+    var length = array.length;
+    if (length) {
+      if (downTo == null) {
+        downTo = 0;
+      }
+      for (var i = (length - 1) >>> 0; i > downTo; --i) {
+        var distribution = Random.integer(0, i);
+        var j = distribution(engine);
+        if (i !== j) {
+          var tmp = array[i];
+          array[i] = array[j];
+          array[j] = tmp;
+        }
+      }
+    }
+    return array;
+  };
+  proto.shuffle = function (array) {
+    return Random.shuffle(this.engine, array);
+  };
+
+  Random.sample = function (engine, population, sampleSize) {
+    if (sampleSize < 0 || sampleSize > population.length || !isFinite(sampleSize)) {
+      throw new RangeError("Expected sampleSize to be within 0 and the length of the population");
+    }
+
+    if (sampleSize === 0) {
+      return [];
+    }
+
+    var clone = slice.call(population);
+    var length = clone.length;
+    if (length === sampleSize) {
+      return Random.shuffle(engine, clone, 0);
+    }
+    var tailLength = length - sampleSize;
+    return Random.shuffle(engine, clone, tailLength - 1).slice(tailLength);
+  };
+  proto.sample = function (population, sampleSize) {
+    return Random.sample(this.engine, population, sampleSize);
+  };
+
+  Random.die = function (sideCount) {
+    return Random.integer(1, sideCount);
+  };
+  proto.die = function (sideCount) {
+    return Random.die(sideCount)(this.engine);
+  };
+
+  Random.dice = function (sideCount, dieCount) {
+    var distribution = Random.die(sideCount);
+    return function (engine) {
+      var result = [];
+      result.length = dieCount;
+      for (var i = 0; i < dieCount; ++i) {
+        result[i] = distribution(engine);
+      }
+      return result;
+    };
+  };
+  proto.dice = function (sideCount, dieCount) {
+    return Random.dice(sideCount, dieCount)(this.engine);
+  };
+
+  // http://en.wikipedia.org/wiki/Universally_unique_identifier
+  Random.uuid4 = (function () {
+    function zeroPad(string, zeroCount) {
+      return stringRepeat("0", zeroCount - string.length) + string;
+    }
+
+    return function (engine) {
+      var a = engine() >>> 0;
+      var b = engine() | 0;
+      var c = engine() | 0;
+      var d = engine() >>> 0;
+
+      return (
+        zeroPad(a.toString(16), 8) +
+        "-" +
+        zeroPad((b & 0xffff).toString(16), 4) +
+        "-" +
+        zeroPad((((b >> 4) & 0x0fff) | 0x4000).toString(16), 4) +
+        "-" +
+        zeroPad(((c & 0x3fff) | 0x8000).toString(16), 4) +
+        "-" +
+        zeroPad(((c >> 4) & 0xffff).toString(16), 4) +
+        zeroPad(d.toString(16), 8));
+    };
+  }());
+  proto.uuid4 = function () {
+    return Random.uuid4(this.engine);
+  };
+
+  Random.string = (function () {
+    // has 2**x chars, for faster uniform distribution
+    var DEFAULT_STRING_POOL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
+
+    return function (pool) {
+      if (pool == null) {
+        pool = DEFAULT_STRING_POOL;
+      }
+
+      var length = pool.length;
+      if (!length) {
+        throw new Error("Expected pool not to be an empty string");
+      }
+
+      var distribution = Random.integer(0, length - 1);
+      return function (engine, length) {
+        var result = "";
+        for (var i = 0; i < length; ++i) {
+          var j = distribution(engine);
+          result += pool.charAt(j);
+        }
+        return result;
+      };
+    };
+  }());
+  proto.string = function (length, pool) {
+    return Random.string(pool)(this.engine, length);
+  };
+
+  Random.hex = (function () {
+    var LOWER_HEX_POOL = "0123456789abcdef";
+    var lowerHex = Random.string(LOWER_HEX_POOL);
+    var upperHex = Random.string(LOWER_HEX_POOL.toUpperCase());
+
+    return function (upper) {
+      if (upper) {
+        return upperHex;
+      } else {
+        return lowerHex;
+      }
+    };
+  }());
+  proto.hex = function (length, upper) {
+    return Random.hex(upper)(this.engine, length);
+  };
+
+  Random.date = function (start, end) {
+    if (!(start instanceof Date)) {
+      throw new TypeError("Expected start to be a Date, got " + typeof start);
+    } else if (!(end instanceof Date)) {
+      throw new TypeError("Expected end to be a Date, got " + typeof end);
+    }
+    var distribution = Random.integer(start.getTime(), end.getTime());
+    return function (engine) {
+      return new Date(distribution(engine));
+    };
+  };
+  proto.date = function (start, end) {
+    return Random.date(start, end)(this.engine);
+  };
+
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+      return {
+        Random: Random
+      };
+    }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+}(this));
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _comparators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(145);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SemanticDifference", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "s_max", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_semantic_difference", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "compare", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+/* harmony import */ var _migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(116);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "generic_migrate_to_latest", function() { return _migration__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_schema_version", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_schema_version_loose", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_revision", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_revision_loose", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_timestamp", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["f"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_timestamp_loose", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["g"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_base_loose", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+
+/* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_WithSchemaVersion", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["h"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_WithRevision", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["g"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_WithTimestamp", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["i"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "has_versioned_schema", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_revisioned", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["j"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_time_stamped", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["k"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_BaseState", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["b"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_UState", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_TState", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_UTBundle", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["f"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_RootState", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["c"]; });
+
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(105);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "enforce_immutability", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "complete_or_cancel_eager_mutation_propagating_possible_child_mutation", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["b"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "are_ustate_revision_requirements_met", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["a"]; });
+
+
+
+
+
+
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var freeGlobal = __webpack_require__(207);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+module.exports = require("https");
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEST_TIMESTAMP_MS", function() { return TEST_TIMESTAMP_MS; });
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(104);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["h"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["f"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_extended_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_day", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+
+
+const TEST_TIMESTAMP_MS = 1234567890; // useful for unit tests
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
 /* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __extends; });
+/* unused harmony export __assign */
+/* unused harmony export __rest */
+/* unused harmony export __decorate */
+/* unused harmony export __param */
+/* unused harmony export __metadata */
+/* unused harmony export __awaiter */
+/* unused harmony export __generator */
+/* unused harmony export __createBinding */
+/* unused harmony export __exportStar */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __values; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __read; });
+/* unused harmony export __spread */
+/* unused harmony export __spreadArrays */
+/* unused harmony export __await */
+/* unused harmony export __asyncGenerator */
+/* unused harmony export __asyncDelegator */
+/* unused harmony export __asyncValues */
+/* unused harmony export __makeTemplateObject */
+/* unused harmony export __importStar */
+/* unused harmony export __importDefault */
+/* unused harmony export __classPrivateFieldGet */
+/* unused harmony export __classPrivateFieldSet */
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function __exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+module.exports = require("domain");
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports) {
 
 /**
@@ -2379,7 +3194,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports) {
 
 exports.isString = function isString(value) {
@@ -2408,7 +3223,7 @@ exports.isFunction = function isFunction(value) {
 
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2447,7 +3262,87 @@ exports.HTTP_STATUS_CODE = {
 };
 
 /***/ }),
-/* 32 */
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ getLogger; });
+__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ overrideHook; });
+
+// UNUSED EXPORTS: exposeInternal, addDebugCommand, globalThis, createV1
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
+var src_es2019 = __webpack_require__(10);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
+function src_es2019_NOP() {}
+
+const src_es2019_NOP_LOGGER = {
+  setLevel: src_es2019_NOP,
+  getLevel: () => 'silly',
+  addCommonDetails: src_es2019_NOP,
+  fatal: src_es2019_NOP,
+  emerg: src_es2019_NOP,
+  alert: src_es2019_NOP,
+  crit: src_es2019_NOP,
+  error: src_es2019_NOP,
+  warning: src_es2019_NOP,
+  warn: src_es2019_NOP,
+  notice: src_es2019_NOP,
+  info: src_es2019_NOP,
+  verbose: src_es2019_NOP,
+  log: src_es2019_NOP,
+  debug: src_es2019_NOP,
+  trace: src_es2019_NOP,
+  silly: src_es2019_NOP,
+  group: src_es2019_NOP,
+  groupCollapsed: src_es2019_NOP,
+  groupEnd: src_es2019_NOP
+};
+
+function createLogger(_) {
+  return src_es2019_NOP_LOGGER;
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/v1.js
+
+function create() {
+  //console.trace('[UDA--placeholder installing…]')
+  function NOP() {}
+
+  const NOP_LOGGER = createLogger();
+  return {
+    getLogger: () => NOP_LOGGER,
+    overrideHook: (k, v) => v,
+    exposeInternal: NOP,
+    addDebugCommand: NOP
+  };
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js
+
+
+const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
+
+globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
+
+globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the installed implementation
+
+const instance = globalThis._debug.v1;
+const {
+  getLogger,
+  exposeInternal,
+  overrideHook,
+  addDebugCommand
+} = instance;
+ // types & sub-types, for convenience
+
+
+
+/***/ }),
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2455,7 +3350,7 @@ exports.HTTP_STATUS_CODE = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return dynamicRequire; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return extractNodeRequestData; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _object__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(99);
+/* harmony import */ var _object__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(103);
 
 
 /**
@@ -2561,15 +3456,15 @@ function extractNodeRequestData(req, keys) {
     return requestData;
 }
 //# sourceMappingURL=node.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(80)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(84)(module)))
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "STRICT_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QUASI_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["c"]; });
@@ -2578,10 +3473,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS_EXTENDED", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["b"]; });
 
-/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(78);
+/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(82);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createError", function() { return _util_create__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
-/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(77);
+/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(81);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeError", function() { return _util_normalize__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
 
@@ -2590,11 +3485,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 34 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(115),
-    isLength = __webpack_require__(150);
+var isFunction = __webpack_require__(121),
+    isLength = __webpack_require__(157);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -2629,88 +3524,9 @@ module.exports = isArrayLike;
 
 
 /***/ }),
-/* 35 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ getLogger; });
-__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ overrideHook; });
-
-// UNUSED EXPORTS: exposeInternal, addDebugCommand, globalThis, createV1
-
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(9);
-
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
-function src_es2019_NOP() {}
-
-const src_es2019_NOP_LOGGER = {
-  setLevel: src_es2019_NOP,
-  getLevel: () => 'silly',
-  addCommonDetails: src_es2019_NOP,
-  fatal: src_es2019_NOP,
-  emerg: src_es2019_NOP,
-  alert: src_es2019_NOP,
-  crit: src_es2019_NOP,
-  error: src_es2019_NOP,
-  warning: src_es2019_NOP,
-  warn: src_es2019_NOP,
-  notice: src_es2019_NOP,
-  info: src_es2019_NOP,
-  verbose: src_es2019_NOP,
-  log: src_es2019_NOP,
-  debug: src_es2019_NOP,
-  trace: src_es2019_NOP,
-  silly: src_es2019_NOP,
-  group: src_es2019_NOP,
-  groupCollapsed: src_es2019_NOP,
-  groupEnd: src_es2019_NOP
-};
-
-function createLogger(_) {
-  return src_es2019_NOP_LOGGER;
-}
-
-
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/v1.js
-
-function create() {
-  //console.trace('[UDA--placeholder installing…]')
-  function NOP() {}
-
-  const NOP_LOGGER = createLogger();
-  return {
-    getLogger: () => NOP_LOGGER,
-    overrideHook: (k, v) => v,
-    exposeInternal: NOP,
-    addDebugCommand: NOP
-  };
-}
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js
-
-
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
-
-globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
-
-globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the installed implementation
-
-const instance = globalThis._debug.v1;
-const {
-  getLogger,
-  exposeInternal,
-  overrideHook,
-  addDebugCommand
-} = instance;
- // types & sub-types, for convenience
-
-
-
-/***/ }),
-/* 36 */,
-/* 37 */
+/* 39 */,
+/* 40 */,
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2721,9 +3537,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CHANNEL = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(13);
+const typescript_string_enums_1 = __webpack_require__(8);
 
-const functions_interface_1 = __webpack_require__(49); /////////////////////////////////////////////////
+const functions_interface_1 = __webpack_require__(53); /////////////////////////////////////////////////
 
 
 exports.CHANNEL = (() => {
@@ -2738,36 +3554,8 @@ exports.CHANNEL = (() => {
 })();
 
 /***/ }),
-/* 38 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEST_TIMESTAMP_MS", function() { return TEST_TIMESTAMP_MS; });
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(100);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["h"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["f"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_extended_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_day", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-
-
-const TEST_TIMESTAMP_MS = 1234567890; // useful for unit tests
-
-/***/ }),
-/* 39 */,
-/* 40 */
+/* 42 */,
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -2795,21 +3583,21 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 41 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint no-console:0 */
 
-const isPlainObject = __webpack_require__(85);
-const isTypedArray = __webpack_require__(62);
-const { CLIENT_ALIASES } = __webpack_require__(152);
-const { isFunction } = __webpack_require__(30);
+const isPlainObject = __webpack_require__(89);
+const isTypedArray = __webpack_require__(66);
+const { CLIENT_ALIASES } = __webpack_require__(159);
+const { isFunction } = __webpack_require__(33);
 
 // Check if the first argument is an array, otherwise uses all arguments as an
 // array.
@@ -2901,12 +3689,12 @@ module.exports = {
 
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(58),
-    getRawTag = __webpack_require__(307),
-    objectToString = __webpack_require__(308);
+var Symbol = __webpack_require__(62),
+    getRawTag = __webpack_require__(320),
+    objectToString = __webpack_require__(321);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -2935,11 +3723,11 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignValue = __webpack_require__(113),
-    baseAssignValue = __webpack_require__(114);
+var assignValue = __webpack_require__(119),
+    baseAssignValue = __webpack_require__(120);
 
 /**
  * Copies properties of `source` to `object`.
@@ -2981,7 +3769,7 @@ module.exports = copyObject;
 
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports) {
 
 /**
@@ -3008,12 +3796,12 @@ module.exports = identity;
 
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeKeys = __webpack_require__(206),
-    baseKeys = __webpack_require__(207),
-    isArrayLike = __webpack_require__(34);
+var arrayLikeKeys = __webpack_require__(214),
+    baseKeys = __webpack_require__(215),
+    isArrayLike = __webpack_require__(38);
 
 /**
  * Creates an array of the own enumerable property names of `object`.
@@ -3051,14 +3839,14 @@ module.exports = keys;
 
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseMatches = __webpack_require__(326),
-    baseMatchesProperty = __webpack_require__(360),
-    identity = __webpack_require__(45),
-    isArray = __webpack_require__(10),
-    property = __webpack_require__(367);
+var baseMatches = __webpack_require__(339),
+    baseMatchesProperty = __webpack_require__(373),
+    identity = __webpack_require__(48),
+    isArray = __webpack_require__(11),
+    property = __webpack_require__(380);
 
 /**
  * The base implementation of `_.iteratee`.
@@ -3088,12 +3876,12 @@ module.exports = baseIteratee;
 
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeKeys = __webpack_require__(206),
-    baseKeysIn = __webpack_require__(373),
-    isArrayLike = __webpack_require__(34);
+var arrayLikeKeys = __webpack_require__(214),
+    baseKeysIn = __webpack_require__(386),
+    isArrayLike = __webpack_require__(38);
 
 /**
  * Creates an array of the own and inherited enumerable property names of `object`.
@@ -3126,7 +3914,29 @@ module.exports = keysIn;
 
 
 /***/ }),
-/* 49 */
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return combine_normalizers; });
+/* unused harmony export normalize */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return default_to; });
+function combine_normalizers(...normalizers) {
+  return s => normalizers.reduce((acc, normalizer) => {
+    const out = normalizer(acc); //console.log(`combined normalization: "${acc}" -> "${out}"`)
+
+    return out;
+  }, s);
+}
+function normalize(s, ...normalizers) {
+  return combine_normalizers(...normalizers)(s);
+}
+function default_to(def = '') {
+  return s => s ? s : '';
+}
+
+/***/ }),
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3146,9 +3956,10 @@ __webpack_require__.d(__webpack_exports__, "get_api_base_url", function() { retu
 __webpack_require__.d(__webpack_exports__, "create_server_response_body__blank", function() { return /* reexport */ create_server_response_body__blank; });
 __webpack_require__.d(__webpack_exports__, "create_server_response_body__error", function() { return /* reexport */ create_server_response_body__error; });
 __webpack_require__.d(__webpack_exports__, "create_server_response_body__data", function() { return /* reexport */ create_server_response_body__data; });
+__webpack_require__.d(__webpack_exports__, "is_server_response_body", function() { return /* reexport */ is_server_response_body; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(13);
+var dist = __webpack_require__(8);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/functions-interface/dist/src.es2019/consts.js
  /////////////////////////////////////////////////
@@ -3161,17 +3972,17 @@ const Endpoint = Object(dist["Enum"])('whoami', 'report-error', 'key-value', // 
 'echo', 'hello-world', 'hello-world-advanced', 'test-error-handling', 'temp');
 const SERVER_RESPONSE_VERSION = 1;
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/fetch-ponyfill/fetch-node.js
-var fetch_node = __webpack_require__(71);
+var fetch_node = __webpack_require__(75);
 var fetch_node_default = /*#__PURE__*/__webpack_require__.n(fetch_node);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--create.js
-var util_create = __webpack_require__(78);
+var util_create = __webpack_require__(82);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/index.js + 20 modules
-var src_es2019 = __webpack_require__(28);
+var src_es2019 = __webpack_require__(15);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/utils.js
-var utils = __webpack_require__(101);
+var utils = __webpack_require__(105);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js + 2 modules
 var dist_src_es2019 = __webpack_require__(35);
@@ -3241,6 +4052,9 @@ function create_server_response_body__data(data) {
   body.data = data;
   return body;
 }
+function is_server_response_body(body) {
+  return body && body.v && body.side && body.meta && (body.data || body.error);
+}
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/functions-interface/dist/src.es2019/fetch.js
 
 
@@ -3255,8 +4069,10 @@ const {
 } = fetch_node_default()();
  /////////////////////////////////////////////////
 
-let request_count = 0; // for logging
-
+const _state = {
+  request_count: 0,
+  error_count: 0
+};
 async function fetch_oa({
   SEC = Object(src_es2019["getRootSEC"])(),
   url,
@@ -3270,7 +4086,7 @@ async function fetch_oa({
     logger,
     CHANNEL
   }) => {
-    const request_id = ++request_count;
+    const request_id = ++_state.request_count;
     const channel = CHANNEL;
     logger.trace(`fetch_oa() #${request_id}…`, {
       method,
@@ -3279,6 +4095,8 @@ async function fetch_oa({
       headers
     });
     const headers_from_SEC = SEC.getInjectedDependencies().shared_fetch_headers || {};
+    if (_state.error_count > 25) throw new Error(`fetch_oa(): too many errors in the past, circuit breaker!`); // TODO improve with debounce
+
     url = [get_api_base_url(channel), url].join('/');
     headers = { ...headers_from_SEC,
       ...headers,
@@ -3363,6 +4181,7 @@ async function fetch_oa({
         err,
         err_message: err.message
       });
+      _state.error_count++;
       throw err;
     });
   });
@@ -3378,14 +4197,14 @@ const ReleaseChannel = Object(dist["Enum"])('prod', 'staging', 'dev');
 
 
 /***/ }),
-/* 50 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(27);
-const tty = __webpack_require__(51);
-const hasFlag = __webpack_require__(107);
+const os = __webpack_require__(31);
+const tty = __webpack_require__(55);
+const hasFlag = __webpack_require__(112);
 
 const {env} = process;
 
@@ -3520,13 +4339,13 @@ module.exports = {
 
 
 /***/ }),
-/* 51 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 52 */
+/* 56 */
 /***/ (function(module, exports) {
 
 /**
@@ -5749,13 +6568,13 @@ module.exports['DIFF_INSERT'] = DIFF_INSERT;
 module.exports['DIFF_EQUAL'] = DIFF_EQUAL;
 
 /***/ }),
-/* 53 */,
-/* 54 */
+/* 57 */,
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(105);
+const cssKeywords = __webpack_require__(110);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -6595,7 +7414,7 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 55 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6608,9 +7427,9 @@ exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean
 
 const http_1 = __webpack_require__(14);
 
-const error_utils_1 = __webpack_require__(33);
+const error_utils_1 = __webpack_require__(37);
 
-const consts_1 = __webpack_require__(31); // TODO extern
+const consts_1 = __webpack_require__(34); // TODO extern
 
 
 function create_error(message, details = {}, SEC) {
@@ -6714,7 +7533,7 @@ function get_id_from_path(event, params = {}) {
 exports.get_id_from_path = get_id_from_path;
 
 /***/ }),
-/* 56 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -6723,29 +7542,29 @@ exports.get_id_from_path = get_id_from_path;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(144);
+	module.exports = __webpack_require__(151);
 } else {
-	module.exports = __webpack_require__(145);
+	module.exports = __webpack_require__(152);
 }
 
 
 /***/ }),
-/* 57 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Raw
 // -------
 const { inherits } = __webpack_require__(7);
-const helpers = __webpack_require__(42);
-const { EventEmitter } = __webpack_require__(12);
-const debug = __webpack_require__(63);
+const helpers = __webpack_require__(45);
+const { EventEmitter } = __webpack_require__(13);
+const debug = __webpack_require__(67);
 
-const assign = __webpack_require__(153);
-const isPlainObject = __webpack_require__(85);
-const reduce = __webpack_require__(154);
-const saveAsyncStack = __webpack_require__(160);
-const { nanoid } = __webpack_require__(226);
-const { isNumber, isObject } = __webpack_require__(30);
+const assign = __webpack_require__(160);
+const isPlainObject = __webpack_require__(89);
+const reduce = __webpack_require__(161);
+const saveAsyncStack = __webpack_require__(167);
+const { nanoid } = __webpack_require__(234);
+const { isNumber, isObject } = __webpack_require__(33);
 
 const debugBindings = debug('knex:bindings');
 
@@ -6917,17 +7736,17 @@ function replaceKeyBindings(raw, formatter) {
 
 // Allow the `Raw` object to be utilized with full access to the relevant
 // promise API.
-__webpack_require__(161)(Raw);
+__webpack_require__(168)(Raw);
 helpers.addQueryContext(Raw);
 
 module.exports = Raw;
 
 
 /***/ }),
-/* 58 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(21);
+var root = __webpack_require__(24);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -6936,11 +7755,11 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 59 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(312),
-    getValue = __webpack_require__(315);
+var baseIsNative = __webpack_require__(325),
+    getValue = __webpack_require__(328);
 
 /**
  * Gets the native function at `key` of `object`.
@@ -6959,7 +7778,7 @@ module.exports = getNative;
 
 
 /***/ }),
-/* 60 */
+/* 64 */
 /***/ (function(module, exports) {
 
 /**
@@ -7002,7 +7821,7 @@ module.exports = eq;
 
 
 /***/ }),
-/* 61 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7125,12 +7944,12 @@ module.exports.codes = codes;
 
 
 /***/ }),
-/* 62 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsTypedArray = __webpack_require__(309),
-    baseUnary = __webpack_require__(86),
-    nodeUtil = __webpack_require__(151);
+var baseIsTypedArray = __webpack_require__(322),
+    baseUnary = __webpack_require__(90),
+    nodeUtil = __webpack_require__(158);
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -7158,7 +7977,7 @@ module.exports = isTypedArray;
 
 
 /***/ }),
-/* 63 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -7167,19 +7986,19 @@ module.exports = isTypedArray;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(310);
+	module.exports = __webpack_require__(323);
 } else {
-	module.exports = __webpack_require__(311);
+	module.exports = __webpack_require__(324);
 }
 
 
 /***/ }),
-/* 64 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(45),
-    overRest = __webpack_require__(316),
-    setToString = __webpack_require__(204);
+var identity = __webpack_require__(48),
+    overRest = __webpack_require__(329),
+    setToString = __webpack_require__(212);
 
 /**
  * The base implementation of `_.rest` which doesn't validate or coerce arguments.
@@ -7197,11 +8016,11 @@ module.exports = baseRest;
 
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(21),
-    stubFalse = __webpack_require__(321);
+/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(24),
+    stubFalse = __webpack_require__(334);
 
 /** Detect free variable `exports`. */
 var freeExports =  true && exports && !exports.nodeType && exports;
@@ -7239,19 +8058,19 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DataView = __webpack_require__(356),
-    Map = __webpack_require__(155),
-    Promise = __webpack_require__(357),
-    Set = __webpack_require__(358),
-    WeakMap = __webpack_require__(221),
-    baseGetTag = __webpack_require__(43),
-    toSource = __webpack_require__(203);
+var DataView = __webpack_require__(369),
+    Map = __webpack_require__(162),
+    Promise = __webpack_require__(370),
+    Set = __webpack_require__(371),
+    WeakMap = __webpack_require__(229),
+    baseGetTag = __webpack_require__(46),
+    toSource = __webpack_require__(211);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -7306,11 +8125,11 @@ module.exports = getTag;
 
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(43),
-    isObjectLike = __webpack_require__(29);
+var baseGetTag = __webpack_require__(46),
+    isObjectLike = __webpack_require__(32);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -7341,7 +8160,7 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports) {
 
 /**
@@ -7368,7 +8187,7 @@ module.exports = arrayMap;
 
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7413,11 +8232,11 @@ var objectKeys = Object.keys || function (obj) {
 
 module.exports = Duplex;
 
-var Readable = __webpack_require__(281);
+var Readable = __webpack_require__(289);
 
-var Writable = __webpack_require__(285);
+var Writable = __webpack_require__(293);
 
-__webpack_require__(97)(Duplex, Readable);
+__webpack_require__(101)(Duplex, Readable);
 
 {
   // Allow the keys array to be GC'ed.
@@ -7513,7 +8332,7 @@ Object.defineProperty(Duplex.prototype, 'destroyed', {
 });
 
 /***/ }),
-/* 70 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7529,7 +8348,7 @@ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "createV1", function() { return /* reexport */ v1_create; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(9);
+var src_es2019 = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
 const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
@@ -8121,7 +8940,7 @@ function is_pure_json(js) {
   return false;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
-var fields = __webpack_require__(16);
+var fields = __webpack_require__(17);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -8524,13 +9343,13 @@ const {
 
 
 /***/ }),
-/* 71 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var fetch = __webpack_require__(140);
+var fetch = __webpack_require__(146);
 
 function wrapFetchForNode(fetch) {
   // Support schemaless URIs on the server for parity with the browser.
@@ -8567,7 +9386,7 @@ module.exports = function (context) {
 
 
 /***/ }),
-/* 72 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8989,7 +9808,7 @@ module.exports = Emittery;
 
 
 /***/ }),
-/* 73 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9353,7 +10172,841 @@ if (false) {}
 
 
 /***/ }),
-/* 74 */
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * @license Fraction.js v4.0.12 09/09/2015
+ * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
+ *
+ * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ **/
+
+
+/**
+ *
+ * This class offers the possibility to calculate fractions.
+ * You can pass a fraction in different formats. Either as array, as double, as string or as an integer.
+ *
+ * Array/Object form
+ * [ 0 => <nominator>, 1 => <denominator> ]
+ * [ n => <nominator>, d => <denominator> ]
+ *
+ * Integer form
+ * - Single integer value
+ *
+ * Double form
+ * - Single double value
+ *
+ * String form
+ * 123.456 - a simple double
+ * 123/456 - a string fraction
+ * 123.'456' - a double with repeating decimal places
+ * 123.(456) - synonym
+ * 123.45'6' - a double with repeating last place
+ * 123.45(6) - synonym
+ *
+ * Example:
+ *
+ * var f = new Fraction("9.4'31'");
+ * f.mul([-4, 3]).div(4.9);
+ *
+ */
+
+(function(root) {
+
+  "use strict";
+
+  // Maximum search depth for cyclic rational numbers. 2000 should be more than enough.
+  // Example: 1/7 = 0.(142857) has 6 repeating decimal places.
+  // If MAX_CYCLE_LEN gets reduced, long cycles will not be detected and toString() only gets the first 10 digits
+  var MAX_CYCLE_LEN = 2000;
+
+  // Parsed data to avoid calling "new" all the time
+  var P = {
+    "s": 1,
+    "n": 0,
+    "d": 1
+  };
+
+  function createError(name) {
+
+    function errorConstructor() {
+      var temp = Error.apply(this, arguments);
+      temp['name'] = this['name'] = name;
+      this['stack'] = temp['stack'];
+      this['message'] = temp['message'];
+    }
+
+    /**
+     * Error constructor
+     *
+     * @constructor
+     */
+    function IntermediateInheritor() {}
+    IntermediateInheritor.prototype = Error.prototype;
+    errorConstructor.prototype = new IntermediateInheritor();
+
+    return errorConstructor;
+  }
+
+  var DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
+  var InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
+
+  function assign(n, s) {
+
+    if (isNaN(n = parseInt(n, 10))) {
+      throwInvalidParam();
+    }
+    return n * s;
+  }
+
+  function throwInvalidParam() {
+    throw new InvalidParameter();
+  }
+
+  var parse = function(p1, p2) {
+
+    var n = 0, d = 1, s = 1;
+    var v = 0, w = 0, x = 0, y = 1, z = 1;
+
+    var A = 0, B = 1;
+    var C = 1, D = 1;
+
+    var N = 10000000;
+    var M;
+
+    if (p1 === undefined || p1 === null) {
+      /* void */
+    } else if (p2 !== undefined) {
+      n = p1;
+      d = p2;
+      s = n * d;
+    } else
+      switch (typeof p1) {
+
+        case "object":
+        {
+          if ("d" in p1 && "n" in p1) {
+            n = p1["n"];
+            d = p1["d"];
+            if ("s" in p1)
+              n *= p1["s"];
+          } else if (0 in p1) {
+            n = p1[0];
+            if (1 in p1)
+              d = p1[1];
+          } else {
+            throwInvalidParam();
+          }
+          s = n * d;
+          break;
+        }
+        case "number":
+        {
+          if (p1 < 0) {
+            s = p1;
+            p1 = -p1;
+          }
+
+          if (p1 % 1 === 0) {
+            n = p1;
+          } else if (p1 > 0) { // check for != 0, scale would become NaN (log(0)), which converges really slow
+
+            if (p1 >= 1) {
+              z = Math.pow(10, Math.floor(1 + Math.log(p1) / Math.LN10));
+              p1 /= z;
+            }
+
+            // Using Farey Sequences
+            // http://www.johndcook.com/blog/2010/10/20/best-rational-approximation/
+
+            while (B <= N && D <= N) {
+              M = (A + C) / (B + D);
+
+              if (p1 === M) {
+                if (B + D <= N) {
+                  n = A + C;
+                  d = B + D;
+                } else if (D > B) {
+                  n = C;
+                  d = D;
+                } else {
+                  n = A;
+                  d = B;
+                }
+                break;
+
+              } else {
+
+                if (p1 > M) {
+                  A += C;
+                  B += D;
+                } else {
+                  C += A;
+                  D += B;
+                }
+
+                if (B > N) {
+                  n = C;
+                  d = D;
+                } else {
+                  n = A;
+                  d = B;
+                }
+              }
+            }
+            n *= z;
+          } else if (isNaN(p1) || isNaN(p2)) {
+            d = n = NaN;
+          }
+          break;
+        }
+        case "string":
+        {
+          B = p1.match(/\d+|./g);
+
+          if (B === null)
+            throwInvalidParam();
+
+          if (B[A] === '-') {// Check for minus sign at the beginning
+            s = -1;
+            A++;
+          } else if (B[A] === '+') {// Check for plus sign at the beginning
+            A++;
+          }
+
+          if (B.length === A + 1) { // Check if it's just a simple number "1234"
+            w = assign(B[A++], s);
+          } else if (B[A + 1] === '.' || B[A] === '.') { // Check if it's a decimal number
+
+            if (B[A] !== '.') { // Handle 0.5 and .5
+              v = assign(B[A++], s);
+            }
+            A++;
+
+            // Check for decimal places
+            if (A + 1 === B.length || B[A + 1] === '(' && B[A + 3] === ')' || B[A + 1] === "'" && B[A + 3] === "'") {
+              w = assign(B[A], s);
+              y = Math.pow(10, B[A].length);
+              A++;
+            }
+
+            // Check for repeating places
+            if (B[A] === '(' && B[A + 2] === ')' || B[A] === "'" && B[A + 2] === "'") {
+              x = assign(B[A + 1], s);
+              z = Math.pow(10, B[A + 1].length) - 1;
+              A += 3;
+            }
+
+          } else if (B[A + 1] === '/' || B[A + 1] === ':') { // Check for a simple fraction "123/456" or "123:456"
+            w = assign(B[A], s);
+            y = assign(B[A + 2], 1);
+            A += 3;
+          } else if (B[A + 3] === '/' && B[A + 1] === ' ') { // Check for a complex fraction "123 1/2"
+            v = assign(B[A], s);
+            w = assign(B[A + 2], s);
+            y = assign(B[A + 4], 1);
+            A += 5;
+          }
+
+          if (B.length <= A) { // Check for more tokens on the stack
+            d = y * z;
+            s = /* void */
+                    n = x + d * v + z * w;
+            break;
+          }
+
+          /* Fall through on error */
+        }
+        default:
+          throwInvalidParam();
+      }
+
+    if (d === 0) {
+      throw new DivisionByZero();
+    }
+
+    P["s"] = s < 0 ? -1 : 1;
+    P["n"] = Math.abs(n);
+    P["d"] = Math.abs(d);
+  };
+
+  function modpow(b, e, m) {
+
+    var r = 1;
+    for (; e > 0; b = (b * b) % m, e >>= 1) {
+
+      if (e & 1) {
+        r = (r * b) % m;
+      }
+    }
+    return r;
+  }
+
+
+  function cycleLen(n, d) {
+
+    for (; d % 2 === 0;
+            d /= 2) {
+    }
+
+    for (; d % 5 === 0;
+            d /= 5) {
+    }
+
+    if (d === 1) // Catch non-cyclic numbers
+      return 0;
+
+    // If we would like to compute really large numbers quicker, we could make use of Fermat's little theorem:
+    // 10^(d-1) % d == 1
+    // However, we don't need such large numbers and MAX_CYCLE_LEN should be the capstone,
+    // as we want to translate the numbers to strings.
+
+    var rem = 10 % d;
+    var t = 1;
+
+    for (; rem !== 1; t++) {
+      rem = rem * 10 % d;
+
+      if (t > MAX_CYCLE_LEN)
+        return 0; // Returning 0 here means that we don't print it as a cyclic number. It's likely that the answer is `d-1`
+    }
+    return t;
+  }
+
+
+     function cycleStart(n, d, len) {
+
+    var rem1 = 1;
+    var rem2 = modpow(10, len, d);
+
+    for (var t = 0; t < 300; t++) { // s < ~log10(Number.MAX_VALUE)
+      // Solve 10^s == 10^(s+t) (mod d)
+
+      if (rem1 === rem2)
+        return t;
+
+      rem1 = rem1 * 10 % d;
+      rem2 = rem2 * 10 % d;
+    }
+    return 0;
+  }
+
+  function gcd(a, b) {
+
+    if (!a)
+      return b;
+    if (!b)
+      return a;
+
+    while (1) {
+      a %= b;
+      if (!a)
+        return b;
+      b %= a;
+      if (!b)
+        return a;
+    }
+  };
+
+  /**
+   * Module constructor
+   *
+   * @constructor
+   * @param {number|Fraction=} a
+   * @param {number=} b
+   */
+  function Fraction(a, b) {
+
+    if (!(this instanceof Fraction)) {
+      return new Fraction(a, b);
+    }
+
+    parse(a, b);
+
+    if (Fraction['REDUCE']) {
+      a = gcd(P["d"], P["n"]); // Abuse a
+    } else {
+      a = 1;
+    }
+
+    this["s"] = P["s"];
+    this["n"] = P["n"] / a;
+    this["d"] = P["d"] / a;
+  }
+
+  /**
+   * Boolean global variable to be able to disable automatic reduction of the fraction
+   *
+   */
+  Fraction['REDUCE'] = 1;
+
+  Fraction.prototype = {
+
+    "s": 1,
+    "n": 0,
+    "d": 1,
+
+    /**
+     * Calculates the absolute value
+     *
+     * Ex: new Fraction(-4).abs() => 4
+     **/
+    "abs": function() {
+
+      return new Fraction(this["n"], this["d"]);
+    },
+
+    /**
+     * Inverts the sign of the current fraction
+     *
+     * Ex: new Fraction(-4).neg() => 4
+     **/
+    "neg": function() {
+
+      return new Fraction(-this["s"] * this["n"], this["d"]);
+    },
+
+    /**
+     * Adds two rational numbers
+     *
+     * Ex: new Fraction({n: 2, d: 3}).add("14.9") => 467 / 30
+     **/
+    "add": function(a, b) {
+
+      parse(a, b);
+      return new Fraction(
+              this["s"] * this["n"] * P["d"] + P["s"] * this["d"] * P["n"],
+              this["d"] * P["d"]
+              );
+    },
+
+    /**
+     * Subtracts two rational numbers
+     *
+     * Ex: new Fraction({n: 2, d: 3}).add("14.9") => -427 / 30
+     **/
+    "sub": function(a, b) {
+
+      parse(a, b);
+      return new Fraction(
+              this["s"] * this["n"] * P["d"] - P["s"] * this["d"] * P["n"],
+              this["d"] * P["d"]
+              );
+    },
+
+    /**
+     * Multiplies two rational numbers
+     *
+     * Ex: new Fraction("-17.(345)").mul(3) => 5776 / 111
+     **/
+    "mul": function(a, b) {
+
+      parse(a, b);
+      return new Fraction(
+              this["s"] * P["s"] * this["n"] * P["n"],
+              this["d"] * P["d"]
+              );
+    },
+
+    /**
+     * Divides two rational numbers
+     *
+     * Ex: new Fraction("-17.(345)").inverse().div(3)
+     **/
+    "div": function(a, b) {
+
+      parse(a, b);
+      return new Fraction(
+              this["s"] * P["s"] * this["n"] * P["d"],
+              this["d"] * P["n"]
+              );
+    },
+
+    /**
+     * Clones the actual object
+     *
+     * Ex: new Fraction("-17.(345)").clone()
+     **/
+    "clone": function() {
+      return new Fraction(this);
+    },
+
+    /**
+     * Calculates the modulo of two rational numbers - a more precise fmod
+     *
+     * Ex: new Fraction('4.(3)').mod([7, 8]) => (13/3) % (7/8) = (5/6)
+     **/
+    "mod": function(a, b) {
+
+      if (isNaN(this['n']) || isNaN(this['d'])) {
+        return new Fraction(NaN);
+      }
+
+      if (a === undefined) {
+        return new Fraction(this["s"] * this["n"] % this["d"], 1);
+      }
+
+      parse(a, b);
+      if (0 === P["n"] && 0 === this["d"]) {
+        Fraction(0, 0); // Throw DivisionByZero
+      }
+
+      /*
+       * First silly attempt, kinda slow
+       *
+       return that["sub"]({
+       "n": num["n"] * Math.floor((this.n / this.d) / (num.n / num.d)),
+       "d": num["d"],
+       "s": this["s"]
+       });*/
+
+      /*
+       * New attempt: a1 / b1 = a2 / b2 * q + r
+       * => b2 * a1 = a2 * b1 * q + b1 * b2 * r
+       * => (b2 * a1 % a2 * b1) / (b1 * b2)
+       */
+      return new Fraction(
+              this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
+              P["d"] * this["d"]
+              );
+    },
+
+    /**
+     * Calculates the fractional gcd of two rational numbers
+     *
+     * Ex: new Fraction(5,8).gcd(3,7) => 1/56
+     */
+    "gcd": function(a, b) {
+
+      parse(a, b);
+
+      // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
+
+      return new Fraction(gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]), P["d"] * this["d"]);
+    },
+
+    /**
+     * Calculates the fractional lcm of two rational numbers
+     *
+     * Ex: new Fraction(5,8).lcm(3,7) => 15
+     */
+    "lcm": function(a, b) {
+
+      parse(a, b);
+
+      // lcm(a / b, c / d) = lcm(a, c) / gcd(b, d)
+
+      if (P["n"] === 0 && this["n"] === 0) {
+        return new Fraction;
+      }
+      return new Fraction(P["n"] * this["n"], gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]));
+    },
+
+    /**
+     * Calculates the ceil of a rational number
+     *
+     * Ex: new Fraction('4.(3)').ceil() => (5 / 1)
+     **/
+    "ceil": function(places) {
+
+      places = Math.pow(10, places || 0);
+
+      if (isNaN(this["n"]) || isNaN(this["d"])) {
+        return new Fraction(NaN);
+      }
+      return new Fraction(Math.ceil(places * this["s"] * this["n"] / this["d"]), places);
+    },
+
+    /**
+     * Calculates the floor of a rational number
+     *
+     * Ex: new Fraction('4.(3)').floor() => (4 / 1)
+     **/
+    "floor": function(places) {
+
+      places = Math.pow(10, places || 0);
+
+      if (isNaN(this["n"]) || isNaN(this["d"])) {
+        return new Fraction(NaN);
+      }
+      return new Fraction(Math.floor(places * this["s"] * this["n"] / this["d"]), places);
+    },
+
+    /**
+     * Rounds a rational numbers
+     *
+     * Ex: new Fraction('4.(3)').round() => (4 / 1)
+     **/
+    "round": function(places) {
+
+      places = Math.pow(10, places || 0);
+
+      if (isNaN(this["n"]) || isNaN(this["d"])) {
+        return new Fraction(NaN);
+      }
+      return new Fraction(Math.round(places * this["s"] * this["n"] / this["d"]), places);
+    },
+
+    /**
+     * Gets the inverse of the fraction, means numerator and denumerator are exchanged
+     *
+     * Ex: new Fraction([-3, 4]).inverse() => -4 / 3
+     **/
+    "inverse": function() {
+
+      return new Fraction(this["s"] * this["d"], this["n"]);
+    },
+
+    /**
+     * Calculates the fraction to some integer exponent
+     *
+     * Ex: new Fraction(-1,2).pow(-3) => -8
+     */
+    "pow": function(m) {
+
+      if (m < 0) {
+        return new Fraction(Math.pow(this['s'] * this["d"], -m), Math.pow(this["n"], -m));
+      } else {
+        return new Fraction(Math.pow(this['s'] * this["n"], m), Math.pow(this["d"], m));
+      }
+    },
+
+    /**
+     * Check if two rational numbers are the same
+     *
+     * Ex: new Fraction(19.6).equals([98, 5]);
+     **/
+    "equals": function(a, b) {
+
+      parse(a, b);
+      return this["s"] * this["n"] * P["d"] === P["s"] * P["n"] * this["d"]; // Same as compare() === 0
+    },
+
+    /**
+     * Check if two rational numbers are the same
+     *
+     * Ex: new Fraction(19.6).equals([98, 5]);
+     **/
+    "compare": function(a, b) {
+
+      parse(a, b);
+      var t = (this["s"] * this["n"] * P["d"] - P["s"] * P["n"] * this["d"]);
+      return (0 < t) - (t < 0);
+    },
+
+    "simplify": function(eps) {
+
+      // First naive implementation, needs improvement
+
+      if (isNaN(this['n']) || isNaN(this['d'])) {
+        return this;
+      }
+
+      var cont = this['abs']()['toContinued']();
+
+      eps = eps || 0.001;
+
+      function rec(a) {
+        if (a.length === 1)
+          return new Fraction(a[0]);
+        return rec(a.slice(1))['inverse']()['add'](a[0]);
+      }
+
+      for (var i = 0; i < cont.length; i++) {
+        var tmp = rec(cont.slice(0, i + 1));
+        if (tmp['sub'](this['abs']())['abs']().valueOf() < eps) {
+          return tmp['mul'](this['s']);
+        }
+      }
+      return this;
+    },
+
+    /**
+     * Check if two rational numbers are divisible
+     *
+     * Ex: new Fraction(19.6).divisible(1.5);
+     */
+    "divisible": function(a, b) {
+
+      parse(a, b);
+      return !(!(P["n"] * this["d"]) || ((this["n"] * P["d"]) % (P["n"] * this["d"])));
+    },
+
+    /**
+     * Returns a decimal representation of the fraction
+     *
+     * Ex: new Fraction("100.'91823'").valueOf() => 100.91823918239183
+     **/
+    'valueOf': function() {
+
+      return this["s"] * this["n"] / this["d"];
+    },
+
+    /**
+     * Returns a string-fraction representation of a Fraction object
+     *
+     * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
+     **/
+    'toFraction': function(excludeWhole) {
+
+      var whole, str = "";
+      var n = this["n"];
+      var d = this["d"];
+      if (this["s"] < 0) {
+        str += '-';
+      }
+
+      if (d === 1) {
+        str += n;
+      } else {
+
+        if (excludeWhole && (whole = Math.floor(n / d)) > 0) {
+          str += whole;
+          str += " ";
+          n %= d;
+        }
+
+        str += n;
+        str += '/';
+        str += d;
+      }
+      return str;
+    },
+
+    /**
+     * Returns a latex representation of a Fraction object
+     *
+     * Ex: new Fraction("1.'3'").toLatex() => "\frac{4}{3}"
+     **/
+    'toLatex': function(excludeWhole) {
+
+      var whole, str = "";
+      var n = this["n"];
+      var d = this["d"];
+      if (this["s"] < 0) {
+        str += '-';
+      }
+
+      if (d === 1) {
+        str += n;
+      } else {
+
+        if (excludeWhole && (whole = Math.floor(n / d)) > 0) {
+          str += whole;
+          n %= d;
+        }
+
+        str += "\\frac{";
+        str += n;
+        str += '}{';
+        str += d;
+        str += '}';
+      }
+      return str;
+    },
+
+    /**
+     * Returns an array of continued fraction elements
+     *
+     * Ex: new Fraction("7/8").toContinued() => [0,1,7]
+     */
+    'toContinued': function() {
+
+      var t;
+      var a = this['n'];
+      var b = this['d'];
+      var res = [];
+
+      if (isNaN(this['n']) || isNaN(this['d'])) {
+        return res;
+      }
+
+      do {
+        res.push(Math.floor(a / b));
+        t = a % b;
+        a = b;
+        b = t;
+      } while (a !== 1);
+
+      return res;
+    },
+
+    /**
+     * Creates a string representation of a fraction with all digits
+     *
+     * Ex: new Fraction("100.'91823'").toString() => "100.(91823)"
+     **/
+    'toString': function(dec) {
+
+      var g;
+      var N = this["n"];
+      var D = this["d"];
+
+      if (isNaN(N) || isNaN(D)) {
+        return "NaN";
+      }
+
+      if (!Fraction['REDUCE']) {
+        g = gcd(N, D);
+        N /= g;
+        D /= g;
+      }
+
+      dec = dec || 15; // 15 = decimal places when no repitation
+
+      var cycLen = cycleLen(N, D); // Cycle length
+      var cycOff = cycleStart(N, D, cycLen); // Cycle start
+
+      var str = this['s'] === -1 ? "-" : "";
+
+      str += N / D | 0;
+
+      N %= D;
+      N *= 10;
+
+      if (N)
+        str += ".";
+
+      if (cycLen) {
+
+        for (var i = cycOff; i--; ) {
+          str += N / D | 0;
+          N %= D;
+          N *= 10;
+        }
+        str += "(";
+        for (var i = cycLen; i--; ) {
+          str += N / D | 0;
+          N %= D;
+          N *= 10;
+        }
+        str += ")";
+      } else {
+        for (var i = dec; N && i--; ) {
+          str += N / D | 0;
+          N %= D;
+          N *= 10;
+        }
+      }
+      return str;
+    }
+  };
+
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+      return Fraction;
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+
+})(this);
+
+
+/***/ }),
+/* 79 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9611,278 +11264,16 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 
 /***/ }),
-/* 75 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "SemanticDifference", function() { return /* reexport */ comparators["a" /* SemanticDifference */]; });
-__webpack_require__.d(__webpack_exports__, "s_max", function() { return /* reexport */ comparators["d" /* s_max */]; });
-__webpack_require__.d(__webpack_exports__, "get_semantic_difference", function() { return /* reexport */ comparators["c" /* get_semantic_difference */]; });
-__webpack_require__.d(__webpack_exports__, "compare", function() { return /* reexport */ comparators["b" /* compare */]; });
-__webpack_require__.d(__webpack_exports__, "generic_migrate_to_latest", function() { return /* reexport */ generic_migrate_to_latest; });
-__webpack_require__.d(__webpack_exports__, "get_schema_version", function() { return /* reexport */ selectors["d" /* get_schema_version */]; });
-__webpack_require__.d(__webpack_exports__, "get_schema_version_loose", function() { return /* reexport */ selectors["e" /* get_schema_version_loose */]; });
-__webpack_require__.d(__webpack_exports__, "get_revision", function() { return /* reexport */ selectors["b" /* get_revision */]; });
-__webpack_require__.d(__webpack_exports__, "get_revision_loose", function() { return /* reexport */ selectors["c" /* get_revision_loose */]; });
-__webpack_require__.d(__webpack_exports__, "get_timestamp", function() { return /* reexport */ selectors["f" /* get_timestamp */]; });
-__webpack_require__.d(__webpack_exports__, "get_timestamp_loose", function() { return /* reexport */ selectors["g" /* get_timestamp_loose */]; });
-__webpack_require__.d(__webpack_exports__, "get_base_loose", function() { return /* reexport */ selectors["a" /* get_base_loose */]; });
-__webpack_require__.d(__webpack_exports__, "is_WithSchemaVersion", function() { return /* reexport */ type_guards["h" /* is_WithSchemaVersion */]; });
-__webpack_require__.d(__webpack_exports__, "is_WithRevision", function() { return /* reexport */ type_guards["g" /* is_WithRevision */]; });
-__webpack_require__.d(__webpack_exports__, "is_WithTimestamp", function() { return /* reexport */ type_guards["i" /* is_WithTimestamp */]; });
-__webpack_require__.d(__webpack_exports__, "has_versioned_schema", function() { return /* reexport */ type_guards["a" /* has_versioned_schema */]; });
-__webpack_require__.d(__webpack_exports__, "is_revisioned", function() { return /* reexport */ type_guards["j" /* is_revisioned */]; });
-__webpack_require__.d(__webpack_exports__, "is_time_stamped", function() { return /* reexport */ type_guards["k" /* is_time_stamped */]; });
-__webpack_require__.d(__webpack_exports__, "is_BaseState", function() { return /* reexport */ type_guards["b" /* is_BaseState */]; });
-__webpack_require__.d(__webpack_exports__, "is_UState", function() { return /* reexport */ type_guards["e" /* is_UState */]; });
-__webpack_require__.d(__webpack_exports__, "is_TState", function() { return /* reexport */ type_guards["d" /* is_TState */]; });
-__webpack_require__.d(__webpack_exports__, "is_UTBundle", function() { return /* reexport */ type_guards["f" /* is_UTBundle */]; });
-__webpack_require__.d(__webpack_exports__, "is_RootState", function() { return /* reexport */ type_guards["c" /* is_RootState */]; });
-__webpack_require__.d(__webpack_exports__, "enforce_immutability", function() { return /* reexport */ utils["c" /* enforce_immutability */]; });
-__webpack_require__.d(__webpack_exports__, "complete_or_cancel_eager_mutation_propagating_possible_child_mutation", function() { return /* reexport */ utils["b" /* complete_or_cancel_eager_mutation_propagating_possible_child_mutation */]; });
-__webpack_require__.d(__webpack_exports__, "are_ustate_revision_requirements_met", function() { return /* reexport */ utils["a" /* are_ustate_revision_requirements_met */]; });
-
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/comparators.js + 1 modules
-var comparators = __webpack_require__(139);
-
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
-var tiny_invariant_esm = __webpack_require__(2);
-
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/type-guards.js
-var type_guards = __webpack_require__(1);
-
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/selectors.js
-var selectors = __webpack_require__(3);
-
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/migration.js
-
-
-
-const LIBS = {};
-const get_state_summary = selectors["a" /* get_base_loose */]; ////////////////////////////////////////////////////////////////////////////////////
-
-function generic_migrate_to_latest({
-  SEC,
-  LIB,
-  SCHEMA_VERSION,
-  legacy_state,
-  hints,
-  sub_states_migrate_to_latest,
-  // no default to force thinking
-  cleanup = (SEC, state, hints) => state,
-  pipeline
-}) {
-  return SEC.xTry('migrate_to_latest', ({
-    SEC,
-    logger
-  }) => {
-    const existing_version = Object(selectors["e" /* get_schema_version_loose */])(legacy_state);
-    console.groupCollapsed(`migration of schema ${LIB} from v${existing_version} to v${SCHEMA_VERSION}`);
-    const RSEC = SEC;
-    RSEC.setLogicalStack({
-      module: LIB
-    });
-    RSEC.setAnalyticsAndErrorDetails({
-      version_from: existing_version,
-      version_to: SCHEMA_VERSION
-    });
-    if (existing_version > SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
-    let state = legacy_state; // for starter, may actually be true
-
-    if (existing_version < SCHEMA_VERSION) {
-      logger.info(`attempting to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}…`);
-      RSEC.fireAnalyticsEvent('schema_migration.began');
-
-      function previous(index, SEC, legacy_state, hints) {
-        const migrate_step = pipeline[index];
-        const current_step_name = index >= pipeline.length ? 'not-found' : (migrate_step === null || migrate_step === void 0 ? void 0 : migrate_step.name) || 'unknown';
-        return RSEC.xTry('migration step:' + current_step_name, ({
-          SEC
-        }) => {
-          if (index >= pipeline.length) {
-            throw new Error(`No known migration for updating a v${Object(selectors["e" /* get_schema_version_loose */])(legacy_state)}!`);
-          }
-
-          Object(tiny_invariant_esm["default"])(typeof migrate_step === 'function', 'migrate step should be a function!');
-          const legacy_schema_version = Object(selectors["e" /* get_schema_version_loose */])(legacy_state); //_last_SEC = SEC
-          //console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
-
-          logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}"…`, get_state_summary(legacy_state));
-          const state = migrate_step(SEC, legacy_state, hints, previous.bind(null, index + 1), legacy_schema_version, LIBS);
-          Object(tiny_invariant_esm["default"])(!!state, 'migration step should return something');
-          logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}".`, get_state_summary(state)); //_check_response(SEC, index, 'out')
-
-          return state;
-        });
-      } // launch the chain
-
-
-      try {
-        state = previous(0, RSEC, state, hints);
-      } catch (err) {
-        logger.error(`failed to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}!`);
-        RSEC.fireAnalyticsEvent('schema_migration.failed');
-        throw err;
-      }
-
-      logger.info(`${LIB}: schema migration successful.`, get_state_summary(state));
-      RSEC.fireAnalyticsEvent('schema_migration.ended');
-    } // migrate sub-reducers if any...
-
-
-    if (Object(type_guards["f" /* is_UTBundle */])(state)) {
-      state = _migrate_sub_states__bundle(SEC, state, sub_states_migrate_to_latest, hints);
-    } else if (Object(type_guards["c" /* is_RootState */])(state)) {
-      state = _migrate_sub_states__root(SEC, state, sub_states_migrate_to_latest, hints);
-    } else if (Object(type_guards["b" /* is_BaseState */])(state)) {
-      state = _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hints);
-    } else {
-      Object(tiny_invariant_esm["default"])(false, 'should be a recognized OffirmoState!');
-    }
-
-    state = cleanup(SEC, state, hints);
-    console.groupEnd();
-    return state;
-  });
-}
-
-function _migrate_sub_states__bundle(SEC, state, sub_states_migrate_to_latest, hints) {
-  let has_change = false;
-  let [u_state, t_state] = state;
-  const unmigrated_sub_states = new Set([...Object.keys(sub_states_migrate_to_latest)]);
-  const sub_states_found = new Set();
-  const sub_u_states_found = new Set();
-  const sub_t_states_found = new Set(); // using base state in case of a legacy state
-
-  for (let key in u_state) {
-    if (Object(type_guards["a" /* has_versioned_schema */])(u_state[key])) {
-      sub_states_found.add(key);
-      sub_u_states_found.add(key);
-    }
-  }
-
-  for (let key in t_state) {
-    if (Object(type_guards["a" /* has_versioned_schema */])(t_state[key])) {
-      sub_states_found.add(key);
-      sub_t_states_found.add(key);
-    }
-  }
-  /*
-  console.log({
-      sub_states_found,
-      sub_u_states_found,
-      sub_t_states_found,
-  })
-  */
-
-
-  const sub_states_migrated = new Set();
-  sub_states_found.forEach(key => {
-    const migrate_sub_to_latest = sub_states_migrate_to_latest[key];
-    if (!migrate_sub_to_latest) throw new Error(`Found sub-state "${key}" but no migration fn was provided!`);
-    const sub_hints = hints[key];
-    const previous_sub_ustate = u_state[key];
-    const previous_sub_tstate = t_state[key];
-    let new_sub_ustate = previous_sub_ustate;
-    let new_sub_tstate = previous_sub_tstate;
-    SEC.xTry(`migration of sub-state "${key}"`, ({
-      SEC,
-      logger
-    }) => {
-      if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
-        // combo
-        const legacy_sub_state = [previous_sub_ustate, previous_sub_tstate];
-        logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, get_state_summary(legacy_sub_state));
-        [new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(SEC, legacy_sub_state, sub_hints);
-      } else if (sub_u_states_found.has(key)) {
-        logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, get_state_summary(previous_sub_ustate));
-        new_sub_ustate = migrate_sub_to_latest(SEC, previous_sub_ustate, sub_hints);
-      } else if (sub_t_states_found.has(key)) {
-        logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, get_state_summary(previous_sub_tstate));
-        new_sub_tstate = migrate_sub_to_latest(SEC, previous_sub_tstate, sub_hints);
-      } else {
-        throw new Error(`Expected sub-state "${key}" was not found!`);
-      }
-
-      logger.trace(`⭅ returned from migration fn of sub-*state "${key}".`);
-    });
-
-    if (previous_sub_ustate && new_sub_ustate !== previous_sub_ustate) {
-      has_change = true;
-      u_state = { ...u_state,
-        [key]: new_sub_ustate
-      };
-    }
-
-    if (previous_sub_tstate && new_sub_tstate !== previous_sub_tstate) {
-      has_change = true;
-      t_state = { ...t_state,
-        [key]: new_sub_tstate
-      };
-    }
-
-    sub_states_migrated.add(key);
-    unmigrated_sub_states.delete(key);
-  });
-  if (unmigrated_sub_states.size) throw new Error(`Specified sub-states not found! ${Array.from(unmigrated_sub_states).join(',')}`);
-  if (!has_change) return state;
-  return [u_state, t_state];
-}
-
-function _migrate_sub_states__root(SEC, state, sub_states_migrate_to_latest, hints) {
-  const {
-    u_state: previous_u_state,
-    t_state: previous_t_state
-  } = state;
-  const previous_state_as_bundle = [previous_u_state, previous_t_state];
-
-  const migrated_bundle = _migrate_sub_states__bundle(SEC, previous_state_as_bundle, sub_states_migrate_to_latest, hints);
-
-  if (migrated_bundle === previous_state_as_bundle) return state;
-  return { ...state,
-    u_state: migrated_bundle[0],
-    t_state: migrated_bundle[1]
-  };
-}
-
-function _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hints) {
-  //let has_change = false
-  const legacy_state = state;
-
-  for (let key in sub_states_migrate_to_latest) {
-    if (Object(type_guards["a" /* has_versioned_schema */])(legacy_state[key])) {
-      throw new Error('_migrate_sub_states__base() NIMP!');
-    }
-  }
-
-  return state;
-}
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/utils.js
-var utils = __webpack_require__(101);
-
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/index.js
-
-
-
-
-
-
-
-/***/ }),
-/* 76 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const escapeStringRegexp = __webpack_require__(188);
-const ansiStyles = __webpack_require__(189);
-const stdoutColor = __webpack_require__(193).stdout;
+const escapeStringRegexp = __webpack_require__(195);
+const ansiStyles = __webpack_require__(196);
+const stdoutColor = __webpack_require__(200).stdout;
 
-const template = __webpack_require__(195);
+const template = __webpack_require__(202);
 
 const isSimpleWindowsTerm = process.platform === 'win32' && !(process.env.TERM || '').toLowerCase().startsWith('xterm');
 
@@ -10108,12 +11499,12 @@ module.exports.default = module.exports; // For TypeScript
 
 
 /***/ }),
-/* 77 */
+/* 81 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return normalizeError; });
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
  // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.
 // Normalize any thrown object into a true, normal error.
@@ -10146,12 +11537,12 @@ function normalizeError(err_like = {}) {
 }
 
 /***/ }),
-/* 78 */
+/* 82 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createError; });
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 
 function createError(message, attributes = {}, ctor = Error) {
   message = String(message || attributes.message || 'Unknown error!');
@@ -10185,10 +11576,10 @@ function createError(message, attributes = {}, ctor = Error) {
 }
 
 /***/ }),
-/* 79 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(184);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(191);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -10275,7 +11666,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 80 */
+/* 84 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -10305,7 +11696,7 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 81 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10313,7 +11704,7 @@ module.exports = function(originalModule) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const agent_1 = __importDefault(__webpack_require__(143));
+const agent_1 = __importDefault(__webpack_require__(150));
 function createHttpsProxyAgent(opts) {
     return new agent_1.default(opts);
 }
@@ -10325,19 +11716,19 @@ module.exports = createHttpsProxyAgent;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 82 */
+/* 86 */
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 83 */
+/* 87 */
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 84 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -10353,7 +11744,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(111);
+	createDebug.humanize = __webpack_require__(117);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -10607,12 +11998,12 @@ module.exports = setup;
 
 
 /***/ }),
-/* 85 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(43),
-    getPrototype = __webpack_require__(112),
-    isObjectLike = __webpack_require__(29);
+var baseGetTag = __webpack_require__(46),
+    getPrototype = __webpack_require__(118),
+    isObjectLike = __webpack_require__(32);
 
 /** `Object#toString` result references. */
 var objectTag = '[object Object]';
@@ -10675,7 +12066,7 @@ module.exports = isPlainObject;
 
 
 /***/ }),
-/* 86 */
+/* 90 */
 /***/ (function(module, exports) {
 
 /**
@@ -10695,13 +12086,13 @@ module.exports = baseUnary;
 
 
 /***/ }),
-/* 87 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(60),
-    isArrayLike = __webpack_require__(34),
-    isIndex = __webpack_require__(88),
-    isObject = __webpack_require__(23);
+var eq = __webpack_require__(64),
+    isArrayLike = __webpack_require__(38),
+    isIndex = __webpack_require__(92),
+    isObject = __webpack_require__(27);
 
 /**
  * Checks if the given arguments are from an iteratee call.
@@ -10731,7 +12122,7 @@ module.exports = isIterateeCall;
 
 
 /***/ }),
-/* 88 */
+/* 92 */
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -10762,7 +12153,7 @@ module.exports = isIndex;
 
 
 /***/ }),
-/* 89 */
+/* 93 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -10786,11 +12177,11 @@ module.exports = isPrototype;
 
 
 /***/ }),
-/* 90 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsArguments = __webpack_require__(320),
-    isObjectLike = __webpack_require__(29);
+var baseIsArguments = __webpack_require__(333),
+    isObjectLike = __webpack_require__(32);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -10828,11 +12219,11 @@ module.exports = isArguments;
 
 
 /***/ }),
-/* 91 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseForOwn = __webpack_require__(208),
-    createBaseEach = __webpack_require__(325);
+var baseForOwn = __webpack_require__(216),
+    createBaseEach = __webpack_require__(338);
 
 /**
  * The base implementation of `_.forEach` without support for iteratee shorthands.
@@ -10848,10 +12239,10 @@ module.exports = baseEach;
 
 
 /***/ }),
-/* 92 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(67);
+var isSymbol = __webpack_require__(71);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -10875,7 +12266,7 @@ module.exports = toKey;
 
 
 /***/ }),
-/* 93 */
+/* 97 */
 /***/ (function(module, exports) {
 
 /**
@@ -10901,10 +12292,10 @@ module.exports = copyArray;
 
 
 /***/ }),
-/* 94 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(23);
+var isObject = __webpack_require__(27);
 
 /** Built-in value references. */
 var objectCreate = Object.create;
@@ -10937,17 +12328,17 @@ module.exports = baseCreate;
 
 
 /***/ }),
-/* 95 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseKeys = __webpack_require__(207),
-    getTag = __webpack_require__(66),
-    isArguments = __webpack_require__(90),
-    isArray = __webpack_require__(10),
-    isArrayLike = __webpack_require__(34),
-    isBuffer = __webpack_require__(65),
-    isPrototype = __webpack_require__(89),
-    isTypedArray = __webpack_require__(62);
+var baseKeys = __webpack_require__(215),
+    getTag = __webpack_require__(70),
+    isArguments = __webpack_require__(94),
+    isArray = __webpack_require__(11),
+    isArrayLike = __webpack_require__(38),
+    isBuffer = __webpack_require__(69),
+    isPrototype = __webpack_require__(93),
+    isTypedArray = __webpack_require__(66);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -11020,7 +12411,7 @@ module.exports = isEmpty;
 
 
 /***/ }),
-/* 96 */
+/* 100 */
 /***/ (function(module, exports) {
 
 class KnexTimeoutError extends Error {
@@ -11055,7 +12446,7 @@ module.exports.timeout = timeout;
 
 
 /***/ }),
-/* 97 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 try {
@@ -11065,12 +12456,12 @@ try {
   module.exports = util.inherits;
 } catch (e) {
   /* istanbul ignore next */
-  module.exports = __webpack_require__(511);
+  module.exports = __webpack_require__(524);
 }
 
 
 /***/ }),
-/* 98 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -11385,7 +12776,7 @@ LRUMap.prototype.toString = function() {
 
 
 /***/ }),
-/* 99 */
+/* 103 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11401,7 +12792,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 // UNUSED EXPORTS: walk
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(25);
+var tslib_es6 = __webpack_require__(29);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(5);
@@ -11563,7 +12954,7 @@ function getFunctionName(fn) {
 }
 //# sourceMappingURL=stacktrace.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(20);
+var string = __webpack_require__(21);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 
@@ -11881,7 +13272,7 @@ function dropUndefinedKeys(val) {
 //# sourceMappingURL=object.js.map
 
 /***/ }),
-/* 100 */
+/* 104 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11965,7 +13356,7 @@ function get_ISO8601_simplified_day(now = new Date()) {
  /////////////////////
 
 /***/ }),
-/* 101 */
+/* 105 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11973,7 +13364,7 @@ function get_ISO8601_simplified_day(now = new Date()) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return complete_or_cancel_eager_mutation_propagating_possible_child_mutation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return are_ustate_revision_requirements_met; });
 /* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(73);
+/* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(77);
 /* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(icepick__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
@@ -12079,8 +13470,14 @@ function are_ustate_revision_requirements_met(state, requirements = {}) {
 }
 
 /***/ }),
-/* 102 */,
-/* 103 */
+/* 106 */
+/***/ (function(module, exports) {
+
+module.exports = require("crypto");
+
+/***/ }),
+/* 107 */,
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12126,7 +13523,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(104);
+		colorConvert = __webpack_require__(109);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -12248,14 +13645,14 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
 
 /***/ }),
-/* 104 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(54);
-const route = __webpack_require__(106);
+const conversions = __webpack_require__(58);
+const route = __webpack_require__(111);
 
 const convert = {};
 
@@ -12338,7 +13735,7 @@ module.exports = convert;
 
 
 /***/ }),
-/* 105 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12497,10 +13894,10 @@ module.exports = {
 
 
 /***/ }),
-/* 106 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(54);
+const conversions = __webpack_require__(58);
 
 /*
 	This function routes a model to all other models.
@@ -12600,7 +13997,7 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 107 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12615,7 +14012,7 @@ module.exports = (flag, argv = process.argv) => {
 
 
 /***/ }),
-/* 108 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12661,7 +14058,7 @@ module.exports = {
 
 
 /***/ }),
-/* 109 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12802,11 +14199,11 @@ module.exports = (chalk, temporary) => {
 
 
 /***/ }),
-/* 110 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var cssKeywords = __webpack_require__(191);
+var cssKeywords = __webpack_require__(198);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -13676,7 +15073,219 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 111 */
+/* 116 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return generic_migrate_to_latest; });
+/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+
+
+
+const LIBS = {};
+const get_state_summary = _selectors__WEBPACK_IMPORTED_MODULE_2__[/* get_base_loose */ "a"]; ////////////////////////////////////////////////////////////////////////////////////
+
+function generic_migrate_to_latest({
+  SEC,
+  LIB,
+  SCHEMA_VERSION,
+  legacy_state,
+  hints,
+  sub_states_migrate_to_latest,
+  // no default to force thinking
+  cleanup = (SEC, state, hints) => state,
+  pipeline
+}) {
+  return SEC.xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    const existing_version = Object(_selectors__WEBPACK_IMPORTED_MODULE_2__[/* get_schema_version_loose */ "e"])(legacy_state);
+    console.groupCollapsed(`migration of schema ${LIB} from v${existing_version} to v${SCHEMA_VERSION}`);
+    const RSEC = SEC;
+    RSEC.setLogicalStack({
+      module: LIB
+    });
+    RSEC.setAnalyticsAndErrorDetails({
+      version_from: existing_version,
+      version_to: SCHEMA_VERSION
+    });
+    if (existing_version > SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter, may actually be true
+
+    if (existing_version < SCHEMA_VERSION) {
+      logger.info(`attempting to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}…`);
+      RSEC.fireAnalyticsEvent('schema_migration.began');
+
+      function previous(index, SEC, legacy_state, hints) {
+        const migrate_step = pipeline[index];
+        const current_step_name = index >= pipeline.length ? 'not-found' : (migrate_step === null || migrate_step === void 0 ? void 0 : migrate_step.name) || 'unknown';
+        return RSEC.xTry('migration step:' + current_step_name, ({
+          SEC
+        }) => {
+          if (index >= pipeline.length) {
+            throw new Error(`No known migration for updating a v${Object(_selectors__WEBPACK_IMPORTED_MODULE_2__[/* get_schema_version_loose */ "e"])(legacy_state)}!`);
+          }
+
+          Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(typeof migrate_step === 'function', 'migrate step should be a function!');
+          const legacy_schema_version = Object(_selectors__WEBPACK_IMPORTED_MODULE_2__[/* get_schema_version_loose */ "e"])(legacy_state); //_last_SEC = SEC
+          //console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
+
+          logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}"…`, get_state_summary(legacy_state));
+          const state = migrate_step(SEC, legacy_state, hints, previous.bind(null, index + 1), legacy_schema_version, LIBS);
+          Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(!!state, 'migration step should return something');
+          logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}".`, get_state_summary(state)); //_check_response(SEC, index, 'out')
+
+          return state;
+        });
+      } // launch the chain
+
+
+      try {
+        state = previous(0, RSEC, state, hints);
+      } catch (err) {
+        logger.error(`failed to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}!`);
+        RSEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${LIB}: schema migration successful.`, get_state_summary(state));
+      RSEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_1__[/* is_UTBundle */ "f"])(state)) {
+      state = _migrate_sub_states__bundle(SEC, state, sub_states_migrate_to_latest, hints);
+    } else if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_1__[/* is_RootState */ "c"])(state)) {
+      state = _migrate_sub_states__root(SEC, state, sub_states_migrate_to_latest, hints);
+    } else if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_1__[/* is_BaseState */ "b"])(state)) {
+      state = _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hints);
+    } else {
+      Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(false, 'should be a recognized OffirmoState!');
+    }
+
+    state = cleanup(SEC, state, hints);
+    console.groupEnd();
+    return state;
+  });
+}
+
+function _migrate_sub_states__bundle(SEC, state, sub_states_migrate_to_latest, hints) {
+  let has_change = false;
+  let [u_state, t_state] = state;
+  const unmigrated_sub_states = new Set([...Object.keys(sub_states_migrate_to_latest)]);
+  const sub_states_found = new Set();
+  const sub_u_states_found = new Set();
+  const sub_t_states_found = new Set(); // using base state in case of a legacy state
+
+  for (let key in u_state) {
+    if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_1__[/* has_versioned_schema */ "a"])(u_state[key])) {
+      sub_states_found.add(key);
+      sub_u_states_found.add(key);
+    }
+  }
+
+  for (let key in t_state) {
+    if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_1__[/* has_versioned_schema */ "a"])(t_state[key])) {
+      sub_states_found.add(key);
+      sub_t_states_found.add(key);
+    }
+  }
+  /*
+  console.log({
+      sub_states_found,
+      sub_u_states_found,
+      sub_t_states_found,
+  })
+  */
+
+
+  const sub_states_migrated = new Set();
+  sub_states_found.forEach(key => {
+    const migrate_sub_to_latest = sub_states_migrate_to_latest[key];
+    if (!migrate_sub_to_latest) throw new Error(`Found sub-state "${key}" but no migration fn was provided!`);
+    const sub_hints = hints[key];
+    const previous_sub_ustate = u_state[key];
+    const previous_sub_tstate = t_state[key];
+    let new_sub_ustate = previous_sub_ustate;
+    let new_sub_tstate = previous_sub_tstate;
+    SEC.xTry(`migration of sub-state "${key}"`, ({
+      SEC,
+      logger
+    }) => {
+      if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
+        // combo
+        const legacy_sub_state = [previous_sub_ustate, previous_sub_tstate];
+        logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, get_state_summary(legacy_sub_state));
+        [new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(SEC, legacy_sub_state, sub_hints);
+      } else if (sub_u_states_found.has(key)) {
+        logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, get_state_summary(previous_sub_ustate));
+        new_sub_ustate = migrate_sub_to_latest(SEC, previous_sub_ustate, sub_hints);
+      } else if (sub_t_states_found.has(key)) {
+        logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, get_state_summary(previous_sub_tstate));
+        new_sub_tstate = migrate_sub_to_latest(SEC, previous_sub_tstate, sub_hints);
+      } else {
+        throw new Error(`Expected sub-state "${key}" was not found!`);
+      }
+
+      logger.trace(`⭅ returned from migration fn of sub-*state "${key}".`);
+    });
+
+    if (previous_sub_ustate && new_sub_ustate !== previous_sub_ustate) {
+      has_change = true;
+      u_state = { ...u_state,
+        [key]: new_sub_ustate
+      };
+    }
+
+    if (previous_sub_tstate && new_sub_tstate !== previous_sub_tstate) {
+      has_change = true;
+      t_state = { ...t_state,
+        [key]: new_sub_tstate
+      };
+    }
+
+    sub_states_migrated.add(key);
+    unmigrated_sub_states.delete(key);
+  });
+  if (unmigrated_sub_states.size) throw new Error(`Specified sub-states not found! ${Array.from(unmigrated_sub_states).join(',')}`);
+  if (!has_change) return state;
+  return [u_state, t_state];
+}
+
+function _migrate_sub_states__root(SEC, state, sub_states_migrate_to_latest, hints) {
+  const {
+    u_state: previous_u_state,
+    t_state: previous_t_state
+  } = state;
+  const previous_state_as_bundle = [previous_u_state, previous_t_state];
+
+  const migrated_bundle = _migrate_sub_states__bundle(SEC, previous_state_as_bundle, sub_states_migrate_to_latest, hints);
+
+  if (migrated_bundle === previous_state_as_bundle) return state;
+  return { ...state,
+    u_state: migrated_bundle[0],
+    t_state: migrated_bundle[1]
+  };
+}
+
+function _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hints) {
+  //let has_change = false
+  const legacy_state = state;
+
+  for (let key in sub_states_migrate_to_latest) {
+    if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_1__[/* has_versioned_schema */ "a"])(legacy_state[key])) {
+      throw new Error('_migrate_sub_states__base() NIMP!');
+    }
+  }
+
+  return state;
+}
+
+/***/ }),
+/* 117 */
 /***/ (function(module, exports) {
 
 /**
@@ -13844,10 +15453,10 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 112 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(200);
+var overArg = __webpack_require__(208);
 
 /** Built-in value references. */
 var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -13856,11 +15465,11 @@ module.exports = getPrototype;
 
 
 /***/ }),
-/* 113 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(114),
-    eq = __webpack_require__(60);
+var baseAssignValue = __webpack_require__(120),
+    eq = __webpack_require__(64);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -13890,10 +15499,10 @@ module.exports = assignValue;
 
 
 /***/ }),
-/* 114 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var defineProperty = __webpack_require__(202);
+var defineProperty = __webpack_require__(210);
 
 /**
  * The base implementation of `assignValue` and `assignMergeValue` without
@@ -13921,11 +15530,11 @@ module.exports = baseAssignValue;
 
 
 /***/ }),
-/* 115 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(43),
-    isObject = __webpack_require__(23);
+var baseGetTag = __webpack_require__(46),
+    isObject = __webpack_require__(27);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -13964,11 +15573,11 @@ module.exports = isFunction;
 
 
 /***/ }),
-/* 116 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseRest = __webpack_require__(64),
-    isIterateeCall = __webpack_require__(87);
+var baseRest = __webpack_require__(68),
+    isIterateeCall = __webpack_require__(91);
 
 /**
  * Creates a function like `_.assign`.
@@ -14007,7 +15616,7 @@ module.exports = createAssigner;
 
 
 /***/ }),
-/* 117 */
+/* 123 */
 /***/ (function(module, exports) {
 
 /**
@@ -14034,15 +15643,15 @@ module.exports = apply;
 
 
 /***/ }),
-/* 118 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(119),
-    stackClear = __webpack_require__(333),
-    stackDelete = __webpack_require__(334),
-    stackGet = __webpack_require__(335),
-    stackHas = __webpack_require__(336),
-    stackSet = __webpack_require__(337);
+var ListCache = __webpack_require__(125),
+    stackClear = __webpack_require__(346),
+    stackDelete = __webpack_require__(347),
+    stackGet = __webpack_require__(348),
+    stackHas = __webpack_require__(349),
+    stackSet = __webpack_require__(350);
 
 /**
  * Creates a stack cache object to store key-value pairs.
@@ -14067,14 +15676,14 @@ module.exports = Stack;
 
 
 /***/ }),
-/* 119 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var listCacheClear = __webpack_require__(328),
-    listCacheDelete = __webpack_require__(329),
-    listCacheGet = __webpack_require__(330),
-    listCacheHas = __webpack_require__(331),
-    listCacheSet = __webpack_require__(332);
+var listCacheClear = __webpack_require__(341),
+    listCacheDelete = __webpack_require__(342),
+    listCacheGet = __webpack_require__(343),
+    listCacheHas = __webpack_require__(344),
+    listCacheSet = __webpack_require__(345);
 
 /**
  * Creates an list cache object.
@@ -14105,10 +15714,10 @@ module.exports = ListCache;
 
 
 /***/ }),
-/* 120 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(60);
+var eq = __webpack_require__(64);
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -14132,10 +15741,10 @@ module.exports = assocIndexOf;
 
 
 /***/ }),
-/* 121 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(59);
+var getNative = __webpack_require__(63);
 
 /* Built-in method references that are verified to be native. */
 var nativeCreate = getNative(Object, 'create');
@@ -14144,10 +15753,10 @@ module.exports = nativeCreate;
 
 
 /***/ }),
-/* 122 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isKeyable = __webpack_require__(346);
+var isKeyable = __webpack_require__(359);
 
 /**
  * Gets the data for `map`.
@@ -14168,11 +15777,11 @@ module.exports = getMapData;
 
 
 /***/ }),
-/* 123 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(124),
-    toKey = __webpack_require__(92);
+var castPath = __webpack_require__(130),
+    toKey = __webpack_require__(96);
 
 /**
  * The base implementation of `_.get` without support for default values.
@@ -14198,13 +15807,13 @@ module.exports = baseGet;
 
 
 /***/ }),
-/* 124 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(10),
-    isKey = __webpack_require__(159),
-    stringToPath = __webpack_require__(361),
-    toString = __webpack_require__(125);
+var isArray = __webpack_require__(11),
+    isKey = __webpack_require__(166),
+    stringToPath = __webpack_require__(374),
+    toString = __webpack_require__(131);
 
 /**
  * Casts `value` to a path array if it's not one.
@@ -14225,10 +15834,10 @@ module.exports = castPath;
 
 
 /***/ }),
-/* 125 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseToString = __webpack_require__(364);
+var baseToString = __webpack_require__(377);
 
 /**
  * Converts `value` to a string. An empty string is returned for `null`
@@ -14259,7 +15868,7 @@ module.exports = toString;
 
 
 /***/ }),
-/* 126 */
+/* 132 */
 /***/ (function(module, exports) {
 
 /**
@@ -14287,31 +15896,31 @@ module.exports = arrayEach;
 
 
 /***/ }),
-/* 127 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Builder
 // -------
-const assert = __webpack_require__(41);
+const assert = __webpack_require__(44);
 const { inherits } = __webpack_require__(7);
-const { EventEmitter } = __webpack_require__(12);
+const { EventEmitter } = __webpack_require__(13);
 
-const Raw = __webpack_require__(57);
-const helpers = __webpack_require__(42);
-const JoinClause = __webpack_require__(237);
-const assign = __webpack_require__(153);
-const clone = __webpack_require__(227);
-const each = __webpack_require__(238);
-const isEmpty = __webpack_require__(95);
-const isPlainObject = __webpack_require__(85);
-const last = __webpack_require__(239);
-const reject = __webpack_require__(391);
-const tail = __webpack_require__(128);
-const toArray = __webpack_require__(129);
-const saveAsyncStack = __webpack_require__(160);
-const { isBoolean, isNumber, isObject, isString } = __webpack_require__(30);
+const Raw = __webpack_require__(61);
+const helpers = __webpack_require__(45);
+const JoinClause = __webpack_require__(245);
+const assign = __webpack_require__(160);
+const clone = __webpack_require__(235);
+const each = __webpack_require__(246);
+const isEmpty = __webpack_require__(99);
+const isPlainObject = __webpack_require__(89);
+const last = __webpack_require__(247);
+const reject = __webpack_require__(404);
+const tail = __webpack_require__(134);
+const toArray = __webpack_require__(135);
+const saveAsyncStack = __webpack_require__(167);
+const { isBoolean, isNumber, isObject, isString } = __webpack_require__(33);
 
-const { lockMode, waitMode } = __webpack_require__(398);
+const { lockMode, waitMode } = __webpack_require__(411);
 
 // Sub-builder for onConflict clauses
 function OnConflictBuilder(builder, columns) {
@@ -15627,7 +17236,7 @@ Builder.prototype.into = Builder.prototype.table;
 Builder.prototype.del = Builder.prototype.delete;
 
 // Attach all of the top level promise methods that should be chainable.
-__webpack_require__(161)(Builder);
+__webpack_require__(168)(Builder);
 helpers.addQueryContext(Builder);
 
 Builder.extend = (methodName, fn) => {
@@ -15644,10 +17253,10 @@ module.exports = Builder;
 
 
 /***/ }),
-/* 128 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSlice = __webpack_require__(241);
+var baseSlice = __webpack_require__(249);
 
 /**
  * Gets all but the first element of `array`.
@@ -15672,19 +17281,19 @@ module.exports = tail;
 
 
 /***/ }),
-/* 129 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(58),
-    copyArray = __webpack_require__(93),
-    getTag = __webpack_require__(66),
-    isArrayLike = __webpack_require__(34),
-    isString = __webpack_require__(242),
-    iteratorToArray = __webpack_require__(393),
-    mapToArray = __webpack_require__(215),
-    setToArray = __webpack_require__(216),
-    stringToArray = __webpack_require__(394),
-    values = __webpack_require__(243);
+var Symbol = __webpack_require__(62),
+    copyArray = __webpack_require__(97),
+    getTag = __webpack_require__(70),
+    isArrayLike = __webpack_require__(38),
+    isString = __webpack_require__(250),
+    iteratorToArray = __webpack_require__(406),
+    mapToArray = __webpack_require__(223),
+    setToArray = __webpack_require__(224),
+    stringToArray = __webpack_require__(407),
+    values = __webpack_require__(251);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -15736,12 +17345,12 @@ module.exports = toArray;
 
 
 /***/ }),
-/* 130 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const fs = __webpack_require__(15);
-const os = __webpack_require__(27);
-const path = __webpack_require__(24);
+const fs = __webpack_require__(16);
+const os = __webpack_require__(31);
+const path = __webpack_require__(28);
 const { promisify } = __webpack_require__(7);
 
 // Promisify common fs functions.
@@ -15818,17 +17427,17 @@ module.exports = {
 
 
 /***/ }),
-/* 131 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(435);
+module.exports = __webpack_require__(448);
 
 
 /***/ }),
-/* 132 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toFinite = __webpack_require__(437);
+var toFinite = __webpack_require__(450);
 
 /**
  * Converts `value` to an integer.
@@ -15867,11 +17476,11 @@ module.exports = toInteger;
 
 
 /***/ }),
-/* 133 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseCreate = __webpack_require__(94),
-    isObject = __webpack_require__(23);
+var baseCreate = __webpack_require__(98),
+    isObject = __webpack_require__(27);
 
 /**
  * Creates a function that produces an instance of `Ctor` regardless of
@@ -15910,7 +17519,7 @@ module.exports = createCtor;
 
 
 /***/ }),
-/* 134 */
+/* 140 */
 /***/ (function(module, exports) {
 
 /** Used as the internal argument placeholder. */
@@ -15945,7 +17554,7 @@ module.exports = replaceHolders;
 
 
 /***/ }),
-/* 135 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15958,9 +17567,9 @@ module.exports = replaceHolders;
  * README.md file in the root directory of this source tree.
  */
 
-const crypto = __webpack_require__(174)
+const crypto = __webpack_require__(106)
 
-const defaults = __webpack_require__(136)
+const defaults = __webpack_require__(142)
 
 function escapeElement (elementRepresentation) {
   var escaped = elementRepresentation
@@ -16129,7 +17738,7 @@ module.exports = {
 
 
 /***/ }),
-/* 136 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16208,7 +17817,7 @@ module.exports = {
   keepalives_idle: 0
 }
 
-var pgTypes = __webpack_require__(137)
+var pgTypes = __webpack_require__(143)
 // save default parsers
 var parseBigInteger = pgTypes.getTypeParser(20, 'text')
 var parseBigIntegerArray = pgTypes.getTypeParser(1016, 'text')
@@ -16221,13 +17830,13 @@ module.exports.__defineSetter__('parseInt8', function (val) {
 
 
 /***/ }),
-/* 137 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var textParsers = __webpack_require__(497);
-var binaryParsers = __webpack_require__(502);
-var arrayParser = __webpack_require__(280);
-var builtinTypes = __webpack_require__(504);
+var textParsers = __webpack_require__(510);
+var binaryParsers = __webpack_require__(515);
+var arrayParser = __webpack_require__(288);
+var builtinTypes = __webpack_require__(517);
 
 exports.getTypeParser = getTypeParser;
 exports.setTypeParser = setTypeParser;
@@ -16274,13 +17883,13 @@ binaryParsers.init(function(oid, converter) {
 
 
 /***/ }),
-/* 138 */
+/* 144 */
 /***/ (function(module, exports) {
 
 module.exports = require("buffer");
 
 /***/ }),
-/* 139 */
+/* 145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16295,7 +17904,7 @@ __webpack_require__.d(__webpack_exports__, "b", function() { return /* binding *
 var tiny_invariant_esm = __webpack_require__(2);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(13);
+var dist = __webpack_require__(8);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/dequal/dist/index.mjs
 var has = Object.prototype.hasOwnProperty;
@@ -16394,7 +18003,7 @@ var selectors = __webpack_require__(3);
 
 
 
-const jsondiffpatch = __webpack_require__(187);
+const jsondiffpatch = __webpack_require__(194);
 
 
  // tslint:disable-next-line: variable-name
@@ -16407,6 +18016,7 @@ function s_max(a, b) {
   if (a === SemanticDifference.time || b === SemanticDifference.time) return SemanticDifference.time;
   return SemanticDifference.none;
 } // newer and older so that we get order check as a side-effect
+// TODO improve unclear params
 
 function get_semantic_difference(newer, older, {
   assert_newer = true
@@ -16528,7 +18138,7 @@ function compare(a, b) {
 }
 
 /***/ }),
-/* 140 */
+/* 146 */
 /***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16539,9 +18149,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FetchError", function() { return FetchError; });
 /* harmony import */ var stream__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 /* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
-/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
-/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
-/* harmony import */ var zlib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
+/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
+/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
+/* harmony import */ var zlib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(12);
 
 
 
@@ -18183,8 +19793,9 @@ fetch.Promise = global.Promise;
 
 
 /***/ }),
-/* 141 */,
-/* 142 */
+/* 147 */,
+/* 148 */,
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18196,9 +19807,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(177);
+const Sentry = __webpack_require__(183);
 
-const channel_1 = __webpack_require__(37); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(41); /////////////////////////////////////////////////
 
 
 Sentry.init({
@@ -18242,7 +19853,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 // TODO breadcrumb
 
 /***/ }),
-/* 143 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18260,13 +19871,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const net_1 = __importDefault(__webpack_require__(82));
-const tls_1 = __importDefault(__webpack_require__(83));
-const url_1 = __importDefault(__webpack_require__(8));
-const assert_1 = __importDefault(__webpack_require__(41));
-const debug_1 = __importDefault(__webpack_require__(56));
-const agent_base_1 = __webpack_require__(146);
-const parse_proxy_response_1 = __importDefault(__webpack_require__(148));
+const net_1 = __importDefault(__webpack_require__(86));
+const tls_1 = __importDefault(__webpack_require__(87));
+const url_1 = __importDefault(__webpack_require__(9));
+const assert_1 = __importDefault(__webpack_require__(44));
+const debug_1 = __importDefault(__webpack_require__(60));
+const agent_base_1 = __webpack_require__(153);
+const parse_proxy_response_1 = __importDefault(__webpack_require__(155));
 const debug = debug_1.default('https-proxy-agent:agent');
 /**
  * The `HttpsProxyAgent` implements an HTTP Agent subclass that connects to
@@ -18428,7 +20039,7 @@ function omit(obj, ...keys) {
 //# sourceMappingURL=agent.js.map
 
 /***/ }),
-/* 144 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -18675,7 +20286,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(84)(exports);
+module.exports = __webpack_require__(88)(exports);
 
 const {formatters} = module.exports;
 
@@ -18693,14 +20304,14 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 145 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(51);
+const tty = __webpack_require__(55);
 const util = __webpack_require__(7);
 
 /**
@@ -18723,7 +20334,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(50);
+	const supportsColor = __webpack_require__(54);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -18931,7 +20542,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(84)(exports);
+module.exports = __webpack_require__(88)(exports);
 
 const {formatters} = module.exports;
 
@@ -18956,7 +20567,7 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 146 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18964,9 +20575,9 @@ formatters.O = function (v) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const events_1 = __webpack_require__(12);
-const debug_1 = __importDefault(__webpack_require__(56));
-const promisify_1 = __importDefault(__webpack_require__(147));
+const events_1 = __webpack_require__(13);
+const debug_1 = __importDefault(__webpack_require__(60));
+const promisify_1 = __importDefault(__webpack_require__(154));
 const debug = debug_1.default('agent-base');
 function isAgent(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
@@ -19165,7 +20776,7 @@ module.exports = createAgent;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 147 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19189,7 +20800,7 @@ exports.default = promisify;
 //# sourceMappingURL=promisify.js.map
 
 /***/ }),
-/* 148 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19198,7 +20809,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const debug_1 = __importDefault(__webpack_require__(56));
+const debug_1 = __importDefault(__webpack_require__(60));
 const debug = debug_1.default('https-proxy-agent:parse-proxy-response');
 function parseProxyResponse(socket) {
     return new Promise((resolve, reject) => {
@@ -19261,13 +20872,13 @@ exports.default = parseProxyResponse;
 //# sourceMappingURL=parse-proxy-response.js.map
 
 /***/ }),
-/* 149 */
+/* 156 */
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
-/* 150 */
+/* 157 */
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -19308,10 +20919,10 @@ module.exports = isLength;
 
 
 /***/ }),
-/* 151 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(199);
+/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(207);
 
 /** Detect free variable `exports`. */
 var freeExports =  true && exports && !exports.nodeType && exports;
@@ -19342,10 +20953,10 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
 
 /***/ }),
-/* 152 */
+/* 159 */
 /***/ (function(module, exports) {
 
 // The client names we'll allow in the `{name: lib}` pairing.
@@ -19387,15 +20998,15 @@ module.exports = {
 
 
 /***/ }),
-/* 153 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignValue = __webpack_require__(113),
-    copyObject = __webpack_require__(44),
-    createAssigner = __webpack_require__(116),
-    isArrayLike = __webpack_require__(34),
-    isPrototype = __webpack_require__(89),
-    keys = __webpack_require__(46);
+var assignValue = __webpack_require__(119),
+    copyObject = __webpack_require__(47),
+    createAssigner = __webpack_require__(122),
+    isArrayLike = __webpack_require__(38),
+    isPrototype = __webpack_require__(93),
+    keys = __webpack_require__(49);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -19451,14 +21062,14 @@ module.exports = assign;
 
 
 /***/ }),
-/* 154 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayReduce = __webpack_require__(323),
-    baseEach = __webpack_require__(91),
-    baseIteratee = __webpack_require__(47),
-    baseReduce = __webpack_require__(370),
-    isArray = __webpack_require__(10);
+var arrayReduce = __webpack_require__(336),
+    baseEach = __webpack_require__(95),
+    baseIteratee = __webpack_require__(50),
+    baseReduce = __webpack_require__(383),
+    isArray = __webpack_require__(11);
 
 /**
  * Reduces `collection` to a value which is the accumulated result of running
@@ -19508,11 +21119,11 @@ module.exports = reduce;
 
 
 /***/ }),
-/* 155 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(59),
-    root = __webpack_require__(21);
+var getNative = __webpack_require__(63),
+    root = __webpack_require__(24);
 
 /* Built-in method references that are verified to be native. */
 var Map = getNative(root, 'Map');
@@ -19521,14 +21132,14 @@ module.exports = Map;
 
 
 /***/ }),
-/* 156 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapCacheClear = __webpack_require__(338),
-    mapCacheDelete = __webpack_require__(345),
-    mapCacheGet = __webpack_require__(347),
-    mapCacheHas = __webpack_require__(348),
-    mapCacheSet = __webpack_require__(349);
+var mapCacheClear = __webpack_require__(351),
+    mapCacheDelete = __webpack_require__(358),
+    mapCacheGet = __webpack_require__(360),
+    mapCacheHas = __webpack_require__(361),
+    mapCacheSet = __webpack_require__(362);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -19559,7 +21170,7 @@ module.exports = MapCache;
 
 
 /***/ }),
-/* 157 */
+/* 164 */
 /***/ (function(module, exports) {
 
 /**
@@ -19585,11 +21196,11 @@ module.exports = arrayPush;
 
 
 /***/ }),
-/* 158 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayFilter = __webpack_require__(219),
-    stubArray = __webpack_require__(220);
+var arrayFilter = __webpack_require__(227),
+    stubArray = __webpack_require__(228);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -19621,11 +21232,11 @@ module.exports = getSymbols;
 
 
 /***/ }),
-/* 159 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(10),
-    isSymbol = __webpack_require__(67);
+var isArray = __webpack_require__(11),
+    isSymbol = __webpack_require__(71);
 
 /** Used to match property names within property paths. */
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -19656,7 +21267,7 @@ module.exports = isKey;
 
 
 /***/ }),
-/* 160 */
+/* 167 */
 /***/ (function(module, exports) {
 
 module.exports = function saveAsyncStack(instance, lines) {
@@ -19671,13 +21282,13 @@ module.exports = function saveAsyncStack(instance, lines) {
 
 
 /***/ }),
-/* 161 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const clone = __webpack_require__(227);
-const isEmpty = __webpack_require__(95);
+const clone = __webpack_require__(235);
+const isEmpty = __webpack_require__(99);
 const { callbackify } = __webpack_require__(7);
-const finallyMixin = __webpack_require__(234);
+const finallyMixin = __webpack_require__(242);
 
 module.exports = function (Target) {
   Target.prototype.toQuery = function (tz) {
@@ -19780,10 +21391,10 @@ module.exports = function (Target) {
 
 
 /***/ }),
-/* 162 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Uint8Array = __webpack_require__(214);
+var Uint8Array = __webpack_require__(222);
 
 /**
  * Creates a clone of `arrayBuffer`.
@@ -19802,12 +21413,12 @@ module.exports = cloneArrayBuffer;
 
 
 /***/ }),
-/* 163 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFindIndex = __webpack_require__(404),
-    baseIsNaN = __webpack_require__(405),
-    strictIndexOf = __webpack_require__(406);
+var baseFindIndex = __webpack_require__(417),
+    baseIsNaN = __webpack_require__(418),
+    strictIndexOf = __webpack_require__(419);
 
 /**
  * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
@@ -19828,11 +21439,11 @@ module.exports = baseIndexOf;
 
 
 /***/ }),
-/* 164 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayPush = __webpack_require__(157),
-    isFlattenable = __webpack_require__(408);
+var arrayPush = __webpack_require__(164),
+    isFlattenable = __webpack_require__(421);
 
 /**
  * The base implementation of `_.flatten` with support for restricting flattening.
@@ -19872,7 +21483,7 @@ module.exports = baseFlatten;
 
 
 /***/ }),
-/* 165 */
+/* 172 */
 /***/ (function(module, exports) {
 
 //Get schema-aware table name
@@ -19905,7 +21516,7 @@ module.exports = {
 
 
 /***/ }),
-/* 166 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -19916,17 +21527,17 @@ module.exports = {
  */
 module.exports = function importFile(filepath) {
   return filepath.endsWith('.mjs')
-    ? __webpack_require__(431)(__webpack_require__(8).pathToFileURL(filepath))
-    : __webpack_require__(432)(filepath);
+    ? __webpack_require__(444)(__webpack_require__(9).pathToFileURL(filepath))
+    : __webpack_require__(445)(filepath);
 };
 
 
 /***/ }),
-/* 167 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseCreate = __webpack_require__(94),
-    baseLodash = __webpack_require__(168);
+var baseCreate = __webpack_require__(98),
+    baseLodash = __webpack_require__(175);
 
 /** Used as references for the maximum length and index of an array. */
 var MAX_ARRAY_LENGTH = 4294967295;
@@ -19956,7 +21567,7 @@ module.exports = LazyWrapper;
 
 
 /***/ }),
-/* 168 */
+/* 175 */
 /***/ (function(module, exports) {
 
 /**
@@ -19972,7 +21583,7 @@ module.exports = baseLodash;
 
 
 /***/ }),
-/* 169 */
+/* 176 */
 /***/ (function(module, exports) {
 
 /**
@@ -19991,11 +21602,11 @@ module.exports = getHolder;
 
 
 /***/ }),
-/* 170 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(114),
-    createAggregator = __webpack_require__(465);
+var baseAssignValue = __webpack_require__(120),
+    createAggregator = __webpack_require__(478);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -20038,11 +21649,11 @@ module.exports = groupBy;
 
 
 /***/ }),
-/* 171 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseHas = __webpack_require__(468),
-    hasPath = __webpack_require__(225);
+var baseHas = __webpack_require__(481),
+    hasPath = __webpack_require__(233);
 
 /**
  * Checks if `path` is a direct property of `object`.
@@ -20079,11 +21690,11 @@ module.exports = has;
 
 
 /***/ }),
-/* 172 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const tail = __webpack_require__(128);
-const { isString } = __webpack_require__(30);
+const tail = __webpack_require__(134);
+const { isString } = __webpack_require__(33);
 
 // Push a new query onto the compiled "sequence" stack,
 // creating a new formatter, returning the compiler.
@@ -20136,13 +21747,13 @@ module.exports = {
 
 
 /***/ }),
-/* 173 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const PromiseInspection_1 = __webpack_require__(482);
+const PromiseInspection_1 = __webpack_require__(495);
 function defer() {
     let resolve = null;
     let reject = null;
@@ -20203,13 +21814,7 @@ exports.tryPromise = tryPromise;
 
 
 /***/ }),
-/* 174 */
-/***/ (function(module, exports) {
-
-module.exports = require("crypto");
-
-/***/ }),
-/* 175 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20217,7 +21822,7 @@ module.exports = require("crypto");
 // permission from the author, Mathias Buus (@mafintosh).
 
 
-var ERR_STREAM_PREMATURE_CLOSE = __webpack_require__(61).codes.ERR_STREAM_PREMATURE_CLOSE;
+var ERR_STREAM_PREMATURE_CLOSE = __webpack_require__(65).codes.ERR_STREAM_PREMATURE_CLOSE;
 
 function once(callback) {
   var called = false;
@@ -20319,7 +21924,7 @@ function eos(stream, opts, callback) {
 module.exports = eos;
 
 /***/ }),
-/* 176 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20345,7 +21950,7 @@ module.exports = warnDeprecation
 
 
 /***/ }),
-/* 177 */
+/* 183 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20958,7 +22563,7 @@ function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
 var is = __webpack_require__(5);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/time.js
-var time = __webpack_require__(303);
+var time = __webpack_require__(316);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -21162,7 +22767,7 @@ var syncpromise_SyncPromise = /** @class */ (function () {
 
 //# sourceMappingURL=syncpromise.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(18);
+var misc = __webpack_require__(19);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
 
@@ -21865,7 +23470,7 @@ var logger = logger_global.__SENTRY__.logger || (logger_global.__SENTRY__.logger
 
 //# sourceMappingURL=logger.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/node.js
-var node = __webpack_require__(32);
+var node = __webpack_require__(36);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/session.js
 /**
@@ -21884,7 +23489,7 @@ var SessionStatus;
 })(SessionStatus || (SessionStatus = {}));
 //# sourceMappingURL=session.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 3 modules
-var object = __webpack_require__(99);
+var object = __webpack_require__(103);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/session.js
 
@@ -22658,7 +24263,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(25);
+var tslib_es6 = __webpack_require__(29);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
@@ -23047,10 +24652,10 @@ function basename(path, ext) {
 }
 //# sourceMappingURL=path.js.map
 // EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(15);
+var external_fs_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(98);
+var lru = __webpack_require__(102);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -23620,7 +25225,7 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 
 //# sourceMappingURL=promisebuffer.js.map
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(8);
+var external_url_ = __webpack_require__(9);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
@@ -23746,7 +25351,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(81))(proxy)
+            ? new (__webpack_require__(85))(proxy)
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -23764,7 +25369,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(22);
+var external_https_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -23781,7 +25386,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(81))(proxy)
+            ? new (__webpack_require__(85))(proxy)
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -24133,7 +25738,7 @@ function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap,
 }
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(20);
+var string = __webpack_require__(21);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integration.js
 
@@ -24935,7 +26540,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(26);
+var external_domain_ = __webpack_require__(30);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(7);
@@ -24959,7 +26564,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(149);
+        var consoleModule = __webpack_require__(156);
         try {
             for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -25053,7 +26658,7 @@ var http_Http = /** @class */ (function () {
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(22);
+            var httpsModule = __webpack_require__(25);
             Object(object["c" /* fill */])(httpsModule, 'get', wrappedHandlerMaker);
             Object(object["c" /* fill */])(httpsModule, 'request', wrappedHandlerMaker);
         }
@@ -25280,7 +26885,7 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(27);
+var external_os_ = __webpack_require__(31);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -25802,7 +27407,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(24);
+var external_path_ = __webpack_require__(28);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -26062,9 +27667,10 @@ if (esm_carrier.__SENTRY__) {
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 178 */,
-/* 179 */,
-/* 180 */
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26075,29 +27681,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.use_middlewares_with_error_safety_net = exports.DEFAULT_RESPONSE_BODY = void 0;
 
-const tslib_1 = __webpack_require__(74);
+const tslib_1 = __webpack_require__(79);
 
-__webpack_require__(181);
+__webpack_require__(188);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(2));
 
-const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(79));
+const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(83));
 
-const timestamps_1 = __webpack_require__(38);
+const timestamps_1 = __webpack_require__(26);
 
-const soft_execution_context_1 = __webpack_require__(28);
+const soft_execution_context_1 = __webpack_require__(15);
 
-const state_utils_1 = __webpack_require__(75);
+const state_utils_1 = __webpack_require__(23);
 
-const functions_interface_1 = __webpack_require__(49);
+const functions_interface_1 = __webpack_require__(53);
 
-const async_utils_1 = __webpack_require__(197);
+const async_utils_1 = __webpack_require__(204);
 
-const sentry_1 = __webpack_require__(142);
+const sentry_1 = __webpack_require__(149);
 
-const channel_1 = __webpack_require__(37);
+const channel_1 = __webpack_require__(41);
 
-const utils_1 = __webpack_require__(55); ////////////////////////////////////
+const utils_1 = __webpack_require__(59); ////////////////////////////////////
 // note: deducted from the overall running budget
 
 
@@ -26111,9 +27717,7 @@ function _get_body_debug_representation(body) {
     } catch {}
   }
 
-  if (state_utils_1.is_revisioned(body)) body = {
-    '[DEBUG]': state_utils_1.get_base_loose(body)
-  };
+  if (!body) return String(body);
 
   if (body.v && body.data) {
     if (state_utils_1.is_revisioned(body.data)) {
@@ -26123,7 +27727,9 @@ function _get_body_debug_representation(body) {
         }
       };
     }
-  }
+  } else if (state_utils_1.is_revisioned(body)) body = {
+    '[DEBUG]': state_utils_1.get_base_loose(body)
+  };
 
   if (typeof body !== 'string') {
     body = JSON.stringify(body);
@@ -26165,8 +27771,12 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
   }).then(response => {
     tiny_invariant_1.default(response.statusCode >= 200, `status code is >= 200! (${response.statusCode})`);
     tiny_invariant_1.default(response.statusCode < 300, `status code is < 300! (${response.statusCode})`);
-    response.body = functions_interface_1.create_server_response_body__data(JSON.parse(response.body)); // temporarily passing as string
 
+    try {
+      response.body = JSON.parse(response.body);
+    } catch {}
+
+    if (!functions_interface_1.is_server_response_body(response.body)) response.body = functions_interface_1.create_server_response_body__data(response.body);
     return response;
   }).catch(err => {
     const response = {
@@ -26353,7 +27963,7 @@ async function _run_mw_chain({
           try {
             JSON.parse(body); // check if it's correct json
           } catch (err) {
-            throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an non-json body!`);
+            throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an non-json string body!`);
           }
         } else {
           try {
@@ -26449,7 +28059,7 @@ async function _run_mw_chain({
 }
 
 /***/ }),
-/* 181 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26459,18 +28069,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const tslib_1 = __webpack_require__(74);
+const tslib_1 = __webpack_require__(79);
 
-const soft_execution_context_1 = __webpack_require__(28); //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
+const soft_execution_context_1 = __webpack_require__(15); //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 
-const soft_execution_context_node_1 = __webpack_require__(182);
+const soft_execution_context_node_1 = __webpack_require__(189);
 
-const consts_1 = __webpack_require__(31);
+const consts_1 = __webpack_require__(34);
 
-const channel_1 = __webpack_require__(37);
+const channel_1 = __webpack_require__(41);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(183)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(190)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -26522,14 +28132,14 @@ if (ENV !== "production") {
 }
 
 /***/ }),
-/* 182 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(27);
+const os = __webpack_require__(31);
 
 const {
   getRootSEC
-} = __webpack_require__(28); // TODO protect from double install
+} = __webpack_require__(15); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -26592,7 +28202,7 @@ function _force_uda_logger_with_level(suggestedLevel) {
   }
 }
 
-module.exports = { ...__webpack_require__(28),
+module.exports = { ...__webpack_require__(15),
   listenToUncaughtErrors,
   listenToUnhandledRejections,
   decorateWithDetectedEnv,
@@ -26601,7 +28211,7 @@ module.exports = { ...__webpack_require__(28),
 };
 
 /***/ }),
-/* 183 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26611,11 +28221,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const universal_debug_api_node_1 = __webpack_require__(70);
+const universal_debug_api_node_1 = __webpack_require__(74);
 
-const consts_1 = __webpack_require__(31);
+const consts_1 = __webpack_require__(34);
 
-const channel_1 = __webpack_require__(37); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(41); /////////////////////////////////////////////////
 
 
 const logger = universal_debug_api_node_1.getLogger({
@@ -26633,15 +28243,15 @@ exports.default = logger;
 /* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
-/* 184 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(185);
-exports.stringify = __webpack_require__(186);
+exports.parse = __webpack_require__(192);
+exports.stringify = __webpack_require__(193);
 
 
 /***/ }),
-/* 185 */
+/* 192 */
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -26920,7 +28530,7 @@ module.exports = function (source, reviver) {
 
 
 /***/ }),
-/* 186 */
+/* 193 */
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -27080,7 +28690,7 @@ module.exports = function (value, replacer, space) {
 
 
 /***/ }),
-/* 187 */
+/* 194 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27095,9 +28705,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unpatch", function() { return unpatch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reverse", function() { return reverse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone$1; });
-/* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(52);
+/* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(56);
 /* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(diff_match_patch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(80);
 /* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -29823,7 +31433,7 @@ function clone$1() {
 
 
 /***/ }),
-/* 188 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29841,12 +31451,12 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 189 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {
-const colorConvert = __webpack_require__(190);
+const colorConvert = __webpack_require__(197);
 
 const wrapAnsi16 = (fn, offset) => function () {
 	const code = fn.apply(colorConvert, arguments);
@@ -30011,14 +31621,14 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
 
 /***/ }),
-/* 190 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(110);
-var route = __webpack_require__(192);
+var conversions = __webpack_require__(115);
+var route = __webpack_require__(199);
 
 var convert = {};
 
@@ -30098,7 +31708,7 @@ module.exports = convert;
 
 
 /***/ }),
-/* 191 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30257,10 +31867,10 @@ module.exports = {
 
 
 /***/ }),
-/* 192 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(110);
+var conversions = __webpack_require__(115);
 
 /*
 	this function routes a model to all other models.
@@ -30360,13 +31970,13 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 193 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(27);
-const hasFlag = __webpack_require__(194);
+const os = __webpack_require__(31);
+const hasFlag = __webpack_require__(201);
 
 const env = process.env;
 
@@ -30498,7 +32108,7 @@ module.exports = {
 
 
 /***/ }),
-/* 194 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30513,7 +32123,7 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 195 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30648,7 +32258,7 @@ module.exports = (chalk, tmp) => {
 
 
 /***/ }),
-/* 196 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30659,11 +32269,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.require_http_method = exports.HttpMethod = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(13);
+const typescript_string_enums_1 = __webpack_require__(8);
 
-const consts_1 = __webpack_require__(31);
+const consts_1 = __webpack_require__(34);
 
-const utils_1 = __webpack_require__(55); ////////////////////////////////////
+const utils_1 = __webpack_require__(59); ////////////////////////////////////
 
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS'); ////////////////////////////////////
@@ -30706,7 +32316,7 @@ function require_http_method(allowed_methods) {
 exports.require_http_method = require_http_method;
 
 /***/ }),
-/* 197 */
+/* 204 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30740,7 +32350,7 @@ __webpack_require__.d(__webpack_exports__, "dezalgo", function() { return /* ree
 var tiny_invariant_esm = __webpack_require__(2);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(9);
+var src_es2019 = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/async-utils/dist/src.es2019/ponyfills.js
 var _a, _b;
@@ -30868,7 +32478,8 @@ function dezalgo(callback) {
 
 
 /***/ }),
-/* 198 */
+/* 205 */,
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30879,9 +32490,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get_netlify_user_data = exports.DEV_MOCK_NETLIFY_USER = void 0;
 
-const consts_1 = __webpack_require__(31);
+const consts_1 = __webpack_require__(34);
 
-const channel_1 = __webpack_require__(37); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(41); /////////////////////////////////////////////////
 
 
 function _ensure_netlify_logged_in(context) {
@@ -30941,7 +32552,7 @@ function get_netlify_user_data(context) {
 exports.get_netlify_user_data = get_netlify_user_data;
 
 /***/ }),
-/* 199 */
+/* 207 */
 /***/ (function(module, exports) {
 
 /** Detect free variable `global` from Node.js. */
@@ -30951,7 +32562,7 @@ module.exports = freeGlobal;
 
 
 /***/ }),
-/* 200 */
+/* 208 */
 /***/ (function(module, exports) {
 
 /**
@@ -30972,7 +32583,7 @@ module.exports = overArg;
 
 
 /***/ }),
-/* 201 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -30988,7 +32599,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(111);
+	createDebug.humanize = __webpack_require__(117);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -31244,10 +32855,10 @@ module.exports = setup;
 
 
 /***/ }),
-/* 202 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(59);
+var getNative = __webpack_require__(63);
 
 var defineProperty = (function() {
   try {
@@ -31261,7 +32872,7 @@ module.exports = defineProperty;
 
 
 /***/ }),
-/* 203 */
+/* 211 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -31293,11 +32904,11 @@ module.exports = toSource;
 
 
 /***/ }),
-/* 204 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSetToString = __webpack_require__(317),
-    shortOut = __webpack_require__(205);
+var baseSetToString = __webpack_require__(330),
+    shortOut = __webpack_require__(213);
 
 /**
  * Sets the `toString` method of `func` to return `string`.
@@ -31313,7 +32924,7 @@ module.exports = setToString;
 
 
 /***/ }),
-/* 205 */
+/* 213 */
 /***/ (function(module, exports) {
 
 /** Used to detect hot functions by number of calls within a span of milliseconds. */
@@ -31356,15 +32967,15 @@ module.exports = shortOut;
 
 
 /***/ }),
-/* 206 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseTimes = __webpack_require__(319),
-    isArguments = __webpack_require__(90),
-    isArray = __webpack_require__(10),
-    isBuffer = __webpack_require__(65),
-    isIndex = __webpack_require__(88),
-    isTypedArray = __webpack_require__(62);
+var baseTimes = __webpack_require__(332),
+    isArguments = __webpack_require__(94),
+    isArray = __webpack_require__(11),
+    isBuffer = __webpack_require__(69),
+    isIndex = __webpack_require__(92),
+    isTypedArray = __webpack_require__(66);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -31411,11 +33022,11 @@ module.exports = arrayLikeKeys;
 
 
 /***/ }),
-/* 207 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isPrototype = __webpack_require__(89),
-    nativeKeys = __webpack_require__(322);
+var isPrototype = __webpack_require__(93),
+    nativeKeys = __webpack_require__(335);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -31447,11 +33058,11 @@ module.exports = baseKeys;
 
 
 /***/ }),
-/* 208 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFor = __webpack_require__(209),
-    keys = __webpack_require__(46);
+var baseFor = __webpack_require__(217),
+    keys = __webpack_require__(49);
 
 /**
  * The base implementation of `_.forOwn` without support for iteratee shorthands.
@@ -31469,10 +33080,10 @@ module.exports = baseForOwn;
 
 
 /***/ }),
-/* 209 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createBaseFor = __webpack_require__(324);
+var createBaseFor = __webpack_require__(337);
 
 /**
  * The base implementation of `baseForOwn` which iterates over `object`
@@ -31491,11 +33102,11 @@ module.exports = baseFor;
 
 
 /***/ }),
-/* 210 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqualDeep = __webpack_require__(350),
-    isObjectLike = __webpack_require__(29);
+var baseIsEqualDeep = __webpack_require__(363),
+    isObjectLike = __webpack_require__(32);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -31525,12 +33136,12 @@ module.exports = baseIsEqual;
 
 
 /***/ }),
-/* 211 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var SetCache = __webpack_require__(212),
-    arraySome = __webpack_require__(353),
-    cacheHas = __webpack_require__(213);
+var SetCache = __webpack_require__(220),
+    arraySome = __webpack_require__(366),
+    cacheHas = __webpack_require__(221);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -31615,12 +33226,12 @@ module.exports = equalArrays;
 
 
 /***/ }),
-/* 212 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MapCache = __webpack_require__(156),
-    setCacheAdd = __webpack_require__(351),
-    setCacheHas = __webpack_require__(352);
+var MapCache = __webpack_require__(163),
+    setCacheAdd = __webpack_require__(364),
+    setCacheHas = __webpack_require__(365);
 
 /**
  *
@@ -31648,7 +33259,7 @@ module.exports = SetCache;
 
 
 /***/ }),
-/* 213 */
+/* 221 */
 /***/ (function(module, exports) {
 
 /**
@@ -31667,10 +33278,10 @@ module.exports = cacheHas;
 
 
 /***/ }),
-/* 214 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(21);
+var root = __webpack_require__(24);
 
 /** Built-in value references. */
 var Uint8Array = root.Uint8Array;
@@ -31679,7 +33290,7 @@ module.exports = Uint8Array;
 
 
 /***/ }),
-/* 215 */
+/* 223 */
 /***/ (function(module, exports) {
 
 /**
@@ -31703,7 +33314,7 @@ module.exports = mapToArray;
 
 
 /***/ }),
-/* 216 */
+/* 224 */
 /***/ (function(module, exports) {
 
 /**
@@ -31727,12 +33338,12 @@ module.exports = setToArray;
 
 
 /***/ }),
-/* 217 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetAllKeys = __webpack_require__(218),
-    getSymbols = __webpack_require__(158),
-    keys = __webpack_require__(46);
+var baseGetAllKeys = __webpack_require__(226),
+    getSymbols = __webpack_require__(165),
+    keys = __webpack_require__(49);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -31749,11 +33360,11 @@ module.exports = getAllKeys;
 
 
 /***/ }),
-/* 218 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayPush = __webpack_require__(157),
-    isArray = __webpack_require__(10);
+var arrayPush = __webpack_require__(164),
+    isArray = __webpack_require__(11);
 
 /**
  * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -31775,7 +33386,7 @@ module.exports = baseGetAllKeys;
 
 
 /***/ }),
-/* 219 */
+/* 227 */
 /***/ (function(module, exports) {
 
 /**
@@ -31806,7 +33417,7 @@ module.exports = arrayFilter;
 
 
 /***/ }),
-/* 220 */
+/* 228 */
 /***/ (function(module, exports) {
 
 /**
@@ -31835,11 +33446,11 @@ module.exports = stubArray;
 
 
 /***/ }),
-/* 221 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(59),
-    root = __webpack_require__(21);
+var getNative = __webpack_require__(63),
+    root = __webpack_require__(24);
 
 /* Built-in method references that are verified to be native. */
 var WeakMap = getNative(root, 'WeakMap');
@@ -31848,10 +33459,10 @@ module.exports = WeakMap;
 
 
 /***/ }),
-/* 222 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(23);
+var isObject = __webpack_require__(27);
 
 /**
  * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
@@ -31869,7 +33480,7 @@ module.exports = isStrictComparable;
 
 
 /***/ }),
-/* 223 */
+/* 231 */
 /***/ (function(module, exports) {
 
 /**
@@ -31895,10 +33506,10 @@ module.exports = matchesStrictComparable;
 
 
 /***/ }),
-/* 224 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGet = __webpack_require__(123);
+var baseGet = __webpack_require__(129);
 
 /**
  * Gets the value at `path` of `object`. If the resolved value is
@@ -31934,15 +33545,15 @@ module.exports = get;
 
 
 /***/ }),
-/* 225 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(124),
-    isArguments = __webpack_require__(90),
-    isArray = __webpack_require__(10),
-    isIndex = __webpack_require__(88),
-    isLength = __webpack_require__(150),
-    toKey = __webpack_require__(92);
+var castPath = __webpack_require__(130),
+    isArguments = __webpack_require__(94),
+    isArray = __webpack_require__(11),
+    isIndex = __webpack_require__(92),
+    isLength = __webpack_require__(157),
+    toKey = __webpack_require__(96);
 
 /**
  * Checks if `path` exists on `object`.
@@ -31979,7 +33590,7 @@ module.exports = hasPath;
 
 
 /***/ }),
-/* 226 */
+/* 234 */
 /***/ (function(module, exports) {
 
 // This alphabet uses `A-Za-z0-9_-` symbols. The genetic algorithm helped
@@ -32014,10 +33625,10 @@ module.exports = { nanoid };
 
 
 /***/ }),
-/* 227 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseClone = __webpack_require__(228);
+var baseClone = __webpack_require__(236);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_SYMBOLS_FLAG = 4;
@@ -32056,31 +33667,31 @@ module.exports = clone;
 
 
 /***/ }),
-/* 228 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(118),
-    arrayEach = __webpack_require__(126),
-    assignValue = __webpack_require__(113),
-    baseAssign = __webpack_require__(371),
-    baseAssignIn = __webpack_require__(372),
-    cloneBuffer = __webpack_require__(229),
-    copyArray = __webpack_require__(93),
-    copySymbols = __webpack_require__(375),
-    copySymbolsIn = __webpack_require__(376),
-    getAllKeys = __webpack_require__(217),
-    getAllKeysIn = __webpack_require__(231),
-    getTag = __webpack_require__(66),
-    initCloneArray = __webpack_require__(377),
-    initCloneByTag = __webpack_require__(378),
-    initCloneObject = __webpack_require__(233),
-    isArray = __webpack_require__(10),
-    isBuffer = __webpack_require__(65),
-    isMap = __webpack_require__(382),
-    isObject = __webpack_require__(23),
-    isSet = __webpack_require__(384),
-    keys = __webpack_require__(46),
-    keysIn = __webpack_require__(48);
+var Stack = __webpack_require__(124),
+    arrayEach = __webpack_require__(132),
+    assignValue = __webpack_require__(119),
+    baseAssign = __webpack_require__(384),
+    baseAssignIn = __webpack_require__(385),
+    cloneBuffer = __webpack_require__(237),
+    copyArray = __webpack_require__(97),
+    copySymbols = __webpack_require__(388),
+    copySymbolsIn = __webpack_require__(389),
+    getAllKeys = __webpack_require__(225),
+    getAllKeysIn = __webpack_require__(239),
+    getTag = __webpack_require__(70),
+    initCloneArray = __webpack_require__(390),
+    initCloneByTag = __webpack_require__(391),
+    initCloneObject = __webpack_require__(241),
+    isArray = __webpack_require__(11),
+    isBuffer = __webpack_require__(69),
+    isMap = __webpack_require__(395),
+    isObject = __webpack_require__(27),
+    isSet = __webpack_require__(397),
+    keys = __webpack_require__(49),
+    keysIn = __webpack_require__(51);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -32228,10 +33839,10 @@ module.exports = baseClone;
 
 
 /***/ }),
-/* 229 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(21);
+/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(24);
 
 /** Detect free variable `exports`. */
 var freeExports =  true && exports && !exports.nodeType && exports;
@@ -32267,16 +33878,16 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
 
 /***/ }),
-/* 230 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayPush = __webpack_require__(157),
-    getPrototype = __webpack_require__(112),
-    getSymbols = __webpack_require__(158),
-    stubArray = __webpack_require__(220);
+var arrayPush = __webpack_require__(164),
+    getPrototype = __webpack_require__(118),
+    getSymbols = __webpack_require__(165),
+    stubArray = __webpack_require__(228);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetSymbols = Object.getOwnPropertySymbols;
@@ -32301,12 +33912,12 @@ module.exports = getSymbolsIn;
 
 
 /***/ }),
-/* 231 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetAllKeys = __webpack_require__(218),
-    getSymbolsIn = __webpack_require__(230),
-    keysIn = __webpack_require__(48);
+var baseGetAllKeys = __webpack_require__(226),
+    getSymbolsIn = __webpack_require__(238),
+    keysIn = __webpack_require__(51);
 
 /**
  * Creates an array of own and inherited enumerable property names and
@@ -32324,10 +33935,10 @@ module.exports = getAllKeysIn;
 
 
 /***/ }),
-/* 232 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cloneArrayBuffer = __webpack_require__(162);
+var cloneArrayBuffer = __webpack_require__(169);
 
 /**
  * Creates a clone of `typedArray`.
@@ -32346,12 +33957,12 @@ module.exports = cloneTypedArray;
 
 
 /***/ }),
-/* 233 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseCreate = __webpack_require__(94),
-    getPrototype = __webpack_require__(112),
-    isPrototype = __webpack_require__(89);
+var baseCreate = __webpack_require__(98),
+    getPrototype = __webpack_require__(118),
+    isPrototype = __webpack_require__(93);
 
 /**
  * Initializes an object clone.
@@ -32370,10 +33981,10 @@ module.exports = initCloneObject;
 
 
 /***/ }),
-/* 234 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const noop = __webpack_require__(386);
+const noop = __webpack_require__(399);
 
 const finallyMixin = (prototype) =>
   Object.assign(prototype, {
@@ -32389,44 +34000,44 @@ module.exports = Promise.prototype.finally ? finallyMixin : noop;
 
 
 /***/ }),
-/* 235 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(57);
-const Ref = __webpack_require__(387);
-const Runner = __webpack_require__(388);
-const Formatter = __webpack_require__(236);
-const Transaction = __webpack_require__(400);
+const Raw = __webpack_require__(61);
+const Ref = __webpack_require__(400);
+const Runner = __webpack_require__(401);
+const Formatter = __webpack_require__(244);
+const Transaction = __webpack_require__(413);
 
-const QueryBuilder = __webpack_require__(127);
-const QueryCompiler = __webpack_require__(261);
+const QueryBuilder = __webpack_require__(133);
+const QueryCompiler = __webpack_require__(269);
 
-const SchemaBuilder = __webpack_require__(473);
-const SchemaCompiler = __webpack_require__(273);
-const TableBuilder = __webpack_require__(474);
-const TableCompiler = __webpack_require__(274);
-const ColumnBuilder = __webpack_require__(476);
-const ColumnCompiler = __webpack_require__(275);
+const SchemaBuilder = __webpack_require__(486);
+const SchemaCompiler = __webpack_require__(281);
+const TableBuilder = __webpack_require__(487);
+const TableCompiler = __webpack_require__(282);
+const ColumnBuilder = __webpack_require__(489);
+const ColumnCompiler = __webpack_require__(283);
 
-const { Pool, TimeoutError } = __webpack_require__(479);
-const { EventEmitter } = __webpack_require__(12);
+const { Pool, TimeoutError } = __webpack_require__(492);
+const { EventEmitter } = __webpack_require__(13);
 const { promisify, inherits } = __webpack_require__(7);
 
-const { makeEscape } = __webpack_require__(277);
-const cloneDeep = __webpack_require__(485);
-const defaults = __webpack_require__(486);
-const uniqueId = __webpack_require__(260);
+const { makeEscape } = __webpack_require__(285);
+const cloneDeep = __webpack_require__(498);
+const defaults = __webpack_require__(499);
+const uniqueId = __webpack_require__(268);
 
-const Logger = __webpack_require__(254);
-const { KnexTimeoutError } = __webpack_require__(96);
+const Logger = __webpack_require__(262);
+const { KnexTimeoutError } = __webpack_require__(100);
 
-const debug = __webpack_require__(63)('knex:client');
-const _debugQuery = __webpack_require__(63)('knex:query');
-const debugBindings = __webpack_require__(63)('knex:bindings');
+const debug = __webpack_require__(67)('knex:client');
+const _debugQuery = __webpack_require__(67)('knex:query');
+const debugBindings = __webpack_require__(67)('knex:bindings');
 
 const debugQuery = (sql, txId) => _debugQuery(sql.replace(/%/g, '%%'), txId);
 
-const { POOL_CONFIG_OPTIONS } = __webpack_require__(152);
+const { POOL_CONFIG_OPTIONS } = __webpack_require__(159);
 
 // The base client provides the general structure
 // for a dialect specific client object.
@@ -32808,12 +34419,12 @@ module.exports = Client;
 
 
 /***/ }),
-/* 236 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const QueryBuilder = __webpack_require__(127);
-const Raw = __webpack_require__(57);
-const transform = __webpack_require__(399);
+const QueryBuilder = __webpack_require__(133);
+const Raw = __webpack_require__(61);
+const transform = __webpack_require__(412);
 
 // Valid values for the `order by` clause generation.
 const orderBys = ['asc', 'desc'];
@@ -33109,10 +34720,10 @@ module.exports = Formatter;
 
 
 /***/ }),
-/* 237 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const assert = __webpack_require__(41);
+const assert = __webpack_require__(44);
 
 // JoinClause
 // -------
@@ -33378,14 +34989,14 @@ module.exports = JoinClause;
 
 
 /***/ }),
-/* 238 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(389);
+module.exports = __webpack_require__(402);
 
 
 /***/ }),
-/* 239 */
+/* 247 */
 /***/ (function(module, exports) {
 
 /**
@@ -33411,7 +35022,7 @@ module.exports = last;
 
 
 /***/ }),
-/* 240 */
+/* 248 */
 /***/ (function(module, exports) {
 
 /** Error message constants. */
@@ -33457,7 +35068,7 @@ module.exports = negate;
 
 
 /***/ }),
-/* 241 */
+/* 249 */
 /***/ (function(module, exports) {
 
 /**
@@ -33494,12 +35105,12 @@ module.exports = baseSlice;
 
 
 /***/ }),
-/* 242 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(43),
-    isArray = __webpack_require__(10),
-    isObjectLike = __webpack_require__(29);
+var baseGetTag = __webpack_require__(46),
+    isArray = __webpack_require__(11),
+    isObjectLike = __webpack_require__(32);
 
 /** `Object#toString` result references. */
 var stringTag = '[object String]';
@@ -33530,11 +35141,11 @@ module.exports = isString;
 
 
 /***/ }),
-/* 243 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseValues = __webpack_require__(244),
-    keys = __webpack_require__(46);
+var baseValues = __webpack_require__(252),
+    keys = __webpack_require__(49);
 
 /**
  * Creates an array of the own enumerable string keyed property values of `object`.
@@ -33570,10 +35181,10 @@ module.exports = values;
 
 
 /***/ }),
-/* 244 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(68);
+var arrayMap = __webpack_require__(72);
 
 /**
  * The base implementation of `_.values` and `_.valuesIn` which creates an
@@ -33595,17 +35206,17 @@ module.exports = baseValues;
 
 
 /***/ }),
-/* 245 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { EventEmitter } = __webpack_require__(12);
+const { EventEmitter } = __webpack_require__(13);
 
-const { Migrator } = __webpack_require__(401);
-const Seeder = __webpack_require__(434);
-const FunctionHelper = __webpack_require__(439);
-const QueryInterface = __webpack_require__(257);
-const merge = __webpack_require__(440);
-const batchInsert = __webpack_require__(444);
+const { Migrator } = __webpack_require__(414);
+const Seeder = __webpack_require__(447);
+const FunctionHelper = __webpack_require__(452);
+const QueryInterface = __webpack_require__(265);
+const merge = __webpack_require__(453);
+const batchInsert = __webpack_require__(457);
 
 // Javascript does not officially support "callable objects".  Instead,
 // you must create a regular Function and inject properties/methods
@@ -33939,10 +35550,10 @@ module.exports = makeKnex;
 
 
 /***/ }),
-/* 246 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIndexOf = __webpack_require__(163);
+var baseIndexOf = __webpack_require__(170);
 
 /**
  * A specialized version of `_.includes` for arrays without support for
@@ -33962,11 +35573,11 @@ module.exports = arrayIncludes;
 
 
 /***/ }),
-/* 247 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArrayLike = __webpack_require__(34),
-    isObjectLike = __webpack_require__(29);
+var isArrayLike = __webpack_require__(38),
+    isObjectLike = __webpack_require__(32);
 
 /**
  * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -34001,7 +35612,7 @@ module.exports = isArrayLikeObject;
 
 
 /***/ }),
-/* 248 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const {
@@ -34009,7 +35620,7 @@ const {
   getLockTableName,
   getLockTableNameWithSchema,
   getTableName,
-} = __webpack_require__(165);
+} = __webpack_require__(172);
 
 function ensureTable(tableName, schemaName, trxOrKnex) {
   const lockTable = getLockTableName(tableName);
@@ -34074,12 +35685,12 @@ module.exports = {
 
 
 /***/ }),
-/* 249 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const template = __webpack_require__(414);
+const template = __webpack_require__(427);
 
-const { readFile, writeFile } = __webpack_require__(130);
+const { readFile, writeFile } = __webpack_require__(136);
 
 /**
  * Light wrapper over lodash templates making it safer to be used with javascript source code.
@@ -34132,12 +35743,12 @@ module.exports = {
 
 
 /***/ }),
-/* 250 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(43),
-    isObjectLike = __webpack_require__(29),
-    isPlainObject = __webpack_require__(85);
+var baseGetTag = __webpack_require__(46),
+    isObjectLike = __webpack_require__(32),
+    isPlainObject = __webpack_require__(89);
 
 /** `Object#toString` result references. */
 var domExcTag = '[object DOMException]',
@@ -34174,7 +35785,7 @@ module.exports = isError;
 
 
 /***/ }),
-/* 251 */
+/* 259 */
 /***/ (function(module, exports) {
 
 /** Used to match template delimiters. */
@@ -34184,14 +35795,14 @@ module.exports = reInterpolate;
 
 
 /***/ }),
-/* 252 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const {
   FsMigrations,
   DEFAULT_LOAD_EXTENSIONS,
-} = __webpack_require__(425);
-const Logger = __webpack_require__(254);
+} = __webpack_require__(438);
+const Logger = __webpack_require__(262);
 const defaultLogger = new Logger();
 
 const CONFIG_DEFAULT = Object.freeze({
@@ -34250,11 +35861,11 @@ module.exports = {
 
 
 /***/ }),
-/* 253 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseEach = __webpack_require__(91),
-    isArrayLike = __webpack_require__(34);
+var baseEach = __webpack_require__(95),
+    isArrayLike = __webpack_require__(38);
 
 /**
  * The base implementation of `_.map` without support for iteratee shorthands.
@@ -34278,14 +35889,14 @@ module.exports = baseMap;
 
 
 /***/ }),
-/* 254 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint no-console:0 */
 
-const color = __webpack_require__(433);
+const color = __webpack_require__(446);
 const { inspect } = __webpack_require__(7);
-const { isString, isFunction } = __webpack_require__(30);
+const { isString, isFunction } = __webpack_require__(33);
 
 class Logger {
   constructor(config = {}) {
@@ -34362,7 +35973,7 @@ module.exports = Logger;
 
 
 /***/ }),
-/* 255 */
+/* 263 */
 /***/ (function(module, exports) {
 
 // Get a date object in the correct format, without requiring a full out library
@@ -34384,10 +35995,10 @@ module.exports = { yyyymmddhhmmss };
 
 
 /***/ }),
-/* 256 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFlatten = __webpack_require__(164);
+var baseFlatten = __webpack_require__(171);
 
 /**
  * Flattens `array` a single level deep.
@@ -34412,7 +36023,7 @@ module.exports = flatten;
 
 
 /***/ }),
-/* 257 */
+/* 265 */
 /***/ (function(module, exports) {
 
 // All properties we can use to start a query chain
@@ -34510,11 +36121,11 @@ module.exports = [
 
 
 /***/ }),
-/* 258 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(114),
-    eq = __webpack_require__(60);
+var baseAssignValue = __webpack_require__(120),
+    eq = __webpack_require__(64);
 
 /**
  * This function is like `assignValue` except that it doesn't assign
@@ -34536,7 +36147,7 @@ module.exports = assignMergeValue;
 
 
 /***/ }),
-/* 259 */
+/* 267 */
 /***/ (function(module, exports) {
 
 /**
@@ -34563,10 +36174,10 @@ module.exports = safeGet;
 
 
 /***/ }),
-/* 260 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toString = __webpack_require__(125);
+var toString = __webpack_require__(131);
 
 /** Used to generate unique IDs. */
 var idCounter = 0;
@@ -34597,28 +36208,28 @@ module.exports = uniqueId;
 
 
 /***/ }),
-/* 261 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Query Compiler
 // -------
-const helpers = __webpack_require__(42);
-const Raw = __webpack_require__(57);
-const QueryBuilder = __webpack_require__(127);
-const JoinClause = __webpack_require__(237);
-const debug = __webpack_require__(63);
+const helpers = __webpack_require__(45);
+const Raw = __webpack_require__(61);
+const QueryBuilder = __webpack_require__(133);
+const JoinClause = __webpack_require__(245);
+const debug = __webpack_require__(67);
 
-const assign = __webpack_require__(153);
-const bind = __webpack_require__(447);
-const compact = __webpack_require__(464);
-const groupBy = __webpack_require__(170);
-const has = __webpack_require__(171);
-const isEmpty = __webpack_require__(95);
-const map = __webpack_require__(272);
-const omitBy = __webpack_require__(469);
-const reduce = __webpack_require__(154);
-const { nanoid } = __webpack_require__(226);
-const { isString, isUndefined } = __webpack_require__(30);
+const assign = __webpack_require__(160);
+const bind = __webpack_require__(460);
+const compact = __webpack_require__(477);
+const groupBy = __webpack_require__(177);
+const has = __webpack_require__(178);
+const isEmpty = __webpack_require__(99);
+const map = __webpack_require__(280);
+const omitBy = __webpack_require__(482);
+const reduce = __webpack_require__(161);
+const { nanoid } = __webpack_require__(234);
+const { isString, isUndefined } = __webpack_require__(33);
 
 const debugBindings = debug('knex:bindings');
 
@@ -35484,11 +37095,11 @@ module.exports = QueryCompiler;
 
 
 /***/ }),
-/* 262 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(45),
-    metaMap = __webpack_require__(263);
+var identity = __webpack_require__(48),
+    metaMap = __webpack_require__(271);
 
 /**
  * The base implementation of `setData` without support for hot loop shorting.
@@ -35507,10 +37118,10 @@ module.exports = baseSetData;
 
 
 /***/ }),
-/* 263 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var WeakMap = __webpack_require__(221);
+var WeakMap = __webpack_require__(229);
 
 /** Used to store function metadata. */
 var metaMap = WeakMap && new WeakMap;
@@ -35519,18 +37130,18 @@ module.exports = metaMap;
 
 
 /***/ }),
-/* 264 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var composeArgs = __webpack_require__(265),
-    composeArgsRight = __webpack_require__(266),
-    countHolders = __webpack_require__(451),
-    createCtor = __webpack_require__(133),
-    createRecurry = __webpack_require__(267),
-    getHolder = __webpack_require__(169),
-    reorder = __webpack_require__(461),
-    replaceHolders = __webpack_require__(134),
-    root = __webpack_require__(21);
+var composeArgs = __webpack_require__(273),
+    composeArgsRight = __webpack_require__(274),
+    countHolders = __webpack_require__(464),
+    createCtor = __webpack_require__(139),
+    createRecurry = __webpack_require__(275),
+    getHolder = __webpack_require__(176),
+    reorder = __webpack_require__(474),
+    replaceHolders = __webpack_require__(140),
+    root = __webpack_require__(24);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1,
@@ -35617,7 +37228,7 @@ module.exports = createHybrid;
 
 
 /***/ }),
-/* 265 */
+/* 273 */
 /***/ (function(module, exports) {
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -35662,7 +37273,7 @@ module.exports = composeArgs;
 
 
 /***/ }),
-/* 266 */
+/* 274 */
 /***/ (function(module, exports) {
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -35709,12 +37320,12 @@ module.exports = composeArgsRight;
 
 
 /***/ }),
-/* 267 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isLaziable = __webpack_require__(452),
-    setData = __webpack_require__(270),
-    setWrapToString = __webpack_require__(271);
+var isLaziable = __webpack_require__(465),
+    setData = __webpack_require__(278),
+    setWrapToString = __webpack_require__(279);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1,
@@ -35771,11 +37382,11 @@ module.exports = createRecurry;
 
 
 /***/ }),
-/* 268 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metaMap = __webpack_require__(263),
-    noop = __webpack_require__(453);
+var metaMap = __webpack_require__(271),
+    noop = __webpack_require__(466);
 
 /**
  * Gets metadata for `func`.
@@ -35792,11 +37403,11 @@ module.exports = getData;
 
 
 /***/ }),
-/* 269 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseCreate = __webpack_require__(94),
-    baseLodash = __webpack_require__(168);
+var baseCreate = __webpack_require__(98),
+    baseLodash = __webpack_require__(175);
 
 /**
  * The base constructor for creating `lodash` wrapper objects.
@@ -35820,11 +37431,11 @@ module.exports = LodashWrapper;
 
 
 /***/ }),
-/* 270 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSetData = __webpack_require__(262),
-    shortOut = __webpack_require__(205);
+var baseSetData = __webpack_require__(270),
+    shortOut = __webpack_require__(213);
 
 /**
  * Sets metadata for `func`.
@@ -35846,13 +37457,13 @@ module.exports = setData;
 
 
 /***/ }),
-/* 271 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getWrapDetails = __webpack_require__(458),
-    insertWrapDetails = __webpack_require__(459),
-    setToString = __webpack_require__(204),
-    updateWrapDetails = __webpack_require__(460);
+var getWrapDetails = __webpack_require__(471),
+    insertWrapDetails = __webpack_require__(472),
+    setToString = __webpack_require__(212),
+    updateWrapDetails = __webpack_require__(473);
 
 /**
  * Sets the `toString` method of `wrapper` to mimic the source of `reference`
@@ -35873,13 +37484,13 @@ module.exports = setWrapToString;
 
 
 /***/ }),
-/* 272 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(68),
-    baseIteratee = __webpack_require__(47),
-    baseMap = __webpack_require__(253),
-    isArray = __webpack_require__(10);
+var arrayMap = __webpack_require__(72),
+    baseIteratee = __webpack_require__(50),
+    baseMap = __webpack_require__(261),
+    isArray = __webpack_require__(11);
 
 /**
  * Creates an array of values by running each element in `collection` thru
@@ -35932,10 +37543,10 @@ module.exports = map;
 
 
 /***/ }),
-/* 273 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { pushQuery, pushAdditional, unshiftQuery } = __webpack_require__(172);
+const { pushQuery, pushAdditional, unshiftQuery } = __webpack_require__(179);
 
 // The "SchemaCompiler" takes all of the query statements which have been
 // gathered in the "SchemaBuilder" and turns them into an array of
@@ -36039,19 +37650,19 @@ module.exports = SchemaCompiler;
 
 
 /***/ }),
-/* 274 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint max-len:0 */
 
 // Table Compiler
 // -------
-const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(172);
-const helpers = __webpack_require__(42);
-const groupBy = __webpack_require__(170);
-const indexOf = __webpack_require__(475);
-const isEmpty = __webpack_require__(95);
-const tail = __webpack_require__(128);
+const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(179);
+const helpers = __webpack_require__(45);
+const groupBy = __webpack_require__(177);
+const indexOf = __webpack_require__(488);
+const isEmpty = __webpack_require__(99);
+const tail = __webpack_require__(134);
 
 function TableCompiler(client, tableBuilder) {
   this.client = client;
@@ -36341,20 +37952,20 @@ module.exports = TableCompiler;
 
 
 /***/ }),
-/* 275 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Column Compiler
 // Used for designating column definitions
 // during the table "create" / "alter" statements.
 // -------
-const Raw = __webpack_require__(57);
-const helpers = __webpack_require__(172);
-const groupBy = __webpack_require__(170);
-const first = __webpack_require__(477);
-const has = __webpack_require__(171);
-const tail = __webpack_require__(128);
-const { isObject } = __webpack_require__(30);
+const Raw = __webpack_require__(61);
+const helpers = __webpack_require__(179);
+const groupBy = __webpack_require__(177);
+const first = __webpack_require__(490);
+const has = __webpack_require__(178);
+const tail = __webpack_require__(134);
+const { isObject } = __webpack_require__(33);
 
 function ColumnCompiler(client, tableCompiler, columnBuilder) {
   this.client = client;
@@ -36524,7 +38135,7 @@ module.exports = ColumnCompiler;
 
 
 /***/ }),
-/* 276 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36536,7 +38147,7 @@ exports.TimeoutError = TimeoutError;
 
 
 /***/ }),
-/* 277 */
+/* 285 */
 /***/ (function(module, exports) {
 
 /*eslint max-len: 0, no-var:0 */
@@ -36732,7 +38343,7 @@ module.exports = {
 
 
 /***/ }),
-/* 278 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36746,11 +38357,11 @@ module.exports = {
  */
 
 var util = __webpack_require__(7)
-var Client = __webpack_require__(496)
-var defaults = __webpack_require__(136)
-var Connection = __webpack_require__(292)
-var Pool = __webpack_require__(527)
-const checkConstructor = __webpack_require__(290)
+var Client = __webpack_require__(509)
+var defaults = __webpack_require__(142)
+var Connection = __webpack_require__(300)
+var Pool = __webpack_require__(540)
+const checkConstructor = __webpack_require__(298)
 
 const poolFactory = (Client) => {
   var BoundPool = function (options) {
@@ -36773,11 +38384,11 @@ var PG = function (clientConstructor) {
   this.Pool = poolFactory(this.Client)
   this._pools = []
   this.Connection = Connection
-  this.types = __webpack_require__(137)
+  this.types = __webpack_require__(143)
 }
 
 if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
-  module.exports = new PG(__webpack_require__(294))
+  module.exports = new PG(__webpack_require__(302))
 } else {
   module.exports = new PG(Client)
 
@@ -36786,7 +38397,7 @@ if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
     delete module.exports.native
     var native = null
     try {
-      native = new PG(__webpack_require__(294))
+      native = new PG(__webpack_require__(302))
     } catch (err) {
       if (err.code !== 'MODULE_NOT_FOUND') {
         throw err
@@ -36802,7 +38413,7 @@ if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
 
 
 /***/ }),
-/* 279 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36906,10 +38517,10 @@ function identity (value) {
 
 
 /***/ }),
-/* 280 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var array = __webpack_require__(279);
+var array = __webpack_require__(287);
 
 module.exports = {
   create: function (source, transform) {
@@ -36923,7 +38534,7 @@ module.exports = {
 
 
 /***/ }),
-/* 281 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36958,7 +38569,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 /*<replacement>*/
 
-var EE = __webpack_require__(12).EventEmitter;
+var EE = __webpack_require__(13).EventEmitter;
 
 var EElistenerCount = function EElistenerCount(emitter, type) {
   return emitter.listeners(type).length;
@@ -36968,11 +38579,11 @@ var EElistenerCount = function EElistenerCount(emitter, type) {
 /*<replacement>*/
 
 
-var Stream = __webpack_require__(282);
+var Stream = __webpack_require__(290);
 /*</replacement>*/
 
 
-var Buffer = __webpack_require__(138).Buffer;
+var Buffer = __webpack_require__(144).Buffer;
 
 var OurUint8Array = global.Uint8Array || function () {};
 
@@ -36998,14 +38609,14 @@ if (debugUtil && debugUtil.debuglog) {
 /*</replacement>*/
 
 
-var BufferList = __webpack_require__(510);
+var BufferList = __webpack_require__(523);
 
-var destroyImpl = __webpack_require__(283);
+var destroyImpl = __webpack_require__(291);
 
-var _require = __webpack_require__(284),
+var _require = __webpack_require__(292),
     getHighWaterMark = _require.getHighWaterMark;
 
-var _require$codes = __webpack_require__(61).codes,
+var _require$codes = __webpack_require__(65).codes,
     ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE,
     ERR_STREAM_PUSH_AFTER_EOF = _require$codes.ERR_STREAM_PUSH_AFTER_EOF,
     ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
@@ -37016,7 +38627,7 @@ var StringDecoder;
 var createReadableStreamAsyncIterator;
 var from;
 
-__webpack_require__(97)(Readable, Stream);
+__webpack_require__(101)(Readable, Stream);
 
 var errorOrDestroy = destroyImpl.errorOrDestroy;
 var kProxyEvents = ['error', 'close', 'destroy', 'pause', 'resume'];
@@ -37033,7 +38644,7 @@ function prependListener(emitter, event, fn) {
 }
 
 function ReadableState(options, stream, isDuplex) {
-  Duplex = Duplex || __webpack_require__(69);
+  Duplex = Duplex || __webpack_require__(73);
   options = options || {}; // Duplex streams are both readable and writable, but share
   // the same options object.
   // However, some cases require setting options to different
@@ -37089,14 +38700,14 @@ function ReadableState(options, stream, isDuplex) {
   this.encoding = null;
 
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __webpack_require__(286).StringDecoder;
+    if (!StringDecoder) StringDecoder = __webpack_require__(294).StringDecoder;
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
 }
 
 function Readable(options) {
-  Duplex = Duplex || __webpack_require__(69);
+  Duplex = Duplex || __webpack_require__(73);
   if (!(this instanceof Readable)) return new Readable(options); // Checking for a Stream.Duplex instance is faster here instead of inside
   // the ReadableState constructor, at least with V8 6.5
 
@@ -37251,7 +38862,7 @@ Readable.prototype.isPaused = function () {
 
 
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __webpack_require__(286).StringDecoder;
+  if (!StringDecoder) StringDecoder = __webpack_require__(294).StringDecoder;
   var decoder = new StringDecoder(enc);
   this._readableState.decoder = decoder; // If setEncoding(null), decoder.encoding equals utf8
 
@@ -37935,7 +39546,7 @@ Readable.prototype.wrap = function (stream) {
 if (typeof Symbol === 'function') {
   Readable.prototype[Symbol.asyncIterator] = function () {
     if (createReadableStreamAsyncIterator === undefined) {
-      createReadableStreamAsyncIterator = __webpack_require__(514);
+      createReadableStreamAsyncIterator = __webpack_require__(527);
     }
 
     return createReadableStreamAsyncIterator(this);
@@ -38037,7 +39648,7 @@ function endReadableNT(state, stream) {
 if (typeof Symbol === 'function') {
   Readable.from = function (iterable, opts) {
     if (from === undefined) {
-      from = __webpack_require__(515);
+      from = __webpack_require__(528);
     }
 
     return from(Readable, iterable, opts);
@@ -38053,14 +39664,14 @@ function indexOf(xs, x) {
 }
 
 /***/ }),
-/* 282 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(6);
 
 
 /***/ }),
-/* 283 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38171,13 +39782,13 @@ module.exports = {
 };
 
 /***/ }),
-/* 284 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ERR_INVALID_OPT_VALUE = __webpack_require__(61).codes.ERR_INVALID_OPT_VALUE;
+var ERR_INVALID_OPT_VALUE = __webpack_require__(65).codes.ERR_INVALID_OPT_VALUE;
 
 function highWaterMarkFrom(options, isDuplex, duplexKey) {
   return options.highWaterMark != null ? options.highWaterMark : isDuplex ? options[duplexKey] : null;
@@ -38204,7 +39815,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 285 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38267,17 +39878,17 @@ Writable.WritableState = WritableState;
 /*<replacement>*/
 
 var internalUtil = {
-  deprecate: __webpack_require__(512)
+  deprecate: __webpack_require__(525)
 };
 /*</replacement>*/
 
 /*<replacement>*/
 
-var Stream = __webpack_require__(282);
+var Stream = __webpack_require__(290);
 /*</replacement>*/
 
 
-var Buffer = __webpack_require__(138).Buffer;
+var Buffer = __webpack_require__(144).Buffer;
 
 var OurUint8Array = global.Uint8Array || function () {};
 
@@ -38289,12 +39900,12 @@ function _isUint8Array(obj) {
   return Buffer.isBuffer(obj) || obj instanceof OurUint8Array;
 }
 
-var destroyImpl = __webpack_require__(283);
+var destroyImpl = __webpack_require__(291);
 
-var _require = __webpack_require__(284),
+var _require = __webpack_require__(292),
     getHighWaterMark = _require.getHighWaterMark;
 
-var _require$codes = __webpack_require__(61).codes,
+var _require$codes = __webpack_require__(65).codes,
     ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE,
     ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
     ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK,
@@ -38306,12 +39917,12 @@ var _require$codes = __webpack_require__(61).codes,
 
 var errorOrDestroy = destroyImpl.errorOrDestroy;
 
-__webpack_require__(97)(Writable, Stream);
+__webpack_require__(101)(Writable, Stream);
 
 function nop() {}
 
 function WritableState(options, stream, isDuplex) {
-  Duplex = Duplex || __webpack_require__(69);
+  Duplex = Duplex || __webpack_require__(73);
   options = options || {}; // Duplex streams are both readable and writable, but share
   // the same options object.
   // However, some cases require setting options to different
@@ -38437,7 +40048,7 @@ if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.protot
 }
 
 function Writable(options) {
-  Duplex = Duplex || __webpack_require__(69); // Writable ctor is applied to Duplexes, too.
+  Duplex = Duplex || __webpack_require__(73); // Writable ctor is applied to Duplexes, too.
   // `realHasInstance` is necessary because using plain `instanceof`
   // would return false, as no `_writableState` property is attached.
   // Trying to use the custom `instanceof` for Writable here will also break the
@@ -38907,7 +40518,7 @@ Writable.prototype._destroy = function (err, cb) {
 };
 
 /***/ }),
-/* 286 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38936,7 +40547,7 @@ Writable.prototype._destroy = function (err, cb) {
 
 /*<replacement>*/
 
-var Buffer = __webpack_require__(513).Buffer;
+var Buffer = __webpack_require__(526).Buffer;
 /*</replacement>*/
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
@@ -39209,7 +40820,7 @@ function simpleEnd(buf) {
 }
 
 /***/ }),
-/* 287 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39278,15 +40889,15 @@ function simpleEnd(buf) {
 
 module.exports = Transform;
 
-var _require$codes = __webpack_require__(61).codes,
+var _require$codes = __webpack_require__(65).codes,
     ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
     ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK,
     ERR_TRANSFORM_ALREADY_TRANSFORMING = _require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING,
     ERR_TRANSFORM_WITH_LENGTH_0 = _require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
 
-var Duplex = __webpack_require__(69);
+var Duplex = __webpack_require__(73);
 
-__webpack_require__(97)(Transform, Duplex);
+__webpack_require__(101)(Transform, Duplex);
 
 function afterTransform(er, data) {
   var ts = this._transformState;
@@ -39416,7 +41027,7 @@ function done(stream, er, data) {
 }
 
 /***/ }),
-/* 288 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39429,7 +41040,7 @@ function done(stream, er, data) {
  * README.md file in the root directory of this source tree.
  */
 
-var types = __webpack_require__(137)
+var types = __webpack_require__(143)
 
 function TypeOverrides (userTypes) {
   this._types = userTypes || types
@@ -39462,7 +41073,7 @@ module.exports = TypeOverrides
 
 
 /***/ }),
-/* 289 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39475,11 +41086,11 @@ module.exports = TypeOverrides
  * README.md file in the root directory of this source tree.
  */
 
-var dns = __webpack_require__(519)
+var dns = __webpack_require__(532)
 
-var defaults = __webpack_require__(136)
+var defaults = __webpack_require__(142)
 
-var parse = __webpack_require__(520).parse // parses a connection string
+var parse = __webpack_require__(533).parse // parses a connection string
 
 var val = function (key, config, envVar) {
   if (envVar === undefined) {
@@ -39607,13 +41218,13 @@ module.exports = ConnectionParameters
 
 
 /***/ }),
-/* 290 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const warnDeprecation = __webpack_require__(176)
+const warnDeprecation = __webpack_require__(182)
 
 // Node 4 doesn’t support new.target.
 let hasNewTarget
@@ -39636,7 +41247,7 @@ module.exports = checkConstructor
 
 
 /***/ }),
-/* 291 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39649,7 +41260,7 @@ module.exports = checkConstructor
  * README.md file in the root directory of this source tree.
  */
 
-var types = __webpack_require__(137)
+var types = __webpack_require__(143)
 
 // result object returned from query
 // in the 'end' event and also
@@ -39748,7 +41359,7 @@ module.exports = Result
 
 
 /***/ }),
-/* 292 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39761,14 +41372,14 @@ module.exports = Result
  * README.md file in the root directory of this source tree.
  */
 
-var net = __webpack_require__(82)
-var EventEmitter = __webpack_require__(12).EventEmitter
+var net = __webpack_require__(86)
+var EventEmitter = __webpack_require__(13).EventEmitter
 var util = __webpack_require__(7)
 
-var Writer = __webpack_require__(293)
-var Reader = __webpack_require__(522)
+var Writer = __webpack_require__(301)
+var Reader = __webpack_require__(535)
 
-var warnDeprecation = __webpack_require__(176)
+var warnDeprecation = __webpack_require__(182)
 
 var TEXT_MODE = 0
 var BINARY_MODE = 1
@@ -39848,7 +41459,7 @@ Connection.prototype.connect = function (port, host) {
         self.stream.end()
         return self.emit('error', new Error('There was an error establishing an SSL connection'))
     }
-    var tls = __webpack_require__(83)
+    var tls = __webpack_require__(87)
     const options = {
       socket: self.stream,
       checkServerIdentity: self.ssl.checkServerIdentity || tls.checkServerIdentity,
@@ -40464,7 +42075,7 @@ module.exports = Connection
 
 
 /***/ }),
-/* 293 */
+/* 301 */
 /***/ (function(module, exports) {
 
 //binary data writer tuned for creating
@@ -40599,16 +42210,16 @@ Writer.prototype.flush = function (code) {
 
 
 /***/ }),
-/* 294 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-module.exports = __webpack_require__(528)
+module.exports = __webpack_require__(541)
 
 
 /***/ }),
-/* 295 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Knex.js
@@ -40618,12 +42229,18 @@ module.exports = __webpack_require__(528)
 //     For details and documentation:
 //     http://knexjs.org
 
-module.exports = __webpack_require__(305);
+module.exports = __webpack_require__(318);
 
 
 /***/ }),
-/* 296 */,
-/* 297 */
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40667,209 +42284,45 @@ __webpack_require__.d(kvs_namespaceObject, "upsert_kv_entry", function() { retur
 __webpack_require__.d(kvs_namespaceObject, "set_kv_entry", function() { return set_kv_entry; });
 __webpack_require__.d(kvs_namespaceObject, "sync_kv_entry", function() { return sync_kv_entry; });
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalize.js
-function combine_normalizers(...normalizers) {
-  return s => normalizers.reduce((acc, normalizer) => {
-    const out = normalizer(acc); //console.log(`combined normalization: "${acc}" -> "${out}"`)
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers.js + 2 modules
+var normalizers = __webpack_require__(556);
 
-    return out;
-  }, s);
-}
-function normalize(s, ...normalizers) {
-  return combine_normalizers(...normalizers)(s);
-}
-function default_to(def = '') {
-  return s => s ? s : '';
-}
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers--base.js
- /////////////////////
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalize.js
+var normalize = __webpack_require__(52);
 
-const RECOMMENDED_UNICODE_NORMALIZATION = 'NFC'; // https://www.win.tue.nl/~aeb/linux/uc/nfc_vs_nfd.html
-
-const default_to_empty = default_to('');
-const ensure_string = s => String(s);
-const capitalize = s => s.length === 0 ? s : s[0].toUpperCase() + s.slice(1);
-const to_lower_case = s => s.toLowerCase();
-const to_upper_case = s => s.toUpperCase(); // https://devdocs.io/javascript/global_objects/string/trim
-
-const trim = s => s.trim(); // https://thread.engineering/2018-08-29-searching-and-sorting-text-with-diacritical-marks-in-javascript/
-
-const coerce_to_ascii = s => s.normalize('NFD') // D = Decompose = technique to remove non-ascii part
-.replace(/[\u0300-\u036f]/g, ''); // https://devdocs.io/javascript/global_objects/string/normalize
-// https://withblue.ink/2019/03/11/why-you-need-to-normalize-unicode-strings.html
-
-const normalize_unicode = s => s.normalize(RECOMMENDED_UNICODE_NORMALIZATION); // https://stackoverflow.com/a/1981366/587407
-
-const ANY_BLANK_REGEXP = /\s+/g;
-const coerce_blanks_to_single_spaces = s => s.replace(ANY_BLANK_REGEXP, ' '); // https://stackoverflow.com/a/19313707/587407
-
-const ANY_DELIMITER_REGEXP = new RegExp('[-+()*/:? _\.]', 'g');
-const coerce_delimiters_to_space = s => s.replace(ANY_DELIMITER_REGEXP, ' ');
-const convert_spaces_to_camel_case = s => s.split(' ').map(capitalize).join(''); // for user names, player names...
-
-const coerce_to_safe_nickname = combine_normalizers(coerce_to_ascii, trim, to_lower_case, coerce_delimiters_to_space, coerce_blanks_to_single_spaces, convert_spaces_to_camel_case);
-const coerce_to_redeemable_code = combine_normalizers(trim, coerce_to_ascii, to_upper_case, coerce_delimiters_to_space, convert_spaces_to_camel_case); /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizer--email.js
-
- ////////////////////////////////////
-// general infos: https://github.com/Offirmo-team/wiki/wiki/courriel
-// credits to
-////////////////////////////////////
-// fragments
-// inspired by the spec of https://github.com/johno/normalize-email
-
-function remove_plus_fragment_from_local_part(email) {
-  const [local_part, domain] = email.split('@');
-  return [local_part.split('+')[0], domain].join('@');
-}
-
-function remove_dots_from_local_part(email) {
-  const [local_part, domain] = email.split('@');
-  return [local_part.split('.').join(''), domain].join('@');
-}
-
-function lowercase_domain(email) {
-  const [local_part, domain = ''] = email.split('@');
-  return [local_part, domain.toLowerCase()].join('@');
-}
-
-function normalize_domain(email) {
-  let [local_part, domain = ''] = email.split('@');
-  domain = domain.toLowerCase();
-  if (domain === 'googlemail.com') domain = 'gmail.com';
-  return [local_part, domain].join('@');
-}
-
-const RULES = {
-  'gmail.com': {
-    local_part_case_sensitive: false,
-    plus_fragment_sensitive: false,
-    dots_sensitive: false
-  },
-  'hotmail.com': {
-    local_part_case_sensitive: undefined,
-    plus_fragment_sensitive: false,
-    dots_sensitive: true
-  },
-  'live.com': {
-    local_part_case_sensitive: undefined,
-    plus_fragment_sensitive: false,
-    dots_sensitive: false
-  },
-  'outlook.com': {
-    local_part_case_sensitive: undefined,
-    plus_fragment_sensitive: false,
-    dots_sensitive: true
-  }
-};
-
-function remove_plus_fragment_from_local_part_if_insensitive(email) {
-  var _a;
-
-  const [local_part, domain] = email.split('@'); //console.log('remove_plus_fragment_from_local_part_if_insensitive', domain, RULES[domain])
-
-  if (((_a = RULES[domain]) === null || _a === void 0 ? void 0 : _a.plus_fragment_sensitive) === false) return remove_plus_fragment_from_local_part(email);
-  return email;
-}
-
-function remove_dots_from_local_part_if_insensitive(email) {
-  var _a;
-
-  const [local_part, domain] = email.split('@');
-  if (((_a = RULES[domain]) === null || _a === void 0 ? void 0 : _a.dots_sensitive) === false) return remove_dots_from_local_part(email);
-  return email;
-}
-
-function lowercase_local_part_if_insensitive(email) {
-  var _a;
-
-  const [local_part, domain] = email.split('@');
-  if (!((_a = RULES[domain]) === null || _a === void 0 ? void 0 : _a.local_part_case_sensitive)) // default to true
-    return email.toLowerCase();
-  return email;
-} /////////////////////
-// extras from me
-// useful to fix autocomplete after typing "."
-
-
-function remove_all_spaces(email) {
-  return email.split(' ').join('');
-}
-
-function validate_email_structure(possible_email) {
-  const [before, after, ...rest] = possible_email.split('@'); //console.log({before, after, rest, ta: typeof after})
-
-  if (rest.length) throw new Error('Invalid email: more than one @!');
-  if (typeof after !== 'string') throw new Error('Invalid email: no @!');
-  if (after.split('.').length < 2) throw new Error('Invalid email: bad domain!');
-  if (!before.length || !after.length) throw new Error('Invalid email: bad structure!');
-  return possible_email;
-} ////////////////////////////////////
-// We need different levels of normalization
-// for ex. using "+" foo+test@gmail.com is not known and very likely to be an attempt to double register
-// however using "." foo.bar@gmail.com is well known and not all pp know it can be removed
-// normalizing too hard prevents us from using gravatar
-// ex. offirmo.net@gmail.com is not matching gravatar offirmonet@gmail.com
-
-
-const normalize_email_safe = combine_normalizers(normalize_unicode, remove_all_spaces, validate_email_structure, lowercase_domain);
-const normalize_email_reasonable = combine_normalizers(normalize_unicode, remove_all_spaces, validate_email_structure, normalize_domain, remove_plus_fragment_from_local_part_if_insensitive, lowercase_local_part_if_insensitive);
-const normalize_email_full = combine_normalizers(normalize_unicode, remove_all_spaces, validate_email_structure, normalize_domain, remove_plus_fragment_from_local_part_if_insensitive, remove_dots_from_local_part_if_insensitive, lowercase_local_part_if_insensitive);
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers.js
-
- /////////////////////
-
-const NORMALIZERS = {
-  default_to_empty: default_to_empty,
-  ensure_string: ensure_string,
-  capitalize: capitalize,
-  to_lower_case: to_lower_case,
-  to_upper_case: to_upper_case,
-  trim: trim,
-  coerce_to_ascii: coerce_to_ascii,
-  normalize_unicode: normalize_unicode,
-  coerce_blanks_to_single_spaces: coerce_blanks_to_single_spaces,
-  coerce_delimiters_to_space: coerce_delimiters_to_space,
-  convert_spaces_to_camel_case: convert_spaces_to_camel_case,
-  coerce_to_safe_nickname: coerce_to_safe_nickname,
-  coerce_to_redeemable_code: coerce_to_redeemable_code,
-  normalize_email_safe: normalize_email_safe,
-  normalize_email_reasonable: normalize_email_reasonable,
-  normalize_email_full: normalize_email_full
-}; /////////////////////
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/db/dist/src.es2019/utils/email.js
-const email_crypto = __webpack_require__(174);
+const email_crypto = __webpack_require__(106);
 
 
 function get_gravatar_url(email) {
-  email = NORMALIZERS.normalize_email_reasonable(email); // not too much
+  email = normalizers["a" /* NORMALIZERS */].normalize_email_reasonable(email); // not too much
 
   const md5 = email_crypto.createHash('md5').update(email).digest('hex');
   return `https://www.gravatar.com/avatar/${md5}?r=pg&d=retro`;
 }
-function email_normalize_email_safe(email) {
-  return NORMALIZERS.normalize_email_safe(email);
+function normalize_email_safe(email) {
+  return normalizers["a" /* NORMALIZERS */].normalize_email_safe(email);
 }
-function email_normalize_email_reasonable(email) {
-  const safe = NORMALIZERS.normalize_email_safe(email);
+function normalize_email_reasonable(email) {
+  const safe = normalizers["a" /* NORMALIZERS */].normalize_email_safe(email);
 
   if (safe.startsWith('offirmo.net+') && safe.endsWith('@gmail.com')) {
     return safe;
   }
 
-  return NORMALIZERS.normalize_email_reasonable(email);
+  return normalizers["a" /* NORMALIZERS */].normalize_email_reasonable(email);
 }
-function email_normalize_email_full(email) {
-  const safe = NORMALIZERS.normalize_email_safe(email);
+function normalize_email_full(email) {
+  const safe = normalizers["a" /* NORMALIZERS */].normalize_email_safe(email);
 
   if (safe.startsWith('offirmo.net+') && safe.endsWith('@gmail.com')) {
     return safe;
   }
 
-  return NORMALIZERS.normalize_email_full(email);
+  return normalizers["a" /* NORMALIZERS */].normalize_email_full(email);
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/json-stable-stringify/index.js
-var json_stable_stringify = __webpack_require__(79);
+var json_stable_stringify = __webpack_require__(83);
 var json_stable_stringify_default = /*#__PURE__*/__webpack_require__.n(json_stable_stringify);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/db/dist/src.es2019/utils/misc.js
@@ -40902,10 +42355,10 @@ const DEFAULT_ROLES = [];
 function _infer_avatar_url(data) {
   //return get_gravatar_url(data.usual_email)
   // https://github.com/Kikobeats/unavatar
-  return 'https://unavatar.now.sh/' + email_normalize_email_reasonable(data.raw_email);
+  return 'https://unavatar.now.sh/' + normalize_email_reasonable(data.raw_email);
 }
 function _infer_called(data) {
-  const [local_part] = email_normalize_email_reasonable(data.raw_email).split('@');
+  const [local_part] = normalize_email_reasonable(data.raw_email).split('@');
   /*console.log({
       1: local_part,
       2: NORMALIZERS.coerce_delimiters_to_space(local_part),
@@ -40914,16 +42367,16 @@ function _infer_called(data) {
       )
   })*/
 
-  return NORMALIZERS.coerce_blanks_to_single_spaces(NORMALIZERS.coerce_delimiters_to_space(local_part)).split(' ').map(s => NORMALIZERS.capitalize(s)).join(' ');
+  return normalizers["a" /* NORMALIZERS */].coerce_blanks_to_single_spaces(normalizers["a" /* NORMALIZERS */].coerce_delimiters_to_space(local_part)).split(' ').map(s => normalizers["a" /* NORMALIZERS */].capitalize(s)).join(' ');
 } // separate since can be called on explicit "called"
 
-const _sanitize_called = combine_normalizers(NORMALIZERS.normalize_unicode, NORMALIZERS.trim); /////////////////////
+const _sanitize_called = Object(normalize["a" /* combine_normalizers */])(normalizers["a" /* NORMALIZERS */].normalize_unicode, normalizers["a" /* NORMALIZERS */].trim); /////////////////////
 
 function sanitize_persisted(input) {
   const output = { ...input,
     called: input.called ? _sanitize_called(input.called) : undefined,
-    raw_email: email_normalize_email_safe(input.raw_email),
-    normalized_email: email_normalize_email_full(input.raw_email),
+    raw_email: normalize_email_safe(input.raw_email),
+    normalized_email: normalize_email_full(input.raw_email),
     avatar_url: input.avatar_url || undefined,
     roles: Array.from(new Set([...input.roles])).sort()
   };
@@ -40985,7 +42438,7 @@ function tiny_singleton(generator) {
 }
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/knex/knex.js
-var knex = __webpack_require__(295);
+var knex = __webpack_require__(303);
 var knex_default = /*#__PURE__*/__webpack_require__.n(knex);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/db/dist/src.es2019/db.js
@@ -41077,7 +42530,7 @@ function get_base_user_from_netlify_user(input) {
 async function create_user(data, trx = src_es2019_db()) {
   data = { ...data,
     //raw_email: normalize_email_safe(data.raw_email),
-    normalized_email: email_normalize_email_full(data.raw_email)
+    normalized_email: normalize_email_full(data.raw_email)
   };
   logger.log('creating user...', {
     data
@@ -41129,7 +42582,7 @@ async function create_user_through_netlify(data, trx) {
  ////////////////////////////////////
 
 async function delete_by_email(raw_email, trx = src_es2019_db()) {
-  const normalized_email = email_normalize_email_full(raw_email);
+  const normalized_email = normalize_email_full(raw_email);
   logger.log('deleting user by email...', {
     raw_email,
     normalized_email
@@ -41144,7 +42597,7 @@ async function delete_by_email(raw_email, trx = src_es2019_db()) {
  ////////////////////////////////////
 
 async function get_by_email(raw_email, trx = src_es2019_db()) {
-  const normalized_email = email_normalize_email_full(raw_email);
+  const normalized_email = normalize_email_full(raw_email);
   const raw_result = await trx(TABLE__USERS).select().where('normalized_email', normalized_email);
   if (!raw_result[0]) return null;
   return sanitize_persisted(raw_result[0]);
@@ -41240,7 +42693,7 @@ async function ensure_user_through_netlify(data, trx) {
         id: user_id,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-        normalized_email: email_normalize_email_full(data.email)
+        normalized_email: normalize_email_full(data.email)
       };
     } // user already exists, just link to it
 
@@ -41345,12 +42798,12 @@ async function get_value({
   return value;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/comparators.js + 1 modules
-var comparators = __webpack_require__(139);
+var comparators = __webpack_require__(145);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/db/dist/src.es2019/kvs/update.js
 const {
   deepStrictEqual: assertDeepStrictEqual
-} = __webpack_require__(41).strict;
+} = __webpack_require__(44).strict;
 
 
 
@@ -41400,7 +42853,7 @@ async function set_kv_entry(params, trx = src_es2019_db()) {
     } = params;
     let bkp__recent = null;
     let previous_major_versions = []; // TODO validate JSON
-    // EXPECTED: values are presented from the oldest to the newest!
+    // EXPECTED: calls to this function are expected from the oldest to the newest!
 
     function enqueue_in_bkp_pipeline(old_val) {
       if (!old_val) return;
@@ -41449,6 +42902,7 @@ async function set_kv_entry(params, trx = src_es2019_db()) {
       } catch {}
 
       try {
+        // YES it's critical, that's how a lagging client will get the newest data
         Object(tiny_invariant_esm["default"])(Object(comparators["c" /* get_semantic_difference */])(value, existing.value), 'new value should really be newer!');
       } catch (err) {
         err[SPECIAL_ERROR_ATTRIBUTE_WHEN_OLDER] = existing.value;
@@ -41505,12 +42959,11 @@ async function sync_kv_entry(params, trx = src_es2019_db()) {
 
 
 /***/ }),
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -41519,8 +42972,8 @@ async function sync_kv_entry(params, trx = src_es2019_db()) {
 /* unused harmony export timestampWithMs */
 /* unused harmony export usingPerformanceAPI */
 /* unused harmony export browserPerformanceTimeOrigin */
-/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
+/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
 
 
 /**
@@ -41636,10 +43089,10 @@ var browserPerformanceTimeOrigin = (function () {
     return (performance.timing && performance.timing.navigationStart) || Date.now();
 })();
 //# sourceMappingURL=time.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(80)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(84)(module)))
 
 /***/ }),
-/* 304 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41650,15 +43103,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.require_authenticated = void 0;
 
-const db_1 = __webpack_require__(297);
+const db_1 = __webpack_require__(311);
 
-const functions_interface_1 = __webpack_require__(49);
+const functions_interface_1 = __webpack_require__(53);
 
-const consts_1 = __webpack_require__(31);
+const consts_1 = __webpack_require__(34);
 
-const netlify_1 = __webpack_require__(198);
+const netlify_1 = __webpack_require__(206);
 
-const utils_1 = __webpack_require__(55); ////////////////////////////////////
+const utils_1 = __webpack_require__(59); ////////////////////////////////////
 
 
 async function require_authenticated(SEC, event, context, response, next) {
@@ -41720,29 +43173,29 @@ const _require_authenticated = require_authenticated; // test check
 exports.default = require_authenticated;
 
 /***/ }),
-/* 305 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Knex = __webpack_require__(306);
+const Knex = __webpack_require__(319);
 
 module.exports = Knex;
 
 
 /***/ }),
-/* 306 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(57);
-const Client = __webpack_require__(235);
-const QueryBuilder = __webpack_require__(127);
-const QueryInterface = __webpack_require__(257);
+const Raw = __webpack_require__(61);
+const Client = __webpack_require__(243);
+const QueryBuilder = __webpack_require__(133);
+const QueryInterface = __webpack_require__(265);
 
-const makeKnex = __webpack_require__(245);
-const parseConnection = __webpack_require__(487);
-const { KnexTimeoutError } = __webpack_require__(96);
-const fakeClient = __webpack_require__(489);
-const { SUPPORTED_CLIENTS } = __webpack_require__(152);
-const { resolveClientNameWithAliases } = __webpack_require__(42);
+const makeKnex = __webpack_require__(253);
+const parseConnection = __webpack_require__(500);
+const { KnexTimeoutError } = __webpack_require__(100);
+const fakeClient = __webpack_require__(502);
+const { SUPPORTED_CLIENTS } = __webpack_require__(159);
+const { resolveClientNameWithAliases } = __webpack_require__(45);
 
 function Knex(config) {
   // If config is a string, try to parse it
@@ -41775,7 +43228,7 @@ function Knex(config) {
     }
 
     const resolvedClientName = resolveClientNameWithAliases(clientName);
-    Dialect = __webpack_require__(490)(`./${resolvedClientName}/index.js`);
+    Dialect = __webpack_require__(503)(`./${resolvedClientName}/index.js`);
   }
 
   // If config connection parameter is passed as string, try to parse it
@@ -41818,10 +43271,10 @@ module.exports = Knex;
 
 
 /***/ }),
-/* 307 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(58);
+var Symbol = __webpack_require__(62);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -41870,7 +43323,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 308 */
+/* 321 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -41898,12 +43351,12 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 309 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(43),
-    isLength = __webpack_require__(150),
-    isObjectLike = __webpack_require__(29);
+var baseGetTag = __webpack_require__(46),
+    isLength = __webpack_require__(157),
+    isObjectLike = __webpack_require__(32);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -41964,7 +43417,7 @@ module.exports = baseIsTypedArray;
 
 
 /***/ }),
-/* 310 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -42216,7 +43669,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(201)(exports);
+module.exports = __webpack_require__(209)(exports);
 
 const {formatters} = module.exports;
 
@@ -42234,14 +43687,14 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 311 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(51);
+const tty = __webpack_require__(55);
 const util = __webpack_require__(7);
 
 /**
@@ -42264,7 +43717,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(50);
+	const supportsColor = __webpack_require__(54);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -42472,7 +43925,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(201)(exports);
+module.exports = __webpack_require__(209)(exports);
 
 const {formatters} = module.exports;
 
@@ -42497,13 +43950,13 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 312 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(115),
-    isMasked = __webpack_require__(313),
-    isObject = __webpack_require__(23),
-    toSource = __webpack_require__(203);
+var isFunction = __webpack_require__(121),
+    isMasked = __webpack_require__(326),
+    isObject = __webpack_require__(27),
+    toSource = __webpack_require__(211);
 
 /**
  * Used to match `RegExp`
@@ -42550,10 +44003,10 @@ module.exports = baseIsNative;
 
 
 /***/ }),
-/* 313 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var coreJsData = __webpack_require__(314);
+var coreJsData = __webpack_require__(327);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -42576,10 +44029,10 @@ module.exports = isMasked;
 
 
 /***/ }),
-/* 314 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(21);
+var root = __webpack_require__(24);
 
 /** Used to detect overreaching core-js shims. */
 var coreJsData = root['__core-js_shared__'];
@@ -42588,7 +44041,7 @@ module.exports = coreJsData;
 
 
 /***/ }),
-/* 315 */
+/* 328 */
 /***/ (function(module, exports) {
 
 /**
@@ -42607,10 +44060,10 @@ module.exports = getValue;
 
 
 /***/ }),
-/* 316 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = __webpack_require__(117);
+var apply = __webpack_require__(123);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -42649,12 +44102,12 @@ module.exports = overRest;
 
 
 /***/ }),
-/* 317 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var constant = __webpack_require__(318),
-    defineProperty = __webpack_require__(202),
-    identity = __webpack_require__(45);
+var constant = __webpack_require__(331),
+    defineProperty = __webpack_require__(210),
+    identity = __webpack_require__(48);
 
 /**
  * The base implementation of `setToString` without support for hot loop shorting.
@@ -42677,7 +44130,7 @@ module.exports = baseSetToString;
 
 
 /***/ }),
-/* 318 */
+/* 331 */
 /***/ (function(module, exports) {
 
 /**
@@ -42709,7 +44162,7 @@ module.exports = constant;
 
 
 /***/ }),
-/* 319 */
+/* 332 */
 /***/ (function(module, exports) {
 
 /**
@@ -42735,11 +44188,11 @@ module.exports = baseTimes;
 
 
 /***/ }),
-/* 320 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(43),
-    isObjectLike = __webpack_require__(29);
+var baseGetTag = __webpack_require__(46),
+    isObjectLike = __webpack_require__(32);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -42759,7 +44212,7 @@ module.exports = baseIsArguments;
 
 
 /***/ }),
-/* 321 */
+/* 334 */
 /***/ (function(module, exports) {
 
 /**
@@ -42783,10 +44236,10 @@ module.exports = stubFalse;
 
 
 /***/ }),
-/* 322 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(200);
+var overArg = __webpack_require__(208);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -42795,7 +44248,7 @@ module.exports = nativeKeys;
 
 
 /***/ }),
-/* 323 */
+/* 336 */
 /***/ (function(module, exports) {
 
 /**
@@ -42827,7 +44280,7 @@ module.exports = arrayReduce;
 
 
 /***/ }),
-/* 324 */
+/* 337 */
 /***/ (function(module, exports) {
 
 /**
@@ -42858,10 +44311,10 @@ module.exports = createBaseFor;
 
 
 /***/ }),
-/* 325 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArrayLike = __webpack_require__(34);
+var isArrayLike = __webpack_require__(38);
 
 /**
  * Creates a `baseEach` or `baseEachRight` function.
@@ -42896,12 +44349,12 @@ module.exports = createBaseEach;
 
 
 /***/ }),
-/* 326 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsMatch = __webpack_require__(327),
-    getMatchData = __webpack_require__(359),
-    matchesStrictComparable = __webpack_require__(223);
+var baseIsMatch = __webpack_require__(340),
+    getMatchData = __webpack_require__(372),
+    matchesStrictComparable = __webpack_require__(231);
 
 /**
  * The base implementation of `_.matches` which doesn't clone `source`.
@@ -42924,11 +44377,11 @@ module.exports = baseMatches;
 
 
 /***/ }),
-/* 327 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(118),
-    baseIsEqual = __webpack_require__(210);
+var Stack = __webpack_require__(124),
+    baseIsEqual = __webpack_require__(218);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -42992,7 +44445,7 @@ module.exports = baseIsMatch;
 
 
 /***/ }),
-/* 328 */
+/* 341 */
 /***/ (function(module, exports) {
 
 /**
@@ -43011,10 +44464,10 @@ module.exports = listCacheClear;
 
 
 /***/ }),
-/* 329 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(120);
+var assocIndexOf = __webpack_require__(126);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -43052,10 +44505,10 @@ module.exports = listCacheDelete;
 
 
 /***/ }),
-/* 330 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(120);
+var assocIndexOf = __webpack_require__(126);
 
 /**
  * Gets the list cache value for `key`.
@@ -43077,10 +44530,10 @@ module.exports = listCacheGet;
 
 
 /***/ }),
-/* 331 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(120);
+var assocIndexOf = __webpack_require__(126);
 
 /**
  * Checks if a list cache value for `key` exists.
@@ -43099,10 +44552,10 @@ module.exports = listCacheHas;
 
 
 /***/ }),
-/* 332 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(120);
+var assocIndexOf = __webpack_require__(126);
 
 /**
  * Sets the list cache `key` to `value`.
@@ -43131,10 +44584,10 @@ module.exports = listCacheSet;
 
 
 /***/ }),
-/* 333 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(119);
+var ListCache = __webpack_require__(125);
 
 /**
  * Removes all key-value entries from the stack.
@@ -43152,7 +44605,7 @@ module.exports = stackClear;
 
 
 /***/ }),
-/* 334 */
+/* 347 */
 /***/ (function(module, exports) {
 
 /**
@@ -43176,7 +44629,7 @@ module.exports = stackDelete;
 
 
 /***/ }),
-/* 335 */
+/* 348 */
 /***/ (function(module, exports) {
 
 /**
@@ -43196,7 +44649,7 @@ module.exports = stackGet;
 
 
 /***/ }),
-/* 336 */
+/* 349 */
 /***/ (function(module, exports) {
 
 /**
@@ -43216,12 +44669,12 @@ module.exports = stackHas;
 
 
 /***/ }),
-/* 337 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(119),
-    Map = __webpack_require__(155),
-    MapCache = __webpack_require__(156);
+var ListCache = __webpack_require__(125),
+    Map = __webpack_require__(162),
+    MapCache = __webpack_require__(163);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -43256,12 +44709,12 @@ module.exports = stackSet;
 
 
 /***/ }),
-/* 338 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Hash = __webpack_require__(339),
-    ListCache = __webpack_require__(119),
-    Map = __webpack_require__(155);
+var Hash = __webpack_require__(352),
+    ListCache = __webpack_require__(125),
+    Map = __webpack_require__(162);
 
 /**
  * Removes all key-value entries from the map.
@@ -43283,14 +44736,14 @@ module.exports = mapCacheClear;
 
 
 /***/ }),
-/* 339 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hashClear = __webpack_require__(340),
-    hashDelete = __webpack_require__(341),
-    hashGet = __webpack_require__(342),
-    hashHas = __webpack_require__(343),
-    hashSet = __webpack_require__(344);
+var hashClear = __webpack_require__(353),
+    hashDelete = __webpack_require__(354),
+    hashGet = __webpack_require__(355),
+    hashHas = __webpack_require__(356),
+    hashSet = __webpack_require__(357);
 
 /**
  * Creates a hash object.
@@ -43321,10 +44774,10 @@ module.exports = Hash;
 
 
 /***/ }),
-/* 340 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(121);
+var nativeCreate = __webpack_require__(127);
 
 /**
  * Removes all key-value entries from the hash.
@@ -43342,7 +44795,7 @@ module.exports = hashClear;
 
 
 /***/ }),
-/* 341 */
+/* 354 */
 /***/ (function(module, exports) {
 
 /**
@@ -43365,10 +44818,10 @@ module.exports = hashDelete;
 
 
 /***/ }),
-/* 342 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(121);
+var nativeCreate = __webpack_require__(127);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -43401,10 +44854,10 @@ module.exports = hashGet;
 
 
 /***/ }),
-/* 343 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(121);
+var nativeCreate = __webpack_require__(127);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -43430,10 +44883,10 @@ module.exports = hashHas;
 
 
 /***/ }),
-/* 344 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(121);
+var nativeCreate = __webpack_require__(127);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -43459,10 +44912,10 @@ module.exports = hashSet;
 
 
 /***/ }),
-/* 345 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(122);
+var getMapData = __webpack_require__(128);
 
 /**
  * Removes `key` and its value from the map.
@@ -43483,7 +44936,7 @@ module.exports = mapCacheDelete;
 
 
 /***/ }),
-/* 346 */
+/* 359 */
 /***/ (function(module, exports) {
 
 /**
@@ -43504,10 +44957,10 @@ module.exports = isKeyable;
 
 
 /***/ }),
-/* 347 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(122);
+var getMapData = __webpack_require__(128);
 
 /**
  * Gets the map value for `key`.
@@ -43526,10 +44979,10 @@ module.exports = mapCacheGet;
 
 
 /***/ }),
-/* 348 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(122);
+var getMapData = __webpack_require__(128);
 
 /**
  * Checks if a map value for `key` exists.
@@ -43548,10 +45001,10 @@ module.exports = mapCacheHas;
 
 
 /***/ }),
-/* 349 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(122);
+var getMapData = __webpack_require__(128);
 
 /**
  * Sets the map `key` to `value`.
@@ -43576,17 +45029,17 @@ module.exports = mapCacheSet;
 
 
 /***/ }),
-/* 350 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(118),
-    equalArrays = __webpack_require__(211),
-    equalByTag = __webpack_require__(354),
-    equalObjects = __webpack_require__(355),
-    getTag = __webpack_require__(66),
-    isArray = __webpack_require__(10),
-    isBuffer = __webpack_require__(65),
-    isTypedArray = __webpack_require__(62);
+var Stack = __webpack_require__(124),
+    equalArrays = __webpack_require__(219),
+    equalByTag = __webpack_require__(367),
+    equalObjects = __webpack_require__(368),
+    getTag = __webpack_require__(70),
+    isArray = __webpack_require__(11),
+    isBuffer = __webpack_require__(69),
+    isTypedArray = __webpack_require__(66);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -43665,7 +45118,7 @@ module.exports = baseIsEqualDeep;
 
 
 /***/ }),
-/* 351 */
+/* 364 */
 /***/ (function(module, exports) {
 
 /** Used to stand-in for `undefined` hash values. */
@@ -43690,7 +45143,7 @@ module.exports = setCacheAdd;
 
 
 /***/ }),
-/* 352 */
+/* 365 */
 /***/ (function(module, exports) {
 
 /**
@@ -43710,7 +45163,7 @@ module.exports = setCacheHas;
 
 
 /***/ }),
-/* 353 */
+/* 366 */
 /***/ (function(module, exports) {
 
 /**
@@ -43739,15 +45192,15 @@ module.exports = arraySome;
 
 
 /***/ }),
-/* 354 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(58),
-    Uint8Array = __webpack_require__(214),
-    eq = __webpack_require__(60),
-    equalArrays = __webpack_require__(211),
-    mapToArray = __webpack_require__(215),
-    setToArray = __webpack_require__(216);
+var Symbol = __webpack_require__(62),
+    Uint8Array = __webpack_require__(222),
+    eq = __webpack_require__(64),
+    equalArrays = __webpack_require__(219),
+    mapToArray = __webpack_require__(223),
+    setToArray = __webpack_require__(224);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -43857,10 +45310,10 @@ module.exports = equalByTag;
 
 
 /***/ }),
-/* 355 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getAllKeys = __webpack_require__(217);
+var getAllKeys = __webpack_require__(225);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -43953,11 +45406,11 @@ module.exports = equalObjects;
 
 
 /***/ }),
-/* 356 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(59),
-    root = __webpack_require__(21);
+var getNative = __webpack_require__(63),
+    root = __webpack_require__(24);
 
 /* Built-in method references that are verified to be native. */
 var DataView = getNative(root, 'DataView');
@@ -43966,11 +45419,11 @@ module.exports = DataView;
 
 
 /***/ }),
-/* 357 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(59),
-    root = __webpack_require__(21);
+var getNative = __webpack_require__(63),
+    root = __webpack_require__(24);
 
 /* Built-in method references that are verified to be native. */
 var Promise = getNative(root, 'Promise');
@@ -43979,11 +45432,11 @@ module.exports = Promise;
 
 
 /***/ }),
-/* 358 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(59),
-    root = __webpack_require__(21);
+var getNative = __webpack_require__(63),
+    root = __webpack_require__(24);
 
 /* Built-in method references that are verified to be native. */
 var Set = getNative(root, 'Set');
@@ -43992,11 +45445,11 @@ module.exports = Set;
 
 
 /***/ }),
-/* 359 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isStrictComparable = __webpack_require__(222),
-    keys = __webpack_require__(46);
+var isStrictComparable = __webpack_require__(230),
+    keys = __webpack_require__(49);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -44022,16 +45475,16 @@ module.exports = getMatchData;
 
 
 /***/ }),
-/* 360 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqual = __webpack_require__(210),
-    get = __webpack_require__(224),
-    hasIn = __webpack_require__(365),
-    isKey = __webpack_require__(159),
-    isStrictComparable = __webpack_require__(222),
-    matchesStrictComparable = __webpack_require__(223),
-    toKey = __webpack_require__(92);
+var baseIsEqual = __webpack_require__(218),
+    get = __webpack_require__(232),
+    hasIn = __webpack_require__(378),
+    isKey = __webpack_require__(166),
+    isStrictComparable = __webpack_require__(230),
+    matchesStrictComparable = __webpack_require__(231),
+    toKey = __webpack_require__(96);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -44061,10 +45514,10 @@ module.exports = baseMatchesProperty;
 
 
 /***/ }),
-/* 361 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoizeCapped = __webpack_require__(362);
+var memoizeCapped = __webpack_require__(375);
 
 /** Used to match property names within property paths. */
 var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
@@ -44094,10 +45547,10 @@ module.exports = stringToPath;
 
 
 /***/ }),
-/* 362 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoize = __webpack_require__(363);
+var memoize = __webpack_require__(376);
 
 /** Used as the maximum memoize cache size. */
 var MAX_MEMOIZE_SIZE = 500;
@@ -44126,10 +45579,10 @@ module.exports = memoizeCapped;
 
 
 /***/ }),
-/* 363 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MapCache = __webpack_require__(156);
+var MapCache = __webpack_require__(163);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -44205,13 +45658,13 @@ module.exports = memoize;
 
 
 /***/ }),
-/* 364 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(58),
-    arrayMap = __webpack_require__(68),
-    isArray = __webpack_require__(10),
-    isSymbol = __webpack_require__(67);
+var Symbol = __webpack_require__(62),
+    arrayMap = __webpack_require__(72),
+    isArray = __webpack_require__(11),
+    isSymbol = __webpack_require__(71);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -44248,11 +45701,11 @@ module.exports = baseToString;
 
 
 /***/ }),
-/* 365 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseHasIn = __webpack_require__(366),
-    hasPath = __webpack_require__(225);
+var baseHasIn = __webpack_require__(379),
+    hasPath = __webpack_require__(233);
 
 /**
  * Checks if `path` is a direct or inherited property of `object`.
@@ -44288,7 +45741,7 @@ module.exports = hasIn;
 
 
 /***/ }),
-/* 366 */
+/* 379 */
 /***/ (function(module, exports) {
 
 /**
@@ -44307,13 +45760,13 @@ module.exports = baseHasIn;
 
 
 /***/ }),
-/* 367 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseProperty = __webpack_require__(368),
-    basePropertyDeep = __webpack_require__(369),
-    isKey = __webpack_require__(159),
-    toKey = __webpack_require__(92);
+var baseProperty = __webpack_require__(381),
+    basePropertyDeep = __webpack_require__(382),
+    isKey = __webpack_require__(166),
+    toKey = __webpack_require__(96);
 
 /**
  * Creates a function that returns the value at `path` of a given object.
@@ -44345,7 +45798,7 @@ module.exports = property;
 
 
 /***/ }),
-/* 368 */
+/* 381 */
 /***/ (function(module, exports) {
 
 /**
@@ -44365,10 +45818,10 @@ module.exports = baseProperty;
 
 
 /***/ }),
-/* 369 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGet = __webpack_require__(123);
+var baseGet = __webpack_require__(129);
 
 /**
  * A specialized version of `baseProperty` which supports deep paths.
@@ -44387,7 +45840,7 @@ module.exports = basePropertyDeep;
 
 
 /***/ }),
-/* 370 */
+/* 383 */
 /***/ (function(module, exports) {
 
 /**
@@ -44416,11 +45869,11 @@ module.exports = baseReduce;
 
 
 /***/ }),
-/* 371 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(44),
-    keys = __webpack_require__(46);
+var copyObject = __webpack_require__(47),
+    keys = __webpack_require__(49);
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
@@ -44439,11 +45892,11 @@ module.exports = baseAssign;
 
 
 /***/ }),
-/* 372 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(44),
-    keysIn = __webpack_require__(48);
+var copyObject = __webpack_require__(47),
+    keysIn = __webpack_require__(51);
 
 /**
  * The base implementation of `_.assignIn` without support for multiple sources
@@ -44462,12 +45915,12 @@ module.exports = baseAssignIn;
 
 
 /***/ }),
-/* 373 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(23),
-    isPrototype = __webpack_require__(89),
-    nativeKeysIn = __webpack_require__(374);
+var isObject = __webpack_require__(27),
+    isPrototype = __webpack_require__(93),
+    nativeKeysIn = __webpack_require__(387);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -44501,7 +45954,7 @@ module.exports = baseKeysIn;
 
 
 /***/ }),
-/* 374 */
+/* 387 */
 /***/ (function(module, exports) {
 
 /**
@@ -44527,11 +45980,11 @@ module.exports = nativeKeysIn;
 
 
 /***/ }),
-/* 375 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(44),
-    getSymbols = __webpack_require__(158);
+var copyObject = __webpack_require__(47),
+    getSymbols = __webpack_require__(165);
 
 /**
  * Copies own symbols of `source` to `object`.
@@ -44549,11 +46002,11 @@ module.exports = copySymbols;
 
 
 /***/ }),
-/* 376 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(44),
-    getSymbolsIn = __webpack_require__(230);
+var copyObject = __webpack_require__(47),
+    getSymbolsIn = __webpack_require__(238);
 
 /**
  * Copies own and inherited symbols of `source` to `object`.
@@ -44571,7 +46024,7 @@ module.exports = copySymbolsIn;
 
 
 /***/ }),
-/* 377 */
+/* 390 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -44603,14 +46056,14 @@ module.exports = initCloneArray;
 
 
 /***/ }),
-/* 378 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cloneArrayBuffer = __webpack_require__(162),
-    cloneDataView = __webpack_require__(379),
-    cloneRegExp = __webpack_require__(380),
-    cloneSymbol = __webpack_require__(381),
-    cloneTypedArray = __webpack_require__(232);
+var cloneArrayBuffer = __webpack_require__(169),
+    cloneDataView = __webpack_require__(392),
+    cloneRegExp = __webpack_require__(393),
+    cloneSymbol = __webpack_require__(394),
+    cloneTypedArray = __webpack_require__(240);
 
 /** `Object#toString` result references. */
 var boolTag = '[object Boolean]',
@@ -44686,10 +46139,10 @@ module.exports = initCloneByTag;
 
 
 /***/ }),
-/* 379 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cloneArrayBuffer = __webpack_require__(162);
+var cloneArrayBuffer = __webpack_require__(169);
 
 /**
  * Creates a clone of `dataView`.
@@ -44708,7 +46161,7 @@ module.exports = cloneDataView;
 
 
 /***/ }),
-/* 380 */
+/* 393 */
 /***/ (function(module, exports) {
 
 /** Used to match `RegExp` flags from their coerced string values. */
@@ -44731,10 +46184,10 @@ module.exports = cloneRegExp;
 
 
 /***/ }),
-/* 381 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(58);
+var Symbol = __webpack_require__(62);
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = Symbol ? Symbol.prototype : undefined,
@@ -44755,12 +46208,12 @@ module.exports = cloneSymbol;
 
 
 /***/ }),
-/* 382 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsMap = __webpack_require__(383),
-    baseUnary = __webpack_require__(86),
-    nodeUtil = __webpack_require__(151);
+var baseIsMap = __webpack_require__(396),
+    baseUnary = __webpack_require__(90),
+    nodeUtil = __webpack_require__(158);
 
 /* Node.js helper references. */
 var nodeIsMap = nodeUtil && nodeUtil.isMap;
@@ -44788,11 +46241,11 @@ module.exports = isMap;
 
 
 /***/ }),
-/* 383 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getTag = __webpack_require__(66),
-    isObjectLike = __webpack_require__(29);
+var getTag = __webpack_require__(70),
+    isObjectLike = __webpack_require__(32);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]';
@@ -44812,12 +46265,12 @@ module.exports = baseIsMap;
 
 
 /***/ }),
-/* 384 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsSet = __webpack_require__(385),
-    baseUnary = __webpack_require__(86),
-    nodeUtil = __webpack_require__(151);
+var baseIsSet = __webpack_require__(398),
+    baseUnary = __webpack_require__(90),
+    nodeUtil = __webpack_require__(158);
 
 /* Node.js helper references. */
 var nodeIsSet = nodeUtil && nodeUtil.isSet;
@@ -44845,11 +46298,11 @@ module.exports = isSet;
 
 
 /***/ }),
-/* 385 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getTag = __webpack_require__(66),
-    isObjectLike = __webpack_require__(29);
+var getTag = __webpack_require__(70),
+    isObjectLike = __webpack_require__(32);
 
 /** `Object#toString` result references. */
 var setTag = '[object Set]';
@@ -44869,17 +46322,17 @@ module.exports = baseIsSet;
 
 
 /***/ }),
-/* 386 */
+/* 399 */
 /***/ (function(module, exports) {
 
 module.exports = function () {};
 
 
 /***/ }),
-/* 387 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(57);
+const Raw = __webpack_require__(61);
 
 class Ref extends Raw {
   constructor(client, ref) {
@@ -44921,11 +46374,11 @@ module.exports = Ref;
 
 
 /***/ }),
-/* 388 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { KnexTimeoutError } = __webpack_require__(96);
-const { timeout } = __webpack_require__(96);
+const { KnexTimeoutError } = __webpack_require__(100);
+const { timeout } = __webpack_require__(100);
 
 let Transform;
 
@@ -45212,13 +46665,13 @@ module.exports = Runner;
 
 
 /***/ }),
-/* 389 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayEach = __webpack_require__(126),
-    baseEach = __webpack_require__(91),
-    castFunction = __webpack_require__(390),
-    isArray = __webpack_require__(10);
+var arrayEach = __webpack_require__(132),
+    baseEach = __webpack_require__(95),
+    castFunction = __webpack_require__(403),
+    isArray = __webpack_require__(11);
 
 /**
  * Iterates over elements of `collection` and invokes `iteratee` for each element.
@@ -45259,10 +46712,10 @@ module.exports = forEach;
 
 
 /***/ }),
-/* 390 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(45);
+var identity = __webpack_require__(48);
 
 /**
  * Casts `value` to `identity` if it's not a function.
@@ -45279,14 +46732,14 @@ module.exports = castFunction;
 
 
 /***/ }),
-/* 391 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayFilter = __webpack_require__(219),
-    baseFilter = __webpack_require__(392),
-    baseIteratee = __webpack_require__(47),
-    isArray = __webpack_require__(10),
-    negate = __webpack_require__(240);
+var arrayFilter = __webpack_require__(227),
+    baseFilter = __webpack_require__(405),
+    baseIteratee = __webpack_require__(50),
+    isArray = __webpack_require__(11),
+    negate = __webpack_require__(248);
 
 /**
  * The opposite of `_.filter`; this method returns the elements of `collection`
@@ -45331,10 +46784,10 @@ module.exports = reject;
 
 
 /***/ }),
-/* 392 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseEach = __webpack_require__(91);
+var baseEach = __webpack_require__(95);
 
 /**
  * The base implementation of `_.filter` without support for iteratee shorthands.
@@ -45358,7 +46811,7 @@ module.exports = baseFilter;
 
 
 /***/ }),
-/* 393 */
+/* 406 */
 /***/ (function(module, exports) {
 
 /**
@@ -45382,12 +46835,12 @@ module.exports = iteratorToArray;
 
 
 /***/ }),
-/* 394 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var asciiToArray = __webpack_require__(395),
-    hasUnicode = __webpack_require__(396),
-    unicodeToArray = __webpack_require__(397);
+var asciiToArray = __webpack_require__(408),
+    hasUnicode = __webpack_require__(409),
+    unicodeToArray = __webpack_require__(410);
 
 /**
  * Converts `string` to an array.
@@ -45406,7 +46859,7 @@ module.exports = stringToArray;
 
 
 /***/ }),
-/* 395 */
+/* 408 */
 /***/ (function(module, exports) {
 
 /**
@@ -45424,7 +46877,7 @@ module.exports = asciiToArray;
 
 
 /***/ }),
-/* 396 */
+/* 409 */
 /***/ (function(module, exports) {
 
 /** Used to compose unicode character classes. */
@@ -45456,7 +46909,7 @@ module.exports = hasUnicode;
 
 
 /***/ }),
-/* 397 */
+/* 410 */
 /***/ (function(module, exports) {
 
 /** Used to compose unicode character classes. */
@@ -45502,7 +46955,7 @@ module.exports = unicodeToArray;
 
 
 /***/ }),
-/* 398 */
+/* 411 */
 /***/ (function(module, exports) {
 
 /**
@@ -45521,19 +46974,19 @@ module.exports = {
 
 
 /***/ }),
-/* 399 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayEach = __webpack_require__(126),
-    baseCreate = __webpack_require__(94),
-    baseForOwn = __webpack_require__(208),
-    baseIteratee = __webpack_require__(47),
-    getPrototype = __webpack_require__(112),
-    isArray = __webpack_require__(10),
-    isBuffer = __webpack_require__(65),
-    isFunction = __webpack_require__(115),
-    isObject = __webpack_require__(23),
-    isTypedArray = __webpack_require__(62);
+var arrayEach = __webpack_require__(132),
+    baseCreate = __webpack_require__(98),
+    baseForOwn = __webpack_require__(216),
+    baseIteratee = __webpack_require__(50),
+    getPrototype = __webpack_require__(118),
+    isArray = __webpack_require__(11),
+    isBuffer = __webpack_require__(69),
+    isFunction = __webpack_require__(121),
+    isObject = __webpack_require__(27),
+    isTypedArray = __webpack_require__(66);
 
 /**
  * An alternative to `_.reduce`; this method transforms `object` to a new
@@ -45592,22 +47045,22 @@ module.exports = transform;
 
 
 /***/ }),
-/* 400 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Transaction
 // -------
-const { EventEmitter } = __webpack_require__(12);
-const Debug = __webpack_require__(63);
+const { EventEmitter } = __webpack_require__(13);
+const Debug = __webpack_require__(67);
 
-const makeKnex = __webpack_require__(245);
+const makeKnex = __webpack_require__(253);
 const { callbackify } = __webpack_require__(7);
-const { timeout, KnexTimeoutError } = __webpack_require__(96);
-const finallyMixin = __webpack_require__(234);
+const { timeout, KnexTimeoutError } = __webpack_require__(100);
+const finallyMixin = __webpack_require__(242);
 
 const debug = Debug('knex:tx');
 
-const uniqueId = __webpack_require__(260);
+const uniqueId = __webpack_require__(268);
 
 // FYI: This is defined as a function instead of a constant so that
 //      each Transactor can have its own copy of the default config.
@@ -45962,26 +47415,26 @@ module.exports = Transaction;
 
 
 /***/ }),
-/* 401 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Migrator
 // -------
-const differenceWith = __webpack_require__(402);
-const get = __webpack_require__(224);
-const isEmpty = __webpack_require__(95);
-const max = __webpack_require__(409);
+const differenceWith = __webpack_require__(415);
+const get = __webpack_require__(232);
+const isEmpty = __webpack_require__(99);
+const max = __webpack_require__(422);
 const { inherits } = __webpack_require__(7);
 const {
   getLockTableName,
   getTable,
   getTableName,
-} = __webpack_require__(165);
-const { getSchemaBuilder } = __webpack_require__(248);
-const migrationListResolver = __webpack_require__(412);
-const MigrationGenerator = __webpack_require__(413);
-const { getMergedConfig } = __webpack_require__(252);
-const { isBoolean, isFunction } = __webpack_require__(30);
+} = __webpack_require__(172);
+const { getSchemaBuilder } = __webpack_require__(256);
+const migrationListResolver = __webpack_require__(425);
+const MigrationGenerator = __webpack_require__(426);
+const { getMergedConfig } = __webpack_require__(260);
+const { isBoolean, isFunction } = __webpack_require__(33);
 
 function LockError(msg) {
   this.name = 'MigrationLocked';
@@ -46568,14 +48021,14 @@ module.exports = {
 
 
 /***/ }),
-/* 402 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseDifference = __webpack_require__(403),
-    baseFlatten = __webpack_require__(164),
-    baseRest = __webpack_require__(64),
-    isArrayLikeObject = __webpack_require__(247),
-    last = __webpack_require__(239);
+var baseDifference = __webpack_require__(416),
+    baseFlatten = __webpack_require__(171),
+    baseRest = __webpack_require__(68),
+    isArrayLikeObject = __webpack_require__(255),
+    last = __webpack_require__(247);
 
 /**
  * This method is like `_.difference` except that it accepts `comparator`
@@ -46614,15 +48067,15 @@ module.exports = differenceWith;
 
 
 /***/ }),
-/* 403 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var SetCache = __webpack_require__(212),
-    arrayIncludes = __webpack_require__(246),
-    arrayIncludesWith = __webpack_require__(407),
-    arrayMap = __webpack_require__(68),
-    baseUnary = __webpack_require__(86),
-    cacheHas = __webpack_require__(213);
+var SetCache = __webpack_require__(220),
+    arrayIncludes = __webpack_require__(254),
+    arrayIncludesWith = __webpack_require__(420),
+    arrayMap = __webpack_require__(72),
+    baseUnary = __webpack_require__(90),
+    cacheHas = __webpack_require__(221);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -46687,7 +48140,7 @@ module.exports = baseDifference;
 
 
 /***/ }),
-/* 404 */
+/* 417 */
 /***/ (function(module, exports) {
 
 /**
@@ -46717,7 +48170,7 @@ module.exports = baseFindIndex;
 
 
 /***/ }),
-/* 405 */
+/* 418 */
 /***/ (function(module, exports) {
 
 /**
@@ -46735,7 +48188,7 @@ module.exports = baseIsNaN;
 
 
 /***/ }),
-/* 406 */
+/* 419 */
 /***/ (function(module, exports) {
 
 /**
@@ -46764,7 +48217,7 @@ module.exports = strictIndexOf;
 
 
 /***/ }),
-/* 407 */
+/* 420 */
 /***/ (function(module, exports) {
 
 /**
@@ -46792,12 +48245,12 @@ module.exports = arrayIncludesWith;
 
 
 /***/ }),
-/* 408 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(58),
-    isArguments = __webpack_require__(90),
-    isArray = __webpack_require__(10);
+var Symbol = __webpack_require__(62),
+    isArguments = __webpack_require__(94),
+    isArray = __webpack_require__(11);
 
 /** Built-in value references. */
 var spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
@@ -46818,12 +48271,12 @@ module.exports = isFlattenable;
 
 
 /***/ }),
-/* 409 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseExtremum = __webpack_require__(410),
-    baseGt = __webpack_require__(411),
-    identity = __webpack_require__(45);
+var baseExtremum = __webpack_require__(423),
+    baseGt = __webpack_require__(424),
+    identity = __webpack_require__(48);
 
 /**
  * Computes the maximum value of `array`. If `array` is empty or falsey,
@@ -46853,10 +48306,10 @@ module.exports = max;
 
 
 /***/ }),
-/* 410 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(67);
+var isSymbol = __webpack_require__(71);
 
 /**
  * The base implementation of methods like `_.max` and `_.min` which accepts a
@@ -46891,7 +48344,7 @@ module.exports = baseExtremum;
 
 
 /***/ }),
-/* 411 */
+/* 424 */
 /***/ (function(module, exports) {
 
 /**
@@ -46911,11 +48364,11 @@ module.exports = baseGt;
 
 
 /***/ }),
-/* 412 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { getTableName } = __webpack_require__(165);
-const { ensureTable } = __webpack_require__(248);
+const { getTableName } = __webpack_require__(172);
+const { ensureTable } = __webpack_require__(256);
 
 // Lists all available migration versions, as a sorted array.
 function listAll(migrationSource, loadExtensions) {
@@ -46953,14 +48406,14 @@ module.exports = {
 
 
 /***/ }),
-/* 413 */
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {const path = __webpack_require__(24);
-const { writeJsFileUsingTemplate } = __webpack_require__(249);
-const { getMergedConfig } = __webpack_require__(252);
-const { ensureDirectoryExists } = __webpack_require__(130);
-const { yyyymmddhhmmss } = __webpack_require__(255);
+/* WEBPACK VAR INJECTION */(function(__dirname) {const path = __webpack_require__(28);
+const { writeJsFileUsingTemplate } = __webpack_require__(257);
+const { getMergedConfig } = __webpack_require__(260);
+const { ensureDirectoryExists } = __webpack_require__(136);
+const { yyyymmddhhmmss } = __webpack_require__(263);
 
 class MigrationGenerator {
   constructor(migrationConfig, logger) {
@@ -47043,20 +48496,20 @@ module.exports = MigrationGenerator;
 /* WEBPACK VAR INJECTION */}.call(this, "/"))
 
 /***/ }),
-/* 414 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignInWith = __webpack_require__(415),
-    attempt = __webpack_require__(416),
-    baseValues = __webpack_require__(244),
-    customDefaultsAssignIn = __webpack_require__(417),
-    escapeStringChar = __webpack_require__(418),
-    isError = __webpack_require__(250),
-    isIterateeCall = __webpack_require__(87),
-    keys = __webpack_require__(46),
-    reInterpolate = __webpack_require__(251),
-    templateSettings = __webpack_require__(419),
-    toString = __webpack_require__(125);
+var assignInWith = __webpack_require__(428),
+    attempt = __webpack_require__(429),
+    baseValues = __webpack_require__(252),
+    customDefaultsAssignIn = __webpack_require__(430),
+    escapeStringChar = __webpack_require__(431),
+    isError = __webpack_require__(258),
+    isIterateeCall = __webpack_require__(91),
+    keys = __webpack_require__(49),
+    reInterpolate = __webpack_require__(259),
+    templateSettings = __webpack_require__(432),
+    toString = __webpack_require__(131);
 
 /** Used to match empty string literals in compiled template source. */
 var reEmptyStringLeading = /\b__p \+= '';/g,
@@ -47300,12 +48753,12 @@ module.exports = template;
 
 
 /***/ }),
-/* 415 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(44),
-    createAssigner = __webpack_require__(116),
-    keysIn = __webpack_require__(48);
+var copyObject = __webpack_require__(47),
+    createAssigner = __webpack_require__(122),
+    keysIn = __webpack_require__(51);
 
 /**
  * This method is like `_.assignIn` except that it accepts `customizer`
@@ -47344,12 +48797,12 @@ module.exports = assignInWith;
 
 
 /***/ }),
-/* 416 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = __webpack_require__(117),
-    baseRest = __webpack_require__(64),
-    isError = __webpack_require__(250);
+var apply = __webpack_require__(123),
+    baseRest = __webpack_require__(68),
+    isError = __webpack_require__(258);
 
 /**
  * Attempts to invoke `func`, returning either the result or the caught error
@@ -47385,10 +48838,10 @@ module.exports = attempt;
 
 
 /***/ }),
-/* 417 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(60);
+var eq = __webpack_require__(64);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -47420,7 +48873,7 @@ module.exports = customDefaultsAssignIn;
 
 
 /***/ }),
-/* 418 */
+/* 431 */
 /***/ (function(module, exports) {
 
 /** Used to escape characters for inclusion in compiled string literals. */
@@ -47448,13 +48901,13 @@ module.exports = escapeStringChar;
 
 
 /***/ }),
-/* 419 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var escape = __webpack_require__(420),
-    reEscape = __webpack_require__(423),
-    reEvaluate = __webpack_require__(424),
-    reInterpolate = __webpack_require__(251);
+var escape = __webpack_require__(433),
+    reEscape = __webpack_require__(436),
+    reEvaluate = __webpack_require__(437),
+    reInterpolate = __webpack_require__(259);
 
 /**
  * By default, the template delimiters used by lodash are like those in
@@ -47521,11 +48974,11 @@ module.exports = templateSettings;
 
 
 /***/ }),
-/* 420 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var escapeHtmlChar = __webpack_require__(421),
-    toString = __webpack_require__(125);
+var escapeHtmlChar = __webpack_require__(434),
+    toString = __webpack_require__(131);
 
 /** Used to match HTML entities and HTML characters. */
 var reUnescapedHtml = /[&<>"']/g,
@@ -47570,10 +49023,10 @@ module.exports = escape;
 
 
 /***/ }),
-/* 421 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var basePropertyOf = __webpack_require__(422);
+var basePropertyOf = __webpack_require__(435);
 
 /** Used to map characters to HTML entities. */
 var htmlEscapes = {
@@ -47597,7 +49050,7 @@ module.exports = escapeHtmlChar;
 
 
 /***/ }),
-/* 422 */
+/* 435 */
 /***/ (function(module, exports) {
 
 /**
@@ -47617,7 +49070,7 @@ module.exports = basePropertyOf;
 
 
 /***/ }),
-/* 423 */
+/* 436 */
 /***/ (function(module, exports) {
 
 /** Used to match template delimiters. */
@@ -47627,7 +49080,7 @@ module.exports = reEscape;
 
 
 /***/ }),
-/* 424 */
+/* 437 */
 /***/ (function(module, exports) {
 
 /** Used to match template delimiters. */
@@ -47637,13 +49090,13 @@ module.exports = reEvaluate;
 
 
 /***/ }),
-/* 425 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const path = __webpack_require__(24);
-const sortBy = __webpack_require__(426);
+const path = __webpack_require__(28);
+const sortBy = __webpack_require__(439);
 
-const { readdir } = __webpack_require__(130);
+const { readdir } = __webpack_require__(136);
 
 const DEFAULT_LOAD_EXTENSIONS = Object.freeze([
   '.co',
@@ -47722,7 +49175,7 @@ class FsMigrations {
   getMigration(migration) {
     const absoluteDir = path.resolve(process.cwd(), migration.directory);
     const _path = path.join(absoluteDir, migration.file);
-    const importFile = __webpack_require__(166); // late import
+    const importFile = __webpack_require__(173); // late import
     return importFile(_path);
   }
 }
@@ -47742,13 +49195,13 @@ module.exports = {
 
 
 /***/ }),
-/* 426 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFlatten = __webpack_require__(164),
-    baseOrderBy = __webpack_require__(427),
-    baseRest = __webpack_require__(64),
-    isIterateeCall = __webpack_require__(87);
+var baseFlatten = __webpack_require__(171),
+    baseOrderBy = __webpack_require__(440),
+    baseRest = __webpack_require__(68),
+    isIterateeCall = __webpack_require__(91);
 
 /**
  * Creates an array of elements, sorted in ascending order by the results of
@@ -47796,18 +49249,18 @@ module.exports = sortBy;
 
 
 /***/ }),
-/* 427 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(68),
-    baseGet = __webpack_require__(123),
-    baseIteratee = __webpack_require__(47),
-    baseMap = __webpack_require__(253),
-    baseSortBy = __webpack_require__(428),
-    baseUnary = __webpack_require__(86),
-    compareMultiple = __webpack_require__(429),
-    identity = __webpack_require__(45),
-    isArray = __webpack_require__(10);
+var arrayMap = __webpack_require__(72),
+    baseGet = __webpack_require__(129),
+    baseIteratee = __webpack_require__(50),
+    baseMap = __webpack_require__(261),
+    baseSortBy = __webpack_require__(441),
+    baseUnary = __webpack_require__(90),
+    compareMultiple = __webpack_require__(442),
+    identity = __webpack_require__(48),
+    isArray = __webpack_require__(11);
 
 /**
  * The base implementation of `_.orderBy` without param guards.
@@ -47851,7 +49304,7 @@ module.exports = baseOrderBy;
 
 
 /***/ }),
-/* 428 */
+/* 441 */
 /***/ (function(module, exports) {
 
 /**
@@ -47878,10 +49331,10 @@ module.exports = baseSortBy;
 
 
 /***/ }),
-/* 429 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var compareAscending = __webpack_require__(430);
+var compareAscending = __webpack_require__(443);
 
 /**
  * Used by `_.orderBy` to compare multiple properties of a value to another
@@ -47928,10 +49381,10 @@ module.exports = compareMultiple;
 
 
 /***/ }),
-/* 430 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(67);
+var isSymbol = __webpack_require__(71);
 
 /**
  * Compares values to sort them in ascending order.
@@ -47975,7 +49428,7 @@ module.exports = compareAscending;
 
 
 /***/ }),
-/* 431 */
+/* 444 */
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -47990,10 +49443,10 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 431;
+webpackEmptyAsyncContext.id = 444;
 
 /***/ }),
-/* 432 */
+/* 445 */
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -48004,10 +49457,10 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 432;
+webpackEmptyContext.id = 445;
 
 /***/ }),
-/* 433 */
+/* 446 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48130,19 +49583,19 @@ const bgWhiteBright = init(107, 49)
 
 
 /***/ }),
-/* 434 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(__dirname) {// Seeder
 // -------
 
-const path = __webpack_require__(24);
-const flatten = __webpack_require__(256);
-const extend = __webpack_require__(131);
-const includes = __webpack_require__(436);
-const { ensureDirectoryExists, getFilepathsInFolder } = __webpack_require__(130);
-const { writeJsFileUsingTemplate } = __webpack_require__(249);
-const { yyyymmddhhmmss } = __webpack_require__(255);
+const path = __webpack_require__(28);
+const flatten = __webpack_require__(264);
+const extend = __webpack_require__(137);
+const includes = __webpack_require__(449);
+const { ensureDirectoryExists, getFilepathsInFolder } = __webpack_require__(136);
+const { writeJsFileUsingTemplate } = __webpack_require__(257);
+const { yyyymmddhhmmss } = __webpack_require__(263);
 
 const filterByLoadExtensions = (extensions) => (value) => {
   const extension = path.extname(value);
@@ -48220,7 +49673,7 @@ class Seeder {
 
   // Validates seed files by requiring and checking for a `seed` function.
   async _validateSeedStructure(filepath) {
-    const importFile = __webpack_require__(166); // late import
+    const importFile = __webpack_require__(173); // late import
     const seed = await importFile(filepath);
     if (typeof seed.seed !== 'function') {
       throw new Error(
@@ -48272,7 +49725,7 @@ class Seeder {
     const { knex } = this;
     const log = [];
     for (const seedPath of seeds) {
-      const importFile = __webpack_require__(166); // late import
+      const importFile = __webpack_require__(173); // late import
       const seed = await importFile(seedPath);
       try {
         await seed.seed(knex);
@@ -48341,12 +49794,12 @@ module.exports = Seeder;
 /* WEBPACK VAR INJECTION */}.call(this, "/"))
 
 /***/ }),
-/* 435 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(44),
-    createAssigner = __webpack_require__(116),
-    keysIn = __webpack_require__(48);
+var copyObject = __webpack_require__(47),
+    createAssigner = __webpack_require__(122),
+    keysIn = __webpack_require__(51);
 
 /**
  * This method is like `_.assign` except that it iterates over own and
@@ -48387,14 +49840,14 @@ module.exports = assignIn;
 
 
 /***/ }),
-/* 436 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIndexOf = __webpack_require__(163),
-    isArrayLike = __webpack_require__(34),
-    isString = __webpack_require__(242),
-    toInteger = __webpack_require__(132),
-    values = __webpack_require__(243);
+var baseIndexOf = __webpack_require__(170),
+    isArrayLike = __webpack_require__(38),
+    isString = __webpack_require__(250),
+    toInteger = __webpack_require__(138),
+    values = __webpack_require__(251);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -48446,10 +49899,10 @@ module.exports = includes;
 
 
 /***/ }),
-/* 437 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toNumber = __webpack_require__(438);
+var toNumber = __webpack_require__(451);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0,
@@ -48494,11 +49947,11 @@ module.exports = toFinite;
 
 
 /***/ }),
-/* 438 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(23),
-    isSymbol = __webpack_require__(67);
+var isObject = __webpack_require__(27),
+    isSymbol = __webpack_require__(71);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -48566,7 +50019,7 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 439 */
+/* 452 */
 /***/ (function(module, exports) {
 
 // FunctionHelper
@@ -48586,11 +50039,11 @@ module.exports = FunctionHelper;
 
 
 /***/ }),
-/* 440 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseMerge = __webpack_require__(441),
-    createAssigner = __webpack_require__(116);
+var baseMerge = __webpack_require__(454),
+    createAssigner = __webpack_require__(122);
 
 /**
  * This method is like `_.assign` except that it recursively merges own and
@@ -48631,16 +50084,16 @@ module.exports = merge;
 
 
 /***/ }),
-/* 441 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(118),
-    assignMergeValue = __webpack_require__(258),
-    baseFor = __webpack_require__(209),
-    baseMergeDeep = __webpack_require__(442),
-    isObject = __webpack_require__(23),
-    keysIn = __webpack_require__(48),
-    safeGet = __webpack_require__(259);
+var Stack = __webpack_require__(124),
+    assignMergeValue = __webpack_require__(266),
+    baseFor = __webpack_require__(217),
+    baseMergeDeep = __webpack_require__(455),
+    isObject = __webpack_require__(27),
+    keysIn = __webpack_require__(51),
+    safeGet = __webpack_require__(267);
 
 /**
  * The base implementation of `_.merge` without support for multiple sources.
@@ -48679,24 +50132,24 @@ module.exports = baseMerge;
 
 
 /***/ }),
-/* 442 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignMergeValue = __webpack_require__(258),
-    cloneBuffer = __webpack_require__(229),
-    cloneTypedArray = __webpack_require__(232),
-    copyArray = __webpack_require__(93),
-    initCloneObject = __webpack_require__(233),
-    isArguments = __webpack_require__(90),
-    isArray = __webpack_require__(10),
-    isArrayLikeObject = __webpack_require__(247),
-    isBuffer = __webpack_require__(65),
-    isFunction = __webpack_require__(115),
-    isObject = __webpack_require__(23),
-    isPlainObject = __webpack_require__(85),
-    isTypedArray = __webpack_require__(62),
-    safeGet = __webpack_require__(259),
-    toPlainObject = __webpack_require__(443);
+var assignMergeValue = __webpack_require__(266),
+    cloneBuffer = __webpack_require__(237),
+    cloneTypedArray = __webpack_require__(240),
+    copyArray = __webpack_require__(97),
+    initCloneObject = __webpack_require__(241),
+    isArguments = __webpack_require__(94),
+    isArray = __webpack_require__(11),
+    isArrayLikeObject = __webpack_require__(255),
+    isBuffer = __webpack_require__(69),
+    isFunction = __webpack_require__(121),
+    isObject = __webpack_require__(27),
+    isPlainObject = __webpack_require__(89),
+    isTypedArray = __webpack_require__(66),
+    safeGet = __webpack_require__(267),
+    toPlainObject = __webpack_require__(456);
 
 /**
  * A specialized version of `baseMerge` for arrays and objects which performs
@@ -48779,11 +50232,11 @@ module.exports = baseMergeDeep;
 
 
 /***/ }),
-/* 443 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(44),
-    keysIn = __webpack_require__(48);
+var copyObject = __webpack_require__(47),
+    keysIn = __webpack_require__(51);
 
 /**
  * Converts `value` to a plain object flattening inherited enumerable string
@@ -48817,13 +50270,13 @@ module.exports = toPlainObject;
 
 
 /***/ }),
-/* 444 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const chunk = __webpack_require__(445);
-const flatten = __webpack_require__(256);
-const delay = __webpack_require__(446);
-const { isNumber } = __webpack_require__(30);
+const chunk = __webpack_require__(458);
+const flatten = __webpack_require__(264);
+const delay = __webpack_require__(459);
+const { isNumber } = __webpack_require__(33);
 
 module.exports = function batchInsert(
   client,
@@ -48882,12 +50335,12 @@ module.exports = function batchInsert(
 
 
 /***/ }),
-/* 445 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSlice = __webpack_require__(241),
-    isIterateeCall = __webpack_require__(87),
-    toInteger = __webpack_require__(132);
+var baseSlice = __webpack_require__(249),
+    isIterateeCall = __webpack_require__(91),
+    toInteger = __webpack_require__(138);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeCeil = Math.ceil,
@@ -48938,7 +50391,7 @@ module.exports = chunk;
 
 
 /***/ }),
-/* 446 */
+/* 459 */
 /***/ (function(module, exports) {
 
 /**
@@ -48950,13 +50403,13 @@ module.exports = (delay) =>
 
 
 /***/ }),
-/* 447 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseRest = __webpack_require__(64),
-    createWrap = __webpack_require__(448),
-    getHolder = __webpack_require__(169),
-    replaceHolders = __webpack_require__(134);
+var baseRest = __webpack_require__(68),
+    createWrap = __webpack_require__(461),
+    getHolder = __webpack_require__(176),
+    replaceHolders = __webpack_require__(140);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1,
@@ -49013,19 +50466,19 @@ module.exports = bind;
 
 
 /***/ }),
-/* 448 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSetData = __webpack_require__(262),
-    createBind = __webpack_require__(449),
-    createCurry = __webpack_require__(450),
-    createHybrid = __webpack_require__(264),
-    createPartial = __webpack_require__(462),
-    getData = __webpack_require__(268),
-    mergeData = __webpack_require__(463),
-    setData = __webpack_require__(270),
-    setWrapToString = __webpack_require__(271),
-    toInteger = __webpack_require__(132);
+var baseSetData = __webpack_require__(270),
+    createBind = __webpack_require__(462),
+    createCurry = __webpack_require__(463),
+    createHybrid = __webpack_require__(272),
+    createPartial = __webpack_require__(475),
+    getData = __webpack_require__(276),
+    mergeData = __webpack_require__(476),
+    setData = __webpack_require__(278),
+    setWrapToString = __webpack_require__(279),
+    toInteger = __webpack_require__(138);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -49125,11 +50578,11 @@ module.exports = createWrap;
 
 
 /***/ }),
-/* 449 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createCtor = __webpack_require__(133),
-    root = __webpack_require__(21);
+var createCtor = __webpack_require__(139),
+    root = __webpack_require__(24);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1;
@@ -49159,16 +50612,16 @@ module.exports = createBind;
 
 
 /***/ }),
-/* 450 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = __webpack_require__(117),
-    createCtor = __webpack_require__(133),
-    createHybrid = __webpack_require__(264),
-    createRecurry = __webpack_require__(267),
-    getHolder = __webpack_require__(169),
-    replaceHolders = __webpack_require__(134),
-    root = __webpack_require__(21);
+var apply = __webpack_require__(123),
+    createCtor = __webpack_require__(139),
+    createHybrid = __webpack_require__(272),
+    createRecurry = __webpack_require__(275),
+    getHolder = __webpack_require__(176),
+    replaceHolders = __webpack_require__(140),
+    root = __webpack_require__(24);
 
 /**
  * Creates a function that wraps `func` to enable currying.
@@ -49211,7 +50664,7 @@ module.exports = createCurry;
 
 
 /***/ }),
-/* 451 */
+/* 464 */
 /***/ (function(module, exports) {
 
 /**
@@ -49238,13 +50691,13 @@ module.exports = countHolders;
 
 
 /***/ }),
-/* 452 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var LazyWrapper = __webpack_require__(167),
-    getData = __webpack_require__(268),
-    getFuncName = __webpack_require__(454),
-    lodash = __webpack_require__(456);
+var LazyWrapper = __webpack_require__(174),
+    getData = __webpack_require__(276),
+    getFuncName = __webpack_require__(467),
+    lodash = __webpack_require__(469);
 
 /**
  * Checks if `func` has a lazy counterpart.
@@ -49272,7 +50725,7 @@ module.exports = isLaziable;
 
 
 /***/ }),
-/* 453 */
+/* 466 */
 /***/ (function(module, exports) {
 
 /**
@@ -49295,10 +50748,10 @@ module.exports = noop;
 
 
 /***/ }),
-/* 454 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var realNames = __webpack_require__(455);
+var realNames = __webpack_require__(468);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -49332,7 +50785,7 @@ module.exports = getFuncName;
 
 
 /***/ }),
-/* 455 */
+/* 468 */
 /***/ (function(module, exports) {
 
 /** Used to lookup unminified function names. */
@@ -49342,15 +50795,15 @@ module.exports = realNames;
 
 
 /***/ }),
-/* 456 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var LazyWrapper = __webpack_require__(167),
-    LodashWrapper = __webpack_require__(269),
-    baseLodash = __webpack_require__(168),
-    isArray = __webpack_require__(10),
-    isObjectLike = __webpack_require__(29),
-    wrapperClone = __webpack_require__(457);
+var LazyWrapper = __webpack_require__(174),
+    LodashWrapper = __webpack_require__(277),
+    baseLodash = __webpack_require__(175),
+    isArray = __webpack_require__(11),
+    isObjectLike = __webpack_require__(32),
+    wrapperClone = __webpack_require__(470);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -49495,12 +50948,12 @@ module.exports = lodash;
 
 
 /***/ }),
-/* 457 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var LazyWrapper = __webpack_require__(167),
-    LodashWrapper = __webpack_require__(269),
-    copyArray = __webpack_require__(93);
+var LazyWrapper = __webpack_require__(174),
+    LodashWrapper = __webpack_require__(277),
+    copyArray = __webpack_require__(97);
 
 /**
  * Creates a clone of `wrapper`.
@@ -49524,7 +50977,7 @@ module.exports = wrapperClone;
 
 
 /***/ }),
-/* 458 */
+/* 471 */
 /***/ (function(module, exports) {
 
 /** Used to match wrap detail comments. */
@@ -49547,7 +51000,7 @@ module.exports = getWrapDetails;
 
 
 /***/ }),
-/* 459 */
+/* 472 */
 /***/ (function(module, exports) {
 
 /** Used to match wrap detail comments. */
@@ -49576,11 +51029,11 @@ module.exports = insertWrapDetails;
 
 
 /***/ }),
-/* 460 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayEach = __webpack_require__(126),
-    arrayIncludes = __webpack_require__(246);
+var arrayEach = __webpack_require__(132),
+    arrayIncludes = __webpack_require__(254);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1,
@@ -49628,11 +51081,11 @@ module.exports = updateWrapDetails;
 
 
 /***/ }),
-/* 461 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyArray = __webpack_require__(93),
-    isIndex = __webpack_require__(88);
+var copyArray = __webpack_require__(97),
+    isIndex = __webpack_require__(92);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMin = Math.min;
@@ -49663,12 +51116,12 @@ module.exports = reorder;
 
 
 /***/ }),
-/* 462 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = __webpack_require__(117),
-    createCtor = __webpack_require__(133),
-    root = __webpack_require__(21);
+var apply = __webpack_require__(123),
+    createCtor = __webpack_require__(139),
+    root = __webpack_require__(24);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1;
@@ -49712,12 +51165,12 @@ module.exports = createPartial;
 
 
 /***/ }),
-/* 463 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var composeArgs = __webpack_require__(265),
-    composeArgsRight = __webpack_require__(266),
-    replaceHolders = __webpack_require__(134);
+var composeArgs = __webpack_require__(273),
+    composeArgsRight = __webpack_require__(274),
+    replaceHolders = __webpack_require__(140);
 
 /** Used as the internal argument placeholder. */
 var PLACEHOLDER = '__lodash_placeholder__';
@@ -49808,7 +51261,7 @@ module.exports = mergeData;
 
 
 /***/ }),
-/* 464 */
+/* 477 */
 /***/ (function(module, exports) {
 
 /**
@@ -49845,13 +51298,13 @@ module.exports = compact;
 
 
 /***/ }),
-/* 465 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayAggregator = __webpack_require__(466),
-    baseAggregator = __webpack_require__(467),
-    baseIteratee = __webpack_require__(47),
-    isArray = __webpack_require__(10);
+var arrayAggregator = __webpack_require__(479),
+    baseAggregator = __webpack_require__(480),
+    baseIteratee = __webpack_require__(50),
+    isArray = __webpack_require__(11);
 
 /**
  * Creates a function like `_.groupBy`.
@@ -49874,7 +51327,7 @@ module.exports = createAggregator;
 
 
 /***/ }),
-/* 466 */
+/* 479 */
 /***/ (function(module, exports) {
 
 /**
@@ -49902,10 +51355,10 @@ module.exports = arrayAggregator;
 
 
 /***/ }),
-/* 467 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseEach = __webpack_require__(91);
+var baseEach = __webpack_require__(95);
 
 /**
  * Aggregates elements of `collection` on `accumulator` with keys transformed
@@ -49929,7 +51382,7 @@ module.exports = baseAggregator;
 
 
 /***/ }),
-/* 468 */
+/* 481 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -49954,12 +51407,12 @@ module.exports = baseHas;
 
 
 /***/ }),
-/* 469 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(47),
-    negate = __webpack_require__(240),
-    pickBy = __webpack_require__(470);
+var baseIteratee = __webpack_require__(50),
+    negate = __webpack_require__(248),
+    pickBy = __webpack_require__(483);
 
 /**
  * The opposite of `_.pickBy`; this method creates an object composed of
@@ -49989,13 +51442,13 @@ module.exports = omitBy;
 
 
 /***/ }),
-/* 470 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(68),
-    baseIteratee = __webpack_require__(47),
-    basePickBy = __webpack_require__(471),
-    getAllKeysIn = __webpack_require__(231);
+var arrayMap = __webpack_require__(72),
+    baseIteratee = __webpack_require__(50),
+    basePickBy = __webpack_require__(484),
+    getAllKeysIn = __webpack_require__(239);
 
 /**
  * Creates an object composed of the `object` properties `predicate` returns
@@ -50032,12 +51485,12 @@ module.exports = pickBy;
 
 
 /***/ }),
-/* 471 */
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGet = __webpack_require__(123),
-    baseSet = __webpack_require__(472),
-    castPath = __webpack_require__(124);
+var baseGet = __webpack_require__(129),
+    baseSet = __webpack_require__(485),
+    castPath = __webpack_require__(130);
 
 /**
  * The base implementation of  `_.pickBy` without support for iteratee shorthands.
@@ -50068,14 +51521,14 @@ module.exports = basePickBy;
 
 
 /***/ }),
-/* 472 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignValue = __webpack_require__(113),
-    castPath = __webpack_require__(124),
-    isIndex = __webpack_require__(88),
-    isObject = __webpack_require__(23),
-    toKey = __webpack_require__(92);
+var assignValue = __webpack_require__(119),
+    castPath = __webpack_require__(130),
+    isIndex = __webpack_require__(92),
+    isObject = __webpack_require__(27),
+    toKey = __webpack_require__(96);
 
 /**
  * The base implementation of `_.set`.
@@ -50125,14 +51578,14 @@ module.exports = baseSet;
 
 
 /***/ }),
-/* 473 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { inherits } = __webpack_require__(7);
-const { EventEmitter } = __webpack_require__(12);
-const toArray = __webpack_require__(129);
-const { addQueryContext } = __webpack_require__(42);
-const saveAsyncStack = __webpack_require__(160);
+const { EventEmitter } = __webpack_require__(13);
+const toArray = __webpack_require__(135);
+const { addQueryContext } = __webpack_require__(45);
+const saveAsyncStack = __webpack_require__(167);
 
 // Constructor for the builder instance, typically called from
 // `knex.builder`, accepting the current `knex` instance,
@@ -50193,7 +51646,7 @@ inherits(SchemaBuilder, EventEmitter);
   };
 });
 
-__webpack_require__(161)(SchemaBuilder);
+__webpack_require__(168)(SchemaBuilder);
 addQueryContext(SchemaBuilder);
 
 SchemaBuilder.prototype.withSchema = function (schemaName) {
@@ -50213,7 +51666,7 @@ module.exports = SchemaBuilder;
 
 
 /***/ }),
-/* 474 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // TableBuilder
@@ -50224,11 +51677,11 @@ module.exports = SchemaBuilder;
 // method, pushing everything we want to do onto the "allStatements" array,
 // which is then compiled into sql.
 // ------
-const each = __webpack_require__(238);
-const extend = __webpack_require__(131);
-const toArray = __webpack_require__(129);
-const helpers = __webpack_require__(42);
-const { isString, isFunction } = __webpack_require__(30);
+const each = __webpack_require__(246);
+const extend = __webpack_require__(137);
+const toArray = __webpack_require__(135);
+const helpers = __webpack_require__(45);
+const { isString, isFunction } = __webpack_require__(33);
 
 function TableBuilder(client, method, tableName, fn) {
   this.client = client;
@@ -50507,11 +51960,11 @@ module.exports = TableBuilder;
 
 
 /***/ }),
-/* 475 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIndexOf = __webpack_require__(163),
-    toInteger = __webpack_require__(132);
+var baseIndexOf = __webpack_require__(170),
+    toInteger = __webpack_require__(138);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -50555,12 +52008,12 @@ module.exports = indexOf;
 
 
 /***/ }),
-/* 476 */
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const extend = __webpack_require__(131);
-const toArray = __webpack_require__(129);
-const { addQueryContext } = __webpack_require__(42);
+const extend = __webpack_require__(137);
+const toArray = __webpack_require__(135);
+const { addQueryContext } = __webpack_require__(45);
 
 // The chainable interface off the original "column" method.
 function ColumnBuilder(client, tableBuilder, type, args) {
@@ -50678,14 +52131,14 @@ module.exports = ColumnBuilder;
 
 
 /***/ }),
-/* 477 */
+/* 490 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(478);
+module.exports = __webpack_require__(491);
 
 
 /***/ }),
-/* 478 */
+/* 491 */
 /***/ (function(module, exports) {
 
 /**
@@ -50714,15 +52167,15 @@ module.exports = head;
 
 
 /***/ }),
-/* 479 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Pool_1 = __webpack_require__(480);
+const Pool_1 = __webpack_require__(493);
 exports.Pool = Pool_1.Pool;
-const TimeoutError_1 = __webpack_require__(276);
+const TimeoutError_1 = __webpack_require__(284);
 exports.TimeoutError = TimeoutError_1.TimeoutError;
 module.exports = {
     Pool: Pool_1.Pool,
@@ -50731,17 +52184,17 @@ module.exports = {
 
 
 /***/ }),
-/* 480 */
+/* 493 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const PendingOperation_1 = __webpack_require__(481);
-const Resource_1 = __webpack_require__(483);
-const utils_1 = __webpack_require__(173);
-const events_1 = __webpack_require__(12);
-const timers_1 = __webpack_require__(484);
+const PendingOperation_1 = __webpack_require__(494);
+const Resource_1 = __webpack_require__(496);
+const utils_1 = __webpack_require__(180);
+const events_1 = __webpack_require__(13);
+const timers_1 = __webpack_require__(497);
 class Pool {
     constructor(opt) {
         this.destroyed = false;
@@ -51248,14 +52701,14 @@ function callbackOrPromise(func) {
 
 
 /***/ }),
-/* 481 */
+/* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const TimeoutError_1 = __webpack_require__(276);
-const utils_1 = __webpack_require__(173);
+const TimeoutError_1 = __webpack_require__(284);
+const utils_1 = __webpack_require__(180);
 class PendingOperation {
     constructor(timeoutMillis) {
         this.timeoutMillis = timeoutMillis;
@@ -51303,7 +52756,7 @@ function timeout(promise, time) {
 
 
 /***/ }),
-/* 482 */
+/* 495 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51331,13 +52784,13 @@ exports.PromiseInspection = PromiseInspection;
 
 
 /***/ }),
-/* 483 */
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(173);
+const utils_1 = __webpack_require__(180);
 class Resource {
     constructor(resource) {
         this.resource = resource;
@@ -51357,16 +52810,16 @@ exports.Resource = Resource;
 
 
 /***/ }),
-/* 484 */
+/* 497 */
 /***/ (function(module, exports) {
 
 module.exports = require("timers");
 
 /***/ }),
-/* 485 */
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseClone = __webpack_require__(228);
+var baseClone = __webpack_require__(236);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -51398,13 +52851,13 @@ module.exports = cloneDeep;
 
 
 /***/ }),
-/* 486 */
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseRest = __webpack_require__(64),
-    eq = __webpack_require__(60),
-    isIterateeCall = __webpack_require__(87),
-    keysIn = __webpack_require__(48);
+var baseRest = __webpack_require__(68),
+    eq = __webpack_require__(64),
+    isIterateeCall = __webpack_require__(91),
+    keysIn = __webpack_require__(51);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -51468,11 +52921,11 @@ module.exports = defaults;
 
 
 /***/ }),
-/* 487 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const url = __webpack_require__(8);
-const { parse } = __webpack_require__(488);
+const url = __webpack_require__(9);
+const { parse } = __webpack_require__(501);
 const parsePG = parse;
 const isWindows = process && process.platform && process.platform === 'win32';
 
@@ -51540,14 +52993,14 @@ function connectionObject(parsed) {
 
 
 /***/ }),
-/* 488 */
+/* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var url = __webpack_require__(8)
-var fs = __webpack_require__(15)
+var url = __webpack_require__(9)
+var fs = __webpack_require__(16)
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -51636,10 +53089,10 @@ parse.parse = parse
 
 
 /***/ }),
-/* 489 */
+/* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Formatter = __webpack_require__(236);
+const Formatter = __webpack_require__(244);
 
 const fakeClient = {
   formatter(builder) {
@@ -51651,11 +53104,11 @@ module.exports = fakeClient;
 
 
 /***/ }),
-/* 490 */
+/* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./postgres/index.js": 491
+	"./postgres/index.js": 504
 };
 
 
@@ -51676,25 +53129,25 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 490;
+webpackContext.id = 503;
 
 /***/ }),
-/* 491 */
+/* 504 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL
 // -------
-const extend = __webpack_require__(131);
-const map = __webpack_require__(272);
+const extend = __webpack_require__(137);
+const map = __webpack_require__(280);
 const { promisify, inherits } = __webpack_require__(7);
-const Client = __webpack_require__(235);
+const Client = __webpack_require__(243);
 
-const QueryCompiler = __webpack_require__(492);
-const ColumnCompiler = __webpack_require__(493);
-const TableCompiler = __webpack_require__(494);
-const SchemaCompiler = __webpack_require__(495);
-const { makeEscape } = __webpack_require__(277);
-const { isString } = __webpack_require__(30);
+const QueryCompiler = __webpack_require__(505);
+const ColumnCompiler = __webpack_require__(506);
+const TableCompiler = __webpack_require__(507);
+const SchemaCompiler = __webpack_require__(508);
+const { makeEscape } = __webpack_require__(285);
+const { isString } = __webpack_require__(33);
 
 function Client_PG(config) {
   Client.apply(this, arguments);
@@ -51730,7 +53183,7 @@ Object.assign(Client_PG.prototype, {
   driverName: 'pg',
 
   _driver() {
-    return __webpack_require__(278);
+    return __webpack_require__(286);
   },
 
   _escapeBinding: makeEscape({
@@ -51886,7 +53339,7 @@ Object.assign(Client_PG.prototype, {
   _stream(connection, obj, stream, options) {
     const PGQueryStream = process.browser
       ? undefined
-      : __webpack_require__(533);
+      : __webpack_require__(546);
     const sql = obj.sql;
 
     return new Promise(function (resolver, rejecter) {
@@ -52004,15 +53457,15 @@ module.exports = Client_PG;
 
 
 /***/ }),
-/* 492 */
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Query Builder & Compiler
 // ------
-const QueryCompiler = __webpack_require__(261);
+const QueryCompiler = __webpack_require__(269);
 
-const identity = __webpack_require__(45);
-const reduce = __webpack_require__(154);
+const identity = __webpack_require__(48);
+const reduce = __webpack_require__(161);
 
 class QueryCompiler_PG extends QueryCompiler {
   constructor(client, builder) {
@@ -52213,15 +53666,15 @@ module.exports = QueryCompiler_PG;
 
 
 /***/ }),
-/* 493 */
+/* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Column Compiler
 // -------
 
 const { inherits } = __webpack_require__(7);
-const ColumnCompiler = __webpack_require__(275);
-const { isObject } = __webpack_require__(30);
+const ColumnCompiler = __webpack_require__(283);
+const { isObject } = __webpack_require__(33);
 const commentEscapeRegex = /(?<!')'(?!')/g;
 
 function ColumnCompiler_PG() {
@@ -52344,7 +53797,7 @@ module.exports = ColumnCompiler_PG;
 
 
 /***/ }),
-/* 494 */
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint max-len: 0 */
@@ -52353,9 +53806,9 @@ module.exports = ColumnCompiler_PG;
 // -------
 
 const { inherits } = __webpack_require__(7);
-const TableCompiler = __webpack_require__(274);
+const TableCompiler = __webpack_require__(282);
 
-const has = __webpack_require__(171);
+const has = __webpack_require__(178);
 
 function TableCompiler_PG() {
   TableCompiler.apply(this, arguments);
@@ -52533,14 +53986,14 @@ module.exports = TableCompiler_PG;
 
 
 /***/ }),
-/* 495 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Schema Compiler
 // -------
 
 const { inherits } = __webpack_require__(7);
-const SchemaCompiler = __webpack_require__(273);
+const SchemaCompiler = __webpack_require__(281);
 
 function SchemaCompiler_PG() {
   SchemaCompiler.apply(this, arguments);
@@ -52648,7 +54101,7 @@ module.exports = SchemaCompiler_PG;
 
 
 /***/ }),
-/* 496 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52661,19 +54114,19 @@ module.exports = SchemaCompiler_PG;
  * README.md file in the root directory of this source tree.
  */
 
-var EventEmitter = __webpack_require__(12).EventEmitter
+var EventEmitter = __webpack_require__(13).EventEmitter
 var util = __webpack_require__(7)
-var utils = __webpack_require__(135)
-var sasl = __webpack_require__(505)
-var pgPass = __webpack_require__(506)
-var TypeOverrides = __webpack_require__(288)
+var utils = __webpack_require__(141)
+var sasl = __webpack_require__(518)
+var pgPass = __webpack_require__(519)
+var TypeOverrides = __webpack_require__(296)
 
-var ConnectionParameters = __webpack_require__(289)
-var Query = __webpack_require__(521)
-var defaults = __webpack_require__(136)
-var Connection = __webpack_require__(292)
+var ConnectionParameters = __webpack_require__(297)
+var Query = __webpack_require__(534)
+var defaults = __webpack_require__(142)
+var Connection = __webpack_require__(300)
 if (process.env.PG_FAST_CONNECTION) {
-  Connection = __webpack_require__(523)
+  Connection = __webpack_require__(536)
 }
 
 var Client = function (config) {
@@ -53223,14 +54676,14 @@ module.exports = Client
 
 
 /***/ }),
-/* 497 */
+/* 510 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var array = __webpack_require__(279)
-var arrayParser = __webpack_require__(280);
-var parseDate = __webpack_require__(498);
-var parseInterval = __webpack_require__(499);
-var parseByteA = __webpack_require__(501);
+var array = __webpack_require__(287)
+var arrayParser = __webpack_require__(288);
+var parseDate = __webpack_require__(511);
+var parseInterval = __webpack_require__(512);
+var parseByteA = __webpack_require__(514);
 
 function allowNull (fn) {
   return function nullAllowed (value) {
@@ -53444,7 +54897,7 @@ module.exports = {
 
 
 /***/ }),
-/* 498 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53567,13 +55020,13 @@ function is0To99 (num) {
 
 
 /***/ }),
-/* 499 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var extend = __webpack_require__(500)
+var extend = __webpack_require__(513)
 
 module.exports = PostgresInterval
 
@@ -53699,7 +55152,7 @@ function parse (interval) {
 
 
 /***/ }),
-/* 500 */
+/* 513 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -53722,7 +55175,7 @@ function extend(target) {
 
 
 /***/ }),
-/* 501 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53760,10 +55213,10 @@ module.exports = function parseBytea (input) {
 
 
 /***/ }),
-/* 502 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parseInt64 = __webpack_require__(503);
+var parseInt64 = __webpack_require__(516);
 
 var parseBits = function(data, bits, offset, invert, callback) {
   offset = offset || 0;
@@ -54023,7 +55476,7 @@ module.exports = {
 
 
 /***/ }),
-/* 503 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54130,7 +55583,7 @@ module.exports = readInt8;
 
 
 /***/ }),
-/* 504 */
+/* 517 */
 /***/ (function(module, exports) {
 
 /**
@@ -54209,12 +55662,12 @@ module.exports = {
 
 
 /***/ }),
-/* 505 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const crypto = __webpack_require__(174)
+const crypto = __webpack_require__(106)
 
 function startSession (mechanisms) {
   if (mechanisms.indexOf('SCRAM-SHA-256') === -1) {
@@ -54363,15 +55816,15 @@ module.exports = {
 
 
 /***/ }),
-/* 506 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var path = __webpack_require__(24)
-  , fs = __webpack_require__(15)
-  , helper = __webpack_require__(507)
+var path = __webpack_require__(28)
+  , fs = __webpack_require__(16)
+  , helper = __webpack_require__(520)
 ;
 
 
@@ -54393,15 +55846,15 @@ module.exports.warnTo = helper.warnTo;
 
 
 /***/ }),
-/* 507 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var path = __webpack_require__(24)
+var path = __webpack_require__(28)
   , Stream = __webpack_require__(6).Stream
-  , split = __webpack_require__(508)
+  , split = __webpack_require__(521)
   , util = __webpack_require__(7)
   , defaultPort = 5432
   , isWin = (process.platform === 'win32')
@@ -54633,7 +56086,7 @@ var isValidEntry = module.exports.isValidEntry = function(entry){
 
 
 /***/ }),
-/* 508 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54655,8 +56108,8 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 
-const { Transform } = __webpack_require__(509)
-const { StringDecoder } = __webpack_require__(518)
+const { Transform } = __webpack_require__(522)
+const { StringDecoder } = __webpack_require__(531)
 const kLast = Symbol('last')
 const kDecoder = Symbol('decoder')
 
@@ -54772,7 +56225,7 @@ module.exports = split
 
 
 /***/ }),
-/* 509 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Stream = __webpack_require__(6);
@@ -54781,20 +56234,20 @@ if (process.env.READABLE_STREAM === 'disable' && Stream) {
   Object.assign(module.exports, Stream);
   module.exports.Stream = Stream;
 } else {
-  exports = module.exports = __webpack_require__(281);
+  exports = module.exports = __webpack_require__(289);
   exports.Stream = Stream || exports;
   exports.Readable = exports;
-  exports.Writable = __webpack_require__(285);
-  exports.Duplex = __webpack_require__(69);
-  exports.Transform = __webpack_require__(287);
-  exports.PassThrough = __webpack_require__(516);
-  exports.finished = __webpack_require__(175);
-  exports.pipeline = __webpack_require__(517);
+  exports.Writable = __webpack_require__(293);
+  exports.Duplex = __webpack_require__(73);
+  exports.Transform = __webpack_require__(295);
+  exports.PassThrough = __webpack_require__(529);
+  exports.finished = __webpack_require__(181);
+  exports.pipeline = __webpack_require__(530);
 }
 
 
 /***/ }),
-/* 510 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54812,7 +56265,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var _require = __webpack_require__(138),
+var _require = __webpack_require__(144),
     Buffer = _require.Buffer;
 
 var _require2 = __webpack_require__(7),
@@ -55010,7 +56463,7 @@ function () {
 }();
 
 /***/ }),
-/* 511 */
+/* 524 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -55043,7 +56496,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 512 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -55055,12 +56508,12 @@ module.exports = __webpack_require__(7).deprecate;
 
 
 /***/ }),
-/* 513 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 /* eslint-disable node/no-deprecated-api */
-var buffer = __webpack_require__(138)
+var buffer = __webpack_require__(144)
 var Buffer = buffer.Buffer
 
 // alternative to using Object.keys for old browsers
@@ -55126,7 +56579,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 
 /***/ }),
-/* 514 */
+/* 527 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55136,7 +56589,7 @@ var _Object$setPrototypeO;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var finished = __webpack_require__(175);
+var finished = __webpack_require__(181);
 
 var kLastResolve = Symbol('lastResolve');
 var kLastReject = Symbol('lastReject');
@@ -55339,7 +56792,7 @@ var createReadableStreamAsyncIterator = function createReadableStreamAsyncIterat
 module.exports = createReadableStreamAsyncIterator;
 
 /***/ }),
-/* 515 */
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55355,7 +56808,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var ERR_INVALID_ARG_TYPE = __webpack_require__(61).codes.ERR_INVALID_ARG_TYPE;
+var ERR_INVALID_ARG_TYPE = __webpack_require__(65).codes.ERR_INVALID_ARG_TYPE;
 
 function from(Readable, iterable, opts) {
   var iterator;
@@ -55409,7 +56862,7 @@ function from(Readable, iterable, opts) {
 module.exports = from;
 
 /***/ }),
-/* 516 */
+/* 529 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55440,9 +56893,9 @@ module.exports = from;
 
 module.exports = PassThrough;
 
-var Transform = __webpack_require__(287);
+var Transform = __webpack_require__(295);
 
-__webpack_require__(97)(PassThrough, Transform);
+__webpack_require__(101)(PassThrough, Transform);
 
 function PassThrough(options) {
   if (!(this instanceof PassThrough)) return new PassThrough(options);
@@ -55454,7 +56907,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 517 */
+/* 530 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55473,7 +56926,7 @@ function once(callback) {
   };
 }
 
-var _require$codes = __webpack_require__(61).codes,
+var _require$codes = __webpack_require__(65).codes,
     ERR_MISSING_ARGS = _require$codes.ERR_MISSING_ARGS,
     ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
 
@@ -55492,7 +56945,7 @@ function destroyer(stream, reading, writing, callback) {
   stream.on('close', function () {
     closed = true;
   });
-  if (eos === undefined) eos = __webpack_require__(175);
+  if (eos === undefined) eos = __webpack_require__(181);
   eos(stream, {
     readable: reading,
     writable: writing
@@ -55557,25 +57010,25 @@ function pipeline() {
 module.exports = pipeline;
 
 /***/ }),
-/* 518 */
+/* 531 */
 /***/ (function(module, exports) {
 
 module.exports = require("string_decoder");
 
 /***/ }),
-/* 519 */
+/* 532 */
 /***/ (function(module, exports) {
 
 module.exports = require("dns");
 
 /***/ }),
-/* 520 */
+/* 533 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var url = __webpack_require__(8);
+var url = __webpack_require__(9);
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -55638,7 +57091,7 @@ module.exports = {
 
 
 /***/ }),
-/* 521 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55651,12 +57104,12 @@ module.exports = {
  * README.md file in the root directory of this source tree.
  */
 
-var EventEmitter = __webpack_require__(12).EventEmitter
+var EventEmitter = __webpack_require__(13).EventEmitter
 var util = __webpack_require__(7)
-const checkConstructor = __webpack_require__(290)
+const checkConstructor = __webpack_require__(298)
 
-var Result = __webpack_require__(291)
-var utils = __webpack_require__(135)
+var Result = __webpack_require__(299)
+var utils = __webpack_require__(141)
 
 var Query = function (config, values, callback) {
   // use of "new" optional in pg 7
@@ -55877,10 +57330,10 @@ module.exports = Query
 
 
 /***/ }),
-/* 522 */
+/* 535 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assert = __webpack_require__(41)
+var assert = __webpack_require__(44)
 
 var Reader = module.exports = function(options) {
   //TODO - remove for version 1.0
@@ -55948,7 +57401,7 @@ Reader.prototype.read = function() {
 
 
 /***/ }),
-/* 523 */
+/* 536 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55961,15 +57414,15 @@ Reader.prototype.read = function() {
  * README.md file in the root directory of this source tree.
  */
 
-var net = __webpack_require__(82)
-var EventEmitter = __webpack_require__(12).EventEmitter
+var net = __webpack_require__(86)
+var EventEmitter = __webpack_require__(13).EventEmitter
 var util = __webpack_require__(7)
 
-var Writer = __webpack_require__(293)
+var Writer = __webpack_require__(301)
 // eslint-disable-next-line
-var PacketStream = __webpack_require__(524)
+var PacketStream = __webpack_require__(537)
 
-var warnDeprecation = __webpack_require__(176)
+var warnDeprecation = __webpack_require__(182)
 
 var TEXT_MODE = 0
 
@@ -56048,7 +57501,7 @@ Connection.prototype.connect = function (port, host) {
         // Any other response byte, including 'E' (ErrorResponse) indicating a server error
         return self.emit('error', new Error('There was an error establishing an SSL connection'))
     }
-    var tls = __webpack_require__(83)
+    var tls = __webpack_require__(87)
     const options = {
       socket: self.stream,
       checkServerIdentity: self.ssl.checkServerIdentity || tls.checkServerIdentity,
@@ -56333,7 +57786,7 @@ module.exports = Connection
 
 
 /***/ }),
-/* 524 */
+/* 537 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56343,9 +57796,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const stream_1 = __webpack_require__(6);
-const messages_1 = __webpack_require__(525);
-const BufferReader_1 = __webpack_require__(526);
-const assert_1 = __importDefault(__webpack_require__(41));
+const messages_1 = __webpack_require__(538);
+const BufferReader_1 = __webpack_require__(539);
+const assert_1 = __importDefault(__webpack_require__(44));
 // every message is prefixed with a single bye
 const CODE_LENGTH = 1;
 // every message has an int32 length which includes itself but does
@@ -56609,7 +58062,7 @@ exports.PgPacketStream = PgPacketStream;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 525 */
+/* 538 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56757,7 +58210,7 @@ exports.DataRowMessage = DataRowMessage;
 //# sourceMappingURL=messages.js.map
 
 /***/ }),
-/* 526 */
+/* 539 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56811,12 +58264,12 @@ exports.BufferReader = BufferReader;
 //# sourceMappingURL=BufferReader.js.map
 
 /***/ }),
-/* 527 */
+/* 540 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const EventEmitter = __webpack_require__(12).EventEmitter
+const EventEmitter = __webpack_require__(13).EventEmitter
 
 const NOOP = function () { }
 
@@ -56883,7 +58336,7 @@ class Pool extends EventEmitter {
     this.options = Object.assign({}, options)
     this.options.max = this.options.max || this.options.poolSize || 10
     this.log = this.options.log || function () { }
-    this.Client = this.options.Client || Client || __webpack_require__(278).Client
+    this.Client = this.options.Client || Client || __webpack_require__(286).Client
     this.Promise = this.options.Promise || global.Promise
 
     if (typeof this.options.idleTimeoutMillis === 'undefined') {
@@ -57203,7 +58656,7 @@ module.exports = Pool
 
 
 /***/ }),
-/* 528 */
+/* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57217,19 +58670,19 @@ module.exports = Pool
  */
 
 // eslint-disable-next-line
-var Native = __webpack_require__(529)
-var TypeOverrides = __webpack_require__(288)
-var semver = __webpack_require__(530)
-var pkg = __webpack_require__(531)
-var assert = __webpack_require__(41)
-var EventEmitter = __webpack_require__(12).EventEmitter
+var Native = __webpack_require__(542)
+var TypeOverrides = __webpack_require__(296)
+var semver = __webpack_require__(543)
+var pkg = __webpack_require__(544)
+var assert = __webpack_require__(44)
+var EventEmitter = __webpack_require__(13).EventEmitter
 var util = __webpack_require__(7)
-var ConnectionParameters = __webpack_require__(289)
+var ConnectionParameters = __webpack_require__(297)
 
 var msg = 'Version >= ' + pkg.minNativeVersion + ' of pg-native required.'
 assert(semver.gte(Native.version, pkg.minNativeVersion), msg)
 
-var NativeQuery = __webpack_require__(532)
+var NativeQuery = __webpack_require__(545)
 
 var Client = module.exports = function (config) {
   EventEmitter.call(this)
@@ -57508,7 +58961,7 @@ Client.prototype.getTypeParser = function (oid, format) {
 
 
 /***/ }),
-/* 529 */
+/* 542 */
 /***/ (function(module, exports) {
 
 module.exports = noop
@@ -57522,7 +58975,7 @@ noop()
 
 
 /***/ }),
-/* 530 */
+/* 543 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// export the class if we are in a Node-like system.
@@ -58723,13 +60176,13 @@ if (true)
 
 
 /***/ }),
-/* 531 */
+/* 544 */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"7.18.2\",\"description\":\"PostgreSQL client - pure javascript & libpq with the same API\",\"keywords\":[\"database\",\"libpq\",\"pg\",\"postgre\",\"postgres\",\"postgresql\",\"rdbms\"],\"homepage\":\"https://github.com/brianc/node-postgres\",\"repository\":{\"type\":\"git\",\"url\":\"git://github.com/brianc/node-postgres.git\"},\"author\":\"Brian Carlson <brian.m.carlson@gmail.com>\",\"main\":\"./lib\",\"dependencies\":{\"buffer-writer\":\"2.0.0\",\"packet-reader\":\"1.0.0\",\"pg-connection-string\":\"0.1.3\",\"pg-packet-stream\":\"^1.1.0\",\"pg-pool\":\"^2.0.10\",\"pg-types\":\"^2.1.0\",\"pgpass\":\"1.x\",\"semver\":\"4.3.2\"},\"devDependencies\":{\"async\":\"0.9.0\",\"bluebird\":\"3.5.2\",\"co\":\"4.6.0\",\"eslint\":\"^6.0.1\",\"eslint-config-standard\":\"^13.0.1\",\"eslint-plugin-import\":\"^2.18.1\",\"eslint-plugin-node\":\"^9.1.0\",\"eslint-plugin-promise\":\"^4.2.1\",\"eslint-plugin-standard\":\"^4.0.0\",\"pg-copy-streams\":\"0.3.0\"},\"minNativeVersion\":\"2.0.0\",\"scripts\":{\"test\":\"make test-all\",\"lint\":\"make lint\"},\"files\":[\"lib\",\"SPONSORS.md\"],\"license\":\"MIT\",\"engines\":{\"node\":\">= 4.5.0\"},\"gitHead\":\"29877530c6f7b5ebc0bf814e3a711b4b66e4d51a\"}");
 
 /***/ }),
-/* 532 */
+/* 545 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58742,9 +60195,9 @@ module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"7.18.2\",\"descripti
  * README.md file in the root directory of this source tree.
  */
 
-var EventEmitter = __webpack_require__(12).EventEmitter
+var EventEmitter = __webpack_require__(13).EventEmitter
 var util = __webpack_require__(7)
-var utils = __webpack_require__(135)
+var utils = __webpack_require__(141)
 
 var NativeQuery = module.exports = function (config, values, callback) {
   EventEmitter.call(this)
@@ -58903,11 +60356,11 @@ NativeQuery.prototype.submit = function (client) {
 
 
 /***/ }),
-/* 533 */
+/* 546 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { Readable } = __webpack_require__(6)
-const Cursor = __webpack_require__(534)
+const Cursor = __webpack_require__(547)
 
 class PgQueryStream extends Readable {
   constructor(text, values, config = {}) {
@@ -58957,14 +60410,14 @@ module.exports = PgQueryStream
 
 
 /***/ }),
-/* 534 */
+/* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const Result = __webpack_require__(291)
-const prepare = __webpack_require__(135).prepareValue
-const EventEmitter = __webpack_require__(12).EventEmitter
+const Result = __webpack_require__(299)
+const prepare = __webpack_require__(141).prepareValue
+const EventEmitter = __webpack_require__(13).EventEmitter
 const util = __webpack_require__(7)
 
 let nextUniqueID = 1 // concept borrowed from org.postgresql.core.v3.QueryExecutorImpl
@@ -59182,8 +60635,56 @@ module.exports = Cursor
 
 
 /***/ }),
-/* 535 */,
-/* 536 */
+/* 548 */,
+/* 549 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function areInputsEqual(newInputs, lastInputs) {
+    if (newInputs.length !== lastInputs.length) {
+        return false;
+    }
+    for (var i = 0; i < newInputs.length; i++) {
+        if (newInputs[i] !== lastInputs[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function memoizeOne(resultFn, isEqual) {
+    if (isEqual === void 0) { isEqual = areInputsEqual; }
+    var lastThis;
+    var lastArgs = [];
+    var lastResult;
+    var calledOnce = false;
+    function memoized() {
+        var newArgs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            newArgs[_i] = arguments[_i];
+        }
+        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
+            return lastResult;
+        }
+        lastResult = resultFn.apply(this, newArgs);
+        calledOnce = true;
+        lastThis = this;
+        lastArgs = newArgs;
+        return lastResult;
+    }
+    return memoized;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (memoizeOne);
+
+
+/***/ }),
+/* 550 */,
+/* 551 */,
+/* 552 */,
+/* 553 */,
+/* 554 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59193,11 +60694,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const functions_interface_1 = __webpack_require__(49);
+const functions_interface_1 = __webpack_require__(53);
 
-const consts_1 = __webpack_require__(31);
+const consts_1 = __webpack_require__(34);
 
-const utils_1 = __webpack_require__(55); ////////////////////////////////////
+const utils_1 = __webpack_require__(59); ////////////////////////////////////
 
 
 async function handle_cors(SEC, event, context, response, next) {
@@ -59210,7 +60711,7 @@ async function handle_cors(SEC, event, context, response, next) {
     const origin = event.headers.origin;
     const expected_origin = functions_interface_1.get_allowed_origin(CHANNEL);
 
-    if (origin !== expected_origin) {
+    if (origin !== expected_origin && !expected_origin.startsWith('http://localhost')) {
       logger.warn('rejecting due to wrong origin', {
         expected_origin,
         origin
@@ -59239,10 +60740,182 @@ async function handle_cors(SEC, event, context, response, next) {
 exports.default = handle_cors;
 
 /***/ }),
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */
+/* 555 */,
+/* 556 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ NORMALIZERS; });
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalize.js
+var normalize = __webpack_require__(52);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers--base.js
+ /////////////////////
+
+const RECOMMENDED_UNICODE_NORMALIZATION = 'NFC'; // https://www.win.tue.nl/~aeb/linux/uc/nfc_vs_nfd.html
+
+const default_to_empty = Object(normalize["b" /* default_to */])('');
+const ensure_string = s => String(s);
+const capitalize = s => s.length === 0 ? s : s[0].toUpperCase() + s.slice(1);
+const to_lower_case = s => s.toLowerCase();
+const to_upper_case = s => s.toUpperCase(); // https://devdocs.io/javascript/global_objects/string/trim
+
+const trim = s => s.trim(); // https://thread.engineering/2018-08-29-searching-and-sorting-text-with-diacritical-marks-in-javascript/
+
+const coerce_to_ascii = s => s.normalize('NFD') // D = Decompose = technique to remove non-ascii part
+.replace(/[\u0300-\u036f]/g, ''); // https://devdocs.io/javascript/global_objects/string/normalize
+// https://withblue.ink/2019/03/11/why-you-need-to-normalize-unicode-strings.html
+
+const normalize_unicode = s => s.normalize(RECOMMENDED_UNICODE_NORMALIZATION); // https://stackoverflow.com/a/1981366/587407
+
+const ANY_BLANK_REGEXP = /\s+/g;
+const coerce_blanks_to_single_spaces = s => s.replace(ANY_BLANK_REGEXP, ' '); // https://stackoverflow.com/a/19313707/587407
+
+const ANY_DELIMITER_REGEXP = new RegExp('[-+()*/:? _\.]', 'g');
+const coerce_delimiters_to_space = s => s.replace(ANY_DELIMITER_REGEXP, ' ');
+const convert_spaces_to_camel_case = s => s.split(' ').map(capitalize).join(''); // for user names, player names...
+
+const coerce_to_safe_nickname = Object(normalize["a" /* combine_normalizers */])(coerce_to_ascii, trim, to_lower_case, coerce_delimiters_to_space, coerce_blanks_to_single_spaces, convert_spaces_to_camel_case);
+const coerce_to_redeemable_code = Object(normalize["a" /* combine_normalizers */])(trim, coerce_to_ascii, to_upper_case, coerce_delimiters_to_space, convert_spaces_to_camel_case); /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizer--email.js
+
+ ////////////////////////////////////
+// general infos: https://github.com/Offirmo-team/wiki/wiki/courriel
+// credits to
+////////////////////////////////////
+// fragments
+// inspired by the spec of https://github.com/johno/normalize-email
+
+function remove_plus_fragment_from_local_part(email) {
+  const [local_part, domain] = email.split('@');
+  return [local_part.split('+')[0], domain].join('@');
+}
+
+function remove_dots_from_local_part(email) {
+  const [local_part, domain] = email.split('@');
+  return [local_part.split('.').join(''), domain].join('@');
+}
+
+function lowercase_domain(email) {
+  const [local_part, domain = ''] = email.split('@');
+  return [local_part, domain.toLowerCase()].join('@');
+}
+
+function normalize_domain(email) {
+  let [local_part, domain = ''] = email.split('@');
+  domain = domain.toLowerCase();
+  if (domain === 'googlemail.com') domain = 'gmail.com';
+  return [local_part, domain].join('@');
+}
+
+const RULES = {
+  'gmail.com': {
+    local_part_case_sensitive: false,
+    plus_fragment_sensitive: false,
+    dots_sensitive: false
+  },
+  'hotmail.com': {
+    local_part_case_sensitive: undefined,
+    plus_fragment_sensitive: false,
+    dots_sensitive: true
+  },
+  'live.com': {
+    local_part_case_sensitive: undefined,
+    plus_fragment_sensitive: false,
+    dots_sensitive: false
+  },
+  'outlook.com': {
+    local_part_case_sensitive: undefined,
+    plus_fragment_sensitive: false,
+    dots_sensitive: true
+  }
+};
+
+function remove_plus_fragment_from_local_part_if_insensitive(email) {
+  var _a;
+
+  const [local_part, domain] = email.split('@'); //console.log('remove_plus_fragment_from_local_part_if_insensitive', domain, RULES[domain])
+
+  if (((_a = RULES[domain]) === null || _a === void 0 ? void 0 : _a.plus_fragment_sensitive) === false) return remove_plus_fragment_from_local_part(email);
+  return email;
+}
+
+function remove_dots_from_local_part_if_insensitive(email) {
+  var _a;
+
+  const [local_part, domain] = email.split('@');
+  if (((_a = RULES[domain]) === null || _a === void 0 ? void 0 : _a.dots_sensitive) === false) return remove_dots_from_local_part(email);
+  return email;
+}
+
+function lowercase_local_part_if_insensitive(email) {
+  var _a;
+
+  const [local_part, domain] = email.split('@');
+  if (!((_a = RULES[domain]) === null || _a === void 0 ? void 0 : _a.local_part_case_sensitive)) // default to true
+    return email.toLowerCase();
+  return email;
+} /////////////////////
+// extras from me
+// useful to fix autocomplete after typing "."
+
+
+function remove_all_spaces(email) {
+  return email.split(' ').join('');
+}
+
+function validate_email_structure(possible_email) {
+  const [before, after, ...rest] = possible_email.split('@'); //console.log({before, after, rest, ta: typeof after})
+
+  if (rest.length) throw new Error('Invalid email: more than one @!');
+  if (typeof after !== 'string') throw new Error('Invalid email: no @!');
+  if (after.split('.').length < 2) throw new Error('Invalid email: bad domain!');
+  if (!before.length || !after.length) throw new Error('Invalid email: bad structure!');
+  return possible_email;
+} ////////////////////////////////////
+// We need different levels of normalization
+// for ex. using "+" foo+test@gmail.com is not known and very likely to be an attempt to double register
+// however using "." foo.bar@gmail.com is well known and not all pp know it can be removed
+// normalizing too hard prevents us from using gravatar
+// ex. offirmo.net@gmail.com is not matching gravatar offirmonet@gmail.com
+
+
+const normalize_email_safe = Object(normalize["a" /* combine_normalizers */])(normalize_unicode, remove_all_spaces, validate_email_structure, lowercase_domain);
+const normalize_email_reasonable = Object(normalize["a" /* combine_normalizers */])(normalize_unicode, remove_all_spaces, validate_email_structure, normalize_domain, remove_plus_fragment_from_local_part_if_insensitive, lowercase_local_part_if_insensitive);
+const normalize_email_full = Object(normalize["a" /* combine_normalizers */])(normalize_unicode, remove_all_spaces, validate_email_structure, normalize_domain, remove_plus_fragment_from_local_part_if_insensitive, remove_dots_from_local_part_if_insensitive, lowercase_local_part_if_insensitive);
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers.js
+
+ /////////////////////
+
+const NORMALIZERS = {
+  default_to_empty: default_to_empty,
+  ensure_string: ensure_string,
+  capitalize: capitalize,
+  to_lower_case: to_lower_case,
+  to_upper_case: to_upper_case,
+  trim: trim,
+  coerce_to_ascii: coerce_to_ascii,
+  normalize_unicode: normalize_unicode,
+  coerce_blanks_to_single_spaces: coerce_blanks_to_single_spaces,
+  coerce_delimiters_to_space: coerce_delimiters_to_space,
+  convert_spaces_to_camel_case: convert_spaces_to_camel_case,
+  coerce_to_safe_nickname: coerce_to_safe_nickname,
+  coerce_to_redeemable_code: coerce_to_redeemable_code,
+  normalize_email_safe: normalize_email_safe,
+  normalize_email_reasonable: normalize_email_reasonable,
+  normalize_email_full: normalize_email_full
+}; /////////////////////
+
+/***/ }),
+/* 557 */,
+/* 558 */,
+/* 559 */,
+/* 560 */,
+/* 561 */,
+/* 562 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59253,7 +60926,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handler = void 0;
 
-const tslib_1 = __webpack_require__(74); //process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
+const tslib_1 = __webpack_require__(79); //process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
 //process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
 
 
@@ -59261,23 +60934,23 @@ process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"';
 process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"';
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true';
 
-__webpack_require__(70);
+__webpack_require__(74);
 
-const db_1 = __webpack_require__(297);
+const db_1 = __webpack_require__(311);
 
-const runner_1 = __webpack_require__(180);
+const runner_1 = __webpack_require__(187);
 
-const handle_cors_1 = tslib_1.__importDefault(__webpack_require__(536));
+const handle_cors_1 = tslib_1.__importDefault(__webpack_require__(554));
 
-const require_authenticated_1 = tslib_1.__importDefault(__webpack_require__(304));
+const require_authenticated_1 = tslib_1.__importDefault(__webpack_require__(317));
 
-const enrich_side_infos_1 = tslib_1.__importDefault(__webpack_require__(541));
+const enrich_side_infos_1 = tslib_1.__importDefault(__webpack_require__(563));
 
-const require_http_method_1 = __webpack_require__(196);
+const require_http_method_1 = __webpack_require__(203);
 
-const utils_1 = __webpack_require__(55);
+const utils_1 = __webpack_require__(59);
 
-const consts_1 = __webpack_require__(31); ////////////////////////////////////
+const consts_1 = __webpack_require__(34); ////////////////////////////////////
 
 
 async function _handler(SEC, event, context, response, next) {
@@ -59285,13 +60958,14 @@ async function _handler(SEC, event, context, response, next) {
     p_user
   } = SEC.getInjectedDependencies();
   const key = utils_1.get_key_from_path(event);
+  const body = response.body;
 
   switch (event.httpMethod) {
     case require_http_method_1.HttpMethod.GET:
-      response.body = JSON.stringify(await db_1.KVs.get_value({
+      body.data = await db_1.KVs.get_value({
         user_id: p_user.id,
         key
-      }));
+      });
       response.statusCode = 200; // never 404 since there is no "existence"
 
       break;
@@ -59300,11 +60974,11 @@ async function _handler(SEC, event, context, response, next) {
       if (!event.body) throw utils_1.create_error('Missing body!', {
         statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
       }, SEC);
-      response.body = JSON.stringify(await db_1.KVs.sync_kv_entry({
+      body.data = await db_1.KVs.sync_kv_entry({
         user_id: p_user.id,
         key,
         value: JSON.parse(event.body)
-      }));
+      });
       response.statusCode = 200; // always succeed
 
       break;
@@ -59320,13 +60994,13 @@ async function _handler(SEC, event, context, response, next) {
 const handler = (event, badly_typed_context) => {
   return runner_1.use_middlewares_with_error_safety_net(event, badly_typed_context, [// TODO require no extraneous params: queryparams, etc.
   // TODO ensure content type? "content-type": "application/json",
-  require_http_method_1.require_http_method([require_http_method_1.HttpMethod.GET, require_http_method_1.HttpMethod.PATCH]), handle_cors_1.default, require_authenticated_1.default, enrich_side_infos_1.default, _handler]);
+  require_http_method_1.require_http_method([require_http_method_1.HttpMethod.GET, require_http_method_1.HttpMethod.PATCH]), handle_cors_1.default, enrich_side_infos_1.default, require_authenticated_1.default, _handler]);
 };
 
 exports.handler = handler;
 
 /***/ }),
-/* 541 */
+/* 563 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59336,21 +61010,10805 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const functions_interface_1 = __webpack_require__(49); ////////////////////////////////////
+const functions_interface_1 = __webpack_require__(53);
+
+const state_1 = __webpack_require__(569); ////////////////////////////////////
 
 
 async function enrich_side_infos(SEC, event, context, response, next) {
   response.body = functions_interface_1.create_server_response_body__data({});
   await next();
-  const body = response.body; //body.side
+  const body = response.body;
+  const realm = 'tbrpg';
+
+  switch (realm) {
+    case 'tbrpg':
+      {
+        body.side.tbrpg = {
+          VERSION: state_1.VERSION,
+          NUMERIC_VERSION: state_1.NUMERIC_VERSION,
+          latest_news: []
+        };
+        break;
+      }
+
+    default:
+      throw new Error(`unknown realm "${realm}"!`);
+  } //body.side
   // add side infos TODO
   //body.side.latest_news = body.side.latest_news || []
   // add meta
   //body.meta.processing_time_ms = get_UTC_timestamp_ms() - SESSION_START_TIME_MS
   //body.meta.request_summary = `${event.httpMethod.toUpperCase()}:${event.path}`
+
 }
 
 exports.default = enrich_side_infos;
+
+/***/ }),
+/* 564 */,
+/* 565 */,
+/* 566 */,
+/* 567 */,
+/* 568 */,
+/* 569 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "VERSION", function() { return /* reexport */ VERSION; });
+__webpack_require__.d(__webpack_exports__, "NUMERIC_VERSION", function() { return /* reexport */ NUMERIC_VERSION; });
+__webpack_require__.d(__webpack_exports__, "BUILD_DATE", function() { return /* reexport */ BUILD_DATE; });
+__webpack_require__.d(__webpack_exports__, "LIB", function() { return /* reexport */ LIB; });
+__webpack_require__.d(__webpack_exports__, "SCHEMA_VERSION", function() { return /* reexport */ SCHEMA_VERSION; });
+__webpack_require__.d(__webpack_exports__, "EngagementKey", function() { return /* reexport */ EngagementKey; });
+__webpack_require__.d(__webpack_exports__, "get_recap", function() { return /* reexport */ get_recap; });
+__webpack_require__.d(__webpack_exports__, "get_engagement_message", function() { return /* reexport */ get_engagement_message; });
+__webpack_require__.d(__webpack_exports__, "DEMO_ADVENTURE_01", function() { return /* reexport */ DEMO_ADVENTURE_01; });
+__webpack_require__.d(__webpack_exports__, "DEMO_ADVENTURE_02", function() { return /* reexport */ DEMO_ADVENTURE_02; });
+__webpack_require__.d(__webpack_exports__, "DEMO_ADVENTURE_03", function() { return /* reexport */ DEMO_ADVENTURE_03; });
+__webpack_require__.d(__webpack_exports__, "DEMO_ADVENTURE_04", function() { return /* reexport */ DEMO_ADVENTURE_04; });
+__webpack_require__.d(__webpack_exports__, "DEMO_STATE", function() { return /* reexport */ DEMO_STATE; });
+__webpack_require__.d(__webpack_exports__, "migrate_to_latest", function() { return /* reexport */ state_dist_src_es2019_migrations_migrate_to_latest; });
+__webpack_require__.d(__webpack_exports__, "cleanup", function() { return /* reexport */ cleanup; });
+__webpack_require__.d(__webpack_exports__, "_autogroom", function() { return /* reexport */ _autogroom; });
+__webpack_require__.d(__webpack_exports__, "_autoplay", function() { return /* reexport */ _autoplay; });
+__webpack_require__.d(__webpack_exports__, "acknowledge_engagement_msg_seen", function() { return /* reexport */ acknowledge_engagement_msg_seen; });
+__webpack_require__.d(__webpack_exports__, "on_start_session", function() { return /* reexport */ base_on_start_session; });
+__webpack_require__.d(__webpack_exports__, "on_logged_in_refresh", function() { return /* reexport */ base_on_logged_in_refresh; });
+__webpack_require__.d(__webpack_exports__, "update_to_now", function() { return /* reexport */ base_update_to_now; });
+__webpack_require__.d(__webpack_exports__, "equip_item", function() { return /* reexport */ base_equip_item; });
+__webpack_require__.d(__webpack_exports__, "sell_item", function() { return /* reexport */ sell_item; });
+__webpack_require__.d(__webpack_exports__, "rename_avatar", function() { return /* reexport */ rename_avatar; });
+__webpack_require__.d(__webpack_exports__, "change_avatar_class", function() { return /* reexport */ change_avatar_class; });
+__webpack_require__.d(__webpack_exports__, "attempt_to_redeem_code", function() { return /* reexport */ codes_attempt_to_redeem_code; });
+__webpack_require__.d(__webpack_exports__, "STARTING_WEAPON_SPEC", function() { return /* reexport */ STARTING_WEAPON_SPEC; });
+__webpack_require__.d(__webpack_exports__, "STARTING_ARMOR_SPEC", function() { return /* reexport */ STARTING_ARMOR_SPEC; });
+__webpack_require__.d(__webpack_exports__, "create", function() { return /* reexport */ create_create; });
+__webpack_require__.d(__webpack_exports__, "reseed", function() { return /* reexport */ reseed; });
+__webpack_require__.d(__webpack_exports__, "play", function() { return /* reexport */ play; });
+__webpack_require__.d(__webpack_exports__, "get_achievement_snapshot", function() { return /* reexport */ get_achievement_snapshot; });
+__webpack_require__.d(__webpack_exports__, "get_achievement_snapshot_by_temporary_id", function() { return /* reexport */ get_achievement_snapshot_by_temporary_id; });
+__webpack_require__.d(__webpack_exports__, "get_achievements_snapshot", function() { return /* reexport */ get_achievements_snapshot; });
+__webpack_require__.d(__webpack_exports__, "get_achievements_completion", function() { return /* reexport */ get_achievements_completion; });
+__webpack_require__.d(__webpack_exports__, "get_available_energy_float", function() { return /* reexport */ energy_get_available_energy_float; });
+__webpack_require__.d(__webpack_exports__, "get_human_time_to_next_energy", function() { return /* reexport */ get_human_time_to_next_energy; });
+__webpack_require__.d(__webpack_exports__, "get_available_classes", function() { return /* reexport */ get_available_classes; });
+__webpack_require__.d(__webpack_exports__, "will_next_play_be_good_at", function() { return /* reexport */ will_next_play_be_good_at; });
+__webpack_require__.d(__webpack_exports__, "appraise_item_value", function() { return /* reexport */ appraise_item_value; });
+__webpack_require__.d(__webpack_exports__, "appraise_item_power", function() { return /* reexport */ appraise_item_power; });
+__webpack_require__.d(__webpack_exports__, "is_inventory_full", function() { return /* reexport */ is_inventory_full; });
+__webpack_require__.d(__webpack_exports__, "get_item_in_slot", function() { return /* reexport */ inventory_get_item_in_slot; });
+__webpack_require__.d(__webpack_exports__, "get_item", function() { return /* reexport */ inventory_get_item; });
+__webpack_require__.d(__webpack_exports__, "find_better_unequipped_armor", function() { return /* reexport */ find_better_unequipped_armor; });
+__webpack_require__.d(__webpack_exports__, "find_better_unequipped_weapon", function() { return /* reexport */ find_better_unequipped_weapon; });
+__webpack_require__.d(__webpack_exports__, "has_account", function() { return /* reexport */ has_account; });
+__webpack_require__.d(__webpack_exports__, "is_alpha", function() { return /* reexport */ is_alpha; });
+__webpack_require__.d(__webpack_exports__, "is_player_since_alpha", function() { return /* reexport */ is_player_since_alpha; });
+__webpack_require__.d(__webpack_exports__, "is_registered_alpha_player", function() { return /* reexport */ is_registered_alpha_player; });
+__webpack_require__.d(__webpack_exports__, "find_element", function() { return /* reexport */ find_element; });
+__webpack_require__.d(__webpack_exports__, "appraise_player_power", function() { return /* reexport */ appraise_player_power; });
+__webpack_require__.d(__webpack_exports__, "get_oldest_pending_flow_engagement", function() { return /* reexport */ get_oldest_pending_flow_engagement; });
+__webpack_require__.d(__webpack_exports__, "get_oldest_pending_non_flow_engagement", function() { return /* reexport */ get_oldest_pending_non_flow_engagement; });
+__webpack_require__.d(__webpack_exports__, "get_logger", function() { return /* reexport */ logger_get_logger; });
+__webpack_require__.d(__webpack_exports__, "GainType", function() { return /* reexport */ GainType; });
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/build.js
+// THIS FILE IS AUTO GENERATED!
+const VERSION = '0.65.13';
+const NUMERIC_VERSION = 0.6513; // for easy comparisons
+
+const BUILD_DATE = '20201110_21h32';
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/consts.js
+
+const LIB = '@tbrpg/state';
+const SCHEMA_VERSION = 14;
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
+var dist = __webpack_require__(8);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/data/engagement/types.js
+
+const EngagementKey = Object(dist["Enum"])('just-some-text', 'hello_world--flow', 'hello_world--aside', 'hello_world--warning', 'tip--first_play', // TODO suggest changing name
+// TODO suggest changing class
+'code_redemption--failed', 'code_redemption--succeeded', 'achievement-unlocked', 'reborn');
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/rich-text-format/dist/src.es2019/consts.js
+const consts_LIB = '@offirmo-private/rich-text-format';
+const consts_SCHEMA_VERSION = 1;
+const NODE_TYPE_TO_DISPLAY_MODE = {
+  // classics inline
+  'inline_fragment': 'inline',
+  'strong': 'inline',
+  'weak': 'inline',
+  'em': 'inline',
+  // classics block
+  'block_fragment': 'block',
+  'heading': 'block',
+  'hr': 'block',
+  'ol': 'block',
+  'ul': 'block',
+  // special
+  'br': 'inline',
+  // internally used, don't mind
+  'li': 'block'
+};
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/rich-text-format/dist/src.es2019/types.js
+ ///////
+
+const NodeType = Object(dist["Enum"])( // https://stackoverflow.com/questions/9189810/css-display-inline-vs-inline-block
+// display "inline"
+'inline_fragment', // = span
+'strong', // strong but less strong than heading. Ex. ansi.bold
+'weak', // opposite of strong ;) Ex. ansi.dim
+'em', // TODO semantic difference with strong? Alternate? (= italic)
+// display "block"
+'block_fragment', // = div
+'heading', 'hr', 'ol', 'ul', // special
+'br', // internally used, don't mind, don't use directly
+'li'); ////////////
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/rich-text-format/dist/src.es2019/utils/builder.js
+
+
+
+function create($type) {
+  const $node = {
+    $v: consts_SCHEMA_VERSION,
+    $type,
+    $classes: [],
+    $content: '',
+    $sub: {},
+    $hints: {}
+  };
+  const builder = {
+    addClass,
+    addHints,
+    pushText,
+    pushRawNode,
+    pushNode,
+    pushInlineFragment,
+    pushBlockFragment,
+    pushStrong,
+    pushWeak,
+    pushHeading,
+    pushHorizontalRule,
+    pushLineBreak,
+    pushKeyValue,
+    done
+  };
+  let sub_id = 0;
+
+  function addClass(...classes) {
+    $node.$classes.push(...classes);
+    return builder;
+  }
+
+  function addHints(hints) {
+    $node.$hints = { ...$node.$hints,
+      ...hints
+    };
+    return builder;
+  }
+
+  function pushText(str) {
+    $node.$content += str;
+    return builder;
+  }
+
+  function _buildAndPush(builder, str, options = {}) {
+    options = {
+      classes: [],
+      ...options
+    };
+    const node = builder.pushText(str).addClass(...options.classes).done();
+    delete options.classes;
+    return pushNode(node, options);
+  } // nothing is added in content
+  // useful for
+  // 1. lists
+  // 2. manual stuff
+
+
+  function pushRawNode(node, options = {}) {
+    const id = options.id || ('000' + ++sub_id).slice(-4);
+    $node.$sub[id] = node;
+    if (options.classes) $node.$classes.push(...options.classes);
+    return builder;
+  } // node ref is auto added into content
+
+
+  function pushNode(node, options = {}) {
+    const id = options.id || ('000' + ++sub_id).slice(-4);
+    $node.$content += `{{${id}}}`;
+    return pushRawNode(node, { ...options,
+      id
+    });
+  }
+
+  function pushInlineFragment(str, options) {
+    return _buildAndPush(inline_fragment(), str, options);
+  }
+
+  function pushBlockFragment(str, options) {
+    return _buildAndPush(block_fragment(), str, options);
+  }
+
+  function pushStrong(str, options) {
+    return _buildAndPush(strong(), str, options);
+  }
+
+  function pushWeak(str, options) {
+    return _buildAndPush(weak(), str, options);
+  }
+
+  function pushHeading(str, options) {
+    return _buildAndPush(heading(), str, options);
+  }
+
+  function pushHorizontalRule() {
+    $node.$content += '{{hr}}';
+    return builder;
+  }
+
+  function pushLineBreak() {
+    $node.$content += '{{br}}';
+    return builder;
+  }
+
+  function pushKeyValue(key, value, options = {}) {
+    if ($node.$type !== NodeType.ol && $node.$type !== NodeType.ul) throw new Error(`${consts_LIB}: Key/value is intended to be used in a ol/ul only!`);
+    options = {
+      classes: [],
+      ...options
+    };
+    const kv_node = key_value(key, value).addClass(...options.classes).done();
+    delete options.classes;
+    return pushRawNode(kv_node, options);
+  }
+
+  function done() {
+    return $node;
+  }
+
+  return builder;
+}
+
+function inline_fragment() {
+  return create(NodeType.inline_fragment);
+}
+
+function block_fragment() {
+  return create(NodeType.block_fragment);
+}
+
+function heading() {
+  return create(NodeType.heading);
+}
+
+function strong() {
+  return create(NodeType.strong);
+}
+
+function weak() {
+  return create(NodeType.weak);
+}
+
+function ordered_list() {
+  return create(NodeType.ol);
+}
+
+function unordered_list() {
+  return create(NodeType.ul);
+}
+
+function key_value(key, value) {
+  const key_node = typeof key === 'string' ? inline_fragment().pushText(key).done() : key;
+  const value_node = typeof value === 'string' ? inline_fragment().pushText(value).done() : value;
+  return inline_fragment().pushNode(key_node, {
+    id: 'key'
+  }).pushText(': ').pushNode(value_node, {
+    id: 'value'
+  });
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/data/engagement/recap.js
+
+
+function get_recap(u_state) {
+  const isNewGame = u_state.revision === 0;
+
+  if (isNewGame) {
+    return inline_fragment().pushText('You are an ').pushStrong('otherworlder').pushText(', an adventurer from another world…{{br}}').pushText('Congratulations, you were chosen to enter the unknown realm of ').pushStrong('Jaema').pushText('!{{br}}').pushText('Maybe were you just more courageous, cunning and curious than your peers?{{br}}').pushText('But for now, let’s go on an adventure, for glory ⚔ and loot 📦 💰 !').done();
+  }
+
+  return block_fragment().pushText('You are ').pushInlineFragment(u_state.avatar.name, {
+    id: 'name',
+    classes: ['avatar__name']
+  }).pushText(', the ').pushInlineFragment(u_state.avatar.klass, {
+    id: 'class',
+    classes: ['avatar__class']
+  }).pushText(' from another world.{{br}}').pushText('You are adventuring in the mysterious world of ').pushStrong('Jaema').pushText('…{{br}}').pushStrong('For glory ⚔  and loot 📦 💰 !').done();
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/data/engagement/messages.js
+
+ ////////////////////////////////////
+
+function get_engagement_message(pe) {
+  const {
+    engagement: {
+      key
+    },
+    params
+  } = pe;
+
+  switch (key) {
+    case EngagementKey['just-some-text']:
+      return block_fragment().pushText(params.text).done();
+
+    case EngagementKey['hello_world--flow']:
+    case EngagementKey['hello_world--aside']:
+    case EngagementKey['hello_world--warning']:
+      return block_fragment().pushText('[TEST] Hello, ').pushInlineFragment(params.name || 'world', {
+        id: 'name'
+      }).pushText('!').done();
+
+    case EngagementKey['tip--first_play']:
+      return block_fragment().pushStrong('Tip: ').pushText('Select ').pushStrong('play').pushText(' to start adventuring!').done();
+
+    case EngagementKey['code_redemption--failed']:
+      return block_fragment().pushStrong('Error: This code is either non-existing or non redeemable at the moment.').done();
+
+    case EngagementKey['code_redemption--succeeded']:
+      return block_fragment().pushWeak('Code successfully redeemed.').done();
+
+    case EngagementKey['achievement-unlocked']:
+      return block_fragment().pushStrong('🏆 Achievement unlocked:').pushLineBreak().pushText(`“${params.icon} ${params.name}“`).done();
+
+    case EngagementKey['reborn']:
+      return block_fragment().pushStrong('You got reborn').pushLineBreak().pushText('Sorry, I changed the data format 😰.').done();
+
+    default:
+      throw new Error(`Missing engagement message for "${key}"! (not implemented?)`);
+  }
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/data/engagement/index.js
+
+
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/utils.js
+var utils = __webpack_require__(105);
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@offirmo/random/lib/random.js
+var random = __webpack_require__(22);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/definitions/dist/src.es2019/types.js
+ /////////////////////
+// An element is everything which can be interacted with and/or has a rich tooltip
+// ex. item, place, achievement, title...
+
+const ElementType = Object(dist["Enum"])('item', 'achievement_snapshot'); /////////////////////
+
+const ItemQuality = Object(dist["Enum"])('common', 'uncommon', 'rare', 'epic', 'legendary', 'artifact');
+const InventorySlot = Object(dist["Enum"])('weapon', 'armor', 'none'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/consts.js
+////////////////////////////////////
+const src_es2019_consts_LIB = '@oh-my-rpg/logic-weapons'; //const SCHEMA_VERSION: number = 2
+
+const MIN_ENHANCEMENT_LEVEL = 0;
+const MAX_ENHANCEMENT_LEVEL = 8; ////////////////////////////////////
+
+ ////////////////////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/types.js
+ /////////////////////
+
+const WeaponPartType = Object(dist["Enum"])('base', 'qualifier1', 'qualifier2'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/data/i18n_en.js
+const messages = {
+  weapon: {
+    base: {
+      axe: 'axe',
+      bow: 'bow',
+      claw: 'claw',
+      dagger: 'dagger',
+      grimoire: 'grimoire',
+      harp: 'harp',
+      knife: 'knife',
+      longbow: 'long bow',
+      longsword: 'long sword',
+      luth: 'luth',
+      mace: 'scythe',
+      scythe: 'spear',
+      spear: 'spear',
+      spoon: 'spoon',
+      staff: 'staff',
+      sword: 'sword',
+      wand: 'wand'
+    },
+    qualifier1: {
+      admirable: 'admirable',
+      arcanic: 'arcanic',
+      bestial: 'bestial',
+      bone: 'bone',
+      brass: 'brass',
+      cardboard: 'cardboard',
+      complex: 'complex',
+      composite: 'composite',
+      consecrated: 'consecrated',
+      crafted: 'crafted',
+      cruel: 'cruel',
+      cunning: 'cunning',
+      cursed: 'cursed',
+      emerald: 'emerald',
+      engraved: 'engraved',
+      forbidden: 'forbidden',
+      forgotten: 'forgotten',
+      ghost: 'ghost',
+      golden: 'golden',
+      heavy: 'heavy',
+      heroic: 'heroic',
+      holy: 'holy',
+      inflexible: 'inflexible',
+      invincible: 'invincible',
+      iron: 'iron',
+      jade: 'jade',
+      light: 'light',
+      living: 'living',
+      lost: 'lost',
+      mechanical: 'mechanical',
+      mysterious: 'mysterious',
+      old: 'old',
+      onyx: 'onyx',
+      overrated: 'overrated',
+      powerful: 'powerful',
+      practical: 'practical',
+      proven: 'proven',
+      raging: 'raging',
+      robust: 'robust',
+      sapphire: 'sapphire',
+      savage: 'savage',
+      silver: 'silver',
+      simple: 'simple',
+      sinister: 'sinister',
+      skeleton: 'skeleton',
+      solid: 'solid',
+      steel: 'steel',
+      strange: 'strange',
+      subtile: 'subtle',
+      swift: 'swift',
+      unwavering: 'unwavering',
+      used: 'used',
+      whirling: 'whirling',
+      wooden: 'wooden'
+    },
+    qualifier2: {
+      adjudicator: 'adjudicator’s',
+      ambassador: 'ambassador’s',
+      ancients: 'of the ancients',
+      apprentice: 'apprentice’s',
+      assaulting: 'assaulting',
+      beginner: 'beginner’s',
+      brave: 'of the brave',
+      conqueror: 'conqueror’s',
+      cruel_tyrant: 'cruel tyrant’s',
+      defender: 'defender’s',
+      destructor: 'destructor’s',
+      dwarven: 'dwarven',
+      elite: 'elite',
+      elven: 'elven',
+      executioner: 'executioner’s',
+      expert: 'expert',
+      explorer: 'explorer’s',
+      gladiator: 'gladiator’s',
+      goddess: 'of the goddess',
+      guard: 'guard’s',
+      hunter: 'hunter’s',
+      judgement: 'of judgement',
+      king: 'king’s',
+      mediator: 'mediator’s',
+      mercenary: 'mercenary’s',
+      militia: 'militia’s',
+      nightmare: 'nightmare’s',
+      noble: 'noble’s',
+      noob: 'of the noob',
+      pilgrim: 'pilgrim’s',
+      pioneer: 'pioneer’s',
+      pirate: 'pirate’s',
+      profane: 'profane’s',
+      ranger: 'ranger’s',
+      sorcerer: 'sorcerer’s',
+      tormentor: 'tormentor’s',
+      training: 'training',
+      traveler: 'traveler’s',
+      twink: 'of the twink',
+      tyrant: 'tyrant’s',
+      upholder: 'upholder’s',
+      warfield: 'warfield’s',
+      warfield_king: 'warfield king’s',
+      warrior: 'warrior’s',
+      wise: 'of the wise',
+      woodsman: 'woodsman’s'
+    }
+  }
+};
+/* harmony default export */ var i18n_en = (messages);
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/data/entries.js
+// TODO tests!!
+const ENTRIES = [{
+  type: 'base',
+  hid: 'axe'
+}, {
+  type: 'base',
+  hid: 'bow'
+}, {
+  type: 'base',
+  hid: 'claw'
+}, {
+  type: 'base',
+  hid: 'dagger'
+}, {
+  type: 'base',
+  hid: 'grimoire'
+}, {
+  type: 'base',
+  hid: 'harp'
+}, {
+  type: 'base',
+  hid: 'knife'
+}, {
+  type: 'base',
+  hid: 'longbow'
+}, {
+  type: 'base',
+  hid: 'longsword'
+}, {
+  type: 'base',
+  hid: 'luth'
+}, {
+  type: 'base',
+  hid: 'mace'
+}, {
+  type: 'base',
+  hid: 'scythe'
+}, {
+  type: 'base',
+  hid: 'spear'
+}, {
+  type: 'base',
+  hid: 'spoon'
+}, {
+  type: 'base',
+  hid: 'staff'
+}, {
+  type: 'base',
+  hid: 'sword'
+}, {
+  type: 'base',
+  hid: 'wand'
+}, {
+  type: 'qualifier1',
+  hid: 'admirable'
+}, {
+  type: 'qualifier1',
+  hid: 'arcanic'
+}, {
+  type: 'qualifier1',
+  hid: 'bestial'
+}, {
+  type: 'qualifier1',
+  hid: 'bone'
+}, {
+  type: 'qualifier1',
+  hid: 'brass'
+}, {
+  type: 'qualifier1',
+  hid: 'cardboard'
+}, {
+  type: 'qualifier1',
+  hid: 'complex'
+}, {
+  type: 'qualifier1',
+  hid: 'composite'
+}, {
+  type: 'qualifier1',
+  hid: 'consecrated'
+}, {
+  type: 'qualifier1',
+  hid: 'crafted'
+}, {
+  type: 'qualifier1',
+  hid: 'cruel'
+}, {
+  type: 'qualifier1',
+  hid: 'cunning'
+}, {
+  type: 'qualifier1',
+  hid: 'cursed'
+}, {
+  type: 'qualifier1',
+  hid: 'emerald'
+}, {
+  type: 'qualifier1',
+  hid: 'engraved'
+}, {
+  type: 'qualifier1',
+  hid: 'forbidden'
+}, {
+  type: 'qualifier1',
+  hid: 'forgotten'
+}, {
+  type: 'qualifier1',
+  hid: 'ghost'
+}, {
+  type: 'qualifier1',
+  hid: 'golden'
+}, {
+  type: 'qualifier1',
+  hid: 'heavy'
+}, {
+  type: 'qualifier1',
+  hid: 'heroic'
+}, {
+  type: 'qualifier1',
+  hid: 'holy'
+}, {
+  type: 'qualifier1',
+  hid: 'inflexible'
+}, {
+  type: 'qualifier1',
+  hid: 'invincible'
+}, {
+  type: 'qualifier1',
+  hid: 'iron'
+}, {
+  type: 'qualifier1',
+  hid: 'jade'
+}, {
+  type: 'qualifier1',
+  hid: 'light'
+}, {
+  type: 'qualifier1',
+  hid: 'living'
+}, {
+  type: 'qualifier1',
+  hid: 'lost'
+}, {
+  type: 'qualifier1',
+  hid: 'mechanical'
+}, {
+  type: 'qualifier1',
+  hid: 'mysterious'
+}, {
+  type: 'qualifier1',
+  hid: 'old'
+}, {
+  type: 'qualifier1',
+  hid: 'onyx'
+}, {
+  type: 'qualifier1',
+  hid: 'overrated'
+}, {
+  type: 'qualifier1',
+  hid: 'powerful'
+}, {
+  type: 'qualifier1',
+  hid: 'practical'
+}, {
+  type: 'qualifier1',
+  hid: 'proven'
+}, {
+  type: 'qualifier1',
+  hid: 'raging'
+}, {
+  type: 'qualifier1',
+  hid: 'robust'
+}, {
+  type: 'qualifier1',
+  hid: 'sapphire'
+}, {
+  type: 'qualifier1',
+  hid: 'savage'
+}, {
+  type: 'qualifier1',
+  hid: 'silver'
+}, {
+  type: 'qualifier1',
+  hid: 'simple'
+}, {
+  type: 'qualifier1',
+  hid: 'sinister'
+}, {
+  type: 'qualifier1',
+  hid: 'skeleton'
+}, {
+  type: 'qualifier1',
+  hid: 'solid'
+}, {
+  type: 'qualifier1',
+  hid: 'steel'
+}, {
+  type: 'qualifier1',
+  hid: 'strange'
+}, {
+  type: 'qualifier1',
+  hid: 'subtile'
+}, {
+  type: 'qualifier1',
+  hid: 'swift'
+}, {
+  type: 'qualifier1',
+  hid: 'unwavering'
+}, {
+  type: 'qualifier1',
+  hid: 'used'
+}, {
+  type: 'qualifier1',
+  hid: 'whirling'
+}, {
+  type: 'qualifier1',
+  hid: 'wooden'
+}, {
+  type: 'qualifier2',
+  hid: 'adjudicator'
+}, {
+  type: 'qualifier2',
+  hid: 'ambassador'
+}, {
+  type: 'qualifier2',
+  hid: 'ancients'
+}, {
+  type: 'qualifier2',
+  hid: 'apprentice'
+}, {
+  type: 'qualifier2',
+  hid: 'assaulting'
+}, {
+  type: 'qualifier2',
+  hid: 'beginner'
+}, {
+  type: 'qualifier2',
+  hid: 'brave'
+}, {
+  type: 'qualifier2',
+  hid: 'conqueror'
+}, {
+  type: 'qualifier2',
+  hid: 'cruel_tyrant'
+}, {
+  type: 'qualifier2',
+  hid: 'defender'
+}, {
+  type: 'qualifier2',
+  hid: 'destructor'
+}, {
+  type: 'qualifier2',
+  hid: 'dwarven'
+}, {
+  type: 'qualifier2',
+  hid: 'elite'
+}, {
+  type: 'qualifier2',
+  hid: 'elven'
+}, {
+  type: 'qualifier2',
+  hid: 'executioner'
+}, {
+  type: 'qualifier2',
+  hid: 'expert'
+}, {
+  type: 'qualifier2',
+  hid: 'explorer'
+}, {
+  type: 'qualifier2',
+  hid: 'gladiator'
+}, {
+  type: 'qualifier2',
+  hid: 'goddess'
+}, {
+  type: 'qualifier2',
+  hid: 'guard'
+}, {
+  type: 'qualifier2',
+  hid: 'hunter'
+}, {
+  type: 'qualifier2',
+  hid: 'judgement'
+}, {
+  type: 'qualifier2',
+  hid: 'king'
+}, {
+  type: 'qualifier2',
+  hid: 'mediator'
+}, {
+  type: 'qualifier2',
+  hid: 'mercenary'
+}, {
+  type: 'qualifier2',
+  hid: 'militia'
+}, {
+  type: 'qualifier2',
+  hid: 'nightmare'
+}, {
+  type: 'qualifier2',
+  hid: 'noble'
+}, {
+  type: 'qualifier2',
+  hid: 'noob'
+}, {
+  type: 'qualifier2',
+  hid: 'pilgrim'
+}, {
+  type: 'qualifier2',
+  hid: 'pioneer'
+}, {
+  type: 'qualifier2',
+  hid: 'pirate'
+}, {
+  type: 'qualifier2',
+  hid: 'profane'
+}, {
+  type: 'qualifier2',
+  hid: 'ranger'
+}, {
+  type: 'qualifier2',
+  hid: 'sorcerer'
+}, {
+  type: 'qualifier2',
+  hid: 'tormentor'
+}, {
+  type: 'qualifier2',
+  hid: 'training'
+}, {
+  type: 'qualifier2',
+  hid: 'traveler'
+}, {
+  type: 'qualifier2',
+  hid: 'twink'
+}, {
+  type: 'qualifier2',
+  hid: 'tyrant'
+}, {
+  type: 'qualifier2',
+  hid: 'upholder'
+}, {
+  type: 'qualifier2',
+  hid: 'warfield_king'
+}, {
+  type: 'qualifier2',
+  hid: 'warfield'
+}, {
+  type: 'qualifier2',
+  hid: 'warrior'
+}, {
+  type: 'qualifier2',
+  hid: 'wise'
+}, {
+  type: 'qualifier2',
+  hid: 'woodsman'
+}];
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/data/index.js
+/////////////////////
+
+
+ /////////////////////
+
+const i18n_messages = {
+  en: i18n_en
+}; /////////////////////
+
+const WEAPON_BASES = ENTRIES.filter(armor_component => armor_component.type === WeaponPartType.base);
+const WEAPON_QUALIFIERS1 = ENTRIES.filter(armor_component => armor_component.type === WeaponPartType.qualifier1);
+const WEAPON_QUALIFIERS2 = ENTRIES.filter(armor_component => armor_component.type === WeaponPartType.qualifier2); /////////////////////
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/selectors.js
+/////////////////////
+
+
+ /////////////////////
+// see spreadsheet for calculation
+
+const ENHANCEMENT_MULTIPLIER = 0.1;
+const MAX_POSSIBLE_ENHANCEMENT_RATIO = 1 + MAX_ENHANCEMENT_LEVEL * ENHANCEMENT_MULTIPLIER;
+const OVERALL_STRENGTH_INTERVAL_BY_QUALITY = {
+  [ItemQuality.common]: [1, 999],
+  [ItemQuality.uncommon]: [1000, 2999],
+  [ItemQuality.rare]: [3500, 9999],
+  [ItemQuality.epic]: [11000, 29999],
+  [ItemQuality.legendary]: [35000, 99999],
+  [ItemQuality.artifact]: [35000, 99999]
+};
+if (Object.keys(OVERALL_STRENGTH_INTERVAL_BY_QUALITY).length !== dist["Enum"].keys(ItemQuality).length) throw new Error(`${src_es2019_consts_LIB} overall - outdated code!`);
+const SPREAD_PCT_BY_QUALITY = {
+  [ItemQuality.common]: 0.10,
+  [ItemQuality.uncommon]: 0.09,
+  [ItemQuality.rare]: 0.08,
+  [ItemQuality.epic]: 0.07,
+  [ItemQuality.legendary]: 0.05,
+  [ItemQuality.artifact]: 0.05
+};
+if (Object.keys(SPREAD_PCT_BY_QUALITY).length !== dist["Enum"].keys(ItemQuality).length) throw new Error(`${src_es2019_consts_LIB} spread - outdated code!`);
+const TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY = {};
+Object.keys(OVERALL_STRENGTH_INTERVAL_BY_QUALITY).forEach(k => {
+  const quality = k;
+  const [overall_min, overall_max] = OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality];
+  const spread_pct = SPREAD_PCT_BY_QUALITY[quality]; //console.log({quality, overall_min, overall_max})
+
+  const base_min = Math.floor(overall_min / (1 - spread_pct) / 1);
+  const base_max = Math.ceil(overall_max / (1 + spread_pct) / MAX_POSSIBLE_ENHANCEMENT_RATIO);
+  /*console.log({base_min, base_max})
+  for(let i = 0; i < 9; ++i) {
+      console.log({
+          i,
+          dmg_min: Math.round(base_min * (1 - spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+          dmg_max: Math.round(base_max * (1 + spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+      })
+  }*/
+
+  if (base_min >= base_max) throw new Error(`${src_es2019_consts_LIB}: range assertion failed for "${quality}"!`);
+  TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY[quality] = [base_min, base_max];
+});
+const BASE_STRENGTH_INTERVAL_BY_QUALITY = TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY;
+
+function get_interval(base_strength, quality, enhancement_level) {
+  const spread_pct = SPREAD_PCT_BY_QUALITY[quality];
+  const enhancement_ratio = 1 + ENHANCEMENT_MULTIPLIER * enhancement_level;
+  const [overall_min, overall_max] = OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality]; // Constrain interval due to rounding.
+  // It shouldn't change the numbers a lot.
+
+  const min_strength = Math.max(overall_min, Math.round(base_strength * (1 - spread_pct) * enhancement_ratio));
+  const max_strength = Math.min(overall_max, Math.round(base_strength * (1 + spread_pct) * enhancement_ratio));
+  return [min_strength, max_strength];
+} /////////////////////
+
+
+function get_damage_interval(weapon) {
+  return get_interval(weapon.base_strength, weapon.quality, weapon.enhancement_level);
+}
+
+function get_medium_damage(weapon) {
+  const damage_range = get_damage_interval(weapon);
+  return Math.round((damage_range[0] + damage_range[1]) / 2);
+}
+
+function get_ultimate_medium_damage(weapon) {
+  const max_damage_range = get_interval(weapon.base_strength, weapon.quality, MAX_ENHANCEMENT_LEVEL);
+  return Math.round((max_damage_range[0] + max_damage_range[1]) / 2);
+}
+
+function selectors_matches(weapon, elements) {
+  let matches = true; // so far
+
+  if (!weapon) throw new Error(`${src_es2019_consts_LIB} matches: can't match nothing!`);
+  if (elements.slot && elements.slot !== InventorySlot.weapon) throw new Error(`${src_es2019_consts_LIB} matches: can't match against a non-weapon slot "${elements.slot}"!`);
+  if (weapon.slot !== InventorySlot.weapon) return false;
+  Object.keys(elements).forEach(k => {
+    if (!(k in weapon)) throw new Error(`${src_es2019_consts_LIB} matches: can't match on non-weapon key "${k}"!`);
+    if (elements[k] !== weapon[k]) matches = false;
+  });
+  return matches;
+}
+
+function is_at_max_enhancement(weapon) {
+  return weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/definitions/dist/src.es2019/consts.js
+/////////////////////
+
+ ///////
+
+const PRODUCT = '@oh-my-rpg'; ///////
+
+const ITEM_QUALITIES = dist["Enum"].keys(ItemQuality); // useful for ex. for sorting
+
+const ITEM_QUALITIES_TO_INT = {
+  [ItemQuality.common]: 6,
+  [ItemQuality.uncommon]: 5,
+  [ItemQuality.rare]: 4,
+  [ItemQuality.epic]: 3,
+  [ItemQuality.legendary]: 2,
+  [ItemQuality.artifact]: 1
+}; ///////
+
+const ITEM_SLOTS = dist["Enum"].keys(InventorySlot).filter(s => s !== InventorySlot.none); // useful for ex. for sorting
+
+const ITEM_SLOTS_TO_INT = {
+  [InventorySlot.weapon]: 1,
+  [InventorySlot.armor]: 2
+}; ///////
+
+const MIN_LEVEL = 1;
+const MAX_LEVEL = 9999; /////////////////////
+
+ /////////////////////
+// EXTERNAL MODULE: external "crypto"
+var external_crypto_ = __webpack_require__(106);
+var external_crypto_default = /*#__PURE__*/__webpack_require__.n(external_crypto_);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/nanoid/url-alphabet/index.js
+// This alphabet uses `A-Za-z0-9_-` symbols. The genetic algorithm helped
+// optimize the gzip compression for this alphabet.
+let urlAlphabet =
+  'ModuleSymbhasOwnPr-0123456789ABCDEFGHNRVfgctiUvz_KqYTJkLxpZXIjQW'
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/nanoid/index.js
+
+
+
+
+// It is best to make fewer, larger requests to the crypto module to
+// avoid system call overhead. So, random numbers are generated in a
+// pool. The pool is a Buffer that is larger than the initial random
+// request size by this multiplier. The pool is enlarged if subsequent
+// requests exceed the maximum buffer size.
+const POOL_SIZE_MULTIPLIER = 32
+let pool, poolOffset
+
+let nanoid_random = bytes => {
+  if (!pool || pool.length < bytes) {
+    pool = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER)
+    external_crypto_default.a.randomFillSync(pool)
+    poolOffset = 0
+  } else if (poolOffset + bytes > pool.length) {
+    external_crypto_default.a.randomFillSync(pool)
+    poolOffset = 0
+  }
+
+  let res = pool.subarray(poolOffset, poolOffset + bytes)
+  poolOffset += bytes
+  return res
+}
+
+let customRandom = (alphabet, size, getRandom) => {
+  // First, a bitmask is necessary to generate the ID. The bitmask makes bytes
+  // values closer to the alphabet size. The bitmask calculates the closest
+  // `2^31 - 1` number, which exceeds the alphabet size.
+  // For example, the bitmask for the alphabet size 30 is 31 (00011111).
+  let mask = (2 << (31 - Math.clz32((alphabet.length - 1) | 1))) - 1
+  // Though, the bitmask solution is not perfect since the bytes exceeding
+  // the alphabet size are refused. Therefore, to reliably generate the ID,
+  // the random bytes redundancy has to be satisfied.
+
+  // Note: every hardware random generator call is performance expensive,
+  // because the system call for entropy collection takes a lot of time.
+  // So, to avoid additional system calls, extra bytes are requested in advance.
+
+  // Next, a step determines how many random bytes to generate.
+  // The number of random bytes gets decided upon the ID size, mask,
+  // alphabet size, and magic number 1.6 (using 1.6 peaks at performance
+  // according to benchmarks).
+  let step = Math.ceil((1.6 * mask * size) / alphabet.length)
+
+  return () => {
+    let id = ''
+    while (true) {
+      let bytes = getRandom(step)
+      // A compact alternative for `for (var i = 0; i < step; i++)`.
+      let i = step
+      while (i--) {
+        // Adding `|| ''` refuses a random byte that exceeds the alphabet size.
+        id += alphabet[bytes[i] & mask] || ''
+        // `id.length + 1 === size` is a more compact option.
+        if (id.length === +size) return id
+      }
+    }
+  }
+}
+
+let customAlphabet = (alphabet, size) => customRandom(alphabet, size, nanoid_random)
+
+let nanoid = (size = 21) => {
+  let bytes = nanoid_random(size)
+  let id = ''
+  // A compact alternative for `for (var i = 0; i < step; i++)`.
+  while (size--) {
+    // It is incorrect to use bytes exceeding the alphabet size.
+    // The following mask reduces the random byte in the 0-255 value
+    // range to the 0-63 value range. Therefore, adding hacks, such
+    // as empty string fallback or magic numbers, is unneccessary because
+    // the bitmask trims bytes down to the alphabet size.
+    id += urlAlphabet[bytes[size] & 63]
+  }
+  return id
+}
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/uuid/dist/src.es2019/generate.js
+/////////////////////
+// TODO NOT USE nanoid!!
+
+ ///////
+
+const UUID_RADIX = 'uu1';
+const NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES = 21; // according to the doc
+
+const UUID_LENGTH = UUID_RADIX.length + NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES;
+
+function generate_uuid({
+  length = NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES,
+  rng
+} = {}) {
+  return UUID_RADIX + (rng ? customRandom(urlAlphabet, length, size => {
+    //const result: number[] = []
+    const gen = random["Random"].integer(0, 255); //for (let i = 0; i < size; i++) result.push(gen(rng!))
+
+    return new Uint8Array(size).map(() => gen(rng));
+  })() : nanoid(length));
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/definitions/dist/src.es2019/element.js
+
+
+function create_element_base(element_type, hints = {}) {
+  const uuid = hints.uuid || generate_uuid();
+  return {
+    uuid,
+    element_type
+  };
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/definitions/dist/src.es2019/item.js
+
+
+
+
+function create_item_base(slot, quality = ItemQuality.common) {
+  return { ...create_element_base(ElementType.item),
+    slot,
+    quality
+  };
+}
+
+function compare_items_by_slot(a, b) {
+  const rank_a = ITEM_SLOTS_TO_INT[a.slot];
+  if (!Number.isInteger(rank_a)) throw new Error('compare items by slots: unhandled slot! (A)');
+  const rank_b = ITEM_SLOTS_TO_INT[b.slot];
+  if (!Number.isInteger(rank_b)) throw new Error('compare items by slots: unhandled slot! (B)');
+  return rank_a - rank_b;
+}
+
+function compare_items_by_quality(a, b) {
+  const rank_a = ITEM_QUALITIES_TO_INT[a.quality];
+  if (!Number.isInteger(rank_a)) throw new Error('compare items by quality: unhandled quality! (A)');
+  const rank_b = ITEM_QUALITIES_TO_INT[b.quality];
+  if (!Number.isInteger(rank_b)) throw new Error('compare items by quality: unhandled quality! (B)');
+  return rank_a - rank_b;
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/state.js
+/////////////////////
+
+
+
+
+ /////////////////////
+
+function pick_random_quality(rng) {
+  // see armor for numbers
+  let p = random["Random"].integer(1, 1000)(rng);
+  if (p <= 300) return ItemQuality.common;
+  p -= 300;
+  if (p <= 300) return ItemQuality.uncommon;
+  p -= 300;
+  if (p <= 250) return ItemQuality.rare;
+  p -= 250;
+  if (p <= 120) return ItemQuality.epic;
+  return ItemQuality.legendary;
+}
+
+function pick_random_base(rng) {
+  return random["Random"].pick(rng, WEAPON_BASES).hid;
+}
+
+function pick_random_qualifier1(rng) {
+  return random["Random"].pick(rng, WEAPON_QUALIFIERS1).hid;
+}
+
+function pick_random_qualifier2(rng) {
+  return random["Random"].pick(rng, WEAPON_QUALIFIERS2).hid;
+}
+
+function pick_random_base_strength(rng, quality) {
+  return random["Random"].integer(...BASE_STRENGTH_INTERVAL_BY_QUALITY[quality])(rng);
+} /////////////////////
+
+
+function state_create(rng, hints = {}) {
+  // TODO add a check for hints to be in existing components
+  const base = create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng));
+  const temp = { ...base,
+    base_hid: hints.base_hid || pick_random_base(rng),
+    qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng),
+    qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng),
+    base_strength: hints.base_strength || pick_random_base_strength(rng, base.quality),
+    enhancement_level: hints.enhancement_level || MIN_ENHANCEMENT_LEVEL
+  };
+  if (temp.base_strength < BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][0]) throw new Error(`${src_es2019_consts_LIB}: create(): base_strength too low for this quality!`);
+  if (temp.base_strength > BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][1]) throw new Error(`${src_es2019_consts_LIB}: create(): base_strength too high for this quality!`);
+  return temp;
+}
+
+function enhance(weapon) {
+  if (weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL) throw new Error('can’t enhance a weapon above the maximal enhancement level!');
+  return { ...weapon,
+    enhancement_level: weapon.enhancement_level + 1
+  };
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/examples.js
+/////////////////////
+
+
+
+
+
+
+ /////////////////////
+
+const DEMO_WEAPON_1 = Object(utils["c" /* enforce_immutability */])({
+  uuid: 'uu1~test~demo~weapon~001',
+  element_type: ElementType.item,
+  slot: InventorySlot.weapon,
+  base_hid: WEAPON_BASES[0].hid,
+  qualifier1_hid: WEAPON_QUALIFIERS1[0].hid,
+  qualifier2_hid: WEAPON_QUALIFIERS2[0].hid,
+  quality: ItemQuality.uncommon,
+  base_strength: BASE_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.uncommon][0] + 1,
+  enhancement_level: MIN_ENHANCEMENT_LEVEL
+});
+const DEMO_WEAPON_2 = Object(utils["c" /* enforce_immutability */])({
+  uuid: 'uu1~test~demo~weapon~002',
+  element_type: ElementType.item,
+  slot: InventorySlot.weapon,
+  base_hid: WEAPON_BASES[1].hid,
+  qualifier1_hid: WEAPON_QUALIFIERS1[1].hid,
+  qualifier2_hid: WEAPON_QUALIFIERS2[1].hid,
+  quality: ItemQuality.legendary,
+  base_strength: BASE_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][1] - 1,
+  enhancement_level: MAX_ENHANCEMENT_LEVEL
+}); // for demo purpose, all attributes having the same probability + also random enhancement level
+
+function generate_random_demo_weapon(rng) {
+  rng = rng || random["Random"].engines.mt19937().autoSeed();
+  return state_create(rng, {
+    enhancement_level: random["Random"].integer(MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL)(rng)
+  });
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-monsters/dist/src.es2019/types.js
+ /////////////////////
+
+const MonsterRank = Object(dist["Enum"])('common', 'elite', 'boss'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/unicode-data/dist/src.es2019/unicode/index.js
+const CHARACTERS = {
+  '01f400': {
+    code_point: 128000,
+    char: '🐀',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'rat'
+    }
+  },
+  '01f401': {
+    code_point: 128001,
+    char: '🐁',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'mouse'
+    }
+  },
+  '01f402': {
+    code_point: 128002,
+    char: '🐂',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'ox'
+    }
+  },
+  '01f403': {
+    code_point: 128003,
+    char: '🐃',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'water buffalo'
+    }
+  },
+  '01f404': {
+    code_point: 128004,
+    char: '🐄',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'cow'
+    }
+  },
+  '01f405': {
+    code_point: 128005,
+    char: '🐅',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'tiger'
+    }
+  },
+  '01f406': {
+    code_point: 128006,
+    char: '🐆',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'leopard'
+    }
+  },
+  '01f407': {
+    code_point: 128007,
+    char: '🐇',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'rabbit'
+    }
+  },
+  '01f408': {
+    code_point: 128008,
+    char: '🐈',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'cat'
+    }
+  },
+  '01f409': {
+    code_point: 128009,
+    char: '🐉',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'dragon'
+    }
+  },
+  '01f40a': {
+    code_point: 128010,
+    char: '🐊',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'crocodile'
+    }
+  },
+  '01f40b': {
+    code_point: 128011,
+    char: '🐋',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'whale'
+    }
+  },
+  '01f40c': {
+    code_point: 128012,
+    char: '🐌',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'snail'
+    }
+  },
+  '01f40d': {
+    code_point: 128013,
+    char: '🐍',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'snake'
+    }
+  },
+  '01f40e': {
+    code_point: 128014,
+    char: '🐎',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'horse'
+    }
+  },
+  '01f40f': {
+    code_point: 128015,
+    char: '🐏',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'ram'
+    }
+  },
+  '01f410': {
+    code_point: 128016,
+    char: '🐐',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'goat'
+    }
+  },
+  '01f411': {
+    code_point: 128017,
+    char: '🐑',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'ewe'
+    }
+  },
+  '01f412': {
+    code_point: 128018,
+    char: '🐒',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'monkey'
+    }
+  },
+  '01f413': {
+    code_point: 128019,
+    char: '🐓',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'chicken'
+    }
+  },
+  '01f414': {
+    code_point: 128020,
+    char: '🐔',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'chicken head'
+    }
+  },
+  '01f415': {
+    code_point: 128021,
+    char: '🐕',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'dog'
+    }
+  },
+  '01f416': {
+    code_point: 128022,
+    char: '🐖',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'pig'
+    }
+  },
+  '01f417': {
+    code_point: 128023,
+    char: '🐗',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'boar'
+    }
+  },
+  '01f418': {
+    code_point: 128024,
+    char: '🐘',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'elephant'
+    }
+  },
+  '01f419': {
+    code_point: 128025,
+    char: '🐙',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'octopus'
+    }
+  },
+  '01f41a': {
+    code_point: 128026,
+    char: '🐚',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'spiral shell'
+    }
+  },
+  '01f41b': {
+    code_point: 128027,
+    char: '🐛',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'caterpillar'
+    }
+  },
+  '01f41c': {
+    code_point: 128028,
+    char: '🐜',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'ant'
+    }
+  },
+  '01f41d': {
+    code_point: 128029,
+    char: '🐝',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'bee'
+    }
+  },
+  '01f41e': {
+    code_point: 128030,
+    char: '🐞',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'lady beetle'
+    }
+  },
+  '01f41f': {
+    code_point: 128031,
+    char: '🐟',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'fish'
+    }
+  },
+  '01f420': {
+    code_point: 128032,
+    char: '🐠',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'tropical fish'
+    }
+  },
+  '01f421': {
+    code_point: 128033,
+    char: '🐡',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'blowfish'
+    }
+  },
+  '01f422': {
+    code_point: 128034,
+    char: '🐢',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'turtle'
+    }
+  },
+  '01f423': {
+    code_point: 128035,
+    char: '🐣',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'hatching chick'
+    }
+  },
+  '01f424': {
+    code_point: 128036,
+    char: '🐤',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'baby chick'
+    }
+  },
+  '01f425': {
+    code_point: 128037,
+    char: '🐥',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'baby chick'
+    }
+  },
+  '01f426': {
+    code_point: 128038,
+    char: '🐦',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'pigeon'
+    }
+  },
+  '01f427': {
+    code_point: 128039,
+    char: '🐧',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'penguin'
+    }
+  },
+  '01f428': {
+    code_point: 128040,
+    char: '🐨',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'koala'
+    }
+  },
+  '01f429': {
+    code_point: 128041,
+    char: '🐩',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'poodle'
+    }
+  },
+  '01f42a': {
+    code_point: 128042,
+    char: '🐪',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'dromedary'
+    }
+  },
+  '01f42b': {
+    code_point: 128043,
+    char: '🐫',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'camel'
+    }
+  },
+  '01f42c': {
+    code_point: 128044,
+    char: '🐬',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'dolphin'
+    }
+  },
+  '01f42d': {
+    code_point: 128045,
+    char: '🐭',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'mouse'
+    }
+  },
+  '01f42e': {
+    code_point: 128046,
+    char: '🐮',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'cow'
+    }
+  },
+  '01f42f': {
+    code_point: 128047,
+    char: '🐯',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'tiger'
+    }
+  },
+  '01f430': {
+    code_point: 128048,
+    char: '🐰',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'rabbit'
+    }
+  },
+  '01f431': {
+    code_point: 128049,
+    char: '🐱',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'cat'
+    }
+  },
+  '01f432': {
+    code_point: 128050,
+    char: '🐲',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'dragon'
+    }
+  },
+  '01f433': {
+    code_point: 128051,
+    char: '🐳',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'spouting whale'
+    }
+  },
+  '01f434': {
+    code_point: 128052,
+    char: '🐴',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji'],
+    properties: {
+      description: 'horse'
+    }
+  },
+  '01f435': {
+    code_point: 128053,
+    char: '🐵',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'monkey'
+    }
+  },
+  '01f436': {
+    code_point: 128054,
+    char: '🐶',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'dog'
+    }
+  },
+  '01f437': {
+    code_point: 128055,
+    char: '🐷',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'pig'
+    }
+  },
+  '01f438': {
+    code_point: 128056,
+    char: '🐸',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'frog'
+    }
+  },
+  '01f439': {
+    code_point: 128057,
+    char: '🐹',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'hamster'
+    }
+  },
+  '01f43a': {
+    code_point: 128058,
+    char: '🐺',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji'],
+    properties: {
+      description: 'wolf'
+    }
+  },
+  '01f43b': {
+    code_point: 128059,
+    char: '🐻',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'bear'
+    }
+  },
+  '01f43c': {
+    code_point: 128060,
+    char: '🐼',
+    taxonomy: ['animal', 'living', 'monster', 'face'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'panda'
+    }
+  },
+  '01f43d': {
+    code_point: 128061,
+    char: '🐽',
+    taxonomy: [],
+    tags: ['emoji'],
+    properties: {
+      description: '???'
+    }
+  },
+  '01f43e': {
+    code_point: 128062,
+    char: '🐾',
+    taxonomy: [],
+    tags: ['emoji'],
+    properties: {
+      description: '???'
+    }
+  },
+  '01f43f': {
+    code_point: 128063,
+    char: '🐿',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'chipmunk'
+    }
+  },
+  '01f5ff': {
+    code_point: 128511,
+    char: '🗿',
+    taxonomy: ['monster'],
+    tags: ['emoji'],
+    properties: {
+      description: 'golem'
+    }
+  },
+  '01f47b': {
+    code_point: 128123,
+    char: '👻',
+    taxonomy: ['monster'],
+    tags: ['emoji'],
+    properties: {
+      description: 'ghost'
+    }
+  },
+  '01f54a': {
+    code_point: 128330,
+    char: '🕊',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'dove'
+    }
+  },
+  '01f577': {
+    code_point: 128375,
+    char: '🕷',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'spider'
+    }
+  },
+  '01f980': {
+    code_point: 129408,
+    char: '🦀',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'crab'
+    }
+  },
+  '01f981': {
+    code_point: 129409,
+    char: '🦁',
+    taxonomy: ['animal', 'living'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'lion'
+    }
+  },
+  '01f982': {
+    code_point: 129410,
+    char: '🦂',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'scorpion'
+    }
+  },
+  '01f983': {
+    code_point: 129411,
+    char: '🦃',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'turkey'
+    }
+  },
+  '01f984': {
+    code_point: 129412,
+    char: '🦄',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji'],
+    properties: {
+      description: 'unicorn'
+    }
+  },
+  '01f985': {
+    code_point: 129413,
+    char: '🦅',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'eagle'
+    }
+  },
+  '01f986': {
+    code_point: 129414,
+    char: '🦆',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'duck'
+    }
+  },
+  '01f987': {
+    code_point: 129415,
+    char: '🦇',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'bat'
+    }
+  },
+  '01f988': {
+    code_point: 129416,
+    char: '🦈',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'shark'
+    }
+  },
+  '01f989': {
+    code_point: 129417,
+    char: '🦉',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'owl'
+    }
+  },
+  '01f98a': {
+    code_point: 129418,
+    char: '🦊',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'face'],
+    properties: {
+      description: 'fox'
+    }
+  },
+  '01f98b': {
+    code_point: 129419,
+    char: '🦋',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'butterfly'
+    }
+  },
+  '01f98c': {
+    code_point: 129420,
+    char: '🦌',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'deer'
+    }
+  },
+  '01f98d': {
+    code_point: 129421,
+    char: '🦍',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'gorilla'
+    }
+  },
+  '01f98e': {
+    code_point: 129422,
+    char: '🦎',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'lizard'
+    }
+  },
+  '01f98f': {
+    code_point: 129423,
+    char: '🦏',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'rhinoceros'
+    }
+  },
+  '01f990': {
+    code_point: 129424,
+    char: '🦐',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'shrimp'
+    }
+  },
+  '01f991': {
+    code_point: 129425,
+    char: '🦑',
+    taxonomy: ['animal', 'living', 'monster'],
+    tags: ['emoji', 'full'],
+    properties: {
+      description: 'squid'
+    }
+  }
+};
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-monsters/dist/src.es2019/data/index.js
+
+const EMOJI_ENTRIES = Object.keys(CHARACTERS).map(key => CHARACTERS[key]).filter(charDetails => charDetails.taxonomy.includes('monster')).map(charDetails => ({
+  name: charDetails.properties.description,
+  emoji: charDetails.char
+}));
+const EXTRA_ENTRIES = [{
+  name: 'drop bear',
+  emoji: '🐨'
+}, {
+  name: 'dahu',
+  emoji: '🐐'
+}, // https://en.wikipedia.org/wiki/Fearsome_critters
+{
+  name: 'hoop snake',
+  emoji: '🐍'
+}, {
+  name: 'joint snake',
+  emoji: '🐍'
+}, {
+  name: 'spreading adder',
+  emoji: '🐍'
+}, {
+  name: 'fur-bearing truit',
+  emoji: '🐡'
+}, {
+  name: 'splintercat',
+  emoji: '🐡'
+}];
+const data_ENTRIES = [].concat(...EMOJI_ENTRIES, ...EXTRA_ENTRIES);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-monsters/dist/src.es2019/state.js
+/////////////////////
+
+
+
+ /////////////////////
+
+function pick_random_rank(rng) {
+  // on 10 times, 1 boss, 2 elites, 7 common
+  return random["Random"].bool(0.7)(rng) ? MonsterRank.common : random["Random"].bool(2 / 3.)(rng) ? MonsterRank.elite : MonsterRank.boss;
+} /////////////////////
+
+
+const MONSTER_RELATIVE_LEVEL_SPREAD = 0.1;
+
+function src_es2019_state_create(rng, hints = {}) {
+  const raw = hints.name ? data_ENTRIES.find(raw_monster => raw_monster.name === hints.name) : random["Random"].pick(rng, data_ENTRIES);
+  if (!raw) throw new Error(`OMR Monster create: can't find a monster corresponding to hint "${hints.name}"!`);
+  let level = -1;
+  if (!hints.level) level = random["Random"].integer(1, MAX_LEVEL)(rng);else {
+    // stay close to the given level
+    const reference_level = hints.level;
+    const variation = Math.round(Math.max(1, reference_level * MONSTER_RELATIVE_LEVEL_SPREAD));
+    level = Math.max(1, Math.min(MAX_LEVEL, reference_level + random["Random"].integer(-variation, variation)(rng)));
+  }
+  return {
+    name: raw.name,
+    level,
+    rank: hints.rank || pick_random_rank(rng),
+    possible_emoji: hints.possible_emoji || raw.emoji
+  };
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-monsters/dist/src.es2019/examples.js
+/////////////////////
+
+
+
+ /////////////////////
+
+const DEMO_MONSTER_01 = Object(utils["c" /* enforce_immutability */])({
+  name: 'chicken',
+  level: 7,
+  rank: MonsterRank.elite,
+  possible_emoji: '🐓'
+}); // for demo purpose, all attributes having the same probability + also random enhancement level
+
+function generate_random_demo_monster() {
+  const rng = random["Random"].engines.mt19937().autoSeed();
+  return src_es2019_state_create(rng);
+} /////////////////////
+
+
+ /////////////////////
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/migration.js
+var migration = __webpack_require__(116);
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
+var src_es2019_generate = __webpack_require__(104);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-character/dist/src.es2019/consts.js
+const dist_src_es2019_consts_LIB = '@oh-my-rpg/state-character';
+const src_es2019_consts_SCHEMA_VERSION = 2;
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/index.js + 20 modules
+var src_es2019 = __webpack_require__(15);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/definitions/dist/src.es2019/root_sec.js
+ /////////////////////
+
+function decorate_SEC(SEC) {
+  /*SEC.injectDependencies({
+      enforce_immutability, // TODO remove
+  })*/
+  SEC.setAnalyticsAndErrorDetails({
+    product: PRODUCT
+  });
+  return SEC; // for chaining
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-character/dist/src.es2019/sec.js
+
+
+
+
+function get_lib_SEC(parent) {
+  // TODO review memoize / not mutate the parent??
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: dist_src_es2019_consts_LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: 'state-character'
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-character/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({}); /////////////////////
+
+function migrate_to_latest(SEC, legacy_state, hints = {}) {
+  return get_lib_SEC(SEC).xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    const existing_version = (legacy_state === null || legacy_state === void 0 ? void 0 : legacy_state.schema_version) || 0;
+    SEC.setAnalyticsAndErrorDetails({
+      version_from: existing_version,
+      version_to: src_es2019_consts_SCHEMA_VERSION
+    });
+    if (existing_version > src_es2019_consts_SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter, may actually be true
+
+    if (existing_version < src_es2019_consts_SCHEMA_VERSION) {
+      logger.warn(`${dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${src_es2019_consts_SCHEMA_VERSION}…`);
+      SEC.fireAnalyticsEvent('schema_migration.began');
+
+      try {
+        state = migrate_to_2(SEC, legacy_state, hints);
+      } catch (err) {
+        SEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${dist_src_es2019_consts_LIB}: schema migration successful.`);
+      SEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    return state;
+  });
+} /////////////////////
+
+
+function migrate_to_2(SEC, legacy_state, hints) {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-wallet/dist/src.es2019/consts.js
+const state_wallet_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-wallet';
+const dist_src_es2019_consts_SCHEMA_VERSION = 1;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-wallet/dist/src.es2019/sec.js
+
+
+
+
+function sec_get_lib_SEC(parent) {
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: state_wallet_dist_src_es2019_consts_LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: 'state-wallet'
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-wallet/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({}); /////////////////////
+
+function migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  const existing_version = legacy_state && legacy_state.schema_version || 0;
+  SEC = sec_get_lib_SEC(SEC).setAnalyticsAndErrorDetails({
+    version_from: existing_version,
+    version_to: dist_src_es2019_consts_SCHEMA_VERSION
+  });
+  return SEC.xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    if (existing_version > dist_src_es2019_consts_SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter
+
+    if (existing_version < dist_src_es2019_consts_SCHEMA_VERSION) {
+      logger.warn(`${state_wallet_dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${dist_src_es2019_consts_SCHEMA_VERSION}:`);
+      SEC.fireAnalyticsEvent('schema_migration.began');
+
+      try {
+        state = migrations_migrate_to_2(SEC, legacy_state, hints);
+      } catch (err) {
+        SEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${state_wallet_dist_src_es2019_consts_LIB}: schema migration successful.`);
+      SEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    return state;
+  });
+} /////////////////////
+
+
+function migrations_migrate_to_2(SEC, legacy_state, hints) {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-wallet/dist/src.es2019/types.js
+ /////////////////////
+
+const Currency = Object(dist["Enum"])('coin', 'token'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-wallet/dist/src.es2019/state.js
+/////////////////////
+
+ /////////////////////
+
+const ALL_CURRENCIES = [Currency.coin, Currency.token];
+
+function dist_src_es2019_state_create() {
+  return {
+    schema_version: dist_src_es2019_consts_SCHEMA_VERSION,
+    revision: 0,
+    coin_count: 0,
+    token_count: 0
+  };
+} /////////////////////
+
+
+function currency_to_state_entry(currency) {
+  switch (currency) {
+    case Currency.coin:
+    case Currency.token:
+      return `${currency}_count`;
+
+    default:
+      throw new Error(`state-wallet: unrecognized currency: "${currency}`);
+  }
+}
+
+function change_amount_by(state, currency, amount) {
+  const state_entry = currency_to_state_entry(currency);
+  return { ...state,
+    [state_entry]: state[state_entry] + amount,
+    revision: state.revision + 1
+  };
+} /////////////////////
+
+
+function add_amount(state, currency, amount) {
+  if (amount <= 0) throw new Error('state-wallet: can’t add a <= 0 amount');
+  return change_amount_by(state, currency, amount);
+}
+
+function remove_amount(state, currency, amount) {
+  if (amount <= 0) throw new Error('state-wallet: can’t remove a <= 0 amount');
+  if (amount > get_currency_amount(state, currency)) throw new Error('state-wallet: can’t remove more than available, no credit !');
+  return change_amount_by(state, currency, -amount);
+} /////////////////////
+
+
+function get_currency_amount(state, currency) {
+  return state[currency_to_state_entry(currency)];
+}
+
+function* iterables_currency(state) {
+  yield* ALL_CURRENCIES;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-inventory/dist/src.es2019/consts.js
+const state_inventory_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-inventory';
+const state_inventory_dist_src_es2019_consts_SCHEMA_VERSION = 1;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-inventory/dist/src.es2019/sec.js
+
+
+
+
+function src_es2019_sec_get_lib_SEC(parent) {
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: state_inventory_dist_src_es2019_consts_LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: 'state-inventory'
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-inventory/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const src_es2019_migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({}); /////////////////////
+
+function src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  const existing_version = legacy_state && legacy_state.schema_version || 0;
+  SEC = src_es2019_sec_get_lib_SEC(SEC).setAnalyticsAndErrorDetails({
+    version_from: existing_version,
+    version_to: state_inventory_dist_src_es2019_consts_SCHEMA_VERSION
+  });
+  return SEC.xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    if (existing_version > state_inventory_dist_src_es2019_consts_SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter
+
+    if (existing_version < state_inventory_dist_src_es2019_consts_SCHEMA_VERSION) {
+      logger.warn(`${state_inventory_dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${state_inventory_dist_src_es2019_consts_SCHEMA_VERSION}:`);
+      SEC.fireAnalyticsEvent('schema_migration.began');
+
+      try {
+        state = src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints);
+      } catch (err) {
+        SEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${state_inventory_dist_src_es2019_consts_LIB}: schema migration successful.`);
+      SEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    return state;
+  });
+} /////////////////////
+
+
+function src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-prng/dist/src.es2019/consts.js
+const state_prng_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-prng';
+const state_prng_dist_src_es2019_consts_SCHEMA_VERSION = 3; // TODO move in SEC
+
+const consts_DEBUG = true;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-prng/dist/src.es2019/sec.js
+
+
+
+
+function dist_src_es2019_sec_get_lib_SEC(parent) {
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: state_prng_dist_src_es2019_consts_LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: 'state-prng'
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-prng/dist/src.es2019/migrations.js
+
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const dist_src_es2019_migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({}); /////////////////////
+
+function dist_src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  const existing_version = legacy_state && legacy_state.schema_version || 0;
+  SEC = dist_src_es2019_sec_get_lib_SEC(SEC).setAnalyticsAndErrorDetails({
+    version_from: existing_version,
+    version_to: state_prng_dist_src_es2019_consts_SCHEMA_VERSION
+  });
+  return SEC.xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    if (existing_version > state_prng_dist_src_es2019_consts_SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter
+
+    if (existing_version < state_prng_dist_src_es2019_consts_SCHEMA_VERSION) {
+      logger.warn(`${state_prng_dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${state_prng_dist_src_es2019_consts_SCHEMA_VERSION}:`);
+      SEC.fireAnalyticsEvent('schema_migration.began');
+
+      try {
+        state = migrate_to_3(SEC, legacy_state, hints);
+      } catch (err) {
+        SEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${state_prng_dist_src_es2019_consts_LIB}: schema migration successful.`);
+      SEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    return state;
+  });
+} /////////////////////
+
+
+function migrate_to_3(SEC, legacy_state, hints) {
+  let state = legacy_state.schema_version < 2 ? dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) : legacy_state;
+  state = { ...state,
+    uuid: generate_uuid()
+  };
+  return state;
+}
+
+function dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-energy/dist/src.es2019/consts.js
+const state_energy_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-energy';
+const state_energy_dist_src_es2019_consts_SCHEMA_VERSION = 4; // roughly the amount of time for a change to be worth a display
+
+const TICK_MS = 500;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-energy/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const state_energy_dist_src_es2019_migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({});
+
+function state_energy_dist_src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  return Object(migration["a" /* generic_migrate_to_latest */])({
+    SEC: SEC,
+    LIB: state_energy_dist_src_es2019_consts_LIB,
+    SCHEMA_VERSION: state_energy_dist_src_es2019_consts_SCHEMA_VERSION,
+    legacy_state,
+    hints,
+    sub_states_migrate_to_latest: {},
+    pipeline: [migrate_to_4x, migrations_migrate_to_3]
+  });
+} /////////////////////
+
+
+const migrate_to_4x = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+  //console.log('hello from migrate_to_4x', legacy_state, hints, previous, legacy_schema_version)
+  if (legacy_schema_version < 3) legacy_state = previous(SEC, legacy_state, hints);
+  let [u_state, t_state] = legacy_state;
+  u_state = { ...u_state,
+    schema_version: 4
+  };
+  t_state = { ...t_state,
+    schema_version: 4,
+    // this field was added
+    revision: u_state.revision
+  };
+  return [u_state, t_state];
+};
+
+const migrations_migrate_to_3 = () => {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+}; /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-engagement/dist/src.es2019/consts.js
+const state_engagement_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-engagement';
+const state_engagement_dist_src_es2019_consts_SCHEMA_VERSION = 1;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-engagement/dist/src.es2019/sec.js
+
+
+
+
+function state_engagement_dist_src_es2019_sec_get_lib_SEC(parent) {
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: state_engagement_dist_src_es2019_consts_LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: 'state-engagement'
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-engagement/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const state_engagement_dist_src_es2019_migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({}); /////////////////////
+
+function state_engagement_dist_src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  const existing_version = legacy_state && legacy_state.schema_version || 0;
+  SEC = state_engagement_dist_src_es2019_sec_get_lib_SEC(SEC).setAnalyticsAndErrorDetails({
+    version_from: existing_version,
+    version_to: state_engagement_dist_src_es2019_consts_SCHEMA_VERSION
+  });
+  return SEC.xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    if (existing_version > state_engagement_dist_src_es2019_consts_SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter
+
+    if (existing_version < state_engagement_dist_src_es2019_consts_SCHEMA_VERSION) {
+      logger.warn(`${state_engagement_dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${state_engagement_dist_src_es2019_consts_SCHEMA_VERSION}:`);
+      SEC.fireAnalyticsEvent('schema_migration.began');
+
+      try {
+        state = state_engagement_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints);
+      } catch (err) {
+        SEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${state_engagement_dist_src_es2019_consts_LIB}: schema migration successful.`);
+      SEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    return state;
+  });
+} /////////////////////
+
+
+function state_engagement_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-codes/dist/src.es2019/consts.js
+const state_codes_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-codes';
+const state_codes_dist_src_es2019_consts_SCHEMA_VERSION = 1;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-codes/dist/src.es2019/sec.js
+
+
+
+
+function state_codes_dist_src_es2019_sec_get_lib_SEC(parent) {
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: state_codes_dist_src_es2019_consts_LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: 'state-codes'
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-codes/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const state_codes_dist_src_es2019_migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({}); /////////////////////
+
+function state_codes_dist_src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  const existing_version = legacy_state && legacy_state.schema_version || 0;
+  SEC = state_codes_dist_src_es2019_sec_get_lib_SEC(SEC).setAnalyticsAndErrorDetails({
+    version_from: existing_version,
+    version_to: state_codes_dist_src_es2019_consts_SCHEMA_VERSION
+  });
+  return SEC.xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    if (existing_version > state_codes_dist_src_es2019_consts_SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter
+
+    if (existing_version < state_codes_dist_src_es2019_consts_SCHEMA_VERSION) {
+      logger.warn(`${state_codes_dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${state_codes_dist_src_es2019_consts_SCHEMA_VERSION}:`);
+      SEC.fireAnalyticsEvent('schema_migration.began');
+
+      try {
+        state = state_codes_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints);
+      } catch (err) {
+        SEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${state_codes_dist_src_es2019_consts_LIB}: schema migration successful.`);
+      SEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    return state;
+  });
+} /////////////////////
+
+
+function state_codes_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-progress/dist/src.es2019/consts.js
+const state_progress_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-progress';
+const state_progress_dist_src_es2019_consts_SCHEMA_VERSION = 2;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-progress/dist/src.es2019/sec.js
+
+
+
+
+function state_progress_dist_src_es2019_sec_get_lib_SEC(parent) {
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: state_progress_dist_src_es2019_consts_LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: 'state-progress'
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-progress/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const state_progress_dist_src_es2019_migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({}); /////////////////////
+
+function state_progress_dist_src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  const existing_version = legacy_state && legacy_state.schema_version || 0;
+  SEC = state_progress_dist_src_es2019_sec_get_lib_SEC(SEC).setAnalyticsAndErrorDetails({
+    version_from: existing_version,
+    version_to: state_progress_dist_src_es2019_consts_SCHEMA_VERSION
+  });
+  return SEC.xTry('migrate_to_latest', ({
+    SEC,
+    logger
+  }) => {
+    if (existing_version > state_progress_dist_src_es2019_consts_SCHEMA_VERSION) throw new Error('Your data is from a more recent version of this lib. Please update!');
+    let state = legacy_state; // for starter
+
+    if (existing_version < state_progress_dist_src_es2019_consts_SCHEMA_VERSION) {
+      logger.warn(`${state_progress_dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${state_progress_dist_src_es2019_consts_SCHEMA_VERSION}:`);
+      SEC.fireAnalyticsEvent('schema_migration.began');
+
+      try {
+        state = state_progress_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints);
+      } catch (err) {
+        SEC.fireAnalyticsEvent('schema_migration.failed');
+        throw err;
+      }
+
+      logger.info(`${state_progress_dist_src_es2019_consts_LIB}: schema migration successful.`);
+      SEC.fireAnalyticsEvent('schema_migration.ended');
+    } // migrate sub-reducers if any...
+
+
+    return state;
+  });
+} /////////////////////
+
+
+function state_progress_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) {
+  return { ...legacy_state,
+    schema_version: 2,
+    achievements: legacy_state.achievements || {}
+  };
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-meta/dist/src.es2019/consts.js
+const state_meta_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-meta';
+const state_meta_dist_src_es2019_consts_SCHEMA_VERSION = 3;
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-meta/dist/src.es2019/migrations.js
+
+
+ // some hints may be needed to migrate to demo state
+// need to export them for composing tests
+
+const state_meta_dist_src_es2019_migrations_MIGRATION_HINTS_FOR_TESTS = Object(utils["c" /* enforce_immutability */])({});
+function state_meta_dist_src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  return Object(migration["a" /* generic_migrate_to_latest */])({
+    SEC: SEC,
+    LIB: state_meta_dist_src_es2019_consts_LIB,
+    SCHEMA_VERSION: state_meta_dist_src_es2019_consts_SCHEMA_VERSION,
+    legacy_state,
+    hints,
+    sub_states_migrate_to_latest: {},
+    pipeline: [migrate_to_3x, state_meta_dist_src_es2019_migrations_migrate_to_2]
+  });
+} /////////////////////
+
+const migrate_to_3x = (SEC, legacy_state, hints, next, legacy_schema_version) => {
+  //console.log('hello from migrate_to_3x', legacy_state, hints, legacy_schema_version)
+  if (legacy_schema_version < 2) legacy_state = next(SEC, legacy_state, hints);
+  let state = { ...legacy_state,
+    schema_version: 3,
+    slot_id: 0
+  };
+  delete state.persistence_id;
+  return state;
+};
+
+const state_meta_dist_src_es2019_migrations_migrate_to_2 = () => {
+  throw new Error('Schema is too old (pre-beta), can’t migrate!');
+}; /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-progress/dist/src.es2019/types.js
+ /////////////////////
+
+const AchievementStatus = Object(dist["Enum"])('secret', // should not even be hinted
+'hidden', // may be hinted, for ex. as [???]
+'revealed', // appear and conditions may be seen
+'unlocked'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-progress/dist/src.es2019/selectors.js
+ /////////////////////
+
+function get_last_known_achievement_status(state, key) {
+  return state.achievements[key];
+}
+
+function is_achievement_already_unlocked(state, key) {
+  return state.achievements.hasOwnProperty(key) ? state.achievements[key] === AchievementStatus.unlocked : false;
+} /////////////////////
+
+
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
+var tiny_invariant_esm = __webpack_require__(2);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-progress/dist/src.es2019/state.js
+/////////////////////
+
+
+
+
+
+
+ /////////////////////
+
+function state_progress_dist_src_es2019_state_create(SEC) {
+  return state_progress_dist_src_es2019_sec_get_lib_SEC(SEC).xTry('create', () => {
+    return Object(utils["c" /* enforce_immutability */])({
+      schema_version: state_progress_dist_src_es2019_consts_SCHEMA_VERSION,
+      revision: 0,
+      wiki: null,
+      flags: null,
+      achievements: {},
+      statistics: {
+        last_visited_timestamp: Object(src_es2019_generate["e" /* get_human_readable_UTC_timestamp_days */])(),
+        active_day_count: 1,
+        good_play_count: 0,
+        bad_play_count: 0,
+        encountered_adventures: {},
+        encountered_monsters: {},
+        good_play_count_by_active_class: {},
+        bad_play_count_by_active_class: {},
+        fight_won_count: 0,
+        fight_lost_count: 0,
+        coins_gained: 0,
+        tokens_gained: 0,
+        items_gained: 0,
+        has_account: false,
+        is_registered_alpha_player: false
+      }
+    });
+  });
+} /////////////////////
+
+
+function _on_activity(state, previous_revision) {
+  const current_timestamp = Object(src_es2019_generate["e" /* get_human_readable_UTC_timestamp_days */])();
+  const is_new_day = state.statistics.last_visited_timestamp !== current_timestamp;
+
+  if (is_new_day) {
+    state = { ...state,
+      statistics: { ...state.statistics,
+        last_visited_timestamp: current_timestamp,
+        active_day_count: (state.statistics.active_day_count || 0) + 1
+      },
+      revision: previous_revision + 1
+    };
+  }
+
+  return state;
+}
+
+function on_played(previous_state, details) {
+  let state = previous_state;
+  const {
+    good,
+    adventure_key,
+    encountered_monster_key,
+    active_class,
+    coins_gained,
+    tokens_gained,
+    items_gained
+  } = details; // shortcut + drop immutability
+
+  const stats = { ...state.statistics
+  };
+
+  if (!stats.encountered_adventures[adventure_key]) {
+    stats.encountered_adventures = { ...stats.encountered_adventures,
+      [adventure_key]: true
+    };
+  }
+
+  if (good) {
+    stats.good_play_count++;
+    stats.good_play_count_by_active_class = {
+      // ensure the key is present + immutable
+      [active_class]: 0,
+      ...stats.good_play_count_by_active_class
+    };
+    stats.good_play_count_by_active_class[active_class]++;
+
+    if (adventure_key.startsWith('fight_won_')) {
+      stats.fight_won_count++;
+    } else if (adventure_key.startsWith('fight_lost_')) {
+      stats.fight_lost_count++;
+    }
+  } else {
+    stats.bad_play_count++;
+    stats.bad_play_count_by_active_class = {
+      // ensure the key is present + immutable
+      [active_class]: 0,
+      ...stats.bad_play_count_by_active_class
+    };
+    stats.bad_play_count_by_active_class[active_class]++;
+  }
+
+  if (encountered_monster_key && !stats.encountered_monsters[encountered_monster_key]) {
+    stats.encountered_monsters = { ...stats.encountered_monsters,
+      [encountered_monster_key]: true
+    };
+  }
+
+  stats.coins_gained += coins_gained;
+  stats.tokens_gained += tokens_gained;
+  stats.items_gained += items_gained;
+  state = { ...state,
+    statistics: stats,
+    revision: state.revision + 1
+  };
+  return _on_activity(state, previous_state.revision);
+} /////////////////////
+
+
+function on_achieved(previous_state, key, new_status) {
+  const last_known_status = get_last_known_achievement_status(previous_state, key);
+  if (last_known_status === new_status) return previous_state;
+
+  if (last_known_status === AchievementStatus.unlocked) {
+    // Never remove an achievement, they are sticky.
+    // Even if it was a bug, it should be revoked in a migration
+    Object(tiny_invariant_esm["default"])(last_known_status !== AchievementStatus.unlocked, `${state_progress_dist_src_es2019_consts_LIB}: achievements are sticky, they can’t be removed!`);
+  }
+
+  const state = { ...previous_state,
+    achievements: { ...previous_state.achievements,
+      [key]: new_status
+    },
+    revision: previous_state.revision + 1
+  };
+  return _on_activity(state, previous_state.revision);
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-engagement/dist/src.es2019/state.js
+/////////////////////
+
+
+
+ /////////////////////
+
+function state_engagement_dist_src_es2019_state_create(SEC) {
+  return state_engagement_dist_src_es2019_sec_get_lib_SEC(SEC).xTry('create', () => {
+    return Object(utils["c" /* enforce_immutability */])({
+      schema_version: state_engagement_dist_src_es2019_consts_SCHEMA_VERSION,
+      revision: 0,
+      queue: []
+    });
+  });
+} /////////////////////
+
+
+function enqueue(state, engagement, params = {}) {
+  // Avoid duplication? Possible bug? No, hard to detect, may have different params.
+  // ex. multiple level rises should be ok.
+  // ex. multiple new achievements
+  const pending = {
+    uid: state.revision + 1,
+    engagement,
+    params
+  };
+  return { ...state,
+    queue: [...state.queue, pending],
+    revision: state.revision + 1
+  };
+}
+
+function acknowledge_seen(state, uid) {
+  const is_in_queue = state.queue.some(queued => queued.uid === uid);
+  Object(tiny_invariant_esm["default"])(is_in_queue, `Engagement: acknowledging a non-queued engagement "${uid}"!`);
+  return { ...state,
+    queue: state.queue.filter(queued => queued.uid !== uid),
+    revision: state.revision + 1
+  };
+}
+
+function acknowledge_all_seen(state) {
+  if (!state.queue.length) return state;
+  return { ...state,
+    queue: [],
+    revision: state.revision + 1
+  };
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-engagement/dist/src.es2019/types.js
+ /////////////////////
+
+const EngagementType = Object(dist["Enum"])('flow', // normal immediate feedback to user actions
+'aside', // side message like an achievement
+'warning'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/consts.js
+////////////////////////////////////
+const logic_armors_dist_src_es2019_consts_LIB = '@oh-my-rpg/logic-armors'; //const SCHEMA_VERSION: number = 2
+
+const consts_MIN_ENHANCEMENT_LEVEL = 0;
+const consts_MAX_ENHANCEMENT_LEVEL = 8; ////////////////////////////////////
+
+ ////////////////////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/selectors.js
+////////////////////////////////////
+
+
+ ////////////////////////////////////
+
+const ATTACK_VS_DEFENSE_RATIO = 1.; /////////////////////
+// see spreadsheet for calculation
+
+const selectors_ENHANCEMENT_MULTIPLIER = 0.1;
+const selectors_MAX_POSSIBLE_ENHANCEMENT_RATIO = 1 + consts_MAX_ENHANCEMENT_LEVEL * selectors_ENHANCEMENT_MULTIPLIER;
+const selectors_OVERALL_STRENGTH_INTERVAL_BY_QUALITY = {
+  [ItemQuality.common]: [1 * ATTACK_VS_DEFENSE_RATIO, 999 * ATTACK_VS_DEFENSE_RATIO],
+  [ItemQuality.uncommon]: [1000 * ATTACK_VS_DEFENSE_RATIO, 2999 * ATTACK_VS_DEFENSE_RATIO],
+  [ItemQuality.rare]: [3500 * ATTACK_VS_DEFENSE_RATIO, 9999 * ATTACK_VS_DEFENSE_RATIO],
+  [ItemQuality.epic]: [11000 * ATTACK_VS_DEFENSE_RATIO, 29999 * ATTACK_VS_DEFENSE_RATIO],
+  [ItemQuality.legendary]: [35000 * ATTACK_VS_DEFENSE_RATIO, 99999 * ATTACK_VS_DEFENSE_RATIO],
+  [ItemQuality.artifact]: [35000 * ATTACK_VS_DEFENSE_RATIO, 99999 * ATTACK_VS_DEFENSE_RATIO]
+};
+if (Object.keys(selectors_OVERALL_STRENGTH_INTERVAL_BY_QUALITY).length !== dist["Enum"].keys(ItemQuality).length) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB} overall - outdated code!`);
+const selectors_SPREAD_PCT_BY_QUALITY = {
+  [ItemQuality.common]: 0.10,
+  [ItemQuality.uncommon]: 0.09,
+  [ItemQuality.rare]: 0.08,
+  [ItemQuality.epic]: 0.07,
+  [ItemQuality.legendary]: 0.05,
+  [ItemQuality.artifact]: 0.05
+};
+if (Object.keys(selectors_SPREAD_PCT_BY_QUALITY).length !== dist["Enum"].keys(ItemQuality).length) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB} spread - outdated code!`);
+const selectors_TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY = {};
+Object.keys(selectors_OVERALL_STRENGTH_INTERVAL_BY_QUALITY).forEach(k => {
+  const quality = k;
+  const [overall_min, overall_max] = selectors_OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality];
+  const spread_pct = selectors_SPREAD_PCT_BY_QUALITY[quality]; //console.log({quality, overall_min, overall_max})
+
+  const base_min = Math.floor(overall_min / (1 - spread_pct) / 1);
+  const base_max = Math.ceil(overall_max / (1 + spread_pct) / selectors_MAX_POSSIBLE_ENHANCEMENT_RATIO);
+  /*console.log({base_min, base_max})
+  for(let i = 0; i < 9; ++i) {
+      console.log({
+          i,
+          dmg_min: Math.round(base_min * (1 - spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+          dmg_max: Math.round(base_max * (1 + spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+      })
+  }*/
+
+  if (base_min >= base_max) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB}: range assertion failed for "${quality}"!`);
+  selectors_TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY[quality] = [base_min, base_max];
+});
+const selectors_BASE_STRENGTH_INTERVAL_BY_QUALITY = selectors_TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY;
+
+function selectors_get_interval(base_strength, quality, enhancement_level) {
+  const spread_pct = selectors_SPREAD_PCT_BY_QUALITY[quality];
+  const enhancement_ratio = 1 + selectors_ENHANCEMENT_MULTIPLIER * enhancement_level;
+  const [overall_min, overall_max] = selectors_OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality]; // Constrain interval due to rounding.
+  // It shouldn't change the numbers a lot.
+
+  const min_strength = Math.max(overall_min, Math.round(base_strength * (1 - spread_pct) * enhancement_ratio));
+  const max_strength = Math.min(overall_max, Math.round(base_strength * (1 + spread_pct) * enhancement_ratio));
+  return [min_strength, max_strength];
+} /////////////////////
+
+
+function get_damage_reduction_interval(armor) {
+  return selectors_get_interval(armor.base_strength, armor.quality, armor.enhancement_level);
+}
+
+function get_medium_damage_reduction(armor) {
+  const damage_range = get_damage_reduction_interval(armor);
+  return Math.round((damage_range[0] + damage_range[1]) / 2);
+}
+
+function get_ultimate_medium_damage_reduction(armor) {
+  const max_damage_range = selectors_get_interval(armor.base_strength, armor.quality, consts_MAX_ENHANCEMENT_LEVEL);
+  return Math.round((max_damage_range[0] + max_damage_range[1]) / 2);
+}
+
+function src_es2019_selectors_matches(armor, elements) {
+  let matches = true; // so far
+  //console.log('matches', { armor, elements })
+
+  if (!armor) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB} matches: can't match nothing!`);
+  if (elements.slot && elements.slot !== InventorySlot.armor) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB} matches: can't match against a non-armor slot "${elements.slot}"!`);
+  if (armor.slot !== InventorySlot.armor) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB} matches: can't match a non-armor slot "${elements.slot}"!`);
+  Object.keys(elements).forEach(k => {
+    if (!(k in armor)) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB} matches: can't match on non-armor key "${k}"!`);
+
+    if (elements[k] !== armor[k]) {
+      matches = false; //console.log('mismatched', { k, a: armor[k], b: elements[k]})
+    }
+  });
+  return matches;
+}
+
+function selectors_is_at_max_enhancement(armor) {
+  return armor.enhancement_level >= consts_MAX_ENHANCEMENT_LEVEL;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-shop/dist/src.es2019/selectors.js
+/////////////////////
+
+
+ /////////////////////
+
+/* NOTE
+ * the "normalized power" is used to sort the inventory
+ * AND to auto-discard items.
+ * Thus it should not be biased toward/against a certain type of item.
+ */
+
+const ARMOR_DMG_REDUCTION_TO_POWER_RATIO = 1.;
+
+function appraise_armor_power(armor, potential) {
+  return Math.round(get_ultimate_medium_damage_reduction(armor) * ARMOR_DMG_REDUCTION_TO_POWER_RATIO);
+}
+
+const WEAPON_DMG_TO_POWER_RATIO = 1.;
+
+function appraise_weapon_power(weapon, potential) {
+  return Math.round(get_ultimate_medium_damage(weapon) * WEAPON_DMG_TO_POWER_RATIO);
+}
+
+function appraise_power(item, potential = true) {
+  switch (item.slot) {
+    case InventorySlot.armor:
+      return appraise_armor_power(item, potential);
+
+    case InventorySlot.weapon:
+      return appraise_weapon_power(item, potential);
+
+    default:
+      throw new Error(`appraise_power(): no appraisal scheme for slot "${item.slot}" !`);
+  }
+} // appraise power normalized across different item slots
+
+
+function appraise_power_normalized(item, potential = true) {
+  switch (item.slot) {
+    case InventorySlot.armor:
+      return appraise_armor_power(item, potential) / ATTACK_VS_DEFENSE_RATIO;
+
+    case InventorySlot.weapon:
+      return appraise_weapon_power(item, potential);
+
+    default:
+      throw new Error(`appraise_power_normalized(): no appraisal scheme for slot "${item.slot}" !`);
+  }
+} ///////
+
+
+const ARMOR_DMG_REDUCTION_TO_COINS_RATIO = 1;
+
+function appraise_armor_base_value(armor) {
+  return get_ultimate_medium_damage_reduction(armor) * ARMOR_DMG_REDUCTION_TO_COINS_RATIO;
+}
+
+const WEAPON_DMG_TO_COINS_RATIO = 1.5;
+
+function appraise_weapon_base_value(weapon) {
+  return get_ultimate_medium_damage(weapon) * WEAPON_DMG_TO_COINS_RATIO;
+}
+
+const SELL_RATIO = .25;
+
+function appraise_sell_value(item) {
+  switch (item.slot) {
+    case InventorySlot.armor:
+      return Math.max(1, Math.round(appraise_armor_base_value(item) * SELL_RATIO));
+
+    case InventorySlot.weapon:
+      return Math.max(1, Math.round(appraise_weapon_base_value(item) * SELL_RATIO));
+
+    default:
+      throw new Error(`appraise_value(): no appraisal scheme for slot "${item.slot}" !`);
+  }
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-character/dist/src.es2019/types.js
+ /////////////////////
+
+const CharacterAttribute = Object(dist["Enum"])( // TODO improve
+'agility', 'health', 'level', 'luck', 'mana', 'strength', 'charisma', 'wisdom'); // I arbitrarily skip the classes I find uncool / unclear / better fit for a "job"
+
+const CharacterClass = Object(dist["Enum"])( // initial (also Korean game)
+'novice', // classic DnD
+// https://www.dndbeyond.com/characters/classes
+'barbarian', //'bard',
+//'cleric',
+'druid', 'warrior', // fighter is too generic for my taste
+// monk is unclear IMO
+'paladin', //'ranger',
+'rogue', 'sorcerer', 'warlock', 'wizard', 'darkness hunter', // better than blood
+// additionals from WoW
+// https://worldofwarcraft.com/en-us/game/classes
+'hunter', 'priest', //'shaman',
+'death knight', 'mage', // additionals, from GW2
+// https://www.guildwars2.com/en/the-game/professions/
+'engineer', 'thief', // extra unofficial DnD
+// https://en.wikipedia.org/wiki/Character_class_(Dungeons_%26_Dragons)
+'assassin', 'illusionist', //'witch',
+//'witch doctor',
+// extras, sometime from pop culture
+'knight', 'pirate', 'ninja', //'spy',
+'corsair', 'necromancer', // mangas
+'sculptor', 'summoner'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-character/dist/src.es2019/state.js
+/////////////////////
+
+
+
+
+ /////////////////////
+
+const DEFAULT_AVATAR_NAME = '[anonymous]';
+const CHARACTER_ATTRIBUTES = dist["Enum"].keys(CharacterAttribute);
+const CHARACTER_ATTRIBUTES_SORTED = ['level', 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
+get_lib_SEC().xTry('boot checks', () => {
+  if (CHARACTER_ATTRIBUTES.length !== CHARACTER_ATTRIBUTES_SORTED.length) throw new Error(`${dist_src_es2019_consts_LIB}: CHARACTER_ATTRIBUTES to update!`);
+});
+const CHARACTER_CLASSES = dist["Enum"].keys(CharacterClass); ///////
+
+function state_character_dist_src_es2019_state_create(SEC) {
+  return get_lib_SEC(SEC).xTry('create', () => {
+    return Object(utils["c" /* enforce_immutability */])({
+      schema_version: src_es2019_consts_SCHEMA_VERSION,
+      revision: 0,
+      name: DEFAULT_AVATAR_NAME,
+      klass: CharacterClass.novice,
+      attributes: {
+        level: 1,
+        // TODO improve this one day
+        health: 1,
+        mana: 0,
+        strength: 1,
+        agility: 1,
+        charisma: 1,
+        wisdom: 1,
+        luck: 1
+      }
+    });
+  });
+} /////////////////////
+
+
+function rename(SEC, state, new_name) {
+  return get_lib_SEC(SEC).xTry('rename', () => {
+    // TODO name normalization
+    if (!new_name) throw new Error(`${dist_src_es2019_consts_LIB}: Error while renaming to "${new_name}": invalid target value!`); // TODO details
+
+    if (new_name === state.name) return state;
+    return Object(utils["c" /* enforce_immutability */])({ ...state,
+      name: new_name,
+      revision: state.revision + 1
+    });
+  });
+}
+
+function switch_class(SEC, state, klass) {
+  return get_lib_SEC(SEC).xTry('switch_class', () => {
+    if (klass === state.klass) return state;
+    if (!dist["Enum"].isType(CharacterClass, klass)) throw new Error(`${dist_src_es2019_consts_LIB}: "${klass}" is not a valid class!`);
+    return Object(utils["c" /* enforce_immutability */])({ ...state,
+      klass,
+      revision: state.revision + 1
+    });
+  });
+}
+
+function increase_stat(SEC, state, stat, amount = 1) {
+  return get_lib_SEC(SEC).xTry('increase_stat', () => {
+    if (amount <= 0) throw new Error(`${dist_src_es2019_consts_LIB}: Error while increasing stat "${stat}": invalid amount!`); // TODO details
+    // TODO stats caps?
+
+    return Object(utils["c" /* enforce_immutability */])({ ...state,
+      attributes: { ...state.attributes,
+        [stat]: state.attributes[stat] + amount
+      },
+      revision: state.revision + 1
+    });
+  });
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-inventory/dist/src.es2019/selectors.js
+/////////////////////
+ /////////////////////
+
+function is_full(state) {
+  return state.unslotted.length >= state.unslotted_capacity;
+}
+
+function get_equipped_item_count(state) {
+  return Object.keys(state.slotted).length;
+}
+
+function get_unequipped_item_count(state) {
+  return state.unslotted.length;
+}
+
+function get_item_count(state) {
+  return get_equipped_item_count(state) + get_unequipped_item_count(state);
+}
+
+function get_unslotted_item(state, uuid) {
+  const item = state.unslotted.find(i => i.uuid === uuid);
+  return item ? item : null;
+}
+
+function get_item(state, uuid) {
+  let item = get_unslotted_item(state, uuid);
+  item = item || Object.values(state.slotted).find(i => !!i && i.uuid === uuid);
+  return item ? item : null;
+}
+
+function get_item_in_slot(state, slot) {
+  return state.slotted[slot] || null;
+}
+
+function get_slotted_armor(state) {
+  return state.slotted[InventorySlot.armor] || null;
+}
+
+function get_slotted_weapon(state) {
+  return state.slotted[InventorySlot.weapon] || null;
+}
+/*
+function get_typed_item_in_slot(state: Immutable<State>, slot: InventorySlot): State['slotted'][keyof State['slotted']] | null {
+    switch(slot) {
+        case InventorySlot.armor:
+            return state.slotted[InventorySlot.armor] || null
+        case InventorySlot.weapon:
+            return state.slotted[InventorySlot.weapon] || null
+        default:
+            return null
+    }
+}
+*/
+
+
+function* iterables_unslotted(state) {
+  yield* state.unslotted;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-adventures/dist/src.es2019/types.js
+ /////////////////////
+
+const CoinsGain = Object(dist["Enum"])('lossꘌsmall', 'lossꘌone', 'none', 'gainꘌone', 'gainꘌsmall', 'gainꘌmedium', 'gainꘌbig', 'gainꘌhuge');
+const AdventureType = Object(dist["Enum"])('story', 'fight'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-adventures/dist/src.es2019/data/i18n_en.js
+const BAD_ADVENTURES = {
+  // http://www.thesaurus.com/browse/tired
+  bad_s1: `🚫  You clicked too early!
+You collapse from exhaustion 😵 , you lose all your energy⚡ !`,
+  bad_s2: `🚫  You clicked too early!
+You burn out 😵 , you lose all your energy⚡ !`,
+  // monsters
+  bad_m1: `🚫  You clicked too early!
+You fall asleep and get eaten by a dragon 🐉 !
+you lose all your energy 💀 !`,
+  bad_m2: `🚫  You clicked too early!
+You are drowsy during a critical fight and get eaten by a monster 🦖 !
+you lose all your energy ☠️ !`,
+  bad_m3: `🚫  You clicked too early!
+You fall asleep and get sucked dry by a vampire 🧛‍♀️ !
+you lose all your energy ⚰️ !`,
+  bad_m4: `🚫  You clicked too early!
+You fall asleep and get eaten by wolves 🐺 🐺 🐺 !
+you lose all your energy 💀 !`,
+  bad_m5: `🚫  You clicked too early!
+You fall asleep and get eaten by ants 🐜 🐜 🐜 !
+you lose all your energy ☠️ !`,
+  bad_m6: `🚫  You clicked too early!
+You fall asleep and get eaten by a spider 🕷 🕸 !
+you lose all your energy 💀 !`,
+  // environment
+  bad_e1: `🚫  You clicked too early!
+You fall asleep and get eaten by a carnivorous plant 🥀 !
+you lose all your energy 💀 !`,
+  bad_e2: `🚫  You clicked too early!
+You fall asleep in a dark dungeon and freeze to death ❄️ !
+you lose all your energy 💀 !`
+};
+const FIGHT_ADVENTURES = {
+  fight_won_coins: `
+You have defeated a {{encounter}} !{{br}}
+You loot {{coin}} coins from its corpse.`,
+  fight_won_loot: `
+You have defeated a {{encounter}} !{{br}}
+You loot a {{item}} from its corpse.`,
+  fight_won_any: `
+You have defeated a {{encounter}}!{{br}}
+You perfected your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!`,
+  fight_observe: `
+You encounter a wild {{encounter}} from afar!{{br}}
+Fascinated, you observe it instead of attacking it.{{br}}
+Its behaviour makes you think of new techniques. You gain +{{attr}} {{attr_name}}!`,
+  // TODO follow target to resources?
+  fight_lost_any: `
+You were attacked and nearly killed by a {{encounter}} but you got away just before it was too late.{{br}}
+You figured out techniques to flee more efficiently: +{{attr}} {{attr_name}}!`,
+  fight_lost_shortcoming: `
+You were attacked by a {{encounter}} and it didn’t end well... but you got away just before it was about to kill you.{{br}}
+You reflect on your lack of {{attr_name}} in the fight and train hard: +{{attr}} {{attr_name}}!`
+};
+const SCAVENGED_ORIGINAL_ADVENTURES = {
+  // scavenged from screens of the original game
+  // slightly altered/enhanced/normalized
+  bored_log: `
+You are so bored, you punch a log for hours!
+You gain +{{strength}} strength!`,
+  caravan_success: `
+You were hired to protect a caravan of merchants.
+Your presence repels them, the caravan arrives at its destination, you gain {{coin}} coins!`,
+  dying_man: `
+A dying man on the street left you everything he had.
+You gain {{coin}} coins!`,
+  ate_bacon: `
+You eat some delicious crispy bacon.
+You gain +{{level}} level!`,
+
+  /* too bland, please!
+   ate_mushroom: `
+  You ate a mushroom.
+  You gained +{{level}} level!`,*/
+  ate_zombie: `
+You eat a zombie!
+You gain +{{mana}} mana!`,
+  refreshing_nap: `
+You take a nap and feel refreshed.
+You gain +{{health}} health!`,
+  older: `
+You feel a little older.
+You just gained +{{level}} level!`,
+  stare_cup: `
+You stare really hard at a cup, and it almost moves!
+You gain +{{mana}} mana!`,
+  nuclear_fusion_paper: `
+You write a paper on nuclear fusion.
+You gain +{{wisdom}} wisdom!`,
+  found_green_mushroom: `
+You find a green mushroom.
+You gain +{{level}} level!`,
+  // from this round of player suggestions
+  // https://www.reddit.com/r/boringrpg/comments/dloxe/event_messages/
+  eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins.`,
+  walk_in_mordor: 'You simply walk into Mordor. You gain +{{agility}} agility.',
+  jig: 'You see a guy doing a jig, and join him! +{{agility}} agility!',
+  good_end: 'Oh, THAT end is the one you hit them with! +{{wisdom}} wisdom!',
+  waterfall: 'You sit under a pounding waterfall. +{{health}} vitality!',
+  meteor: 'A meteor JUST misses you! +{{luck}} luck!',
+  weird_duck: 'Some weird duck is trying to swim in coins, so you take them! +{{coin}} coins!',
+  last_quest: 'That last quest gave you just enough XP! Level Up!',
+  busking: 'You wail on a guitar next to the inn, and it pays off! +{{token}} token!',
+  best_meal: 'You eat the best meal you’ve ever had! +{{health}} health!',
+  witch_riddle: 'You successfully solve a riddle from a witch. You gain +{{wisdom}} wisdom!',
+  princess_castle: 'The princess was actually in this castle! +{{luck}} luck!',
+  problem: `You have a problem? -{{coin}} coins.`,
+  foreign_language: 'You learn a foreign language. +{{charisma}} charisma!',
+  last_night: '…what happened last night? +{{luck}} luck!',
+  chasm_leap: 'You successfully leap over a chasm! +{{agility}} agility!',
+  luxurious_meal: `You cook the most luxurious meal! {{coin}} coins.`,
+  donate: `You donate {{coin}} coins. You gain +{{token}} token.`,
+  coffee: 'You drink a cup of coffee. +{{wisdom}} wisdom!',
+  socks: `You buy some socks, {{coin}} gold.`,
+  gold_nugget: 'You trip on a gold nugget: +{{coin}} gold!',
+  pileup: `You get into a 3 horse pileup: {{coin}} gold!`,
+  tavern: `You drink too much at the tavern, lose {{coin}} gold!`,
+  magic_lamp: 'You stumble upon a magic lamp! You gain +{{luck}} luck!',
+  rabbit_hole: 'You find out just how deep the rabbit hole goes. You gain +{{wisdom}} wisdom.',
+  cat_out_tree: 'You help a little girl get her cat out a tree. You gain +{{agility}} agility!',
+  green_food: 'You somehow survive eating green eggs and ham. You gain +{{health}} health!',
+  wishing_well: 'You try your luck at the wishing well. You lose the coin.',
+  conscripted: 'You are conscripted into the army, you gain +{{coin}} coins.',
+  brigands: 'Waylayed by brigands, {{coin}} coins.',
+  duke_rescue: 'You rescued a duke, you are rewarded +{{coin}} coins!',
+  bribe: 'Bribed your way out of an arrest, {{coin}} coins.',
+  doctor: 'Doctor prescribes leaches for your extreme case of evil vapors, {{coin}} coins.',
+  gazebo: 'You were caught by a gazebo. You lost {{coin}} coins!',
+  sock_drawer: 'You buy a drawer for all of your socks: {{coin}} coins.',
+  flying_rat: 'A flying rat stole your hat! You replace it and lose {{coin}} coins.'
+}; // from me, inferred and extended from the originals
+
+const OFFIRMO_MUSHROOMS_AND_MISC = {
+  found_red_mushroom: `
+You find a red mushroom and eat it.
+You gained +{{health}} health!`,
+  found_blue_mushroom: `
+You find a blue mushroom and eat it.
+You gained +{{mana}} mana!`,
+  found_white_mushroom: `
+You find a white mushroom and eat it.
+You gained +{{strength}} strength!`,
+  found_yellow_mushroom: `
+You find a yellow mushroom and eat it.
+You gained +{{agility}} agility!`,
+  found_orange_mushroom: `
+You find an orange mushroom and eat it.
+You gained +{{charisma}} charisma!`,
+  found_black_mushroom: `
+You find a black mushroom and eat it.
+You gained +{{wisdom}} wisdom!`,
+  found_rainbow_mushroom: `
+You find a glowing rainbow mushroom and eat it.
+You gained +{{luck}} luck!`
+};
+const OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET = {
+  // https://swordscomic.com/swords/VI/
+  demon_king: `
+You swear to defeat the demon king!{{br}}
+The local hero pledges you his sword... and leaves you with it!{{br}}
+Well, it’s loot: {{item}}`,
+  // https://swordscomic.com/swords/IX/
+  false_lake: `
+A hand holding a sword emerges from the lake:
+"take this blade and become the new king!"
+As you reach out, the lake monster emerges and try to devour you: it’s a trap!{{br}}
+You defeat it and find good loot from previous victims: {{item}}, +{{coin}} coins.
+	`,
+  // https://swordscomic.com/swords/XI/
+  soul_weapon_pet_zombie: `
+You attach a soul to your weapon (+1 enhancement) and keep the soul owner’s body as a pet zombie.{{br}}
+The pet zombie’s aura increases your regeneration: +{{health}} heath!
+	`,
+  // https://swordscomic.com/swords/XII/
+  class_master_sharpest_weapon: `
+You ask your master: "What is the best weapon?".
+She answers: "The most lethal weapon is your mind!".{{br}}
+You’re not convinced, so you train instead of meditating.
+You gain +{{attr}} {{attr_name}}!
+	`,
+  // https://swordscomic.com/swords/XIII/
+  // racist towards dwarves TODO secret equipment door
+  // https://swordscomic.com/swords/XVII/
+  // demon board games
+  // electricbunnycomics.com
+  good_necromancer: `
+You meet a child weeping over his dead hamster… Thanks to necromancy, you reanimate it as a hamster-zombie!
+Oddly, the child cries even more while running away.{{br}}
+Fortunately, you gain +{{agility}} agility while avoiding the stones thrown by the villagers.`,
+  // dorkly
+  talk_to_all_villagers: `
+You spoke to everyone in the village leaving no quest unanswered!{{br}}
+Although your head aches from discussing so much,
+you gain +{{charisma}} charisma having met so many people!`,
+  // DK
+  fate_sword: `
+To thank you for saving his wife and his children, a farmer offers you "Destiny",
+the heirloom sword passed down in his family for generations.{{br}}
+30 minutes later, the merchant buys it off you for only {{coin}} coins… some heirloom!`,
+  // cad-comic.com
+  rematch: `
+You got beaten by a goblin!
+In shame, you roam around the country, accepting quest after quest to train yourself before facing him again.{{br}}
+Alas, he also trained and beats you again!
+Well, the +{{level}} level is still useful…`,
+  // paintraincomic.com
+  // http://paintraincomic.com/comic/cemetery/
+  useless: `
+Arriving at the village, the mayor announces that the neighborhood is no longer dangerous.
+The sorceress fell in love and no longer curses people.
+The haunted cemetery was a pet cemetery, villagers are happy to have their companions back.
+The giant is helping the farmers with their harvest.{{br}}
+You feel useless and reflect on your place in the world. +{{wisdom}} wisdom!`,
+  // memecenter.com
+  escort: `
+You are escorting an important NPC.
+Frustratingly, if you walk, he’s faster than you.
+However, if you run, you’re faster than him!
+By strafing and running in circles, you manage
+to stay close to him.{{br}}
++{{health}} health thanks to your efforts!`,
+  // memecenter.com
+  rare_goods_seller: `
+You come across an old man with eccentric apparel.
+Score! It’s a rare item seller!
+He gives you a good price for a {{item}}.`,
+  // memecenter.com
+  progress_loop: `
+You would need better gear to level up.
+But you’d need to level up to get better gear.
+Cruel dilemma!{{br}}
+Fortunately, you find a {{item}} at the bottom of a well!`,
+  // memecenter.com/motohorse
+  idiot_bandits: `
+Your name is whispered across the land since you slayed the dragon and defeated the sorceress.
+Bandits ambush you, aiming for your wealth. For their folly!
+They realize their mistake one moment
+before your fireball incinerates them.
+Fortunately, gold doesn’t burn: +{{coin}} coins!`,
+  // don't remember the source for this one
+  princess: `
+"You won’t take back the princess!" yells the fearsome black mage,
+as you reach his throne room.
+You reassure him: you are only here for loot.{{br}}
+He lets you help yourself to {{coin}} coins
+and even enchants your weapon too!`,
+  // DM of the ring
+  bad_village: `
+You reach a new village. There is no weapon shop.
+No potion shop either! And no quests at the inn!!
+What a useless village. At your call, lightning and meteors wipe out this place.
+A good opportunity to practice your magic: +{{mana}} mana.`,
+  // ?
+  so_many_potions: `
+The fight against the final boss was hard, very hard…
+Most importantly, +{{strength}} strength for managing to control a pressing urge during the encounter after drinking 25 health potions !`,
+  // https://www.instagram.com/p/BjnclTCAiEK/
+  high_level_zone_1: `
+You accidentally wander into a high level zone.
+Unexpectedly, this challenges your limits and proves to be a good training: +{{attr}} {{attr_name}}!
+	`,
+  high_level_zone_2: `
+You accidentally wander into a high level zone.
+You quickly and horribly die after fleeing monsters for half an hour.
+What did you expect?{{br}}
+You go back to training and gain +{{attr}} {{attr_name}}.
+	`,
+  // https://starecat.com/the-witcher-looking-at-side-quest-meme/
+  side_quests: `
+	You get distracted by side quests again!
+Hopefully the loot ({{coin}} coins) and preparation (equipment enhanced) will help in the final battle!
+	`,
+  // https://starecat.com/gandalf-tells-them-to-run-to-get-all-the-xp-on-the-balrog-and-level-up/
+  balrog: 'You tell your party members to run then kill the balrog and get all the XP. You level up!',
+  // classic manga story
+  castle_summon: `
+You are summoned to the castle by the king.
+In the throne room, in front of the court, he pressures you:{{br}}
+"Hero, you must defeat the demon lord to bring back peace in the land!
+Take this magical sword, only with it can you defeat the evil ones!".{{br}}
+Well, a new weapon is always welcome: {{weapon}}!
+	`,
+  // https://starecat.com/when-a-piece-of-armor-doesnt-match-your-current-set-but-its-stats-are-too-good-to-pass-up-hello-kitty-shield-pink/
+  unmatched_set: `
+You loot a powerful piece of armor but unfortunately its appearance doesn’t match with your existing ones...
+No way, style is important for a hero! You sell this piece of armor for coin: +{{coin}} coins!`
+};
+const OFFIRMO_INSPIRED_FROM_NET_RSRCS = {
+  // https://springhole.net/writing_roleplaying_randomators/rpg-campaign-idea.htm
+  // https://www.seventhsanctum.com/generate.php?Genname=storygen
+  // https://donjon.bin.sh/fantasy/adventure/
+  // My potions would kill you traveler. You can’t handle my potions.
+  // http://orteil.dashnet.org/gamegen
+  bards: `
+Bards start writing songs about you.
+This fame helps you when dealing with humans.
+You gain +{{charisma}} charisma!
+`,
+  elementals: `
+You free some elementals. They reward you with a blessing suited to your class.
+You gain {{attr}} {{attr_name}}!`,
+  // you have superhuman luck
+  fabric_of_reality: `
+You battle mages to unravel the fabric of reality.
+You gain +{{mana}} mana!`,
+  // you destroy a few parallel worlds with cyborgs.
+  // you mine ore
+  // you craft some stuff
+  save_world_again: `
+You saved the world. Again. You are famous: +{{charisma}} charisma!{{br}}
+But honestly, you and me know you are doing it only for the loot ;)
+Indeed you gain a {{item}} and {{coin}} coins!`,
+  clean_wizard_tower: `
+You clean a mad wizard’s tower.{{br}}
+You learn some of her magic: +{{mana}} mana!`,
+  explore_ruins: `
+You explore some ruins of an ancient civilisation the world.{{br}}
+You find a {{item}} and worth {{coin}} of coins!`,
+  inspect_sewers: `
+You inspect the city’s sewers and clean the vermin.{{br}}
+You find worth {{coin}} of coins and polish your skills: +{{attr}} {{attr_name}}!`,
+  explore_catacombs: `
+You explore the city’s old catacombs and put the undeads to rest.{{br}}
+You find a {{item}} and worth {{coin}} of coins!`,
+  bandits_punishment: `
+You are attacked by bandits: They are in need of some punishment!.{{br}}
+You promptly dispense it and loot {{coin}} coins from them.`
+};
+const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS = {
+  // https://www.instagram.com/travisjhanson/
+  // https://www.instagram.com/p/B_kXgz3hCcL/
+  xxx_flammable_village: `
+They should have told you that the village was flammable
+BEFORE you started to clean out the infestation!
+Those ungrateful villagers refuse to give you the promised reward.
+But at least it was good XP! +1 level.
+	`,
+  // https://www.instagram.com/p/B-M2VTCB_ss/
+  xxx_tomb_of_lost_socks: `
+You found it: The Tomb of Lost Socks.
+	`,
+  // https://www.instagram.com/p/B9PCUWwBXuT/
+  xxx_happy_dragon: `
+The dragon is devastating the village,
+but she looks so happy that you feel bad about interrupting.
+`,
+  // https://www.instagram.com/p/B8OzcWdhIOp/
+  xxx_drink_me: `
+You find a potion written "drink me".
+`,
+  // https://www.instagram.com/p/B6-78D1h62g/
+  xxx_you_shall_not_pass: `
+`,
+  // https://www.instagram.com/p/B63PD7IB4uT/
+  xxx_customize_gear: `
+	`,
+  // https://www.instagram.com/p/B6TEffgB8r2/
+  xxx_potion_of_blowing: `
+An alchemist is selling a new king of potions: explosive one!
+They work quite well! You solo a dungeon with them.
+Too bad they blow the ennemy, the loot and a bit of yourself.
+But your pain resistance increased!
+	`,
+  // https://www.instagram.com/p/B6BCnUNBcw0/
+  xxx_dragon_admirer: `
+Dragong... how can't you love such beautiful creatures?
+	`,
+  // https://www.instagram.com/p/B5FzGvxhMSx/
+  evil_laugh: `
+The villain give you some tips to improve your evil laugh.
++1 charisma
+	`,
+  hero_smile: `
+In front of a mirror, you practice your hero smile.
++1 charisma`,
+  // https://www.instagram.com/p/B4xPBEYhO_x/
+  bg_music: `
+You manage to create a sound spell to play heroic music when you fight.
+It raises your morale and make you stronger!
+	`,
+  // https://www.instagram.com/p/B4Ke6_gBpSv/
+  xxx_body_parts: `
+Since you started to learn necromancy,
+your dungeon runs are more efficient: you salvage body parts as well!
+You make good progress in necromancy.`,
+  // https://www.instagram.com/p/B37LIlXhaf8/
+  owlbear: `
+You encounters a friendly owlbear.
+He teaches you wisdom.
+	`,
+  // https://www.instagram.com/p/B3VJ0D2hbyJ/
+  book_hobbit_riddles: `
+You find a book about Hobbit's riddles.
+That can be useful in the future! Your wisdom increased.
+`,
+  xxx_book_lost_treasures: `
+	`,
+  xxx_book_wealth_planning: `
+	`,
+  // https://www.instagram.com/p/B3HlHD8hAZM/
+  book_excuses_dragon: `
+You find a book listing excuses for when you are caught by a dragon (stealing some treasure?)
+They are mainly flattery-based. Your charisma increases!
+	`,
+  // https://www.instagram.com/p/B21fhJmhuZQ/
+  xxx_gift_of_friendship: `
+	`,
+  // https://www.instagram.com/p/B2MPyBfhLgR/
+  xxx_book_smart: `
+	`,
+  // https://www.instagram.com/p/B1_VJq3BBR-/
+  xxx_in_doubt_fireball: `
+	`,
+  // (780)
+  // TODO RPG hooks Instagram
+  // https://www.instagram.com/p/BorAmImhT-f/
+  xxx_save_village_no_money: `
+"Please hero, save our village! We have no money but you are our only hope!"
+	`,
+  // https://www.instagram.com/p/BozHAjkBGVt/
+  xxx_odd_boy: `
+"A small child asks you to help him find his lost kitty.
+As you and the child search the forest you find his pet,
+beast
+	`,
+  // https://www.instagram.com/p/BoyqXBVhjSa/
+  // archer skeleton
+  // https://www.instagram.com/p/BkkgGyiH5X-/?saved-by=theboringrpg
+  magical_cooking_ragnaros: `
+You try magical cooking but end up summoning a tiny Ragnaros in your frying pan!{{br}}
+You keep this avatar as a pet. His aura gives you +{{strength}} strength!
+	`,
+  // https://www.instagram.com/p/BorYMavBG3s/
+  xxx_fancy_arrows: `
+	You
+	`,
+  // https://www.instagram.com/p/Boo4jwRBe6D/
+  // rule them like gods!
+  // https://www.instagram.com/p/BodLbb0hTvw/
+  // big festival
+  // https://www.instagram.com/p/BoMOPU4h8VH/
+  // need help to get down
+  // https://www.instagram.com/p/Bl6cKIghQxY/
+  // hit first
+  // https://www.instagram.com/p/Bkg3XsChrfw/
+  // https://www.instagram.com/p/Bi1yE_3hBdn/
+  // https://www.instagram.com/p/BiroNNUhFkE/
+  // https://www.instagram.com/p/BiUzisIBfoU/
+  // https://www.instagram.com/p/BhFS4-FAquN/
+  // https://www.instagram.com/p/BowGNzChB-U/?utm_source=ig_web_button_share_sheet
+  xxx_guarding_dungeon: `
+You are so effective at raiding his dungeon
+that the dark necromancer offers you gold to guard it instead.
+You would be using your experience to keep other adventurers from looting it!
+	`,
+  // slackwirm:
+  // http://www.joshuawright.net/slack-wyrm-012.html
+  // "I am the Wise Wisewood Tree and I possess uncanny wisdom
+  wise_wisewood_tree: `
+You meet the Wise Wisewood Tree:
+"I am the Wise Wisewood Tree and I possess uncanny wisdom".
+Indeed, the talking tree impart you some: +{{wisdom}} wisdom.
+		`,
+  // http://www.joshuawright.net/slack-wyrm-017.html
+  //you the dragon having tea with the rabbits His reputation is crushed.
+  // http://www.joshuawright.net/slack-wyrm-026.html
+  // the giant eye of Agoroth
+  // http://www.joshuawright.net/slack-wyrm-030.html
+  // guilt anxiety
+  // princess with woodland friends
+  // having to spot the real princess
+  // http://www.joshuawright.net/slack-wyrm-031.html
+  // hallowed dragonspear
+  // http://www.joshuawright.net/slack-wyrm-034.html
+  // village of Spuddy
+  // http://www.joshuawright.net/slack-wyrm-042.html
+  // http://www.joshuawright.net/slack-wyrm-059.html
+  // Zizok the wizard
+  // they weren’t my friends,they were just using me for my spells
+  // http://www.joshuawright.net/slack-wyrm-066.html
+  // dragon stole the wedding cake
+  // http://www.joshuawright.net/slack-wyrm-072.html
+  // Linda Greenslime
+  //the country of Doily
+  // 99
+  // http://www.joshuawright.net/slack-wyrm-158.html
+  // The sulking swamp
+  // butthurt bog
+  // http://www.comic-rocket.com/read/bunny/28
+  // Bunthulhu
+  // https://www.instagram.com/p/Bi5QlAeAAlx/
+  murderer: `
+You are accused of murder and the guards try to arrest you! You refuse, they insist and you kill them all.
+Nobody is after you anymore, that was an effective way to prove your innocence!{{br}}
+You gain +{{luck}} luck!
+	`
+};
+const OFFIRMO_INPIRED_FROM_VIDEOGAMES = {
+  // LOTRO
+  visual_effect: `
+You pay an enchanter to add a cool visual effect on your equipment!
+	`,
+  weapon_damage_type: `
+You get your weapon reforged into old elven alloy.
+This makes it sharper against orcs... and dwarves?
+	`,
+  // TODO always winter
+  // Marvel reference
+  give_a_shield: `
+The captain of the assieged castle yells: "Give this hero a shield!"{{br}}
+The blacksmith obey: you receive a {{item}}!
+`,
+  // cookie clicker
+  cookies_grandmas: `
+A group of strange grandmas bake you cookies.
+They are incredibly good and make you crave for more!
+They have a magical effect: you gain +{{attr}} {{attr_name}}!
+	`,
+  // Zelda reference
+  treasure_in_pots: `
+You enter a pottery shop and destroy every jug, vase and item in the store.
+You collect +{{coin}} in coins, precious stones and other treasures found!`,
+  // Oblivion dangerous chicken
+  chicken_slayer: `
+You enter a village and see a chicken roaming in a garden peacefully.
+You slay the chicken mercilessly.
+The entire cohort of guards for the town come after you and you are forced to slay them too.
+After hours of fighting you gain +{{strength}} strength!`,
+  // skyrim meme
+  arrow_in_the_knee: `
+A guard tells you stories of when he was an adventurer,
+before he took an arrow in the knee.
+You feel enlightened: +{{wisdom}} wisdom!
+		`,
+  // inspired by morrowind's level up messages
+  // https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/
+  // TODO
+  // WoW / 1st quest (+ a meme somewhere)
+  sentients_killing: `
+You introduce yourself to the captain of the guard. Your mission: kill 10 kobolds.
+After a brief hesitation on the ethics of the extermination of thinking creatures, you accept: you need loot and XP too badly.
+You gain {{coin}} coins and +{{attr}} {{attr_name}}.
+		`,
+  // Colossal Cave Adventure
+  // http://rickadams.org/adventure/d_hints/index.html
+  colossal_cave: `
+You discover and explore a colossal cave! Undeads, goblins...
+You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_name}})!
+		`,
+  // http://rickadams.org/adventure/d_hints/hint009.html
+  colossal_cave_maze: `
+You explore yet another cave.
+You are in a maze of twisty little passages, all alike.
+You find a {{item}} on the ground and manage to find an exit after a while.
+`,
+  // You are in a twisty maze of passageways, all different,
+  // nethack
+  gehennom: `
+You enter the dark Cavities of Gehennom. You don’t find the Amulet of Yendor,
+but still ends up with good loot: +{{coin}} coins, {{item}}...
+		`,
+  // TODO book of Tyr
+  // TODO Amulet of Yendor
+  // Exile / Avernum
+  exile_GIFTS: `
+You meet a tribe of Giant, Intelligent, Friendly, Talking Spiders.
+They’re shy and all respond to the name "Spider".{{br}}
+You buy poison from them and coat your weapon with it, providing a good enhancement!
+	`,
+  // Ultima
+  // Wizardry
+  // TODO prestige classes
+  // Dragon quest
+  DQ_good_slime: `The slime speaks to you: «I’m not a bad slime, you know?»{{br}}
+What a stupid statement: obviously slimes are monsters! You slaughter it and many others.{{br}}
+This training earns you +{{attr}} {{attr_name}}!`,
+  // misc
+  socketed_item: `
+You put magic gems in one of you item's socket. It is now stronger!`
+};
+const OFFIRMO_INSPIRED_FROM_MANGAS = {
+  guild_rank: `
+The Adventurer's Guild recognize your recent level increases
+and promotes you to the next ranking!`,
+  runes: `
+You have a piece of your equipment engraved with magic runes.
+It is now stronger!
+`
+};
+const OFFIRMO_INSPIRED_BY_POPULAR_CULTURE = {
+  // Atlantis is calling
+  drown_in_holy_water: `
+You nearly drown yourself in holy water. You gain +{{mana}} mana!
+	`,
+  rings_of_power: `
+You forge rings and give them to you dwarven, elven and human allies.
+They now like you a bit more: +{{charisma}} charisma!
+	`,
+  raining_elves: `
+It’s raining... elves?{{br}}
+You gain +{{mana}} mana!`,
+  raining_dwarves: `
+It’s raining... dwarves?{{br}}
+You gain +{{strength}} strength!`,
+  // Top Gun
+  need_for_speed: `
+You feel the need…{{br}}
+…the need for speed!{{br}}
++{{agility}} agility!
+`,
+  // TODO dungeons
+  // TODO Shrek
+  // goblin slayer
+  xxx_goblin_slayer: `
+"The only good goblins are the one who never come out of their stinking holes!"
+	`,
+  // Conan movie http://conan.wikia.com/wiki/The_Riddle_of_Steel
+  riddle_of_steel: `
+You solve the riddle of steel; Obviously it’s more steel! And stronger steel!{{br}}
+You have a blacksmith reforge your equipment to enhance it.`,
+  // TOTO tree of woe, eat a vulture http://conan.wikia.com/wiki/Tree_of_Woe
+  // classic tales
+  sword_in_rock: `
+You find a sword planted into a stone.
+You draw it out: {{item}}.{{br}}
+People nearby start worshipping you!
+`,
+  sword_in_a_lake: `
+You find a good sword at the bottom of a lake: {{item}}.{{br}}
+Who could have thrown it there?
+Nevermind, it’s good loot!
+`,
+  // mission sydney (escape room)
+  // the lost mine
+  lost_mine: `
+You discover a mysterious lost mine, filled with strange tools
+and glowing with mana crystals. You pick some: +{{token}} token.
+		`,
+  // mission sydney (escape room)
+  // vampire castle lost in a forest
+  vampire_castle: `
+Lost in the Dark Forest at night, you come across a gloomy castle.
+The owner welcomes you politely, but you spot his teeth fangs. A vampire!
+After an intense battle, you earned the castle and its riches!{{br}}
++{{coin}} coins and a {{item}}
+		`,
+  // muppets
+  mana_mana: `
+"Mah na mah na" "To to to do do"{{br}}
++{{mana}} mana!`,
+  // Scrooge McDuck
+  square_eggs: `
+Deep in the jungle, you find the marvelous square eggs of the legendary fatu-liva bird!
+You cook an omelette, and gain +{{luck}} luck.
+		`
+};
+const OFFIRMO_ORIGINAL = {
+  // from H.
+  foodie_friend: `
+You meet with your foodie friend.
+He convinces you to try the latest magic treats.
+You gain extra energy (+{{health}} health) and a bit of weight!
+	`,
+  chilies: `
+At the adventuring guild party, you pickup a treat.
+Turns out it’s made of magic chilies and you can’t feel your face anymore!
+Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}} {{attr_name}}!
+	`,
+  // friend with the dark mage
+  // twist on original
+  caravan_failure: `
+You were hired to protect a caravan of merchants.
+The bandits and monsters aren’t impressed, they keep harassing the caravan until no one is left alive except you.
+You nevertheless gain some loot and gold from the remains of both the caravan and the attackers: +{{coin}} coins and a {{item}}!`,
+  // classic fantasy/rpg
+  meet_old_wizard: `
+You meet a mysterious old wizard…
+Before giving you the quest, he tells you his loooong story: You gain +{{wisdom}} wisdom!`,
+  always_keep_potions: `
+Being a seasoned adventurer, you kept a health potion "just in case":
+Well done, your health is top-notch!`,
+  lost: `
+With all those quests, you forgot where you had to go…{{br}}
+But circling around the map is good for your health: +{{health}} health!`,
+  grinding: `
+For lack of a better thing to do, you grind for hours and hours…
+So what? It’s an RPG, what did you expect?
+But it pays off: +{{level}} level!`,
+  // classic quests
+  keep_watch: `
+You are hired to keep the watch. Boring, but lives are depending on you!
+The night pass without any trouble.
+You gain {{coin}} coins as agreed. Good job!
+		`,
+  critters: `
+You hunt critters to get XP and improve your skills.
+After one hour of farming, +{{attr}} {{attr_name}}, not bad!
+		`,
+  class_grimoire: `
+You find a tome about your class.
+It’s filled with interesting stuff!
+It’s worth reading: +{{attr}} {{attr_name}}!
+		`,
+  // farm village
+  village_farmwork: `
+The villagers hire you to do their errands.
+You gather firewood, draw water from the well, chase pests.
+You gain {{coin}} coins as agreed, +{{strength}} strength as a bonus and hopefully gain the people’s trust for better quests in the future!
+		`,
+  village_lost_kid: `
+A villager runs after you "Please find my kid lost in the forest! I heard about goblins and fear the worst!".{{br}}
+You arrive just as the goblins were about to put the kid in the cauldron.
+You deal justice to these pests, drink their soup and bring back the kid.{{br}}
+The parent is delighted and you looted a {{item}} in the goblin camp.
+		`,
+  village_lost_father: `
+A child from the village runs after you "Please, find my father who isn’t back from the forest!".
+You track the father to a clearing, where he took refuge in a tree, surrounded by wolves.
+You sow death amongst the pack using your adventurer’s arts and bring back the father home.
+You practiced your {{attr_name}} during this encounter: +{{attr}} {{attr_name}}!
+And the child now wants to be an adventurer...
+		`,
+  village_nice_daughter: `
+The daughter of one of the villager you helped wants to have a tea with her saviour.
+She’s very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
+		`,
+  village_gifts_blacksmith: `
+You helped the village so much that the inhabitants are giving you parting gifts.
+"You can’t travel without protection" say the blacksmith. He makes you an armor: {{armor}}!
+`,
+  village_strongman: `
+You spar with the village’s strongman. His methods are crude but practical and effective.
+"You gain +{{strength}} strength!
+`,
+  // capital
+  // royal castle
+  capital_castle: `
+You arrive at the Royal Castle, one of the famous landmark of the capital.
+It’s incredible: huge, strong yet delicate, with high towers and ornaments everywhere...
+You ponder about civilizations: +{{wisdom}} wisdom.
+		`,
+  // royal road
+  capital_royal_road: `
+You visit the Royal Road, one of the famous landmark of the capital.
+It’s a wide road filled with stalls with goods from the best gatherers and the best crafters.
+You barter for a much needed equipment enhancement.
+		`,
+  // royal amusement park
+  capital_royal_amusement_park: `
+You visit the Royal Amusement Park, one of the famous landmark of the capital.
+You try all the magical attractions and have a second round of your favorite ones.
+This is a curious but effective training: +{{attr}} {{attr_name}}!
+		`,
+  // biomes
+  // rural
+  // snow
+  // mountain
+  // jungle
+  // desert
+  // swamp
+  // sewers
+  // famous stones
+  famous_stone_ruby: `
+In a lost city, you loot the famous lost striped candy-pink ruby!
+Your fame increases: +{{charisma}} charisma, +{{token}} token.
+		`,
+  famous_stone_diamond: `
+In a meteor crater, you loot an incredible rare black diamond!
+Your wisdom increases: +{{wisdom}} wisdom, +{{token}} token.
+		`,
+  famous_stone_sapphire: `
+In a secret cave below the ocean, you loot the forgotten sapphire of Atlantis!
+Your mana increases: +{{mana}} mana, +{{token}} token.
+		`,
+  famous_stone_emerald: `
+On a lost altar deep in the jungle, you loot the mysterious emerald of Shapeshifting!
+Your agility increases: +{{agility}} agility, +{{token}} token.
+		`,
+  // class master
+  // winter spirit cookies
+  // https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
+  class_master_primary_attr_1: `
+Your class master is playing wise:
+"You need to work on your {{attr_name}}, it’s the basis of everything! Focus on your strengths, not your weaknesses!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+  class_master_primary_attr_2: `
+Your class master is playing wise again:
+"The successful warrior is the average man, with laser-like focus! Concentrate on improving your {{attr_name}}!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+  class_master_second_attr: `
+As usual, your class master is grumpy:
+"What’s the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+  class_master_forbidden_knowledge: `
+You feel that your class master is not teaching you everything.
+You sneak into her room and read her forbidden scrolls.
+You gain +{{attr}} {{attr_name}}!
+		`,
+  class_master_dark_holocron: `
+You feel that your class master is not teaching you everything.
+You sneak into her room and find the holocron of a dead evil master.
+He happily teaches you in exchange of some "services". You gain +{{attr}} {{attr_name}}!
+		`,
+  class_master_coolidge: `
+Your class master implores you to meditate:
+"Persistence and determination win over talent, genius and skills!"{{br}}
+Persistence? Determination? She must be talking about levelling: You gain +{{level}} {{level}}!
+		`,
+  class_master_half_battle: `
+Your class master tries to instill some common sense:
+"Knowing is half the battle!"{{br}}
+She must means you need more experience. You spar against other classes and gain +{{attr}} {{attr_name}}!
+		`,
+  church_book: `
+You visit a church for healing and end up reading their magic books.
+You gain +{{mana}} mana!
+		`,
+  church_cellar_prisoner: `
+You visit a church for healing and check their cellar.
+Behind a secret door, a chained prisoner offers you power in exchange of his freedom.
+You gain +{{attr}} {{attr_name}}!
+		`,
+  huge_tower: `
+You discover and explore a huge tower. It’s filled with mad wizards, cultists and golems.
+You reach the top and snatch some loot ({{item}}) then exit the tower,
+victorious and more experienced (+{{attr}} {{attr_name}})!
+		`,
+  make_friends: `
+You learnt necromancy (+{{mana}} mana). With your new skills, you assemble some living corpses from remains dug in the cemetery.{{br}}
+Your mom would be proud, she was always telling you to go and "make" friends!
+		`,
+  milk: `
+You drink a lot of milk! Your bones strengthen and your health increases!
+You gain +{{health}} health.
+	`,
+  clover: 'You find a four-leaf clover. You gain +{{luck}} luck.',
+  horseshoe: 'You find a horseshoe. You gain +{{luck}} luck.',
+  rabbit_foot: `
+You kill a rabbit, eat it and keep one of its foot as a good luck charm.
+You gain +{{luck}} luck.`,
+  // future followers
+  // Kloo the dryad druidess
+  erika: `
+Exploring the Colossal Cave, you meet Erika, a powerful sorceress
+whose sensitive skin led her to live underground.
+She teaches you a new spell for money: +{{mana}} mana
+		`,
+  rachel: `
+Between two villages, you meet Rachel the washer wench.
+She competes with you in arm twisting, and win!
+Good exercise, +{{strength}} strength.
+		`,
+  // inspired by player
+  ribert: `
+You meet Ribert, the head of the royal guards.{{br}}
+He is a seasoned warrior and agrees to spar with you.{{br}}
+Good fighting exercise, you gain +{{attr}} {{attr_name}}.
+		`,
+  // Maluka the bardess
+  // King Gallus
+  // reginold the guard
+  // bandits
+  // secret order
+  // secret sages
+
+  /*
+   princess rich, powerful
+   */
+
+  /* Ma Backer bandit woman ->
+   */
+
+  /*
+    // licorne multicolore
+    xunicorns:
+    '',
+    // memes
+    // retour chez le mage noir, apprentissage de sorts
+    xblack_mage_again:
+    '',
+    */
+  // get rid of them, not slaughter them all
+  // knowing is half the battle
+  // warsong
+  // peace song
+  // dragon's graveyard
+  // https://starecat.com/the-witcher-looking-at-side-quest-meme/
+  meteor_metal: `
+A meteorite falls near your position. You rush to the crater and gather the star metal.
+You then pay a blacksmith to coat your equipment with it.
+Nice enhancement!
+	`,
+  king_reward: `
+You did well to help the kingdom.
+King Gallus welcomes you again in the throne room in front of all the court assembled.
+You are rewarded with weapons and honors: {{item}}, {{token}} token...
+`,
+  // pets
+  pet_squirrel: `
+Having spent so much time in the forest, you befriend and tame a squirrel.
+You keep it as a pet.
+Its aura gives you +{{agility}} agility!
+	`,
+  pet_black_cat: `
+You befriend and tame a black cat.
+He now follows you as a pet.
+Its aura gives you +{{luck}} luck!
+	`,
+  pet_rainbow_lorikeet: `
+In the paradise island, you befriend and tame a rainbow lorikeet.
+It now stays on your shoulder, that’s quite a sight!
+This makes you popular: +{{charisma}} charisma!
+	`,
+  pet_red_eyed_unicorn: `
+You encounter a red eyed unicorn throwing fire from her mouth.
+It seems evil and acknowledges you.{{br}}
+You just won yourself an epic mount! And its aura gives you +{{mana}} mana!
+	`,
+  pet_badger_mushrooms: `
+You dance and sing "badger badger mushrooms mushrooms"{{br}}
+You must have eaten the wrong mushroom.{{br}}
+You wake up with a pet badger. Its aura gives you +{{strength}} strength!
+`,
+  // misc
+  best_defense_is_offense: `
+The best defense is offense!
+You pay for an upgrade of your weapon, it is now stronger!
+`,
+  defense_is_also_important: `
+You discuss with another warrior: "the only real defense is active defense: A good counter-attack leading to taking the offensive!"
+Following this conversation, you buy an upgrade for your armor, it is now stronger!
+`
+};
+const OFFIRMO_BLAND_REPARTITION_ADJUSTMENT = {
+  // we can change the target attribute to improve the distribution
+  found_random_mushroom: `
+You find a golden mushroom and eat it.
+You gained +{{attr}} {{attr_name}}!`,
+  // food
+  dragon_kebab: `
+You have the chance to taste the legendary dragon meat kebab!
+Through this magical food, you gain +{{attr}} {{attr_name}}!
+	`,
+  elven_hydromel: `
+You have the chance to taste the legendary elven hydromel!
+Through this magical drink, you gain +{{attr}} {{attr_name}}!
+	`,
+  random_blessing: `
+You helped a village. The village’s elder grants you a blessing.
+She is very old and you are not very sure she knows what she’s doing…
+You find that you gained +{{attr}} {{attr_name}}!
+	`,
+  guild_party_food: `
+At an adventuring guild party, you are drunk and pick something unidentified to eat.{{br}}
+Once you wake up (one day later!) you discover that you strangely gained +{{attr}} {{attr_name}}!
+	`,
+
+  /*
+  fantasy metals
+      * http://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
+  * http://metallurgy.wikia.com/wiki/Fantasy_Metals
+  * http://www.bodycote.com/fictional-metals
+  */
+  // potions
+  // https://www.reddit.com/r/DnDBehindTheScreen/comments/4btnkc/random_potions_table/
+  // see "appearance"
+  found_vermilion_potion: `
+You find a vermilion potion.
+Crazy drink, gained +{{attr}} {{attr_name}}!`,
+  found_silver_potion: `
+You find a silver potion.
+Sweet drink, gained +{{attr}} {{attr_name}}!`,
+  found_swirling_potion: `
+You find a swirling potion.
+Strange drink, gained +{{attr}} {{attr_name}}!`,
+  found_fizzing_potion: `
+You find a fizzing potion.
+Sparkling drink, gained +{{attr}} {{attr_name}}!`,
+  found_bubbly_potion: `
+You find a bubbly potion.
+Soft drink, gained +{{attr}} {{attr_name}}!`,
+  found_worn_out_potion: `
+You find an old potion with an unreadable label.
+You try your luck and drink it.
+You gain +{{attr}} {{attr_name}}!`,
+  // books
+  found_journal: `
+You find the remains of an unlucky adventurer. She or he (you can’t tell from the remains) kept a journal.
+You read it and learn from their failure: +{{attr}} {{attr_name}}!`
+};
+const OFFIRMO_TECHNICALS = {
+  found_coin: `
+You find a coin on the ground!`
+}; // NOTE: we allow line returns for ease of writing
+// but they'll be automatically removed, see bottom of this file.
+// use {{br}} for actual line returns.
+
+const raw_messages = {
+  adventures: { ...BAD_ADVENTURES,
+    ...FIGHT_ADVENTURES,
+    ...SCAVENGED_ORIGINAL_ADVENTURES,
+    ...OFFIRMO_MUSHROOMS_AND_MISC,
+    ...OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET,
+    ...OFFIRMO_INSPIRED_FROM_NET_RSRCS,
+    ...OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS,
+    ...OFFIRMO_INPIRED_FROM_VIDEOGAMES,
+    ...OFFIRMO_INSPIRED_FROM_MANGAS,
+    ...OFFIRMO_INSPIRED_BY_POPULAR_CULTURE,
+    ...OFFIRMO_ORIGINAL,
+    ...OFFIRMO_BLAND_REPARTITION_ADJUSTMENT,
+    ...OFFIRMO_TECHNICALS
+  }
+};
+const i18n_en_messages = {
+  adventures: {}
+};
+Object.keys(raw_messages.adventures).filter(key => !key.startsWith('xxx')).forEach(entry => {
+  i18n_en_messages.adventures[entry] = clean_multiline_string(raw_messages.adventures[entry]);
+});
+
+function clean_multiline_string(str) {
+  return str.split('\n').map(s => s.trim()).filter(s => !!s).join(' ');
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-adventures/dist/src.es2019/data/index.js
+ // TODO type better? (coins)
+
+
+const story = AdventureType.story;
+const fight = AdventureType.fight;
+const src_es2019_data_ENTRIES = [{
+  good: false,
+  type: story,
+  hid: 'bad_s1',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_s2',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_m1',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_m2',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_m3',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_m4',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_m5',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_m6',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_e1',
+  outcome: {}
+}, {
+  good: false,
+  type: story,
+  hid: 'bad_e2',
+  outcome: {}
+}, {
+  good: true,
+  type: fight,
+  hid: 'fight_won_coins',
+  outcome: {
+    coin: 'gainꘌsmall'
+  }
+}, {
+  good: true,
+  type: fight,
+  hid: 'fight_won_loot',
+  outcome: {
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: fight,
+  hid: 'fight_won_any',
+  outcome: {
+    random_attribute: true
+  }
+}, {
+  good: true,
+  type: fight,
+  hid: 'fight_observe',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: fight,
+  hid: 'fight_lost_any',
+  outcome: {
+    random_attribute: true
+  }
+}, {
+  good: true,
+  type: fight,
+  hid: 'fight_lost_shortcoming',
+  outcome: {
+    lowest_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'bored_log',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'caravan_success',
+  outcome: {
+    coin: 'gainꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'dying_man',
+  outcome: {
+    coin: 'gainꘌmedium'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'ate_bacon',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'ate_zombie',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'refreshing_nap',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'older',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'stare_cup',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'nuclear_fusion_paper',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_green_mushroom',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'eaten_by_a_grue',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'walk_in_mordor',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'jig',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'good_end',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'waterfall',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'meteor',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'weird_duck',
+  outcome: {
+    coin: 'gainꘌhuge'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'last_quest',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'busking',
+  outcome: {
+    token: 1
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'best_meal',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'witch_riddle',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'princess_castle',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'problem',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'foreign_language',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'last_night',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'chasm_leap',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'luxurious_meal',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'donate',
+  outcome: {
+    coin: 'lossꘌsmall',
+    token: 1
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'coffee',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'socks',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'gold_nugget',
+  outcome: {
+    coin: 'gainꘌmedium'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'pileup',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'tavern',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'magic_lamp',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'rabbit_hole',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'cat_out_tree',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'green_food',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'wishing_well',
+  outcome: {
+    coin: 'lossꘌone'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'conscripted',
+  outcome: {
+    coin: 'gainꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'brigands',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'duke_rescue',
+  outcome: {
+    coin: 'gainꘌmedium'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'bribe',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'doctor',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'gazebo',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'sock_drawer',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'flying_rat',
+  outcome: {
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_red_mushroom',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_blue_mushroom',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_white_mushroom',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_yellow_mushroom',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_orange_mushroom',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_black_mushroom',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_rainbow_mushroom',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'demon_king',
+  outcome: {
+    weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'false_lake',
+  outcome: {
+    coin: 'gainꘌmedium',
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'soul_weapon_pet_zombie',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_sharpest_weapon',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'good_necromancer',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'talk_to_all_villagers',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'fate_sword',
+  outcome: {
+    coin: 'gainꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'rematch',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'useless',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'escort',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'rare_goods_seller',
+  outcome: {
+    armor_or_weapon: true,
+    coin: 'lossꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'progress_loop',
+  outcome: {
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'idiot_bandits',
+  outcome: {
+    coin: 'gainꘌmedium'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'princess',
+  outcome: {
+    coin: 'gainꘌmedium',
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'bad_village',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'so_many_potions',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'high_level_zone_1',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'high_level_zone_2',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'side_quests',
+  outcome: {
+    coin: 'gainꘌmedium'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'balrog',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'castle_summon',
+  outcome: {
+    weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'unmatched_set',
+  outcome: {
+    coin: 'gainꘌbig'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'bards',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'elementals',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'fabric_of_reality',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'save_world_again',
+  outcome: {
+    charisma: true,
+    'coin': 'gainꘌbig',
+    'armor_or_weapon': true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'clean_wizard_tower',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'explore_ruins',
+  outcome: {
+    coin: 'gainꘌmedium',
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'inspect_sewers',
+  outcome: {
+    class_secondary_attribute: true,
+    coin: 'gainꘌmedium'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'explore_catacombs',
+  outcome: {
+    coin: 'gainꘌmedium',
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'bandits_punishment',
+  outcome: {
+    coin: 'gainꘌmedium'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'evil_laugh',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'hero_smile',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'bg_music',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'owlbear',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'book_hobbit_riddles',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'book_excuses_dragon',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'magical_cooking_ragnaros',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'wise_wisewood_tree',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'murderer',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'exile_GIFTS',
+  outcome: {
+    improvementⵧweapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'visual_effect',
+  outcome: {
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'weapon_damage_type',
+  outcome: {
+    improvementⵧweapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'give_a_shield',
+  outcome: {
+    armor: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'treasure_in_pots',
+  outcome: {
+    coin: 'gainꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'chicken_slayer',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'arrow_in_the_knee',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'sentients_killing',
+  outcome: {
+    coin: 'gainꘌsmall',
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'colossal_cave',
+  outcome: {
+    armor_or_weapon: true,
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'colossal_cave_maze',
+  outcome: {
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'gehennom',
+  outcome: {
+    coin: 'gainꘌmedium',
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'exile_GIFTS',
+  outcome: {
+    improvementⵧweapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'DQ_good_slime',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'socketed_item',
+  outcome: {
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'guild_rank',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'runes',
+  outcome: {
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'drown_in_holy_water',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'rings_of_power',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'raining_elves',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'raining_dwarves',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'need_for_speed',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'riddle_of_steel',
+  outcome: {
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'sword_in_rock',
+  outcome: {
+    weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'sword_in_a_lake',
+  outcome: {
+    weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'lost_mine',
+  outcome: {
+    token: 1
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'vampire_castle',
+  outcome: {
+    coin: 'gainꘌmedium',
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'mana_mana',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'square_eggs',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'foodie_friend',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'chilies',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'caravan_failure',
+  outcome: {
+    coin: 'gainꘌmedium',
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'meet_old_wizard',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'always_keep_potions',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'lost',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'grinding',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'keep_watch',
+  outcome: {
+    coin: 'gainꘌsmall'
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'critters',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_grimoire',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'village_farmwork',
+  outcome: {
+    coin: 'gainꘌsmall',
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'village_lost_kid',
+  outcome: {
+    armor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'village_lost_father',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'village_nice_daughter',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'village_gifts_blacksmith',
+  outcome: {
+    armor: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'village_strongman',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'capital_castle',
+  outcome: {
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'capital_royal_road',
+  outcome: {
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'capital_royal_amusement_park',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'famous_stone_ruby',
+  outcome: {
+    token: 1,
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'famous_stone_diamond',
+  outcome: {
+    token: 1,
+    wisdom: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'famous_stone_sapphire',
+  outcome: {
+    token: 1,
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'famous_stone_emerald',
+  outcome: {
+    token: 1,
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_primary_attr_1',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_primary_attr_2',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_second_attr',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_forbidden_knowledge',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_dark_holocron',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_coolidge',
+  outcome: {
+    level: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'class_master_half_battle',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'church_book',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'church_cellar_prisoner',
+  outcome: {
+    class_secondary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'huge_tower',
+  outcome: {
+    armor_or_weapon: true,
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'make_friends',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'milk',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'clover',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'horseshoe',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'rabbit_foot',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'erika',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'rachel',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'ribert',
+  outcome: {
+    class_primary_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'meteor_metal',
+  outcome: {
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'king_reward',
+  outcome: {
+    armor_or_weapon: true,
+    token: 1
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'pet_squirrel',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'pet_black_cat',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'pet_rainbow_lorikeet',
+  outcome: {
+    charisma: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'pet_red_eyed_unicorn',
+  outcome: {
+    mana: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'pet_badger_mushrooms',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'best_defense_is_offense',
+  outcome: {
+    improvementⵧarmor_or_weapon: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'defense_is_also_important',
+  outcome: {
+    improvementⵧarmor: true
+  }
+}, // those stories are not hinting a a specific attribute,
+// thus can be used for adjusting distribution.
+// (if aligned, use 'random_attribute')
+{
+  good: true,
+  type: story,
+  hid: 'cookies_grandmas',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_random_mushroom',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'dragon_kebab',
+  outcome: {
+    lowest_attribute: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'elven_hydromel',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'random_blessing',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'guild_party_food',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_vermilion_potion',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_silver_potion',
+  outcome: {
+    agility: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_swirling_potion',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_fizzing_potion',
+  outcome: {
+    strength: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_bubbly_potion',
+  outcome: {
+    luck: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_worn_out_potion',
+  outcome: {
+    health: true
+  }
+}, {
+  good: true,
+  type: story,
+  hid: 'found_journal',
+  outcome: {
+    health: true
+  }
+}, // special
+{
+  good: true,
+  type: story,
+  hid: 'found_coin',
+  outcome: {
+    coin: 'gainꘌone'
+  }
+}];
+const data_i18n_messages = {
+  en: i18n_en_messages
+};
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-adventures/dist/src.es2019/index.js
+/////////////////////
+
+
+
+ /////////////////////
+
+const ALL_ADVENTURE_ARCHETYPES = src_es2019_data_ENTRIES.map(paa => {
+  const raw_outcome = paa.outcome || {};
+  const outcome = {
+    level: !!raw_outcome.level,
+    agility: !!raw_outcome.agility,
+    health: !!raw_outcome.health,
+    luck: !!raw_outcome.luck,
+    mana: !!raw_outcome.mana,
+    strength: !!raw_outcome.strength,
+    charisma: !!raw_outcome.charisma,
+    wisdom: !!raw_outcome.wisdom,
+    random_attribute: !!raw_outcome.random_attribute,
+    lowest_attribute: !!raw_outcome.lowest_attribute,
+    class_primary_attribute: !!raw_outcome.class_primary_attribute,
+    class_secondary_attribute: !!raw_outcome.class_secondary_attribute,
+    coin: raw_outcome.coin || CoinsGain.none,
+    token: raw_outcome.token || 0,
+    armor: !!raw_outcome.armor,
+    weapon: !!raw_outcome.weapon,
+    armor_or_weapon: !!raw_outcome.armor_or_weapon,
+    item_spec: null,
+    improvementⵧarmor: !!raw_outcome.improvementⵧarmor,
+    improvementⵧweapon: !!raw_outcome.improvementⵧweapon,
+    improvementⵧarmor_or_weapon: !!raw_outcome.improvementⵧarmor_or_weapon
+  };
+  const aa = {
+    hid: paa.hid,
+    good: paa.good,
+    type: paa.type,
+    outcome
+  };
+  return aa;
+});
+const ALL_BAD_ADVENTURE_ARCHETYPES = ALL_ADVENTURE_ARCHETYPES.filter(aa => !aa.good);
+const ALL_GOOD_ADVENTURE_ARCHETYPES = ALL_ADVENTURE_ARCHETYPES.filter(aa => aa.good);
+const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE = {
+  story: ALL_GOOD_ADVENTURE_ARCHETYPES.filter(aa => aa.type === AdventureType.story),
+  fight: ALL_GOOD_ADVENTURE_ARCHETYPES.filter(aa => aa.type === AdventureType.fight)
+};
+const COINS_GAIN_MULTIPLIER_PER_LEVEL = 1.1;
+const COINS_GAIN_RANGES = {
+  lossꘌsmall: [-10, -1],
+  none: [0, 0],
+  gainꘌsmall: [1, 20],
+  gainꘌmedium: [50, 100],
+  gainꘌbig: [500, 700],
+  gainꘌhuge: [900, 2000]
+}; // TODO UT data
+/////////////////////
+// useful for picking an exact archetype (ex. tests)
+
+function get_archetype(hid) {
+  const aa = ALL_ADVENTURE_ARCHETYPES.find(aa => aa.hid === hid);
+  if (!aa) throw new Error(`logic-adventures, get_archetype(): couldn't find archetype "${hid}" !`);
+  return aa;
+}
+
+const FIGHT_ENCOUNTER_RATIO = 0.33;
+
+function pick_random_good_archetype(rng) {
+  return random["Random"].bool(FIGHT_ENCOUNTER_RATIO)(rng) ? random["Random"].pick(rng, GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight) : random["Random"].pick(rng, GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story);
+}
+
+function pick_random_bad_archetype(rng) {
+  return random["Random"].pick(rng, ALL_BAD_ADVENTURE_ARCHETYPES);
+}
+
+function generate_random_coin_gain_or_loss(rng, {
+  range,
+  player_level,
+  current_wallet_amount
+}) {
+  switch (range) {
+    case CoinsGain.lossꘌsmall:
+      {
+        Object(tiny_invariant_esm["default"])(current_wallet_amount > 0, 'wallet should not be empty for loss to be allowed!');
+        let interval = COINS_GAIN_RANGES[range];
+        Object(tiny_invariant_esm["default"])(interval, `known range "${range}"`);
+        const amount = random["Random"].integer(interval[0], interval[1])(rng);
+        const capped_amount = Math.max(amount, -current_wallet_amount);
+        return capped_amount;
+      }
+
+    case CoinsGain.lossꘌone:
+      return -1;
+
+    case CoinsGain.none:
+      return 0;
+
+    case CoinsGain.gainꘌone:
+      return 1;
+
+    default:
+      {
+        const level_multiplier = player_level * COINS_GAIN_MULTIPLIER_PER_LEVEL;
+        let interval = COINS_GAIN_RANGES[range];
+        Object(tiny_invariant_esm["default"])(interval, `known range "${range}"`);
+        interval = [interval[0] * level_multiplier, interval[1] * level_multiplier];
+        return random["Random"].integer(interval[0], interval[1])(rng);
+      }
+  }
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/compare.js
+////////////////////////////////////
+
+ /////////////////////
+// for sorting
+
+function compare_armors_by_potential(a, b) {
+  const a_dmg = get_ultimate_medium_damage_reduction(a);
+  const b_dmg = get_ultimate_medium_damage_reduction(b);
+  if (a_dmg !== b_dmg) return b_dmg - a_dmg; // fallback to other attributes
+
+  return compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid);
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-weapons/dist/src.es2019/compare.js
+/////////////////////
+
+ /////////////////////
+// for sorting
+
+function compare_weapons_by_potential(a, b) {
+  const a_dmg = get_ultimate_medium_damage(a);
+  const b_dmg = get_ultimate_medium_damage(b);
+  if (a_dmg !== b_dmg) return b_dmg - a_dmg; // fallback to other attributes
+
+  return compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid);
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-inventory/dist/src.es2019/compare.js
+/////////////////////
+
+
+
+ /////////////////////
+
+function compare_items_by_slot_then_strength(a, b) {
+  if (a.slot !== b.slot) return compare_items_by_slot(a, b);
+
+  switch (a.slot) {
+    case InventorySlot.armor:
+      {
+        const sort = compare_armors_by_potential(a, b);
+        if (!Number.isInteger(sort)) throw new Error(`${state_inventory_dist_src_es2019_consts_LIB}: compare():  error sorting armors!`);
+        return sort;
+      }
+
+    case InventorySlot.weapon:
+      {
+        const sort = compare_weapons_by_potential(a, b);
+        if (!Number.isInteger(sort)) throw new Error(`${state_inventory_dist_src_es2019_consts_LIB}: compare():  error sorting weapons!`);
+        return sort;
+      }
+
+    default:
+      throw new Error(`${state_inventory_dist_src_es2019_consts_LIB}: compare(): unhandled item slot "${a.slot}"!`);
+  }
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-inventory/dist/src.es2019/state.js
+/////////////////////
+
+
+
+
+
+ /////////////////////
+
+function state_inventory_dist_src_es2019_state_create(SEC) {
+  return src_es2019_sec_get_lib_SEC(SEC).xTry('rename', () => {
+    return Object(utils["c" /* enforce_immutability */])({
+      schema_version: state_inventory_dist_src_es2019_consts_SCHEMA_VERSION,
+      revision: 0,
+      // todo rename equipped / backpack ?
+      unslotted_capacity: 20,
+      slotted: {},
+      unslotted: []
+    });
+  });
+} /////////////////////
+
+
+function _auto_sort(state) {
+  return { ...state,
+    unslotted: [...state.unslotted].sort(compare_items_by_slot_then_strength)
+  };
+}
+
+function _internal_remove_item_from_unslotted(state, uuid) {
+  const new_unslotted = state.unslotted.filter(i => i.uuid !== uuid);
+  if (new_unslotted.length === state.unslotted.length) throw new Error(`state-inventory: can’t remove item #${uuid}, not found!`); // removing won't change the sort order, so no need to auto-sort
+
+  return { ...state,
+    unslotted: new_unslotted
+  };
+} /////////////////////
+
+
+function add_item(state, item) {
+  if (is_full(state)) throw new Error('state-inventory: can’t add item, inventory is full!');
+  return _auto_sort({ ...state,
+    unslotted: [...state.unslotted, item],
+    revision: state.revision + 1
+  });
+}
+
+function remove_item_from_unslotted(state, uuid) {
+  return _internal_remove_item_from_unslotted({ ...state,
+    revision: state.revision + 1
+  }, uuid);
+}
+
+function equip_item(state, uuid) {
+  const item_to_equip = state.unslotted.find(i => i.uuid === uuid);
+  if (!item_to_equip) throw new Error(`state-inventory: can’t equip item #${uuid}, not found!`);
+  const target_slot = item_to_equip.slot;
+  const item_previously_in_slot = get_item_in_slot(state, target_slot); // may be null
+  // swap them
+
+  let new_state = { ...state,
+    slotted: { ...state.slotted,
+      [target_slot]: item_to_equip
+    },
+    revision: state.revision + 1
+  };
+  new_state = _internal_remove_item_from_unslotted(new_state, item_to_equip.uuid);
+
+  if (item_previously_in_slot) {
+    new_state.unslotted = [...new_state.unslotted, item_previously_in_slot];
+  }
+
+  return _auto_sort(new_state);
+} /////////////////////
+
+
+ /////////////////////
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/fraction.js/fraction.js
+var fraction = __webpack_require__(78);
+var fraction_default = /*#__PURE__*/__webpack_require__.n(fraction);
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js + 2 modules
+var dist_src_es2019 = __webpack_require__(35);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/definitions/dist/src.es2019/logger.js
+
+
+function get_logger() {
+  return Object(dist_src_es2019["a" /* getLogger */])({
+    name: PRODUCT
+  });
+}
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/memoize-one/dist/memoize-one.esm.js
+var memoize_one_esm = __webpack_require__(549);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-energy/dist/src.es2019/utils.js
+function time_to_human(seconds) {
+  //console.log(`time_to_human(${seconds})`)
+  const human_time_parts = [];
+  const s = seconds % 60;
+  seconds -= s;
+  const m = seconds / 60 % 60;
+  seconds -= m * 60;
+  const h = seconds / 3600;
+
+  if (h) {
+    human_time_parts.push(`${h}h`);
+  }
+
+  if (m) {
+    human_time_parts.push(`${m}m`);
+  }
+
+  if (s
+  /*&& !(h && m)*/
+  ) {
+      human_time_parts.push(`${s}s`);
+    }
+
+  return human_time_parts.join(' ');
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-energy/dist/src.es2019/selectors.js
+
+
+
+
+
+
+ ////////////////////////////////////
+
+const MIN_RESULT = new fraction_default.a(1, 2.1); // must be smaller than .5 for rounding reasons
+
+function get_current_energy_refilling_rate_per_ms(u_state, t_state) {
+  if (t_state.timestamp_ms + TICK_MS < Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+    get_logger().warn(`${state_energy_dist_src_es2019_consts_LIB}.get_current_energy_refilling_rate_per_ms() called on outdated state!`);
+  } // allow an "onboarding" regeneration rate:
+  // where energy regenerates faster at the beginning
+  // Formula: https://www.desmos.com/calculator/s1kpakvnjw
+  //                                        onboarding_coeff
+  // refilling rate = floor(--------------------------------------------- + established_energy_refilling_rate_per_ms)
+  //                        (total_energy_refilled_so_far + adjust)^onboarding_power
+
+
+  const {
+    total_energy_consumed_so_far
+  } = u_state;
+  const total_energy_refilled_so_far = total_energy_consumed_so_far + get_available_energy_int(t_state) - u_state.max_energy;
+  Object(tiny_invariant_esm["default"])(total_energy_refilled_so_far >= 0, `${state_energy_dist_src_es2019_consts_LIB}.get_current_energy_refilling_rate_per_ms() total_energy_refilled_so_far = ${total_energy_refilled_so_far}!`);
+
+  if (total_energy_refilled_so_far <= 0) {
+    // <= 0 to avoid dividing by 0
+    return MIN_RESULT;
+  }
+
+  const established_energy_refilling_rate_per_ms = new fraction_default.a( // 7/24h, in ms
+  7, 24 * 3600 * 1000);
+  const onboarding_coeff = 55; // bigger = faster refill
+
+  const onboarding_adjustment = 5; // to skip the too many "0s" refill at the beginning
+
+  const onboarding_power = 5; // bigger = slower refill
+
+  const onboarding_energy_refilling_rate_per_ms = new fraction_default.a(onboarding_coeff, Math.pow(total_energy_refilled_so_far + onboarding_adjustment, onboarding_power));
+  let rate = onboarding_energy_refilling_rate_per_ms.add(established_energy_refilling_rate_per_ms) // for rounding reasons, we floor() the result
+  // established = 7/day = ~0.000000081028970/ms
+  .floor(12) // 12 because seen dropping the /day rate at 10
+  ;
+
+  if (total_energy_refilled_so_far <= 10 && rate.compare(MIN_RESULT) > 0) {
+    rate = MIN_RESULT; // onboarding early values may be too big
+    // we don't use Math.max to check that it only happens during onboarding
+  }
+
+  if (rate.compare(MIN_RESULT) > 0) {
+    get_logger().error('rate too big!', {
+      rate,
+      rate_v: rate.valueOf(),
+      u_state,
+      t_state,
+      total_energy_refilled_so_far,
+      onboarding_coeff,
+      onboarding_power,
+      established_energy_refilling_rate_per_ms,
+      established_energy_refilling_rate_per_ms_v: established_energy_refilling_rate_per_ms.floor(12).valueOf(),
+      den: Math.pow(total_energy_refilled_so_far, onboarding_power)
+    });
+  }
+
+  Object(tiny_invariant_esm["default"])(rate.compare(MIN_RESULT) <= 0, 'rate too big');
+  return rate;
+} ////////////
+
+
+function debugTTNx(energy_refilling_rate_per_ms) {
+  /*const ttn = (
+      (new Fraction(1))
+          .div(energy_refilling_rate_per_ms)
+          .round(0)
+          .valueOf()
+  )
+  console.warn('debug', {
+      energy_refilling_rate_per_ms,
+      ttn,
+  })*/
+}
+
+const debugTTN = Object(memoize_one_esm["default"])(debugTTNx);
+
+function get_milliseconds_to_next(u_state, t_state) {
+  if (t_state.timestamp_ms + TICK_MS < Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+    /*console.log('outdated:', {
+        TICK_MS,
+        't_state.timestamp_ms': t_state.timestamp_ms,
+        UTC_timestamp_ms: get_UTC_timestamp_ms()
+    })*/
+    get_logger().warn(`${state_energy_dist_src_es2019_consts_LIB}.get_milliseconds_to_next() called on outdated state!`);
+  }
+
+  const available_energy = new fraction_default.a(t_state.available_energy);
+  if (available_energy.compare(u_state.max_energy) >= 0) throw new Error(`${state_energy_dist_src_es2019_consts_LIB}.get_milliseconds_to_next() called with no next!`);
+  const energy_refilling_rate_per_ms = get_current_energy_refilling_rate_per_ms(u_state, t_state);
+  const fractional_available_energy = available_energy.mod(1); //console.log('fractional_available_energy', fractional_available_energy.valueOf())
+  //console.log('remaining fractional_available_energy', (new Fraction(1)).sub(fractional_available_energy).valueOf())
+
+  debugTTN(energy_refilling_rate_per_ms.valueOf()); // time to next = (1 - frac) / refilling
+
+  const ttn = new fraction_default.a(1).sub(fractional_available_energy).div(energy_refilling_rate_per_ms).round(0).valueOf(); // if 0, sth is wrong
+
+  if (ttn <= 0) {
+    get_logger().log('ms 0!', {
+      u_state,
+      t_state,
+      available_energy,
+      available_energy_v: available_energy.valueOf(),
+      fractional_available_energy,
+      fractional_available_energy_v: fractional_available_energy.valueOf(),
+      energy_refilling_rate_per_ms,
+      energy_refilling_rate_per_ms_v: energy_refilling_rate_per_ms.valueOf(),
+      ttn,
+      ttn_f: new fraction_default.a(1).sub(fractional_available_energy).div(energy_refilling_rate_per_ms)
+    });
+  }
+
+  Object(tiny_invariant_esm["default"])(ttn > 0, `${state_energy_dist_src_es2019_consts_LIB}.get_milliseconds_to_next() should never return 0!`);
+  return ttn;
+}
+
+function get_human_time_to_next(u_state, t_state) {
+  if (t_state.timestamp_ms + TICK_MS < Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+    get_logger().warn(`${state_energy_dist_src_es2019_consts_LIB}.get_human_time_to_next() called on outdated state!`);
+  }
+
+  const energy = new fraction_default.a(t_state.available_energy);
+  if (energy.compare(u_state.max_energy) >= 0) return '';
+  const millisec_until_next = get_milliseconds_to_next(u_state, t_state);
+  const sec_until_next = Math.ceil(millisec_until_next / 1000.);
+  return time_to_human(sec_until_next);
+} ////////////
+
+
+function get_available_energy_float(t_state) {
+  if (t_state.timestamp_ms + TICK_MS < Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+    get_logger().warn(`${state_energy_dist_src_es2019_consts_LIB}.get_available_energy_float() called on outdated state!`);
+  }
+
+  const available_energy = new fraction_default.a(t_state.available_energy);
+  return available_energy.floor(2).valueOf();
+}
+
+function get_available_energy_int(t_state) {
+  if (t_state.timestamp_ms + TICK_MS < Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+    get_logger().warn(`${state_energy_dist_src_es2019_consts_LIB}.get_available_energy_int() called on outdated state!`);
+  }
+
+  return Math.floor(get_available_energy_float(t_state));
+} ////////////////////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-energy/dist/src.es2019/state.js
+/////////////////////
+
+
+
+
+
+
+const state_DEBUG = false; /////////////////////
+// TODO now should be set through sinon, no need
+
+function state_energy_dist_src_es2019_state_create(now_ms) {
+  const u_state = {
+    schema_version: state_energy_dist_src_es2019_consts_SCHEMA_VERSION,
+    revision: 0,
+    max_energy: 7,
+    total_energy_consumed_so_far: 0
+  };
+  const t_state = {
+    schema_version: state_energy_dist_src_es2019_consts_SCHEMA_VERSION,
+    revision: 0,
+    timestamp_ms: now_ms || 0,
+    available_energy: {
+      n: u_state.max_energy,
+      d: 1
+    }
+  };
+  return [u_state, t_state];
+} /////////////////////
+// date can be forced for testing reasons,
+
+
+function update_to_now([u_state, t_state], now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  const elapsed_time_ms = now_ms - t_state.timestamp_ms;
+  if (state_DEBUG) console.log('- UTN: starting...');
+  Object(tiny_invariant_esm["default"])(now_ms === 0 || now_ms > 10000, `${state_energy_dist_src_es2019_consts_LIB}.update_to_now(): Wrong new Date(value) usage?`);
+
+  if (elapsed_time_ms < 0) {
+    // time went backward? Must be a "daylight saving".
+    get_logger().warn(`${state_energy_dist_src_es2019_consts_LIB}.update_to_now(): Time went backward. Daylight saving?`); // just do nothing while time is not positive again
+
+    return t_state;
+  }
+
+  if (elapsed_time_ms < TICK_MS) {
+    if (state_DEBUG) console.log('       less than a tick.'); //console.warn('E.update_to_now: high frequency, skipping')
+
+    return t_state;
+  }
+
+  let available_energy = new fraction_default.a(t_state.available_energy);
+  const initial_available_energy = new fraction_default.a(t_state.available_energy);
+  /* NOOOOOOO!
+   * update_to_now is prelude to energy manipulation
+   * if not updating the "now" prop, removing energy while keeping an old time may yield full energy immediately
+   * this is not what we want!!!
+  if (available_energy.compare(u_state.max_energy) >= 0) {
+      console.log('E.update_to_now: energy already max', available_energy.compare(u_state.max_energy))
+      return t_state
+  }
+  */
+
+  t_state = { ...t_state,
+    timestamp_ms: now_ms
+  };
+  /*console.log({
+      available_energy: t_state.available_energy,
+      max_energy: u_state.max_energy,
+      comp: available_energy.compare(u_state.max_energy),
+  })*/
+  // due to onboarding,
+  // energy refill rate may change at each rounded energy re-gained.
+  // we need to refill energy 1 by 1
+
+  let time_left_to_process_ms = elapsed_time_ms;
+  let safety_counter = 10;
+  let energy_gain_per_ms = new fraction_default.a(1);
+  let energy_gained_in_this_iteration = new fraction_default.a(1);
+
+  while (time_left_to_process_ms > 0) {
+    if (state_DEBUG) console.log(`       - time left to process: ${time_left_to_process_ms}ms...`);
+    safety_counter--;
+    Object(tiny_invariant_esm["default"])(safety_counter > 0, 'UTN: infinite loop?');
+    if (state_DEBUG) console.log(`         available energy: ${available_energy.valueOf()}`);
+
+    if (available_energy.compare(u_state.max_energy) >= 0) {
+      if (state_DEBUG) console.log('         energy is full, no need to refill further');
+      time_left_to_process_ms = 0;
+      continue;
+    } // there is energy to refill
+
+
+    const time_to_next_ms = get_milliseconds_to_next(u_state, t_state);
+    if (state_DEBUG) console.log(`         time to next = ${time_to_next_ms}ms`);
+    if (state_DEBUG) console.log(`                      = ${get_human_time_to_next(u_state, t_state)}`);
+    const time_handled_in_this_iteration_ms = Math.min(time_left_to_process_ms, time_to_next_ms);
+
+    if (time_handled_in_this_iteration_ms === time_to_next_ms) {
+      // try to avoid rounding issues
+      const new_energy = new fraction_default.a(available_energy).add(1).floor(0);
+      energy_gained_in_this_iteration = new fraction_default.a(new_energy).sub(available_energy);
+      available_energy = new_energy;
+    } else {
+      energy_gain_per_ms = get_current_energy_refilling_rate_per_ms(u_state, t_state);
+      energy_gained_in_this_iteration = energy_gain_per_ms.mul(time_handled_in_this_iteration_ms);
+      available_energy = available_energy.add(energy_gained_in_this_iteration);
+    }
+
+    if (state_DEBUG) console.log(`         time handled = ${time_handled_in_this_iteration_ms}ms`);
+    if (state_DEBUG) console.log(`         refilled energy = +${energy_gained_in_this_iteration.valueOf()}`);
+    Object(tiny_invariant_esm["default"])(energy_gained_in_this_iteration.valueOf() > 0, 'UTN: no energy gain in a loop!');
+    time_left_to_process_ms -= time_handled_in_this_iteration_ms;
+    if (state_DEBUG) console.log(`         energy refilled to: ${available_energy.valueOf()}`);
+    t_state = { ...t_state,
+      available_energy: {
+        n: available_energy.n,
+        d: available_energy.d
+      }
+    };
+  }
+
+  if (available_energy.compare(u_state.max_energy) > 0) {
+    // too big: cap it
+    available_energy = new fraction_default.a(u_state.max_energy);
+  }
+
+  if (state_DEBUG) console.log(`       done! available energy = ${available_energy.valueOf()}`);
+  if (state_DEBUG) console.log(`             refilled energy = +${available_energy.sub(initial_available_energy).valueOf()}`);
+  return { ...t_state,
+    available_energy: {
+      n: available_energy.n,
+      d: available_energy.d
+    }
+  };
+}
+
+function use_energy([u_state, t_state], qty = 1, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  if (now_ms < t_state.timestamp_ms) throw new Error(`${state_energy_dist_src_es2019_consts_LIB}: time went backward! (cheating attempt?)`);
+  t_state = update_to_now([u_state, t_state], now_ms);
+  const available_energy = new fraction_default.a(t_state.available_energy).sub(qty);
+
+  if (available_energy.s < 0) {
+    throw new Error(`${state_energy_dist_src_es2019_consts_LIB}: not enough energy left!`);
+  }
+
+  u_state = { ...u_state,
+    total_energy_consumed_so_far: u_state.total_energy_consumed_so_far + qty,
+    revision: u_state.revision + 1
+  };
+  t_state = { ...t_state,
+    available_energy: {
+      // don't store sign
+      n: available_energy.n,
+      d: available_energy.d
+    },
+    revision: t_state.revision + 1
+  };
+  return [u_state, t_state];
+} // can be used as a punishment
+
+
+function lose_all_energy([u_state, t_state], qty = 1, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  t_state = { ...t_state,
+    timestamp_ms: now_ms,
+    available_energy: {
+      n: 0,
+      d: 1
+    },
+    revision: t_state.revision + 1
+  };
+  return t_state;
+} // seldom used, for ex. by secret codes or for tests
+
+
+function restore_energy([u_state, t_state], qty = 1, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  t_state = update_to_now([u_state, t_state], now_ms);
+  let available_energy = new fraction_default.a(t_state.available_energy).add(qty);
+  if (available_energy.compare(u_state.max_energy) > 0) available_energy = new fraction_default.a(u_state.max_energy);
+  t_state = { ...t_state,
+    available_energy: {
+      n: available_energy.n,
+      d: available_energy.d
+    }
+  };
+  return t_state;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-prng/dist/src.es2019/state.js
+/////////////////////
+
+
+
+ /////////////////////
+
+const DEFAULT_SEED = 987;
+
+function state_prng_dist_src_es2019_state_create(seed = DEFAULT_SEED) {
+  return {
+    schema_version: state_prng_dist_src_es2019_consts_SCHEMA_VERSION,
+    uuid: generate_uuid(),
+    revision: 0,
+    seed,
+    use_count: 0,
+    recently_encountered_by_id: {}
+  };
+} /////////////////////
+
+
+function set_seed(state, seed) {
+  return { ...state,
+    seed,
+    use_count: 0,
+    revision: state.revision + 1
+  };
+}
+
+function update_use_count(state, prng, options = {}) {
+  Object(tiny_invariant_esm["default"])(prng._seed === state.seed, `${state_prng_dist_src_es2019_consts_LIB}: update PRNG state: different seed (different prng?)!`);
+  const new_use_count = prng.getUseCount();
+
+  if (new_use_count === state.use_count) {
+    if (!options.I_swear_I_really_cant_know_whether_the_rng_was_used) {
+      const err = new Error(`[Warning] ${state_prng_dist_src_es2019_consts_LIB}: update PRNG state: count hasn't changed = no random was generated! This is most likely a bug, check your code!`).stack;
+      get_logger().warn('update_use_count no change!', {
+        err
+      });
+    }
+
+    return state;
+  }
+
+  Object(tiny_invariant_esm["default"])(new_use_count > state.use_count, `${state_prng_dist_src_es2019_consts_LIB}: update PRNG state: count is <= previous count, this is unexpected! Check your code!`);
+  return { ...state,
+    use_count: new_use_count,
+    revision: state.revision + 1
+  };
+}
+
+function register_recently_used(state, id, value, max_memory_size) {
+  if (max_memory_size === 0) return state;
+  let recently_encountered = state.recently_encountered_by_id[id] || [];
+  recently_encountered = recently_encountered.concat(value).slice(-max_memory_size);
+  return { ...state,
+    recently_encountered_by_id: { ...state.recently_encountered_by_id,
+      [id]: recently_encountered
+    },
+    revision: state.revision + 1
+  };
+} /////////////////////
+
+
+ /////////////////////
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers.js + 2 modules
+var normalizers = __webpack_require__(556);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-codes/dist/src.es2019/normalize-code.js
+ // useless function to circumvent a strange TS bug
+
+function normalize_code(s) {
+  return normalizers["a" /* NORMALIZERS */].coerce_to_redeemable_code(s);
+}
+
+/* harmony default export */ var src_es2019_normalize_code = (normalize_code);
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-codes/dist/src.es2019/selectors.js
+
+ /////////////////////
+
+function is_code(code) {
+  if (typeof code !== 'string') return false;
+  code = src_es2019_normalize_code(code);
+  if (!code) return false;
+  return true;
+}
+
+function is_code_redeemable(state, code_spec, infos) {
+  if (!code_spec) throw new Error(`${state_codes_dist_src_es2019_consts_LIB}: is_code_redeemable() invalid invocation!`);
+  const code = src_es2019_normalize_code(code_spec.code);
+  if (code_spec.code !== code) throw new Error(`Invalid code spec for "${code_spec.code}", should be "${code}"!`);
+  const code_redemption = state.redeemed_codes[code]; // integrated conditions
+
+  if (code_redemption && code_spec.redeem_limit) {
+    const redeem_limit = code_spec.redeem_limit;
+    if (code_redemption.redeem_count >= redeem_limit) return false;
+  } // custom condition
+
+
+  if (!code_spec.is_redeemable(infos, state)) return false;
+  return true;
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-codes/dist/src.es2019/state.js
+/////////////////////
+
+
+
+
+ /////////////////////
+
+function state_codes_dist_src_es2019_state_create(SEC) {
+  return state_codes_dist_src_es2019_sec_get_lib_SEC(SEC).xTry('create', () => {
+    return Object(utils["c" /* enforce_immutability */])({
+      schema_version: state_codes_dist_src_es2019_consts_SCHEMA_VERSION,
+      revision: 0,
+      redeemed_codes: {}
+    });
+  });
+} /////////////////////
+
+
+function attempt_to_redeem_code(state, code_spec, infos) {
+  return state_codes_dist_src_es2019_sec_get_lib_SEC().xTry('redeem_code', () => {
+    if (!is_code_redeemable(state, code_spec, infos)) throw new Error('This code is either non-existing or non redeemable at the moment!');
+    const code = code_spec.code;
+    const r = state.redeemed_codes[code] || {
+      redeem_count: 0,
+      last_redeem_date_minutes: ''
+    };
+    return Object(utils["c" /* enforce_immutability */])({ ...state,
+      redeemed_codes: { ...state.redeemed_codes,
+        [code]: { ...r,
+          redeem_count: r.redeem_count + 1,
+          last_redeem_date_minutes: Object(src_es2019_generate["f" /* get_human_readable_UTC_timestamp_minutes */])()
+        }
+      },
+      revision: state.revision + 1
+    });
+  });
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-meta/dist/src.es2019/state.js
+/////////////////////
+
+ /////////////////////
+
+function state_meta_dist_src_es2019_state_create() {
+  return Object(utils["c" /* enforce_immutability */])({
+    schema_version: state_meta_dist_src_es2019_consts_SCHEMA_VERSION,
+    revision: 0,
+    slot_id: 0,
+    is_web_diversity_supporter: false,
+    is_logged_in: false,
+    roles: []
+  });
+} /////////////////////
+
+
+function on_start_session(previous_state, is_web_diversity_supporter) {
+  if (previous_state.is_web_diversity_supporter === is_web_diversity_supporter) return previous_state;
+  return Object(utils["c" /* enforce_immutability */])({ ...previous_state,
+    is_web_diversity_supporter,
+    revision: previous_state.revision + 1
+  });
+}
+/*interface OnLoggedIn {
+    is_logged_in: boolean
+    roles: string[]
+}*/
+
+
+function on_logged_in_refresh(previous_state, is_logged_in, roles = []) {
+  const sorted_roles = [...roles].sort();
+  if (previous_state.is_logged_in === is_logged_in && previous_state.roles.join(',') === sorted_roles.join(',')) return previous_state; // no change
+
+  let state = previous_state;
+  return Object(utils["c" /* enforce_immutability */])({ ...state,
+    is_logged_in,
+    roles,
+    revision: state.revision + 1
+  });
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-prng/dist/src.es2019/get_prng.js
+/////////////////////
+
+
+
+ /////////////////////
+// get_prng() is an ideal checkpoint to detect a lot of bugs and misuses.
+// We offer several implementations, dev (checking) and prod.
+// TODO optimized version? (thanks to uuid)
+
+let mode = 'dev'; // TODO default to prod, later
+/////////////////////
+// inefficient but simple version
+
+function get_prng_simple(state) {
+  const prng = random["Random"].engines.mt19937().seed(state.seed);
+  prng._seed = state.seed;
+  prng.discard(state.use_count);
+  return prng;
+} /////////////////////
+// since
+// - we MUST use only one, repeatable PRNG
+// - we can't store the prng in the state
+// - we must configure it once at start
+// we use a global cache to not having to recreate the prng each time.
+// Also, we control that the usage conforms to those expectations.
+
+
+let cached_prngs = {};
+
+function xxx_internal_reset_prng_cache() {
+  Object(tiny_invariant_esm["default"])(mode === 'dev', `${state_prng_dist_src_es2019_consts_LIB}: dev utils require dev mode!`);
+  cached_prngs = {};
+} // WARNING this method has expectations ! (see above)
+
+
+function get_prng_dev(state) {
+  /*console.trace('get PRNG', {
+   state,
+   cached_prng,
+   'cached_prng.getUseCount()': cached_prng.getUseCount(),
+  })*/
+  const key = state.uuid;
+  const cached_prng = cached_prngs[key];
+
+  if (!cached_prng) {
+    cached_prngs[key] = get_prng_simple(state);
+    return cached_prngs[key];
+  }
+
+  if (cached_prng._seed !== state.seed) {
+    // ok, a reseed happened, allowed
+    cached_prng.seed(state.seed);
+    cached_prng._seed = state.seed; // maintain this extra property TODO improve the lib instead
+
+    Object(tiny_invariant_esm["default"])(cached_prng.getUseCount() === 0, 'freshly re-seeded prng');
+  }
+
+  if (cached_prng.getUseCount() !== state.use_count) {
+    // should never happen, this is the bug what we are after
+    const msg = `${state_prng_dist_src_es2019_consts_LIB}: get_prng(): unexpected case: mismatching use_count!`;
+    get_logger().error(msg, {
+      cached_use_count: cached_prng.getUseCount(),
+      required_use_count: state.use_count
+    });
+    throw new Error(msg);
+  }
+
+  return cached_prng;
+} /////////////////////
+
+
+function get_prng(state) {
+  if (mode === 'dev') return get_prng_dev(state);
+  return get_prng_simple(state);
+}
+
+function switch_mode(new_mode) {
+  mode = new_mode;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-prng/dist/src.es2019/utils.js
+/////////////////////
+
+ /////////////////////
+// useful for re-seeding
+
+function generate_random_seed() {
+  const rng = random["Random"].engines.mt19937().autoSeed();
+  return random["Random"].integer(-2147483646, 2147483647)(rng); // doc is unclear about allowed bounds...
+}
+
+function regenerate_until_not_recently_encountered({
+  id,
+  generate,
+  state,
+  max_tries
+}) {
+  const recently_encountered = state.recently_encountered_by_id[id] || []; // Intelligently computes a reasonable max_tries.
+  // Best effort, we would need the complete generation range to come up with a proper number.
+
+  max_tries = max_tries || Math.max(10, recently_encountered.length * 10);
+  let generated = generate();
+  let try_count = 1;
+
+  while (recently_encountered.includes(generated) && try_count < max_tries) {
+    generated = generate();
+    try_count++;
+  }
+
+  if (try_count >= max_tries) {
+    console.error(state);
+    throw new Error(`${state_prng_dist_src_es2019_consts_LIB}: regenerate_until_not_recently_encountered(): failed after maximum tries!`);
+  }
+
+  return generated;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/types.js
+ /////////////////////
+
+const ArmorPartType = Object(dist["Enum"])('base', 'qualifier1', 'qualifier2'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/data/i18n_en.js
+const data_i18n_en_messages = {
+  armor: {
+    base: {
+      'armguards': 'armguards',
+      'belt': 'belt',
+      'boots': 'boots',
+      'bracers': 'bracers',
+      'breastplate': 'breastplate',
+      'cape': 'cape',
+      'cloak': 'cloak',
+      'crown': 'crown',
+      'gauntlets': 'gauntlets',
+      'gloves': 'gloves',
+      'greaves': 'greaves',
+      'hat': 'hat',
+      'helmet': 'helmet',
+      'leggings': 'leggings',
+      'mantle': 'mantle',
+      'pants': 'pants',
+      'robe': 'robe',
+      'shield': 'shield',
+      'shoes': 'shoes',
+      'shoulders': 'shoulders',
+      'socks': 'socks'
+    },
+    qualifier1: {
+      'admirable': 'admirable',
+      'arcanic': 'arcanic',
+      'bestial': 'bestial',
+      'bone': 'bone',
+      'brass': 'brass',
+      'cardboard': 'cardboard',
+      'complex': 'complex',
+      'composite': 'composite',
+      'consecrated': 'consecrated',
+      'crafted': 'crafted',
+      'cruel': 'cruel',
+      'cunning': 'cunning',
+      'cursed': 'cursed',
+      'embroidered': 'embroidered',
+      'emerald': 'emerald',
+      'engraved': 'engraved',
+      'forbidden': 'forbidden',
+      'forgotten': 'forgotten',
+      'ghost': 'ghost',
+      'golden': 'golden',
+      'heavy': 'heavy',
+      'heroic': 'heroic',
+      'holy': 'holy',
+      'inflexible': 'inflexible',
+      'invincible': 'invincible',
+      'iron': 'iron',
+      'jade': 'jade',
+      'light': 'light',
+      'living': 'living',
+      'lost': 'lost',
+      'mechanical': 'mechanical',
+      'mysterious': 'mysterious',
+      'old': 'old',
+      'onyx': 'onyx',
+      'overrated': 'overrated',
+      'powerful': 'powerful',
+      'practical': 'practical',
+      'proven': 'proven',
+      'raging': 'raging',
+      'robust': 'robust',
+      'sapphire': 'sapphire',
+      'savage': 'savage',
+      'scale': 'scale',
+      'silver': 'silver',
+      'simple': 'simple',
+      'sinister': 'sinister',
+      'skeleton': 'skeleton',
+      'solid': 'solid',
+      'steel': 'steel',
+      'strange': 'strange',
+      'subtile': 'subtle',
+      'swift': 'swift',
+      'unwavering': 'unwavering',
+      'used': 'used',
+      'whirling': 'whirling',
+      'wooden': 'wooden',
+      'adjudicator': 'adjudicator’s'
+    },
+    qualifier2: {
+      'ambassador': 'ambassador’s',
+      'ancients': 'of the ancients',
+      'apprentice': 'apprentice’s',
+      'assaulting': 'assaulting',
+      'beginner': 'beginner’s',
+      'brave': 'of the brave',
+      'conqueror': 'conqueror’s',
+      'cruel_tyrant': 'cruel tyrant’s',
+      'defender': 'defender’s',
+      'destructor': 'destructor’s',
+      'dwarven': 'dwarven',
+      'elite': 'elite',
+      'elven': 'elven',
+      'executioner': 'executioner’s',
+      'expert': 'expert',
+      'explorer': 'explorer’s',
+      'gladiator': 'gladiator’s',
+      'goddess': 'of the goddess',
+      'guard': 'guard’s',
+      'hunter': 'hunter’s',
+      'judgement': 'of judgement',
+      'king': 'king’s',
+      'mediator': 'mediator’s',
+      'mercenary': 'mercenary’s',
+      'militia': 'militia’s',
+      'nightmare': 'nightmare’s',
+      'noble': 'noble’s',
+      'noob': 'of the noob',
+      'pilgrim': 'pilgrim’s',
+      'pioneer': 'pioneer’s',
+      'pirate': 'pirate’s',
+      'profane': 'profane’s',
+      'ranger': 'ranger’s',
+      'sorcerer': 'sorcerer’s',
+      'tormentor': 'tormentor’s',
+      'training': 'training',
+      'traveler': 'traveler’s',
+      'twink': 'of the twink',
+      'tyrant': 'tyrant’s',
+      'upholder': 'upholder’s',
+      'warfield_king': 'warfield king’s',
+      'warfield': 'warfield’s',
+      'warrior': 'warrior’s',
+      'wise': 'of the wise',
+      'woodsman': 'woodsman’s'
+    }
+  }
+};
+/* harmony default export */ var data_i18n_en = (data_i18n_en_messages);
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/data/entries.js
+const entries_ENTRIES = [{
+  type: 'base',
+  hid: 'armguards'
+}, {
+  type: 'base',
+  hid: 'belt'
+}, {
+  type: 'base',
+  hid: 'boots'
+}, {
+  type: 'base',
+  hid: 'bracers'
+}, {
+  type: 'base',
+  hid: 'breastplate'
+}, {
+  type: 'base',
+  hid: 'cloak'
+}, {
+  type: 'base',
+  hid: 'crown'
+}, {
+  type: 'base',
+  hid: 'gauntlets'
+}, {
+  type: 'base',
+  hid: 'gloves'
+}, {
+  type: 'base',
+  hid: 'greaves'
+}, {
+  type: 'base',
+  hid: 'hat'
+}, {
+  type: 'base',
+  hid: 'helmet'
+}, {
+  type: 'base',
+  hid: 'leggings'
+}, {
+  type: 'base',
+  hid: 'mantle'
+}, {
+  type: 'base',
+  hid: 'pants'
+}, {
+  type: 'base',
+  hid: 'robe'
+}, {
+  type: 'base',
+  hid: 'shield'
+}, {
+  type: 'base',
+  hid: 'shoes'
+}, {
+  type: 'base',
+  hid: 'shoulders'
+}, {
+  type: 'base',
+  hid: 'socks'
+}, {
+  type: 'qualifier1',
+  hid: 'bone'
+}, {
+  type: 'qualifier1',
+  hid: 'brass'
+}, {
+  type: 'qualifier1',
+  hid: 'embroidered'
+}, {
+  type: 'qualifier1',
+  hid: 'cardboard'
+}, {
+  type: 'qualifier1',
+  hid: 'composite'
+}, {
+  type: 'qualifier1',
+  hid: 'consecrated'
+}, {
+  type: 'qualifier1',
+  hid: 'crafted'
+}, {
+  type: 'qualifier1',
+  hid: 'cursed'
+}, {
+  type: 'qualifier1',
+  hid: 'emerald'
+}, {
+  type: 'qualifier1',
+  hid: 'engraved'
+}, {
+  type: 'qualifier1',
+  hid: 'golden'
+}, {
+  type: 'qualifier1',
+  hid: 'heavy'
+}, {
+  type: 'qualifier1',
+  hid: 'holy'
+}, {
+  type: 'qualifier1',
+  hid: 'invincible'
+}, {
+  type: 'qualifier1',
+  hid: 'iron'
+}, {
+  type: 'qualifier1',
+  hid: 'jade'
+}, {
+  type: 'qualifier1',
+  hid: 'light'
+}, {
+  type: 'qualifier1',
+  hid: 'mechanical'
+}, {
+  type: 'qualifier1',
+  hid: 'mysterious'
+}, {
+  type: 'qualifier1',
+  hid: 'old'
+}, {
+  type: 'qualifier1',
+  hid: 'onyx'
+}, {
+  type: 'qualifier1',
+  hid: 'powerful'
+}, {
+  type: 'qualifier1',
+  hid: 'practical'
+}, {
+  type: 'qualifier1',
+  hid: 'proven'
+}, {
+  type: 'qualifier1',
+  hid: 'robust'
+}, {
+  type: 'qualifier1',
+  hid: 'sapphire'
+}, {
+  type: 'qualifier1',
+  hid: 'scale'
+}, {
+  type: 'qualifier1',
+  hid: 'silver'
+}, {
+  type: 'qualifier1',
+  hid: 'simple'
+}, {
+  type: 'qualifier1',
+  hid: 'skeleton'
+}, {
+  type: 'qualifier1',
+  hid: 'solid'
+}, {
+  type: 'qualifier1',
+  hid: 'steel'
+}, {
+  type: 'qualifier1',
+  hid: 'strange'
+}, {
+  type: 'qualifier1',
+  hid: 'subtile'
+}, {
+  type: 'qualifier1',
+  hid: 'swift'
+}, {
+  type: 'qualifier1',
+  hid: 'unwavering'
+}, {
+  type: 'qualifier1',
+  hid: 'used'
+}, {
+  type: 'qualifier1',
+  hid: 'wooden'
+}, {
+  type: 'qualifier2',
+  hid: 'ancients'
+}, {
+  type: 'qualifier2',
+  hid: 'apprentice'
+}, {
+  type: 'qualifier2',
+  hid: 'beginner'
+}, {
+  type: 'qualifier2',
+  hid: 'brave'
+}, {
+  type: 'qualifier2',
+  hid: 'conqueror'
+}, {
+  type: 'qualifier2',
+  hid: 'cruel_tyrant'
+}, {
+  type: 'qualifier2',
+  hid: 'defender'
+}, {
+  type: 'qualifier2',
+  hid: 'destructor'
+}, {
+  type: 'qualifier2',
+  hid: 'dwarven'
+}, {
+  type: 'qualifier2',
+  hid: 'elite'
+}, {
+  type: 'qualifier2',
+  hid: 'elven'
+}, {
+  type: 'qualifier2',
+  hid: 'expert'
+}, {
+  type: 'qualifier2',
+  hid: 'explorer'
+}, {
+  type: 'qualifier2',
+  hid: 'gladiator'
+}, {
+  type: 'qualifier2',
+  hid: 'goddess'
+}, {
+  type: 'qualifier2',
+  hid: 'guard'
+}, {
+  type: 'qualifier2',
+  hid: 'judgement'
+}, {
+  type: 'qualifier2',
+  hid: 'king'
+}, {
+  type: 'qualifier2',
+  hid: 'mediator'
+}, {
+  type: 'qualifier2',
+  hid: 'mercenary'
+}, {
+  type: 'qualifier2',
+  hid: 'militia'
+}, {
+  type: 'qualifier2',
+  hid: 'nightmare'
+}, {
+  type: 'qualifier2',
+  hid: 'noble'
+}, {
+  type: 'qualifier2',
+  hid: 'noob'
+}, {
+  type: 'qualifier2',
+  hid: 'pilgrim'
+}, {
+  type: 'qualifier2',
+  hid: 'pioneer'
+}, {
+  type: 'qualifier2',
+  hid: 'profane'
+}, {
+  type: 'qualifier2',
+  hid: 'sorcerer'
+}, {
+  type: 'qualifier2',
+  hid: 'tormentor'
+}, {
+  type: 'qualifier2',
+  hid: 'training'
+}, {
+  type: 'qualifier2',
+  hid: 'twink'
+}, {
+  type: 'qualifier2',
+  hid: 'tyrant'
+}, {
+  type: 'qualifier2',
+  hid: 'upholder'
+}, {
+  type: 'qualifier2',
+  hid: 'warfield_king'
+}, {
+  type: 'qualifier2',
+  hid: 'warfield'
+}, {
+  type: 'qualifier2',
+  hid: 'warrior'
+}, {
+  type: 'qualifier2',
+  hid: 'wise'
+}];
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/data/index.js
+
+
+ /////////////////////
+
+const src_es2019_data_i18n_messages = {
+  en: data_i18n_en
+};
+const ARMOR_BASES = entries_ENTRIES.filter(armor_component => armor_component.type === ArmorPartType.base);
+const ARMOR_QUALIFIERS1 = entries_ENTRIES.filter(armor_component => armor_component.type === ArmorPartType.qualifier1);
+const ARMOR_QUALIFIERS2 = entries_ENTRIES.filter(armor_component => armor_component.type === ArmorPartType.qualifier2);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/logic-armors/dist/src.es2019/state.js
+/////////////////////
+
+
+
+
+ /////////////////////
+
+function state_pick_random_quality(rng) {
+  // old
+  // common    =  400/1000
+  // uncommon  =  389/1000
+  // rare:     =  200/1000
+  // epic:     =   10/1000
+  // legendary =    1/1000
+  // recalculated 2018/12/03
+  // we want a legendary drop every 2 month
+  // currently computed = 60 drops / 2 month
+  // that gives:
+  // common    =  300/1000
+  // uncommon  =  300/1000
+  // rare:     =  250/1000
+  // epic:     =  120/1000
+  // legendary =   30/1000
+  let p = random["Random"].integer(1, 1000)(rng);
+  if (p <= 300) return ItemQuality.common;
+  p -= 300;
+  if (p <= 300) return ItemQuality.uncommon;
+  p -= 300;
+  if (p <= 250) return ItemQuality.rare;
+  p -= 250;
+  if (p <= 120) return ItemQuality.epic;
+  return ItemQuality.legendary;
+}
+
+function state_pick_random_base(rng) {
+  return random["Random"].pick(rng, ARMOR_BASES).hid;
+}
+
+function state_pick_random_qualifier1(rng) {
+  return random["Random"].pick(rng, ARMOR_QUALIFIERS1).hid;
+}
+
+function state_pick_random_qualifier2(rng) {
+  return random["Random"].pick(rng, ARMOR_QUALIFIERS2).hid;
+}
+
+function state_pick_random_base_strength(rng, quality) {
+  return random["Random"].integer(...selectors_BASE_STRENGTH_INTERVAL_BY_QUALITY[quality])(rng);
+} /////////////////////
+
+
+function logic_armors_dist_src_es2019_state_create(rng, hints = {}) {
+  // TODO add a check for hints to be in existing components
+  const base = create_item_base(InventorySlot.armor, hints.quality || state_pick_random_quality(rng));
+  const temp = { ...base,
+    base_hid: hints.base_hid || state_pick_random_base(rng),
+    qualifier1_hid: hints.qualifier1_hid || state_pick_random_qualifier1(rng),
+    qualifier2_hid: hints.qualifier2_hid || state_pick_random_qualifier2(rng),
+    base_strength: hints.base_strength || state_pick_random_base_strength(rng, base.quality),
+    enhancement_level: hints.enhancement_level || consts_MIN_ENHANCEMENT_LEVEL
+  };
+  if (temp.base_strength < selectors_BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][0]) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB}: create(): base_strength too low for this quality!`);
+  if (temp.base_strength > selectors_BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][1]) throw new Error(`${logic_armors_dist_src_es2019_consts_LIB}: create(): base_strength too high for this quality!`);
+  return temp;
+}
+
+function state_enhance(armor) {
+  if (armor.enhancement_level >= consts_MAX_ENHANCEMENT_LEVEL) throw new Error('can’t enhance a armor above the maximal enhancement level!');
+  return { ...armor,
+    enhancement_level: armor.enhancement_level + 1
+  };
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/services/sec.js
+
+
+
+
+function services_sec_get_lib_SEC(parent) {
+  return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
+    module: LIB
+  }).setAnalyticsAndErrorDetails({
+    sub_product: LIB
+  }));
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/selectors/inventory.js
+
+
+
+ /////////////////////
+
+function appraise_item_value(u_state, uuid) {
+  const item = get_item(u_state.inventory, uuid);
+
+  if (!item) throw new Error('appraise_item_value(): No item!');
+  return appraise_sell_value(item);
+}
+
+function appraise_item_power(u_state, uuid) {
+  const item = get_item(u_state.inventory, uuid);
+
+  if (!item) throw new Error('appraise_item_power(): No item!');
+  return appraise_power(item);
+}
+
+function is_inventory_full(u_state) {
+  return is_full(u_state.inventory);
+}
+
+function inventory_get_item_in_slot(u_state, slot) {
+  return get_item_in_slot(u_state.inventory, slot);
+}
+
+function inventory_get_item(u_state, uuid) {
+  return get_item(u_state.inventory, uuid);
+}
+
+function find_best_unequipped_armor(u_state) {
+  // we take advantage of the fact that the inventory is auto-sorted
+  const best_unequipped_armor = u_state.inventory.unslotted.find(e => e.slot === InventorySlot.armor);
+  return best_unequipped_armor ? best_unequipped_armor : null;
+}
+
+function find_better_unequipped_armor(u_state) {
+  const best_unequipped_armor = find_best_unequipped_armor(u_state);
+  if (!best_unequipped_armor) return null;
+  const best_unequipped_power = appraise_power(best_unequipped_armor);
+  const equipped_power = appraise_power(inventory_get_item_in_slot(u_state, InventorySlot.armor));
+  if (best_unequipped_power > equipped_power) return best_unequipped_armor;
+  return null;
+}
+
+function find_best_unequipped_weapon(u_state) {
+  // we take advantage of the fact that the inventory is auto-sorted
+  const best_unequipped_weapon = u_state.inventory.unslotted.find(e => e.slot === InventorySlot.weapon);
+  return best_unequipped_weapon ? best_unequipped_weapon : null;
+}
+
+function find_better_unequipped_weapon(u_state) {
+  const best_unequipped_weapon = find_best_unequipped_weapon(u_state);
+  if (!best_unequipped_weapon) return null;
+  const best_unequipped_power = appraise_power(best_unequipped_weapon);
+  const equipped_power = appraise_power(inventory_get_item_in_slot(u_state, InventorySlot.weapon));
+  if (best_unequipped_power > equipped_power) return best_unequipped_weapon;
+  return null;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/internal.js
+/////////////////////
+/////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+ /////////////////////
+
+function compare_items_by_normalized_power(a, b) {
+  const power_a = appraise_power_normalized(a);
+  const power_b = appraise_power_normalized(b);
+  return power_b - power_a;
+} /////////////////////
+// WARN those internal reducers:
+// - do not refresh achievements or update the T-state
+// - do not increment the root revision (this has to be done by the parent to avoid multiple increments)
+
+
+function _lose_all_energy(state) {
+  return { ...state,
+    u_state: { ...state.u_state,
+      energy: { ...state.u_state.energy,
+        revision: state.u_state.energy.revision + 1,
+        total_energy_consumed_so_far: Math.max(7, state.u_state.energy.total_energy_consumed_so_far)
+      }
+    },
+    t_state: { ...state.t_state,
+      energy: lose_all_energy([state.u_state.energy, state.t_state.energy])
+    }
+  };
+}
+
+function _update_to_now(state, now_ms) {
+  const {
+    u_state,
+    t_state
+  } = state;
+  const t_state_e = update_to_now([u_state.energy, t_state.energy], now_ms);
+  if (t_state_e === t_state.energy) return state; // no change
+
+  return { ...state,
+    t_state: { ...t_state,
+      timestamp_ms: t_state_e.timestamp_ms,
+      energy: t_state_e
+    }
+  };
+}
+
+function _receive_stat_increase(state, stat, amount = 1) {
+  return { ...state,
+    u_state: { ...state.u_state,
+      avatar: increase_stat(services_sec_get_lib_SEC(), state.u_state.avatar, stat, amount)
+    }
+  };
+}
+
+function _receive_item(state, item) {
+  // inventory can't be full since we prevent playing in this case
+  return { ...state,
+    u_state: { ...state.u_state,
+      inventory: add_item(state.u_state.inventory, item)
+    }
+  };
+}
+
+function _sell_item(state, uuid) {
+  const price = appraise_item_value(state.u_state, uuid);
+  return { ...state,
+    u_state: { ...state.u_state,
+      inventory: remove_item_from_unslotted(state.u_state.inventory, uuid),
+      wallet: add_amount(state.u_state.wallet, Currency.coin, price)
+    }
+  };
+}
+
+function _receive_coins(state, amount) {
+  return { ...state,
+    u_state: { ...state.u_state,
+      wallet: add_amount(state.u_state.wallet, Currency.coin, amount)
+    }
+  };
+}
+
+function _lose_coins(state, amount) {
+  return { ...state,
+    u_state: { ...state.u_state,
+      wallet: remove_amount(state.u_state.wallet, Currency.coin, amount)
+    }
+  };
+}
+
+function _receive_tokens(state, amount) {
+  return { ...state,
+    u_state: { ...state.u_state,
+      wallet: add_amount(state.u_state.wallet, Currency.token, amount)
+    }
+  };
+} ////////////
+
+
+function _ack_all_engagements(state) {
+  if (!state.u_state.engagement.queue.length) return state;
+  return { ...state,
+    u_state: { ...state.u_state,
+      engagement: acknowledge_all_seen(state.u_state.engagement)
+    }
+  };
+}
+
+function _auto_make_room(state, options = {}) {
+  const {
+    DEBUG
+  } = options;
+  if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${state.u_state.inventory.unslotted.length} items)`); // inventory full
+
+  if (is_inventory_full(state.u_state)) {
+    if (DEBUG) console.log(`    Inventory is full (${state.u_state.inventory.unslotted.length} items)`);
+    let freed_count = 0; // sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
+
+    const original_unslotted = state.u_state.inventory.unslotted;
+    Array.from(original_unslotted).filter(e => {
+      switch (e.slot) {
+        case InventorySlot.armor:
+          if (src_es2019_selectors_matches(e, STARTING_ARMOR_SPEC)) return false;
+          break;
+
+        case InventorySlot.weapon:
+          if (selectors_matches(e, STARTING_WEAPON_SPEC)) return false;
+          break;
+
+        default:
+          break;
+      }
+
+      return true;
+    }).sort(compare_items_by_normalized_power).reverse() // to put the lowest quality items first
+    .forEach(e => {
+      //console.log(e.quality, e.slot, appraise_power_normalized(e))
+      switch (e.slot) {
+        case InventorySlot.armor:
+          if (src_es2019_selectors_matches(e, STARTING_ARMOR_SPEC)) return;
+          break;
+
+        case InventorySlot.weapon:
+          if (selectors_matches(e, STARTING_WEAPON_SPEC)) return;
+          break;
+
+        default:
+          break;
+      }
+
+      if (e.quality === ItemQuality.common || freed_count === 0) {
+        //console.log('    - selling:', e)
+        state = _sell_item(state, e.uuid);
+        freed_count++;
+        return;
+      }
+    });
+    if (freed_count === 0) throw new Error('Internal error: _auto_make_room(): inventory is full and couldn’t free stuff!');
+    if (DEBUG) console.log(`    Freed ${freed_count} items, inventory now holding ${state.u_state.inventory.unslotted.length} items.`);
+  }
+
+  return state;
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/selectors/energy.js
+ /////////////////////
+
+function energy_get_available_energy_float(t_state) {
+  return get_available_energy_float(t_state.energy);
+}
+
+function get_human_time_to_next_energy({
+  u_state,
+  t_state
+}) {
+  return get_human_time_to_next(u_state.energy, t_state.energy);
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/selectors/game.js
+
+
+
+ /////////////////////
+
+function get_available_classes(u_state) {
+  return dist["Enum"].keys(CharacterClass).filter(klass => klass !== CharacterClass.novice);
+}
+
+function will_next_play_be_good_at(state, now_ms) {
+  state = _update_to_now(state, now_ms);
+  const {
+    t_state
+  } = state;
+  const available_energy = energy_get_available_energy_float(t_state);
+  const is_good_play = available_energy >= 1.;
+  return is_good_play;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/base.js
+/////////////////////
+
+ /////////////////////
+
+
+
+
+ /////////////////////
+
+
+
+
+
+ /////////////////////
+
+function base_on_start_session(previous_state, is_web_diversity_supporter, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  // update energy (not sure needed but good safety)
+  let state = _update_to_now(previous_state, now_ms);
+
+  state = { ...state,
+    u_state: { ...state.u_state,
+      last_user_action_tms: now_ms,
+      meta: on_start_session(state.u_state.meta, is_web_diversity_supporter),
+      revision: previous_state.u_state.revision + 1
+    }
+  }; // TODO recap here ?
+  // new achievements may have appeared
+  // (new content = not the same as a migration)
+
+  return _refresh_achievements(state);
+}
+
+function base_on_logged_in_refresh(previous_state, is_logged_in, roles = [], now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  // update energy (not sure needed but good safety)
+  let updated_state = _update_to_now(previous_state, now_ms);
+
+  let state = updated_state;
+  state = { ...state,
+    u_state: { ...state.u_state,
+      //last_user_action_tms: now_ms, // XXX this is NOT a user action
+      meta: on_logged_in_refresh(state.u_state.meta, is_logged_in, roles)
+    }
+  }; // TODO engagement here ?
+
+  state = _refresh_achievements(state);
+  state = Object(utils["b" /* complete_or_cancel_eager_mutation_propagating_possible_child_mutation */])(previous_state, state, updated_state, 'on_logged_in_refresh');
+  return state;
+}
+
+function base_update_to_now(state, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  return _update_to_now(state, now_ms);
+}
+
+function base_equip_item(previous_state, uuid, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  let state = previous_state;
+  state = { ...state,
+    u_state: { ...state.u_state,
+      last_user_action_tms: now_ms,
+      inventory: equip_item(state.u_state.inventory, uuid),
+      revision: previous_state.u_state.revision + 1
+    }
+  };
+  return _refresh_achievements(state);
+}
+
+function sell_item(previous_state, uuid, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  let state = previous_state;
+  state = _sell_item(state, uuid);
+  state = { ...state,
+    u_state: { ...state.u_state,
+      last_user_action_tms: now_ms,
+      revision: previous_state.u_state.revision + 1
+    }
+  };
+  return _refresh_achievements(state);
+}
+
+function rename_avatar(previous_state, new_name, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  let state = previous_state;
+  state = { ...state,
+    u_state: { ...state.u_state,
+      last_user_action_tms: now_ms,
+      avatar: rename(services_sec_get_lib_SEC(), state.u_state.avatar, new_name),
+      revision: previous_state.u_state.revision + 1
+    }
+  };
+  return _refresh_achievements(state);
+}
+
+function change_avatar_class(previous_state, new_class, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  if (!get_available_classes(previous_state.u_state).includes(new_class)) throw new Error(`${LIB}: switch class: invalid class "${new_class}"!`);
+  let state = previous_state;
+  state = { ...state,
+    u_state: { ...state.u_state,
+      last_user_action_tms: now_ms,
+      avatar: switch_class(services_sec_get_lib_SEC(), state.u_state.avatar, new_class),
+      revision: previous_state.u_state.revision + 1
+    }
+  };
+  return _refresh_achievements(state);
+}
+
+function acknowledge_engagement_msg_seen(previous_state, uid, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  let state = previous_state;
+  state = { ...state,
+    u_state: { ...state.u_state,
+      last_user_action_tms: now_ms,
+      engagement: acknowledge_seen(state.u_state.engagement, uid),
+      revision: previous_state.u_state.revision + 1
+    }
+  };
+  return state;
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/create.js
+/////////////////////
+
+
+ /////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /////////////////////
+
+
+
+
+
+
+ /////////////////////
+
+const STARTING_WEAPON_SPEC = {
+  base_hid: 'spoon',
+  qualifier1_hid: 'used',
+  qualifier2_hid: 'noob',
+  quality: ItemQuality.common,
+  base_strength: 1
+};
+const STARTING_ARMOR_SPEC = {
+  base_hid: 'socks',
+  qualifier1_hid: 'used',
+  qualifier2_hid: 'noob',
+  quality: ItemQuality.common,
+  base_strength: 1
+};
+
+function create_create(SEC, seed) {
+  return services_sec_get_lib_SEC(SEC).xTry('create', () => {
+    const [u_state_energy, t_state_energy] = state_energy_dist_src_es2019_state_create();
+    const now = new Date(); //console.log('creation', now)
+
+    let state = {
+      schema_version: SCHEMA_VERSION,
+      u_state: {
+        schema_version: SCHEMA_VERSION,
+        revision: 0,
+        last_user_action_tms: Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])(now),
+        creation_date: Object(src_es2019_generate["f" /* get_human_readable_UTC_timestamp_minutes */])(now),
+        avatar: state_character_dist_src_es2019_state_create(SEC),
+        inventory: state_inventory_dist_src_es2019_state_create(SEC),
+        wallet: add_amount(dist_src_es2019_state_create(), Currency.coin, 1),
+        prng: state_prng_dist_src_es2019_state_create(seed),
+        energy: u_state_energy,
+        engagement: state_engagement_dist_src_es2019_state_create(SEC),
+        codes: state_codes_dist_src_es2019_state_create(SEC),
+        progress: state_progress_dist_src_es2019_state_create(SEC),
+        meta: state_meta_dist_src_es2019_state_create(),
+        last_adventure: null
+      },
+      t_state: {
+        schema_version: SCHEMA_VERSION,
+        revision: 0,
+        timestamp_ms: t_state_energy.timestamp_ms,
+        energy: t_state_energy
+      }
+    };
+    const rng = get_prng(state.u_state.prng);
+    const starting_weapon = state_create(rng, STARTING_WEAPON_SPEC);
+    state = _receive_item(state, starting_weapon);
+    state = base_equip_item(state, starting_weapon.uuid);
+    const starting_armor = logic_armors_dist_src_es2019_state_create(rng, STARTING_ARMOR_SPEC);
+    state = _receive_item(state, starting_armor);
+    state = base_equip_item(state, starting_armor.uuid);
+    state = _refresh_achievements(state); // there are some initial achievements
+
+    state = _ack_all_engagements(state); // reset engagements that may have been created by noisy initial achievements, distracting
+    // now insert some relevant start engagements
+
+    state = { ...state,
+      u_state: { ...state.u_state,
+        engagement: enqueue(state.u_state.engagement, {
+          type: EngagementType.flow,
+          key: EngagementKey['tip--first_play']
+        })
+      }
+    };
+    Object(tiny_invariant_esm["default"])(state.u_state.prng.use_count === 0, 'prng never used yet'); //state.prng = PRNGState.update_use_count(state.prng, rng)
+
+    state = { ...state,
+      u_state: { ...state.u_state,
+        // to compensate sub-functions used during creation:
+        revision: 0
+      }
+    }; // hurts the unit tests!
+    //state = _update_to_now(state, now_ms) // not sure needed but doesn't hurt
+
+    return Object(utils["c" /* enforce_immutability */])(state);
+  });
+}
+
+function reseed(state, seed) {
+  seed = seed || generate_random_seed();
+  state = { ...state,
+    u_state: { ...state.u_state,
+      prng: set_seed(state.u_state.prng, seed),
+      revision: state.u_state.revision + 1
+    }
+  };
+  return Object(utils["c" /* enforce_immutability */])(state);
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/data/achievements.js
+
+
+
+
+
+
+
+
+ // ’
+
+function _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, quality) {
+  return ITEM_SLOTS.every(slot => {
+    const item = get_item_in_slot(u_state.inventory, slot);
+    return item ? ITEM_QUALITIES_TO_INT[item.quality] <= ITEM_QUALITIES_TO_INT[quality] : false;
+  });
+}
+
+function _get_combined_equipped_items_power(u_state) {
+  return ITEM_SLOTS.reduce((acc, slot) => {
+    const item = get_item_in_slot(u_state.inventory, slot);
+    return acc + (item ? appraise_power(item) : 0);
+  }, 0);
+}
+
+function _equipped_armor_matches(u_state, spec) {
+  const armor = u_state.inventory.slotted[InventorySlot.armor];
+  return armor ? src_es2019_selectors_matches(armor, spec) : false;
+}
+
+function _equipped_weapon_matches(u_state, spec) {
+  const weapon = u_state.inventory.slotted[InventorySlot.weapon];
+  return weapon ? selectors_matches(weapon, spec) : false;
+}
+
+function _encountered_good_adventures_count(u_state) {
+  return Object.keys(u_state.progress.statistics.encountered_adventures).length;
+}
+
+function _encountered_fight_adventures_count(u_state) {
+  return u_state.progress.statistics.fight_won_count + u_state.progress.statistics.fight_lost_count;
+}
+
+function _eaten_mushroom_count(u_state) {
+  return Object.keys(u_state.progress.statistics.encountered_adventures).filter(k => k.endsWith('_mushroom')).length;
+}
+
+function _drunk_potion_count(u_state) {
+  return Object.keys(u_state.progress.statistics.encountered_adventures).filter(k => k.endsWith('_potion')).length;
+}
+
+function _helped_village_count(u_state) {
+  return Object.keys(u_state.progress.statistics.encountered_adventures).filter(k => k.startsWith('village_')).length;
+}
+
+function _famous_stones_count(u_state) {
+  return Object.keys(u_state.progress.statistics.encountered_adventures).filter(k => k.startsWith('famous_stone_')).length;
+}
+
+const RAW_ENTRIES_TEST = [{
+  icon: '🍪',
+  name: 'TEST',
+  description: 'This secret achievement can only be obtained through debug commands, to test the achievements system.',
+  lore: '…and a piece of lore should appear here',
+  get_status: u_state => u_state.progress.achievements['TEST'] === undefined || u_state.progress.achievements['TEST'] === AchievementStatus.secret ? AchievementStatus.secret // keep it secret
+  : AchievementStatus.unlocked
+}, {
+  icon: '🧒',
+  name: 'Reborn!',
+  description: 'This secret achievement can only be obtained if you got "reborn" = your savegame was reinitialised with an autoplay due to a new format being introduced. This can only happen during the alpha.',
+  lore: 'I won’t waste this new chance! I’ll live my life to the fullest!',
+  get_status: u_state => u_state.progress.achievements['Reborn!'] === AchievementStatus.unlocked ? AchievementStatus.unlocked // keep it unlocked
+  : AchievementStatus.secret
+}];
+const RAW_ENTRIES_GAME_PHASES = [{
+  icon: '🐺',
+  name: 'Alpha player',
+  description: 'You started playing during the alpha or earlier.',
+  lore: 'Let me tell you of a time of great adventure…',
+  get_status: () => AchievementStatus.unlocked
+}, {
+  icon: '🦍',
+  name: 'Beta player',
+  description: 'You played during the beta. (no beta yet, though)',
+  lore: 'Those were the days my friend…',
+  get_status: () => AchievementStatus.revealed
+}];
+const ADVENTURE_TIERS = [1, 5, 10, 25, 50, 100, 150];
+const RAW_ENTRIES_ADVENTURING = [{
+  icon: '🥉',
+  name: 'Aspiring Explorer',
+  description: `Having experienced ${ADVENTURE_TIERS[1]} different adventures`,
+  get_status: u_state => _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed
+}, {
+  icon: '🥈',
+  name: 'Rookie Explorer',
+  description: `Having experienced ${ADVENTURE_TIERS[2]} different adventures`,
+  get_status: u_state => _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[2] ? AchievementStatus.unlocked : _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[2]]
+}, {
+  icon: '🥇',
+  name: 'Young Explorer',
+  description: `Having experienced ${ADVENTURE_TIERS[3]} different adventures`,
+  get_status: u_state => _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[3] ? AchievementStatus.unlocked : _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[3]]
+}, {
+  icon: '🏅',
+  name: 'Master Explorer',
+  description: `Having experienced ${ADVENTURE_TIERS[4]} different adventures`,
+  get_status: u_state => _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[4] ? AchievementStatus.unlocked : _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[4]]
+}, {
+  icon: '🎖',
+  name: 'Senior Explorer',
+  description: `Having experienced ${ADVENTURE_TIERS[5]} different adventures`,
+  get_status: u_state => _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[5] ? AchievementStatus.unlocked : _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[4] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[5]]
+}, {
+  icon: '🏆',
+  name: 'Grandmaster Explorer',
+  description: `Having experienced ${ADVENTURE_TIERS[6]} different adventures`,
+  get_status: u_state => _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[6] ? AchievementStatus.unlocked : _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[5] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[6]]
+}, {
+  icon: '👑',
+  name: 'Absolute Explorer',
+  description: 'Having experienced ALL the adventures',
+  get_status: u_state => _encountered_good_adventures_count(u_state) >= ALL_GOOD_ADVENTURE_ARCHETYPES.length ? AchievementStatus.unlocked : _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[6] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_good_adventures_count(u_state), ALL_GOOD_ADVENTURE_ARCHETYPES.length]
+}];
+const FIGHT_ENCOUNTER_TIERS = [1, 3, 10, 49, 50, 100, 500];
+const RAW_ENTRIES_FIGHT_ENCOUNTERS = [{
+  icon: '🥄',
+  name: 'First Blood',
+  description: 'Having experienced your first random fight encounter.',
+  get_status: u_state => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[0] ? AchievementStatus.unlocked : AchievementStatus.revealed
+}, {
+  icon: '🔨',
+  name: 'Into The Wild',
+  description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[1]} random fight encounters.`,
+  get_status: u_state => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[1] ? AchievementStatus.unlocked : _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[0] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[1]]
+}, {
+  icon: '⛏',
+  name: 'Born To Be Wild',
+  description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[2]} random fight encounters.`,
+  get_status: u_state => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[2] ? AchievementStatus.unlocked : _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[2]]
+}, {
+  icon: '🔪',
+  name: '49 times… It was 49 times…',
+  description: 'Having experienced 49 random fight encounters.',
+  lore: '49 times… We fought that beast. Something’s waiting in the bushes for us…',
+  get_status: u_state => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[3] ? AchievementStatus.unlocked : _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[3]]
+}, {
+  icon: '🔪',
+  name: 'Wild Like The Wind',
+  description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[4]} random fight encounters.`,
+  get_status: u_state => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[4] ? AchievementStatus.unlocked : _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[4]]
+}, {
+  icon: '🗡',
+  name: 'The Wild One',
+  description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[5]} random fight encounters.`,
+  get_status: u_state => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[5] ? AchievementStatus.unlocked : _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[4] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[5]]
+}, {
+  icon: '⚔',
+  name: 'Alpha Of The Wilderness',
+  description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[6]} random fight encounters.`,
+  get_status: u_state => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[6] ? AchievementStatus.unlocked : _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[5] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[6]]
+}];
+const RAW_ENTRIES_ADVENTURES_SETS = [{
+  icon: '🍄',
+  name: 'Mushrooms Lover',
+  description: 'Having eaten 3 different mushrooms.',
+  get_status: u_state => _eaten_mushroom_count(u_state) >= 3 ? AchievementStatus.unlocked : _eaten_mushroom_count(u_state) >= 1 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_eaten_mushroom_count(u_state), 3]
+}, {
+  icon: '🍡',
+  name: 'Mushrooms Gourmet',
+  description: 'Having eaten all the different mushrooms.',
+  get_status: u_state => _eaten_mushroom_count(u_state) >= 8 ? AchievementStatus.unlocked : _eaten_mushroom_count(u_state) >= 3 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_eaten_mushroom_count(u_state), 8]
+}, {
+  icon: '🥤',
+  name: 'Potions Taster',
+  description: 'Having drunk 3 different potions.',
+  get_status: u_state => _drunk_potion_count(u_state) >= 3 ? AchievementStatus.unlocked : _drunk_potion_count(u_state) >= 1 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_drunk_potion_count(u_state), 3]
+}, {
+  icon: '🍹',
+  name: 'Potions Sommelier',
+  description: 'Having drunk all the different potions.',
+  get_status: u_state => _drunk_potion_count(u_state) >= 6 ? AchievementStatus.unlocked : _drunk_potion_count(u_state) >= 3 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_drunk_potion_count(u_state), 6]
+}, {
+  icon: '👩‍🌾',
+  name: 'Folk Hero',
+  description: 'Having completed all the village quests.',
+  get_status: u_state => _helped_village_count(u_state) >= 6 ? AchievementStatus.unlocked : _helped_village_count(u_state) >= 1 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_helped_village_count(u_state), 6]
+}, {
+  icon: '💎',
+  name: 'Famous Gems Collector',
+  description: 'Having collected all the famous gems.',
+  get_status: u_state => _famous_stones_count(u_state) >= 4 ? AchievementStatus.unlocked : _famous_stones_count(u_state) >= 1 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_famous_stones_count(u_state), 4]
+}];
+const GOOD_CLICKS_TIERS = [1, 7, 11, 77, 500, 1000, 10000];
+const RAW_ENTRIES_PRIMARY_CTA = [{
+  icon: '🥉',
+  name: 'I am bored',
+  description: 'Having played for the first time.',
+  lore: 'I am looking for someone to share in an adventure…',
+  get_status: u_state => u_state.progress.statistics.good_play_count ? AchievementStatus.unlocked : AchievementStatus.revealed
+}, {
+  icon: '🥈',
+  name: 'I am very bored',
+  description: `Having played ${GOOD_CLICKS_TIERS[1]} times.`,
+  lore: 'If I take one more step, I’ll be the farthest away from home I’ve ever been…',
+  get_status: u_state => u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[1]]
+}, {
+  icon: '🥇',
+  // https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
+  name: 'Turn it up to eleven',
+  description: `Having played ${GOOD_CLICKS_TIERS[2]} times.`,
+  lore: 'You step onto the road, and there’s no telling where you might be swept off to…',
+  get_status: u_state => u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[2] ? AchievementStatus.unlocked : u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[2]]
+}, {
+  icon: '🏅',
+  name: 'I am dead bored',
+  description: `Having played ${GOOD_CLICKS_TIERS[3]} times.`,
+  lore: 'Not all those who wander are lost.',
+  get_status: u_state => u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[3] ? AchievementStatus.unlocked : u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[3]]
+}, {
+  icon: '🎖',
+  name: 'did I mention I was bored?',
+  description: `Having played ${GOOD_CLICKS_TIERS[4]} times.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[4] ? AchievementStatus.unlocked : u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[4]]
+}, {
+  icon: '👑',
+  name: 'king of boredom',
+  description: `Having played ${GOOD_CLICKS_TIERS[5]} times.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[5] ? AchievementStatus.unlocked : u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[4] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[5]]
+}, {
+  icon: '🏆',
+  name: 'No-life except for boredom',
+  description: `Having played ${GOOD_CLICKS_TIERS[6]} times.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[6] ? AchievementStatus.unlocked : u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[5] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[6]]
+}];
+const BAD_CLICKS_TIERS = [0, 1, 2, 10, 50, 500];
+const RAW_ENTRIES_COUNTER_CTA = [// = bad clicks
+{
+  icon: '😱',
+  name: 'Sorry my hand slipped',
+  description: 'Having played too soon for the 1st time.',
+  lore: 'each mistake teaches us something…',
+  get_status: u_state => u_state.progress.statistics.bad_play_count ? AchievementStatus.unlocked : AchievementStatus.hidden
+}, {
+  icon: '🙀',
+  name: 'Oops!... I Did It Again',
+  description: 'Having played too soon for the 2nd time.',
+  lore: 'Anyone who has never made a mistake has never tried anything new.',
+  get_status: u_state => u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[2] ? AchievementStatus.unlocked : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[2]]
+}, {
+  icon: '😼',
+  name: 'I’m not that innocent',
+  description: `Having played too soon ${BAD_CLICKS_TIERS[3]} times.`,
+  lore: 'There is no such thing as accident; it is fate misnamed.',
+  get_status: u_state => u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[3] ? AchievementStatus.unlocked : u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[3]]
+}, {
+  icon: '😈',
+  name: 'It’s good to be bad',
+  description: `Having played too soon ${BAD_CLICKS_TIERS[4]} times.`,
+  lore: 'Never retreat, never retract… never admit a mistake…',
+  get_status: u_state => u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[4] ? AchievementStatus.unlocked : u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[4]]
+}, {
+  icon: '👻',
+  name: 'Hello darkness my old friend',
+  description: `Having played too soon ${BAD_CLICKS_TIERS[5]} times.`,
+  lore: 'Give yourself to the dark side…',
+  get_status: u_state => u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[5] ? AchievementStatus.unlocked : u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[4] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[5]]
+}];
+const REGULARITY_TIERS = [1, 2, 3, 7, 30, 120, 365];
+const RAW_ENTRIES_SECONDARY_CTAS = [// regularity
+{
+  icon: '🌱',
+  name: 'I’ll Be Back',
+  description: `Having been playing for ${REGULARITY_TIERS[1]} days.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.progress.statistics.active_day_count, REGULARITY_TIERS[1]]
+}, {
+  icon: '🌿',
+  name: 'I Am Back',
+  description: `Having been playing for ${REGULARITY_TIERS[2]} days.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[2] ? AchievementStatus.unlocked : u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.active_day_count, REGULARITY_TIERS[2]]
+}, {
+  icon: '🌲',
+  name: 'Regular',
+  description: `Having been playing for ${REGULARITY_TIERS[3]} days.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[3] ? AchievementStatus.unlocked : u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.active_day_count, REGULARITY_TIERS[3]]
+}, {
+  icon: '🌳',
+  name: 'Faithful',
+  description: `Having been playing for ${REGULARITY_TIERS[4]} days.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[4] ? AchievementStatus.unlocked : u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.active_day_count, REGULARITY_TIERS[4]]
+}, {
+  icon: '💉',
+  name: 'Hooked',
+  description: `Having been playing for ${REGULARITY_TIERS[5]} days.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[5] ? AchievementStatus.unlocked : u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[4] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.active_day_count, REGULARITY_TIERS[5]]
+}, {
+  icon: '🎂',
+  name: 'Addicted',
+  description: `Having been playing for ${REGULARITY_TIERS[6]} days.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[6] ? AchievementStatus.unlocked : u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[5] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.progress.statistics.active_day_count, REGULARITY_TIERS[6]]
+}];
+const RAW_ENTRIES_ENGAGEMENT = [{
+  icon: '🎫',
+  name: 'What’s in a name?',
+  description: 'Having set one’s name.',
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.name !== DEFAULT_AVATAR_NAME ? AchievementStatus.unlocked : AchievementStatus.revealed
+}, {
+  icon: '🎓',
+  name: 'Graduated',
+  description: 'Having selected a class.',
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.klass !== CharacterClass.novice ? AchievementStatus.unlocked : AchievementStatus.revealed
+}, {
+  icon: '🆔',
+  name: 'Registered',
+  description: 'Having signed up.'
+}];
+const POWER_TIERS = [0, 5000, 20000, 60000, 120000, 180000];
+const RAW_ENTRIES_PROGRESSION_EQUIPMENT = [{
+  icon: '🥄',
+  name: 'There Is No Spoon',
+  description: 'Having replaced your starting "spoon of the noob" weapon.',
+  lore: 'A weapon isn’t good or bad, depends on the person who uses it.',
+  get_status: u_state => !u_state.inventory.slotted[InventorySlot.weapon] || _equipped_weapon_matches(u_state, STARTING_WEAPON_SPEC) ? AchievementStatus.revealed : AchievementStatus.unlocked
+}, {
+  icon: '🧦',
+  name: 'They Weren’t Matched Anyway',
+  description: 'Having replaced your starting "socks of the noob" armor.',
+  lore: 'I’ll tell you one thing you can’t do: you can’t put your shoes on, then your socks on.',
+  get_status: u_state => !u_state.inventory.slotted[InventorySlot.armor] || _equipped_armor_matches(u_state, STARTING_ARMOR_SPEC) ? AchievementStatus.revealed : AchievementStatus.unlocked
+}, {
+  icon: '🎒',
+  name: 'I Was Born Ready',
+  description: 'Having replaced all your starting "spoon+socks" equipment.',
+  // lore: 'TODO',
+  get_status: u_state => _equipped_armor_matches(u_state, STARTING_ARMOR_SPEC) || _equipped_weapon_matches(u_state, STARTING_WEAPON_SPEC) ? AchievementStatus.revealed : AchievementStatus.unlocked,
+  get_completion_rate: u_state => [(_equipped_armor_matches(u_state, STARTING_ARMOR_SPEC) ? 0 : 1) + (_equipped_weapon_matches(u_state, STARTING_WEAPON_SPEC) ? 0 : 1), 2]
+}, // - quality
+{
+  icon: '🛍',
+  name: 'U Got The Look',
+  description: 'All equipped items of quality uncommon or higher. 💚 ',
+  lore: 'If there are cracks in your armor, your opponent is going to find them...',
+  get_status: u_state => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.uncommon) ? AchievementStatus.unlocked : AchievementStatus.revealed
+}, {
+  icon: '💅',
+  name: 'Rare Sight',
+  description: 'All equipped items of quality rare or higher. 💙 ',
+  // lore: 'TODO',
+  get_status: u_state => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.rare) ? AchievementStatus.unlocked : _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.uncommon) ? AchievementStatus.revealed : AchievementStatus.hidden
+}, {
+  icon: '🎩',
+  name: 'Epic Smile',
+  description: 'All equipped items of quality epic or higher. 💜 ',
+  // lore: 'TODO',
+  get_status: u_state => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.epic) ? AchievementStatus.unlocked : _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.rare) ? AchievementStatus.revealed : AchievementStatus.hidden
+}, {
+  icon: '👑',
+  name: 'I Am A Legend',
+  description: 'All equipped items of quality legendary or higher. 🧡 ',
+  // lore: 'TODO',
+  get_status: u_state => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.legendary) ? AchievementStatus.unlocked : _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.epic) ? AchievementStatus.revealed : AchievementStatus.hidden
+}, {
+  icon: '🌞',
+  name: 'Twinkle Twinkle Little Star',
+  description: 'All equipped items of quality artifact or higher. 💛 ',
+  // lore: 'TODO',
+  get_status: u_state => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.artifact) ? AchievementStatus.unlocked : AchievementStatus.hidden
+}, // - power
+{
+  icon: '🐸',
+  name: 'Frog In A Well',
+  description: `Having a combined equipment’s power of ${POWER_TIERS[1]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => _get_combined_equipped_items_power(u_state) >= POWER_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [_get_combined_equipped_items_power(u_state), POWER_TIERS[1]]
+}, {
+  icon: '👙',
+  name: 'Looking Like something',
+  description: `Having a combined equipment’s power of ${POWER_TIERS[2]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => _get_combined_equipped_items_power(u_state) >= POWER_TIERS[2] ? AchievementStatus.unlocked : _get_combined_equipped_items_power(u_state) >= POWER_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_get_combined_equipped_items_power(u_state), POWER_TIERS[2]]
+}, {
+  icon: '🎁',
+  name: 'Formal Adventurer',
+  description: `Having a combined equipment’s power of ${POWER_TIERS[3]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => _get_combined_equipped_items_power(u_state) >= POWER_TIERS[3] ? AchievementStatus.unlocked : _get_combined_equipped_items_power(u_state) >= POWER_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_get_combined_equipped_items_power(u_state), POWER_TIERS[3]]
+}, {
+  icon: '🔱',
+  name: 'King-looking Adventurer',
+  description: `Having a combined equipment’s power of ${POWER_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => _get_combined_equipped_items_power(u_state) >= POWER_TIERS[4] ? AchievementStatus.unlocked : _get_combined_equipped_items_power(u_state) >= POWER_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_get_combined_equipped_items_power(u_state), POWER_TIERS[4]]
+}, {
+  icon: '⚜',
+  name: 'Emperor-Looking Adventurer',
+  description: `Having a combined equipment’s power of ${POWER_TIERS[5]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => _get_combined_equipped_items_power(u_state) >= POWER_TIERS[5] ? AchievementStatus.unlocked : _get_combined_equipped_items_power(u_state) >= POWER_TIERS[4] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [_get_combined_equipped_items_power(u_state), POWER_TIERS[5]]
+}];
+const ATTRIBUTES_TIERS = [1, 10, 33, 66, 100];
+const RAW_ENTRIES_PROGRESSION_ATTRIBUTES = [/////// LEVEL ///////
+// https://en.uesp.net/wiki/Oblivion:Leveling
+{
+  icon: '👶',
+  name: 'Tiny Adventurer',
+  description: 'Having a level of 3 or higher.',
+  lore: 'You realize that all your life you have been coasting along as if you were in a dream. Suddenly, facing the trials of the last few days, you have come alive.',
+  get_status: u_state => u_state.avatar.attributes.level >= 3 ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, 3]
+}, {
+  icon: '🧒',
+  name: 'Reasonable Adventurer',
+  description: 'Having a level of 7 or higher.',
+  lore: 'Today you wake up, full of energy and ideas, and you know, somehow, that overnight everything has changed. What a difference a day makes.',
+  get_status: u_state => u_state.avatar.attributes.level >= 7 ? AchievementStatus.unlocked : u_state.avatar.attributes.level >= 3 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, 7]
+}, {
+  icon: '👩‍🎤',
+  name: 'Teenage Adventurer',
+  description: 'Having a level of 12 or higher.',
+  lore: 'You’ve done things the hard way. But without taking risks, taking responsibility for failure... how could you have understood?',
+  get_status: u_state => u_state.avatar.attributes.level >= 12 ? AchievementStatus.unlocked : u_state.avatar.attributes.level >= 7 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, 12]
+}, {
+  icon: '🧑',
+  name: 'Newbie Adventurer',
+  description: 'Having a level of 20 or higher.',
+  lore: 'Being smart doesn’t hurt. And a little luck now and then is nice. But the key is patience and hard work.',
+  get_status: u_state => u_state.avatar.attributes.level >= 20 ? AchievementStatus.unlocked : u_state.avatar.attributes.level >= 12 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, 20]
+}, {
+  icon: '🧑',
+  name: 'Seasoned Adventurer',
+  description: `Having a level of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  lore: 'You resolve to continue pushing yourself. Perhaps there’s more to you than you thought.',
+  get_status: u_state => u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.level >= 20 ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '🧓',
+  name: 'Grey Haired Adventurer',
+  description: `Having a level of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  lore: 'With the life you’ve been living, the punishment your body has taken... there are limits, and maybe you’ve reached them. Is this what it’s like to grow old?',
+  get_status: u_state => u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🐢',
+  name: 'Spirit Of The Tortoise',
+  description: `Having a level of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  lore: 'So that’s how it works. You plod along, putting one foot before the other, look up, and suddenly, there you are. Right where you wanted to be all along.',
+  get_status: u_state => u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, ATTRIBUTES_TIERS[4]]
+}, {
+  icon: '🧝',
+  name: 'Long Lived Adventurer',
+  description: 'Having a level of 300 or higher.',
+  lore: 'The results of hard work and dedication always look like luck. But you know you’ve earned every ounce of your success.',
+  get_status: u_state => u_state.avatar.attributes.level >= 300 ? AchievementStatus.unlocked : u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[4] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.level, 300]
+}, /////// health ///////
+// elephant
+{
+  icon: '💪',
+  name: 'Light Punishment',
+  description: `Having a health of ${ATTRIBUTES_TIERS[1]} or higher.`,
+  lore: 'That’s just a scratch...',
+  get_status: u_state => u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.health, ATTRIBUTES_TIERS[1]]
+}, {
+  icon: '😤',
+  name: 'Bring It On',
+  description: `Having a health of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  lore: 'Not even hurt!',
+  get_status: u_state => u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.health, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '🏋',
+  name: 'I Can Handle It',
+  description: `Having a health of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  lore: 'Is that all you’ve got?',
+  get_status: u_state => u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.health, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🐘',
+  name: 'Spirit Of The Elephant',
+  description: `Having a health of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.health, ATTRIBUTES_TIERS[4]]
+}, /////// mana ///////
+{
+  icon: '🍼',
+  name: 'Awoken',
+  description: `Having a mana of ${ATTRIBUTES_TIERS[1]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[1]]
+}, {
+  icon: '🥛',
+  name: 'The Power Of The Mind',
+  description: `Having a mana of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '☕',
+  name: 'Vast Consciousness',
+  description: `Having a mana of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🧙',
+  name: 'Spirit Of The Human',
+  description: `Having a mana of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[4]]
+}, /////// STRENGTH ///////
+{
+  icon: '💪',
+  name: 'Well Built',
+  description: `Having a strength of ${ATTRIBUTES_TIERS[1]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.strength >= ATTRIBUTES_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.strength, ATTRIBUTES_TIERS[1]]
+}, {
+  icon: '😤',
+  name: 'Local Strongperson',
+  description: `Having a strength of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.strength >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.strength >= ATTRIBUTES_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.strength, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '🏋',
+  name: 'Titan',
+  description: `Having a strength of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.strength >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.strength >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.strength, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🦍',
+  name: 'Spirit Of The Gorilla',
+  description: `Having a strength of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.strength >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.strength >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.strength, ATTRIBUTES_TIERS[4]]
+}, /////// AGILITY ///////
+{
+  icon: '🐥',
+  name: 'Small One',
+  description: `Having a agility of ${ATTRIBUTES_TIERS[1]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.agility >= ATTRIBUTES_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.agility, ATTRIBUTES_TIERS[1]]
+}, {
+  icon: '🤹',
+  name: 'Swift One',
+  description: `Having a agility of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.agility >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.agility >= ATTRIBUTES_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.agility, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '🤸',
+  name: 'Untouchable',
+  description: `Having a agility of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.agility >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.agility >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.agility, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🐒',
+  name: 'Spirit Of The Monkey',
+  description: `Having a agility of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.agility >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.agility >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.agility, ATTRIBUTES_TIERS[4]]
+}, /////// CHARISMA ///////
+// https://www.google.com/search?q=silver+tongue
+{
+  icon: '💖',
+  name: 'Sharp tongue',
+  description: `Having a charisma of ${ATTRIBUTES_TIERS[1]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.charisma >= ATTRIBUTES_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.charisma, ATTRIBUTES_TIERS[1]]
+}, {
+  icon: '💓',
+  name: 'Silver tongue',
+  description: `Having a charisma of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.charisma >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.charisma >= ATTRIBUTES_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.charisma, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '💋',
+  name: 'Golden tongue',
+  description: `Having a charisma of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.charisma >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.charisma >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.charisma, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🐈',
+  name: 'Spirit Of The Cat',
+  description: `Having a charisma of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.charisma >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.charisma >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.charisma, ATTRIBUTES_TIERS[4]]
+}, /////// WISDOM ///////
+//
+{
+  icon: '🤓',
+  name: 'Bright',
+  description: `Having a wisdom of ${ATTRIBUTES_TIERS[1]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.wisdom >= ATTRIBUTES_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.wisdom, ATTRIBUTES_TIERS[1]]
+}, {
+  icon: '🧐',
+  name: 'Smart',
+  description: `Having a wisdom of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.wisdom >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.wisdom >= ATTRIBUTES_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.wisdom, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '🧓',
+  name: 'Sage',
+  description: `Having a wisdom of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.wisdom >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.wisdom >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.wisdom, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🦉',
+  name: 'Spirit Of The Owl',
+  description: `Having a wisdom of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.wisdom >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.wisdom >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.wisdom, ATTRIBUTES_TIERS[4]]
+}, /////// LUCK ///////
+// rabbit
+{
+  icon: '☘',
+  name: 'Sprinkled',
+  description: `Having a luck of ${ATTRIBUTES_TIERS[1]} or higher.`,
+  lore: 'Luck is great, but most of life is hard work.',
+  get_status: u_state => u_state.avatar.attributes.luck >= ATTRIBUTES_TIERS[1] ? AchievementStatus.unlocked : AchievementStatus.revealed,
+  get_completion_rate: u_state => [u_state.avatar.attributes.luck, ATTRIBUTES_TIERS[1]]
+}, {
+  icon: '🍀',
+  name: 'Blessed',
+  description: `Having a luck of ${ATTRIBUTES_TIERS[2]} or higher.`,
+  lore: 'The amount of good luck coming your way depends on your willingness to act.',
+  get_status: u_state => u_state.avatar.attributes.luck >= ATTRIBUTES_TIERS[2] ? AchievementStatus.unlocked : u_state.avatar.attributes.luck >= ATTRIBUTES_TIERS[1] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.luck, ATTRIBUTES_TIERS[2]]
+}, {
+  icon: '👼',
+  name: 'Divinely Touched',
+  description: `Having a luck of ${ATTRIBUTES_TIERS[3]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.luck >= ATTRIBUTES_TIERS[3] ? AchievementStatus.unlocked : u_state.avatar.attributes.luck >= ATTRIBUTES_TIERS[2] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.luck, ATTRIBUTES_TIERS[3]]
+}, {
+  icon: '🐇',
+  name: 'Spirit Of The Rabbit',
+  description: `Having a luck of ${ATTRIBUTES_TIERS[4]} or higher.`,
+  // lore: 'TODO',
+  get_status: u_state => u_state.avatar.attributes.luck >= ATTRIBUTES_TIERS[4] ? AchievementStatus.unlocked : u_state.avatar.attributes.luck >= ATTRIBUTES_TIERS[3] ? AchievementStatus.revealed : AchievementStatus.hidden,
+  get_completion_rate: u_state => [u_state.avatar.attributes.luck, ATTRIBUTES_TIERS[4]]
+}];
+const RAW_ENTRIES_MISC = [{
+  icon: '⚔',
+  name: 'I Like Swords!',
+  description: 'Having equipped a sword once.',
+  lore: 'Still sharp...',
+  get_status: u_state => _equipped_weapon_matches(u_state, {
+    base_hid: 'sword'
+  }) || _equipped_weapon_matches(u_state, {
+    base_hid: 'longsword'
+  }) ? AchievementStatus.unlocked : AchievementStatus.revealed
+}];
+const RAW_ENTRIES_META = [{
+  icon: '😇',
+  name: 'Supporter of diversity',
+  description: 'Having supported web diversity by playing on Firefox once.',
+  lore: 'The more the merrier!',
+  get_status: u_state => u_state.meta.is_web_diversity_supporter ? AchievementStatus.unlocked : AchievementStatus.revealed
+}, {
+  icon: '📃',
+  name: 'Registered adventurer',
+  description: 'Being logged in.',
+  lore: 'You are now a registered adventurer.',
+  get_status: u_state => u_state.meta.is_logged_in ? AchievementStatus.unlocked : AchievementStatus.revealed
+}];
+const RAW_ENTRIES_SECRETS = [{
+  icon: '👑',
+  name: 'Usurper',
+  description: 'Having set the name "Offirmo".',
+  lore: 'I see you…',
+  get_status: u_state => u_state.avatar.name === 'Offirmo' ? AchievementStatus.unlocked : AchievementStatus.secret
+}, {
+  icon: '💣',
+  name: 'Blown Away',
+  description: 'Having encountered a crash...'
+}, {
+  icon: '🍀',
+  name: 'Just plain lucky',
+  description: 'You have 1/1000 chance to gain this on each activity.',
+  lore: 'The amount of good luck coming your way depends on your willingness to act.',
+  get_status: () => Math.floor(Math.random() * 1000) === 123 ? AchievementStatus.unlocked : AchievementStatus.secret
+}, {
+  icon: '🏴‍☠️',
+  name: 'Hacker',
+  description: 'You manipulated the threads of reality to obtain this achievement. (can’t be obtained by normal means)',
+  lore: 'Just a different way of looking at problems that no one’s thought of ;)',
+  get_status: u_state => AchievementStatus.secret
+}];
+const RAW_ENTRIES = [// Intro
+{
+  icon: '✨',
+  name: 'Summoned',
+  description: 'You began your adventures in another world.',
+  lore: 'Thanks for visiting!',
+  get_status: () => AchievementStatus.unlocked
+}, ...RAW_ENTRIES_PRIMARY_CTA, ...RAW_ENTRIES_ENGAGEMENT, ...RAW_ENTRIES_ADVENTURING, ...RAW_ENTRIES_ADVENTURES_SETS, ...RAW_ENTRIES_SECONDARY_CTAS, ...RAW_ENTRIES_FIGHT_ENCOUNTERS, ...RAW_ENTRIES_COUNTER_CTA, ...RAW_ENTRIES_PROGRESSION_EQUIPMENT, ...RAW_ENTRIES_PROGRESSION_ATTRIBUTES, ...RAW_ENTRIES_MISC, ...RAW_ENTRIES_GAME_PHASES, ...RAW_ENTRIES_META, ...RAW_ENTRIES_SECRETS, ...RAW_ENTRIES_TEST];
+const UID_CHECK = new Set();
+const achievements_ENTRIES = RAW_ENTRIES.filter(raw => raw.name && raw.description && raw.get_status).map(({
+  name,
+  icon,
+  description,
+  lore,
+  get_status,
+  get_completion_rate
+}, index) => {
+  if (UID_CHECK.has(name)) throw new Error(`Achievements: duplicate definition for "${name}"!`);
+  UID_CHECK.add(name);
+  const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ');
+  return {
+    session_uuid,
+    icon: icon || '🏆',
+    name: name,
+    description: description,
+    lore,
+    get_status: get_status,
+    get_completion_rate
+  };
+});
+/* harmony default export */ var achievements = (achievements_ENTRIES);
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/achievements/index.js
+
+
+
+ /////////////////////
+
+function _refresh_achievements(state) {
+  let {
+    u_state
+  } = state;
+  let {
+    progress,
+    engagement
+  } = u_state;
+  let has_change = false;
+  achievements.forEach(definition => {
+    const {
+      icon,
+      name
+    } = definition;
+    const last_known_status = get_last_known_achievement_status(progress, name);
+    if (last_known_status === AchievementStatus.unlocked) return; // can't change, already best
+
+    const current_status = definition.get_status(u_state);
+    if (last_known_status === current_status) return;
+    has_change = true;
+    progress = on_achieved(progress, name, current_status);
+
+    if (current_status === AchievementStatus.unlocked) {
+      // tell the user
+      engagement = enqueue(engagement, {
+        type: EngagementType.aside,
+        key: EngagementKey['achievement-unlocked']
+      }, {
+        semantic_level: 'success',
+        auto_dismiss_delay_ms: 7000,
+        icon,
+        name
+      });
+    }
+  });
+  if (!has_change) return state;
+  return { ...state,
+    u_state: { ...u_state,
+      progress,
+      engagement
+    }
+  };
+}
+
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/selectors.js
+var selectors = __webpack_require__(3);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/services/logger.js
+
+function logger_get_logger() {
+  return Object(dist_src_es2019["a" /* getLogger */])({
+    name: '@tbrpg'
+  });
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/play/play_adventure.js
+/////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const ALL_ATTRIBUTES_X_LVL = ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
+const WARRIOR_LIKE_PRIMARY_ATTRIBUTES = ['strength'];
+const ROGUE_LIKE_PRIMARY_ATTRIBUTES = ['agility'];
+const MAGE_LIKE_PRIMARY_ATTRIBUTES = ['mana'];
+const HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES = ['strength', 'mana'];
+const PRIMARY_STATS_BY_CLASS = {
+  [CharacterClass.novice]: ALL_ATTRIBUTES_X_LVL,
+  [CharacterClass.barbarian]: WARRIOR_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.druid]: ['wisdom', 'mana'],
+  [CharacterClass.warrior]: WARRIOR_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.paladin]: HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.rogue]: ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.sorcerer]: MAGE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.warlock]: MAGE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.wizard]: MAGE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass['darkness hunter']]: HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.hunter]: ['agility'],
+  [CharacterClass.priest]: ['charisma', 'mana'],
+  [CharacterClass['death knight']]: HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.mage]: MAGE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.engineer]: ['wisdom'],
+  [CharacterClass.thief]: ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.assassin]: ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.illusionist]: ['charisma', 'agility'],
+  [CharacterClass.knight]: WARRIOR_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.pirate]: ['luck'],
+  [CharacterClass.ninja]: ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.corsair]: ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.necromancer]: MAGE_LIKE_PRIMARY_ATTRIBUTES,
+  [CharacterClass.sculptor]: ['agility'],
+  [CharacterClass.summoner]: MAGE_LIKE_PRIMARY_ATTRIBUTES
+};
+if (Object.keys(PRIMARY_STATS_BY_CLASS).length !== dist["Enum"].keys(CharacterClass).length) throw new Error(`${LIB}: PRIMARY_STATS_BY_CLASS is out of date!`);
+const WARRIOR_LIKE_SECONDARY_ATTRIBUTES = ['health'];
+const ROGUE_LIKE_SECONDARY_ATTRIBUTES = ['luck'];
+const MAGE_LIKE_SECONDARY_ATTRIBUTES = ['wisdom'];
+const HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES = ['health'];
+const SECONDARY_STATS_BY_CLASS = {
+  [CharacterClass.novice]: ALL_ATTRIBUTES_X_LVL,
+  [CharacterClass.barbarian]: WARRIOR_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.druid]: ['strength', 'agility'],
+  [CharacterClass.warrior]: WARRIOR_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.paladin]: HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.rogue]: ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.sorcerer]: MAGE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.warlock]: MAGE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.wizard]: MAGE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass['darkness hunter']]: HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.hunter]: ['strength'],
+  [CharacterClass.priest]: ['wisdom'],
+  [CharacterClass['death knight']]: HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.mage]: MAGE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.engineer]: ['agility', 'luck'],
+  [CharacterClass.thief]: ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.assassin]: ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.illusionist]: ['luck'],
+  [CharacterClass.knight]: WARRIOR_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.pirate]: ['charisma', 'agility'],
+  [CharacterClass.ninja]: ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.corsair]: ['charisma', 'luck'],
+  [CharacterClass.necromancer]: MAGE_LIKE_SECONDARY_ATTRIBUTES,
+  [CharacterClass.sculptor]: ['wisdom', 'charisma'],
+  [CharacterClass.summoner]: MAGE_LIKE_SECONDARY_ATTRIBUTES
+};
+if (Object.keys(SECONDARY_STATS_BY_CLASS).length !== dist["Enum"].keys(CharacterClass).length) throw new Error(`${LIB}: SECONDARY_STATS_BY_CLASS is out of date!`);
+
+function instantiate_adventure_archetype(rng, aa, character, inventory, wallet) {
+  const {
+    hid,
+    good,
+    type,
+    outcome
+  } = aa;
+  const should_gain = { ...outcome
+  }; // instantiate the special gains
+
+  if (should_gain.random_attribute) {
+    const stat = random["Random"].pick(rng, ALL_ATTRIBUTES_X_LVL);
+    should_gain[stat] = true;
+  }
+
+  if (should_gain.lowest_attribute) {
+    const lowest_stat = ALL_ATTRIBUTES_X_LVL.reduce((acc, val) => {
+      return character.attributes[acc] < character.attributes[val] ? acc : val;
+    }, 'health');
+    should_gain[lowest_stat] = true;
+  }
+
+  if (should_gain.class_primary_attribute) {
+    const stat = random["Random"].pick(rng, PRIMARY_STATS_BY_CLASS[character.klass]);
+    should_gain[stat] = true;
+  }
+
+  if (should_gain.class_secondary_attribute) {
+    const stat = random["Random"].pick(rng, SECONDARY_STATS_BY_CLASS[character.klass]);
+    should_gain[stat] = true;
+  }
+
+  if (should_gain.armor_or_weapon) {
+    // TODO take into account the existing inventory?
+    if (random["Random"].bool()(rng)) should_gain.armor = true;else should_gain.weapon = true;
+  }
+
+  if (should_gain.improvementⵧarmor_or_weapon) {
+    if (is_at_max_enhancement(get_slotted_weapon(inventory))) // most likely to happen
+      should_gain.improvementⵧarmor = true;else if (random["Random"].bool()(rng)) should_gain.improvementⵧarmor = true;else should_gain.improvementⵧweapon = true;
+  } // intermediate data
+
+
+  const new_player_level = character.attributes.level + (should_gain.level ? 1 : 0); // TODO check multiple charac gain (should not happen)
+
+  return {
+    uuid: generate_uuid(),
+    hid,
+    good,
+    encounter: type === AdventureType.fight ? src_es2019_state_create(rng, {
+      level: character.attributes.level
+    }) : null,
+    gains: {
+      level: should_gain.level ? 1 : 0,
+      health: should_gain.health ? 1 : 0,
+      mana: should_gain.mana ? 1 : 0,
+      strength: should_gain.strength ? 1 : 0,
+      agility: should_gain.agility ? 1 : 0,
+      charisma: should_gain.charisma ? 1 : 0,
+      wisdom: should_gain.wisdom ? 1 : 0,
+      luck: should_gain.luck ? 1 : 0,
+      coin: generate_random_coin_gain_or_loss(rng, {
+        range: should_gain.coin,
+        player_level: new_player_level,
+        current_wallet_amount: wallet.coin_count
+      }),
+      token: should_gain.token ? 1 : 0,
+      armor: should_gain.armor ? logic_armors_dist_src_es2019_state_create(rng) : null,
+      weapon: should_gain.weapon ? state_create(rng) : null,
+      improvementⵧarmor: should_gain.improvementⵧarmor,
+      improvementⵧweapon: should_gain.improvementⵧweapon
+    }
+  };
+} /////////////////////
+
+
+function _play_adventure(state, aa) {
+  const rng = get_prng(state.u_state.prng);
+  const adventure = instantiate_adventure_archetype(rng, aa, state.u_state.avatar, state.u_state.inventory, state.u_state.wallet); //console.log(adventure.hid, state.u_state.wallet)
+  //console.log(adventure)
+
+  const {
+    gains: gained
+  } = adventure;
+  let gain_count = 0;
+  let item_gain_count = 0;
+
+  if (gained.level) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.level);
+  }
+
+  if (gained.health) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.health, gained.health);
+  }
+
+  if (gained.mana) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.mana, gained.mana);
+  }
+
+  if (gained.strength) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.strength, gained.strength);
+  }
+
+  if (gained.agility) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.agility, gained.agility);
+  }
+
+  if (gained.charisma) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.charisma, gained.charisma);
+  }
+
+  if (gained.wisdom) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.wisdom, gained.wisdom);
+  }
+
+  if (gained.luck) {
+    gain_count++;
+    state = _receive_stat_increase(state, CharacterAttribute.luck, gained.luck);
+  }
+
+  if (gained.coin) {
+    gain_count++;
+    if (gained.coin >= 0) state = _receive_coins(state, gained.coin);else state = _lose_coins(state, -gained.coin);
+  }
+
+  if (gained.token) {
+    gain_count++;
+    state = _receive_tokens(state, gained.token);
+  }
+
+  if (gained.weapon) {
+    gain_count++;
+    item_gain_count++; //console.log('gained weapon')
+
+    state = _receive_item(state, gained.weapon);
+  }
+
+  if (gained.armor) {
+    gain_count++;
+    item_gain_count++; //console.log('gained armor')
+
+    state = _receive_item(state, gained.armor);
+  }
+
+  if (gained.improvementⵧweapon) {
+    gain_count++;
+    const weapon_to_enhance = get_item_in_slot(state.u_state.inventory, InventorySlot.weapon);
+    if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_ENHANCEMENT_LEVEL) enhance(weapon_to_enhance); // TODO immutable instead of in-place
+    // TODO enhance another weapon as fallback
+  }
+
+  if (gained.improvementⵧarmor) {
+    gain_count++;
+    const armor_to_enhance = get_item_in_slot(state.u_state.inventory, InventorySlot.armor);
+    if (armor_to_enhance && armor_to_enhance.enhancement_level < consts_MAX_ENHANCEMENT_LEVEL) state_enhance(armor_to_enhance); // TODO immutable instead of in-place
+    // TODO enhance another armor as fallback
+  }
+
+  if (aa.good && !gain_count) {
+    //dump_prettified_any('Error NO gain!', {aa, adventure})
+    throw new Error(`${LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`);
+  }
+
+  if (item_gain_count > 1) {
+    //dump_prettified_any('Error 2x item gain!', {aa, adventure})
+    throw new Error(`${LIB}: play_adventure() for hid "${aa.hid}" unexpectedly resulted in ${item_gain_count} item gains!`);
+  }
+
+  state = { ...state,
+    u_state: { ...state.u_state,
+      last_adventure: adventure,
+      prng: update_use_count(state.u_state.prng, rng, {
+        // we can't know because it depends on the adventure,
+        // ex. generate a random weapon
+        I_swear_I_really_cant_know_whether_the_rng_was_used: true
+      })
+    }
+  };
+  return state;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/play/play_good.js
+/////////////////////
+/////////////////////
+
+
+
+ /////////////////////
+
+
+ /////////////////////
+
+const ADVENTURE_GOOD_NON_REPETITION_ID = 'adventure_archetype--good';
+const ADVENTURE_GOOD_NON_REPETITION_COUNT = 30;
+
+function pick_random_non_repetitive_good_archetype(u_state, rng) {
+  let archetype;
+  regenerate_until_not_recently_encountered({
+    id: ADVENTURE_GOOD_NON_REPETITION_ID,
+    generate: () => {
+      archetype = pick_random_good_archetype(rng);
+      return archetype.hid;
+    },
+    state: u_state.prng,
+    max_tries: ADVENTURE_GOOD_NON_REPETITION_COUNT * 10
+  });
+  return archetype;
+}
+
+function pick_ideal_non_repetitive_good_archetype(u_state, rng) {
+  //console.log(WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin))
+  if (get_currency_amount(u_state.wallet, Currency.coin) === 0) {
+    // needed to prevent the wallet from staying at 0
+    // which mess up adventures needing a coin loss
+    return get_archetype('found_coin');
+  }
+
+  return pick_random_non_repetitive_good_archetype(u_state, rng);
+}
+
+function _play_good(state, explicit_adventure_archetype_hid) {
+  let prng_state = state.u_state.prng;
+  const rng = get_prng(prng_state);
+  const aa = explicit_adventure_archetype_hid ? get_archetype(explicit_adventure_archetype_hid) : pick_ideal_non_repetitive_good_archetype(state.u_state, rng);
+  if (!aa) throw new Error(`${LIB}: play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
+  if (!aa.good) // this feature is for test only, so means wrong test
+    throw new Error(`${LIB}: play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" is a "bad click" one!`);
+
+  if (!explicit_adventure_archetype_hid) {
+    prng_state = update_use_count(state.u_state.prng, rng);
+  }
+
+  state = { ...state,
+    u_state: { ...state.u_state,
+      prng: register_recently_used(prng_state, ADVENTURE_GOOD_NON_REPETITION_ID, aa.hid, ADVENTURE_GOOD_NON_REPETITION_COUNT)
+    }
+  };
+  state = _play_adventure(state, aa);
+  return state;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/play/play_bad.js
+/////////////////////
+/////////////////////
+
+
+ /////////////////////
+
+
+ /////////////////////
+
+const ADVENTURE_BAD_NON_REPETITION_ID = 'adventure_archetype--bad';
+const ADVENTURE_BAD_NON_REPETITION_COUNT = 2;
+
+function pick_random_non_repetitive_bad_archetype(u_state, rng) {
+  let archetype;
+  regenerate_until_not_recently_encountered({
+    id: ADVENTURE_BAD_NON_REPETITION_ID,
+    generate: () => {
+      archetype = pick_random_bad_archetype(rng);
+      return archetype.hid;
+    },
+    state: u_state.prng,
+    max_tries: ADVENTURE_BAD_NON_REPETITION_COUNT * 10
+  });
+  return archetype;
+}
+
+function _play_bad(state, explicit_adventure_archetype_hid) {
+  let prng_state = state.u_state.prng;
+  const rng = get_prng(prng_state);
+  const aa = explicit_adventure_archetype_hid ? get_archetype(explicit_adventure_archetype_hid) : pick_random_non_repetitive_bad_archetype(state.u_state, rng);
+  if (!aa) throw new Error(`${LIB}: play_bad(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
+  if (aa.good) // this feature is for test only, so means wrong test
+    throw new Error(`${LIB}: play_bad(): hinted adventure archetype "${explicit_adventure_archetype_hid}" is a "good click" one!`);
+
+  if (!explicit_adventure_archetype_hid) {
+    prng_state = update_use_count(state.u_state.prng, rng);
+  }
+
+  state = { ...state,
+    u_state: { ...state.u_state,
+      prng: register_recently_used(prng_state, ADVENTURE_BAD_NON_REPETITION_ID, aa.hid, ADVENTURE_BAD_NON_REPETITION_COUNT)
+    }
+  };
+  state = _play_adventure(state, aa);
+  return state;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/play/index.js
+/////////////////////
+ /////////////////////
+
+
+
+
+
+
+
+ /////////////////////
+// note: allows passing an explicit adventure archetype for testing
+
+function play(previous_state, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])(), explicit_adventure_archetype_hid) {
+  let updated_state = _update_to_now(previous_state, now_ms);
+
+  let state = updated_state;
+  const is_good_play = will_next_play_be_good_at(state, now_ms); // consume energy
+
+  if (!is_good_play) {
+    state = { ...state,
+      t_state: { ...state.t_state,
+        // punishment
+        energy: lose_all_energy([state.u_state.energy, state.t_state.energy]),
+        revision: state.t_state.revision + 1
+      }
+    };
+  } else {
+    const [u, t] = use_energy([state.u_state.energy, state.t_state.energy]);
+    state = { ...state,
+      u_state: { ...state.u_state,
+        energy: u
+      },
+      t_state: { ...state.t_state,
+        energy: t,
+        revision: state.t_state.revision + 1
+      }
+    }; // onboarding
+
+    if (!explicit_adventure_archetype_hid) {
+      const {
+        good_play_count
+      } = state.u_state.progress.statistics;
+      explicit_adventure_archetype_hid = ['talk_to_all_villagers', 'rematch', 'fight_won_coins', 'high_level_zone_2', 'found_random_mushroom', 'class_grimoire', 'progress_loop', 'fight_won_any', 'found_swirling_potion', 'castle_summon', 'arrow_in_the_knee', 'inspect_sewers', 'side_quests', 'fight_won_coins'][good_play_count];
+    }
+  } // actual play
+
+
+  state = is_good_play ? _play_good(state, explicit_adventure_archetype_hid) : _play_bad(state, explicit_adventure_archetype_hid); // final updates
+
+  const u_state = state.u_state;
+  state = { ...state,
+    u_state: { ...u_state,
+      last_user_action_tms: now_ms,
+      revision: state.u_state.revision + 1,
+      progress: on_played(u_state.progress, {
+        good: is_good_play,
+        adventure_key: u_state.last_adventure.hid,
+        encountered_monster_key: u_state.last_adventure.encounter ? u_state.last_adventure.encounter.name : null,
+        active_class: u_state.avatar.klass,
+        coins_gained: u_state.last_adventure.gains.coin,
+        tokens_gained: u_state.last_adventure.gains.token,
+        items_gained: (u_state.last_adventure.gains.armor ? 1 : 0) + (u_state.last_adventure.gains.weapon ? 1 : 0)
+      })
+    }
+  };
+  return _refresh_achievements(state);
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/autoplay.js
+/////////////////////
+
+
+ /////////////////////
+
+
+
+
+
+
+
+
+ /////////////////////
+
+function _autogroom(state, options = {}) {
+  const {
+    DEBUG
+  } = options;
+  if (DEBUG) console.log(`  - Autogroom… (inventory holding ${state.u_state.inventory.unslotted.length} items)`); // User
+  // User class
+
+  if (state.u_state.avatar.klass === CharacterClass.novice) {
+    // change class
+    const available_classes = get_available_classes(state.u_state);
+    const new_class = random["Random"].pick(random["Random"].engines.nativeMath, available_classes);
+    if (DEBUG) console.log(`    - Changing class to ${new_class}…`);
+    state = change_avatar_class(state, new_class);
+  } // User name
+
+
+  if (state.u_state.avatar.name === DEFAULT_AVATAR_NAME) {
+    const new_name = 'A' + Math.abs(state.u_state.prng.seed);
+    if (DEBUG) console.log(`    - renaming to ${new_name}…`);
+    state = rename_avatar(state, new_name);
+  } // inventory
+  // equip best gear
+
+
+  const better_weapon = find_better_unequipped_weapon(state.u_state);
+
+  if (better_weapon) {
+    state = base_equip_item(state, better_weapon.uuid);
+  }
+
+  const better_armor = find_better_unequipped_armor(state.u_state);
+
+  if (better_armor) {
+    state = base_equip_item(state, better_armor.uuid);
+  } // in case inventory full
+
+
+  state = _auto_make_room(state, options); // misc: ack the possible notifications
+
+  state = _ack_all_engagements(state);
+  return state;
+}
+/* Autoplay, as efficiently as possible,
+ * trying to restore as much achievements as possible
+ */
+
+
+function _autoplay(previous_state, options = {}) {
+  let state = previous_state;
+  let {
+    target_good_play_count,
+    target_bad_play_count,
+    DEBUG
+  } = options;
+  if (DEBUG) console.log(`- Autoplay g=${target_good_play_count}, b=${target_bad_play_count}..`);
+  target_good_play_count = target_good_play_count || 0;
+  target_bad_play_count = target_bad_play_count || 0;
+  if (target_good_play_count < 0) throw new Error('invalid target_good_play_count!');
+  if (target_bad_play_count < 0) throw new Error('invalid target_bad_play_count!');
+
+  let last_visited_timestamp_num = (() => {
+    const days_needed = Math.ceil((target_good_play_count - state.u_state.progress.statistics.good_play_count) / 8); // TODO magic number!!!
+
+    const from_now = Number(Object(src_es2019_generate["e" /* get_human_readable_UTC_timestamp_days */])()) - days_needed;
+    return Math.min(from_now, Number(state.u_state.progress.statistics.last_visited_timestamp));
+  })();
+
+  if (last_visited_timestamp_num !== Number(state.u_state.progress.statistics.last_visited_timestamp)) {
+    state = { ...state,
+      u_state: { ...state.u_state,
+        progress: { ...state.u_state.progress,
+          statistics: { ...state.u_state.progress.statistics,
+            last_visited_timestamp: String(last_visited_timestamp_num)
+          }
+        }
+      }
+    };
+  }
+
+  state = _autogroom(state, options); // do we have energy?
+
+  const available_energy = energy_get_available_energy_float(state.t_state);
+  let have_energy = available_energy >= 1.;
+
+  if (target_bad_play_count > state.u_state.progress.statistics.bad_play_count) {
+    if (have_energy) {
+      state = _lose_all_energy(state);
+    } // play bad
+
+
+    for (let i = state.u_state.progress.statistics.bad_play_count; i < target_bad_play_count; ++i) {
+      if (DEBUG) console.log('  - playing bad...');
+      state = play(state);
+      state = _autogroom(state, options);
+    }
+  }
+
+  if (target_good_play_count > state.u_state.progress.statistics.good_play_count) {
+    // play good
+    for (let i = state.u_state.progress.statistics.good_play_count; i < target_good_play_count; ++i) {
+      const available_energy = energy_get_available_energy_float(state.t_state);
+      have_energy = available_energy >= 1.;
+
+      if (!have_energy) {
+        // replenish and pretend one day has passed
+        const t_state_e = restore_energy([state.u_state.energy, state.t_state.energy]);
+        last_visited_timestamp_num++;
+        state = { ...state,
+          u_state: { ...state.u_state,
+            progress: { ...state.u_state.progress,
+              statistics: { ...state.u_state.progress.statistics,
+                last_visited_timestamp: String(last_visited_timestamp_num)
+              }
+            }
+          },
+          t_state: { ...state.t_state,
+            energy: t_state_e
+          }
+        };
+      }
+
+      if (DEBUG) console.log('  - playing good...');
+      state = play(state);
+      state = _autogroom(state, options);
+    }
+  } // make it so the remaining energy is the same as when we started, to not prevent immediate play
+
+
+  state = { ...state,
+    t_state: { ...state.t_state,
+      energy: { ...state.t_state.energy,
+        available_energy: previous_state.t_state.energy.available_energy
+      }
+    }
+  };
+  state = _refresh_achievements(state);
+  state = _ack_all_engagements(state);
+  if (Object(selectors["b" /* get_revision */])(state) === Object(selectors["b" /* get_revision */])(previous_state)) state = Object(utils["b" /* complete_or_cancel_eager_mutation_propagating_possible_child_mutation */])(previous_state, state, undefined, '_autoplay');
+  return state;
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/migrations/salvage.js
+/////////////////////
+
+
+
+
+
+
+
+
+ /////////////////////
+// https://github.com/burakcan/mb
+// Exception-free nested nullable attribute accessor
+
+const mb = (...p) => o => p.map(c => o = (o || {})[c]) && o;
+
+function coerce_to_number_or_zero(x) {
+  const res = Number(x);
+  return Number.isNaN(res) ? 0 : res;
+}
+
+const get_name_v4 = mb('avatar', 'name');
+const get_name_v9 = mb('u_state', 'avatar', 'name');
+
+const get_name = ls => get_name_v9(ls) || get_name_v4(ls);
+
+const get_class_v4 = mb('avatar', 'klass');
+const get_class_v9 = mb('u_state', 'avatar', 'klass');
+
+const get_class = ls => get_class_v9(ls) || get_class_v4(ls);
+
+const get_seed_v4 = mb('prng', 'seed');
+const get_seed_v9 = mb('u_state', 'prng', 'seed');
+
+const get_seed = ls => get_seed_v9(ls) || get_seed_v4(ls);
+
+const get_good_play_count_v4 = mb('good_click_count');
+const get_good_play_count_v7 = mb('progress', 'statistics', 'good_play_count');
+const get_good_play_count_v9 = mb('u_state', 'progress', 'statistics', 'good_play_count');
+
+const get_good_play_count = ls => coerce_to_number_or_zero(get_good_play_count_v9(ls) || get_good_play_count_v7(ls) || get_good_play_count_v4(ls));
+
+const get_play_count_v4 = mb('click_count');
+
+const get_bad_play_count_v4 = ls => coerce_to_number_or_zero(get_play_count_v4(ls)) - coerce_to_number_or_zero(get_good_play_count_v4(ls));
+
+const get_bad_play_count_v7 = mb('progress', 'statistics', 'bad_play_count');
+const get_bad_play_count_v9 = mb('u_state', 'progress', 'statistics', 'bad_play_count');
+
+const get_bad_play_count = ls => coerce_to_number_or_zero(get_bad_play_count_v9(ls) || get_bad_play_count_v7(ls) || get_bad_play_count_v4(ls)); /////////////////////
+
+
+function reset_and_salvage(legacy_state) {
+  logger_get_logger().info(`${LIB}: salvaging some data from a v${Object(selectors["e" /* get_schema_version_loose */])(legacy_state)} legacy savegame…`);
+  xxx_internal_reset_prng_cache(); // don't do this at home, kids!
+
+  let state = create_create();
+  const seed = get_seed(legacy_state);
+
+  if (!Number.isInteger(seed)) {
+    logger_get_logger().warn(`${LIB}: salvaging: may need to update the seed salvaging!`);
+    state = reseed(state); // force random reseed to avoid pp having the same game
+  } else {
+    state = reseed(state, seed);
+  }
+
+  const name = get_name(legacy_state);
+
+  if (typeof name !== 'string') {
+    logger_get_logger().warn(`${LIB}: salvaging: may need to update the avatar name salvaging!`);
+  } else {
+    state = rename_avatar(state, name);
+  }
+
+  const klass = get_class(legacy_state);
+
+  if (typeof klass !== 'string' || !dist["Enum"].isType(CharacterClass, klass)) {
+    logger_get_logger().warn(`${LIB}: salvaging: may need to update the avatar class salvaging!`);
+  } else {
+    if (klass !== state.u_state.avatar.klass) state = change_avatar_class(state, klass);
+  }
+
+  const good_play_count = get_good_play_count(legacy_state);
+
+  if (good_play_count === 0) {
+    logger_get_logger().warn(`${LIB}: salvaging: may need to update the good play count salvaging!`);
+  }
+
+  const bad_play_count = get_bad_play_count(legacy_state);
+  state = _autoplay(state, {
+    target_good_play_count: good_play_count,
+    target_bad_play_count: bad_play_count
+  }); // now insert some relevant start engagements
+
+  state = { ...state,
+    u_state: { ...state.u_state,
+      engagement: enqueue(state.u_state.engagement, {
+        type: EngagementType.warning,
+        key: EngagementKey['reborn']
+      })
+    }
+  };
+  logger_get_logger().info(`${LIB}: salvaged some data from a v${Object(selectors["e" /* get_schema_version_loose */])(legacy_state)} legacy savegame.`);
+  return state;
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/migrations/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /////////////////////
+// this state is a top one, not composable.
+// hints are defined in the unit tests
+/////////////////////
+
+const SUB_STATES_MIGRATIONS = {
+  avatar: migrate_to_latest,
+  inventory: src_es2019_migrations_migrate_to_latest,
+  wallet: migrations_migrate_to_latest,
+  prng: dist_src_es2019_migrations_migrate_to_latest,
+  energy: state_energy_dist_src_es2019_migrations_migrate_to_latest,
+  engagement: state_engagement_dist_src_es2019_migrations_migrate_to_latest,
+  codes: state_codes_dist_src_es2019_migrations_migrate_to_latest,
+  progress: state_progress_dist_src_es2019_migrations_migrate_to_latest,
+  meta: state_meta_dist_src_es2019_migrations_migrate_to_latest
+};
+function state_dist_src_es2019_migrations_migrate_to_latest(SEC, legacy_state, hints = {}) {
+  let state = legacy_state; // for starter
+
+  try {
+    state = Object(migration["a" /* generic_migrate_to_latest */])({
+      SEC: SEC,
+      LIB: LIB,
+      SCHEMA_VERSION: SCHEMA_VERSION,
+      legacy_state,
+      hints,
+      sub_states_migrate_to_latest: SUB_STATES_MIGRATIONS,
+      cleanup,
+      pipeline: [migrate_to_14x, migrate_to_13, migrate_to_12]
+    }); // TODO migrate adventures
+    // TODO migrate items
+  } catch (err) {
+    if (err.message.includes('more recent')) {
+      // don't touch a more recent savegame!
+      throw err;
+    } // attempt to salvage
+
+
+    SEC.getInjectedDependencies().logger.error(`${LIB}: failed migrating schema, reseting and salvaging!`, {
+      err
+    });
+    state = reset_and_salvage(legacy_state);
+    SEC.fireAnalyticsEvent('schema_migration.salvaged', {
+      step: 'main'
+    });
+  }
+
+  return state;
+} /////////////////////
+
+const cleanup = (SEC, state, hints) => {
+  let has_change = false; // HACK
+  // new achievements may appear thanks to new content !== migration
+  // this is covered semantically in ~start_session()
+  // HOWEVER if we don't do it here,
+  // it makes it difficult to test the migration of old savegames with less content.
+  // HENCE we refresh the achievements here, for test simplicity, even when it's not 100% semantic
+
+  state = _refresh_achievements(state);
+  let {
+    u_state,
+    t_state
+  } = state; // micro migrations TODO clean
+
+  if (u_state.uuid) {
+    u_state = { ...u_state
+    };
+    delete u_state.uuid;
+    has_change = true;
+  }
+
+  if (!u_state.last_user_action_tms) {
+    u_state = { ...u_state,
+      last_user_action_tms: Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()
+    };
+    has_change = true;
+  } // introduced late: min wallet always >0
+
+
+  if (get_currency_amount(u_state.wallet, Currency.coin) <= 0) {
+    u_state = { ...u_state,
+      wallet: add_amount(u_state.wallet, Currency.coin, 1)
+    };
+    has_change = true;
+  }
+
+  if (!has_change) return state;
+  return { ...state,
+    u_state,
+    t_state
+  };
+};
+
+const migrate_to_14x = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+  if (legacy_schema_version < 13) legacy_state = previous(SEC, legacy_state, hints);
+  let state = legacy_state; // for starter
+
+  state = { ...state,
+    t_state: { ...state.t_state,
+      revision: 0 // new prop
+
+    }
+  };
+
+  if (state.u_state.last_adventure) {
+    state.u_state = { ...state.u_state,
+      last_adventure: { ...state.u_state.last_adventure,
+        encounter: state.u_state.last_adventure.encounter || null
+      }
+    };
+  }
+
+  state = { ...state,
+    schema_version: 14,
+    u_state: { ...state.u_state,
+      schema_version: 14
+    },
+    t_state: { ...state.t_state,
+      schema_version: 14
+    }
+  };
+  return state;
+};
+
+const migrate_to_13 = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+  var _a, _b;
+
+  if (legacy_schema_version < 12) legacy_state = previous(SEC, legacy_state, hints);
+  let state = legacy_state; // for starter
+
+  if (state.u_state.last_adventure) {
+    state = { ...state,
+      u_state: { ...state.u_state,
+        last_adventure: { ...state.u_state.last_adventure,
+          gains: { ...state.u_state.last_adventure.gains,
+            improvementⵧarmor: legacy_state.u_state.last_adventure.gains.armor_improvement,
+            improvementⵧweapon: legacy_state.u_state.last_adventure.gains.weapon_improvement
+          }
+        }
+      }
+    };
+    (_a = state.u_state.last_adventure.gains) === null || _a === void 0 ? true : delete _a.armor_improvement;
+    (_b = state.u_state.last_adventure.gains) === null || _b === void 0 ? true : delete _b.weapon_improvement;
+  }
+
+  state = { ...state,
+    schema_version: 13,
+    u_state: { ...state.u_state,
+      schema_version: 13
+    },
+    t_state: { ...state.t_state,
+      schema_version: 13
+    }
+  };
+  return state;
+};
+
+const migrate_to_12 = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+  throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!');
+};
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/examples.js
+/////////////////////
+
+
+
+
+ /////////////////////
+// needed to test migrations, both here and in composing parents
+// a full featured, non-trivial demo state
+// with dev gain
+
+const DEMO_ADVENTURE_01 = Object(utils["c" /* enforce_immutability */])({
+  hid: 'fight_lost_any',
+  uuid: 'uu1~example~adventure~01',
+  good: true,
+  encounter: DEMO_MONSTER_01,
+  gains: {
+    level: 0,
+    health: 0,
+    mana: 0,
+    strength: 0,
+    agility: 0,
+    charisma: 0,
+    wisdom: 0,
+    luck: 1,
+    coin: 0,
+    token: 0,
+    armor: null,
+    weapon: null,
+    improvementⵧarmor: false,
+    improvementⵧweapon: false
+  }
+}); // with coin gain
+
+const DEMO_ADVENTURE_02 = Object(utils["c" /* enforce_immutability */])({
+  hid: 'dying_man',
+  uuid: 'uu1~example~adventure~02',
+  good: true,
+  encounter: null,
+  gains: {
+    level: 0,
+    health: 0,
+    mana: 0,
+    strength: 0,
+    agility: 0,
+    charisma: 0,
+    wisdom: 0,
+    luck: 0,
+    coin: 1234,
+    token: 0,
+    weapon: null,
+    armor: null,
+    improvementⵧweapon: false,
+    improvementⵧarmor: false
+  }
+}); // with loot gain
+
+const DEMO_ADVENTURE_03 = Object(utils["c" /* enforce_immutability */])({
+  hid: 'rare_goods_seller',
+  uuid: 'uu1~example~adventure~03',
+  good: true,
+  encounter: null,
+  gains: {
+    level: 0,
+    health: 0,
+    mana: 0,
+    strength: 0,
+    agility: 0,
+    charisma: 0,
+    wisdom: 0,
+    luck: 0,
+    coin: 0,
+    token: 0,
+    weapon: DEMO_WEAPON_1,
+    armor: null,
+    improvementⵧweapon: false,
+    improvementⵧarmor: false
+  }
+}); // with weapon enhancement gain
+
+const DEMO_ADVENTURE_04 = Object(utils["c" /* enforce_immutability */])({
+  hid: 'princess',
+  uuid: 'uu1~example~adventure~04',
+  good: true,
+  encounter: null,
+  gains: {
+    level: 0,
+    health: 0,
+    mana: 0,
+    strength: 0,
+    agility: 0,
+    charisma: 0,
+    wisdom: 0,
+    luck: 0,
+    coin: 123,
+    token: 0,
+    weapon: null,
+    armor: null,
+    improvementⵧweapon: false,
+    improvementⵧarmor: true
+  }
+}); // can't build an example from disconnected sample states.
+// taken from a real savegame:
+
+const DEMO_STATE = Object(utils["c" /* enforce_immutability */])(cleanup(services_sec_get_lib_SEC(), {
+  'schema_version': 14,
+  't_state': {
+    'schema_version': 14,
+    revision: 0,
+    'timestamp_ms': 1598854700150,
+    'energy': {
+      'schema_version': 4,
+      'timestamp_ms': 1598854700150,
+      revision: 0,
+      'available_energy': {
+        'd': 1,
+        'n': 7
+      }
+    }
+  },
+  'u_state': {
+    'schema_version': 14,
+    'revision': 1185,
+    'avatar': {
+      'attributes': {
+        'agility': 87,
+        'charisma': 87,
+        'health': 88,
+        'level': 45,
+        'luck': 91,
+        'mana': 144,
+        'strength': 95,
+        'wisdom': 151
+      },
+      'klass': 'knight',
+      'name': 'PerteProd',
+      'revision': 785,
+      'schema_version': 2
+    },
+    'codes': {
+      'redeemed_codes': {
+        'ALPHATWINK': {
+          'last_redeem_date_minutes': '20190423_08h09',
+          'redeem_count': 1
+        }
+      },
+      'revision': 1,
+      'schema_version': 1
+    },
+    'creation_date': '20190423_08h08',
+    'energy': {
+      'max_energy': 7,
+      'revision': 0,
+      'schema_version': 4,
+      'total_energy_consumed_so_far': 1035
+    },
+    'engagement': {
+      'queue': [],
+      'revision': 161,
+      'schema_version': 1
+    },
+    'inventory': {
+      'revision': 281,
+      'schema_version': 1,
+      'slotted': {
+        'armor': {
+          'base_hid': 'boots',
+          'base_strength': 52236,
+          'element_type': 'item',
+          'enhancement_level': 4,
+          'qualifier1_hid': 'simple',
+          'qualifier2_hid': 'twink',
+          'quality': 'artifact',
+          'slot': 'armor',
+          'uuid': 'uu1dVeWKOZSUO6TwAutd0gDr'
+        },
+        'weapon': {
+          'base_hid': 'scythe',
+          'base_strength': 41892,
+          'element_type': 'item',
+          'enhancement_level': 1,
+          'qualifier1_hid': 'strange',
+          'qualifier2_hid': 'twink',
+          'quality': 'artifact',
+          'slot': 'weapon',
+          'uuid': 'uu1IM5DRoi1a14hvaLCPPltm'
+        }
+      },
+      'unslotted': [{
+        'base_hid': 'spoon',
+        'base_strength': 1,
+        'element_type': 'item',
+        'enhancement_level': 0,
+        'qualifier1_hid': 'used',
+        'qualifier2_hid': 'noob',
+        'quality': 'common',
+        'slot': 'weapon',
+        'uuid': 'uu1SCAdaa62Dv-QHaaDQ7Nwf'
+      }, {
+        'base_hid': 'shoes',
+        'base_strength': 39841,
+        'element_type': 'item',
+        'enhancement_level': 0,
+        'qualifier1_hid': 'emerald',
+        'qualifier2_hid': 'mercenary',
+        'quality': 'legendary',
+        'slot': 'armor',
+        'uuid': 'uu15ixnqBzBX_IMsvJ2WV-sS'
+      }, {
+        'base_hid': 'socks',
+        'base_strength': 1,
+        'element_type': 'item',
+        'enhancement_level': 0,
+        'qualifier1_hid': 'used',
+        'qualifier2_hid': 'noob',
+        'quality': 'common',
+        'slot': 'armor',
+        'uuid': 'uu1PJz7O5R5LLDmPYVUdGu77'
+      }],
+      'unslotted_capacity': 20
+    },
+    'last_adventure': {
+      'gains': {
+        'agility': 1,
+        'armor': null,
+        'charisma': 0,
+        'coin': 0,
+        'health': 0,
+        'improvementⵧarmor': false,
+        'improvementⵧweapon': false,
+        'level': 0,
+        'luck': 0,
+        'mana': 0,
+        'strength': 0,
+        'token': 0,
+        'weapon': null,
+        'wisdom': 0
+      },
+      'good': true,
+      encounter: null,
+      'hid': 'found_random_mushroom',
+      'uuid': 'uu1FXVTOup-drVDr9t-nXR3a'
+    },
+    'last_user_action_tms': 1598854698575,
+    'meta': {
+      'is_logged_in': true,
+      'is_web_diversity_supporter': false,
+      slot_id: 0,
+      'revision': 1,
+      'roles': ['admin', 'tbrpg:alpha'],
+      'schema_version': 3
+    },
+    'prng': {
+      'recently_encountered_by_id': {
+        'adventure_archetype--bad': ['bad_m4', 'bad_e1'],
+        'adventure_archetype--good': ['magical_cooking_ragnaros', 'famous_stone_emerald', 'fight_lost_shortcoming', 'socketed_item', 'pet_squirrel', 'green_food', 'church_cellar_prisoner', 'fight_won_coins', 'rachel', 'fight_observe', 'found_silver_potion', 'unmatched_set', 'erika', 'always_keep_potions', 'found_fizzing_potion', 'side_quests', 'caravan_success', 'flying_rat', 'raining_dwarves', 'caravan_failure', 'bards', 'pet_black_cat', 'arrow_in_the_knee', 'sword_in_rock', 'refreshing_nap', 'chilies', 'vampire_castle', 'famous_stone_diamond', 'good_end', 'found_random_mushroom']
+      },
+      'revision': 2607,
+      'schema_version': 3,
+      'seed': -1163955302,
+      'use_count': 6504,
+      'uuid': 'uu1IZxPCefT_N5wrZtkgVg3Q'
+    },
+    'progress': {
+      'achievements': {
+        '49 times… It was 49 times…': 'unlocked',
+        'Absolute Explorer': 'unlocked',
+        'Addicted': 'unlocked',
+        'Alpha Of The Wilderness': 'revealed',
+        'Alpha player': 'unlocked',
+        'Aspiring Explorer': 'unlocked',
+        'Awoken': 'unlocked',
+        'Beta player': 'revealed',
+        'Blessed': 'unlocked',
+        'Born To Be Wild': 'unlocked',
+        'Bright': 'unlocked',
+        'Bring It On': 'unlocked',
+        'Divinely Touched': 'unlocked',
+        'Emperor-Looking Adventurer': 'revealed',
+        'Epic Smile': 'unlocked',
+        'Faithful': 'unlocked',
+        'Famous Gems Collector': 'unlocked',
+        'First Blood': 'unlocked',
+        'Folk Hero': 'unlocked',
+        'Formal Adventurer': 'unlocked',
+        'Frog In A Well': 'unlocked',
+        'Golden tongue': 'unlocked',
+        'Graduated': 'unlocked',
+        'Grandmaster Explorer': 'unlocked',
+        'Grey Haired Adventurer': 'revealed',
+        'Hacker': 'secret',
+        'Hello darkness my old friend': 'revealed',
+        'Hooked': 'unlocked',
+        'I Am A Legend': 'unlocked',
+        'I Am Back': 'unlocked',
+        'I Can Handle It': 'unlocked',
+        'I Like Swords!': 'revealed',
+        'I Was Born Ready': 'unlocked',
+        'I am bored': 'unlocked',
+        'I am dead bored': 'unlocked',
+        'I am very bored': 'unlocked',
+        'Into The Wild': 'unlocked',
+        'It’s good to be bad': 'unlocked',
+        'I’ll Be Back': 'unlocked',
+        'I’m not that innocent': 'unlocked',
+        'Just plain lucky': 'unlocked',
+        'King-looking Adventurer': 'unlocked',
+        'Light Punishment': 'unlocked',
+        'Local Strongperson': 'unlocked',
+        'Long Lived Adventurer': 'hidden',
+        'Looking Like something': 'unlocked',
+        'Master Explorer': 'unlocked',
+        'Mushrooms Gourmet': 'unlocked',
+        'Mushrooms Lover': 'unlocked',
+        'Newbie Adventurer': 'unlocked',
+        'No-life except for boredom': 'revealed',
+        'Oops!... I Did It Again': 'unlocked',
+        'Potions Sommelier': 'unlocked',
+        'Potions Taster': 'unlocked',
+        'Rare Sight': 'unlocked',
+        'Reasonable Adventurer': 'unlocked',
+        'Reborn!': 'secret',
+        'Registered adventurer': 'unlocked',
+        'Regular': 'unlocked',
+        'Rookie Explorer': 'unlocked',
+        'Sage': 'unlocked',
+        'Seasoned Adventurer': 'unlocked',
+        'Senior Explorer': 'unlocked',
+        'Sharp tongue': 'unlocked',
+        'Silver tongue': 'unlocked',
+        'Small One': 'unlocked',
+        'Smart': 'unlocked',
+        'Sorry my hand slipped': 'unlocked',
+        'Spirit Of The Cat': 'revealed',
+        'Spirit Of The Elephant': 'revealed',
+        'Spirit Of The Gorilla': 'revealed',
+        'Spirit Of The Human': 'unlocked',
+        'Spirit Of The Monkey': 'revealed',
+        'Spirit Of The Owl': 'unlocked',
+        'Spirit Of The Rabbit': 'revealed',
+        'Spirit Of The Tortoise': 'hidden',
+        'Sprinkled': 'unlocked',
+        'Summoned': 'unlocked',
+        'Supporter of diversity': 'revealed',
+        'Swift One': 'unlocked',
+        'TEST': 'secret',
+        'Teenage Adventurer': 'unlocked',
+        'The Power Of The Mind': 'unlocked',
+        'The Wild One': 'unlocked',
+        'There Is No Spoon': 'unlocked',
+        'They Weren’t Matched Anyway': 'unlocked',
+        'Tiny Adventurer': 'unlocked',
+        'Titan': 'unlocked',
+        'Turn it up to eleven': 'unlocked',
+        'Twinkle Twinkle Little Star': 'unlocked',
+        'U Got The Look': 'unlocked',
+        'Untouchable': 'unlocked',
+        'Usurper': 'secret',
+        'Vast Consciousness': 'unlocked',
+        'Well Built': 'unlocked',
+        'What’s in a name?': 'unlocked',
+        'Wild Like The Wind': 'unlocked',
+        'Young Explorer': 'unlocked',
+        'did I mention I was bored?': 'unlocked',
+        'king of boredom': 'unlocked'
+      },
+      'flags': null,
+      'revision': 1364,
+      'schema_version': 2,
+      'statistics': {
+        'active_day_count': 915,
+        'bad_play_count': 93,
+        'bad_play_count_by_active_class': {
+          'knight': 2,
+          'summoner': 91
+        },
+        'coins_gained': 458582,
+        'encountered_adventures': {
+          'DQ_good_slime': true,
+          'always_keep_potions': true,
+          'arrow_in_the_knee': true,
+          'ate_bacon': true,
+          'ate_zombie': true,
+          'bad_1': true,
+          'bad_2': true,
+          'bad_3': true,
+          'bad_4': true,
+          'bad_5': true,
+          'bad_6': true,
+          'bad_e1': true,
+          'bad_e2': true,
+          'bad_m1': true,
+          'bad_m3': true,
+          'bad_m4': true,
+          'bad_m5': true,
+          'bad_m6': true,
+          'bad_s1': true,
+          'bad_s2': true,
+          'bad_village': true,
+          'balrog': true,
+          'bandits_punishment': true,
+          'bards': true,
+          'best_meal': true,
+          'bored_log': true,
+          'busking': true,
+          'capital_castle': true,
+          'capital_royal_amusement_park': true,
+          'capital_royal_road': true,
+          'caravan_failure': true,
+          'caravan_success': true,
+          'castle_summon': true,
+          'cat_out_tree': true,
+          'chasm_leap': true,
+          'chicken_slayer': true,
+          'chilies': true,
+          'church_book': true,
+          'church_cellar_prisoner': true,
+          'class_grimoire': true,
+          'class_master_coolidge': true,
+          'class_master_dark_holocron': true,
+          'class_master_forbidden_knowledge': true,
+          'class_master_half_battle': true,
+          'class_master_primary_attr_1': true,
+          'class_master_primary_attr_2': true,
+          'class_master_second_attr': true,
+          'class_master_sharpest_weapon': true,
+          'clean_wizard_tower': true,
+          'clover': true,
+          'coffee': true,
+          'colossal_cave': true,
+          'colossal_cave_maze': true,
+          'conscripted': true,
+          'cookies_grandmas': true,
+          'critters': true,
+          'demon_king': true,
+          'dragon_kebab': true,
+          'drown_in_holy_water': true,
+          'duke_rescue': true,
+          'dying_man': true,
+          'elementals': true,
+          'elven_hydromel': true,
+          'erika': true,
+          'escort': true,
+          'exile_GIFTS': true,
+          'explore_catacombs': true,
+          'explore_ruins': true,
+          'fabric_of_reality': true,
+          'false_lake': true,
+          'famous_stone_diamond': true,
+          'famous_stone_emerald': true,
+          'famous_stone_ruby': true,
+          'famous_stone_sapphire': true,
+          'fate_sword': true,
+          'fight_lost_any': true,
+          'fight_lost_shortcoming': true,
+          'fight_observe': true,
+          'fight_won_any': true,
+          'fight_won_coins': true,
+          'fight_won_loot': true,
+          'flying_rat': true,
+          'foodie_friend': true,
+          'foreign_language': true,
+          'found_black_mushroom': true,
+          'found_blue_mushroom': true,
+          'found_bubbly_potion': true,
+          'found_fizzing_potion': true,
+          'found_green_mushroom': true,
+          'found_journal': true,
+          'found_orange_mushroom': true,
+          'found_rainbow_mushroom': true,
+          'found_random_mushroom': true,
+          'found_red_mushroom': true,
+          'found_silver_potion': true,
+          'found_swirling_potion': true,
+          'found_vermilion_potion': true,
+          'found_white_mushroom': true,
+          'found_worn_out_potion': true,
+          'found_yellow_mushroom': true,
+          'gehennom': true,
+          'give_a_shield': true,
+          'gold_nugget': true,
+          'good_end': true,
+          'good_necromancer': true,
+          'green_food': true,
+          'grinding': true,
+          'guild_party_food': true,
+          'high_level_zone_1': true,
+          'high_level_zone_2': true,
+          'horseshoe': true,
+          'huge_tower': true,
+          'idiot_bandits': true,
+          'inspect_sewers': true,
+          'jig': true,
+          'keep_watch': true,
+          'king_reward': true,
+          'last_night': true,
+          'last_quest': true,
+          'lost': true,
+          'lost_mine': true,
+          'magic_lamp': true,
+          'magical_cooking_ragnaros': true,
+          'make_friends': true,
+          'mana_mana': true,
+          'meet_old_wizard': true,
+          'meteor': true,
+          'meteor_metal': true,
+          'milk': true,
+          'murderer': true,
+          'need_for_speed': true,
+          'nuclear_fusion_paper': true,
+          'older': true,
+          'pet_badger_mushrooms': true,
+          'pet_black_cat': true,
+          'pet_rainbow_lorikeet': true,
+          'pet_red_eyed_unicorn': true,
+          'pet_squirrel': true,
+          'pileup': true,
+          'princess': true,
+          'princess_castle': true,
+          'progress_loop': true,
+          'rabbit_foot': true,
+          'rabbit_hole': true,
+          'rachel': true,
+          'raining_dwarves': true,
+          'raining_elves': true,
+          'random_blessing': true,
+          'rare_goods_seller': true,
+          'refreshing_nap': true,
+          'rematch': true,
+          'ribert': true,
+          'riddle_of_steel': true,
+          'rings_of_power': true,
+          'save_world_again': true,
+          'sentients_killing': true,
+          'side_quests': true,
+          'so_many_potions': true,
+          'socketed_item': true,
+          'soul_weapon_pet_zombie': true,
+          'square_eggs': true,
+          'stare_cup': true,
+          'sword_in_a_lake': true,
+          'sword_in_rock': true,
+          'talk_to_all_villagers': true,
+          'treasure_in_pots': true,
+          'unmatched_set': true,
+          'useless': true,
+          'vampire_castle': true,
+          'village_farmwork': true,
+          'village_gifts_blacksmith': true,
+          'village_lost_father': true,
+          'village_lost_kid': true,
+          'village_nice_daughter': true,
+          'village_strongman': true,
+          'walk_in_mordor': true,
+          'waterfall': true,
+          'weird_duck': true,
+          'wise_wisewood_tree': true,
+          'witch_riddle': true
+        },
+        'encountered_monsters': {
+          'ant': true,
+          'baby chick': true,
+          'bat': true,
+          'bear': true,
+          'bee': true,
+          'blowfish': true,
+          'butterfly': true,
+          'camel': true,
+          'cat': true,
+          'caterpillar': true,
+          'chicken': true,
+          'chipmunk': true,
+          'crab': true,
+          'dahu': true,
+          'deer': true,
+          'dolphin': true,
+          'dove': true,
+          'dragon': true,
+          'dromedary': true,
+          'drop bear': true,
+          'eagle': true,
+          'ewe': true,
+          'fox': true,
+          'frog': true,
+          'fur-bearing truit': true,
+          'ghost': true,
+          'goat': true,
+          'golem': true,
+          'gorilla': true,
+          'hamster': true,
+          'hatching chick': true,
+          'hoop snake': true,
+          'horse': true,
+          'joint snake': true,
+          'koala': true,
+          'lizard': true,
+          'monkey': true,
+          'octopus': true,
+          'owl': true,
+          'ox': true,
+          'panda': true,
+          'penguin': true,
+          'pig': true,
+          'pigeon': true,
+          'poodle': true,
+          'ram': true,
+          'rat': true,
+          'rhinoceros': true,
+          'scorpion': true,
+          'shark': true,
+          'shrimp': true,
+          'snail': true,
+          'snake': true,
+          'spider': true,
+          'splintercat': true,
+          'spreading adder': true,
+          'squid': true,
+          'tiger': true,
+          'tropical fish': true,
+          'turkey': true,
+          'turtle': true,
+          'unicorn': true,
+          'water buffalo': true,
+          'whale': true,
+          'wolf': true
+        },
+        'fight_lost_count': 49,
+        'fight_won_count': 73,
+        'good_play_count': 1028,
+        'good_play_count_by_active_class': {
+          'knight': 7,
+          'summoner': 1021
+        },
+        'has_account': false,
+        'is_registered_alpha_player': false,
+        'items_gained': 132,
+        'last_visited_timestamp': '20200804',
+        'tokens_gained': 44
+      },
+      'wiki': null
+    },
+    'wallet': {
+      'coin_count': 669470,
+      'revision': 336,
+      'schema_version': 1,
+      'token_count': 44
+    }
+  }
+}, {}));
+/*const FAKE_DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib_SEC(), {
+    schema_version: SCHEMA_VERSION,
+
+    u_state: {
+        schema_version: SCHEMA_VERSION,
+        revision: 203,
+        last_user_action_tms: TEST_TIMESTAMP_MS,
+
+        creation_date: get_human_readable_UTC_timestamp_minutes(new Date(TEST_TIMESTAMP_MS)),
+
+        avatar: Character.DEMO_STATE,
+        inventory: Inventory.DEMO_STATE,
+        wallet: Wallet.DEMO_STATE,
+        prng: PRNG.DEMO_STATE,
+        energy: Energy.DEMO_U_STATE,
+        engagement: Engagement.acknowledge_all_seen(Engagement.DEMO_STATE),
+        codes: Codes.DEMO_STATE,
+        progress: Progress.DEMO_STATE,
+        meta: MetaState.DEMO_STATE,
+        last_adventure: DEMO_ADVENTURE_01,
+    },
+
+    t_state: {
+        schema_version: SCHEMA_VERSION,
+        revision: 1,
+        timestamp_ms: TEST_TIMESTAMP_MS,
+
+        energy: Energy.DEMO_T_STATE,
+    },
+}, {}))*/
+/////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/selectors/meta.js
+/////////////////////
+function has_account(state) {
+  return state.u_state.meta.is_logged_in;
+}
+
+function is_alpha() {
+  return true; // TODO alpha
+}
+
+function is_player_since_alpha(state) {
+  return true; // TODO check date
+}
+
+function is_registered_alpha_player(state) {
+  return state.u_state.meta.roles.includes('tbrpg:alpha');
+}
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/data/codes.js
+
+
+ ////////////
+// TODO move data outside?
+// for test only
+
+const TEST_CODES = {
+  TESTNOTIFS: {
+    redeem_limit: null,
+    is_redeemable: () => true
+  },
+  TESTACH: {
+    redeem_limit: null,
+    is_redeemable: () => true
+  },
+  REBORNX: {
+    redeem_limit: null,
+    is_redeemable: () => is_alpha()
+  }
+};
+const ALPHA_CODES = {
+  REBORN: {
+    redeem_limit: null,
+    is_redeemable: () => is_alpha()
+  },
+  ALPHATWINK: {
+    redeem_limit: 1,
+    is_redeemable: () => is_alpha()
+  }
+};
+const POWER_CODES = {
+  BORED: {
+    redeem_limit: null,
+    is_redeemable: (state, progress_state) => {
+      const has_energy_depleted = energy_get_available_energy_float(state.t_state) < 1.;
+      if (!has_energy_depleted) return false;
+      if (!progress_state.redeemed_codes['BORED']) return true;
+      const now_minutes = Object(src_es2019_generate["f" /* get_human_readable_UTC_timestamp_minutes */])();
+      const last_redeem_date_minutes = progress_state.redeemed_codes['BORED'].last_redeem_date_minutes;
+      const is_same_day = now_minutes.slice(0, 8) === last_redeem_date_minutes.slice(0, 8);
+      return !is_same_day;
+    }
+  },
+  // https://en.wikipedia.org/wiki/Colossal_Cave_Adventure
+  XYZZY: {
+    redeem_limit: null,
+    is_redeemable: () => true
+  },
+  PLUGH: {
+    redeem_limit: null,
+    is_redeemable: () => true
+  }
+};
+const RAW_CODES = { ...TEST_CODES,
+  ...ALPHA_CODES,
+  ...POWER_CODES
+}; ////////////
+
+const ALL_CODESPECS = Object.keys(RAW_CODES).map(key => {
+  const {
+    code,
+    redeem_limit,
+    is_redeemable
+  } = RAW_CODES[key];
+  if (code) throw new Error(`Code entry "${key}" redundantly specifies a code!`);
+  if (key !== src_es2019_normalize_code(key)) throw new Error(`Code entry "${key}" should have normalized form "${src_es2019_normalize_code(key)}"!`);
+  return {
+    code: key,
+    redeem_limit,
+    is_redeemable
+  };
+});
+const CODE_SPECS_BY_KEY = ALL_CODESPECS.reduce((acc, code_spec) => {
+  acc[code_spec.code] = code_spec;
+  return acc;
+}, {}); ////////////
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/codes.js
+/////////////////////
+
+ /////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /////////////////////
+
+function codes_attempt_to_redeem_code(_state, code, now_ms = Object(src_es2019_generate["d" /* get_UTC_timestamp_ms */])()) {
+  let previous_state = _state; // allow null for special manipulation such as reset
+
+  let updated_state = _state; // for now
+
+  let state = _state; // for now
+
+  let engagement_key = EngagementKey['code_redemption--failed']; // so far
+
+  const engagement_params = {};
+  code = src_es2019_normalize_code(code);
+  const code_spec = CODE_SPECS_BY_KEY[code];
+
+  if (!code_spec || !is_code_redeemable(state.u_state.codes, code_spec, state)) {// nothing to do,
+    // will trigger an engagement rejection below
+  } else {
+    updated_state = _update_to_now(previous_state, now_ms); // need to compare to an updated
+
+    state = updated_state;
+    state = { ...state,
+      u_state: { ...state.u_state,
+        codes: attempt_to_redeem_code(state.u_state.codes, code_spec, state)
+      }
+    };
+    engagement_key = EngagementKey['code_redemption--succeeded'];
+    engagement_params.code = code; // spread them for convenience
+    // BE CAREFUL!
+
+    let {
+      u_state,
+      t_state
+    } = state;
+
+    switch (code) {
+      case 'TESTNOTIFS':
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.flow,
+            key: EngagementKey['hello_world--flow']
+          }, {
+            // TODO make flow have semantic levels as well!
+            name: 'flow from TESTNOTIFS'
+          })
+        };
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.aside,
+            key: EngagementKey['hello_world--aside']
+          }, {
+            name: 'aside default from TESTNOTIFS'
+          })
+        };
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.aside,
+            key: EngagementKey['hello_world--aside']
+          }, {
+            semantic_level: 'error',
+            name: 'aside error from TESTNOTIFS'
+          })
+        };
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.aside,
+            key: EngagementKey['hello_world--aside']
+          }, {
+            semantic_level: 'warning',
+            name: 'aside warning from TESTNOTIFS'
+          })
+        };
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.aside,
+            key: EngagementKey['hello_world--aside']
+          }, {
+            semantic_level: 'info',
+            name: 'aside info from TESTNOTIFS'
+          })
+        };
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.aside,
+            key: EngagementKey['hello_world--aside']
+          }, {
+            semantic_level: 'success',
+            name: 'aside success from TESTNOTIFS'
+          })
+        };
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.warning,
+            key: EngagementKey['hello_world--warning']
+          }, {
+            name: 'warning from TESTNOTIFS'
+          })
+        };
+        break;
+
+      case 'TESTACH':
+        // complicated, but will auto-re-gain this achievement
+        u_state = { ...u_state,
+          //					progress: ProgressState.on_achieved(u_state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
+          progress: { ...u_state.progress,
+            achievements: { ...u_state.progress.achievements,
+              'TEST': AchievementStatus.revealed
+            }
+          }
+        };
+        break;
+
+      case 'BORED':
+        {
+          t_state = { ...t_state,
+            energy: restore_energy([u_state.energy, t_state.energy], 1.)
+          };
+          break;
+        }
+
+      case 'XYZZY':
+        // http://www.plover.net/~davidw/sol/xyzzy.html
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.flow,
+            key: EngagementKey['just-some-text']
+          }, {
+            // http://rickadams.org/adventure/d_hints/hint024.html
+            text: 'fee fie foe foo ;)'
+          })
+        };
+        break;
+
+      case 'PLUGH':
+        // http://www.plover.net/~davidw/sol/plugh.html
+        u_state = { ...u_state,
+          engagement: enqueue(u_state.engagement, {
+            type: EngagementType.flow,
+            key: EngagementKey['just-some-text']
+          }, {
+            text: 'A hollow voice says "Ahhhhhhh".'
+          })
+        };
+        break;
+
+      case 'REBORNX':
+        previous_state = updated_state = null; // since we completely recreate the state
+
+        state = reseed(state); // force random reseed to see new stuff
+
+        state = reset_and_salvage(state);
+        u_state = state.u_state;
+        t_state = state.t_state;
+        u_state = { ...u_state,
+          progress: on_achieved(u_state.progress, 'Reborn!', AchievementStatus.unlocked)
+        };
+        break;
+
+      case 'REBORN':
+        previous_state = updated_state = null; // since we completely recreate the state
+
+        state = reset_and_salvage(state);
+        u_state = state.u_state;
+        t_state = state.t_state;
+        u_state = { ...u_state,
+          progress: on_achieved(u_state.progress, 'Reborn!', AchievementStatus.unlocked)
+        };
+        break;
+
+      case 'ALPHATWINK':
+        {
+          const rng = get_prng(u_state.prng);
+          const weapon = state_create(rng, {
+            quality: ItemQuality.artifact,
+            qualifier2_hid: 'twink'
+          });
+          const armor = logic_armors_dist_src_es2019_state_create(rng, {
+            quality: ItemQuality.artifact,
+            qualifier2_hid: 'twink'
+          });
+          u_state = { ...u_state,
+            prng: update_use_count(u_state.prng, rng, 6)
+          };
+          state = { ...state,
+            u_state,
+            t_state
+          };
+          state = _auto_make_room(state);
+          state = _receive_item(state, weapon);
+          state = _auto_make_room(state);
+          state = _receive_item(state, armor);
+          u_state = state.u_state;
+          t_state = state.t_state;
+          break;
+        }
+
+      default:
+        throw new Error(`Internal error: code "${code}" not implemented!`);
+    } // re-assemble
+
+
+    state = { ...state,
+      u_state,
+      t_state
+    };
+  } // enqueue the result
+
+
+  state = { ...state,
+    u_state: { ...state.u_state,
+      engagement: enqueue(state.u_state.engagement, {
+        type: EngagementType.flow,
+        key: engagement_key
+      }, engagement_params)
+    }
+  };
+  state = _refresh_achievements(state);
+  if (previous_state) state = Object(utils["b" /* complete_or_cancel_eager_mutation_propagating_possible_child_mutation */])(previous_state, state, updated_state || undefined, `attempt_to_redeem_code(${code})`);
+  return state;
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/reducers/index.js
+
+
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/selectors/achievements.js
+
+
+ /////////////////////
+
+function get_achievement_snapshot(u_state, definition) {
+  const {
+    session_uuid,
+    name,
+    icon,
+    description,
+    lore,
+    get_completion_rate
+  } = definition; // we check this and not get_status since unlock is "sticky" (by design) and get_status may not be
+
+  const status = get_last_known_achievement_status(u_state.progress, name);
+  return {
+    uuid: session_uuid,
+    element_type: ElementType.achievement_snapshot,
+    name,
+    icon,
+    description,
+    lore,
+    status: status,
+    completion_rate: get_completion_rate ? get_completion_rate(u_state) : undefined
+  };
+}
+
+function get_achievement_snapshot_by_temporary_id(u_state, temporary_id) {
+  const definition = achievements.find(d => d.session_uuid === temporary_id);
+  if (!definition) throw new Error(`No achievement definition found for temporary_id "${temporary_id}"!`);
+  return get_achievement_snapshot(u_state, definition);
+}
+
+function get_achievements_snapshot(u_state) {
+  return achievements.map(definition => {
+    return get_achievement_snapshot(u_state, definition);
+  }).filter(as => as.status !== AchievementStatus.secret);
+}
+
+function get_achievements_completion(u_state) {
+  const snapshot = get_achievements_snapshot(u_state);
+  const unlocked_ach_count = snapshot.filter(as => as.status === AchievementStatus.unlocked).length;
+  return [unlocked_ach_count, snapshot.length];
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/9-oh-my-rpg/state-engagement/dist/src.es2019/selectors.js
+ /////////////////////
+
+function get_oldest_queued_flow(state) {
+  return state.queue.find(queued => queued.engagement.type === EngagementType.flow);
+}
+
+function get_oldest_queued_non_flow(state) {
+  return state.queue.find(queued => queued.engagement.type !== EngagementType.flow);
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/selectors/others.js
+
+
+
+
+
+ /////////////////////
+// TODO power
+
+function appraise_player_power(u_state) {
+  let power = 1;
+  ITEM_SLOTS.forEach(slot => {
+    const item = get_item_in_slot(u_state.inventory, slot);
+
+    if (item) power += appraise_power(item);
+  }); // TODO appraise attributes relative to class
+
+  return power;
+}
+
+function find_element(u_state, uuid) {
+  // only inventory for now
+  let possible_achievement = null;
+
+  try {
+    possible_achievement = get_achievement_snapshot_by_temporary_id(u_state, uuid);
+  } catch (err) {// not found, swallow
+  }
+
+  return possible_achievement || get_item(u_state.inventory, uuid);
+} // TODO code duplication
+
+
+function get_oldest_pending_flow_engagement(u_state) {
+  const pe = get_oldest_queued_flow(u_state.engagement);
+  if (!pe) return null;
+  return {
+    uid: pe.uid,
+    $doc: get_engagement_message(pe),
+    pe
+  };
+}
+
+function get_oldest_pending_non_flow_engagement(u_state) {
+  const pe = get_oldest_queued_non_flow(u_state.engagement);
+  if (!pe) return null;
+  return {
+    uid: pe.uid,
+    $doc: get_engagement_message(pe),
+    pe
+  };
+} /////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/selectors/index.js
+
+
+
+
+
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/types.js
+ /////////////////////
+
+const GainType = Object(dist["Enum"])( // Note: must match properties in Adventure['gains']
+'level', 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck', 'coin', 'token', 'weapon', 'armor', 'improvementⵧweapon', 'improvementⵧarmor'); /////////////////////
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/index.js
+
+
+
+
+
+
+
+
+
 
 /***/ })
 /******/ ])));

@@ -49,7 +49,7 @@ if (overrideHook('should_start_paused', false)) {
 }
 
 schedule_when_idle_but_within_human_perception(() => {
-	console.log('starting react…')
+	console.log('🔄 starting react…')
 	ReactDOM.render(
 		<ErrorBoundary name={'tbrpg_root'}>
 			<Root />
