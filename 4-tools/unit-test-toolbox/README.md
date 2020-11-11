@@ -10,17 +10,16 @@ This modules bundles:
 * `chai-as-promised`
 * `chai-subset`
 * `chai-moment`
+* (optional) `chai-fetch-mock`
 * `eslint-plugin-mocha` and `eslint-plugin-chai-expect`
+* all corresponding TypeScript types
+* `@offirmo/universal-debug-api-node`
 
 It also exposes:
 - a pre-made plumbing for:
   - activating the `chai.expect` interface
-  - activating correctly the chai plugins: `sinon-chai`, `chai-as-promised`, `chai-subset`, `chai-moment`
+  - activating correctly the chai plugins: `sinon-chai`, `chai-as-promised`, `chai-subset`, `chai-moment`, [`chai-fetch-mock` if present]
 - a pre-made mocha options file
-
-**In progress**:
-- working on integrating sinon properly
-- working on typescript compatibility
 
 
 ## Introduction - the problem

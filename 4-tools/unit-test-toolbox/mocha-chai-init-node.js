@@ -8,6 +8,9 @@ try {
 		console.warn('(@offirmo/universal-debug-api-node install skipped, require() error)')
 }
 
+// NON-CONTRIBUTORS: ignore this try/catch if just using "unit-test-toolbox', won't affect your env
+// Offirmo-monorepo contributors: it's for setting up private modules from the monorepo
+// TODO improve monorepo detection
 try {
 	let secnode, udanode
 	try {
@@ -31,7 +34,7 @@ try {
 	const { getLogger } = udanode
 	getRootSEC().injectDependencies({ logger: getLogger({ suggestedLevel: 'silly' }) })
 } catch (err) {
-	// private monorepo case where this module is not available / broken / not built yet
+	// monorepo case where this module is not available / broken / not built yet
 	if (process.env['OFFIRMO_IS_HERE'])
 		console.warn('(@offirmo-private/soft-execution-context-node init skipped, require() error)')
 }
