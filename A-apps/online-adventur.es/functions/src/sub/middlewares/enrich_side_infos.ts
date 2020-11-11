@@ -3,7 +3,7 @@ import {
 	OAServerResponseBody,
 	create_server_response_body__data,
 	create_server_response_body__error,
-} from '@online-adventur.es/functions-interface'
+} from '@online-adventur.es/api-interface'
 import { VERSION, NUMERIC_VERSION, SCHEMA_VERSION } from '@tbrpg/state'
 
 import {

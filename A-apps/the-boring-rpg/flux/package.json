@@ -35,7 +35,7 @@
 		"@oh-my-rpg/state-inventory": "^0",
 		"@oh-my-rpg/state-prng": "^0",
 		"@oh-my-rpg/state-progress": "^0",
-		"@online-adventur.es/functions-interface": "^0",
+		"@online-adventur.es/api-client": "^0",
 		"@tbrpg/interfaces": "^0",
 		"@tbrpg/state": "^0",
 		"dequal": "^2",

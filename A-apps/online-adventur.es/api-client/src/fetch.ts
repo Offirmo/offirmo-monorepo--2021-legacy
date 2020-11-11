@@ -3,8 +3,12 @@ import { XXError, createError } from '@offirmo-private/error-utils'
 import { getRootSEC, SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
-import { ReleaseChannel, OAServerResponseBody, OAResponse } from './types'
-import { get_api_base_url } from './utils'
+import {
+	ReleaseChannel,
+	OAServerResponseBody,
+	OAResponse,
+	get_api_base_url,
+} from '@online-adventur.es/api-interface'
 
 /////////////////////////////////////////////////
 
@@ -15,11 +19,10 @@ type FetchResponse = typeof ResponseV
 
 /////////////////////////////////////////////////
 
-const _state = {
+const _state = { // TODO improve
 	request_count: 0, // for logging
 	error_count: 0, // circuit breaker to avoid killing Netlify free tier
 }
-
 
 export async function fetch_oa<Req, Res>({
 	SEC = getRootSEC(),

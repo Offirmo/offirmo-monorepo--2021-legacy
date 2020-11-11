@@ -8,8 +8,29 @@
 
 	"size-limit": [
 		{
-			"limit": "1.5kb",
-			"path": "functions/whoami.js"
+			"limit": "250MB",
+			"path": "functions/",
+			"gzip": false
+		},
+		{
+			"limit": "50MB",
+			"path": "functions/",
+			"gzip": true
+		},
+		{
+			"limit": "100kb",
+			"path": "functions/hello-world.js",
+			"gzip": false
+		},
+		{
+			"limit": "3MB",
+			"path": "functions/key-value.js",
+			"gzip": false
+		},
+		{
+			"limit": "2MB",
+			"path": "functions/whoami.js",
+			"gzip": false
 		}
 	],
 
@@ -26,7 +47,7 @@
 		"@offirmo/universal-debug-api-node": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
-		"@online-adventur.es/functions-interface": "^0",
+		"@online-adventur.es/api-interface": "^0",
 		"@sentry/node": "^5",
 		"@tbrpg/state": "^0",
 		"json-stable-stringify": "^1",
@@ -45,6 +66,7 @@
 		"build:prod": "node ../../../0-scripts/build-typescript.js --onlyNode",
 		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"ensure-privacy": "grep --null -RIl `whoami` functions/* | xargs -0 sed -i '' -e s/`whoami`/offirmo/g",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean refresh-build-variables build:dev:watch",
 		"start": "NODE_ENV=development node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
@@ -53,8 +75,10 @@
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^6",
+		"@size-limit/file": "^4",
 		"@types/aws-lambda": "^8",
 		"netlify-lambda": "^2",
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"size-limit": "^4"
 	}
 }

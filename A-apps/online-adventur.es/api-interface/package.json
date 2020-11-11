@@ -1,5 +1,5 @@
 {
-	"name": "@online-adventur.es/functions-interface",
+	"name": "@online-adventur.es/api-interface",
 	"description": "Helpers to access functions",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -14,14 +14,11 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"@offirmo-private/soft-execution-context": "^0",
 		"tslib": "^2"
 	},
 	"dependencies": {
 		"@offirmo-private/error-utils": "^0",
-		"@offirmo-private/state-utils": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
-		"fetch-ponyfill": "^7",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
@@ -29,7 +26,6 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist",
 
-		"xtest": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
 

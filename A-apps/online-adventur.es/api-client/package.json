@@ -1,0 +1,46 @@
+{
+	"name": "@online-adventur.es/api-client",
+	"description": "Isomorpfic fetch client to call online-adventur.es API",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
+		"tslib": "^2"
+	},
+	"dependencies": {
+		"@offirmo-private/error-utils": "^0",
+		"@offirmo-private/state-utils": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
+		"@online-adventur.es/api-interface": "^0",
+		"fetch-ponyfill": "^7",
+		"tiny-invariant": "^1",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js …dist",
+
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/universal-debug-api-node": "^0",
+		"npm-run-all": "^4",
+		"typescript": "^4"
+	}
+}

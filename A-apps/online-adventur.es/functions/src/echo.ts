@@ -7,7 +7,7 @@ process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 import '@offirmo/universal-debug-api-node'
 
-import { create_server_response_body__data } from '@online-adventur.es/functions-interface'
+import { create_server_response_body__data } from '@online-adventur.es/api-interface'
 
 import {
 	APIGatewayEvent,

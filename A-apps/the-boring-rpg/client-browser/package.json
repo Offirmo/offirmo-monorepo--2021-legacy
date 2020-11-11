@@ -31,7 +31,7 @@
 		"@oh-my-rpg/rsrc-backgrounds": "^0",
 		"@oh-my-rpg/view-browser-react": "^0",
 		"@oh-my-rpg/view-rich-text": "^0",
-		"@online-adventur.es/functions-interface": "^0",
+		"@online-adventur.es/api-client": "^0",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0",
 		"@tbrpg/state": "^0",

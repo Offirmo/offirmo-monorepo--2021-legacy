@@ -29,6 +29,8 @@ Notes:
   * Netlify:
     * ensure AWS_LAMBDA_JS_RUNTIME = "nodejsXX.x" is valid in `netlify.toml`
     * in admin change AWS_LAMBDA_JS_RUNTIME = nodeXX.x or sth
+  * sibling repos
+    * adjust `.nvmrc` and `netlify.toml` in online-adventures.github.io
 
 
 

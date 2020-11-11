@@ -17,7 +17,7 @@ import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 import * as TBRPGState from '@tbrpg/state'
 import { State, SCHEMA_VERSION, NUMERIC_VERSION } from '@tbrpg/state'
 import { Action, ActionType, create_action__set } from '@tbrpg/interfaces'
-import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/functions-interface'
+import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/api-client'
 
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store, Dispatcher } from '../../types'

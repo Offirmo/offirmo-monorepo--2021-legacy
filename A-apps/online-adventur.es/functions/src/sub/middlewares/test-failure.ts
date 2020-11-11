@@ -11,16 +11,17 @@ import { APIGatewayEvent, XSoftExecutionContext, NetlifyContext, Response} from 
 export const FailureMode = Enum(
 	'none',
 	'manual',
-	'uncaught-sync',
-	'uncaught-async',
+	'throw-sync',
+	'throw-sync-non-error',
+	'throw-async',
 	'timeout',
 	'rejection',
 	'unhandled-rejection',
 	'bad-status-code',
-	'non-json-body',
+	'non-json-stringified-body',
 	'non-stringified-body',
 	'non-stringifiable-body',
-	'no-response',
+	'no-response-set',
 )
 export type FailureMode = Enum<typeof FailureMode> // eslint-disable-line no-redeclare
 
@@ -36,11 +37,12 @@ export async function test_failure(
 	const mode = (event.queryStringParameters && event.queryStringParameters.mode) || undefined
 	const { logger } = SEC.getInjectedDependencies()
 
-	assert(!mode || Enum.isType(FailureMode, mode), `Invalid mode, should be one of: ` + Enum.values(FailureMode).join(', '))
+	assert(!mode || Enum.isType(FailureMode, mode), `Invalid mode, should be one and only one of: ` + Enum.values(FailureMode).join(', '))
 
 	logger.info('[MW test_failure] will cause failure:', mode)
 
-	// starts with a response manually set to a succes,
+	const initial_unset_body = response.body
+	// starts with a response manually set to a success,
 	// to check that an error will overwrite it properly
 	response.statusCode = 200
 	response.body = JSON.stringify('XXX You should NOT see that, there should be an error!')
@@ -60,22 +62,25 @@ export async function test_failure(
 			break
 
 		case FailureMode['manual']:
-			// bad idea but possible
+			// bad idea (should throw instead) but possible
 			response.statusCode = get_test_err().statusCode!
 			response.body = get_test_err().message
 			break
 
-		case FailureMode['uncaught-sync']:
+		case FailureMode['throw-sync']:
 			throw get_test_err()
 
-		case FailureMode['uncaught-async']:
+		case FailureMode['throw-sync-non-error']:
+			throw 'baaad!'
+
+		case FailureMode['throw-async']:
 			return new Promise(() => {
 				setTimeout(() => { throw get_test_err() }, 100)
 			})
 
 		case FailureMode['timeout']:
 			return new Promise(() => {
-				// nothing
+				// no resolution
 			})
 
 		case FailureMode['rejection']:
@@ -93,17 +98,16 @@ export async function test_failure(
 			response.statusCode = 'foo' as any
 			break
 
-		case FailureMode['non-json-body']:
-			response.statusCode = 200
-			response.body = "this is bad!"
-			break
-
 		case FailureMode['non-stringified-body']:
 			response.statusCode = 200
+			// eventually, decided to support this, too convenient
+			// = won't result in an error
+			// see also next case
 			response.body = { foo: 42 } as any
 			break
 
 		case FailureMode['non-stringifiable-body']:
+			// auto-stringification ust be possible
 			const foo: any = { val: 42 }
 			foo.foo = foo
 			response.statusCode = 200
@@ -113,12 +117,19 @@ export async function test_failure(
 			} as any
 			break
 
-		case FailureMode['no-response']:
+		case FailureMode['non-json-stringified-body']:
+			response.statusCode = 200
+			// body should always be JSON.parse()-able
+			response.body = "this is bad!"
+			break
+
+		case FailureMode['no-response-set']:
+			// pretend we didn't set the body
+			response.body = initial_unset_body
 			break
 
 		default:
-			response.statusCode = HTTP_STATUS_CODE.error.server.not_implemented
-			response.body = `Failure test: mode "${mode}" not implemented!`
-			break
+			// should have been caught earlier
+			throw new Error('Should never happen!')
 	}
 }

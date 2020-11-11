@@ -11,7 +11,7 @@ import {
 	create_server_response_body__data,
 	create_server_response_body__error,
 	is_server_response_body,
-} from '@online-adventur.es/functions-interface'
+} from '@online-adventur.es/api-interface'
 import { end_of_current_event_loop } from '@offirmo-private/async-utils'
 
 import {

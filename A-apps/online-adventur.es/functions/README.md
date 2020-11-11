@@ -10,6 +10,11 @@
 export UDA_OVERRIDE__LOGGER_OA∙API_LOGLEVEL=\"silly\" \
 
 
+## Notes
+official AWS lambda limits: https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html
+* 50Mo zipped, 250Mo unzipped
+
+
 ## Tosort
 doc:
 * packaging

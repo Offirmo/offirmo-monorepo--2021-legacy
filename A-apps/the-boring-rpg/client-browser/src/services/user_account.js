@@ -8,7 +8,7 @@ import { poll } from '@offirmo-private/poll-window-variable'
 import Deferred from '@offirmo/deferred'
 //import fetch from '@tbrpg/flux/src/utils/fetch'
 import { load_script_from_top, execute_from_top, get_log_symbol, get_top_ish_window } from '@offirmo-private/xoff'
-import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/functions-interface'
+import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/api-client'
 
 import { CHANNEL } from './channel'
 import { ACCOUNT_STATE } from './game-instance-browser'

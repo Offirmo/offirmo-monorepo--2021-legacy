@@ -2,7 +2,7 @@ import { Enum } from 'typescript-string-enums'
 
 /////////////////////////////////////////////////
 
-export const LIB = '@online-adventur.es/functions-interface'
+export const LIB = '@online-adventur.es/api-interface'
 
 /////////////////////////////////////////////////
 
