@@ -19,25 +19,29 @@ export default async function handle_cors(
 	next: Function
 ): Promise<void> {
 	await SEC.xPromiseTry('handle_cors()', async ({ SEC, logger, CHANNEL }) => {
-		logger.log(`handling CORS for ${event.path}…`)
-
-		const origin = event.headers.origin
+		const advertised_origin = event.headers.origin
+		const method = event.httpMethod.toUpperCase()
 		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
-		if (origin !== expected_origin && !expected_origin.startsWith('http://localhost')) {
-			logger.warn('rejecting due to wrong origin', {expected_origin, origin})
-			throw create_error(HTTP_STATUS_CODE.error.client.forbidden, {
-				expected_origin,
-				origin,
-			}, SEC)
+		logger.log(`handling CORS…`, { path: event.path, method, origin: advertised_origin, expected_origin })
+
+		if (advertised_origin) { // from headers, not always here
+			if (advertised_origin !== expected_origin) {
+				logger.warn('rejecting due to wrong advertised_origin', { expected_origin, origin: advertised_origin })
+				throw create_error(HTTP_STATUS_CODE.error.client.forbidden, {
+					expected_origin,
+					origin: advertised_origin,
+				}, SEC)
+			}
 		}
 
-		if (event.httpMethod.toUpperCase() === 'OPTIONS') {
+		if (method === 'OPTIONS') {
 			logger.log(`handling CORS preflight for ${event.path}…`, { headers: event.headers })
 
 			response.statusCode = 200
 			response.headers['Access-Control-Allow-Headers'] = [
-				'authorization', // needed by our Netlify setup
-				'content-type', // we use it even when not mandatory
+				// allowed headers:
+				'authorization', // used by Netlify Auth
+				'content-type', // we use it, even when not mandatory
 			].join(',')
 			response.body = JSON.stringify('OK')
 		}

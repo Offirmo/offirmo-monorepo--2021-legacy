@@ -206,7 +206,11 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 										case 'Date':
 											return o.stylize_dim(`/*${(obj as any)[o.date_serialization_fn]()}*/`)
 
+										// node
 										case 'Buffer':
+											// too big!
+											return '/*…*/'
+										case 'Gunzip': // seen in fetch_ponyfill response
 											// too big!
 											return '/*…*/'
 
@@ -219,7 +223,8 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 												return o.stylize_error(o.quote + err.message + o.quote)
 											}
 
-											// NO! This can turn into a huge thing, ex. a fetch response
+											// Beware! This can turn into a huge thing, ex. a fetch response
+											// REM we MUST have skip_constructor = true to avoid infinite loops
 											return o.prettify_object(obj, st, { skip_constructor: true })
 											//return '/*…*/'
 									}

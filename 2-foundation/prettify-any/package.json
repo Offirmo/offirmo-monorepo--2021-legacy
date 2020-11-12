@@ -34,6 +34,7 @@
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^6",
 		"chalk": "^4",
+		"fetch-ponyfill": "^7",
 		"npm-run-all": "^4"
 	}
 }

@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import { render as prettify_json } from 'prettyjson'
+import fetch_ponyfill from 'fetch-ponyfill'
 
 import { inject_lib__chalk } from './injectable-lib--chalk'
 inject_lib__chalk(chalk)
@@ -7,6 +8,8 @@ inject_lib__chalk(chalk)
 import {
 	prettify_any as _prettify_any,
 } from './v2'
+
+const { fetch } = fetch_ponyfill()
 
 
 describe('@offirmo-private/prettify-any', function() {
@@ -322,10 +325,19 @@ describe('@offirmo-private/prettify-any', function() {
 				console.log('☐ prettify_any(…):', prettify_any(deep_mixed))
 			})
 
+			it('should be able to handle deep objects - fetch', () => {
+				const ↆf = fetch('https://www.google.com')
+
+				return ↆf.then(
+					(fetch_raw_result: any) => {
+						test_to_console(fetch_raw_result)
+					}
+				)
+			})
+
 			it('should be able to handle huge blobs', () => {
 				console.log('☐ prettify_any(…):', prettify_any(process.env))
 			})
 		})
-
 	})
 })
