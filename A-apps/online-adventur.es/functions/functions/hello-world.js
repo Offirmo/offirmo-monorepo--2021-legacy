@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 564);
+/******/ 	return __webpack_require__(__webpack_require__.s = 558);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(104);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(53);
+const ansiStyles = __webpack_require__(102);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(51);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(109);
+} = __webpack_require__(107);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(110);
+		template = __webpack_require__(108);
 	}
 
 	return template(chalk, parts.join(''));
@@ -323,7 +323,7 @@ module.exports = chalk;
 
 /***/ }),
 
-/***/ 104:
+/***/ 102:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -369,7 +369,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(105);
+		colorConvert = __webpack_require__(103);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -491,15 +491,15 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(41)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(39)(module)))
 
 /***/ }),
 
-/***/ 105:
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(58);
-const route = __webpack_require__(107);
+const conversions = __webpack_require__(56);
+const route = __webpack_require__(105);
 
 const convert = {};
 
@@ -583,7 +583,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 106:
+/***/ 104:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -743,10 +743,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 107:
+/***/ 105:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(58);
+const conversions = __webpack_require__(56);
 
 /*
 	This function routes a model to all other models.
@@ -847,7 +847,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 108:
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -863,7 +863,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 109:
+/***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -910,7 +910,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 110:
+/***/ 108:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1052,507 +1052,6 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 111:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.is_pure_json = exports.dump_prettified_any = exports.prettify_json = exports.prettify_any = void 0;
-
-const options_1 = __webpack_require__(112); ////////////////////////////////////
-
-
-function create_state(options) {
-  return {
-    o: options_1.get_options(options),
-    circular: new WeakSet()
-  };
-}
-
-function prettify_any(js, options = {}) {
-  try {
-    const st = create_state(options_1.get_options(options));
-    return st.o.prettify_any(js, st);
-  } catch (err) {
-    return `[error prettifying:${err.message}]`;
-  }
-}
-
-exports.prettify_any = prettify_any;
-
-function prettify_json(js, options = {}) {
-  const st = create_state(options_1.get_options(options)); // TODO show not JSON
-
-  return st.o.prettify_any(js, st);
-}
-
-exports.prettify_json = prettify_json;
-
-function dump_prettified_any(msg, data, options = {}) {
-  console.log(msg);
-  console.log(prettify_any(data, options));
-}
-
-exports.dump_prettified_any = dump_prettified_any;
-
-function is_pure_json(js) {
-  return false;
-}
-
-exports.is_pure_json = is_pure_json;
-
-/***/ }),
-
-/***/ 112:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.get_options = exports.get_default_options = void 0;
-
-const options__compatible_1 = __webpack_require__(113);
-
-const options__ansi_1 = __webpack_require__(115);
-
-const injectable_lib__chalk_1 = __webpack_require__(59); ////////////////////////////////////////////////////////////////////////////////////
-
-
-function get_default_options() {
-  return { ...options__compatible_1.DEFAULTS_STYLE_OPTIONS,
-    ...options__compatible_1.DEFAULTS_PRETTIFY_OPTIONS,
-    ...options__compatible_1.DEFAULTS_STYLIZE_OPTIONS__NONE,
-    ...(injectable_lib__chalk_1.get_lib__chalk() && options__ansi_1.get_stylize_options_ansi(injectable_lib__chalk_1.get_lib__chalk()))
-  };
-}
-
-exports.get_default_options = get_default_options;
-
-function get_options(options = {}) {
-  return { ...get_default_options(),
-    ...options
-  };
-}
-
-exports.get_options = get_options;
-
-/***/ }),
-
-/***/ 113:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DEFAULTS_PRETTIFY_OPTIONS = exports.DEFAULTS_STYLIZE_OPTIONS__NONE = exports.DEFAULTS_STYLE_OPTIONS = void 0;
-
-const utils_1 = __webpack_require__(114); ////////////////////////////////////////////////////////////////////////////////////
-
-
-exports.DEFAULTS_STYLE_OPTIONS = {
-  max_width: null,
-  outline: false,
-  indent: 'tabs',
-  max_primitive_str_size: null,
-  should_recognize_constants: true,
-  should_recognize_globals: true,
-  quote: '\'',
-  date_serialization_fn: 'toLocaleString'
-};
-exports.DEFAULTS_STYLIZE_OPTIONS__NONE = {
-  stylize_dim: s => s,
-  stylize_suspicious: s => s,
-  stylize_error: s => s,
-  stylize_global: s => s,
-  stylize_primitive: s => s,
-  stylize_syntax: s => s,
-  stylize_user: s => s
-};
-const DEBUG = false;
-exports.DEFAULTS_PRETTIFY_OPTIONS = {
-  // TODO follow max string size
-  // primitives
-  prettify_string: (s, st) => {
-    const {
-      o
-    } = st;
-    return o.stylize_dim(o.quote) + o.stylize_user(s) + o.stylize_dim(o.quote);
-  },
-  prettify_number: (n, st) => {
-    const {
-      o
-    } = st;
-
-    if (o.should_recognize_constants) {
-      switch (n) {
-        case Number.EPSILON:
-          return o.stylize_global('Number.EPSILON');
-
-        case Number.MAX_VALUE:
-          return o.stylize_global('Number.MAX_VALUE');
-
-        case Number.MIN_VALUE:
-          return o.stylize_global('Number.MIN_VALUE');
-
-        case Number.MAX_SAFE_INTEGER:
-          return o.stylize_global('Number.MAX_SAFE_INTEGER');
-
-        case Number.MIN_SAFE_INTEGER:
-          return o.stylize_global('Number.MIN_SAFE_INTEGER');
-
-        case Math.PI:
-          return o.stylize_global('Math.PI');
-
-        case Math.E:
-          return o.stylize_global('Math.E');
-        // no more Math, seldom used
-
-        default: // fallback
-
-      }
-    }
-
-    return isNaN(n) ? o.stylize_error(String(n)) : utils_1.is_negative_zero(n) ? o.stylize_error('-0') : o.stylize_primitive(String(n));
-  },
-  prettify_bigint: (b, st) => {
-    const {
-      o
-    } = st;
-    return o.stylize_primitive(String(b) + 'n');
-  },
-  prettify_boolean: (b, st) => {
-    const {
-      o
-    } = st;
-    return o.stylize_primitive(String(b));
-  },
-  prettify_undefined: (u, st) => {
-    const {
-      o
-    } = st;
-    return o.stylize_suspicious(String(u));
-  },
-  prettify_symbol: (s, st) => {
-    const {
-      o
-    } = st;
-
-    try {
-      return '' + o.stylize_global('Symbol') + o.stylize_syntax('(') + (s.description ? o.prettify_string(s.description, st) : '') + o.stylize_syntax(')');
-    } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/ps]`);
-    }
-  },
-  // objects
-  prettify_function: (f, st, {
-    as_prop = false
-  } = {}) => {
-    const {
-      o
-    } = st;
-
-    if (f.name && globalThis[f.name] === f) {
-      return o.stylize_user(f.name);
-    }
-
-    let result = '';
-
-    if (f.name) {
-      if (!as_prop) {
-        // class detection may not work with Babel
-        result += o.stylize_syntax(f.toString().startsWith('class ') ? 'class ' : 'function ');
-      }
-
-      result += o.stylize_user(f.name);
-    }
-
-    result += o.stylize_syntax('()');
-    result += o.stylize_syntax(f.name ? ' ' : ' => ');
-    result += o.stylize_syntax('{');
-    result += o.stylize_dim('\/\*…\*\/');
-    result += o.stylize_syntax('}');
-    return result;
-  },
-  prettify_array: (a, st) => {
-    if (DEBUG) console.log('prettify_array', a);
-    st = { ...st,
-      circular: new Set([...Array.from(st.circular), a])
-    };
-    const {
-      o
-    } = st;
-    return o.stylize_syntax('[') + a.map(e => o.prettify_any(e, st)) // NOTE when fully empty, map won't execute (but it looks nice, no pb)
-    .join(o.stylize_syntax(',')) + o.stylize_syntax(']');
-  },
-  prettify_property_name: (p, st) => {
-    const {
-      o
-    } = st;
-
-    try {
-      switch (typeof p) {
-        case 'number':
-          return o.prettify_number(p, st);
-
-        case 'string':
-          {
-            // does it need to be quoted?
-            // https://mathiasbynens.be/notes/javascript-properties
-            return o.prettify_string(p, st);
-          }
-
-        case 'symbol':
-          return o.stylize_syntax('[') + o.prettify_symbol(p, st) + o.stylize_syntax(']');
-      }
-    } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/ppn]`);
-    }
-  },
-  prettify_object: (obj, st, {
-    skip_constructor = false
-  } = {}) => {
-    if (DEBUG) console.log('prettify_object', obj);
-    const {
-      o
-    } = st;
-
-    try {
-      if (obj === null) return o.stylize_primitive('null');
-      if (Array.isArray(obj)) return o.prettify_array(obj, st);
-
-      if (o.should_recognize_globals) {
-        try {
-          switch (obj) {
-            case globalThis:
-              return o.stylize_global('globalThis');
-
-            default: // fallback
-
-          }
-        } catch (err) {
-          return o.stylize_error(`[error prettifying:${err.message}/po.g]`);
-        }
-      }
-
-      if (!skip_constructor) {
-        try {
-          const p = Object.getPrototypeOf(obj);
-
-          if (p && p.constructor && p.constructor.name) {
-            // can we do better?
-            if (p.constructor !== Object) {
-              return o.stylize_syntax('new ') + (globalThis[p.constructor.name] === p.constructor ? o.stylize_global(p.constructor.name) : o.stylize_user(p.constructor.name)) + o.stylize_syntax('(') + (() => {
-                switch (p.constructor.name) {
-                  // all primitives that can be an Object
-                  case 'String':
-                    return o.prettify_string(obj, st);
-
-                  case 'Number':
-                    return o.prettify_number(obj, st);
-
-                  case 'Boolean':
-                    return o.prettify_boolean(obj, st);
-                  // recognize some objects
-
-                  case 'Set':
-                    return o.prettify_array(Array.from(obj.keys()), st);
-
-                  case 'WeakSet':
-                    return o.stylize_dim('/\*not enumerable*\/');
-
-                  case 'Date':
-                    return o.stylize_dim(`/*${obj[o.date_serialization_fn]()}*/`);
-                  // node
-
-                  case 'Buffer':
-                    // too big!
-                    return '/*…*/';
-
-                  case 'Gunzip':
-                    // seen in fetch_ponyfill response
-                    // too big!
-                    return '/*…*/';
-                  // other
-
-                  default:
-                    if (p.constructor.name.endsWith('Error')) {
-                      const err = obj; // no need to pretty print it as copy/pastable to code,
-                      // 99.9% chance that's not what we want here
-
-                      return o.stylize_error(o.quote + err.message + o.quote);
-                    } // Beware! This can turn into a huge thing, ex. a fetch response
-                    // REM we MUST have skip_constructor = true to avoid infinite loops
-
-
-                    return o.prettify_object(obj, st, {
-                      skip_constructor: true
-                    });
-                  //return '/*…*/'
-                }
-              })() + o.stylize_syntax(')');
-            }
-          }
-        } catch (err) {
-          return o.stylize_error(`[error prettifying:${err.message}/po.c]`);
-        }
-      }
-
-      const keys = Reflect.ownKeys(obj).sort((a, b) => {
-        let res = utils_1.cmp(typeof a, typeof b);
-
-        if (res === 0) {
-          res = utils_1.cmp(a, b);
-        }
-
-        return res;
-      });
-
-      if (keys.length === 0 && skip_constructor) {
-        return o.stylize_dim(`/*${obj.toString()}*/`);
-      }
-
-      st = { ...st,
-        circular: new Set([...Array.from(st.circular), obj])
-      };
-      return o.stylize_syntax('{') + keys.map(k => {
-        const v = obj[k];
-        if (typeof v === 'function' && v.name === k) return o.prettify_function(v, st, {
-          as_prop: true
-        });
-        return o.prettify_property_name(k, st) + o.stylize_syntax(': ') + o.prettify_any(v, st);
-      }).join(o.stylize_syntax(',')) + o.stylize_syntax('}');
-    } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/po]`);
-    }
-  },
-
-  // root
-  prettify_any(any, st) {
-    if (DEBUG) console.log('prettify_any', any);
-    const {
-      o
-    } = st;
-
-    try {
-      switch (typeof any) {
-        /////// primitive type ///////
-        case 'string':
-          return o.prettify_string(any, st);
-
-        case 'number':
-          return o.prettify_number(any, st);
-
-        case 'bigint':
-          return o.prettify_bigint(any, st);
-
-        case 'boolean':
-          return o.prettify_boolean(any, st);
-
-        case 'undefined':
-          return o.prettify_undefined(any, st);
-
-        case 'symbol':
-          return o.prettify_symbol(any, st);
-        /////// non-primitive type ///////
-
-        case 'function':
-          // special sub-type of object
-          return o.prettify_function(any, st);
-
-        case 'object':
-          {
-            if (any !== null) {
-              if (st.circular.has(any)) return Array.isArray(any) ? o.stylize_error('[<Circular ref!>]') : o.stylize_error('{<Circular ref!>}');
-            }
-
-            return o.prettify_object(any, st);
-          }
-
-        default:
-          return `[unsupported type:${typeof any}]`;
-      }
-    } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/pa]`);
-    }
-  }
-
-};
-
-/***/ }),
-
-/***/ 114:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
- ////////////////////////////////////
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.cmp = exports.is_negative_zero = void 0; // https://2ality.com/2012/03/signedzero.html (outdated)
-
-function is_negative_zero(x) {
-  return Object.is(x, -0);
-}
-
-exports.is_negative_zero = is_negative_zero; // https://stackoverflow.com/a/51398944/587407
-
-const COMPARABLE_TYPES = ['number', 'string'];
-
-function cmp(a, b) {
-  const ta = typeof a;
-  const tb = typeof b;
-  if (ta !== tb) return cmp(ta, tb);
-
-  if (!COMPARABLE_TYPES.includes(ta)) {
-    // Very crude. mainly for symbols.
-    return cmp(String(a), String(b));
-  }
-
-  return -(a < b) || +(a > b);
-}
-
-exports.cmp = cmp;
-
-/***/ }),
-
-/***/ 115:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.get_stylize_options_ansi = void 0;
-
-function get_stylize_options_ansi(chalk) {
-  return {
-    stylize_dim: s => chalk.dim(s),
-    stylize_suspicious: s => chalk.bold(s),
-    stylize_error: s => chalk.red.bold(s),
-    stylize_global: s => chalk.magenta(s),
-    stylize_primitive: s => chalk.green(s),
-    stylize_syntax: s => chalk.yellow(s),
-    stylize_user: s => chalk.blue(s)
-  };
-}
-
-exports.get_stylize_options_ansi = get_stylize_options_ansi;
-
-/***/ }),
-
 /***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1586,284 +1085,7 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 38:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const tslib_1 = __webpack_require__(40);
-
-tslib_1.__exportStar(__webpack_require__(59), exports);
-
-tslib_1.__exportStar(__webpack_require__(111), exports);
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__extends", function() { return __extends; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__assign", function() { return __assign; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__rest", function() { return __rest; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__decorate", function() { return __decorate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__param", function() { return __param; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__metadata", function() { return __metadata; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__awaiter", function() { return __awaiter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__generator", function() { return __generator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__createBinding", function() { return __createBinding; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__exportStar", function() { return __exportStar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__values", function() { return __values; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__read", function() { return __read; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spread", function() { return __spread; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spreadArrays", function() { return __spreadArrays; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__await", function() { return __await; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncGenerator", function() { return __asyncGenerator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncDelegator", function() { return __asyncDelegator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncValues", function() { return __asyncValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__makeTemplateObject", function() { return __makeTemplateObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__importStar", function() { return __importStar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__importDefault", function() { return __importDefault; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldGet", function() { return __classPrivateFieldGet; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldSet", function() { return __classPrivateFieldSet; });
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return extendStatics(d, b);
-};
-
-function __extends(d, b) {
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return __assign.apply(this, arguments);
-}
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-var __createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-});
-
-function __exportStar(m, o) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
-}
-
-function __values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function __read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(__read(arguments[i]));
-    return ar;
-}
-
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
-
-function __await(v) {
-    return this instanceof __await ? (this.v = v, this) : new __await(v);
-}
-
-function __asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function __asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function __asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function __makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-var __setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-};
-
-function __importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-}
-
-function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function __classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-
-function __classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-}
-
-
-/***/ }),
-
-/***/ 41:
+/***/ 39:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -1892,14 +1114,14 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const os = __webpack_require__(24);
-const tty = __webpack_require__(54);
-const hasFlag = __webpack_require__(108);
+const tty = __webpack_require__(52);
+const hasFlag = __webpack_require__(106);
 
 const {env} = process;
 
@@ -2035,14 +1257,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 54:
+/***/ 52:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
 
-/***/ 556:
+/***/ 550:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2056,11 +1278,11 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201112_00h56';
+exports.BUILD_DATE = '20201112_11h45';
 
 /***/ }),
 
-/***/ 564:
+/***/ 558:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2078,9 +1300,9 @@ process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 
-__webpack_require__(76);
+__webpack_require__(73);
 
-const build_1 = __webpack_require__(556); ////////////////////////////////////
+const build_1 = __webpack_require__(550); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -2100,12 +1322,12 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 58:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(106);
+const cssKeywords = __webpack_require__(104);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -2946,34 +2168,7 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 59:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
- // to make this lib isomorphic, we allow dependency injections
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.get_lib__chalk = exports.inject_lib__chalk = void 0; ////////////////////////////////////////////////////////////////////////////////////
-
-let chalk = null;
-
-function inject_lib__chalk(chalk_lib) {
-  chalk = chalk_lib;
-}
-
-exports.inject_lib__chalk = inject_lib__chalk;
-
-function get_lib__chalk() {
-  return chalk;
-}
-
-exports.get_lib__chalk = get_lib__chalk;
-
-/***/ }),
-
-/***/ 76:
+/***/ 73:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2985,7 +2180,7 @@ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return /* b
 __webpack_require__.d(__webpack_exports__, "exposeInternal", function() { return /* binding */ src_es2019_exposeInternal; });
 __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return /* binding */ src_es2019_overrideHook; });
 __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return /* binding */ src_es2019_addDebugCommand; });
-__webpack_require__.d(__webpack_exports__, "globalThis", function() { return /* binding */ globalThis; });
+__webpack_require__.d(__webpack_exports__, "globalThis", function() { return /* binding */ src_es2019_globalThis; });
 __webpack_require__.d(__webpack_exports__, "createV1", function() { return /* reexport */ v1_create; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
@@ -3167,9 +2362,426 @@ function create({
 var source = __webpack_require__(0);
 var source_default = /*#__PURE__*/__webpack_require__.n(source);
 
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019.cjs/index.js
-var src_es2019_cjs = __webpack_require__(38);
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/injectable-lib--chalk.js
+// to make this lib isomorphic, we allow dependency injections
+////////////////////////////////////////////////////////////////////////////////////
+let chalk = null;
+function inject_lib__chalk(chalk_lib) {
+  chalk = chalk_lib;
+}
+function get_lib__chalk() {
+  return chalk;
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/utils.js
+////////////////////////////////////
+// https://2ality.com/2012/03/signedzero.html (outdated)
+function is_negative_zero(x) {
+  return Object.is(x, -0);
+} // https://stackoverflow.com/a/51398944/587407
 
+const COMPARABLE_TYPES = ['number', 'string'];
+function cmp(a, b) {
+  const ta = typeof a;
+  const tb = typeof b;
+  if (ta !== tb) return cmp(ta, tb);
+
+  if (!COMPARABLE_TYPES.includes(ta)) {
+    // Very crude. mainly for symbols.
+    return cmp(String(a), String(b));
+  }
+
+  return -(a < b) || +(a > b);
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/options--compatible.js
+ ////////////////////////////////////////////////////////////////////////////////////
+
+const DEFAULTS_STYLE_OPTIONS = {
+  max_width: null,
+  outline: false,
+  indent: 'tabs',
+  max_primitive_str_size: null,
+  should_recognize_constants: true,
+  should_recognize_globals: true,
+  quote: '\'',
+  date_serialization_fn: 'toLocaleString'
+};
+const DEFAULTS_STYLIZE_OPTIONS__NONE = {
+  stylize_dim: s => s,
+  stylize_suspicious: s => s,
+  stylize_error: s => s,
+  stylize_global: s => s,
+  stylize_primitive: s => s,
+  stylize_syntax: s => s,
+  stylize_user: s => s
+};
+const DEBUG = false;
+const DEFAULTS_PRETTIFY_OPTIONS = {
+  // TODO follow max string size
+  // primitives
+  prettify_string: (s, st) => {
+    const {
+      o
+    } = st;
+    return o.stylize_dim(o.quote) + o.stylize_user(s) + o.stylize_dim(o.quote);
+  },
+  prettify_number: (n, st) => {
+    const {
+      o
+    } = st;
+
+    if (o.should_recognize_constants) {
+      switch (n) {
+        case Number.EPSILON:
+          return o.stylize_global('Number.EPSILON');
+
+        case Number.MAX_VALUE:
+          return o.stylize_global('Number.MAX_VALUE');
+
+        case Number.MIN_VALUE:
+          return o.stylize_global('Number.MIN_VALUE');
+
+        case Number.MAX_SAFE_INTEGER:
+          return o.stylize_global('Number.MAX_SAFE_INTEGER');
+
+        case Number.MIN_SAFE_INTEGER:
+          return o.stylize_global('Number.MIN_SAFE_INTEGER');
+
+        case Math.PI:
+          return o.stylize_global('Math.PI');
+
+        case Math.E:
+          return o.stylize_global('Math.E');
+        // no more Math, seldom used
+
+        default: // fallback
+
+      }
+    }
+
+    return isNaN(n) ? o.stylize_error(String(n)) : is_negative_zero(n) ? o.stylize_error('-0') : o.stylize_primitive(String(n));
+  },
+  prettify_bigint: (b, st) => {
+    const {
+      o
+    } = st;
+    return o.stylize_primitive(String(b) + 'n');
+  },
+  prettify_boolean: (b, st) => {
+    const {
+      o
+    } = st;
+    return o.stylize_primitive(String(b));
+  },
+  prettify_undefined: (u, st) => {
+    const {
+      o
+    } = st;
+    return o.stylize_suspicious(String(u));
+  },
+  prettify_symbol: (s, st) => {
+    const {
+      o
+    } = st;
+
+    try {
+      return '' + o.stylize_global('Symbol') + o.stylize_syntax('(') + (s.description ? o.prettify_string(s.description, st) : '') + o.stylize_syntax(')');
+    } catch (err) {
+      return o.stylize_error(`[error prettifying:${err.message}/ps]`);
+    }
+  },
+  // objects
+  prettify_function: (f, st, {
+    as_prop = false
+  } = {}) => {
+    const {
+      o
+    } = st;
+
+    if (f.name && globalThis[f.name] === f) {
+      return o.stylize_user(f.name);
+    }
+
+    let result = '';
+
+    if (f.name) {
+      if (!as_prop) {
+        // class detection may not work with Babel
+        result += o.stylize_syntax(f.toString().startsWith('class ') ? 'class ' : 'function ');
+      }
+
+      result += o.stylize_user(f.name);
+    }
+
+    result += o.stylize_syntax('()');
+    result += o.stylize_syntax(f.name ? ' ' : ' => ');
+    result += o.stylize_syntax('{');
+    result += o.stylize_dim('\/\*…\*\/');
+    result += o.stylize_syntax('}');
+    return result;
+  },
+  prettify_array: (a, st) => {
+    if (DEBUG) console.log('prettify_array', a);
+    st = { ...st,
+      circular: new Set([...Array.from(st.circular), a])
+    };
+    const {
+      o
+    } = st;
+    return o.stylize_syntax('[') + a.map(e => o.prettify_any(e, st)) // NOTE when fully empty, map won't execute (but it looks nice, no pb)
+    .join(o.stylize_syntax(',')) + o.stylize_syntax(']');
+  },
+  prettify_property_name: (p, st) => {
+    const {
+      o
+    } = st;
+
+    try {
+      switch (typeof p) {
+        case 'number':
+          return o.prettify_number(p, st);
+
+        case 'string':
+          {
+            // does it need to be quoted?
+            // https://mathiasbynens.be/notes/javascript-properties
+            return o.prettify_string(p, st);
+          }
+
+        case 'symbol':
+          return o.stylize_syntax('[') + o.prettify_symbol(p, st) + o.stylize_syntax(']');
+      }
+    } catch (err) {
+      return o.stylize_error(`[error prettifying:${err.message}/ppn]`);
+    }
+  },
+  prettify_object: (obj, st, {
+    skip_constructor = false
+  } = {}) => {
+    if (DEBUG) console.log('prettify_object', obj);
+    const {
+      o
+    } = st;
+
+    try {
+      if (obj === null) return o.stylize_primitive('null');
+      if (Array.isArray(obj)) return o.prettify_array(obj, st);
+
+      if (o.should_recognize_globals) {
+        try {
+          switch (obj) {
+            case globalThis:
+              return o.stylize_global('globalThis');
+
+            default: // fallback
+
+          }
+        } catch (err) {
+          return o.stylize_error(`[error prettifying:${err.message}/po.g]`);
+        }
+      }
+
+      if (!skip_constructor) {
+        try {
+          const p = Object.getPrototypeOf(obj);
+
+          if (p && p.constructor && p.constructor.name) {
+            // can we do better?
+            if (p.constructor !== Object) {
+              return o.stylize_syntax('new ') + (globalThis[p.constructor.name] === p.constructor ? o.stylize_global(p.constructor.name) : o.stylize_user(p.constructor.name)) + o.stylize_syntax('(') + (() => {
+                switch (p.constructor.name) {
+                  // all primitives that can be an Object
+                  case 'String':
+                    return o.prettify_string(obj, st);
+
+                  case 'Number':
+                    return o.prettify_number(obj, st);
+
+                  case 'Boolean':
+                    return o.prettify_boolean(obj, st);
+                  // recognize some objects
+
+                  case 'Set':
+                    return o.prettify_array(Array.from(obj.keys()), st);
+
+                  case 'WeakSet':
+                    return o.stylize_dim('/\*not enumerable*\/');
+
+                  case 'Date':
+                    return o.stylize_dim(`/*${obj[o.date_serialization_fn]()}*/`);
+                  // node
+
+                  case 'Buffer':
+                    // too big!
+                    return '/*…*/';
+
+                  case 'Gunzip':
+                    // seen in fetch_ponyfill response
+                    // too big!
+                    return '/*…*/';
+                  // other
+
+                  default:
+                    if (p.constructor.name.endsWith('Error')) {
+                      const err = obj; // no need to pretty print it as copy/pastable to code,
+                      // 99.9% chance that's not what we want here
+
+                      return o.stylize_error(o.quote + err.message + o.quote);
+                    } // Beware! This can turn into a huge thing, ex. a fetch response
+                    // REM we MUST have skip_constructor = true to avoid infinite loops
+
+
+                    return o.prettify_object(obj, st, {
+                      skip_constructor: true
+                    });
+                  //return '/*…*/'
+                }
+              })() + o.stylize_syntax(')');
+            }
+          }
+        } catch (err) {
+          return o.stylize_error(`[error prettifying:${err.message}/po.c]`);
+        }
+      }
+
+      const keys = Reflect.ownKeys(obj).sort((a, b) => {
+        let res = cmp(typeof a, typeof b);
+
+        if (res === 0) {
+          res = cmp(a, b);
+        }
+
+        return res;
+      });
+
+      if (keys.length === 0 && skip_constructor) {
+        return o.stylize_dim(`/*${obj.toString()}*/`);
+      }
+
+      st = { ...st,
+        circular: new Set([...Array.from(st.circular), obj])
+      };
+      return o.stylize_syntax('{') + keys.map(k => {
+        const v = obj[k];
+        if (typeof v === 'function' && v.name === k) return o.prettify_function(v, st, {
+          as_prop: true
+        });
+        return o.prettify_property_name(k, st) + o.stylize_syntax(': ') + o.prettify_any(v, st);
+      }).join(o.stylize_syntax(',')) + o.stylize_syntax('}');
+    } catch (err) {
+      return o.stylize_error(`[error prettifying:${err.message}/po]`);
+    }
+  },
+
+  // root
+  prettify_any(any, st) {
+    if (DEBUG) console.log('prettify_any', any);
+    const {
+      o
+    } = st;
+
+    try {
+      switch (typeof any) {
+        /////// primitive type ///////
+        case 'string':
+          return o.prettify_string(any, st);
+
+        case 'number':
+          return o.prettify_number(any, st);
+
+        case 'bigint':
+          return o.prettify_bigint(any, st);
+
+        case 'boolean':
+          return o.prettify_boolean(any, st);
+
+        case 'undefined':
+          return o.prettify_undefined(any, st);
+
+        case 'symbol':
+          return o.prettify_symbol(any, st);
+        /////// non-primitive type ///////
+
+        case 'function':
+          // special sub-type of object
+          return o.prettify_function(any, st);
+
+        case 'object':
+          {
+            if (any !== null) {
+              if (st.circular.has(any)) return Array.isArray(any) ? o.stylize_error('[<Circular ref!>]') : o.stylize_error('{<Circular ref!>}');
+            }
+
+            return o.prettify_object(any, st);
+          }
+
+        default:
+          return `[unsupported type:${typeof any}]`;
+      }
+    } catch (err) {
+      return o.stylize_error(`[error prettifying:${err.message}/pa]`);
+    }
+  }
+
+};
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/options--ansi.js
+function get_stylize_options_ansi(chalk) {
+  return {
+    stylize_dim: s => chalk.dim(s),
+    stylize_suspicious: s => chalk.bold(s),
+    stylize_error: s => chalk.red.bold(s),
+    stylize_global: s => chalk.magenta(s),
+    stylize_primitive: s => chalk.green(s),
+    stylize_syntax: s => chalk.yellow(s),
+    stylize_user: s => chalk.blue(s)
+  };
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/options.js
+
+
+ ////////////////////////////////////////////////////////////////////////////////////
+
+function get_default_options() {
+  return { ...DEFAULTS_STYLE_OPTIONS,
+    ...DEFAULTS_PRETTIFY_OPTIONS,
+    ...DEFAULTS_STYLIZE_OPTIONS__NONE,
+    ...(get_lib__chalk() && get_stylize_options_ansi(get_lib__chalk()))
+  };
+}
+function get_options(options = {}) {
+  return { ...get_default_options(),
+    ...options
+  };
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/prettify-any/dist/src.es2019/v2.js
+ ////////////////////////////////////
+
+function create_state(options) {
+  return {
+    o: get_options(options),
+    circular: new WeakSet()
+  };
+}
+
+function prettify_any(js, options = {}) {
+  try {
+    const st = create_state(get_options(options));
+    return st.o.prettify_any(js, st);
+  } catch (err) {
+    return `[error prettifying:${err.message}]`;
+  }
+}
+function prettify_json(js, options = {}) {
+  const st = create_state(get_options(options)); // TODO show not JSON
+
+  return st.o.prettify_any(js, st);
+}
+function dump_prettified_any(msg, data, options = {}) {
+  console.log(msg);
+  console.log(prettify_any(data, options));
+}
+function is_pure_json(js) {
+  return false;
+}
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
 var fields = __webpack_require__(14);
 
@@ -3267,7 +2879,7 @@ const LEVEL_TO_STYLIZE = {
 
 
 
-Object(src_es2019_cjs["inject_lib__chalk"])(source_default.a);
+inject_lib__chalk(source_default.a);
 
 function createSink(options = {}) {
   const displayTime = options.displayTime || false;
@@ -3281,7 +2893,7 @@ function createSink(options = {}) {
       err
     } = payload;
     let line = '' + (displayTime ? source_default.a.dim(String(time)) + ' ' : '') + LEVEL_TO_ASCII[level] + '› ' + LEVEL_TO_STYLIZE[level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (Reflect.ownKeys(details).length === 0 ? '' //: (' ' + JSON.stringify(details))
-    : ' ' + Object(src_es2019_cjs["prettify_any"])(details, {//line_width:
+    : ' ' + prettify_any(details, {//line_width:
       //first_line_already_used:
     }));
     console.log(line); // eslint-disable-line no-console
@@ -3510,10 +3122,10 @@ function v1_create() {
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-node/dist/src.es2019/index.js
 
 
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
+const src_es2019_globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
 
-globalThis._debug = globalThis._debug || {};
-const root = globalThis._debug; //////////// v1 ////////////
+src_es2019_globalThis._debug = src_es2019_globalThis._debug || {};
+const root = src_es2019_globalThis._debug; //////////// v1 ////////////
 // TODO extract this common code!
 // install globally if no better implementation already present
 
