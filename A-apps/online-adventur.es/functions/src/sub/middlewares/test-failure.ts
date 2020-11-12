@@ -71,7 +71,7 @@ export async function test_failure(
 			throw get_test_err()
 
 		case FailureMode['throw-sync-non-error']:
-			throw 'baaad!'
+			throw get_test_err().message // baad! throwing a string!
 
 		case FailureMode['throw-async']:
 			return new Promise(() => {

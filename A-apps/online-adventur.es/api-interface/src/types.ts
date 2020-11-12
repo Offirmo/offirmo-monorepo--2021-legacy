@@ -10,7 +10,7 @@ export const ReleaseChannel = Enum(
 export type ReleaseChannel = Enum<typeof ReleaseChannel> // eslint-disable-line no-redeclar
 
 
-// response assuming no errors
+// nominal response assuming no errors
 export interface OAResponse<T> {
 	data: T, // note: flat denormalized data or graph? Graph seems to be preferred ATM
 
@@ -22,12 +22,11 @@ export interface OAResponse<T> {
 		}
 	}
 
-
 	// pagination?
 }
 
 
-// raw response potentially containing an error
+// raw response potentially containing an error,
 // that should be converted to a throw by the receiving code
 export interface OAServerResponseBody<T> extends Omit<OAResponse<T>, "data"> {
 	v: number,
@@ -36,8 +35,10 @@ export interface OAServerResponseBody<T> extends Omit<OAResponse<T>, "data"> {
 	data?: T, // note: flat denormalized data or graph? Graph seems to be preferred ATM
 	error?: { // if present, may be forwarded (thrown) on reception
 		message: string
-		logical_stack: string // some sort of stack (SEC logical stack)
+		// no stack trace, can be too big and a security issue
 		code?: string // node
+		logical_stack: string // SEC "safe" and readable logical stack
+		// TODO some kind of details?
 	}
 
 	// technical data, should not make it to the final caller

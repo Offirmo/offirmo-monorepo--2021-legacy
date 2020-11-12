@@ -715,3 +715,7 @@ Great post! A hack I find useful is trying to recall main concepts from previous
 
 https://www.inverse.com/mind-body/humans-still-evolving-3-recent-adaptations
 https://en.wikipedia.org/wiki/Folk_memory
+
+https://en.wikipedia.org/wiki/Imperial,_royal_and_noble_ranks
+https://en.wikipedia.org/wiki/Royal_dukedoms_in_the_United_Kingdom
+

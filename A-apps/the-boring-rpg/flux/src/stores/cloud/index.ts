@@ -2,6 +2,7 @@ import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import debounce from 'lodash.debounce'
 import stable_stringify from 'json-stable-stringify'
+import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { Immutable, Storage } from '@offirmo-private/ts-types'
 import {
@@ -9,9 +10,8 @@ import {
 	get_base_loose,
 	get_semantic_difference,
 	SemanticDifference,
-	compare as compare_state, has_versioned_schema, get_revision_loose,
+	get_revision_loose,
 } from '@offirmo-private/state-utils'
-import { asap_but_not_synchronous, schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 
 import * as TBRPGState from '@tbrpg/state'
@@ -22,9 +22,6 @@ import { Endpoint, fetch_oa, get_api_base_url } from '@online-adventur.es/api-cl
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store, Dispatcher } from '../../types'
 import { reduce_action } from '../../utils/reduce-action'
-import try_or_fallback from '../../utils/try_or_fallback'
-import {StorageKey} from '../local-storage'
-import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
 /////////////////////////////////////////////////
 
@@ -98,7 +95,6 @@ export function create(
 			last_successful_sync_tms: 0,
 			error_count: 0,
 		}
-		let is_enabled = overrideHook('cloud_save_enabled', false)
 		logger.verbose(`[${LIB}] FYI API URL = "${get_api_base_url(CHANNEL as any)}"`)
 
 		/////////////////////////////////////////////////
@@ -117,34 +113,75 @@ export function create(
 		const emitter = new EventEmitter.Typed<{}, 'change'>()
 
 		/////////////////////////////////////////////////
+		let is_enabled = overrideHook('cloud_save_enabled', false)
 		let is_logged_in = false // AFAWK
 		let last_known_cloud_state: Immutable<State> | undefined = undefined
-		let last_cloud_sync = 0
+		let is_sync_in_flight = false
+		let update_suggested = false
+
+		function should_sync(): boolean {
+			const _is_initialised = !!state
+			const _is_online = is_online(cloud_sync_state)
+			const _is_healthy = is_healthy(cloud_sync_state)
+			const semantic_difference = get_semantic_difference(state, last_known_cloud_state)
+			const _has_relevant_changes = semantic_difference === SemanticDifference.minor || semantic_difference === SemanticDifference.major
+			const _has_recent_sync = has_recent_sync(cloud_sync_state)
+			const _should_sync = is_enabled
+				&& _is_initialised
+				&& _is_online
+				&& _is_healthy
+				&& (_has_relevant_changes || !_has_recent_sync)
+				&& !is_sync_in_flight
+			logger.trace(`[${LIB}] thinking about a sync… Is it appropriate?`, {
+				is_enabled,
+				_is_initialised,
+				_is_online,
+				_is_healthy,
+				candidate_rev: get_revision_loose(state!),
+				last_known_cloud_rev: get_revision_loose(last_known_cloud_state!),
+				semantic_difference,
+				_has_relevant_changes,
+				_has_recent_sync,
+				is_sync_in_flight,
+				_should_sync,
+			})
+
+			if (!_is_healthy) {
+				logger.warn(`[${LIB}] no longer syncing with the cloud, too many errors!`)
+			}
+
+			return _should_sync
+		}
 
 		// TODO handle offline
 		// TODO retries?
 		// TODO spontaneous periodic sync -> for now we rely on periodic "time" sets
-		async function __sync_with_cloud(some_state: Immutable<State>): Promise<void> {
-			const cloud_key = get_cloud_key(some_state)
+		async function __sync_with_cloud(): Promise<void> {
+			logger.warn('[FYI debounce waking up]')
 
-			logger.trace(`[${LIB}] _sync_with_cloud()`, {
-				cloud_key,
-			})
+			const cloud_key = get_cloud_key(state)
+			// since this func is debounced, re-evaluate the conditions that may have changed
+			const _should_sync = should_sync()
 
-			if (!is_enabled) {
-				logger.log(`${LIB} TODO enable sync with cloud!`)
+			logger.trace(`[${LIB}] _sync_with_cloud() [actual]…`, { _should_sync })
+
+			if (!_should_sync) {
+				logger.trace(`[${LIB}] skipping cloud sync: there are reasons not to.`)
 				return
 			}
 
 			// TODO don't re-send if already in-flight? or sth
 			try {
 				logger.info(`[${LIB}] _sync_with_cloud()`)
+				is_sync_in_flight = true
+				const revision_on_last_sync_start = get_revision_loose(state!)
 				const result = await fetch_oa<State, State>({
 					SEC: SEC as any,
 					method: 'PATCH',
 					url: Endpoint['key-value'] + '/' + cloud_key,
-					body: some_state
+					body: state
 				})
+				is_sync_in_flight = false
 				cloud_sync_state = on_sync_result(cloud_sync_state)
 				logger.info(`[${LIB}] _sync_with_cloud() got result:`, result)
 
@@ -153,33 +190,70 @@ export function create(
 
 					if (side.tbrpg) {
 						if (side.tbrpg.NUMERIC_VERSION > NUMERIC_VERSION) {
-							// TODO force reload
-							is_enabled = false
-							throw new Error(`Outdated client!`)
+							if (!update_suggested) {
+								update_suggested = true
+
+								const current_version = NUMERIC_VERSION
+								const new_version = side.tbrpg.NUMERIC_VERSION
+								const is_major = new_version < 1
+									? (new_version - current_version) >= 0.01
+									: (new_version - current_version) >= 1
+
+								logger.warn(`[${LIB}] outdated client! TODO suggest update`, {
+									current_version,
+									new_version,
+									is_major,
+								})
+
+								// bc we are using a stable API endpoint, updates should not be really needed
+
+								// TODO find an isomorphic way to suggest an update
+								/*if (getGlobalThis().confirm) {
+									const should_reload = getGlobalThis().confirm(
+										`A ${is_major ? 'major ' : ''}game update is available, do you want to update now?`
+									)
+									if (should_reload) {
+										execute_from_top(() => 	window.location.reload())
+									}
+								}*/
+							}
 						}
-						if (side.tbrpg.latest_news.length) {
+						else if (side.tbrpg.latest_news.length) {
 							// TODO handle
 						}
 					}
 
-					const sync_state: Immutable<State> = last_known_cloud_state = data
+					last_known_cloud_state = data
+					if (get_revision_loose(state!) !== revision_on_last_sync_start) {
+						// the local state changed since we initiated the sync
+						// this result is outdated.
+						// we need to re-attempt to sync asap
+						_schedule_sync_with_cloud_if_possible()
+						return
+					}
+
 					// sync result should always be >= by design
-					// UNLESS there was a race condition
-					// TODO handle race conditions
-					const semantic_difference = get_semantic_difference(sync_state, state, { assert_newer: false })
-					logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, { semantic_difference, base: get_base_loose(sync_state) /*, sync_state*/ })
+					const semantic_difference = get_semantic_difference(last_known_cloud_state, state, { assert_newer: false })
+					logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, {
+						local_base: get_base_loose(state!),
+						cloud_base: get_base_loose(last_known_cloud_state),
+						semantic_difference,
+					})
 
 					switch (semantic_difference) {
 						case SemanticDifference.major: {
-							assert(get_schema_version_loose(sync_state) === SCHEMA_VERSION, 'schema version of cloud state should match')
+							assert(get_schema_version_loose(last_known_cloud_state) === SCHEMA_VERSION, 'schema version of cloud state should match')
 							break
 						}
 						case SemanticDifference.minor: {
-							console.error('NIMP')
+							if (dispatcher) {
+								dispatcher.dispatch(create_action__set(TBRPGState.update_to_now(last_known_cloud_state)))
+							}
 							break
 						}
 						default:
-							// minor diff, don't care
+							// irrelevant diff, don't care
+							logger.verbose(`[${LIB}] _sync_with_cloud() = we are in sync with the cloud ✔`)
 							break
 					}
 				}
@@ -189,40 +263,27 @@ export function create(
 				}
 			}
 			catch (err) {
+				is_sync_in_flight = false
 				cloud_sync_state = on_network_error(cloud_sync_state, err)
 			}
 		}
 
 		const _debounced_schedule_sync_with_cloud: () => void = debounce(() => {
-			__sync_with_cloud(state!)
+			__sync_with_cloud()
 				.catch(_on_error)
-		}, 5000, { maxWait: 30_000 })
+		}, 5000, {
+			maxWait: 30_000,
+			leading: true,
+			trailing: true,
+		})
 
 		function _schedule_sync_with_cloud_if_possible(): void {
-			const _is_initialised = !!state
-			const _is_online = is_online(cloud_sync_state)
-			const _is_healthy = is_healthy(cloud_sync_state)
-			const semantic_difference = get_semantic_difference(state, last_known_cloud_state)
-			const _has_relevant_changes = semantic_difference === SemanticDifference.minor || semantic_difference === SemanticDifference.major
-			const _has_recent_sync = has_recent_sync(cloud_sync_state)
-			const _should_sync = _is_initialised && _is_online && _is_healthy && (_has_relevant_changes || !_has_recent_sync)
-			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, {
-				candidate_rev: get_revision_loose(state as any),
-				last_known_cloud_rev: get_revision_loose(last_known_cloud_state as any),
-				semantic_difference,
-				_is_initialised,
-				_is_online,
-				_is_healthy,
-				_has_relevant_changes,
-				_has_recent_sync,
-				_should_sync,
-				cloud_sync_state
-			})
-			if (!_is_healthy) {
-				logger.warn(`[${LIB}] no longer syncing with the cloud, too many errors!`)
-			}
+			const _should_sync = should_sync()
+
+			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, { _should_sync })
+
 			if (!_should_sync) {
-				logger.trace(`[${LIB}] skipping cloud sync: no reasons as of now ✔`, { semantic_difference })
+				logger.trace(`[${LIB}] skipping scheduling a cloud sync: there are reasons not to.`)
 				return
 			}
 
@@ -282,8 +343,8 @@ export function create(
 			state = eventual_state_hint || reduce_action(state!, action)
 			const semantic_difference = get_semantic_difference(state, previous_state, { assert_newer: false })
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
-				current_rev: get_revision_loose(previous_state as any),
-				new_rev: get_revision_loose(state as any),
+				current_rev: get_revision_loose(previous_state!),
+				new_rev: get_revision_loose(state!),
 				semantic_difference,
 			})
 
@@ -295,7 +356,7 @@ export function create(
 						logger.verbose(`${LIB} logged-in status snooped:`, { is_logged_in })
 						if (is_logged_in) {
 							// not using the debounced one, this is urgent
-							__sync_with_cloud(state!)
+							__sync_with_cloud()
 								.catch(_on_error)
 						}
 					}

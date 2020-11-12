@@ -38,17 +38,17 @@ export default async function handle_cors(
 			logger.log(`handling CORS preflight for ${event.path}…`, { headers: event.headers })
 
 			response.statusCode = 200
-			response.headers['Access-Control-Allow-Headers'] = [
-				// allowed headers:
-				'authorization', // used by Netlify Auth
-				'content-type', // we use it, even when not mandatory
-			].join(',')
 			response.body = JSON.stringify('OK')
 		}
 		else {
 			await next()
 		}
 
+		response.headers['Access-Control-Allow-Headers'] = [ // not sure but seems always needed
+			// allowed headers:
+			'authorization', // used by Netlify Auth
+			'content-type', // we use it, even when not mandatory
+		].join(',')
 		response.headers['Access-Control-Allow-Origin'] = expected_origin // always needed
 	})
 }

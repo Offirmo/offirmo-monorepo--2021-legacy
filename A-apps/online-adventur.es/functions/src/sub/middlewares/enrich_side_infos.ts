@@ -30,7 +30,7 @@ export default async function enrich_side_infos(
 
 	const body: OAServerResponseBody<any> = response.body as any
 
-	const realm = 'tbrpg'
+	const realm = 'tbrpg' // we have only one so far! No need to parse anything.
 	switch (realm) {
 		case 'tbrpg': {
 			body.side.tbrpg = {
