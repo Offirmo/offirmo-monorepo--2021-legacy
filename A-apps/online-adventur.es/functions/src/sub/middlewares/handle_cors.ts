@@ -21,10 +21,14 @@ export default async function handle_cors(
 	await SEC.xPromiseTry('handle_cors()', async ({ SEC, logger, CHANNEL }) => {
 		const advertised_origin = event.headers.origin
 		const method = event.httpMethod.toUpperCase()
-		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
+		let expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
 		logger.log(`handling CORS…`, { path: event.path, method, origin: advertised_origin, expected_origin })
 
 		if (advertised_origin) { // from headers, not always here
+			// DEV if we are expecting localhost and origin is indeed localhost accept any port of origin
+			if (expected_origin.startsWith('http://localhost:') && advertised_origin.startsWith('http://localhost:')) {
+				expected_origin = advertised_origin
+			}
 			if (advertised_origin !== expected_origin) {
 				logger.warn('rejecting due to wrong advertised_origin', { expected_origin, origin: advertised_origin })
 				throw create_error(HTTP_STATUS_CODE.error.client.forbidden, {

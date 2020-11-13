@@ -2,11 +2,11 @@ import Knex from 'knex'
 import assert from 'tiny-invariant'
 
 import { WithoutTimestamps } from '../types'
-import get_db from '../db'
-import { PUser } from '../users'
-import { logger } from '../utils'
 import { PKeyValue } from './types'
 import { TABLE__KEY_VALUES } from './consts'
+import { PUser } from '../users'
+import { logger } from '../utils'
+import get_db from '../db'
 
 ////////////////////////////////////
 
