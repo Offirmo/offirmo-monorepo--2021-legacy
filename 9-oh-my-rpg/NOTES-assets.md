@@ -50,8 +50,9 @@ https://www.ambient-mixer.com/
 * https://opengameart.org/content/51-ui-sound-effects-buttons-switches-and-clicks
 
 ### Music
-* https://gumroad.com/tubersongs
-* CC4 https://www.youtube.com/channel/UCfSUheoljDlGDjerRylO4Nw
+* Vindsvept, fantasy music (CC4) https://www.youtube.com/channel/UCfSUheoljDlGDjerRylO4Nw
+* Ean Grimm https://www.tubersongs.com/?sort=highest_rated  https://www.youtube.com/channel/UCmkKBaX2j0ZINbMhvv92wNA/featured
+* Alexander Nakarada https://www.serpentsoundstudios.com/  https://www.youtube.com/c/SerpentSoundStudios/videos
 * combat https://www.youtube.com/watch?v=D0lSwA_twwo&list=OLAK5uy_lzWmdooElmd1fKAxwBZyvqXxGEPd1RQPk&index=7
 
 Médiévale

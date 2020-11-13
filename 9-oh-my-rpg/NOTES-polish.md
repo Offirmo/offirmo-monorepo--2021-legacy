@@ -24,6 +24,7 @@ SVG animation https://www.svgator.com/
 
 BG effect https://tympanus.net/Development/BackgroundScaleHoverEffect/
 wave effect https://tympanus.net/codrops/2020/03/17/create-a-wave-motion-effect-on-an-image-with-three-js/
+https://web.dev/backdrop-filter/
 
 maps https://inkarnate.com/
      https://heredragonsabound.blogspot.com/  +  https://news.ycombinator.com/item?id=21406356
