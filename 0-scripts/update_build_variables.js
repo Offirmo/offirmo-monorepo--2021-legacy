@@ -105,3 +105,21 @@ module.exports = { VERSION, NUMERIC_VERSION, BUILD_DATE }
 	default:
 		throw new Error('Unrecognized mode!')
 }
+
+// always add a build badge as well
+// intended usage: https://shields.io/endpoint
+let target_path = path.resolve(cli.flags.outputDir || process.cwd(), './build_badge_version.json')
+write_json_file(target_path, {
+	"schemaVersion": 1,
+	"label": "version",
+	"message": VERSION,
+})
+console.log('🧙️  wrote:', target_path)
+
+target_path = path.resolve(cli.flags.outputDir || process.cwd(), './build_badge_time.json')
+write_json_file(target_path, {
+	"schemaVersion": 1,
+	"label": "build date",
+	"message": BUILD_DATE
+})
+console.log('🧙️  wrote:', target_path)
