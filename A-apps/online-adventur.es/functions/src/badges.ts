@@ -14,7 +14,9 @@ import {
 	Response,
 	NetlifyHandler,
 } from './sub/types'
-import { BUILD_DATE } from './sub/build'
+import { HTTP_STATUS_CODE } from './sub/consts'
+import { VERSION, BUILD_DATE } from './sub/build'
+import { get_key_from_path, get_id_from_path, create_error } from './sub/utils'
 
 ////////////////////////////////////
 
@@ -22,14 +24,45 @@ const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
 	badly_typed_context: Context,
 ): Promise<Response> => {
+
 	// https://shields.io/endpoint
 	const body = {
 		"schemaVersion": 1,
 		"label": "label",
 		"message": "message",
 		//"color": "orange",
-		//"isError": false,
+		"isError": false,
 		//"namedLogo": "foo",
+	}
+
+
+	const key = (() => {
+		try {
+			return get_key_from_path(event)
+		}
+		catch {
+			return 'error'
+		}
+	})()
+
+	switch(key) {
+		case 'time': {
+			body.label = 'build date'
+			body.message = BUILD_DATE
+			break
+		}
+
+		case 'version': {
+			body.label = 'version'
+			body.message = VERSION
+			break
+		}
+
+		default: {
+			body.label = String(key)
+			body.message = 'error'
+			body.isError = true
+		}
 	}
 
 	return {

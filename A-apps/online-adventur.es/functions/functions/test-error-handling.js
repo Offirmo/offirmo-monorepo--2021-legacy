@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(79);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(43);
+const ansiStyles = __webpack_require__(81);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(44);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(84);
+} = __webpack_require__(86);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(85);
+		template = __webpack_require__(87);
 	}
 
 	return template(chalk, parts.join(''));
@@ -1251,9 +1251,28 @@ function get_ISO8601_simplified_day(now = new Date()) {
 /***/ }),
 
 /***/ 11:
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("fs");
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
+const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message']);
+const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used:
+'statusCode', 'shouldRedirect', 'framesToPop']);
+const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
+'details', '_temp']);
 
 /***/ }),
 
@@ -2629,7 +2648,14 @@ function plural(ms, msAbs, n, name) {
 
 /***/ }),
 
-/***/ 13:
+/***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2886,32 +2912,6 @@ function stripUrlQueryAndFragment(urlPath) {
     return urlPath.split(/[\?#]/, 1)[0];
 }
 //# sourceMappingURL=misc.js.map
-
-/***/ }),
-
-/***/ 14:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
-const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message']);
-const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack']);
-const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used:
-'statusCode', 'shouldRedirect', 'framesToPop']);
-const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'details', '_temp']);
 
 /***/ }),
 
@@ -4472,7 +4472,7 @@ formatters.j = function (v) {
  * Module dependencies.
  */
 
-const tty = __webpack_require__(44);
+const tty = __webpack_require__(45);
 const util = __webpack_require__(6);
 
 /**
@@ -4495,7 +4495,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(43);
+	const supportsColor = __webpack_require__(44);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -5771,7 +5771,7 @@ function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
 var is = __webpack_require__(5);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/time.js
-var time = __webpack_require__(313);
+var time = __webpack_require__(314);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -5975,7 +5975,7 @@ var syncpromise_SyncPromise = /** @class */ (function () {
 
 //# sourceMappingURL=syncpromise.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(13);
+var misc = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
 
@@ -7860,7 +7860,7 @@ function basename(path, ext) {
 }
 //# sourceMappingURL=path.js.map
 // EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(11);
+var external_fs_ = __webpack_require__(12);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
 var lru = __webpack_require__(106);
@@ -10887,21 +10887,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.use_middlewares_with_error_safety_net = exports.DEFAULT_RESPONSE_BODY = void 0;
 
-const tslib_1 = __webpack_require__(75);
+const tslib_1 = __webpack_require__(77);
 
 __webpack_require__(185);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(1));
 
-const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(77));
+const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(79));
 
 const timestamps_1 = __webpack_require__(33);
 
 const soft_execution_context_1 = __webpack_require__(25);
 
-const state_utils_1 = __webpack_require__(26);
+const state_utils_1 = __webpack_require__(27);
 
-const api_interface_1 = __webpack_require__(54);
+const api_interface_1 = __webpack_require__(55);
 
 const async_utils_1 = __webpack_require__(201);
 
@@ -10909,7 +10909,7 @@ const sentry_1 = __webpack_require__(146);
 
 const channel_1 = __webpack_require__(39);
 
-const utils_1 = __webpack_require__(57); ////////////////////////////////////
+const utils_1 = __webpack_require__(54); ////////////////////////////////////
 // note: deducted from the overall running budget
 
 
@@ -11276,14 +11276,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const tslib_1 = __webpack_require__(75);
+const tslib_1 = __webpack_require__(77);
 
 const soft_execution_context_1 = __webpack_require__(25); //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 
 const soft_execution_context_node_1 = __webpack_require__(186);
 
-const consts_1 = __webpack_require__(29);
+const consts_1 = __webpack_require__(26);
 
 const channel_1 = __webpack_require__(39);
 
@@ -11432,7 +11432,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const universal_debug_api_node_1 = __webpack_require__(64);
 
-const consts_1 = __webpack_require__(29);
+const consts_1 = __webpack_require__(26);
 
 const channel_1 = __webpack_require__(39); /////////////////////////////////////////////////
 
@@ -11918,9 +11918,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unpatch", function() { return unpatch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reverse", function() { return reverse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone$1; });
-/* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(55);
+/* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(56);
 /* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(diff_match_patch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(78);
 /* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -15554,9 +15554,9 @@ exports.require_http_method = exports.HttpMethod = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(7);
 
-const consts_1 = __webpack_require__(29);
+const consts_1 = __webpack_require__(26);
 
-const utils_1 = __webpack_require__(57); ////////////////////////////////////
+const utils_1 = __webpack_require__(54); ////////////////////////////////////
 
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS'); ////////////////////////////////////
@@ -16419,10 +16419,10 @@ function promiseTry(fn) {
 var generate = __webpack_require__(109);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--normalize.js
-var util_normalize = __webpack_require__(87);
+var util_normalize = __webpack_require__(66);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--create.js
-var util_create = __webpack_require__(86);
+var util_create = __webpack_require__(65);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -16845,6 +16845,46 @@ function getRootSEC() {
 /***/ }),
 
 /***/ 26:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+ ////////////////////////////////////
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HTTP_STATUS_CODE = exports.APP = void 0;
+exports.APP = 'OA∙API'; // 'functions'
+////////////////////////////////////
+
+exports.HTTP_STATUS_CODE = {
+  success: {
+    ok: 200,
+    created: 201,
+    accepted: 202,
+    no_content: 204,
+    reset_content: 205
+  },
+  error: {
+    client: {
+      bad_request: 400,
+      // https://stackoverflow.com/questions/50143518/401-unauthorized-vs-403-forbidden-which-is-the-right-status-code-for-when-the-u
+      unauthorized: 401,
+      forbidden: 403,
+      not_found: 404,
+      method_not_allowed: 405,
+      unprocessable_entity: 422
+    },
+    server: {
+      internal: 500,
+      not_implemented: 501
+    }
+  }
+};
+
+/***/ }),
+
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16912,46 +16952,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-/***/ }),
-
-/***/ 29:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
- ////////////////////////////////////
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.HTTP_STATUS_CODE = exports.APP = void 0;
-exports.APP = 'OA∙API'; // 'functions'
-////////////////////////////////////
-
-exports.HTTP_STATUS_CODE = {
-  success: {
-    ok: 200,
-    created: 201,
-    accepted: 202,
-    no_content: 204,
-    reset_content: 205
-  },
-  error: {
-    client: {
-      bad_request: 400,
-      // https://stackoverflow.com/questions/50143518/401-unauthorized-vs-403-forbidden-which-is-the-right-status-code-for-when-the-u
-      unauthorized: 401,
-      forbidden: 403,
-      not_found: 404,
-      method_not_allowed: 405,
-      unprocessable_entity: 422
-    },
-    server: {
-      internal: 500,
-      not_implemented: 501
-    }
-  }
-};
 
 /***/ }),
 
@@ -17141,7 +17141,7 @@ const {
 
 /***/ }),
 
-/***/ 313:
+/***/ 314:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17150,7 +17150,7 @@ const {
 /* unused harmony export timestampWithMs */
 /* unused harmony export usingPerformanceAPI */
 /* unused harmony export browserPerformanceTimeOrigin */
-/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34);
 
 
@@ -17460,7 +17460,7 @@ exports.CHANNEL = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(7);
 
-const api_interface_1 = __webpack_require__(54); /////////////////////////////////////////////////
+const api_interface_1 = __webpack_require__(55); /////////////////////////////////////////////////
 
 
 exports.CHANNEL = (() => {
@@ -17491,11 +17491,38 @@ module.exports = require("https");
 /***/ }),
 
 /***/ 42:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "STRICT_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QUASI_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS_EXTENDED", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(65);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createError", function() { return _util_create__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+
+/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(66);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeError", function() { return _util_normalize__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(81);
+const cssKeywords = __webpack_require__(83);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -18336,14 +18363,14 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 43:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const os = __webpack_require__(20);
-const tty = __webpack_require__(44);
-const hasFlag = __webpack_require__(83);
+const tty = __webpack_require__(45);
+const hasFlag = __webpack_require__(85);
 
 const {env} = process;
 
@@ -18479,7 +18506,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
@@ -18652,34 +18679,172 @@ function isInstanceOf(wat, base) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 54:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean_path = exports.get_relevant_path_segments = exports.create_error = void 0;
+
+const http_1 = __webpack_require__(30);
+
+const error_utils_1 = __webpack_require__(42);
+
+const consts_1 = __webpack_require__(26); // TODO extern
+
+
+function create_error(message, details = {}, SEC) {
+  console.log(`FYI create_error("${message}"`, details, ') from', SEC === null || SEC === void 0 ? void 0 : SEC.getLogicalStack());
+
+  if (message && http_1.STATUS_CODES[message]) {
+    details.statusCode = Number(message);
+    message = http_1.STATUS_CODES[details.statusCode];
+  } //console.log('CE', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
+
+
+  const err = SEC ? SEC.createError(String(message), details) : error_utils_1.createError(String(message), details);
+  err.framesToPop++;
+  return err;
+}
+
+exports.create_error = create_error;
+const NETLIFY_ROOT = '/.netlify/functions'; // return [function id]/the/rest
+
+function get_relevant_path_segments(event) {
+  const original_path = event.path;
+  let normalized_path = original_path;
+  const has_trailing_slash = normalized_path.endsWith('/');
+  if (has_trailing_slash) normalized_path = normalized_path.slice(0, -1);
+  const has_useless_root = normalized_path.startsWith(NETLIFY_ROOT);
+  if (has_useless_root) normalized_path = normalized_path.slice(NETLIFY_ROOT.length);
+  const has_useless_prefix_slash = normalized_path.startsWith('/');
+  if (has_useless_prefix_slash) normalized_path = normalized_path.slice(1);
+  const segments = normalized_path.split('/');
+  console.log('get_relevant_path_segments()', {
+    original_path,
+    normalized_path,
+    segments
+  });
+  return segments;
+}
+
+exports.get_relevant_path_segments = get_relevant_path_segments;
+
+function loosely_get_clean_path(event) {
+  try {
+    return get_relevant_path_segments(event).join('/');
+  } catch {
+    return event === null || event === void 0 ? void 0 : event.path;
+  }
+}
+
+exports.loosely_get_clean_path = loosely_get_clean_path;
+
+function get_key_from_path(event, {
+  expected_fn,
+  expected_segment_count = 2
+} = {}) {
+  const segments = get_relevant_path_segments(event);
+  const actual_fn = segments.shift();
+
+  if (expected_fn && actual_fn !== expected_fn) {
+    throw create_error(`Unexpected fn "${actual_fn}" vs. "${expected_fn}"!`, {
+      statusCode: 500
+    });
+  }
+
+  const key = segments.pop();
+
+  if (expected_segment_count !== null && segments.length !== expected_segment_count - 2) {
+    throw create_error(`Too many path segments!`, {
+      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
+    });
+  }
+
+  if (!key) {
+    throw create_error(`Missing key!`, {
+      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
+    });
+  }
+
+  return key;
+}
+
+exports.get_key_from_path = get_key_from_path;
+
+function get_id_from_path(event, params = {}) {
+  const key = get_key_from_path(event, params);
+  const num = Number(key);
+
+  if (String(num) !== key) {
+    throw create_error(`Id is not an integer!`, {
+      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
+    });
+  }
+
+  if (!Number.isSafeInteger(num)) {
+    throw create_error(`Id is not a safe integer!`, {
+      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
+    });
+  }
+
+  return num;
+}
+
+exports.get_id_from_path = get_id_from_path;
+
+/***/ }),
+
+/***/ 547:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "STRICT_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+function areInputsEqual(newInputs, lastInputs) {
+    if (newInputs.length !== lastInputs.length) {
+        return false;
+    }
+    for (var i = 0; i < newInputs.length; i++) {
+        if (newInputs[i] !== lastInputs[i]) {
+            return false;
+        }
+    }
+    return true;
+}
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QUASI_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+function memoizeOne(resultFn, isEqual) {
+    if (isEqual === void 0) { isEqual = areInputsEqual; }
+    var lastThis;
+    var lastArgs = [];
+    var lastResult;
+    var calledOnce = false;
+    function memoized() {
+        var newArgs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            newArgs[_i] = arguments[_i];
+        }
+        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
+            return lastResult;
+        }
+        lastResult = resultFn.apply(this, newArgs);
+        calledOnce = true;
+        lastThis = this;
+        lastArgs = newArgs;
+        return lastResult;
+    }
+    return memoized;
+}
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS_EXTENDED", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(86);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createError", function() { return _util_create__WEBPACK_IMPORTED_MODULE_1__["a"]; });
-
-/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(87);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeError", function() { return _util_normalize__WEBPACK_IMPORTED_MODULE_2__["a"]; });
-
-
-
-
+/* harmony default export */ __webpack_exports__["default"] = (memoizeOne);
 
 
 /***/ }),
 
-/***/ 54:
+/***/ 55:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18794,52 +18959,7 @@ function is_server_response_body(body) {
 
 /***/ }),
 
-/***/ 546:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function areInputsEqual(newInputs, lastInputs) {
-    if (newInputs.length !== lastInputs.length) {
-        return false;
-    }
-    for (var i = 0; i < newInputs.length; i++) {
-        if (newInputs[i] !== lastInputs[i]) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function memoizeOne(resultFn, isEqual) {
-    if (isEqual === void 0) { isEqual = areInputsEqual; }
-    var lastThis;
-    var lastArgs = [];
-    var lastResult;
-    var calledOnce = false;
-    function memoized() {
-        var newArgs = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            newArgs[_i] = arguments[_i];
-        }
-        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
-            return lastResult;
-        }
-        lastResult = resultFn.apply(this, newArgs);
-        calledOnce = true;
-        lastThis = this;
-        lastArgs = newArgs;
-        return lastResult;
-    }
-    return memoized;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (memoizeOne);
-
-
-/***/ }),
-
-/***/ 55:
+/***/ 56:
 /***/ (function(module, exports) {
 
 /**
@@ -21114,17 +21234,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.test_failure = exports.FailureMode = void 0;
 
-const tslib_1 = __webpack_require__(75);
+const tslib_1 = __webpack_require__(77);
 
-const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(546));
+const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(547));
 
 const typescript_string_enums_1 = __webpack_require__(7);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(1));
 
-const consts_1 = __webpack_require__(29);
+const consts_1 = __webpack_require__(26);
 
-const utils_1 = __webpack_require__(57); ////////////////////////////////////
+const utils_1 = __webpack_require__(54); ////////////////////////////////////
 
 
 exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'throw-sync', 'throw-sync-non-error', 'throw-async', 'timeout', 'rejection', 'unhandled-rejection', 'bad-status-code', 'non-json-stringified-body', 'non-stringified-body', 'non-stringifiable-body', 'no-response-set'); ////////////////////////////////////
@@ -21237,126 +21357,6 @@ async function test_failure(SEC, event, context, response, next) {
 }
 
 exports.test_failure = test_failure;
-
-/***/ }),
-
-/***/ 57:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean_path = exports.get_relevant_path_segments = exports.create_error = void 0;
-
-const http_1 = __webpack_require__(30);
-
-const error_utils_1 = __webpack_require__(53);
-
-const consts_1 = __webpack_require__(29); // TODO extern
-
-
-function create_error(message, details = {}, SEC) {
-  console.log(`FYI create_error("${message}"`, details, ') from', SEC === null || SEC === void 0 ? void 0 : SEC.getLogicalStack());
-
-  if (message && http_1.STATUS_CODES[message]) {
-    details.statusCode = Number(message);
-    message = http_1.STATUS_CODES[details.statusCode];
-  } //console.log('CE', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
-
-
-  const err = SEC ? SEC.createError(String(message), details) : error_utils_1.createError(String(message), details);
-  err.framesToPop++;
-  return err;
-}
-
-exports.create_error = create_error;
-const NETLIFY_ROOT = '/.netlify/functions'; // return [function id]/the/rest
-
-function get_relevant_path_segments(event) {
-  const original_path = event.path;
-  let normalized_path = original_path;
-  const has_trailing_slash = normalized_path.endsWith('/');
-  if (has_trailing_slash) normalized_path = normalized_path.slice(0, -1);
-  const has_useless_root = normalized_path.startsWith(NETLIFY_ROOT);
-  if (has_useless_root) normalized_path = normalized_path.slice(NETLIFY_ROOT.length);
-  const has_useless_prefix_slash = normalized_path.startsWith('/');
-  if (has_useless_prefix_slash) normalized_path = normalized_path.slice(1);
-  const segments = normalized_path.split('/');
-  console.log('get_relevant_path_segments()', {
-    original_path,
-    normalized_path,
-    segments
-  });
-  return segments;
-}
-
-exports.get_relevant_path_segments = get_relevant_path_segments;
-
-function loosely_get_clean_path(event) {
-  try {
-    return get_relevant_path_segments(event).join('/');
-  } catch {
-    return event === null || event === void 0 ? void 0 : event.path;
-  }
-}
-
-exports.loosely_get_clean_path = loosely_get_clean_path;
-
-function get_key_from_path(event, {
-  expected_fn,
-  expected_segment_count = 2
-} = {}) {
-  const segments = get_relevant_path_segments(event);
-  const actual_fn = segments.shift();
-
-  if (expected_fn && actual_fn !== expected_fn) {
-    throw create_error(`Unexpected fn "${actual_fn}" vs. "${expected_fn}"!`, {
-      statusCode: 500
-    });
-  }
-
-  const key = segments.pop();
-
-  if (expected_segment_count !== null && segments.length !== expected_segment_count - 2) {
-    throw create_error(`Too many path segments!`, {
-      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
-    });
-  }
-
-  if (!key) {
-    throw create_error(`Missing key!`, {
-      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
-    });
-  }
-
-  return key;
-}
-
-exports.get_key_from_path = get_key_from_path;
-
-function get_id_from_path(event, params = {}) {
-  const key = get_key_from_path(event, params);
-  const num = Number(key);
-
-  if (String(num) !== key) {
-    throw create_error(`Id is not an integer!`, {
-      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
-    });
-  }
-
-  if (!Number.isSafeInteger(num)) {
-    throw create_error(`Id is not a safe integer!`, {
-      statusCode: consts_1.HTTP_STATUS_CODE.error.client.bad_request
-    });
-  }
-
-  return num;
-}
-
-exports.get_id_from_path = get_id_from_path;
 
 /***/ }),
 
@@ -21999,7 +21999,7 @@ function is_pure_json(js) {
   return false;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
-var fields = __webpack_require__(14);
+var fields = __webpack_require__(11);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -22403,6 +22403,85 @@ const {
 
 /***/ }),
 
+/***/ 65:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createError; });
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+
+function createError(message, attributes = {}, ctor = Error) {
+  message = String(message || attributes.message || 'Unknown error!');
+
+  if (!message.toLowerCase().includes('error')) {
+    message = 'Error: ' + message;
+  }
+
+  let err = new ctor(message);
+  Object.keys(attributes).forEach(k => {
+    const isErrorAttribute = _fields__WEBPACK_IMPORTED_MODULE_0__[/* COMMON_ERROR_FIELDS_EXTENDED */ "b"].has(k);
+    const isAutogeneratedErrorAttribute = _fields__WEBPACK_IMPORTED_MODULE_0__[/* QUASI_STANDARD_ERROR_FIELDS */ "c"].has(k);
+
+    if (k === 'details') {
+      err.details = { ...err.details,
+        ...attributes[k]
+      };
+    } else if (isAutogeneratedErrorAttribute) {// strange...
+      // ignore, don't allow overriding auto-generated props
+    } else if (isErrorAttribute) {
+      // attach directly
+      ;
+      err[k] = attributes[k];
+    } else {
+      err.details = err.details || {};
+      err.details[k] = attributes[k];
+    }
+  });
+  err.framesToPop = (err.framesToPop || 0) + 1;
+  return err;
+}
+
+/***/ }),
+
+/***/ 66:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return normalizeError; });
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+ // Anything can be thrown: undefined, string, number...)
+// But that's obviously not a good practice.
+// Normalize any thrown object into a true, normal error.
+// XXX will re-create the
+
+function normalizeError(err_like = {}) {
+  // Erro-like objects are sometime fancy!
+  // - seen: in browser, sometimes, an error-like, un-writable object is thrown
+  // - seen: frozen
+  // - seen: non-enumerable props
+  // So we want to ensure a true, safe, writable error object.
+  var _a, _b; // Yes, we always re-create in case
+
+
+  const p = Object.getPrototypeOf(err_like); // should we restrict to global standard constructors? TBD
+
+  const constructor = ((_b = (_a = p === null || p === void 0 ? void 0 : p.constructor) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.endsWith('Error')) ? p.constructor : Error; // https://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
+
+  const true_err = new (Function.prototype.bind.call(constructor, null, err_like.message || `(non-error caught: "${err_like}")`))();
+  /*const true_err: XXError = new Error(
+      err_like.message || `(non-error caught: "${err_like}")`,
+  )*/
+  // properly attach fields if they exist
+
+  _fields__WEBPACK_IMPORTED_MODULE_0__[/* COMMON_ERROR_FIELDS_EXTENDED */ "b"].forEach(prop => {
+    //if (prop in err_like)
+    if (err_like[prop]) true_err[prop] = err_like[prop];
+  });
+  return true_err;
+}
+
+/***/ }),
+
 /***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22459,7 +22538,7 @@ exports.Enum = Enum;
 
 /***/ }),
 
-/***/ 75:
+/***/ 77:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22718,7 +22797,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 /***/ }),
 
-/***/ 76:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22954,7 +23033,7 @@ module.exports.default = module.exports; // For TypeScript
 
 /***/ }),
 
-/***/ 77:
+/***/ 79:
 /***/ (function(module, exports, __webpack_require__) {
 
 var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(188);
@@ -23045,7 +23124,32 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 
-/***/ 79:
+/***/ 8:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
+
+  if (typeof global !== 'undefined') return global; // @ts-ignore
+
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
+
+
+/***/ }),
+
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23091,7 +23195,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(80);
+		colorConvert = __webpack_require__(82);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -23217,36 +23321,11 @@ Object.defineProperty(module, 'exports', {
 
 /***/ }),
 
-/***/ 8:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
-
-
-/***/ }),
-
-/***/ 80:
+/***/ 82:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(42);
-const route = __webpack_require__(82);
+const conversions = __webpack_require__(43);
+const route = __webpack_require__(84);
 
 const convert = {};
 
@@ -23330,7 +23409,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 81:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23490,10 +23569,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 82:
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(42);
+const conversions = __webpack_require__(43);
 
 /*
 	This function routes a model to all other models.
@@ -23594,7 +23673,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 83:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23610,7 +23689,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 84:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23657,7 +23736,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 85:
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23796,85 +23875,6 @@ module.exports = (chalk, temporary) => {
 	return chunks.join('');
 };
 
-
-/***/ }),
-
-/***/ 86:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createError; });
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
-
-function createError(message, attributes = {}, ctor = Error) {
-  message = String(message || attributes.message || 'Unknown error!');
-
-  if (!message.toLowerCase().includes('error')) {
-    message = 'Error: ' + message;
-  }
-
-  let err = new ctor(message);
-  Object.keys(attributes).forEach(k => {
-    const isErrorAttribute = _fields__WEBPACK_IMPORTED_MODULE_0__[/* COMMON_ERROR_FIELDS_EXTENDED */ "b"].has(k);
-    const isAutogeneratedErrorAttribute = _fields__WEBPACK_IMPORTED_MODULE_0__[/* QUASI_STANDARD_ERROR_FIELDS */ "c"].has(k);
-
-    if (k === 'details') {
-      err.details = { ...err.details,
-        ...attributes[k]
-      };
-    } else if (isAutogeneratedErrorAttribute) {// strange...
-      // ignore, don't allow overriding auto-generated props
-    } else if (isErrorAttribute) {
-      // attach directly
-      ;
-      err[k] = attributes[k];
-    } else {
-      err.details = err.details || {};
-      err.details[k] = attributes[k];
-    }
-  });
-  err.framesToPop = (err.framesToPop || 0) + 1;
-  return err;
-}
-
-/***/ }),
-
-/***/ 87:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return normalizeError; });
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
- // Anything can be thrown: undefined, string, number...)
-// But that's obviously not a good practice.
-// Normalize any thrown object into a true, normal error.
-// XXX will re-create the
-
-function normalizeError(err_like = {}) {
-  // Erro-like objects are sometime fancy!
-  // - seen: in browser, sometimes, an error-like, un-writable object is thrown
-  // - seen: frozen
-  // - seen: non-enumerable props
-  // So we want to ensure a true, safe, writable error object.
-  var _a, _b; // Yes, we always re-create in case
-
-
-  const p = Object.getPrototypeOf(err_like); // should we restrict to global standard constructors? TBD
-
-  const constructor = ((_b = (_a = p === null || p === void 0 ? void 0 : p.constructor) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.endsWith('Error')) ? p.constructor : Error; // https://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
-
-  const true_err = new (Function.prototype.bind.call(constructor, null, err_like.message || `(non-error caught: "${err_like}")`))();
-  /*const true_err: XXError = new Error(
-      err_like.message || `(non-error caught: "${err_like}")`,
-  )*/
-  // properly attach fields if they exist
-
-  _fields__WEBPACK_IMPORTED_MODULE_0__[/* COMMON_ERROR_FIELDS_EXTENDED */ "b"].forEach(prop => {
-    //if (prop in err_like)
-    if (err_like[prop]) true_err[prop] = err_like[prop];
-  });
-  return true_err;
-}
 
 /***/ }),
 
