@@ -19,7 +19,7 @@
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/rich-text-format": "^0",
 		"classnames": "^2",
-		"react-overlays": "^2",
+		"react-overlays": "^4",
 		"react-portal-tooltip": "^2"
 	},
 

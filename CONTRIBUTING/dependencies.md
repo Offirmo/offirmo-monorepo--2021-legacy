@@ -12,8 +12,7 @@
 In alphabetical order:
 * `@atlaskit/*` requires work to upgrade
 * `@types/node` we rightfully target the oldest active LTS, should be ignored
-* `pg` there is a breaking change that we can't overcome yet through our ORM (knex)
-* `react-overlays` requires work to upgrade
+* `pg` there is a breaking change that we can't overcome yet through our ORM (knex) TODO https://github.com/brianc/node-postgres/blob/master/CHANGELOG.md#pg810
 * `styled-components` old version required by @atlaskit
 * `typescript` always tricky to update
 
