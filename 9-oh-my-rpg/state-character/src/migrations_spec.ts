@@ -15,7 +15,7 @@ describe(`${LIB} - migration`, function() {
 
 		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: false,
-			//can_update_snapshots: true, // uncomment temporarily to update the snaphots
+			//can_update_snapshots: true, // uncomment temporarily to update the snapshots
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: enforce_immutability<any>(create()),
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
@@ -28,7 +28,7 @@ describe(`${LIB} - migration`, function() {
 
 		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: true,
-			//can_update_snapshots: true, // uncomment temporarily to update the snaphots
+			//can_update_snapshots: true, // uncomment temporarily to update the snapshots
 			migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: DEMO_STATE,
