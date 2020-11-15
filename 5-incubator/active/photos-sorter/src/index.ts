@@ -89,6 +89,7 @@ async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 }
 
 async function sort_all_medias() {
+
 	logger.group('******* STARTING EXPLORATION PHASE *******')
 	db = DB.explore_recursively(db)
 	await exec_pending_actions_recursively_until_no_more()
@@ -104,6 +105,12 @@ async function sort_all_medias() {
 	logger.log(DB.to_string(db))
 
 	logger.group('******* STARTING SORTING PHASE *******')
+
+	// delete duplicates
+	// move non-analizable to junk
+	// normalize in-place: rotate, rename, clean
+	// ensure structural dirs
+	// move to ideal location
 
 	db = DB.ensure_structural_dirs_are_present(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
@@ -300,7 +307,7 @@ async function move_file(id: RelativePath, target_id: RelativePath) {
 
 sort_all_medias()
 	.then(() => logger.info('All done, my pleasure!'))
-	.catch(err => logger.fatal('Please report.', { err }))
+	.catch(err => logger.fatal('Crash, please report.', { err }))
 	.finally(() => {
 		exiftool.end()
 	})

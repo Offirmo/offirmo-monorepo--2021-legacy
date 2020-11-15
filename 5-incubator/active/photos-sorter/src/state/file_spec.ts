@@ -7,6 +7,7 @@ import fs from 'fs'
 import hasha from 'hasha'
 import moment from 'moment'
 import 'moment-timezone'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { LIB } from '../consts'
 import {
@@ -26,11 +27,10 @@ import {
 	on_exif_read,
 	on_hash_computed, on_notes_unpersisted, get_best_creation_year,
 } from './file'
-import {get_compact_date, get_human_readable_timestamp_auto} from "../services/date_generator"
-import {get_current_timezone} from "../services/params"
+import { get_compact_date, get_human_readable_timestamp_auto } from "../services/date_generator"
+import { get_current_timezone } from "../services/params"
 
 /////////////////////
-
 
 describe(`${LIB} - file state`, function() {
 
@@ -50,7 +50,7 @@ describe(`${LIB} - file state`, function() {
 				'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg',
 			}
 			Object.keys(TEST_CASES).forEach(tc => {
-				let state: State = create(tc)
+				let state = create(tc)
 				const creation_date_ms = Number(new Date(2018, 10, 21, 6, 0, 45, 627))
 
 				state = on_fs_stats_read(state, {
@@ -83,7 +83,7 @@ describe(`${LIB} - file state`, function() {
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, default_zone)
 
 		it('should always prioritize the basename date', () => {
-			let state: State = create(`foo/MM${REAL_CREATION_DATE_RdTS}.jpg`)
+			let state = create(`foo/MM${REAL_CREATION_DATE_RdTS}.jpg`)
 
 			state = on_fs_stats_read(state, {
 				birthtime: BAD_CREATION_DATE_CANDIDATE,
@@ -102,7 +102,7 @@ describe(`${LIB} - file state`, function() {
 		})
 
 		it('should prioritize the original basename over the current one', () => {
-			let state: State = create(
+			let state = create(
 				`2000/${BAD_CREATION_DATE_CANDIDATE_COMPACT}/MM${BAD_CREATION_DATE_CANDIDATE_COMPACT}_09h08m07s006.jpg`
 			)
 
@@ -131,7 +131,7 @@ describe(`${LIB} - file state`, function() {
 		context('when no date in current nor original basename', function() {
 
 			it('should prioritise the EXIF data', () => {
-				let state: State = create('foo/bar.jpg')
+				let state = create('foo/bar.jpg')
 
 				state = on_fs_stats_read(state, {
 					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
@@ -160,7 +160,7 @@ describe(`${LIB} - file state`, function() {
 				it('should use fs stats')
 
 				it('should cross check with the parent hint if any', () => {
-					let state: State = create('20171020 - holidays/foo.jpg')
+					let state = create('20171020 - holidays/foo.jpg')
 
 					state = on_fs_stats_read(state, {
 						birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
@@ -192,7 +192,7 @@ describe(`${LIB} - file state`, function() {
 		describe('real files', function() {
 			const TEST_FILES_DIR = '../../../src/__test_shared'
 
-			async function load(state: Readonly<State>, abs_path: string): Promise<Readonly<State>> {
+			async function load(state: Immutable<State>, abs_path: string): Promise<Immutable<State>> {
 				expect(is_media_file(state)).to.be.true
 				expect(is_exif_powered_media_file(state)).to.be.true
 

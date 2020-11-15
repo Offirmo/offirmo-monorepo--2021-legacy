@@ -2,6 +2,7 @@ import stable_stringify from 'json-stable-stringify'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 const { cloneDeep } = require('lodash')
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { get_params } from '../params'
 import logger from '../services/logger'
@@ -20,7 +21,7 @@ const PARAMS = get_params()
 
 ///////////////////// ACCESSORS /////////////////////
 
-export function get_file_notes_from_hash(state: Readonly<State>, hash: string): null | Readonly<FileNotes> {
+export function get_file_notes_from_hash(state: Immutable<State>, hash: string): null | Immutable<FileNotes> {
 	if (state.media_files[hash])
 		return state.media_files[hash]
 
@@ -30,7 +31,7 @@ export function get_file_notes_from_hash(state: Readonly<State>, hash: string): 
 
 ///////////////////// REDUCERS /////////////////////
 
-export function create(): Readonly<State> {
+export function create(): Immutable<State> {
 	logger.trace(`[${LIB}] create(…)`, { })
 
 	return {
@@ -39,7 +40,7 @@ export function create(): Readonly<State> {
 	}
 }
 
-export function on_previous_notes_found(state: Readonly<State>, old_state: Readonly<State>): Readonly<State> {
+export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] on_notes_found(…)`, { })
 
 	// todo reconcile the DBs
@@ -48,7 +49,7 @@ export function on_previous_notes_found(state: Readonly<State>, old_state: Reado
 }
 
 // store infos for NEW files
-export function on_exploration_done(state: Readonly<State>, media_file_states: Readonly<FileState>[]): Readonly<State> {
+export function on_exploration_done(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
 	logger.trace(`[${LIB}] on_notes_found(…)`, { })
 
 	const media_files_notes: State['media_files'] = { ...state.media_files }
@@ -72,7 +73,7 @@ export function on_exploration_done(state: Readonly<State>, media_file_states: R
 	}
 }
 
-export function on_notes_taken(state: Readonly<State>, file_state: Readonly<FileState>): Readonly<State> {
+export function on_notes_taken(state: Immutable<State>, file_state: Immutable<FileState>): Immutable<State> {
 	logger.trace(`[${LIB}] on_notes_taken(…)`, { })
 
 	throw new Error('NIMP')
@@ -80,7 +81,7 @@ export function on_notes_taken(state: Readonly<State>, file_state: Readonly<File
 
 
 /*
-export function on_file_hashed(state: Readonly<State>, hash: string, notes: FileNotes): Readonly<State> {
+export function on_file_hashed(state: Immutable<State>, hash: string, notes: FileNotes): Immutable<State> {
 	logger.trace(`[${LIB}] on_file_hashed(…)`, { hash, notes })
 
 	const existing_notes = get_file_notes_from_hash(state, hash)
@@ -106,7 +107,7 @@ export function on_file_hashed(state: Readonly<State>, hash: string, notes: File
 }
 */
 
-export function on_file_modified(state: Readonly<State>, previous_hash: string, current_hash: string): Readonly<State> {
+export function on_file_modified(state: Immutable<State>, previous_hash: string, current_hash: string): Immutable<State> {
 	logger.trace(`[${LIB}] on_file_modified(…)`, { previous_hash, current_hash })
 
 	throw new Error('NIMP')
@@ -114,6 +115,6 @@ export function on_file_modified(state: Readonly<State>, previous_hash: string, 
 
 ///////////////////// DEBUG /////////////////////
 
-export function to_string(state: Readonly<State>) {
+export function to_string(state: Immutable<State>) {
 	throw new Error('NIMP')
 }

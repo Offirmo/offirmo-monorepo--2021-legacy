@@ -11,8 +11,19 @@ import {
 
 //declare const console: any
 
-describe('date generation', function() {
-	const TEST_DATE = new Date(2003, 4, 5, 6, 7, 8, 9)
+describe('date generator', function() {
+	// Note: Where Date is called as a constructor with more than one argument,
+	// the specified arguments represent local time.
+	// If UTC is desired, use new Date(Date.UTC(...)) with the same arguments.
+	const TEST_DATE = new Date(
+		2003,
+		4, // 0-based
+		5,
+		6,
+		7,
+		8,
+		9
+	)
 	const ZONE_GMT = 'Etc/GMT'
 
 	context('when using the base TZ', function() {

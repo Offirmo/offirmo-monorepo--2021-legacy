@@ -3,6 +3,7 @@ import { Enum } from 'typescript-string-enums'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { is_year, get_normalized_dirname, is_compact_date } from '../services/matchers'
 import { parse as parse_basename, extract_compact_date } from '../services/name_parser'
@@ -58,11 +59,11 @@ function _infer_start_date(base: Basename): undefined | SimpleYYYYMMDD {
 	return compact_date_from_basename || undefined
 }
 
-export function get_basename(state: Readonly<State>): Basename {
+export function get_basename(state: Immutable<State>): Basename {
 	return state.cached.parsed.base
 }
 
-export function get_ideal_basename(state: Readonly<State>): Basename {
+export function get_ideal_basename(state: Immutable<State>): Basename {
 	const current_basename = get_basename(state)
 
 	if (state.type !== Type.event)
@@ -74,14 +75,14 @@ export function get_ideal_basename(state: Readonly<State>): Basename {
 	return String(state.start_date + ' - ' + parsed.meaningful_part)
 }
 /*
-export function get_best_creation_year(state: Readonly<State>) {
+export function get_best_creation_year(state: Immutable<State>) {
 	assert(state.start_date)
 	return Math.trunc(state.start_date / 10000)
 }
 */
 ///////////////////// REDUCERS /////////////////////
 
-export function create(id: RelativePath): Readonly<State> {
+export function create(id: RelativePath): Immutable<State> {
 	logger.trace(`[${LIB}] create(…)`, { id })
 
 	const parsed = path.parse(id)
@@ -100,7 +101,7 @@ export function create(id: RelativePath): Readonly<State> {
 	}
 }
 
-export function on_subfile_found(state: Readonly<State>, file_state: Readonly<MediaFile.State>): Readonly<State> {
+export function on_subfile_found(state: Immutable<State>, file_state: Immutable<MediaFile.State>): Immutable<State> {
 	logger.trace(`[${LIB}] on_subfile_found(…)`, { })
 
 	if (state.type == Type.event) {
@@ -122,10 +123,7 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 					start_date: new_start_date,
 					end_date: new_end_date,
 				})
-			state = {
-				...state,
-				type: Type.unknown,
-			}
+			state = demote_to_unknown(state)
 		}
 		else {
 			logger.verbose(
@@ -147,7 +145,7 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 	return state
 }
 
-export function demote_to_unknown(state: Readonly<State>): Readonly<State> {
+export function demote_to_unknown(state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] demote_to_unknown(…)`, { })
 
 	assert(state.type === Type.event, 'demote_to_unknown precond')
@@ -159,7 +157,7 @@ export function demote_to_unknown(state: Readonly<State>): Readonly<State> {
 }
 
 /*
-export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly<State> {
+export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutable<State> {
 	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
 
 	return {
@@ -174,7 +172,7 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 
 ///////////////////// DEBUG /////////////////////
 
-export function to_string(state: Readonly<State>) {
+export function to_string(state: Immutable<State>) {
 	const { id, type, start_date, end_date } = state
 
 	let str = `📓  [${String(type).padStart(8)}]`

@@ -14,7 +14,7 @@ describe(`${LIB} - params derivation`, function() {
 
 		it('should work', () => {
 			const current_tz = get_current_timezone()
-			//console.log({ current_tz })
+			console.log({ current_tz })
 			expect(current_tz).to.be.a('string')
 			expect(current_tz.length).to.be.at.least(5)
 		})

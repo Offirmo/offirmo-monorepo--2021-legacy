@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant'
 import { Tags, ExifDateTime } from 'exiftool-vendored'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { TimeZone } from '../types'
 import logger from './logger'
@@ -22,7 +23,7 @@ const EXIF_DATE_FIELDS: string[] = [
 	'MediaCreateDate',
 ]
 
-export function get_creation_date_from_exif(exif_data: Readonly<Tags>, default_zone?: string): Date | null {
+export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_zone?: string): Date | null {
 	const now = new Date()
 	let min_date = now
 	const candidate_dates_ms: DateHash = EXIF_DATE_FIELDS.reduce((acc: DateHash, field: string) => {
@@ -112,7 +113,7 @@ export function get_creation_date_from_exif(exif_data: Readonly<Tags>, default_z
 
 }
 
-export function get_time_zone_from_exif(exif_data: Readonly<Tags>): TimeZone | undefined {
+export function get_time_zone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
 	const res = exif_data.tz
 	assert(typeof res === 'string' || typeof res === 'undefined', 'exif_data.tz type check')
 	return res

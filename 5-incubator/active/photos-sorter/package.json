@@ -9,6 +9,7 @@
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
 		"@offirmo-private/prettify-any": "^0",
+		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo/cli-toolbox": "^2",
 		"@offirmo/universal-debug-api-node": "^0",
@@ -29,12 +30,13 @@
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"xxtest": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod",
 
 		"start": "node dist/src.es2019.cjs/index.js"
 	},
 	"devDependencies": {
+		"@offirmo-private/ts-types": "^0",
 		"@offirmo/unit-test-toolbox": "^6",
 		"@types/node": "^14",
 		"npm-run-all": "^4"

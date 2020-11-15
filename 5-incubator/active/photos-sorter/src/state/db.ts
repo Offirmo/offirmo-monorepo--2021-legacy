@@ -4,6 +4,7 @@ import fs from 'fs'
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Tags } from 'exiftool-vendored'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import logger from '../services/logger'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
@@ -25,7 +26,7 @@ import {
 
 /////////////////////
 
-const LIB = '🗄 '
+const LIB = '🗄'
 
 /////////////////////
 
@@ -41,7 +42,7 @@ export interface State {
 
 ///////////////////// ACCESSORS /////////////////////
 
-export function get_absolute_path(state: Readonly<State>, id: RelativePath): AbsolutePath {
+export function get_absolute_path(state: Immutable<State>, id: RelativePath): AbsolutePath {
 	return path.join(state.root, id)
 }
 
@@ -49,47 +50,47 @@ export function get_final_base(base: Basename): Basename {
 	return `- ${base}`
 }
 
-export function has_pending_actions(state: Readonly<State>): boolean {
+export function has_pending_actions(state: Immutable<State>): boolean {
 	return state.queue.length > 0
 }
 
-export function get_first_pending_action(state: Readonly<State>): Action {
+export function get_first_pending_action(state: Immutable<State>): Action {
 	if (!has_pending_actions(state))
 		throw new Error('No more pending actions!')
 
 	return state.queue[0]
 }
 
-export function get_all_folder_ids(state: Readonly<State>): string[] {
+export function get_all_folder_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.folders)
 		.sort()
 }
 
-export function get_all_event_folder_ids(state: Readonly<State>): string[] {
+export function get_all_event_folder_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.folders)
 		.filter(k => state.folders[k].type === Folder.Type.event)
 		//.sort((a, b) => state.folders[a].start_date! - state.folders[b].start_date!)
 }
 
-export function get_all_file_ids(state: Readonly<State>): string[] {
+export function get_all_file_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.files)
 		.sort()
 }
 
-export function get_all_media_file_ids(state: Readonly<State>): string[] {
+export function get_all_media_file_ids(state: Immutable<State>): string[] {
 	return get_all_file_ids(state)
 		.filter(k => File.is_media_file(state.files[k]))
 }
 
-export function is_existing(state: Readonly<State>, id: RelativePath): boolean {
+export function is_existing(state: Immutable<State>, id: RelativePath): boolean {
 	return state.files.hasOwnProperty(id) || is_folder_existing(state, id)
 }
 
-export function is_folder_existing(state: Readonly<State>, id: RelativePath): boolean {
+export function is_folder_existing(state: Immutable<State>, id: RelativePath): boolean {
 	return state.folders.hasOwnProperty(id)
 }
 
-export function get_ideal_file_relative_path(state: Readonly<State>, id: RelativePath): RelativePath {
+export function get_ideal_file_relative_path(state: Immutable<State>, id: RelativePath): RelativePath {
 	const file_state = state.files[id]
 	const highest_parent = file_state.memoized.get_parsed_path(file_state).dir.split(path.sep)[0]
 	const cantsort_segment = get_final_base(Folder.CANTSORT_BASENAME)
@@ -137,7 +138,7 @@ export function get_ideal_file_relative_path(state: Readonly<State>, id: Relativ
 
 ///////////////////// REDUCERS /////////////////////
 
-export function create(root: AbsolutePath): Readonly<State> {
+export function create(root: AbsolutePath): Immutable<State> {
 	logger.trace(`[${LIB}] create(…)`, { root })
 
 	let state: State = {
@@ -151,7 +152,7 @@ export function create(root: AbsolutePath): Readonly<State> {
 	return state
 }
 
-function _enqueue_action(state: Readonly<State>, action: Action): Readonly<State> {
+function _enqueue_action(state: Immutable<State>, action: Action): Immutable<State> {
 	logger.trace(`[${LIB}] enqueue_action(…)`, action)
 
 	return {
@@ -160,7 +161,7 @@ function _enqueue_action(state: Readonly<State>, action: Action): Readonly<State
 	}
 }
 
-export function discard_first_pending_action(state: Readonly<State>): Readonly<State> {
+export function discard_first_pending_action(state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] discard_first_pending_action(…)`, { action: state.queue[0] })
 
 	return {
@@ -169,7 +170,7 @@ export function discard_first_pending_action(state: Readonly<State>): Readonly<S
 	}
 }
 
-function _register_folder(state: Readonly<State>, id: RelativePath, exists: boolean): Readonly<State> {
+function _register_folder(state: Immutable<State>, id: RelativePath, exists: boolean): Immutable<State> {
 	const folder_state = Folder.create(id)
 
 	state = {
@@ -185,7 +186,7 @@ function _register_folder(state: Readonly<State>, id: RelativePath, exists: bool
 	return state
 }
 
-export function on_folder_found(state: Readonly<State>, parent_id: RelativePath, sub_id: RelativePath): Readonly<State> {
+export function on_folder_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`[${LIB}] on_folder_found(…)`, { id })
 
@@ -198,7 +199,7 @@ export function on_folder_found(state: Readonly<State>, parent_id: RelativePath,
 	return state
 }
 
-export function on_file_found(state: Readonly<State>, parent_id: RelativePath, sub_id: RelativePath): Readonly<State> {
+export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`[${LIB}] on_file_found(…)`, { id })
 
@@ -228,7 +229,7 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 	return state
 }
 
-function _on_file_info_read(state: Readonly<State>, file_id: RelativePath): Readonly<State> {
+function _on_file_info_read(state: Immutable<State>, file_id: RelativePath): Immutable<State> {
 	const file_state = state.files[file_id]
 
 	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state)) {
@@ -249,7 +250,7 @@ function _on_file_info_read(state: Readonly<State>, file_id: RelativePath): Read
 	return state
 }
 
-export function on_fs_stats_read(state: Readonly<State>, file_id: RelativePath, stats: Readonly<fs.Stats>): Readonly<State> {
+export function on_fs_stats_read(state: Immutable<State>, file_id: RelativePath, stats: Immutable<fs.Stats>): Immutable<State> {
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { file_id })
 
 	const new_file_state = File.on_fs_stats_read(state.files[file_id], stats)
@@ -265,7 +266,7 @@ export function on_fs_stats_read(state: Readonly<State>, file_id: RelativePath, 
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif_data: Readonly<Tags>): Readonly<State> {
+export function on_exif_read(state: Immutable<State>, file_id: RelativePath, exif_data: Immutable<Tags>): Immutable<State> {
 	logger.trace(`[${LIB}] on_exif_read(…)`, { file_id })
 
 	const new_file_state = File.on_exif_read(state.files[file_id], exif_data)
@@ -281,7 +282,7 @@ export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_hash_computed(state: Readonly<State>, file_id: RelativePath, hash: string): Readonly<State> {
+export function on_hash_computed(state: Immutable<State>, file_id: RelativePath, hash: string): Immutable<State> {
 	logger.trace(`[${LIB}] on_hash_computed(…)`, { file_id })
 
 	let new_file_state = File.on_hash_computed(state.files[file_id], hash)
@@ -298,7 +299,7 @@ export function on_hash_computed(state: Readonly<State>, file_id: RelativePath, 
 }
 
 /*
-export function on_folder_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+export function on_folder_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.trace(`[${LIB}] on_folder_moved(…)`, { })
 
 	assert(!state.folders[target_id])
@@ -320,22 +321,30 @@ export function on_folder_moved(state: Readonly<State>, id: RelativePath, target
 	return state
 }*/
 
-export function on_file_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.trace(`[${LIB}] on_file_moved(…)`, { })
 
 	assert(!state.files[target_id], 'on_file_moved() file state')
 
-	// TODO immu
 	let file_state = state.files[id]
 	file_state = File.on_moved(file_state, target_id)
-	delete state.files[id]
-	state.files[target_id] = file_state
+
+	let files: { [id: string]: Immutable<File.State> } = {
+		...state.files
+	}
+	delete files[id]
+	files[target_id] = file_state
+
+	state = {
+		...state,
+		files,
+	}
 
 	return state
 }
 
 /*
-export function merge_folder(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+export function merge_folder(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.info(`merging folders: "${id}" into "${target_id}"`)
 
 	assert(id !== target_id)
@@ -376,47 +385,56 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 
 ///////////////////// ACTIONS /////////////////////
 
-export function explore_recursively(state: Readonly<State>): Readonly<State> {
+export function explore_recursively(state: Immutable<State>): Immutable<State> {
 	return on_folder_found(state, '', '.')
 }
 
-export function on_exploration_done(state: Readonly<State>): Readonly<State> {
+export function on_exploration_done(_state: Immutable<State>): Immutable<State> {
+
+	console.warn('on_exploration_done() TODO fix Immu ')
+	let state: State = _state as any as State
+	let { notes } = state
+	let folders: { [id: string]: Immutable<Folder.State> } = { ...state.folders }
+	let files: { [id: string]: Immutable<File.State> } = { ...state.files }
 
 	// demote event folders with no dates
 	let all_event_folder_ids = get_all_event_folder_ids(state)
 	all_event_folder_ids.forEach(id => {
-		state.folders[id] = Folder.demote_to_unknown(state.folders[id]) // TODO immu?
+		folders[id] = Folder.demote_to_unknown(folders[id])
 	})
+	state = {
+		...state,
+		folders,
+	}
 
 	// demote non-canonical or overlapping folder events but create the canonical ones
 	all_event_folder_ids = get_all_event_folder_ids(state)
 	all_event_folder_ids.forEach(id => {
-		const folder_state = state.folders[id]
+		//const folder_state = state.folders[id]
 		throw new Error('NIMP')
 	})
 
 	// consolidate all data
-	const all_media_files: Readonly<File.State>[] = Object.values(get_all_media_file_ids(state)).map(id => state.files[id])
-	state = {
-		...state,
-		files: {
-			...state.files,
-		},
-		notes: Notes.on_exploration_done(state.notes, all_media_files)
-	}
+	const all_media_files: Immutable<File.State>[] = Object.values(get_all_media_file_ids(state)).map(id => files[id])
+	notes = Notes.on_exploration_done(notes, all_media_files)
 
 	all_media_files.forEach(file_state => {
 		const { id, current_hash } = file_state
-		state.files[id] = File.on_notes_unpersisted(
+		files[id] = File.on_notes_unpersisted(
 				file_state,
 				Notes.get_file_notes_from_hash(state.notes, current_hash!)
 			)
 	})
 
-	return state
+	return {
+		...state,
+		files,
+		folders,
+		notes,
+	}
 }
 
-export function normalize_medias_in_place(state: Readonly<State>): Readonly<State> {
+export function normalize_medias_in_place(state: Immutable<State>): Immutable<State> {
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
 		state = _enqueue_action(state, create_action_normalize_file(id))
@@ -425,7 +443,7 @@ export function normalize_medias_in_place(state: Readonly<State>): Readonly<Stat
 	return state
 }
 
-export function ensure_structural_dirs_are_present(state: Readonly<State>): Readonly<State> {
+export function ensure_structural_dirs_are_present(state: Immutable<State>): Immutable<State> {
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.INBOX_BASENAME)))
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.CANTSORT_BASENAME)))
 
@@ -443,7 +461,7 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 	return state
 }
 
-export function move_all_files_to_their_ideal_location_incl_deduping(state: Readonly<State>): Readonly<State> {
+export function move_all_files_to_their_ideal_location_incl_deduping(state: Immutable<State>): Immutable<State> {
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.files[id]
@@ -452,11 +470,11 @@ export function move_all_files_to_their_ideal_location_incl_deduping(state: Read
 	throw new Error('NIMP move_all_files_to_their_ideal_location_incl_deduping')
 }
 
-export function delete_empty_folders_recursively(state: Readonly<State>): Readonly<State> {
+export function delete_empty_folders_recursively(state: Immutable<State>): Immutable<State> {
 	throw new Error('NIMP')
 }
 /*
-export function ensure_existing_event_folders_are_organized(state: Readonly<State>): Readonly<State> {
+export function ensure_existing_event_folders_are_organized(state: Immutable<State>): Immutable<State> {
 
 	// first re-qualify some event folders
 	Object.keys(state.folders).forEach(id => {
@@ -520,7 +538,7 @@ export function ensure_existing_event_folders_are_organized(state: Readonly<Stat
 */
 
 
-function _event_folder_matches(folder_state: Readonly<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
+function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
 	return true
 		&& !!folder_state.start_date
 		&& !!folder_state.end_date
@@ -528,7 +546,7 @@ function _event_folder_matches(folder_state: Readonly<Folder.State>, compact_dat
 		&& compact_date <= folder_state.end_date
 }
 /*
-export function ensure_all_needed_events_folders_are_present_and_move_files_in_them(state: Readonly<State>): Readonly<State> {
+export function ensure_all_needed_events_folders_are_present_and_move_files_in_them(state: Immutable<State>): Immutable<State> {
 	const actions: Action[] = []
 
 	const all_events_folder_ids = get_all_event_folder_ids(state)
@@ -582,7 +600,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 
 // TODO move non-event folders to cantsort, or delete them if empty
 
-export function ensure_all_eligible_files_are_correctly_named(state: Readonly<State>): Readonly<State> {
+export function ensure_all_eligible_files_are_correctly_named(state: Immutable<State>): Immutable<State> {
 	const actions: Action[] = []
 
 	const all_file_ids = get_all_media_file_ids(state)
@@ -603,7 +621,7 @@ export function ensure_all_eligible_files_are_correctly_named(state: Readonly<St
 
 ///////////////////// DEBUG /////////////////////
 
-export function to_string(state: Readonly<State>) {
+export function to_string(state: Immutable<State>) {
 	const { root, files, folders } = state
 
 	let str = `

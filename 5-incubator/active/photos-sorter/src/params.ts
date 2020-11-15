@@ -13,6 +13,7 @@ export interface DefaultTzChange {
 	date_utc_ms: number,
 	new_default: string
 }
+
 export interface Params {
 	root: AbsolutePath
 	dry_run: boolean
@@ -30,12 +31,13 @@ export interface Params {
 // the earliest known photo was taken in 1826
 // https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras
 const YYYY_LOWER_BOUND = 1826
-const YYYY_UPPER_BOUND = (new Date()).getFullYear() + 1
 assert(YYYY_LOWER_BOUND >= 1826, 'earliest known')
+
+const YYYY_UPPER_BOUND = (new Date()).getFullYear() + 1 // +1 to handle taking pictures during new year eve
 assert(YYYY_UPPER_BOUND >= YYYY_LOWER_BOUND, 'higher > lower')
 
-const DATE_LOWER_BOUND: SimpleYYYYMMDD = YYYY_LOWER_BOUND * 10000 +  101
-const DATE_UPPER_BOUND: SimpleYYYYMMDD = YYYY_UPPER_BOUND * 10000 + 1231
+const DATE_LOWER_BOUND: SimpleYYYYMMDD = (YYYY_LOWER_BOUND * 10000) + 101
+const DATE_UPPER_BOUND: SimpleYYYYMMDD = (YYYY_UPPER_BOUND * 10000) + 102 // photos taken "next" year can only happen during new year eve
 
 
 export function get_params(): Params {
@@ -77,8 +79,8 @@ export function get_params(): Params {
 		].map(s => s.toLowerCase()),
 
 		default_timezones: [
-			// order expected
-			//
+			// if no time zone, infer it according to this timetable
+			// Expected to be in order
 			{
 				date_utc_ms: Number(new Date(YYYY_LOWER_BOUND, 0)),
 				new_default: TZONE_FR,
