@@ -1,0 +1,11 @@
+{
+	"schema_version": 1,
+	"revision": 5,
+	"stories": [
+		{
+			"id": "lorem_ipsum",
+			"last_access_tms": 1605429372129,
+			"progress": 3
+		}
+	]
+}
