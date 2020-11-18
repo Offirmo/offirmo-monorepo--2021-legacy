@@ -17,7 +17,8 @@ import {
 	parse,
 	ParseResult,
 } from './name_parser'
-import { get_current_timezone } from "./params"
+import { get_current_timezone } from './params'
+import { get_current_year } from './better-date'
 
 /////////////////////
 
@@ -31,7 +32,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			expect(_get_y2k_year_from_fragment('01')).to.equal(2001)
 			expect(_get_y2k_year_from_fragment('19')).to.equal(2019)
 
-			const YYYY_UPPER_BOUND = (new Date()).getFullYear() + 1
+			const YYYY_UPPER_BOUND = get_current_year() + 1
 			const YY_UPPER_BOUND = YYYY_UPPER_BOUND - 2000
 			if (YYYY_UPPER_BOUND >= 2069) {
 				expect(_get_y2k_year_from_fragment('69')).to.equal(2069)

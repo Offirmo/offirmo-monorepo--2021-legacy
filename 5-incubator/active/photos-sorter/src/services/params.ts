@@ -3,6 +3,7 @@ import { Immutable} from '@offirmo-private/ts-types'
 import { TimeZone } from '../types'
 import logger from './logger'
 import { Params, get_params } from '../params'
+import { BetterDate, get_timestamp_utc_ms } from './better-date'
 
 
 export function get_current_timezone(): TimeZone {
@@ -10,8 +11,8 @@ export function get_current_timezone(): TimeZone {
 	return Intl.DateTimeFormat().resolvedOptions().timeZone
 }
 
-export function get_default_timezone(date: Immutable<Date>, PARAMS: Immutable<Params> = get_params()): TimeZone {
-	const date_utc_ms = Number(date)
+export function get_default_timezone(date: Immutable<BetterDate>, PARAMS: Immutable<Params> = get_params()): TimeZone {
+	const date_utc_ms = get_timestamp_utc_ms(date)
 	//console.log('get_default_timezone()', { date_utc_ms, PARAMS })
 
 	let res: TimeZone = get_current_timezone()

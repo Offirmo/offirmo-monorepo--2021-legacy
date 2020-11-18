@@ -1,6 +1,7 @@
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
+import { SimpleYYYYMMDD } from '../types'
 import { get_params } from '../params'
 import {
 	SEPARATORS,
@@ -21,8 +22,10 @@ import {
 	get_compact_date,
 	get_human_readable_timestamp_auto,
 } from './date_generator'
+import {
+	BetterDate, create_better_date_compat,
+} from './better-date'
 import logger from './logger'
-import { SimpleYYYYMMDD } from "../types"
 import { get_current_timezone } from './params'
 
 
@@ -57,7 +60,7 @@ const PARAMS = get_params()
 export interface DigitsParseResult {
 	summary: 'no_match' | 'need_more' | 'ok' | 'perfect' | 'too_much' | 'error'
 	reason: null | string
-	date: undefined | Date
+	date: undefined | BetterDate
 	is_ambiguous: boolean
 }
 export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): DigitsParseResult {
@@ -151,7 +154,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		})
 
 		if (blocks.join('') !== digits) {
-			logger.error('BAD IMPROV SPLIT', {
+			logger.error('splitting improvement failure', {
 				blocks_before: blocks_previous,
 				blocks_after: blocks,
 				digits_before: digits,
@@ -233,7 +236,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 				date_creation_args.push(Number(blocks[0]))
 			else
 				date_creation_args.push(_get_y2k_year_from_fragment(blocks[2])!)
-			date_creation_args.push(Number(blocks[1]) - 1)
+			date_creation_args.push(Number(blocks[1]))
 			date_creation_args.push(Number(blocks[2]))
 			break
 		}
@@ -263,7 +266,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 				date_creation_args.push(Number(blocks[2]))
 			else
 				date_creation_args.push(_get_y2k_year_from_fragment(blocks[2])!)
-			date_creation_args.push(Number(blocks[1]) - 1)
+			date_creation_args.push(Number(blocks[1]))
 			date_creation_args.push(Number(blocks[0]))
 			break
 		}
@@ -334,7 +337,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	if (blocks.length === 7) {
 		result.summary = 'perfect'
 		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
-		result.date = new Date(...(date_creation_args as [ number, number ]))
+		result.date = create_better_date_compat(...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
 		return result
 	}
@@ -344,7 +347,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		|| blocks.length === 6) {
 		result.summary = 'ok'
 		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
-		result.date = new Date(...(date_creation_args as [ number, number ]))
+		result.date = create_better_date_compat(...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
 		return result
 	}
@@ -361,7 +364,7 @@ export interface ParseResult {
 	extension_lc: string
 	date_digits: undefined | string // in order of discovery, not in order of rank!
 	digits_pattern: undefined | string // useful to recognise ourselves ;)
-	date: undefined | Date
+	date: undefined | BetterDate
 	is_date_ambiguous: undefined | boolean
 	meaningful_part: string
 }

@@ -3,10 +3,11 @@ import { Tags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 
 import { TimeZone } from '../types'
+import { LegacyDate } from './better-date'
 import logger from './logger'
 
 
-type DateHash = { [k: string]: Date }
+type LegacyDateHash = { [k: string]: LegacyDate }
 
 
 const EXIF_DATE_FIELDS: string[] = [
@@ -23,10 +24,10 @@ const EXIF_DATE_FIELDS: string[] = [
 	'MediaCreateDate',
 ]
 
-export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_zone?: string): Date | null {
-	const now = new Date()
+export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_zone?: string): LegacyDate | null {
+	const now = new LegacyDate()
 	let min_date = now
-	const candidate_dates_ms: DateHash = EXIF_DATE_FIELDS.reduce((acc: DateHash, field: string) => {
+	const candidate_dates_ms: LegacyDateHash = EXIF_DATE_FIELDS.reduce((acc: LegacyDateHash, field: string) => {
 		let exiftool_date: undefined | ExifDateTime = (exif_data as any)[field]
 		if (!exiftool_date) return acc
 		if ((exiftool_date as any) === '0000:00:00 00:00:00') {
@@ -95,7 +96,7 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 		min_date = (+date < +min_date) ? date : min_date
 		//console.log({ date, min_date })
 		return acc
-	}, {} as DateHash)
+	}, {} as LegacyDateHash)
 
 	if (Object.keys(candidate_dates_ms).length === 0) {
 		// seen happening on edited jpg

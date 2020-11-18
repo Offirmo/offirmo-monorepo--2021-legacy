@@ -3,11 +3,12 @@ import path from 'path'
 import assert from 'tiny-invariant'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from './consts'
-import { SimpleYYYYMMDD, AbsolutePath } from './types'
+import { SimpleYYYYMMDD, AbsolutePath, TimeZone } from './types'
+import { get_current_year, get_timestamp_utc_ms, create_better_date_compat } from './services/better-date'
 
 
-const TZONE_FR = 'Europe/Paris'
-const TZONE_AU = 'Australia/Sydney'
+const TZONE_FR: TimeZone = 'Europe/Paris'
+const TZONE_AU: TimeZone = 'Australia/Sydney'
 
 export interface DefaultTzChange {
 	date_utc_ms: number,
@@ -33,7 +34,7 @@ export interface Params {
 const YYYY_LOWER_BOUND = 1826
 assert(YYYY_LOWER_BOUND >= 1826, 'earliest known')
 
-const YYYY_UPPER_BOUND = (new Date()).getFullYear() + 1 // +1 to handle taking pictures during new year eve
+const YYYY_UPPER_BOUND = get_current_year() + 1 // +1 to handle taking pictures during new year eve
 assert(YYYY_UPPER_BOUND >= YYYY_LOWER_BOUND, 'higher > lower')
 
 const DATE_LOWER_BOUND: SimpleYYYYMMDD = (YYYY_LOWER_BOUND * 10000) + 101
@@ -82,19 +83,19 @@ export function get_params(): Params {
 			// if no time zone, infer it according to this timetable
 			// Expected to be in order
 			{
-				date_utc_ms: Number(new Date(YYYY_LOWER_BOUND, 0)),
+				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(YYYY_LOWER_BOUND, 0)),
 				new_default: TZONE_FR,
 			},
 			{
-				date_utc_ms: Number(new Date(2009, 7, 10)),
+				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2009, 7, 10)),
 				new_default: 'Asia/Bangkok',
 			},
 			{
-				date_utc_ms: Number(new Date(2010, 6, 8)),
+				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2010, 6, 8)),
 				new_default: TZONE_FR,
 			},
 			{
-				date_utc_ms: Number(new Date(2017, 6, 14)),
+				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2017, 6, 14)),
 				new_default: TZONE_AU,
 			},
 		].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
