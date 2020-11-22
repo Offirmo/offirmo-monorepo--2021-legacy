@@ -8,17 +8,16 @@ import {
 	ALL_SAMPLES,
 } from '../__test_shared/filenames'
 import {
-	get_human_readable_timestamp_auto,
-} from './date_generator'
-import {
 	_get_y2k_year_from_fragment,
 	_parse_digit_blocks,
 	DigitsParseResult,
 	parse,
 	ParseResult,
 } from './name_parser'
-import { get_current_timezone } from './params'
-import { get_current_year } from './better-date'
+import {
+	get_current_year,
+	get_human_readable_timestamp_auto,
+} from './better-date'
 
 /////////////////////
 
@@ -72,7 +71,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					}
 
 					expect(
-						get_human_readable_timestamp_auto(result.date!, get_current_timezone()),
+						get_human_readable_timestamp_auto(result.date!, 'tz:embedded'),
 						`human ts`
 					).to.equal(human_ts_current_tz_for_tests)
 					//console.log(result.date!.toISOString())
@@ -169,7 +168,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							`digits for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.date_digits)
 						expect(
-							get_human_readable_timestamp_auto(result.date!, get_current_timezone()),
+							get_human_readable_timestamp_auto(result.date!, 'tz:embedded'),
 							`human ts for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.human_ts_current_tz_for_tests)
 					})

@@ -6,32 +6,43 @@ import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
-import {Basename, RelativePath, SimpleYYYYMMDD, ISODateString, TimeZone} from '../types'
-import {get_params, Params} from '../params'
+import { Basename, RelativePath, SimpleYYYYMMDD, ISODateString, TimeZone } from '../types'
+import { get_params, Params } from '../params'
 import logger from '../services/logger'
-import { get_creation_date_from_exif, get_time_zone_from_exif } from '../services/exif'
+import { get_most_reliable_birthtime_from_fs_stats } from '../services/fs'
+import { get_creation_date_from_exif } from '../services/exif'
+
 import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
-import { get_human_readable_timestamp_auto, get_compact_date } from '../services/date_generator'
-import { get_default_timezone } from '../services/params'
-import { BetterDate, LegacyDate } from '../services/better-date'
+import {
+	BetterDate,
+	LegacyDate,
+	get_human_readable_timestamp_auto,
+	get_compact_date,
+	create_better_date,
+	create_better_date_from_utc_tms,
+	create_better_date_from_ExifDateTime,
+} from '../services/better-date'
 
-
+// Data that we modified (or plan to)
 export interface OriginalData {
 	// from path
 	basename: Basename
 	closest_parent_with_date_hint?: Basename
 
 	// from fs
-	birthtime?: ISODateString
+	birthtime_ms?: TimestampUTCMs
 
 	// from exif
 	exif_orientation?: number
 }
 
+// notes contain infos that can't be preserved inside the file itself
+// but that neel to be preserved across invocations
 export interface PersistedNotes {
-	deleted: boolean // TODO remember files which were deleted
+	deleted: boolean // TODO
 	original: OriginalData
 }
 
@@ -73,17 +84,7 @@ export function get_file_notes_from_exif(exif_data: Immutable<State['current_exi
 }
 */
 
-function get_most_reliable_birthtime_from_fs_stats(fs_stats: Immutable<State['current_fs_stats']>): LegacyDate {
-	assert(fs_stats, 'fs stats ok ✔')
 
-	// fs stats are unreliable for some reasons.
-	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats!
-	const lowest_ms = Math.min(
-			...[birthtimeMs, atimeMs, mtimeMs, ctimeMs].filter(d => !!d)
-		)
-
-	return new LegacyDate(lowest_ms)
-}
 
 ////////////
 
@@ -117,10 +118,8 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 		)
 }
 
-function _get_creation_date_from_fs_stats(state: Immutable<State>): LegacyDate {
-	return state.notes.original.birthtime
-		? new LegacyDate(state.notes.original.birthtime)
-		: get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
+function _get_creation_date_from_fs_stats(state: Immutable<State>): TimestampUTCMs {
+	return state.notes.original.birthtime_ms ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date_from_basename(state: Immutable<State>): BetterDate | null {
 	return state.memoized.get_parsed_original_basename(state).date || null
@@ -133,11 +132,11 @@ function _get_creation_date_from_parent_name(state: Immutable<State>): BetterDat
 
 	return parsed.date || null
 }
-function _get_creation_date_from_exif(state: Immutable<State>): LegacyDate | null {
+function _get_creation_date_from_exif(state: Immutable<State>): ExifDateTime | undefined {
 	const { id, current_exif_data } = state
 	if (!is_exif_powered_media_file(state)) {
 		// exif reader manage to put some stuff, but it's not interesting
-		return null
+		return undefined
 	}
 
 	assert(current_exif_data, `${id}: exif data read`)
@@ -158,19 +157,24 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 		assert(false, 'has_all_infos_for_extracting_the_creation_date() === true')
 	}
 
-	const from_basename = _get_creation_date_from_basename(state)
+	const from_basename: BetterDate | null = _get_creation_date_from_basename(state)
 	//console.log({ from_basename })
+
+	const from_fs = create_better_date_from_utc_tms(_get_creation_date_from_fs_stats(state))
 
 	// even if we have a date from name,
 	// the exifs one may be more precise,
 	// so let's continue
 
-	const from_exif = _get_creation_date_from_exif(state)
+	const _from_exif: ExifDateTime | undefined = _get_creation_date_from_exif(state)
+	const from_exif: BetterDate | undefined = _from_exif
+		? create_better_date_from_ExifDateTime(_from_exif)
+		: undefined
 	try {
 		if (from_exif) {
 			if (from_basename) {
-				const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'Etc/GMT')
-				const auto_from_exif = get_human_readable_timestamp_auto(from_exif, 'Etc/GMT')
+				const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
+				const auto_from_exif = get_human_readable_timestamp_auto(from_exif, 'tz:embedded')
 
 				if (auto_from_exif.startsWith(auto_from_basename))
 					return from_exif // perfect match, EXIF more precise
@@ -194,14 +198,13 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 			return from_exif
 		}
 
-		const from_fs = _get_creation_date_from_fs_stats(state)
 		if (from_basename) {
 			if (Math.abs(Number(from_fs) - Number(from_basename)) >= DAY_IN_MILLIS) {
 				// basename always take priority, but this is suspicious
 				// TODO log inside file
 			}
-			const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'Etc/GMT')
-			const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'Etc/GMT')
+			const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
+			const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'tz:embedded')
 			if (auto_from_fs.startsWith(auto_from_basename))
 				return from_fs // more precise
 			else
@@ -210,8 +213,8 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 		// fs is really unreliable so we attempt to take hints from the parent folder if available
 		const from_parent = _get_creation_date_from_parent_name(state)
 		if (from_parent) {
-			const auto_from_basename = get_human_readable_timestamp_auto(from_parent, 'Etc/GMT')
-			const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'Etc/GMT')
+			const auto_from_basename = get_human_readable_timestamp_auto(from_parent, 'tz:embedded')
+			const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'tz:embedded')
 			if (auto_from_fs.startsWith(auto_from_basename.slice(0, 7)))
 				return from_fs // more precise
 			else if (auto_from_fs.startsWith(auto_from_basename.slice(0, 4))) {
@@ -227,20 +230,19 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 		return from_fs
 	}
 	catch (err) {
-		const from_fs = _get_creation_date_from_fs_stats(state)
 		logger.error('dates discrepancy', {
 			id: state.id,
 			...(!!from_basename && {
 				from_basename,
-				auto_from_basename_gmt: get_human_readable_timestamp_auto(from_basename, 'Etc/GMT'),
+				auto_from_basename_gmt: get_human_readable_timestamp_auto(from_basename, 'tz:embedded'),
 			}),
 			...(!!from_exif && {
 				from_exif,
-				auto_from_exif_gmt: get_human_readable_timestamp_auto(from_exif, 'Etc/GMT'),
+				auto_from_exif_gmt: get_human_readable_timestamp_auto(from_exif, 'tz:embedded'),
 			}),
 			...(!!from_fs && {
 				from_fs,
-				auto_from_fs_gmt: get_human_readable_timestamp_auto(from_fs, 'Etc/GMT'),
+				auto_from_fs_gmt: get_human_readable_timestamp_auto(from_fs, 'tz:embedded'),
 			}),
 			err,
 		})
@@ -249,14 +251,14 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 }
 
 export function get_best_creation_date_compact(state: Immutable<State>): SimpleYYYYMMDD {
-	return get_compact_date(get_best_creation_date(state))
+	return get_compact_date(get_best_creation_date(state), 'tz:embedded')
 }
 
 export function get_best_creation_year(state: Immutable<State>): number {
 	return Math.trunc(get_best_creation_date_compact(state) / 10000)
 }
 
-function _get_timezone_from_exif(state: Immutable<State>): TimeZone | null {
+/*function _get_timezone_from_exif(state: Immutable<State>): TimeZone | null {
 	const { id, current_exif_data } = state
 	if (!is_exif_powered_media_file(state)) {
 		// exif reader manage to put some stuff, but it's not interesting
@@ -271,7 +273,7 @@ export function get_best_creation_timezone(state: Immutable<State>, PARAMS: Immu
 	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')
 
 	return _get_timezone_from_exif(state) || get_default_timezone(get_best_creation_date(state), PARAMS)
-}
+}*/
 
 export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Basename {
 	const bcd = get_best_creation_date(state)
@@ -280,7 +282,7 @@ export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Pa
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize[extension] || extension
 
-	let ideal = 'MM' + get_human_readable_timestamp_auto(bcd)
+	let ideal = 'MM' + get_human_readable_timestamp_auto(bcd, 'tz:embedded')
 	if (meaningful_part)
 		ideal += '_' + meaningful_part
 	ideal += extension
@@ -465,7 +467,7 @@ export function to_string(state: Immutable<State>) {
 	if (is_eligible) {
 		const best_creation_date = get_best_creation_date(state)
 		if (best_creation_date) {
-			str += '  📅 ' + get_human_readable_timestamp_auto(best_creation_date)
+			str += '  📅 ' + get_human_readable_timestamp_auto(best_creation_date, 'tz:embedded')
 		} else {
 			str += '  📅 TODO'
 		}

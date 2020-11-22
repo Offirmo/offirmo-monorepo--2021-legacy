@@ -3,14 +3,18 @@ import { Tags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 
 import { TimeZone } from '../types'
-import { LegacyDate } from './better-date'
+import {
+	BetterDate,
+	LegacyDate,
+	create_better_date_compat,
+} from './better-date'
 import logger from './logger'
 
 
-type LegacyDateHash = { [k: string]: LegacyDate }
+type ExifDateTimeHash = { [k: string]: ExifDateTime }
 
 
-const EXIF_DATE_FIELDS: string[] = [
+const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	// https://github.com/photostructure/exiftool-vendored.js#dates
 	'CreateDate',
 	'ModifyDate',
@@ -24,25 +28,33 @@ const EXIF_DATE_FIELDS: string[] = [
 	'MediaCreateDate',
 ]
 
-export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_zone?: string): LegacyDate | null {
-	const now = new LegacyDate()
-	let min_date = now
-	const candidate_dates_ms: LegacyDateHash = EXIF_DATE_FIELDS.reduce((acc: LegacyDateHash, field: string) => {
-		let exiftool_date: undefined | ExifDateTime = (exif_data as any)[field]
-		if (!exiftool_date) return acc
-		if ((exiftool_date as any) === '0000:00:00 00:00:00') {
-			// https://github.com/photostructure/exiftool-vendored.js/issues/73
+// TODO should default_zone be dynamic? Most likely yes
+export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_zone?: string): ExifDateTime | undefined {
+	const now_legacy = new LegacyDate()
+	let min_date_legacy = now_legacy // for now
+	let min_date_exif: ExifDateTime | undefined = undefined
+
+	const candidate_exifdates: ExifDateTimeHash = EXIF_DATE_FIELDS.reduce((acc: ExifDateTimeHash, field) => {
+		let raw_exiftool_date: undefined | any = exif_data[field]
+		if (!raw_exiftool_date) return acc
+
+		// https://github.com/photostructure/exiftool-vendored.js/issues/73
+		// "If date fields aren't parsable, the raw string from exiftool will be provided."
+		if (typeof raw_exiftool_date === 'string') {
 			// TODO log (add a onWarning param)
-			logger.warn(`unparsable exif date: "${exiftool_date as any}"`)
+			logger.warn(`un-parsable exif date: "${raw_exiftool_date}"`)
 			return acc
 		}
 
+		let exiftool_date: ExifDateTime = raw_exiftool_date
 		if (!exif_data.tz && default_zone) {
-			//console.log('reparse')
-			assert(exiftool_date.rawValue, 'get_creation_date_from_exif date has raw value')
-			exiftool_date = ExifDateTime.fromEXIF(exiftool_date.rawValue, default_zone)
-			assert(exiftool_date, 'reparsed date success')
+			//console.log('reparse with better tz')
+			assert(raw_exiftool_date.rawValue, 'get_creation_date_from_exif date has raw value')
+			const reparsed_exiftool_date = ExifDateTime.fromEXIF(raw_exiftool_date.rawValue, default_zone)
+			assert(reparsed_exiftool_date, 'reparsed date success')
+			exiftool_date = reparsed_exiftool_date
 		}
+		assert(exiftool_date, 'exif date success')
 
 		/*console.log({
 			exiftool_date,
@@ -59,7 +71,7 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 			//console.log('candidate date from exif:', date)
 			assert(date && date.getFullYear, 'exif date from exif field is ok')
 			assert(+date, 'exif date from field is ok (ts)')
-			assert(+date < +now, 'exif date from field is ok (now)') // seen when recent photo and wrong default timezone = photo in the future
+			assert(+date < +now_legacy, 'exif date from field is ok (now)') // seen when recent photo and wrong default timezone => photo in the future
 			//console.log('⏳ found date field', field, exiftool_date)
 		}
 		catch (err) {
@@ -68,7 +80,9 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 			throw err
 		}
 
-		let date = exiftool_date.toDate()
+		acc[field] = exiftool_date
+
+		let legacy_date = exiftool_date.toDate()
 
 		/*
 		// adjust timezone info
@@ -88,30 +102,33 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 			//throw new Error('STOP!')
 		}*/
 
-		acc[field] = date
 		/*console.log({
 			d: +date,
 			md: +min_date,
 		})*/
-		min_date = (+date < +min_date) ? date : min_date
+		if (+legacy_date < +min_date_legacy) {
+			min_date_legacy = legacy_date
+			min_date_exif = exiftool_date
+		}
+
 		//console.log({ date, min_date })
 		return acc
-	}, {} as LegacyDateHash)
+	}, {} as ExifDateTimeHash)
 
-	if (Object.keys(candidate_dates_ms).length === 0) {
+	if (Object.keys(candidate_exifdates).length === 0) {
 		// seen happening on edited jpg
 		// TODO add to file log
 		// TODO log
 		logger.warn('EXIF compatible file has no usable EXIF date')
-		return null
+		return undefined
 	}
+	assert(min_date_exif, 'min_date_exif should exist since fields found')
 
 	//console.log({ min_date_ms: get_human_readable_UTC_timestamp_seconds(new Date(min_date_ms)) })
 
 	//assert(min_date_ms !== now, 'coherent dates')
 
-	return min_date
-
+	return min_date_exif
 }
 
 export function get_time_zone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {

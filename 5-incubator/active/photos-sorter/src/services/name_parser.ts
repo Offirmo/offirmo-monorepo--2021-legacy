@@ -19,14 +19,12 @@ import {
 	NON_MEANINGFUL_FULL,
 } from './matchers'
 import {
+	BetterDate,
 	get_compact_date,
 	get_human_readable_timestamp_auto,
-} from './date_generator'
-import {
-	BetterDate, create_better_date_compat,
+	create_better_date_compat,
 } from './better-date'
 import logger from './logger'
-import { get_current_timezone } from './params'
 
 
 export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
@@ -608,7 +606,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 
 	logger.trace('« final', {
 		...result,
-		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, get_current_timezone()) : null
+		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, 'tz:embedded') : null
 	})
 	return result
 }
@@ -620,7 +618,7 @@ const SCREENSHOT_ALIASES_LC = [
 	'screen',
 	NORMALIZERS.normalize_unicode('capture d\'écran'),
 	NORMALIZERS.normalize_unicode('capture d’écran'),
-		NORMALIZERS.normalize_unicode('capture plein écran'),
+	NORMALIZERS.normalize_unicode('capture plein écran'),
 	'capture',
 ]
 
@@ -629,5 +627,5 @@ export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
 	if (!result.date)
 		return null
 
-	return get_compact_date(result.date, get_current_timezone())
+	return get_compact_date(result.date, 'tz:embedded')
 }

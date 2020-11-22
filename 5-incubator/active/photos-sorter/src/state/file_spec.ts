@@ -27,8 +27,12 @@ import {
 	on_exif_read,
 	on_hash_computed, on_notes_unpersisted, get_best_creation_year,
 } from './file'
-import { get_compact_date, get_human_readable_timestamp_auto } from "../services/date_generator"
-import { get_current_timezone } from "../services/params"
+import {
+	create_better_date_compat,
+	get_timestamp_utc_ms,
+	get_compact_date,
+	get_human_readable_timestamp_auto,
+} from '../services/better-date'
 
 /////////////////////
 
@@ -51,7 +55,7 @@ describe(`${LIB} - file state`, function() {
 			}
 			Object.keys(TEST_CASES).forEach(tc => {
 				let state = create(tc)
-				const creation_date_ms = Number(new Date(2018, 10, 21, 6, 0, 45, 627))
+				const creation_date_ms = get_timestamp_utc_ms(create_better_date_compat(2018, 10, 21, 6, 0, 45, 627))
 
 				state = on_fs_stats_read(state, {
 					birthtimeMs: creation_date_ms,
@@ -67,20 +71,19 @@ describe(`${LIB} - file state`, function() {
 	})
 
 	describe('get_best_creation_date()', function() {
-		const default_zone = get_current_timezone()
-		const REAL_CREATION_DATE = new Date(2017, 9, 20, 5, 1, 44, 625)
-		const REAL_CREATION_DATE_MS = Number(REAL_CREATION_DATE)
-		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, default_zone)
+		const REAL_CREATION_DATE = create_better_date_compat(2017, 9, 20, 5, 1, 44, 625)
+		const REAL_CREATION_DATE_MS = get_timestamp_utc_ms(REAL_CREATION_DATE)
+		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
 		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test precond')
-		const BAD_CREATION_DATE_CANDIDATE = new Date(2018, 10, 21)
-		const BAD_CREATION_DATE_CANDIDATE_MS = Number(BAD_CREATION_DATE_CANDIDATE)
+		const BAD_CREATION_DATE_CANDIDATE = create_better_date_compat(2018, 10, 21)
+		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_ExDT = ExifDateTime
 			.fromISO(
 				BAD_CREATION_DATE_CANDIDATE.toISOString(),
 				default_zone,
 				BAD_CREATION_DATE_CANDIDATE.toISOString(),
 			)
-		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, default_zone)
+		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
 		it('should always prioritize the basename date', () => {
 			let state = create(`foo/MM${REAL_CREATION_DATE_RdTS}.jpg`)
@@ -98,7 +101,7 @@ describe(`${LIB} - file state`, function() {
 				'MediaCreateDate': BAD_CREATION_DATE_CANDIDATE_ExDT,
 			} as Tags)
 			state = on_hash_computed(state, '1234')
-			expect(get_human_readable_timestamp_auto(get_best_creation_date(state), default_zone)).to.equal(REAL_CREATION_DATE_RdTS)
+			expect(get_human_readable_timestamp_auto(get_best_creation_date(state)), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
 		})
 
 		it('should prioritize the original basename over the current one', () => {
@@ -264,7 +267,7 @@ describe(`${LIB} - file state`, function() {
 				// date: exif data is taken in its local zone
 				expect(get_best_creation_year(state)).to.equal(2002)
 				expect(get_best_creation_date_compact(state)).to.equal(20020126)
-				expect(get_best_creation_date(state)).to.deep.equal(new Date(2002, 0, 26, 16, 5, 50))
+				expect(get_best_creation_date(state)).to.deep.equal(create_better_date_compat(2002, 0, 26, 16, 5, 50))
 				expect(get_ideal_basename(state)).to.equal(`MM2002-01-26_16h05m50_${basename}`)
 			})
 		})
