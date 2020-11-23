@@ -4,8 +4,6 @@ import assert from 'tiny-invariant'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from './consts'
 import { SimpleYYYYMMDD, AbsolutePath, TimeZone } from './types'
-import { get_current_year, get_timestamp_utc_ms, create_better_date_compat } from './services/better-date'
-
 
 const TZONE_FR: TimeZone = 'Europe/Paris'
 const TZONE_AU: TimeZone = 'Australia/Sydney'
@@ -28,6 +26,11 @@ export interface Params {
 	worthless_files: string[]
 	default_timezones: DefaultTzChange[]
 }
+
+export function get_current_year(): number {
+	return (new Date()).getFullYear()
+}
+
 
 // the earliest known photo was taken in 1826
 // https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras
@@ -83,19 +86,19 @@ export function get_params(): Params {
 			// if no time zone, infer it according to this timetable
 			// Expected to be in order
 			{
-				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(YYYY_LOWER_BOUND, 0)),
+				date_utc_ms: Number(Date.UTC(YYYY_LOWER_BOUND, 0)),
 				new_default: TZONE_FR,
 			},
 			{
-				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2009, 7, 10)),
+				date_utc_ms: Number(Date.UTC(2009, 7, 10)),
 				new_default: 'Asia/Bangkok',
 			},
 			{
-				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2010, 6, 8)),
+				date_utc_ms: Number(Date.UTC(2010, 6, 8)),
 				new_default: TZONE_FR,
 			},
 			{
-				date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2017, 6, 14)),
+				date_utc_ms: Number(Date.UTC(2017, 6, 14)),
 				new_default: TZONE_AU,
 			},
 		].sort((a, b) => a.date_utc_ms - b.date_utc_ms)

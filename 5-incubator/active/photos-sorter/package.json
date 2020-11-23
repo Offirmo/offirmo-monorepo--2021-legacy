@@ -18,6 +18,7 @@
 		"hasha": "^5",
 		"json-stable-stringify": "^1",
 		"lodash": "^4",
+		"luxon": "^1",
 		"memoize-one": "^5",
 		"tslib": "^2",
 		"typescript-string-enums": "^1"

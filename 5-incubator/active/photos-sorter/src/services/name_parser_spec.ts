@@ -2,6 +2,9 @@ import { expect } from 'chai'
 
 import { LIB } from '../consts'
 import {
+	get_current_year,
+} from '../params'
+import {
 	DATED_NAMES_SAMPLES,
 	UNDATED_NAMES_SAMPLES,
 	NON_MEANINGFUL_NAMES_SAMPLES,
@@ -15,7 +18,6 @@ import {
 	ParseResult,
 } from './name_parser'
 import {
-	get_current_year,
 	get_human_readable_timestamp_auto,
 } from './better-date'
 

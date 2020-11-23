@@ -4,9 +4,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 
 import { TimeZone } from '../types'
 import {
-	BetterDate,
 	LegacyDate,
-	create_better_date_compat,
 } from './better-date'
 import logger from './logger'
 

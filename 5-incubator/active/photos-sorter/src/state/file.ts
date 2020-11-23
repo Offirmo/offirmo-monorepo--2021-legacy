@@ -21,7 +21,7 @@ import {
 	LegacyDate,
 	get_human_readable_timestamp_auto,
 	get_compact_date,
-	create_better_date,
+	create_better_date_obj,
 	create_better_date_from_utc_tms,
 	create_better_date_from_ExifDateTime,
 } from '../services/better-date'
@@ -119,6 +119,7 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 }
 
 function _get_creation_date_from_fs_stats(state: Immutable<State>): TimestampUTCMs {
+	assert(state.current_fs_stats, 'fs stats collected')
 	return state.notes.original.birthtime_ms ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date_from_basename(state: Immutable<State>): BetterDate | null {

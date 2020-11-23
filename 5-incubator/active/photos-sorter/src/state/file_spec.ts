@@ -5,8 +5,8 @@ import util from 'util'
 import path from 'path'
 import fs from 'fs'
 import hasha from 'hasha'
-import moment from 'moment'
-import 'moment-timezone'
+//import moment from 'moment'
+//import 'moment-timezone'
 import { Immutable } from '@offirmo-private/ts-types'
 
 import { LIB } from '../consts'
@@ -73,23 +73,24 @@ describe(`${LIB} - file state`, function() {
 	describe('get_best_creation_date()', function() {
 		const REAL_CREATION_DATE = create_better_date_compat(2017, 9, 20, 5, 1, 44, 625)
 		const REAL_CREATION_DATE_MS = get_timestamp_utc_ms(REAL_CREATION_DATE)
+		const REAL_CREATION_DATE_LEGACY = new Date(REAL_CREATION_DATE_MS)
 		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
 		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test precond')
 		const BAD_CREATION_DATE_CANDIDATE = create_better_date_compat(2018, 10, 21)
 		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms(BAD_CREATION_DATE_CANDIDATE)
-		const BAD_CREATION_DATE_CANDIDATE_ExDT = ExifDateTime
+		const BAD_CREATION_DATE_CANDIDATE_ExDT = 'error' /*ExifDateTime
 			.fromISO(
 				BAD_CREATION_DATE_CANDIDATE.toISOString(),
 				default_zone,
 				BAD_CREATION_DATE_CANDIDATE.toISOString(),
-			)
+			)*/
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
 		it('should always prioritize the basename date', () => {
 			let state = create(`foo/MM${REAL_CREATION_DATE_RdTS}.jpg`)
 
 			state = on_fs_stats_read(state, {
-				birthtime: BAD_CREATION_DATE_CANDIDATE,
+				birthtime: REAL_CREATION_DATE_LEGACY,
 				//atimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 				//mtimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 				//ctimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
@@ -101,7 +102,7 @@ describe(`${LIB} - file state`, function() {
 				'MediaCreateDate': BAD_CREATION_DATE_CANDIDATE_ExDT,
 			} as Tags)
 			state = on_hash_computed(state, '1234')
-			expect(get_human_readable_timestamp_auto(get_best_creation_date(state)), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
+			expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
 		})
 
 		it('should prioritize the original basename over the current one', () => {
@@ -240,12 +241,11 @@ describe(`${LIB} - file state`, function() {
 				//console.log(state)
 
 				// date: exif data is taken in its local zone
-				const expected_moment = moment.tz("2018-09-03 20:46:14", 'Asia/Shanghai')
-				const expected_date = expected_moment.toDate()
+				const expected_date = 'XXX' //moment.tz("2018-09-03 20:46:14", 'Asia/Shanghai').toDate()
 				expect(get_best_creation_year(state)).to.equal(2018)
 				expect(get_best_creation_date_compact(state)).to.equal(20180903)
-				expect(get_best_creation_date(state)).to.deep.equal(expected_date)
 				expect(get_ideal_basename(state)).to.equal(`MM2018-09-03_20h46m14_${basename}`)
+				expect(get_best_creation_date(state)).to.deep.equal(expected_date)
 			})
 
 			const BN02 = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'

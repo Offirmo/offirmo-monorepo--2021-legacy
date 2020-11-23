@@ -1,12 +1,14 @@
 import { expect } from 'chai'
 
 import {
-	get_current_year,
-	_get_system_timezone,
+	_xxx_get_system_timezone,
 	get_default_timezone,
 
-	create_better_date,
+	create_better_date_from_utc_tms,
+	create_better_date_obj,
 	create_better_date_compat,
+
+	get_compact_date,
 	get_human_readable_timestamp_days,
 	get_human_readable_timestamp_seconds,
 	get_human_readable_timestamp_minutes,
@@ -19,23 +21,14 @@ describe('Better Date', function() {
 
 	describe('utilities', function () {
 
-		describe('get_current_year()', function() {
+		describe('_xxx_get_system_timezone()', function() {
 
 			it('should work', () => {
-				const current_year = get_current_year()
-				console.log({ current_year })
-				expect(current_year).to.be.a('number')
-				expect(current_year).to.be.within(1900, 2100)
-			})
-		})
-
-		describe('_get_system_timezone()', function() {
-
-			it('should work', () => {
-				const current_tz = _get_system_timezone()
-				console.log({ current_tz })
+				const current_tz = _xxx_get_system_timezone()
+				//console.log({ current_tz })
 				expect(current_tz).to.be.a('string')
 				expect(current_tz.length).to.be.at.least(5)
+				expect(current_tz).to.equal('Australia/Sydney') // practical while I'm the only dev
 			})
 		})
 
@@ -49,7 +42,7 @@ describe('Better Date', function() {
 			})
 
 			it('should work - empty array', () => {
-				const system_tz = _get_system_timezone()
+				const system_tz = _xxx_get_system_timezone()
 				const default_tz = get_default_timezone(now_utc_ms, test_params)
 				//console.log({ test_params, system_tz, default_tz })
 				expect(default_tz).to.equal(system_tz)
@@ -76,7 +69,7 @@ describe('Better Date', function() {
 						new_default: 'Australia/Sydney',
 					},
 				].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
-				//const system_tz = _get_system_timezone()
+				//const system_tz = _xxx_get_system_timezone()
 				//console.log({ test_params, dt: test_params.default_timezones, system_tz })
 
 				const default_tz_2001 = get_default_timezone(get_timestamp_utc_ms(create_better_date_compat(2001, 0)), test_params)
@@ -98,7 +91,7 @@ describe('Better Date', function() {
 			})
 
 			it('should warn - real case', () => {
-				const system_tz = _get_system_timezone()
+				const system_tz = _xxx_get_system_timezone()
 				test_params.default_timezones = [
 					{
 						date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(1826, 0)),
@@ -114,25 +107,45 @@ describe('Better Date', function() {
 	})
 
 	describe('selectors', function() {
-		const TEST_DATE = create_better_date({
+		const TEST_DATE = create_better_date_obj({
 			year: 2003,
-			month: 5,
+			month: 4,
 			day: 5,
 			hour: 6,
 			minute: 7,
 			second: 8,
 			milli: 9,
-			tz: 'Etc/GMT',
+			tz: 'Indian/Kerguelen', // random not GMT, not UTC, not my system
 		})
+		/*const TEST_DATE_UTC = create_better_date_obj({
+			year: 2003,
+			month: 4,
+			day: 5,
+			hour: 6,
+			minute: 7,
+			second: 8,
+			milli: 9,
+		})*/
 
 		describe('get_timestamp_utc_ms()', function() {
 
-			it('should work')
+			it('should work', () => {
+				// https://www.epochconverter.com/timezones?q=1049504828009&tz=Indian%2FKerguelen
+				expect(get_timestamp_utc_ms(TEST_DATE)).to.equal(1049504828009)
+			})
+
+			it('should work - reflexive', () => {
+				const TEST_TMS = 1234567890
+				const ut = create_better_date_from_utc_tms(TEST_TMS)
+				expect(get_timestamp_utc_ms(ut)).to.equal(TEST_TMS)
+			})
 		})
 
 		describe('get_compact_date()', function() {
 
-			it('should work')
+			it('should work', () => {
+				expect(get_compact_date(TEST_DATE, 'tz:embedded')).to.equal(20030405)
+			})
 		})
 
 		describe('get_human_readable_timestamp_days()', function() {
@@ -142,7 +155,7 @@ describe('Better Date', function() {
 				//console.log(stamp)
 				expect(stamp).to.be.a('string')
 				expect(stamp.length).to.equal(10)
-				expect(stamp).to.equal('2003-05-05')
+				expect(stamp).to.equal('2003-04-05')
 			})
 		})
 
@@ -153,7 +166,7 @@ describe('Better Date', function() {
 				//console.log(stamp)
 				expect(stamp).to.be.a('string')
 				expect(stamp.length).to.equal(16)
-				expect(stamp).to.equal('2003-05-05_06h07')
+				expect(stamp).to.equal('2003-04-05_06h07')
 			})
 		})
 
@@ -164,7 +177,7 @@ describe('Better Date', function() {
 				//console.log(stamp)
 				expect(stamp).to.be.a('string')
 				expect(stamp.length).to.equal(19)
-				expect(stamp).to.equal('2003-05-05_06h07m08')
+				expect(stamp).to.equal('2003-04-05_06h07m08')
 			})
 		})
 
@@ -175,29 +188,35 @@ describe('Better Date', function() {
 				//console.log(stamp)
 				expect(stamp).to.be.a('string')
 				expect(stamp.length).to.equal(23)
-				expect(stamp).to.equal('2003-05-05_06h07m08.009')
+				expect(stamp).to.equal('2003-04-05_06h07m08s009')
 			})
 		})
 
 		describe('get_human_readable_timestamp_auto()', function() {
 
-			it('should properly ignore the timezone', () => {
+			it('should work', function() {
+				const stamp = get_human_readable_timestamp_auto(TEST_DATE, 'tz:embedded')
+				//console.log(stamp)
+				expect(stamp).to.be.a('string')
+				expect(stamp.length).to.equal(23)
+				expect(stamp).to.equal('2003-04-05_06h07m08s009')
+			})
+
+			it('should properly ignore the timezone')/* => { no longer needed ATM
 				const date1 = create_better_date_compat(2019,11,16,20,38,8,123)
 				expect(get_human_readable_timestamp_auto(date1, 'tz:embedded'), 'd1').to.equal('2019-12-16_20h38m08s123')
-				expect(get_human_readable_timestamp_auto(date1, 'tz:xxx'), 'd2').to.equal('2019-12-16_20h38m08s123')
+				//expect(get_human_readable_timestamp_auto(date1, 'tz:xxx'), 'd2').to.equal('2019-12-16_20h38m08s123')
+				throw new Error('NIMP!')
 
-				/* is that even a real case?
+				// is that even a real case?
 				const date2 = new Date('2019-12-16T09:38:08.123Z')
 				expect(get_human_readable_timestamp_auto(date2), 'd2').to.equal('2019-12-16_09h38m08s123')
-				 */
-			})
+			})*/
 		})
 	})
 
 	describe('factories', function() {
 
-		describe('create_better_date_compat()', function() {
-
-		})
+		describe('create_better_date_compat()')
 	})
 })

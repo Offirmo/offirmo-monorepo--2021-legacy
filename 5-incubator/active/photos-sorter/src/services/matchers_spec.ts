@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { LIB } from '../consts'
-import { get_current_year } from './better-date'
+import { get_current_year } from '../params'
 import {
 	is_day_fragment,
 	is_month_fragment,
