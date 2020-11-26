@@ -120,9 +120,10 @@ describe(`${LIB} - (base)name parser`, function() {
 
 	describe('parse()', function () {
 		describe('extraction of the extension', function () {
-			it('should work', () => {
-				const filenames = Object.keys(ALL_SAMPLES)
-				filenames.forEach(filename => {
+			const filenames = Object.keys(ALL_SAMPLES)
+			filenames.forEach(filename => {
+
+				it(`should work for "${filename}"`, () => {
 					const { _comment, extension_lc } = ALL_SAMPLES[filename]
 
 					expect(
@@ -131,6 +132,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					).to.equal(extension_lc)
 				})
 			})
+
 
 			it('should work on dotfiles', () => {
 				expect(parse('.test').extension_lc)

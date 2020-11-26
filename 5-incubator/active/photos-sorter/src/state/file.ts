@@ -13,7 +13,10 @@ import { Basename, RelativePath, SimpleYYYYMMDD, ISODateString, TimeZone } from 
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
 import { get_most_reliable_birthtime_from_fs_stats } from '../services/fs'
-import { get_creation_date_from_exif } from '../services/exif'
+import {
+	get_creation_date_from_exif,
+	get_creation_timezone_from_exif,
+} from '../services/exif'
 
 import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
 import {
@@ -150,6 +153,23 @@ function _get_creation_date_from_exif(state: Immutable<State>): ExifDateTime | u
 		throw err
 	}
 }
+function _get_creation_tz_from_exif(state: Immutable<State>): TimeZone | undefined {
+	const { id, current_exif_data } = state
+	if (!is_exif_powered_media_file(state)) {
+		// exif reader manage to put some stuff, but it's not interesting
+		return undefined
+	}
+
+	assert(current_exif_data, `${id}: exif data read`)
+
+	try {
+		return get_creation_timezone_from_exif(current_exif_data)
+	}
+	catch (err) {
+		logger.fatal(`error extracting tz from exif for "${id}"!`, { err })
+		throw err
+	}
+}
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
 export function get_best_creation_date(state: Immutable<State>): BetterDate {
 	//logger.trace('get_best_creation_date()', { id: state.id })
@@ -161,15 +181,16 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 	const from_basename: BetterDate | null = _get_creation_date_from_basename(state)
 	//console.log({ from_basename })
 
-	const from_fs = create_better_date_from_utc_tms(_get_creation_date_from_fs_stats(state))
+	const from_fs = create_better_date_from_utc_tms(_get_creation_date_from_fs_stats(state), 'tz:auto')
 
 	// even if we have a date from name,
-	// the exifs one may be more precise,
+	// the exif one may be more precise,
 	// so let's continue
 
 	const _from_exif: ExifDateTime | undefined = _get_creation_date_from_exif(state)
+	const _from_exif__tz = _get_creation_tz_from_exif(state)
 	const from_exif: BetterDate | undefined = _from_exif
-		? create_better_date_from_ExifDateTime(_from_exif)
+		? create_better_date_from_ExifDateTime(_from_exif, _from_exif__tz)
 		: undefined
 	try {
 		if (from_exif) {
@@ -211,6 +232,7 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 			else
 				return from_basename
 		}
+
 		// fs is really unreliable so we attempt to take hints from the parent folder if available
 		const from_parent = _get_creation_date_from_parent_name(state)
 		if (from_parent) {
@@ -268,7 +290,7 @@ export function get_best_creation_year(state: Immutable<State>): number {
 
 	assert(current_exif_data, `${id}: exif data read`)
 
-	return get_time_zone_from_exif(current_exif_data) || null
+	return get_creation_timezone_from_exif(current_exif_data) || null
 }
 export function get_best_creation_timezone(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): TimeZone {
 	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')

@@ -1,21 +1,28 @@
 import { expect } from 'chai'
 
 import {
-	_xxx_get_system_timezone,
-	get_default_timezone,
+
 
 	create_better_date_from_utc_tms,
 	create_better_date_obj,
-	create_better_date_compat,
 
 	get_compact_date,
 	get_human_readable_timestamp_days,
 	get_human_readable_timestamp_seconds,
 	get_human_readable_timestamp_minutes,
 	get_human_readable_timestamp_millis,
-	get_human_readable_timestamp_auto, get_timestamp_utc_ms,
+	get_human_readable_timestamp_auto,
+	get_timestamp_utc_ms,
+	create_better_date,
+	get_exif_datetime,
+	create_better_date_from_ExifDateTime,
 } from './better-date'
-import { get_params, Params } from '../params'
+import {
+	get_params,
+	Params,
+	_xxx_get_system_timezone,
+	get_default_timezone,
+} from '../params'
 
 describe('Better Date', function() {
 
@@ -53,37 +60,37 @@ describe('Better Date', function() {
 					// order expected
 					//
 					{
-						date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(1826, 0)),
+						date_utc_ms: Number(Date.UTC(1826, 0)),
 						new_default: 'Europe/Paris',
 					},
 					{
-						date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2009, 7, 10)),
+						date_utc_ms: Number(Date.UTC(2009, 7, 10)),
 						new_default: 'Asia/Bangkok',
 					},
 					{
-						date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2010, 6, 8)),
+						date_utc_ms: Number(Date.UTC(2010, 6, 8)),
 						new_default: 'Europe/Paris',
 					},
 					{
-						date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(2017, 6, 14)),
+						date_utc_ms: Number(Date.UTC(2017, 6, 14)),
 						new_default: 'Australia/Sydney',
 					},
 				].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
 				//const system_tz = _xxx_get_system_timezone()
 				//console.log({ test_params, dt: test_params.default_timezones, system_tz })
 
-				const default_tz_2001 = get_default_timezone(get_timestamp_utc_ms(create_better_date_compat(2001, 0)), test_params)
+				const default_tz_2001 = get_default_timezone(Number(Date.UTC(2001, 0)), test_params)
 				expect(default_tz_2001, '2001').to.equal('Europe/Paris')
 
-				const default_tz_2009_08_09 = get_default_timezone(get_timestamp_utc_ms(create_better_date_compat(2009, 7, 9)), test_params)
+				const default_tz_2009_08_09 = get_default_timezone(Number(Date.UTC(2009, 7, 9)), test_params)
 				expect(default_tz_2009_08_09).to.equal('Europe/Paris')
-				const default_tz_2009_08_10 = get_default_timezone(get_timestamp_utc_ms(create_better_date_compat(2009, 7, 10)), test_params)
+				const default_tz_2009_08_10 = get_default_timezone(Number(Date.UTC(2009, 7, 10)), test_params)
 				expect(default_tz_2009_08_10).to.equal('Asia/Bangkok')
 
-				const default_tz_2010_07_08 = get_default_timezone(get_timestamp_utc_ms(create_better_date_compat(2010, 6, 8)), test_params)
+				const default_tz_2010_07_08 = get_default_timezone(Number(Date.UTC(2010, 6, 8)), test_params)
 				expect(default_tz_2010_07_08).to.equal('Europe/Paris')
 
-				const default_tz_2018 = get_default_timezone(get_timestamp_utc_ms(create_better_date_compat(2018, 0)), test_params)
+				const default_tz_2018 = get_default_timezone(Number(Date.UTC(2018, 0)), test_params)
 				expect(default_tz_2018, '2018').to.equal('Australia/Sydney')
 
 				const default_tz_now = get_default_timezone(now_utc_ms, test_params)
@@ -94,7 +101,7 @@ describe('Better Date', function() {
 				const system_tz = _xxx_get_system_timezone()
 				test_params.default_timezones = [
 					{
-						date_utc_ms: get_timestamp_utc_ms(create_better_date_compat(1826, 0)),
+						date_utc_ms: Number(Date.UTC(1826, 1)),
 						new_default: system_tz === 'Europe/Paris' ? 'Asia/Bangkok' : 'Europe/Paris',
 					},
 				].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
@@ -136,7 +143,7 @@ describe('Better Date', function() {
 
 			it('should work - reflexive', () => {
 				const TEST_TMS = 1234567890
-				const ut = create_better_date_from_utc_tms(TEST_TMS)
+				const ut = create_better_date_from_utc_tms(TEST_TMS, 'tz:auto')
 				expect(get_timestamp_utc_ms(ut)).to.equal(TEST_TMS)
 			})
 		})
@@ -213,10 +220,25 @@ describe('Better Date', function() {
 				expect(get_human_readable_timestamp_auto(date2), 'd2').to.equal('2019-12-16_09h38m08s123')
 			})*/
 		})
+
+		describe('get_exif_datetime', function () {
+
+			it('should behave as expected', () => {
+				const date = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
+				const exif_datetime = get_exif_datetime(date)
+				const date2 = create_better_date_from_ExifDateTime(exif_datetime)
+				delete date._debug
+				delete date2._debug
+				expect(date).to.deep.equal(date2)
+			})
+		})
 	})
 
 	describe('factories', function() {
 
-		describe('create_better_date_compat()')
+		describe('create_better_date_compat()', function() {
+
+			it('should BE REMOVED')
+		})
 	})
 })

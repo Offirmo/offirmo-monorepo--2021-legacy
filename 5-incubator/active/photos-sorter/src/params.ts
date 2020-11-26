@@ -1,9 +1,12 @@
 import path from 'path'
 
 import assert from 'tiny-invariant'
+import { Immutable } from '@offirmo-private/ts-types'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from './consts'
 import { SimpleYYYYMMDD, AbsolutePath, TimeZone } from './types'
+import logger from './services/logger'
 
 const TZONE_FR: TimeZone = 'Europe/Paris'
 const TZONE_AU: TimeZone = 'Australia/Sydney'
@@ -29,6 +32,12 @@ export interface Params {
 
 export function get_current_year(): number {
 	return (new Date()).getFullYear()
+}
+
+// should NOT be used in place of get_default_timezone()!
+export function _xxx_get_system_timezone(): TimeZone {
+	// https://stackoverflow.com/a/44096051/587407
+	return Intl.DateTimeFormat().resolvedOptions().timeZone
 }
 
 
@@ -103,6 +112,29 @@ export function get_params(): Params {
 			},
 		].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
 	}
+}
+
+export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immutable<Params> = get_params()): TimeZone {
+	//console.log('get_default_timezone()', { date_utc_ms, PARAMS })
+
+	let res: TimeZone = _xxx_get_system_timezone()
+	const change_after = PARAMS.default_timezones.find(tz_change => {
+		//console.log('candidate', { tz_change })
+		if (date_utc_ms >= tz_change.date_utc_ms) {
+			res = tz_change.new_default
+			//console.log({ res })
+			return false // not sure we found the last
+		}
+
+		return true
+	})
+
+	if (!change_after && res !== _xxx_get_system_timezone()) {
+		logger.warn(`Current default timezone from params "${res}" does not match current system timezone "${_xxx_get_system_timezone()}". Is that intended?`)
+	}
+
+	//console.log('final', { res })
+	return res
 }
 
 /*

@@ -14,8 +14,10 @@ type ExifDateTimeHash = { [k: string]: ExifDateTime }
 
 const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	// https://github.com/photostructure/exiftool-vendored.js#dates
+	'SubSecCreateDate',
+	'SubSecDateTimeOriginal',
 	'CreateDate',
-	'ModifyDate',
+	//'ModifyDate',
 	'DateTimeOriginal',
 	//'GPSDateStamp',
 	//'DateCreated',
@@ -24,6 +26,7 @@ const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	//'DigitalCreationTime',
 	'DateTimeGenerated',
 	'MediaCreateDate',
+	//'GPSDateTime' No! seems to be UTC = makes it tricky to use correctly. TODO support this later if deemed useful
 ]
 
 // TODO should default_zone be dynamic? Most likely yes
@@ -80,7 +83,7 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 
 		acc[field] = exiftool_date
 
-		let legacy_date = exiftool_date.toDate()
+		let date_legacy = exiftool_date.toDate()
 
 		/*
 		// adjust timezone info
@@ -100,12 +103,32 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 			//throw new Error('STOP!')
 		}*/
 
+		const date_tms = +date_legacy
+		const min_date_tms = +min_date_legacy
+		const is_current_date_earlier = date_tms < min_date_tms
+		// in EXIF, some date fields are rounded to the second
+		// while alternative fields are more precise
+		// since 0 < xxx ms, we use a special detection to preserve the milis
+		const min_has_milis = !!(min_date_tms % 1000)
+		const current_has_millis = !!(date_tms % 1000)
+		const is_current_date_same_but_more_precise =
+			Math.floor(date_tms/1000.) === Math.floor(min_date_tms/1000.)
+			&& !min_has_milis
+			&& current_has_millis
+		const is_current_date_earlier_but_less_precise =
+			Math.floor(date_tms/1000.) === Math.floor(min_date_tms/1000.)
+			&& min_has_milis
+			&& !current_has_millis
 		/*console.log({
-			d: +date,
-			md: +min_date,
+			field,
+			cd: date_tms,
+			md: +min_date_legacy,
+			is_current_date_earlier,
+			is_current_date_same_but_more_precise,
+			is_current_date_earlier_but_less_precise,
 		})*/
-		if (+legacy_date < +min_date_legacy) {
-			min_date_legacy = legacy_date
+		if (is_current_date_same_but_more_precise || (is_current_date_earlier && !is_current_date_earlier_but_less_precise)) {
+			min_date_legacy = date_legacy
 			min_date_exif = exiftool_date
 		}
 
@@ -129,7 +152,7 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 	return min_date_exif
 }
 
-export function get_time_zone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
+export function get_creation_timezone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
 	const res = exif_data.tz
 	assert(typeof res === 'string' || typeof res === 'undefined', 'exif_data.tz type check')
 	return res

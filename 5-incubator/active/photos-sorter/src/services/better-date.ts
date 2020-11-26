@@ -12,14 +12,14 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { ExifDateTime } from 'exiftool-vendored'
 
 ///////
-import moment, { Moment } from 'moment'
-import 'moment-timezone'
+//import moment, { Moment } from 'moment'
+//import 'moment-timezone'
 ///////
-import { DateTime as LuxonDateTime } from 'luxon'
+import { DateTime as LuxonDateTime, IANAZone } from 'luxon'
 ///////
 
 import { SimpleYYYYMMDD, TimeZone } from '../types'
-import { get_params, Params } from '../params'
+import { get_default_timezone } from '../params'
 import logger from './logger'
 
 ////////////////////////////////////
@@ -37,44 +37,13 @@ export type PhotoSorterTimestampSeconds = string
 export type PhotoSorterTimestampMillis = string
 
 export interface BetterDate {
+	_debug: any
 
 	// TODO
 	_lx: LuxonDateTime
 	//tz: TimeZone
 	/*_ld: LegacyDate
 	_m: Moment*/
-}
-
-////////////////////////////////////
-
-
-// should NOT be used in place of get_default_timezone()!
-export function _xxx_get_system_timezone(): TimeZone {
-	// https://stackoverflow.com/a/44096051/587407
-	return Intl.DateTimeFormat().resolvedOptions().timeZone
-}
-
-export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immutable<Params> = get_params()): TimeZone {
-	//console.log('get_default_timezone()', { date_utc_ms, PARAMS })
-
-	let res: TimeZone = _xxx_get_system_timezone()
-	const change_after = PARAMS.default_timezones.find(tz_change => {
-		//console.log('candidate', { tz_change })
-		if (date_utc_ms >= tz_change.date_utc_ms) {
-			res = tz_change.new_default
-			//console.log({ res })
-			return false // not sure we found the last
-		}
-
-		return true
-	})
-
-	if (!change_after && res !== _xxx_get_system_timezone()) {
-		logger.warn(`Current default timezone from params "${res}" does not match current system timezone "${_xxx_get_system_timezone()}". Is that intended?`)
-	}
-
-	//console.log('final', { res })
-	return res
 }
 
 ////////////////////////////////////
@@ -173,8 +142,8 @@ export function get_human_readable_timestamp_auto(date: Immutable<BetterDate>, t
 
 	return _get_human_readable_timestamp_auto(date, digits)*/
 	//const digits = date._m.tz(_get_final_tz(tz, date)).format(DATE_FORMAT_TO_MILLIS_DIGITS)
-	const digits = date._lx.toFormat(DATE_FORMAT_TO_MILLIS_DIGITS)
-	console.log({ digits })
+	const digits = date._lx.toFormat(DATE_FORMAT_TO_MILLIS_DIGITS) // tz is irrelevant for this counting
+	//logger.log('get_human_readable_timestamp_auto()', { digits, date })
 	assert(digits.length === 17, 'get_human_readable_timestamp_auto() digits length')
 
 	if (digits.endsWith('000000000'))
@@ -189,6 +158,23 @@ export function get_human_readable_timestamp_auto(date: Immutable<BetterDate>, t
 	return get_human_readable_timestamp_millis(date, tz)
 }
 
+export function get_embedded_timezone(date: Immutable<BetterDate>): TimeZone {
+	return date._lx.zone.name
+}
+
+// used in unit tests only
+export function get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
+	return new ExifDateTime(
+		date._lx.year,
+		date._lx.month,
+		date._lx.day,
+		date._lx.hour,
+		date._lx.minute,
+		date._lx.second,
+		date._lx.millisecond,
+	)
+}
+
 ////////////////////////////////////
 
 /*
@@ -198,21 +184,39 @@ export function create_better_date_from_legacy(legacy_date: Immutable<Date>): Be
 */
 
 // needed to create from file times
-export function create_better_date_from_utc_tms(tms: TimestampUTCMs): BetterDate {
+export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:auto'): BetterDate {
+	assert(!!tms, 'create_better_date_from_utc_tms correct input: ' + tms)
+	assert(Number.isSafeInteger(tms), `create_better_date_from_utc_tms correct input: isSafeInteger(${tms})`)
 
-	const tz = get_default_timezone(tms)
+	const _tz = get_default_timezone(tms)
 
 	const _ld = new Date(tms)
 
-	const _lx = LuxonDateTime.fromJSDate(_ld, { zone: tz })
+	const zone = new IANAZone(_tz)
+	const _lx = LuxonDateTime.fromJSDate(_ld, { zone })
+	if (_lx.invalidReason || _lx.invalidExplanation) {
+		logger.error('', {
+			tms,
+			_ld,
+			zone,
+			_lx,
+		})
+	}
+	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_from_utc_tms() invalid LuxonDateTime: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
 
 	// const _m = moment(_ld)
 	return {
 		_lx,
+		_debug: {
+			'create_better_date_from_utc_tms': {
+				tms,
+			}
+		}
 	}
 }
 
 // XXX to deprecate!!!
+/*
 export function create_better_date_compat(
 	year: number,
 	month_0based: number,
@@ -249,15 +253,21 @@ export function create_better_date_compat(
 		_ld,
 		_m,
 		tz,
-	}*/
+	}
 }
+*/
 
-
-export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, default_zone?: TimeZone): BetterDate {
+// better tz because the ExifDateTime created from exiftool
+// may have the tz as a numeric shift
+// while an explicit locale may be in the other TZ field, cf. unit test
+// if better_tz supplied, expecting a similar shift
+export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, better_tz?: TimeZone): BetterDate {
 	let _lx: LuxonDateTime = exif_date.toDateTime()
 
+	//assert(exif_date.hasZone, 'exif date has zone?') // XXX
 	if (!exif_date.hasZone) {
-		let tz: TimeZone = default_zone || get_default_timezone(_lx.toMillis())
+		assert(!better_tz, 'create_better_date_from_ExifDateTime() tz suggested with no tz embedded = ???')
+		let tz: TimeZone = get_default_timezone(_lx.toMillis())
 		_lx = LuxonDateTime.fromObject({
 			year: exif_date.year,
 			month: exif_date.month, // TODO is it 0 based?,
@@ -269,14 +279,36 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, de
 			zone: tz,
 		})
 	}
+	else {
+		if (better_tz) {
+			// TODO assert same tz shift
+			_lx = LuxonDateTime.fromObject({
+				year: exif_date.year,
+				month: exif_date.month, // TODO is it 0 based?,
+				day: exif_date.day,
+				hour: exif_date.hour,
+				minute: exif_date.minute,
+				second: exif_date.second,
+				millisecond: exif_date.millis,
+				zone: better_tz,
+			})
+		}
+	}
+
+	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_from_ExifDateTime(): ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
 
 	return {
-		_lx
+		_lx,
+		_debug: {
+			'create_better_date_from_ExifDateTime': {
+				exif_date,
+			}
+		}
 	}
 }
 
 export function create_better_date(
-	tz?: TimeZone,
+	tz: TimeZone | 'tz:auto',
 	year?: number,
 	month?: number,
 	day?: number,
@@ -305,17 +337,17 @@ export function create_better_date_obj({
 	minute,
 	second,
 	milli,
-	tz,
-}: Partial<{
-	year: number,
-	month: number,
-	day: number,
-	hour: number,
-	minute: number,
-	second: number,
-	milli: number,
-	tz: TimeZone,
-}> = {}): BetterDate {
+	tz = 'tz:auto',
+}: {
+	year?: number,
+	month?: number,
+	day?: number,
+	hour?: number,
+	minute?: number,
+	second?: number,
+	milli?: number,
+	tz: TimeZone | 'tz:auto'
+}): BetterDate {
 
 	let _lx = LuxonDateTime.fromObject({
 		year,
@@ -328,8 +360,7 @@ export function create_better_date_obj({
 		zone: tz,
 	})
 
-	if (!tz) {
-		tz ??= get_default_timezone(_lx.toMillis())
+	if (tz === 'tz:auto') {
 		_lx = LuxonDateTime.fromObject({
 			year,
 			month,
@@ -338,12 +369,26 @@ export function create_better_date_obj({
 			minute,
 			second,
 			millisecond: milli,
-			zone: tz,
+			zone: get_default_timezone(_lx.toMillis()),
 		})
 	}
 
+	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_obj(): ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
+
 	return {
-		_lx
+		_lx,
+		_debug: {
+			'create_better_date_obj': {
+				year,
+				month,
+				day,
+				hour,
+				minute,
+				second,
+				milli,
+				tz,
+			}
+		}
 	}
 
 		/*

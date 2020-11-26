@@ -22,7 +22,7 @@ import {
 	BetterDate,
 	get_compact_date,
 	get_human_readable_timestamp_auto,
-	create_better_date_compat,
+	create_better_date,
 } from './better-date'
 import logger from './logger'
 
@@ -335,7 +335,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	if (blocks.length === 7) {
 		result.summary = 'perfect'
 		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
-		result.date = create_better_date_compat(...(date_creation_args as [ number, number ]))
+		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
 		return result
 	}
@@ -345,7 +345,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		|| blocks.length === 6) {
 		result.summary = 'ok'
 		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
-		result.date = create_better_date_compat(...(date_creation_args as [ number, number ]))
+		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
 		return result
 	}
