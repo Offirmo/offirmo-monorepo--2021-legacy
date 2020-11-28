@@ -23,7 +23,12 @@ import {
 
 /////////////////////
 
+function ꓺ(...t: Array<string | undefined>): string {
+	return t.filter(s => !!s).join(': ')
+}
+
 describe(`${LIB} - (base)name parser`, function() {
+	const DEBUG = false
 
 	describe('_get_y2k_year_from_fragment()', function () {
 		it('should work', () => {
@@ -34,7 +39,6 @@ describe(`${LIB} - (base)name parser`, function() {
 			expect(_get_y2k_year_from_fragment('19')).to.equal(2019)
 
 			const YYYY_UPPER_BOUND = get_current_year() + 1
-			const YY_UPPER_BOUND = YYYY_UPPER_BOUND - 2000
 			if (YYYY_UPPER_BOUND >= 2069) {
 				expect(_get_y2k_year_from_fragment('69')).to.equal(2069)
 			}
@@ -54,7 +58,7 @@ describe(`${LIB} - (base)name parser`, function() {
 				const expected = DATED_NAMES_SAMPLES[filename]
 				const { _comment, human_ts_current_tz_for_tests, digit_blocks, date, is_date_ambiguous: is_ambiguous } = expected
 
-				it(['should correctly parse', `"${filename}"`, _comment].filter(s => !!s).join(': '), () => {
+				it(ꓺ('should correctly parse', `"${filename}"`, _comment), () => {
 					const expected_result = {
 						summary: 'perfect',
 						reason: null,
@@ -63,6 +67,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					}
 					const result = _parse_digit_blocks(digit_blocks!, 'other')
 					//console.log({ result })
+					delete result.date?._debug
 
 					if (result.summary === 'perfect') {
 						// ok
@@ -94,7 +99,7 @@ describe(`${LIB} - (base)name parser`, function() {
 				const expected = UNDATED_NAMES_SAMPLES[filename]
 				const {_comment, human_ts_current_tz_for_tests, digit_blocks, ...expected_result_part} = expected
 
-				it(`should correctly fail to parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+				it(ꓺ('should correctly fail to parse', _comment, `"${filename}"`), () => {
 					const expected_result: DigitsParseResult = {
 						summary: 'no_match',
 						reason: null,
@@ -103,6 +108,8 @@ describe(`${LIB} - (base)name parser`, function() {
 					}
 					const result = _parse_digit_blocks(digit_blocks!, 'other')
 					//console.log({ result })
+					delete result.date?._debug
+
 					expect(result.reason).not.to.be.null
 					expected_result.reason = result.reason
 					if (result.summary !== 'no_match') {
@@ -119,6 +126,7 @@ describe(`${LIB} - (base)name parser`, function() {
 	})
 
 	describe('parse()', function () {
+
 		describe('extraction of the extension', function () {
 			const filenames = Object.keys(ALL_SAMPLES)
 			filenames.forEach(filename => {
@@ -132,7 +140,6 @@ describe(`${LIB} - (base)name parser`, function() {
 					).to.equal(extension_lc)
 				})
 			})
-
 
 			it('should work on dotfiles', () => {
 				expect(parse('.test').extension_lc)
@@ -160,13 +167,14 @@ describe(`${LIB} - (base)name parser`, function() {
 					const expected = DATED_NAMES_SAMPLES[filename]
 					const {_comment, human_ts_current_tz_for_tests, ...expected_result_part} = expected
 
-					it(`should correctly parse and find the date: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					it(ꓺ('should correctly parse and find the date', _comment, `"${filename}"`), () => {
 						const expected_result: ParseResult = {
 							original_name: filename,
 							...expected_result_part,
 						}
 
-						const result = parse(filename, true)
+						const result = parse(filename, DEBUG)
+						delete result.date?._debug
 						expect(
 							result.date_digits,
 							`digits for ${[_comment, `"${filename}"`].join(': ')}`
@@ -188,13 +196,13 @@ describe(`${LIB} - (base)name parser`, function() {
 					const expected = UNDATED_NAMES_SAMPLES[filename]
 					const {_comment, human_ts_current_tz_for_tests, digit_blocks,...expected_result_part} = expected
 
-					it(`should correctly parse and not find anything: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					it(ꓺ('should correctly parse and not find anything', _comment, `"${filename}"`), () => {
 						const expected_result: ParseResult = {
 							original_name: filename,
 							...expected_result_part,
 						}
 
-						const result = parse(filename, true)
+						const result = parse(filename, DEBUG)
 						expect(
 							result,
 							`result for ${[_comment, `"${filename}"`].join(': ')}`
@@ -212,8 +220,9 @@ describe(`${LIB} - (base)name parser`, function() {
 				const expected = NON_MEANINGFUL_NAMES_SAMPLES[filename]
 				const {_comment, human_ts_current_tz_for_tests, ...expected_result_part} = expected
 
-				it(`should correctly remove non meaningful parts: ${[_comment, `"${filename}"`].join(': ')}`, () => {
-					const result = parse(filename, true)
+				it(ꓺ('should correctly remove non meaningful parts', _comment, `"${filename}"`), () => {
+					const result = parse(filename, DEBUG)
+					delete result.date?._debug
 					expect(
 						result.meaningful_part,
 						`meaningful part for ${[_comment, `"${filename}"`].join(': ')}`
@@ -228,18 +237,19 @@ describe(`${LIB} - (base)name parser`, function() {
 			context('when possible', function () {
 				const filenames = Object.keys(DATED_NAMES_SAMPLES)
 				//.slice(1) // TEMP XXX
-
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
-					const {_comment, human_ts_current_tz_for_tests, digit_blocks, ...expected_result_part} = expected
+					const { _comment, human_ts_current_tz_for_tests, date, digit_blocks, ...expected_result_part } = expected
 
-					it(`should return a correct result: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					it(ꓺ(`should return a correct result`, _comment, `"${filename}"`), () => {
 						const expected_result: ParseResult = {
 							original_name: filename,
+							date,
 							...expected_result_part,
 						}
 
-						const result = parse(filename, true)
+						const result = parse(filename, DEBUG)
+						delete result.date?._debug
 						expect(
 							result,
 							`full result for ${[_comment, `"${filename}"`].join(': ')}`
@@ -249,21 +259,20 @@ describe(`${LIB} - (base)name parser`, function() {
 			})
 
 			context('when not possible', function () {
-
 				const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
 				//.slice(1) // TEMP XXX
-
 				filenames.forEach(filename => {
 					const expected = UNDATED_NAMES_SAMPLES[filename]
 					const {_comment, human_ts_current_tz_for_tests, digit_blocks, ...expected_result_part} = expected
 
-					it(`should return a correct result: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					it(ꓺ(`should return a correct result`, _comment, `"${filename}"`), () => {
 						const expected_result: ParseResult = {
 							original_name: filename,
 							...expected_result_part,
 						}
 
-						const result = parse(filename, true)
+						const result = parse(filename, DEBUG)
+						delete result.date?._debug
 						expect(
 							result,
 							`full result for ${[_comment, `"${filename}"`].join(': ')}`
@@ -272,7 +281,5 @@ describe(`${LIB} - (base)name parser`, function() {
 				})
 			})
 		})
-
 	})
-
 })

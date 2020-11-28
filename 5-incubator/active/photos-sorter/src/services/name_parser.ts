@@ -23,6 +23,7 @@ import {
 	get_compact_date,
 	get_human_readable_timestamp_auto,
 	create_better_date,
+	change_tz,
 } from './better-date'
 import logger from './logger'
 
@@ -591,6 +592,18 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 	// left-trim the suffix
 	while(state.suffix && SEPARATORS.includes(state.suffix[0])) {
 		state.suffix = state.suffix.slice(1)
+	}
+
+	if (result.digits_pattern === 'xxxx-xx-xxTxx:xx:xx.xxx' && state.suffix.startsWith('Z')) {
+		// https://en.wikipedia.org/wiki/ISO_8601
+		// https://devdocs.io/javascript/global_objects/date/toisostring
+		// trailing Z = UTC = not meaningful
+		state.suffix = state.suffix.slice(1)
+		// Note that we DON'T change the tz. Rationale:
+		// the "UTC" tz is not meaningful.
+		// The real TZ should have been automatically computed from user's global hints,
+		// with the date elements taken as an UTC hint
+		// That's exactly what happened and is already good ✔
 	}
 
 	let meaningful_part = deep_trim(state.prefix + state.suffix)

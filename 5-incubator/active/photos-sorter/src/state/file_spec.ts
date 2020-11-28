@@ -81,7 +81,8 @@ describe(`${LIB} - file state`, function() {
 		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
 		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test precond')
 
-		const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2018, 11, 21)
+		// must be OLDER yet we won't pick it
+		const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2016, 11, 21)
 		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_LEGACY = new Date(BAD_CREATION_DATE_CANDIDATE_MS)
 		const BAD_CREATION_DATE_CANDIDATE_EXIF = get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
@@ -158,7 +159,7 @@ describe(`${LIB} - file state`, function() {
 						basename: 'bar.jpg'
 					},
 				})
-				console.log({ REAL_CREATION_DATE_RdTS })
+				//console.log({ REAL_CREATION_DATE_RdTS })
 				expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
 			})
 
@@ -256,9 +257,9 @@ describe(`${LIB} - file state`, function() {
 				// expected: 2018-09-03 20:46:14 Asia/Shanghai
 				expect(get_best_creation_year(state)).to.equal(2018)
 				expect(get_best_creation_date_compact(state)).to.equal(20180903)
-				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal('2018-09-03_20h46m14')
 				expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal('Asia/Shanghai')
-				expect(get_ideal_basename(state)).to.equal(`MM2018-09-03_20h46m14_${basename}`)
+				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal('2018-09-03_20h46m14s506')
+				expect(get_ideal_basename(state)).to.equal(`MM2018-09-03_20h46m14s506_${basename}`)
 			})
 
 			const BN02 = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
@@ -278,9 +279,11 @@ describe(`${LIB} - file state`, function() {
 				//console.log(state)
 
 				// date: exif data is taken in its local zone
+				// expected: 2002-01-26 afternoon in Europe
 				expect(get_best_creation_year(state)).to.equal(2002)
 				expect(get_best_creation_date_compact(state)).to.equal(20020126)
-				expect(get_best_creation_date(state)).to.deep.equal(create_better_date('tz:auto', 2002, 1, 26, 16, 5, 50))
+				expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal('Europe/Paris')
+				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal('2002-01-26_16h05m50')
 				expect(get_ideal_basename(state)).to.equal(`MM2002-01-26_16h05m50_${basename}`)
 			})
 		})

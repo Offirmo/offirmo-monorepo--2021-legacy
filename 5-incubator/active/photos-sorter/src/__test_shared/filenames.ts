@@ -843,6 +843,10 @@ export const ALL_SAMPLES: { [k: string]: NameDetails } = {
 	...NON_MEANINGFUL_NAMES_SAMPLES,
 }
 
+Object.keys(ALL_SAMPLES).forEach(k => {
+	delete ALL_SAMPLES[k].date?._debug
+})
+
 /////////////////////
 
 export const REAL_FILES = {

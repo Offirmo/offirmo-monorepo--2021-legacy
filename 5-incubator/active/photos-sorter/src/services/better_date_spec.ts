@@ -15,7 +15,7 @@ import {
 	get_timestamp_utc_ms,
 	create_better_date,
 	get_exif_datetime,
-	create_better_date_from_ExifDateTime,
+	create_better_date_from_ExifDateTime, change_tz,
 } from './better-date'
 import {
 	get_params,
@@ -236,9 +236,30 @@ describe('Better Date', function() {
 
 	describe('factories', function() {
 
-		describe('create_better_date_compat()', function() {
+	})
 
-			it('should BE REMOVED')
+	describe('reducers', function() {
+
+		describe('change_tz()', function() {
+
+			it('should work', () => {
+				const kg_date = create_better_date_obj({
+					year: 2003,
+					month: 4,
+					day: 5,
+					hour: 6,
+					minute: 7,
+					second: 8,
+					milli: 9,
+					tz: 'Indian/Kerguelen', // random not GMT, not UTC, not my system
+				})
+				expect(get_human_readable_timestamp_auto(kg_date, 'tz:embedded')).to.equal('2003-04-05_06h07m08s009')
+
+				const UTC_date = change_tz(kg_date, 'UTC')
+
+				// no change, we didn't change the human components
+				expect(get_human_readable_timestamp_auto(UTC_date, 'tz:embedded')).to.equal('2003-04-05_06h07m08s009')
+			})
 		})
 	})
 })

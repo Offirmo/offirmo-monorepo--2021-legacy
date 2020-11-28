@@ -400,3 +400,17 @@ export function create_better_date_obj({
 	return create_better_date_compat(year, month_0based, day, hour, minute, second, milli, tz)*/
 }
 
+////////////////////////////////////
+
+export function change_tz(previous: Immutable<BetterDate>, tz: TimeZone): BetterDate {
+	return create_better_date(
+		tz,
+		previous._lx.year,
+		previous._lx.month,
+		previous._lx.day,
+		previous._lx.hour,
+		previous._lx.minute,
+		previous._lx.second,
+		previous._lx.millisecond,
+	)
+}
