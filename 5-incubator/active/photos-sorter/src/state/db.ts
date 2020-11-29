@@ -22,6 +22,7 @@ import {
 	//create_action_move_folder,
 	create_action_move_file,
 } from './actions'
+import { PersistedNotes } from './file'
 
 
 /////////////////////
@@ -298,6 +299,25 @@ export function on_hash_computed(state: Immutable<State>, file_id: RelativePath,
 	return _on_file_info_read(state, file_id)
 }
 
+export function on_media_file_notes_recovered(state: Immutable<State>, file_id: RelativePath, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+	logger.trace(`[${LIB}] on_media_file_notes_recovered(…)`, { file_id })
+
+	let new_file_state = File.on_notes_unpersisted(
+		state.files[file_id],
+		recovered_notes,
+	)
+
+	state = {
+		...state,
+		files: {
+			...state.files,
+			[file_id]: new_file_state,
+		},
+	}
+
+	return _on_file_info_read(state, file_id)
+}
+
 /*
 export function on_folder_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.trace(`[${LIB}] on_folder_moved(…)`, { })
@@ -393,47 +413,87 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 export function on_fs_exploration_done(_state: Immutable<State>): Immutable<State> {
 	logger.verbose('on_fs_exploration_done()…')
 
-	console.warn('on_exploration_done() TODO fix Immu ')
-	let state: State = _state as any as State
-	let { notes } = state
-	let folders: { [id: string]: Immutable<Folder.State> } = { ...state.folders }
-	let files: { [id: string]: Immutable<File.State> } = { ...state.files }
-
-	// demote event folders with no dates
-	let all_event_folder_ids = get_all_event_folder_ids(state)
-	all_event_folder_ids.forEach(id => {
-		folders[id] = Folder.demote_to_unknown(folders[id])
-	})
-	state = {
-		...state,
-		folders,
+	// finish evaluating all file data
+	const all_media_files: Immutable<File.State>[] = Object.values(get_all_media_file_ids(_state)).map(id => _state.files[id])
+	_state = {
+		..._state,
+		notes: Notes.on_exploration_done_store_new_notes(_state.notes, all_media_files)
 	}
-
-	// demote non-canonical or overlapping folder events but create the canonical ones
-	all_event_folder_ids = get_all_event_folder_ids(state)
-	all_event_folder_ids.forEach(id => {
-		//const folder_state = state.folders[id]
-		throw new Error('NIMP')
-	})
-
-	// consolidate all data
-	const all_media_files: Immutable<File.State>[] = Object.values(get_all_media_file_ids(state)).map(id => files[id])
-	notes = Notes.on_exploration_done(notes, all_media_files)
-
 	all_media_files.forEach(file_state => {
 		const { id, current_hash } = file_state
-		files[id] = File.on_notes_unpersisted(
-				file_state,
-				Notes.get_file_notes_from_hash(state.notes, current_hash!)
-			)
+		_state = on_media_file_notes_recovered(_state, id, Notes.get_file_notes_from_hash(_state.notes, current_hash!))
 	})
 
-	return {
-		...state,
+	let { notes } = _state
+	let folders: { [id: string]: Immutable<Folder.State> } = { ..._state.folders }
+	let files: { [id: string]: Immutable<File.State> } = { ..._state.files }
+	let state = {
+		..._state,
 		files,
 		folders,
 		notes,
 	}
+
+	// demote event folders with no dates
+	let all_event_folder_ids = get_all_event_folder_ids(state)
+	all_event_folder_ids.forEach(id => {
+		const folder = folders[id]
+		if (folder.begin_date === folder.end_date && folder.begin_date === undefined) {
+			folders[id] = Folder.demote_to_unknown(folder, 'no date could be inferred')
+		}
+	})
+
+	// demote non-canonical or overlapping folder events but create the canonical ones
+	all_event_folder_ids = get_all_event_folder_ids(state)
+	// first get all the start dates
+	const folders_by_start_date = all_event_folder_ids.reduce((acc, id) => {
+		const folder = state.folders[id]
+		const start_date = folder.begin_date!
+		const existing_conflicting_folder = acc[start_date]
+		acc[start_date] = (() => {
+			if (!existing_conflicting_folder)
+				return folder
+
+			if (Folder.is_current_name_intentful(existing_conflicting_folder)
+				&& !Folder.is_current_name_intentful(folder)) {
+				// demote the non-canonical one
+				folders[folder.id] = Folder.demote_to_unknown(folder, 'conflicting: non canonical')
+				return existing_conflicting_folder
+			}
+			if (Folder.is_current_name_intentful(folder)
+				&& !Folder.is_current_name_intentful(existing_conflicting_folder)) {
+				// demote the non-canonical one
+				folders[existing_conflicting_folder.id] = Folder.demote_to_unknown(existing_conflicting_folder, 'conflicting: non canonical')
+				return folder
+			}
+
+			// same canonical status...
+			// the shortest one wins
+			const existing_range_size = existing_conflicting_folder.end_date! - start_date
+			const candidate_range_size = folder.end_date! - start_date
+			if (candidate_range_size === existing_range_size) {
+				// demote the competing one
+				folders[folder.id] = Folder.demote_to_unknown(folder, 'lower prio')
+			}
+			return existing_range_size <= candidate_range_size
+				? existing_conflicting_folder
+				: folder
+		})()
+
+		return acc
+	}, {} as { [start: number]: Immutable<Folder.State> })
+	// then remove overlaps
+	const ordered_start_dates: SimpleYYYYMMDD[] = Object.keys(folders_by_start_date).map(k => Number(k)).sort()
+	ordered_start_dates.forEach((start_date: SimpleYYYYMMDD, index: number) => {
+		const folder = folders_by_start_date[start_date]
+		const next_start_date = ordered_start_dates[index + 1]
+		if (next_start_date) {
+			if (next_start_date <= folder.end_date!)
+				folders[folder.id] = Folder.on_overlap_clarified(folder, next_start_date - 1)
+		}
+	})
+
+	return state
 }
 
 export function normalize_medias_in_place(state: Immutable<State>): Immutable<State> {

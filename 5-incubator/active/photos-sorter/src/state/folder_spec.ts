@@ -50,7 +50,7 @@ describe(`${LIB} - folder state`, function() {
 		})
 	})
 
-	describe.only('reducers', function() {
+	describe('reducers', function() {
 
 		describe('create()', function () {
 

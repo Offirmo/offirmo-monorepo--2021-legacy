@@ -115,8 +115,8 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 }
 
 export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>): boolean {
-	return (
-			   state.current_exif_data !== undefined
+	return ( state.notes_restored
+			&& state.current_exif_data !== undefined
 			&& state.current_fs_stats !== undefined
 			&& state.current_hash !== undefined
 		)

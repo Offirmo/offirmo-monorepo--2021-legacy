@@ -71,6 +71,7 @@ describe(`${LIB} - file state`, function() {
 				} as Partial<fs.Stats> as any)
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
+				state = on_notes_unpersisted(state, null)
 				expect(get_ideal_basename(state), tc_key).to.equal(TEST_CASES[tc_key])
 			})
 		})
@@ -107,6 +108,7 @@ describe(`${LIB} - file state`, function() {
 				'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
 			} as Tags)
 			state = on_hash_computed(state, '1234')
+			state = on_notes_unpersisted(state, null)
 			expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
 		})
 
@@ -194,6 +196,7 @@ describe(`${LIB} - file state`, function() {
 					} as Partial <fs.Stats> as any)
 					state = on_exif_read(state, {} as Partial<Tags> as any)
 					state = on_hash_computed(state, '1234')
+					state = on_notes_unpersisted(state, null)
 					/*state = on_notes_unpersisted(state, {
 						deleted: false,
 						original: {
