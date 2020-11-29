@@ -1,14 +1,11 @@
 import { expect } from 'chai'
 import assert from 'tiny-invariant'
-import { Tags, ExifDateTime, exiftool } from 'exiftool-vendored'
+import { Tags, exiftool } from 'exiftool-vendored'
 import util from 'util'
 import path from 'path'
 import fs from 'fs'
 import hasha from 'hasha'
-import { DateTime as LuxonDateTime } from 'luxon'
 
-//import moment from 'moment'
-//import 'moment-timezone'
 import { Immutable } from '@offirmo-private/ts-types'
 
 import { LIB } from '../consts'
@@ -36,6 +33,12 @@ import {
 	get_embedded_timezone,
 	create_better_date, get_exif_datetime,
 } from '../services/better-date'
+import {
+	MEDIA_DEMO_01_basename,
+	get_MEDIA_DEMO_01,
+	MEDIA_DEMO_02_basename,
+	get_MEDIA_DEMO_02,
+} from '../__test_shared/real_files'
 
 /////////////////////
 
@@ -206,52 +209,14 @@ describe(`${LIB} - file state`, function() {
 	describe('integration', function() {
 
 		describe('real files', function() {
-			this.timeout(5000)
-			const TEST_FILES_DIR = '../../../src/__test_shared'
+			//this.timeout(5000)
 
-			async function load(state: Immutable<State>, abs_path: string): Promise<Immutable<State>> {
-				expect(is_media_file(state)).to.be.true
-				expect(is_exif_powered_media_file(state)).to.be.true
+			it('should work - ' + MEDIA_DEMO_01_basename, async () => {
+				const basename = MEDIA_DEMO_01_basename
+				let state = await get_MEDIA_DEMO_01()
 
-				await Promise.all([
-					hasha.fromFile(abs_path, {algorithm: 'sha256'})
-						.then(hash => {
-							expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
-							assert(hash, 'should have hash')
-							state = on_hash_computed(state, hash)
-						}),
-					util.promisify(fs.stat)(abs_path)
-						.then(stats => {
-							expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
-							state = on_fs_stats_read(state, stats)
-						}),
-					exiftool.read(abs_path)
-						.then(exif_data => {
-							expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
-							state = on_exif_read(state, exif_data)
-						})
-				])
-
-				expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.true
-
-				return state
-			}
-
-			const BN01 = 'exif_date_cn_exif_gps.jpg'
-			it('should work - ' + BN01, async () => {
-				const basename = BN01
-				const abs_path = path.join(__dirname, TEST_FILES_DIR, basename)
-				let state = create(basename)
-				/*console.log({
-					basename,
-					abs_path,
-					state,
-				})*/
 				expect(get_current_basename(state)).to.equal(basename)
 				expect(get_current_parent_folder_id(state)).to.equal('.')
-
-				state = await load(state, abs_path)
-				//console.log(state)
 
 				// date: exif data is taken in its local zone
 				// expected: 2018-09-03 20:46:14 Asia/Shanghai
@@ -262,21 +227,12 @@ describe(`${LIB} - file state`, function() {
 				expect(get_ideal_basename(state)).to.equal(`MM2018-09-03_20h46m14s506_${basename}`)
 			})
 
-			const BN02 = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
-			it('should work - ' + BN02, async () => {
-				const basename = BN02
-				const abs_path = path.join(__dirname, TEST_FILES_DIR, basename)
-				let state = create(basename)
-				/*console.log({
-					basename,
-					abs_path,
-					state,
-				})*/
+			it('should work - ' + MEDIA_DEMO_02_basename, async () => {
+				const basename = MEDIA_DEMO_02_basename
+				let state = await get_MEDIA_DEMO_02()
+
 				expect(get_current_basename(state)).to.equal(basename)
 				expect(get_current_parent_folder_id(state)).to.equal('.')
-
-				state = await load(state, abs_path)
-				//console.log(state)
 
 				// date: exif data is taken in its local zone
 				// expected: 2002-01-26 afternoon in Europe

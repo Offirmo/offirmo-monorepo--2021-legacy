@@ -30,7 +30,7 @@ const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 ]
 
 // TODO should default_zone be dynamic? Most likely yes
-export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_zone?: string): ExifDateTime | undefined {
+export function get_creation_date_from_exif(filename_for_debug: string, exif_data: Immutable<Tags>, default_zone?: string): ExifDateTime | undefined {
 	const now_legacy = new LegacyDate()
 	let min_date_legacy = now_legacy // for now
 	let min_date_exif: ExifDateTime | undefined = undefined
@@ -43,7 +43,7 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 		// "If date fields aren't parsable, the raw string from exiftool will be provided."
 		if (typeof raw_exiftool_date === 'string') {
 			// TODO log (add a onWarning param)
-			logger.warn(`un-parsable exif date: "${raw_exiftool_date}"`)
+			logger.warn(`un-parsable exif date`, { raw_exiftool_date, filename_for_debug })
 			return acc
 		}
 
@@ -140,7 +140,7 @@ export function get_creation_date_from_exif(exif_data: Immutable<Tags>, default_
 		// seen happening on edited jpg
 		// TODO add to file log
 		// TODO log
-		logger.warn('EXIF compatible file has no usable EXIF date')
+		logger.warn('EXIF compatible file has no usable EXIF date', { filename_for_debug })
 		return undefined
 	}
 	assert(min_date_exif, 'min_date_exif should exist since fields found')

@@ -91,18 +91,18 @@ async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 async function sort_all_medias() {
 
 	logger.group('******* STARTING EXPLORATION PHASE *******')
-	db = DB.explore_recursively(db)
+	db = DB.explore_fs_recursively(db)
 	await exec_pending_actions_recursively_until_no_more()
-	db = DB.on_exploration_done(db)
+	db = DB.on_fs_exploration_done(db)
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
-	logger.log(DB.to_string(db))
+	logger.log('DB = ' + DB.to_string(db))
 
 	logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
 	db = DB.normalize_medias_in_place(db)
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
-	logger.log(DB.to_string(db))
+	logger.log('DB = ' + DB.to_string(db))
 
 	logger.group('******* STARTING SORTING PHASE *******')
 
@@ -119,18 +119,18 @@ async function sort_all_medias() {
 	db = DB.move_all_files_to_their_ideal_location_incl_deduping(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
 	await exec_pending_actions_recursively_until_no_more()
-	logger.log(DB.to_string(db))
+	logger.log('DB = ' + DB.to_string(db))
 
 	db = DB.delete_empty_folders_recursively(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
 	await exec_pending_actions_recursively_until_no_more()
-	logger.log(DB.to_string(db))
+	logger.log('DB = ' + DB.to_string(db))
 
 	/*
 	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
 	await exec_pending_actions_recursively_until_no_more()
-	logger.log(DB.to_string(db))*/
+	logger.log('DB = ' + DB.to_string(db))*/
 
 	//db = DB.ensure_all_eligible_files_are_correctly_named(db)
 	//db.queue.forEach(action => console.log(JSON.stringify(action)))

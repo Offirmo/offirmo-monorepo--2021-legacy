@@ -56,6 +56,7 @@ export interface State {
 	current_fs_stats: undefined | fs.Stats // can't be null, always a file
 	current_hash: undefined | string // can't be null, always a file
 
+	notes_restored: boolean
 	notes: PersistedNotes
 
 	memoized: {
@@ -146,7 +147,7 @@ function _get_creation_date_from_exif(state: Immutable<State>): ExifDateTime | u
 	assert(current_exif_data, `${id}: exif data read`)
 
 	try {
-		return get_creation_date_from_exif(current_exif_data)
+		return get_creation_date_from_exif(get_current_basename(state), current_exif_data)
 	}
 	catch (err) {
 		logger.fatal(`error extracting date from exif for "${id}"!`, { err })
@@ -343,6 +344,7 @@ export function create(id: RelativePath): Immutable<State> {
 		current_fs_stats: undefined,
 		current_hash: undefined,
 
+		notes_restored: false,
 		notes: {
 			deleted: false,
 			original: {
@@ -448,19 +450,18 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 	return state
 }
 
-export function on_notes_unpersisted(state: Immutable<State>, existing_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+export function on_notes_unpersisted(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`[${LIB}] on_notes_unpersisted(…)`, { id: state.id })
-	if (!existing_notes)
-		return state
 
 	state = {
 		...state,
+		notes_restored: true,
 		notes: {
 			...state.notes,
-			...existing_notes,
+			...recovered_notes,
 			original: {
 				...state.notes.original,
-				...existing_notes.original,
+				...recovered_notes?.original,
 			}
 		}
 	}

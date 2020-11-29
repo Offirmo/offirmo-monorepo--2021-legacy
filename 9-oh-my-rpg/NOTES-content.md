@@ -719,3 +719,5 @@ https://en.wikipedia.org/wiki/Folk_memory
 https://en.wikipedia.org/wiki/Imperial,_royal_and_noble_ranks
 https://en.wikipedia.org/wiki/Royal_dukedoms_in_the_United_Kingdom
 
+https://science.slashdot.org/story/20/11/27/159241/leaf-cutter-ants-have-rocky-crystal-armor-never-before-seen-in-insects
+

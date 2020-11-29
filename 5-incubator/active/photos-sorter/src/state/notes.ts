@@ -41,7 +41,7 @@ export function create(): Immutable<State> {
 }
 
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
-	logger.trace(`[${LIB}] on_notes_found(…)`, { })
+	logger.trace(`[${LIB}] on_previous_notes_found(…)`, { })
 
 	// todo reconcile the DBs
 
@@ -49,8 +49,8 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 }
 
 // store infos for NEW files
-export function on_exploration_done(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
-	logger.trace(`[${LIB}] on_notes_found(…)`, { })
+export function on_exploration_done_store_new_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
+	logger.trace(`[${LIB}] on_exploration_done_store_new_notes(…)`, { })
 
 	const media_files_notes: State['media_files'] = { ...state.media_files }
 
@@ -79,6 +79,7 @@ export function on_notes_taken(state: Immutable<State>, file_state: Immutable<Fi
 	throw new Error('NIMP')
 }
 
+// TODO store and restore notes!
 
 /*
 export function on_file_hashed(state: Immutable<State>, hash: string, notes: FileNotes): Immutable<State> {

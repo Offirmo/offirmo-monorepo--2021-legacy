@@ -356,7 +356,6 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	return result
 }
 
-
 export interface ParseResult {
 	original_name: string
 
@@ -635,10 +634,21 @@ const SCREENSHOT_ALIASES_LC = [
 	'capture',
 ]
 
-export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
-	const result = parse(s)
+/*
+export function extract_compact_date_from_canonical_folder(s: string): SimpleYYYYMMDD | null {
+	if (s.length <= 11)
+		return null
+	if (s.slice(8, 10) !== ' - ')
+		return null
+
+	const digits = s.slice(0, 8))
+
+
+
+
+	const result = parsed ?? parse(s)
 	if (!result.date)
 		return null
 
 	return get_compact_date(result.date, 'tz:embedded')
-}
+}*/

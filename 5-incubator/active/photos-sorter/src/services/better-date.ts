@@ -414,3 +414,12 @@ export function change_tz(previous: Immutable<BetterDate>, tz: TimeZone): Better
 		previous._lx.millisecond,
 	)
 }
+
+export function add_days_to_simple_date(date: SimpleYYYYMMDD, inc_days: number): SimpleYYYYMMDD {
+	let days = date % 100 + inc_days
+	let months = Math.trunc(date / 100) % 100
+	let years = Math.trunc(date / 10000)
+	let _ld = new Date(years, months - 1, days)
+
+	return _ld.getDate() + (_ld.getMonth() + 1) * 100 + _ld.getFullYear() * 10000
+}

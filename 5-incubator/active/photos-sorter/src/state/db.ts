@@ -69,7 +69,7 @@ export function get_all_folder_ids(state: Immutable<State>): string[] {
 export function get_all_event_folder_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.folders)
 		.filter(k => state.folders[k].type === Folder.Type.event)
-		//.sort((a, b) => state.folders[a].start_date! - state.folders[b].start_date!)
+		//.sort((a, b) => state.folders[a].begin_date! - state.folders[b].begin_date!)
 }
 
 export function get_all_file_ids(state: Immutable<State>): string[] {
@@ -358,12 +358,12 @@ export function merge_folder(state: Immutable<State>, id: RelativePath, target_i
 	// merge the dates
 	// TODO reducer action ?
 	// TODO can dates be -1 at this point ?? (can they even be -1 at all?)
-	if (target_folder_state.start_date === -1)
-		target_folder_state.start_date = folder_state.start_date
+	if (target_folder_state.begin_date === -1)
+		target_folder_state.begin_date = folder_state.begin_date
 	if (target_folder_state.end_date === -1)
 		target_folder_state.end_date = folder_state.end_date
-	if (folder_state.start_date !== -1)
-		target_folder_state.start_date = Math.min(target_folder_state.start_date, folder_state.start_date)
+	if (folder_state.begin_date !== -1)
+		target_folder_state.begin_date = Math.min(target_folder_state.begin_date, folder_state.begin_date)
 	if (folder_state.end_date !== -1)
 		target_folder_state.end_date = Math.min(target_folder_state.end_date, folder_state.end_date)
 
@@ -385,11 +385,13 @@ export function merge_folder(state: Immutable<State>, id: RelativePath, target_i
 
 ///////////////////// ACTIONS /////////////////////
 
-export function explore_recursively(state: Immutable<State>): Immutable<State> {
+export function explore_fs_recursively(state: Immutable<State>): Immutable<State> {
+	logger.verbose('explore_fs_recursively()…')
 	return on_folder_found(state, '', '.')
 }
 
-export function on_exploration_done(_state: Immutable<State>): Immutable<State> {
+export function on_fs_exploration_done(_state: Immutable<State>): Immutable<State> {
+	logger.verbose('on_fs_exploration_done()…')
 
 	console.warn('on_exploration_done() TODO fix Immu ')
 	let state: State = _state as any as State
@@ -508,12 +510,12 @@ export function ensure_existing_event_folders_are_organized(state: Immutable<Sta
 			// merge the dates
 			// TODO reducer action ?
 			// TODO can dates be -1 at this point ?? (can they even be -1 at all?)
-			if (target_folder_state.start_date === -1)
-				target_folder_state.start_date = folder_state.start_date
+			if (target_folder_state.begin_date === -1)
+				target_folder_state.begin_date = folder_state.begin_date
 			if (target_folder_state.end_date === -1)
 				target_folder_state.end_date = folder_state.end_date
-			if (folder_state.start_date !== -1)
-				target_folder_state.start_date = Math.min(target_folder_state.start_date, folder_state.start_date)
+			if (folder_state.begin_date !== -1)
+				target_folder_state.begin_date = Math.min(target_folder_state.begin_date, folder_state.begin_date)
 			if (folder_state.end_date !== -1)
 				target_folder_state.end_date = Math.min(target_folder_state.end_date, folder_state.end_date)
 
@@ -540,9 +542,9 @@ export function ensure_existing_event_folders_are_organized(state: Immutable<Sta
 
 function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
 	return true
-		&& !!folder_state.start_date
+		&& !!folder_state.begin_date
 		&& !!folder_state.end_date
-		&& compact_date >= folder_state.start_date
+		&& compact_date >= folder_state.begin_date
 		&& compact_date <= folder_state.end_date
 }
 /*

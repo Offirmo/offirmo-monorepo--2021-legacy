@@ -5,4 +5,5 @@ after(() => exiftool.end())
 
 
 const logger = getLogger()
+//logger.setLevel('silly')
 logger.setLevel('info')
