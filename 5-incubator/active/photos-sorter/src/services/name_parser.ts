@@ -90,14 +90,12 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	}
 
 	if ( separator === 'none') {
-		// TODO improve
 		result.summary = 'need_more'
 		result.reason = 'not on sep'
 		return result
 	}
 
 	if (blocks[0].length > 4 && blocks[0].length !== 8) {
-		// TODO one day handle this
 		result.summary = 'no_match'
 		result.reason = '1st block mismatch - length'
 		return result

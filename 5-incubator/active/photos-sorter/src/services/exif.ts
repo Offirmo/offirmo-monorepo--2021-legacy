@@ -12,6 +12,26 @@ import logger from './logger'
 type ExifDateTimeHash = { [k: string]: ExifDateTime }
 
 
+/** ☆☆☆☆ ✔ Example: 1 */
+//TimeZoneOffset?: number;
+/** ★★★★ ✔ Example: 2218-09-22T02:32:14.000 */
+//CreateDate?: ExifDateTime;
+/** ★★★★ ✔ Example: 2218-09-22T02:32:14.000 */
+//DateTimeOriginal?: ExifDateTime;
+/** ☆☆☆☆ ✔ Example: 2020-07-08 */
+//GPSDateStamp?: ExifDate;
+/** ☆☆☆☆   Example: 2006-12-19 */
+//DateCreated?: ExifDate;
+/** ☆☆☆☆ ✔ Example: 2019-07-20T19:21:25.000-07:00 */
+//DateTimeCreated?: ExifDateTime;
+/** ☆☆☆☆ ✔ Example: 2019-05-25 */
+//DigitalCreationDate?: ExifDate;
+/** ☆☆☆☆ ✔ Example: 13:39:28 */
+//DigitalCreationTime?: ExifTime;
+/** ☆☆☆☆   Example: 2013-03-12T16:31:26.000 */
+//DateTimeGenerated?: ExifDateTime;
+/** ☆☆☆☆ ✔ Example: 2017-02-12T10:28:20.000 */
+//MediaCreateDate?: ExifDateTime;
 const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	// https://github.com/photostructure/exiftool-vendored.js#dates
 	'SubSecCreateDate',
@@ -26,7 +46,7 @@ const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	//'DigitalCreationTime',
 	'DateTimeGenerated',
 	'MediaCreateDate',
-	//'GPSDateTime' No! seems to be UTC = makes it tricky to use correctly. TODO support this later if deemed useful
+	//'GPSDateTime' No! seems to be UTC = makes it tricky to use correctly. NTH support this later if deemed useful
 ]
 
 // TODO should default_zone be dynamic? Most likely yes

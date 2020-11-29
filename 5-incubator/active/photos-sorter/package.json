@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo-private/photos-sorter",
 	"version": "0.0.1",
-	"description": "TODO",
+	"description": "An automated photo sorter",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,

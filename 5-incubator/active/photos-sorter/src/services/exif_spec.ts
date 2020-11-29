@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { exiftool } from 'exiftool-vendored'
+import { exiftool, ExifDateTime } from 'exiftool-vendored'
 import path from 'path'
 
 import { LIB } from '../consts'
@@ -19,7 +19,19 @@ describe(`${LIB} - exif service`, function() {
 
 	describe('ExifDatetime', function () {
 
-		it('should behave as expected')
+		it('should have the expected API', () => {
+			const out = new ExifDateTime(
+				2000,
+				1, // 1 = Jan
+				13,
+				14,
+				15,
+				16,
+				123,
+			)
+
+			expect(out.toISOString()).to.equal('2000-01-13T14:15:16.123')
+		})
 	})
 
 	describe('integration', function() {

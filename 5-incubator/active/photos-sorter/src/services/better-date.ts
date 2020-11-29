@@ -39,11 +39,10 @@ export type PhotoSorterTimestampMillis = string
 export interface BetterDate {
 	_debug: any
 
-	// TODO
+	// Note: we defaulted on Luxon bc
+	// 1. it's very good and suitable
+	// 2. ExifDateTime also uses it internally = easy to convert from
 	_lx: LuxonDateTime
-	//tz: TimeZone
-	/*_ld: LegacyDate
-	_m: Moment*/
 }
 
 ////////////////////////////////////
@@ -55,30 +54,6 @@ export function get_timestamp_utc_ms(date: Immutable<BetterDate>): TimestampUTCM
 	return Number(date._ld)*/
 }
 
-/*
-function _get_final_tz(tz: TimeZone | 'tz:embedded', date: Immutable<BetterDate>): TimeZone {
-	return ((): TimeZone => {
-		if (tz === 'tz:embedded') {
-			return date._lx.zone.name
-			//return date.tz
-		}
-
-		return tz
-	})()
-}*/
-
-/*
-// moment
-const DATE_FORMAT_YEARS = 'YYYY'
-const DATE_FORMAT_MONTHS = 'MM'
-const DATE_FORMAT_DAYS = 'DD'
-const DATE_FORMAT_TO_DAYS_COMPACT = [ DATE_FORMAT_YEARS, DATE_FORMAT_MONTHS, DATE_FORMAT_DAYS].join('')
-const DATE_FORMAT_TO_DAYS_NATURAL = [ DATE_FORMAT_YEARS, DATE_FORMAT_MONTHS, DATE_FORMAT_DAYS].join('-')
-const DATE_FORMAT_TO_MINUTES_NATURAL = DATE_FORMAT_TO_DAYS_NATURAL + '_HH[h]mm'
-const DATE_FORMAT_TO_SECONDS_NATURAL = DATE_FORMAT_TO_MINUTES_NATURAL + '[m]ss'
-const DATE_FORMAT_TO_MILLIS_NATURAL = DATE_FORMAT_TO_SECONDS_NATURAL + '[s]SSS'
-const DATE_FORMAT_TO_MILLIS_DIGITS = DATE_FORMAT_TO_DAYS_COMPACT + 'HHmmssSSS'
-*/
 // luxon
 const DATE_FORMAT_YEARS = 'yyyy'
 const DATE_FORMAT_MONTHS = 'LL'
@@ -92,36 +67,26 @@ const DATE_FORMAT_TO_MILLIS_DIGITS = DATE_FORMAT_TO_DAYS_COMPACT + `HHmmssSSS`
 
 export function get_compact_date(date: Immutable<BetterDate>, tz: /*TimeZone |*/ 'tz:embedded'): SimpleYYYYMMDD {
 	return Number(date._lx.toFormat(DATE_FORMAT_TO_DAYS_COMPACT))
-	/*tz = _get_final_tz(tz, date)
-	return Number(date._m.tz(tz).format(DATE_FORMAT_TO_DAYS_COMPACT))*/
 }
 
 // ex. 2018-11-21
 export function get_human_readable_timestamp_days(date: Immutable<BetterDate>, tz: /*TimeZone |*/ 'tz:embedded'): PhotoSorterTimestampDays {
 	return date._lx.toFormat(DATE_FORMAT_TO_DAYS_NATURAL)
-	/*tz = _get_final_tz(tz, date)
-	return date._m.tz(tz).format(DATE_FORMAT_TO_DAYS_NATURAL)*/
 }
 
 // ex. 2018-11-21_06h00
 export function get_human_readable_timestamp_minutes(date: Immutable<BetterDate>, tz: /*TimeZone |*/ 'tz:embedded'): PhotoSorterTimestampMinutes {
 	return date._lx.toFormat(DATE_FORMAT_TO_MINUTES_NATURAL)
-	/*tz = _get_final_tz(tz, date)
-	return date._m.tz(tz).format(DATE_FORMAT_TO_MINUTES_NATURAL)*/
 }
 
 // ex. 2018-11-21_04h23m15
 export function get_human_readable_timestamp_seconds(date: Immutable<BetterDate>, tz: /*TimeZone |*/ 'tz:embedded'): PhotoSorterTimestampSeconds {
 	return date._lx.toFormat(DATE_FORMAT_TO_SECONDS_NATURAL)
-	/*tz = _get_final_tz(tz, date)
-	return date._m.tz(tz).format(DATE_FORMAT_TO_SECONDS_NATURAL)*/
 }
 
 // ex. 2018-11-21_06h00m45s632
 export function get_human_readable_timestamp_millis(date: Immutable<BetterDate>, tz: /*TimeZone |*/ 'tz:embedded'): PhotoSorterTimestampMillis {
 	return date._lx.toFormat(DATE_FORMAT_TO_MILLIS_NATURAL)
-	/*tz = _get_final_tz(tz, date)
-	return date._m.tz(tz).format(DATE_FORMAT_TO_MILLIS_NATURAL)*/
 }
 
 // same as the above without trailing 0s
@@ -130,18 +95,6 @@ export function get_human_readable_timestamp_auto(date: Immutable<BetterDate>, t
 	assert(date && date._lx, 'get_human_readable_timestamp_auto() bad date')
 	//const date = new Date(timestamp)
 
-	/*const YYYY = date.getFullYear()
-	const MM = String(date.getMonth() + 1).padStart(2, '0')
-	const DD = String(date.getDate()).padStart(2, '0')
-	const hh = String(date.getHours()).padStart(2, '0')
-	const mm = String(date.getMinutes()).padStart(2, '0')
-	const ss = String(date.getSeconds()).padStart(2, '0')
-	const mmm = String(date.getMilliseconds()).padStart(3, '0')
-
-	const digits = [ YYYY, MM, DD, hh, mm, ss, mmm ].join('')
-
-	return _get_human_readable_timestamp_auto(date, digits)*/
-	//const digits = date._m.tz(_get_final_tz(tz, date)).format(DATE_FORMAT_TO_MILLIS_DIGITS)
 	const digits = date._lx.toFormat(DATE_FORMAT_TO_MILLIS_DIGITS) // tz is irrelevant for this counting
 	//logger.log('get_human_readable_timestamp_auto()', { digits, date })
 	assert(digits.length === 17, 'get_human_readable_timestamp_auto() digits length')
@@ -215,48 +168,6 @@ export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:aut
 	}
 }
 
-// XXX to deprecate!!!
-/*
-export function create_better_date_compat(
-	year: number,
-	month_0based: number,
-	day?: number,
-	hour?: number,
-	minute?: number,
-	second?: number,
-	milli?: number,
-	tz?: TimeZone
-): BetterDate {
-
-	if (!tz) {
-		const legacy_date_as_utc = Date.UTC(year, month_0based, day, hour, minute, second, milli)
-		tz = get_default_timezone(Number(legacy_date_as_utc)) // best we can do
-		// TODO check if borderline
-	}
-
-	return create_better_date_obj({
-		year,
-		month: month_0based + 1,
-		day,
-		hour,
-		minute,
-		second,
-		milli,
-		tz,
-	})
-
-	/*
-	// Date.UTC() ??
-	const _ld = new Date(year, month_0based, day, hour, minute, second, milli) XXX
-	const _m = moment(_ld)
-	return {
-		_ld,
-		_m,
-		tz,
-	}
-}
-*/
-
 // better tz because the ExifDateTime created from exiftool
 // may have the tz as a numeric shift
 // while an explicit locale may be in the other TZ field, cf. unit test
@@ -270,7 +181,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 		let tz: TimeZone = get_default_timezone(_lx.toMillis())
 		_lx = LuxonDateTime.fromObject({
 			year: exif_date.year,
-			month: exif_date.month, // TODO is it 0 based?,
+			month: exif_date.month,
 			day: exif_date.day,
 			hour: exif_date.hour,
 			minute: exif_date.minute,
@@ -284,7 +195,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 			// TODO assert same tz shift
 			_lx = LuxonDateTime.fromObject({
 				year: exif_date.year,
-				month: exif_date.month, // TODO is it 0 based?,
+				month: exif_date.month,
 				day: exif_date.day,
 				hour: exif_date.hour,
 				minute: exif_date.minute,

@@ -1,11 +1,13 @@
 import { expect } from 'chai'
+import { DateTime as LuxonDateTime, IANAZone } from 'luxon'
 
 import {
-
-
-	create_better_date_from_utc_tms,
-	create_better_date_obj,
-
+	get_params,
+	Params,
+	_xxx_get_system_timezone,
+	get_default_timezone,
+} from '../params'
+import {
 	get_compact_date,
 	get_human_readable_timestamp_days,
 	get_human_readable_timestamp_seconds,
@@ -13,18 +15,35 @@ import {
 	get_human_readable_timestamp_millis,
 	get_human_readable_timestamp_auto,
 	get_timestamp_utc_ms,
-	create_better_date,
 	get_exif_datetime,
-	create_better_date_from_ExifDateTime, change_tz,
+
+	create_better_date,
+	create_better_date_from_ExifDateTime,
+	change_tz,
+	create_better_date_from_utc_tms,
+	create_better_date_obj,
 } from './better-date'
-import {
-	get_params,
-	Params,
-	_xxx_get_system_timezone,
-	get_default_timezone,
-} from '../params'
 
 describe('Better Date', function() {
+
+	describe('LuxonDateTime', function () {
+
+		it('should have the expected API', () => {
+			const _lx = LuxonDateTime.fromObject({
+				year: 2000,
+				month: 1, // 1 = Jan
+				day: 11,
+				hour: 12,
+				minute: 12,
+				second: 14,
+				millisecond: 156,
+				zone: 'Etc/GMT',
+			})
+			//console.log(_lx)
+			expect(_lx.isValid).to.be.true
+			expect(_lx.toRFC2822()).to.equal('Tue, 11 Jan 2000 12:12:14 +0000')
+		})
+	})
 
 	describe('utilities', function () {
 

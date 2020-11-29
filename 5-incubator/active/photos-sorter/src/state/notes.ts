@@ -43,7 +43,7 @@ export function create(): Immutable<State> {
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] on_previous_notes_found(…)`, { })
 
-	// todo reconcile the DBs
+	// TODO reconcile the DBs
 
 	throw new Error('NIMP')
 }

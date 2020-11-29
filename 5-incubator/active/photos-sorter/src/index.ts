@@ -126,17 +126,6 @@ async function sort_all_medias() {
 	await exec_pending_actions_recursively_until_no_more()
 	logger.log('DB = ' + DB.to_string(db))
 
-	/*
-	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
-	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_pending_actions_recursively_until_no_more()
-	logger.log('DB = ' + DB.to_string(db))*/
-
-	//db = DB.ensure_all_eligible_files_are_correctly_named(db)
-	//db.queue.forEach(action => console.log(JSON.stringify(action)))
-	//logger.warn('TODO')
-
-	//await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 }
 
