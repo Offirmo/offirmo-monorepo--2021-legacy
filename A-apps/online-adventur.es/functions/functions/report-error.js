@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 562);
+/******/ 	return __webpack_require__(__webpack_require__.s = 564);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1169,7 +1169,7 @@ const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a b
 
 /***/ }),
 
-/***/ 113:
+/***/ 112:
 /***/ (function(module, exports) {
 
 /**
@@ -1865,6 +1865,16 @@ exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
 exports.storage = localstorage();
+exports.destroy = (() => {
+	let warned = false;
+
+	return () => {
+		if (!warned) {
+			warned = true;
+			console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+		}
+	};
+})();
 
 /**
  * Colors.
@@ -2137,6 +2147,10 @@ exports.formatArgs = formatArgs;
 exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
+exports.destroy = util.deprecate(
+	() => {},
+	'Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.'
+);
 
 /**
  * Colors.
@@ -2366,7 +2380,9 @@ const {formatters} = module.exports;
 formatters.o = function (v) {
 	this.inspectOpts.colors = this.useColors;
 	return util.inspect(v, this.inspectOpts)
-		.replace(/\s*\n\s*/g, ' ');
+		.split('\n')
+		.map(str => str.trim())
+		.join(' ');
 };
 
 /**
@@ -3992,14 +4008,15 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype._notifyScopeListeners = function () {
         var _this = this;
+        // We need this check for this._notifyingListeners to be able to work on scope during updates
+        // If this check is not here we'll produce endless recursion when something is done with the scope
+        // during the callback.
         if (!this._notifyingListeners) {
             this._notifyingListeners = true;
-            setTimeout(function () {
-                _this._scopeListeners.forEach(function (callback) {
-                    callback(_this);
-                });
-                _this._notifyingListeners = false;
+            this._scopeListeners.forEach(function (callback) {
+                callback(_this);
             });
+            this._notifyingListeners = false;
         }
     };
     /**
@@ -6091,7 +6108,7 @@ var external_url_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.27.4';
+var SDK_VERSION = '5.27.6';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -10485,7 +10502,7 @@ function is_server_response_body(body) {
 
 /***/ }),
 
-/***/ 562:
+/***/ 564:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12461,16 +12478,12 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(113);
+	createDebug.humanize = __webpack_require__(112);
+	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
 	});
-
-	/**
-	* Active `debug` instances.
-	*/
-	createDebug.instances = [];
 
 	/**
 	* The currently active debug mode names, and names to skip.
@@ -12513,6 +12526,7 @@ function setup(env) {
 	*/
 	function createDebug(namespace) {
 		let prevTime;
+		let enableOverride = null;
 
 		function debug(...args) {
 			// Disabled?
@@ -12542,7 +12556,7 @@ function setup(env) {
 			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
 				// If we encounter an escaped % then don't increase the array index
 				if (match === '%%') {
-					return match;
+					return '%';
 				}
 				index++;
 				const formatter = createDebug.formatters[format];
@@ -12565,29 +12579,26 @@ function setup(env) {
 		}
 
 		debug.namespace = namespace;
-		debug.enabled = createDebug.enabled(namespace);
 		debug.useColors = createDebug.useColors();
 		debug.color = createDebug.selectColor(namespace);
-		debug.destroy = destroy;
 		debug.extend = extend;
+		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
+
+		Object.defineProperty(debug, 'enabled', {
+			enumerable: true,
+			configurable: false,
+			get: () => enableOverride === null ? createDebug.enabled(namespace) : enableOverride,
+			set: v => {
+				enableOverride = v;
+			}
+		});
 
 		// Env-specific initialization logic for debug instances
 		if (typeof createDebug.init === 'function') {
 			createDebug.init(debug);
 		}
 
-		createDebug.instances.push(debug);
-
 		return debug;
-	}
-
-	function destroy() {
-		const index = createDebug.instances.indexOf(this);
-		if (index !== -1) {
-			createDebug.instances.splice(index, 1);
-			return true;
-		}
-		return false;
 	}
 
 	function extend(namespace, delimiter) {
@@ -12626,11 +12637,6 @@ function setup(env) {
 			} else {
 				createDebug.names.push(new RegExp('^' + namespaces + '$'));
 			}
-		}
-
-		for (i = 0; i < createDebug.instances.length; i++) {
-			const instance = createDebug.instances[i];
-			instance.enabled = createDebug.enabled(instance.namespace);
 		}
 	}
 
@@ -12704,6 +12710,14 @@ function setup(env) {
 			return val.stack || val.message;
 		}
 		return val;
+	}
+
+	/**
+	* XXX DO NOT USE. This is a temporary stub function.
+	* XXX It WILL be removed in the next major release.
+	*/
+	function destroy() {
+		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
 	}
 
 	createDebug.enable(createDebug.load());

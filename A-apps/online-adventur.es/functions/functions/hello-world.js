@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 559);
+/******/ 	return __webpack_require__(__webpack_require__.s = 560);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -370,7 +370,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201116_22h18';
+exports.BUILD_DATE = '20201201_06h30';
 
 /***/ }),
 
@@ -1399,7 +1399,7 @@ module.exports = require("tty");
 
 /***/ }),
 
-/***/ 559:
+/***/ 560:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 564);
+/******/ 	return __webpack_require__(__webpack_require__.s = 566);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1165,7 +1165,7 @@ function dropUndefinedKeys(val) {
 
 /***/ }),
 
-/***/ 109:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1250,33 +1250,7 @@ function get_ISO8601_simplified_day(now = new Date()) {
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
-const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message']);
-const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack']);
-const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used:
-'statusCode', 'shouldRedirect', 'framesToPop']);
-const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'details', '_temp']);
-
-/***/ }),
-
-/***/ 110:
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -2151,7 +2125,33 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 111:
+/***/ 11:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
+const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message']);
+const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used:
+'statusCode', 'shouldRedirect', 'framesToPop']);
+const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
+'details', '_temp']);
+
+/***/ }),
+
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2364,7 +2364,7 @@ function _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hin
 
 /***/ }),
 
-/***/ 112:
+/***/ 111:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2479,7 +2479,7 @@ function are_ustate_revision_requirements_met(state, requirements = {}) {
 
 /***/ }),
 
-/***/ 113:
+/***/ 112:
 /***/ (function(module, exports) {
 
 /**
@@ -4213,6 +4213,16 @@ exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
 exports.storage = localstorage();
+exports.destroy = (() => {
+	let warned = false;
+
+	return () => {
+		if (!warned) {
+			warned = true;
+			console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+		}
+	};
+})();
 
 /**
  * Colors.
@@ -4485,6 +4495,10 @@ exports.formatArgs = formatArgs;
 exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
+exports.destroy = util.deprecate(
+	() => {},
+	'Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.'
+);
 
 /**
  * Colors.
@@ -4714,7 +4728,9 @@ const {formatters} = module.exports;
 formatters.o = function (v) {
 	this.inspectOpts.colors = this.useColors;
 	return util.inspect(v, this.inspectOpts)
-		.replace(/\s*\n\s*/g, ' ');
+		.split('\n')
+		.map(str => str.trim())
+		.join(' ');
 };
 
 /**
@@ -6340,14 +6356,15 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype._notifyScopeListeners = function () {
         var _this = this;
+        // We need this check for this._notifyingListeners to be able to work on scope during updates
+        // If this check is not here we'll produce endless recursion when something is done with the scope
+        // during the callback.
         if (!this._notifyingListeners) {
             this._notifyingListeners = true;
-            setTimeout(function () {
-                _this._scopeListeners.forEach(function (callback) {
-                    callback(_this);
-                });
-                _this._notifyingListeners = false;
+            this._scopeListeners.forEach(function (callback) {
+                callback(_this);
             });
+            this._notifyingListeners = false;
         }
     };
     /**
@@ -8439,7 +8456,7 @@ var external_url_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.27.4';
+var SDK_VERSION = '5.27.6';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -14845,7 +14862,7 @@ Object.defineProperty(module, 'exports', {
 /***/ 194:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(110);
+var conversions = __webpack_require__(109);
 var route = __webpack_require__(196);
 
 var convert = {};
@@ -15090,7 +15107,7 @@ module.exports = {
 /***/ 196:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(110);
+var conversions = __webpack_require__(109);
 
 /*
 	this function routes a model to all other models.
@@ -16418,7 +16435,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(109);
+var generate = __webpack_require__(108);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--normalize.js
 var util_normalize = __webpack_require__(66);
@@ -16900,7 +16917,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "compare", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["b"]; });
 
-/* harmony import */ var _migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(111);
+/* harmony import */ var _migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "generic_migrate_to_latest", function() { return _migration__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
@@ -16941,7 +16958,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_RootState", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["c"]; });
 
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(112);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(111);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "enforce_immutability", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["c"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "complete_or_cancel_eager_mutation_propagating_possible_child_mutation", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["b"]; });
@@ -17279,7 +17296,7 @@ var browserPerformanceTimeOrigin = (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEST_TIMESTAMP_MS", function() { return TEST_TIMESTAMP_MS; });
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(109);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(108);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
@@ -21185,7 +21202,7 @@ module.exports['DIFF_EQUAL'] = DIFF_EQUAL;
 
 /***/ }),
 
-/***/ 564:
+/***/ 566:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21209,7 +21226,7 @@ const runner_1 = __webpack_require__(184);
 
 const require_http_method_1 = __webpack_require__(200);
 
-const test_failure_1 = __webpack_require__(565); ////////////////////////////////////
+const test_failure_1 = __webpack_require__(567); ////////////////////////////////////
 
 
 async function _handler(SEC, event, context, response, next) {
@@ -21225,7 +21242,7 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 565:
+/***/ 567:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23962,16 +23979,12 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(113);
+	createDebug.humanize = __webpack_require__(112);
+	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
 	});
-
-	/**
-	* Active `debug` instances.
-	*/
-	createDebug.instances = [];
 
 	/**
 	* The currently active debug mode names, and names to skip.
@@ -24014,6 +24027,7 @@ function setup(env) {
 	*/
 	function createDebug(namespace) {
 		let prevTime;
+		let enableOverride = null;
 
 		function debug(...args) {
 			// Disabled?
@@ -24043,7 +24057,7 @@ function setup(env) {
 			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
 				// If we encounter an escaped % then don't increase the array index
 				if (match === '%%') {
-					return match;
+					return '%';
 				}
 				index++;
 				const formatter = createDebug.formatters[format];
@@ -24066,29 +24080,26 @@ function setup(env) {
 		}
 
 		debug.namespace = namespace;
-		debug.enabled = createDebug.enabled(namespace);
 		debug.useColors = createDebug.useColors();
 		debug.color = createDebug.selectColor(namespace);
-		debug.destroy = destroy;
 		debug.extend = extend;
+		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
+
+		Object.defineProperty(debug, 'enabled', {
+			enumerable: true,
+			configurable: false,
+			get: () => enableOverride === null ? createDebug.enabled(namespace) : enableOverride,
+			set: v => {
+				enableOverride = v;
+			}
+		});
 
 		// Env-specific initialization logic for debug instances
 		if (typeof createDebug.init === 'function') {
 			createDebug.init(debug);
 		}
 
-		createDebug.instances.push(debug);
-
 		return debug;
-	}
-
-	function destroy() {
-		const index = createDebug.instances.indexOf(this);
-		if (index !== -1) {
-			createDebug.instances.splice(index, 1);
-			return true;
-		}
-		return false;
 	}
 
 	function extend(namespace, delimiter) {
@@ -24127,11 +24138,6 @@ function setup(env) {
 			} else {
 				createDebug.names.push(new RegExp('^' + namespaces + '$'));
 			}
-		}
-
-		for (i = 0; i < createDebug.instances.length; i++) {
-			const instance = createDebug.instances[i];
-			instance.enabled = createDebug.enabled(instance.namespace);
 		}
 	}
 
@@ -24205,6 +24211,14 @@ function setup(env) {
 			return val.stack || val.message;
 		}
 		return val;
+	}
+
+	/**
+	* XXX DO NOT USE. This is a temporary stub function.
+	* XXX It WILL be removed in the next major release.
+	*/
+	function destroy() {
+		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
 	}
 
 	createDebug.enable(createDebug.load());

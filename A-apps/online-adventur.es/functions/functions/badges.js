@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 556);
+/******/ 	return __webpack_require__(__webpack_require__.s = 557);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -417,7 +417,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201116_22h18';
+exports.BUILD_DATE = '20201201_06h30';
 
 /***/ }),
 
@@ -1593,7 +1593,7 @@ exports.get_id_from_path = get_id_from_path;
 
 /***/ }),
 
-/***/ 556:
+/***/ 557:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

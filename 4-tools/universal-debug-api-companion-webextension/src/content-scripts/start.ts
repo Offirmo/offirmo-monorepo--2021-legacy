@@ -67,7 +67,6 @@ try { // defensive!
 if (should_inject) {
 	// Create a script tag and inject it into the document.
 
-
 	// 1. de-stringifier
 	// https://stackoverflow.com/a/30106551/587407
 	const scriptElement0 = document.createElement('script')
@@ -92,10 +91,16 @@ function _UWDT_b64DecodeUnicode(str) {
 
 	// TODO allow 3rd-party addons (for the debug command feature)
 
-	if (DEBUG) console.info(`[${LIB},${Date.now()}] UDA was injected from the webextension ✅`)
+	if (DEBUG) console.info(`[${LIB},${Date.now()}] UDA was injected from the webextension ✅`, {
+		url: document.location.href,
+		origin: document.location.origin,
+	})
 }
 else {
-	if (DEBUG) console.info(`[${LIB},${Date.now()}] UDA frow webext is disabled ❎`)
+	if (DEBUG) console.info(`[${LIB},${Date.now()}] UDA frow webext is disabled ❎`, {
+		url: document.location.href,
+		origin: document.location.origin,
+	})
 }
 
 browser.runtime.sendMessage(

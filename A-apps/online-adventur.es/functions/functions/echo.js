@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 557);
+/******/ 	return __webpack_require__(__webpack_require__.s = 558);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -572,7 +572,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201116_22h18';
+exports.BUILD_DATE = '20201201_06h30';
 
 /***/ }),
 
@@ -1892,7 +1892,7 @@ function is_server_response_body(body) {
 
 /***/ }),
 
-/***/ 557:
+/***/ 558:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1924,7 +1924,7 @@ const build = tslib_1.__importStar(__webpack_require__(313));
 const utils_1 = __webpack_require__(54); ////////////////////////////////////
 
 
-exports.handler = async (event, badly_typed_context) => {
+const handler = async (event, badly_typed_context) => {
   const context = badly_typed_context;
   let netlify_user_data;
 
@@ -1987,6 +1987,8 @@ exports.handler = async (event, badly_typed_context) => {
     body: JSON.stringify(body, null, 2)
   };
 };
+
+exports.handler = handler;
 
 function _filter_out_secrets(env) {
   return Object.entries(env).map(([k, v]) => {
