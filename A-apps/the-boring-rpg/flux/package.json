@@ -41,7 +41,7 @@
 		"dequal": "^2",
 		"fetch-ponyfill": "^7",
 		"json-stable-stringify": "^1",
-		"lodash.debounce": "^4",
+		"lodash": "^4",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},

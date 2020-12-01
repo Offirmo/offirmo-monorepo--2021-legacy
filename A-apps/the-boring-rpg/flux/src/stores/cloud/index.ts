@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 import stable_stringify from 'json-stable-stringify'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
