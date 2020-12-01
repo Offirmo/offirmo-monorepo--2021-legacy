@@ -3,8 +3,9 @@
 
 ## PENDING
 * [test] TODO unit tests!
-* [chore] tweak the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
+* [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
+* [fix][breaking] fix the interface to follow the fix in TypeScript 4.1 https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html#resolves-parameters-are-no-longer-optional-in-promises
 * ...
 
 ## 3.0.0

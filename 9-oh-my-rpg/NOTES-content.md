@@ -721,4 +721,8 @@ https://en.wikipedia.org/wiki/Royal_dukedoms_in_the_United_Kingdom
 
 https://science.slashdot.org/story/20/11/27/159241/leaf-cutter-ants-have-rocky-crystal-armor-never-before-seen-in-insects
 https://www.ouest-france.fr/societe/faits-divers/deux-sevres-une-petite-meute-de-loups-composee-du-pere-et-de-quatre-fils-b79988d0-29cb-11eb-bd8c-ad11543a45dc
+https://en.wikipedia.org/wiki/2020_VT4
+https://en.wikipedia.org/wiki/Strewn_field
+
+https://www.parismatch.com/Actu/Insolite/Comment-eviter-une-attaque-de-requin-1709553
 

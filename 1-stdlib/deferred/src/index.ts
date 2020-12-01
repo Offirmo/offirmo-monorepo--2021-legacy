@@ -3,20 +3,21 @@
 // 2. then improved to match the latest Promise typings
 
 export default class Deferred<T> {
-	private _resolve!: (value?: T | PromiseLike<T>) => void
+	private _resolve!: (value: T | PromiseLike<T>) => void
 	private _reject!: (reason?: any) => void
 	private readonly promise: Promise<T>
 
 	constructor({ uncatch = true }: { uncatch?: boolean } = {}) {
-		this.promise = new Promise((resolve, reject) => {
+		this.promise = new Promise<T>((resolve, reject) => {
 			this._resolve = resolve
 			this._reject = reject
 		})
-		if (uncatch)
+		if (uncatch) {
 			this.promise.catch(() => {
 				// swallow to disable uncaught promise rejection messages.
 				// The whole point of this lib is to attach stuff later.
 			})
+		}
 	}
 
 	then<TResult1 = T, TResult2 = never>(
@@ -30,7 +31,7 @@ export default class Deferred<T> {
 		return this.promise.catch(onrejected)
 	}
 
-	resolve(value?: T | PromiseLike<T>): void {
+	resolve(value: T | PromiseLike<T>): void {
 		return this._resolve(value)
 	}
 
