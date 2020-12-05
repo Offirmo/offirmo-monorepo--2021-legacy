@@ -1,1 +1,17 @@
-// TODO abstract hasha and use a native tool instead
+import hasha from 'hasha'
+import assert from 'tiny-invariant'
+
+import { AbsolutePath } from '../types'
+import logger from './logger'
+
+
+export type FileHash = string
+
+export async function get_file_hash(abs_path: AbsolutePath): Promise<FileHash> {
+	const hash = await hasha.fromFile(abs_path, {algorithm: 'sha256'})
+	assert(hash, 'hasha ok')
+	logger.trace(`- got hash for "${abs_path}"…`, { hash })
+	return hash
+}
+
+export default get_file_hash

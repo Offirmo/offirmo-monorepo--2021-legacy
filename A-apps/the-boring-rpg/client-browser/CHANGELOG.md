@@ -12,19 +12,26 @@
 - 😷 chore: bump dependencies
 
 
+## v0.65.14
+- 😷 chore: facilities for internal monitoring
+- 😷 chore: bump dependencies
+
 ## v0.65.13
+2020/11/13
 - 😅 fix: added circuit breakers on Sentry and Netlify to prevent draining the free tier on bug (ouch!)
 - 👋 feature: (feature flagged) progress on the cloud save
 - 😷 chore: some internal refactors: mainly the serverless functions
 - 😷 chore: bump dependencies (incl. React 17)
 
 ## v0.65.12
+2020/11/06
 - 👋 feature: (feature flagged) progress on the cloud save
 - 😅 fix: the login works again!
 - 😷 chore: some internal refactors (immutability)
 - 😷 chore: bump dependencies
 
 ## v0.65.11
+2020/10/08
 - 😅 fix: the savegame editor works again!
 - 😅 fix: the administrator (me) can log in again!
 - 😍 (behind a feature flag) progress on the cloud save
@@ -32,6 +39,7 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.65.10
+2020/09/19
 - 😷 chore: progress toward cloud save:
   - new API endpoint able to intelligently store and save the latest version
   - clarified the savegame structure
@@ -41,6 +49,7 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.65.9
+2020/07/20
 - 😷 chore: progress toward cloud save:
   - many things
   - the server code catches errors better (needed to troubleshoot the DB connexion)
@@ -53,6 +62,7 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.65.7
+2020/07/13
 - 😷 chore: improved analytics (more events, not sending them for me the developer)
 - 😷 chore: improved migration of old savegames
 
@@ -61,6 +71,10 @@
 - 😷 chore: improved analytics, I'll finally see what users are doing AND exclude myself from it :)
 - 😷 chore: better debug infos
 - 😷 chore: some internal refactors, bump dependencies
+
+## v0.65.4
+2020/06/30
+(most likely skipped very fast)
 
 ## v0.65.1
 - 🤩 feature: 14 new adventures (now totalling 201!)
@@ -86,25 +100,30 @@
 - 😷 chore: bump dependencies
 
 ## v0.61.3
+2019/12/17
 - 😍 feature: snow for Christmas season!
 - 😅 progress on cloud save but still not there...
 - 😷 chore: some auto linting
 
 ## v0.61.1
+2019/11/23
 - 😅 fix: wrong english loose -> lose
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.12
+2019/11/02
 - 😅 fix an achievement message (thanks LiddiLidd)
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.5
+2019/09/28
 - 🤩 feature: A sound effect! (when selling stuff) I did it for fun, sound is not a priority
 - 😷 chore: tweaked an error to better interpret it in the reports
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.4
+2019/08/02
 - 🤩 feature: better start experience: better refill rate easing, better starting adventures
 - 😷 chore: some internal refactors, bump dependencies
 
@@ -114,9 +133,11 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.2
+2019/07/22
 - 😷 chore: some internal refactors: bump dependencies, tweaked the colors
 
 ## v0.60.1
+2919/04/23
 - 🤩 feature: 1 new achievement (now totalling 100!)
 - 😍 feature: energy is refill faster at the beginning of the game (similar to the original)
 - 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
@@ -138,17 +159,20 @@
 
 
 ## v0.58.3
+2019/03/07
 - 🤩 feature: a loader while the page downloads
 - 😷 chore: some internal refactors and cleanups
 
 
-## 2019/02/16 v0.58.1
+## v0.58.1
+2019/02/16
 - 🤩 feature: new classes! (now totalling 25!)
 - 😅 fix: removed 3 background pictures I didn't like that much
 - 😷 chore: some internal refactors for preparing the server feature
 
 
-## 2019/02/16 v0.57.1
+## v0.57.1
+2019/02/16
 - 😍 feature: ~76 new backgrounds (now totalling 101!)
 - 🤩 feature: background images are now credited to their author
 - 😍 feature: the background for the next adventures now preloads itself! Avoid loading time when playing.
@@ -158,13 +182,15 @@
 - 😷 chore: extra secret dev tools
 
 
-## 2019/02/11 v0.56.5
+## v0.56.5
+2019/02/11
 - 🤩 feature: Firefox now has nicer scrolls
 - 😅 fix: unscrollable areas on Chrome and Firefox
 - 😅 fix: modal behaviour and modal blanket
 
 
-## 2019/02/06 v0.56.3
+## v0.56.3
+2019/02/06
 - 🤩 feature: item qualities now no longer overlap
 - 😍 feature: items are now much more powerful (because everyone like big numbers ;)
 - 🤩 feature: "Artifact" quality is now equal in strength to "legendary". Rationale: Artifact quality is made for seasonal items. They should not be stronger than droppable items so that it won't imbalance the game.
@@ -172,7 +198,8 @@
 - 😅 fix: temporary correction for the Chrome 72 change (reported by Raxon, LiddiLidd, IrdaRichbeth)
 
 
-## 2019/01/30 v0.56.2
+## v0.56.2
+2019/01/30
 - 😍 feature: 4 new backgrounds (now totalling 27!)
 - 😅 fix: a rounding error on energy display (thanks LiddiLidd)
 - 😅 fix: a temporary limitation on UI refresh
@@ -180,19 +207,22 @@
 - 😷 chore: big internal refactor (React) that was painful but now the game UI is smooth and refreshes parts only when it should
 
 
-## 2019/01/11 v0.55.1
+## v0.55.1
+2019/01/11
 - 😍 feature: 2 new backgrounds (now totalling 24!)
 - 🤩 new energy display with favicon
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 internal refactors around energy
 
 
-## 2018/12/13 v0.54.11
+## v0.54.11
+2018/12/13
 - 🤩 feature: 70 new achievements!! (now totalling 97)
 - 😅 fix (hopefully!): autoplay/reborn no longer discards all the armors (now balanced)
 
 
-## 2018/12/03 v0.54.4
+## v0.54.4
+2018/12/03
 - 🤩 feature: 4 new adventures (now totalling 162!)
 - 😍 improved good drops distribution! Now 20x times more chance to get legendary drops! (computed to get ~one every 1.5 month)
 - 🤩 feature: reborn! When I make internal changes to the savegame format, instead of resetting the game, it will now triggers an auto-replay so you won't loose your hard work!
@@ -204,7 +234,8 @@
 - 😷 chore: some internal refactors
 
 
-## 2018/11/22 v0.53.1
+## v0.53.1
+2018/11/22
 - 🤩 feature: 33 new adventures!! (now totalling 158!)
 - 😍 feature: 4 new backgrounds (now totalling 21!)
 - 🤩 feature: 9 new achievements (now totalling 27!)
@@ -212,14 +243,16 @@
 - 😷 chore: some internal refactors
 
 
-## 2018/11/14 v0.52.46
+## v0.52.46
+2018/11/14
 - 😍 achievements!!! (18 so far)
 - 🤩 feature: 7 new adventures (now totalling 125!)
 - 😷 chore: better rich text capabilities in messages
 - 😷 chore: better capabilities in notifications
 
 
-## 2018/11/06 v0.52.41
+## v0.52.41
+2018/11/06
 - 😍 feature: 2 new background (now totalling 16!)
 - 🤩 feature: 3 new adventures (now totalling 118!)
 - 😍 feature: enabled migration of savegames! (for now, no more resets)
@@ -229,7 +262,8 @@
 - 😷 chore: better typings
 
 
-## 2018/10/29 v0.52.34
+## v0.52.34
+2018/10/29
 - 😍 feature: users can now enter codes! (in the hamburger menu). Will be useful for special rewards (alpha testers), seasonal content, cheat, internal tests...
 - 🤩 feature: a notification system, will be useful for achievements (test it by entering the code "testnotifs")
 - 😍 feature: 1 new background (now totalling 14!)
@@ -241,7 +275,8 @@
 - 😅 fix (hopefully!): minor UI bugs
 
 
-## 2018/10/18 v0.52.20
+## v0.52.20
+2018/10/18
 - 😍 feature: 1 new background
 - 🤩 feature: 15 new adventures (now totalling 110!)
 - 😍 feature: cleaned and uniformized existing adventures (usage of past tense)
@@ -252,7 +287,8 @@
 - 😅 fix: fixed the key-ing of react elements produced by rendering a rich text
 - 😅 fix (hopefully!): fixed a bug causing the inventory backpack to appear not sorted when having more than 10 items
 
-## 2018/10/11 v0.52.11
+## v0.52.11
+2018/10/11
 - 🤩 feature: the inventory now displays the power of your items
 - 🤩 feature: the inventory now displays whether an item is better or worse than your currently equipped one
 - 🤩 feature: 2 new backgrounds

@@ -27,7 +27,7 @@ import {
 	on_hash_computed, on_notes_unpersisted, get_best_creation_year,
 } from './file'
 import {
-	get_timestamp_utc_ms,
+	get_timestamp_utc_ms_from,
 	get_compact_date,
 	get_human_readable_timestamp_auto,
 	get_embedded_timezone,
@@ -61,7 +61,7 @@ describe(`${LIB} - file state`, function() {
 		Object.keys(TEST_CASES).forEach(tc_key => {
 			it(`should concatenate the date and meaningful part - "${tc_key}"`, () => {
 				let state = create(tc_key)
-				const creation_date_ms = get_timestamp_utc_ms(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
+				const creation_date_ms = get_timestamp_utc_ms_from(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
 
 				state = on_fs_stats_read(state, {
 					birthtimeMs: creation_date_ms,
@@ -79,7 +79,7 @@ describe(`${LIB} - file state`, function() {
 
 	describe('get_best_creation_date()', function() {
 		const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
-		const REAL_CREATION_DATE_MS = get_timestamp_utc_ms(REAL_CREATION_DATE)
+		const REAL_CREATION_DATE_MS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
 		const REAL_CREATION_DATE_LEGACY = new Date(REAL_CREATION_DATE_MS)
 		const REAL_CREATION_DATE_EXIF = get_exif_datetime(REAL_CREATION_DATE)
 		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
@@ -87,7 +87,7 @@ describe(`${LIB} - file state`, function() {
 
 		// must be OLDER yet we won't pick it
 		const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2016, 11, 21)
-		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms(BAD_CREATION_DATE_CANDIDATE)
+		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms_from(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_LEGACY = new Date(BAD_CREATION_DATE_CANDIDATE_MS)
 		const BAD_CREATION_DATE_CANDIDATE_EXIF = get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
@@ -132,6 +132,7 @@ describe(`${LIB} - file state`, function() {
 			state = on_hash_computed(state, '1234')
 			state = on_notes_unpersisted(state, {
 				deleted: false,
+				starred: false,
 				original: {
 					basename: 'IMG_20171020_050144625.jpg'
 				},
@@ -160,6 +161,7 @@ describe(`${LIB} - file state`, function() {
 				state = on_hash_computed(state, '1234')
 				state = on_notes_unpersisted(state, {
 					deleted: false,
+					starred: false,
 					original: {
 						basename: 'bar.jpg'
 					},

@@ -14,7 +14,7 @@ import {
 	get_human_readable_timestamp_minutes,
 	get_human_readable_timestamp_millis,
 	get_human_readable_timestamp_auto,
-	get_timestamp_utc_ms,
+	get_timestamp_utc_ms_from,
 	get_exif_datetime,
 
 	create_better_date,
@@ -153,17 +153,17 @@ describe('Better Date', function() {
 			milli: 9,
 		})*/
 
-		describe('get_timestamp_utc_ms()', function() {
+		describe('get_timestamp_utc_ms_from()', function() {
 
 			it('should work', () => {
 				// https://www.epochconverter.com/timezones?q=1049504828009&tz=Indian%2FKerguelen
-				expect(get_timestamp_utc_ms(TEST_DATE)).to.equal(1049504828009)
+				expect(get_timestamp_utc_ms_from(TEST_DATE)).to.equal(1049504828009)
 			})
 
 			it('should work - reflexive', () => {
 				const TEST_TMS = 1234567890
 				const ut = create_better_date_from_utc_tms(TEST_TMS, 'tz:auto')
-				expect(get_timestamp_utc_ms(ut)).to.equal(TEST_TMS)
+				expect(get_timestamp_utc_ms_from(ut)).to.equal(TEST_TMS)
 			})
 		})
 

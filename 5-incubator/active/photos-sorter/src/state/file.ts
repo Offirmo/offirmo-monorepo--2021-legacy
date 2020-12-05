@@ -46,6 +46,7 @@ export interface OriginalData {
 // but that neel to be preserved across invocations
 export interface PersistedNotes {
 	deleted: boolean // TODO
+	starred: boolean // TODO
 	original: OriginalData
 }
 
@@ -72,26 +73,6 @@ const LIB = '🖼'
 
 ///////////////////// ACCESSORS /////////////////////
 
-/*
-export function get_file_notes_from_exif(exif_data: Immutable<State['current_exif_data']>): null | Immutable<SorterNotes> {
-	if (exif_data === null)
-		return null
-
-	if (!exif_data)
-		throw new Error('get_file_notes() missing EXIF!')
-
-	const custom_entry = (exif_data as any)[EXIF_ENTRY]
-	if (!custom_entry)
-		return null
-
-	return JSON.parse(custom_entry)
-}
-*/
-
-
-
-////////////
-
 export function get_current_parent_folder_id(state: Immutable<State>): RelativePath {
 	return state.memoized.get_parsed_path(state).dir || '.'
 }
@@ -115,6 +96,7 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 }
 
 export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>): boolean {
+	// TODO optim if name = canonical
 	return ( state.notes_restored
 			&& state.current_exif_data !== undefined
 			&& state.current_fs_stats !== undefined
@@ -347,6 +329,7 @@ export function create(id: RelativePath): Immutable<State> {
 		notes_restored: false,
 		notes: {
 			deleted: false,
+			starred: false,
 			original: {
 				basename: parsed_path.base,
 				closest_parent_with_date_hint: (() => {

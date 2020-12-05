@@ -2,7 +2,6 @@ import path from 'path'
 import util from 'util'
 import fs from 'fs'
 import assert from 'tiny-invariant'
-import stable_stringify from 'json-stable-stringify'
 import hasha from 'hasha'
 
 import { exiftool } from 'exiftool-vendored'
@@ -15,6 +14,7 @@ import { ActionType, ActionMoveFile } from './state/actions'
 
 import logger from './services/logger'
 import fs_extra from './services/fs-extra'
+import get_file_hash from './services/hash'
 import { get_params } from './params'
 
 const PARAMS = get_params()
@@ -98,6 +98,11 @@ async function sort_all_medias() {
 	logger.groupEnd()
 	logger.log('DB = ' + DB.to_string(db))
 
+	logger.group('******* STARTING IN-PLACE CLEANUP PHASE *******')
+	db = DB.clean_up_duplicates(db)
+	await exec_pending_actions_recursively_until_no_more()
+	logger.groupEnd()
+
 	logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
 	db = DB.normalize_medias_in_place(db)
 	await exec_pending_actions_recursively_until_no_more()
@@ -106,7 +111,6 @@ async function sort_all_medias() {
 
 	logger.group('******* STARTING SORTING PHASE *******')
 
-	// delete duplicates
 	// move non-analizable to junk
 	// normalize in-place: rotate, rename, clean
 	// ensure structural dirs
@@ -202,10 +206,8 @@ async function compute_hash(id: RelativePath) {
 	logger.trace(`computing hash for "${id}"…`)
 
 	const abs_path = DB.get_absolute_path(db, id)
-	const exif_data = await exiftool.read(abs_path)
-	const hash = await hasha.fromFile(abs_path, {algorithm: 'sha256'})
-	assert(hash, 'hasha ok')
-	logger.trace(`- got hash for "${id}"…`, { hash })
+	const hash = await get_file_hash(abs_path)
+
 	db = DB.on_hash_computed(db, id, hash!)
 }
 

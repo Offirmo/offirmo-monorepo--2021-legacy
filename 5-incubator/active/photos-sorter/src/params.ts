@@ -73,13 +73,13 @@ export function get_params(): Params {
 
 		media_files_extensions: [
 			...EXIF_POWERED_FILE_EXTENSIONS,
+			'.avi', // old videos
 			'.gif',
+			'.mp4',
+			'.pdf',
 			'.png',
 			'.psp', // photoshop I believe, screens from Warcraft III are in this format
 			'.tga', // WoW
-			'.avi', // old videos
-			'.mp4',
-			'.pdf',
 		].map(s => s.toLowerCase()),
 
 		extensions_to_delete: [
@@ -136,35 +136,3 @@ export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immuta
 	//console.log('final', { res })
 	return res
 }
-
-/*
-const DIGITS = '01234567890123456789'
-export function get_allowed_digits_by_position() {
-	const y0 = DIGITS.slice(
-		Math.round(YYYY_LOWER_BOUND/1000),
-		Math.round(YYYY_UPPER_BOUND/1000)
-	)
-	const y1 = DIGITS.slice(
-		Math.round((YYYY_LOWER_BOUND % 1000)/100),
-		Math.round((YYYY_UPPER_BOUND % 1000)/100) + Math.min(1, y0.length - 1) * 10,
-	)
-	const y2 = DIGITS.slice(
-		Math.round((YYYY_LOWER_BOUND % 100)/10),
-		Math.round((YYYY_UPPER_BOUND % 100)/10) + Math.min(1, y1.length - 1) * 10,
-	)
-	const y3 = DIGITS.slice(
-		Math.round(YYYY_LOWER_BOUND % 10),
-		Math.round(YYYY_UPPER_BOUND % 10) + Math.min(1, y2.length - 1) * 10,
-	)
-	return [
-		// YYYY
-		y0,
-		y1,
-		y2,
-		y3,
-		// MM
-		'01',
-		'0123456789',
-	]
-}
-*/

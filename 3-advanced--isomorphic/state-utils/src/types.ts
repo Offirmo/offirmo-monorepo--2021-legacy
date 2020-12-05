@@ -13,11 +13,13 @@ export interface WithRevision {
 export interface WithTimestamp {
 	timestamp_ms: TimestampUTCMs
 }
+export interface WithLastUserActionTimestamp {
+	last_user_action_tms: TimestampUTCMs
+}
 
 
 export interface BaseState extends WithSchemaVersion, WithRevision {
-	//last_user_action_tms: TimestampUTCMs
-	//[k: string]: JSONAny | BaseUState
+	//last_user_action_tms no, only needed at the top level
 }
 // state which only changes with User actions
 export interface BaseUState extends BaseState {
@@ -30,7 +32,8 @@ export interface BaseTState extends BaseState, WithTimestamp {
 export type UTBundle<U extends BaseUState, T extends BaseTState> = [ U, T ]
 
 export interface BaseRootState<U extends BaseUState = BaseUState, T extends BaseTState = BaseTState> {
-	// schema_version, revision -> would be redundant, see u_state & t_state
+	// schema_version, revision -> NO, would be redundant, see u_state & t_state TODO review
+	//last_user_action_tms: TimestampUTCMs TODO useful to select a fork
 
 	u_state: U
 	t_state: T

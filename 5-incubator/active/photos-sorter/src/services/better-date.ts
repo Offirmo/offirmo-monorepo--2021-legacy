@@ -48,9 +48,9 @@ export interface BetterDate {
 ////////////////////////////////////
 // Selectors
 
-export function get_timestamp_utc_ms(date: Immutable<BetterDate>): TimestampUTCMs {
+export function get_timestamp_utc_ms_from(date: Immutable<BetterDate>): TimestampUTCMs {
 	return date._lx.toMillis()
-	/*console.warn('get_timestamp_utc_ms() ! check the tz')
+	/*console.warn('get_timestamp_utc_ms_from() ! check the tz')
 	return Number(date._ld)*/
 }
 

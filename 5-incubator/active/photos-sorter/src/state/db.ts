@@ -496,6 +496,10 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 	return state
 }
 
+export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
+	throw new Error('NIMP!')
+}
+
 export function normalize_medias_in_place(state: Immutable<State>): Immutable<State> {
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
@@ -684,7 +688,7 @@ export function ensure_all_eligible_files_are_correctly_named(state: Immutable<S
 ///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Immutable<State>) {
-	const { root, files, folders } = state
+	const { root, folders, files, notes, queue } = state
 
 	let str = `
 ${stylize_string.blue.bold('####### Photo sorter’s DB #######')}
@@ -704,6 +708,12 @@ Root: "${stylize_string.yellow.bold(root)}"
 		`\n\n${stylize_string.blue(String(all_file_ids.length))} files in ${stylize_string.blue(String(all_folder_ids.length))} folders:\n`,
 	)
 	str += all_file_ids.map(id => File.to_string(files[id])).join('\n')
+
+	str += '\n' + Notes.to_string(notes)
+
+	queue.forEach(task => {
+		str += `\n- pending task: ${task.type}`
+	})
 
 	return str
 }

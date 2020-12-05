@@ -726,3 +726,4 @@ https://en.wikipedia.org/wiki/Strewn_field
 
 https://www.parismatch.com/Actu/Insolite/Comment-eviter-une-attaque-de-requin-1709553
 
+https://www.reddit.com/r/AskReddit/comments/js8e1z/therapists_of_reddit_what_was_your_biggest_i_know/
