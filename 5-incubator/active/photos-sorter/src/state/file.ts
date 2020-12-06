@@ -264,23 +264,6 @@ export function get_best_creation_year(state: Immutable<State>): number {
 	return Math.trunc(get_best_creation_date_compact(state) / 10000)
 }
 
-/*function _get_timezone_from_exif(state: Immutable<State>): TimeZone | null {
-	const { id, current_exif_data } = state
-	if (!is_exif_powered_media_file(state)) {
-		// exif reader manage to put some stuff, but it's not interesting
-		return null
-	}
-
-	assert(current_exif_data, `${id}: exif data read`)
-
-	return get_creation_timezone_from_exif(current_exif_data) || null
-}
-export function get_best_creation_timezone(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): TimeZone {
-	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')
-
-	return _get_timezone_from_exif(state) || get_default_timezone(get_best_creation_date(state), PARAMS)
-}*/
-
 export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Basename {
 	const bcd = get_best_creation_date(state)
 	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
@@ -472,16 +455,17 @@ export function to_string(state: Immutable<State>) {
 	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
 
 	if (is_eligible) {
-		const best_creation_date = get_best_creation_date(state)
-		if (best_creation_date) {
-			str += '  📅 ' + get_human_readable_timestamp_auto(best_creation_date, 'tz:embedded')
-		} else {
-			str += '  📅 TODO'
+		if (!has_all_infos_for_extracting_the_creation_date(state)) {
+			str += '  📅 TODO ⏳'
 		}
-	}
+		else {
+			const best_creation_date = get_best_creation_date(state)
+			str += '  📅 ' + get_human_readable_timestamp_auto(best_creation_date, 'tz:embedded')
 
-	if (is_eligible && id !== get_ideal_basename(state)) {
-		str += ` -> "${get_ideal_basename(state)}"`
+			if (id !== get_ideal_basename(state)) {
+				str += ` -> "${get_ideal_basename(state)}"`
+			}
+		}
 	}
 
 	if (base !== state.notes.original.basename) {

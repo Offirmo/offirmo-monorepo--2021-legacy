@@ -23,6 +23,7 @@ import {
 	create_action_move_file,
 } from './actions'
 import { PersistedNotes } from './file'
+import { FileHash } from '../services/hash'
 
 
 /////////////////////
@@ -37,6 +38,10 @@ export interface State {
 	notes: Notes.State,
 	folders: { [id: string]: Folder.State }
 	files: { [id: string]: File.State }
+
+	encountered_hashes: {
+		[k: string]: boolean
+	}
 
 	queue: Action[],
 }
@@ -148,6 +153,8 @@ export function create(root: AbsolutePath): Immutable<State> {
 		folders: {},
 		files: {},
 		queue: [],
+
+		encountered_hashes: {},
 	}
 
 	return state
@@ -283,13 +290,19 @@ export function on_exif_read(state: Immutable<State>, file_id: RelativePath, exi
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_hash_computed(state: Immutable<State>, file_id: RelativePath, hash: string): Immutable<State> {
+export function on_hash_computed(state: Immutable<State>, file_id: RelativePath, hash: FileHash): Immutable<State> {
 	logger.trace(`[${LIB}] on_hash_computed(…)`, { file_id })
+
+	const already_encountered_hash = state.encountered_hashes.hasOwnProperty(hash)
 
 	let new_file_state = File.on_hash_computed(state.files[file_id], hash)
 
 	state = {
 		...state,
+		encountered_hashes: {
+			...state.encountered_hashes,
+			[hash]: already_encountered_hash,
+		},
 		files: {
 			...state.files,
 			[file_id]: new_file_state,
@@ -403,7 +416,7 @@ export function merge_folder(state: Immutable<State>, id: RelativePath, target_i
 }
 */
 
-///////////////////// ACTIONS /////////////////////
+///////////////////// REDUCERS -> ACTIONS /////////////////////
 
 export function explore_fs_recursively(state: Immutable<State>): Immutable<State> {
 	logger.verbose('explore_fs_recursively()…')

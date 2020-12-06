@@ -1,8 +1,9 @@
-import path from "path"
+import path from 'path'
 
 import memoize_once from 'memoize-one'
 import { expect } from 'chai'
 
+import { RelativePath } from '../types'
 import { load_real_media_file } from './utils'
 import {
 	get_best_creation_date,
@@ -12,10 +13,11 @@ import {
 } from '../state/file'
 import { get_embedded_timezone, get_human_readable_timestamp_auto } from '../services/better-date'
 
-const TEST_FILES_DIR = '../../../src/__test_shared'
+const TEST_FILES_DIR: RelativePath = '../../../src/__test_shared'
+export const TEST_FILES_DIR_ABS = path.join(__dirname, TEST_FILES_DIR)
 
 export const MEDIA_DEMO_01_basename = 'exif_date_cn_exif_gps.jpg'
-const MEDIA_DEMO_01_abs_path = path.join(__dirname, TEST_FILES_DIR, MEDIA_DEMO_01_basename)
+const MEDIA_DEMO_01_abs_path = path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01_basename)
 
 export const get_MEDIA_DEMO_01 = memoize_once(() => {
 	const ↆstate = load_real_media_file(MEDIA_DEMO_01_abs_path)
@@ -32,7 +34,7 @@ export const get_MEDIA_DEMO_01 = memoize_once(() => {
 })
 
 export const MEDIA_DEMO_02_basename = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
-const MEDIA_DEMO_02_abs_path = path.join(__dirname, TEST_FILES_DIR, MEDIA_DEMO_02_basename)
+const MEDIA_DEMO_02_abs_path = path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02_basename)
 
 export const get_MEDIA_DEMO_02 = memoize_once(() => {
 	const ↆstate = load_real_media_file(MEDIA_DEMO_02_abs_path)
