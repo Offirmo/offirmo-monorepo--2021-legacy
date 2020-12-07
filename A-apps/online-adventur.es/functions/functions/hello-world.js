@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 560);
+/******/ 	return __webpack_require__(__webpack_require__.s = 559);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -349,7 +349,7 @@ const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a b
 
 /***/ }),
 
-/***/ 20:
+/***/ 19:
 /***/ (function(module, exports) {
 
 module.exports = require("os");
@@ -370,7 +370,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201201_06h30';
+exports.BUILD_DATE = '20201207_02h25';
 
 /***/ }),
 
@@ -1254,7 +1254,7 @@ convert.rgb.gray = function (rgb) {
 
 "use strict";
 
-const os = __webpack_require__(20);
+const os = __webpack_require__(19);
 const tty = __webpack_require__(45);
 const hasFlag = __webpack_require__(85);
 
@@ -1399,7 +1399,7 @@ module.exports = require("tty");
 
 /***/ }),
 
-/***/ 560:
+/***/ 559:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

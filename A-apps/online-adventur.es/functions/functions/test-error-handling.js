@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 566);
+/******/ 	return __webpack_require__(__webpack_require__.s = 564);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -684,7 +684,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 // UNUSED EXPORTS: walk
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(23);
+var tslib_es6 = __webpack_require__(22);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(5);
@@ -846,7 +846,7 @@ function getFunctionName(fn) {
 }
 //# sourceMappingURL=stacktrace.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(17);
+var string = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 
@@ -1165,7 +1165,7 @@ function dropUndefinedKeys(val) {
 
 /***/ }),
 
-/***/ 108:
+/***/ 109:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1250,7 +1250,33 @@ function get_ISO8601_simplified_day(now = new Date()) {
 
 /***/ }),
 
-/***/ 109:
+/***/ 11:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
+const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message']);
+const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used:
+'statusCode', 'shouldRedirect', 'framesToPop']);
+const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
+...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
+'details', '_temp']);
+
+/***/ }),
+
+/***/ 110:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -2125,33 +2151,7 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
-const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message']);
-const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack']);
-const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used:
-'statusCode', 'shouldRedirect', 'framesToPop']);
-const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
-...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'details', '_temp']);
-
-/***/ }),
-
-/***/ 110:
+/***/ 111:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2364,7 +2364,7 @@ function _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hin
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2479,7 +2479,7 @@ function are_ustate_revision_requirements_met(state, requirements = {}) {
 
 /***/ }),
 
-/***/ 112:
+/***/ 113:
 /***/ (function(module, exports) {
 
 /**
@@ -2672,7 +2672,7 @@ module.exports = require("fs");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return stripUrlQueryAndFragment; });
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
 var fallbackGlobalObject = {};
@@ -4032,7 +4032,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const net_1 = __importDefault(__webpack_require__(90));
 const tls_1 = __importDefault(__webpack_require__(91));
-const url_1 = __importDefault(__webpack_require__(16));
+const url_1 = __importDefault(__webpack_require__(33));
 const assert_1 = __importDefault(__webpack_require__(40));
 const debug_1 = __importDefault(__webpack_require__(58));
 const agent_base_1 = __webpack_require__(150);
@@ -5061,13 +5061,6 @@ module.exports = require("console");
 /***/ }),
 
 /***/ 16:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7490,7 +7483,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(23);
+var tslib_es6 = __webpack_require__(22);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
@@ -7896,7 +7889,7 @@ var lru = __webpack_require__(106);
  * https://github.com/felixge/node-stack-trace/
  * @license MIT
  */
-/** Extracts StackFrames fron the Error */
+/** Extracts StackFrames from the Error */
 function parse(err) {
     if (!err.stack) {
         return [];
@@ -8274,6 +8267,9 @@ var api_API = /** @class */ (function () {
         var encodedOptions = [];
         encodedOptions.push("dsn=" + dsn.toString());
         for (var key in dialogOptions) {
+            if (key === 'dsn') {
+                continue;
+            }
             if (key === 'user') {
                 if (!dialogOptions.user) {
                     continue;
@@ -8350,8 +8346,6 @@ function eventToSentryRequest(event, api) {
     if (useEnvelope) {
         var envelopeHeaders = JSON.stringify({
             event_id: event.event_id,
-            // We need to add * 1000 since we divide it by 1000 by default but JS works with ms precision
-            // The reason we use timestampWithMs here is that all clocks across the SDK use the same clock
             sent_at: new Date().toISOString(),
         });
         var itemHeaders = JSON.stringify({
@@ -8452,11 +8446,11 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 
 //# sourceMappingURL=promisebuffer.js.map
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(16);
+var external_url_ = __webpack_require__(33);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.27.6';
+var SDK_VERSION = '5.28.0';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -8561,7 +8555,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(30);
+var external_http_ = __webpack_require__(29);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -8965,7 +8959,7 @@ function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap,
 }
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(17);
+var string = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integration.js
 
@@ -9767,7 +9761,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(24);
+var external_domain_ = __webpack_require__(23);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(6);
@@ -9878,7 +9872,7 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var wrappedHandlerMaker = _createWrappedHandlerMaker(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(30);
+        var httpModule = __webpack_require__(29);
         Object(object["c" /* fill */])(httpModule, 'get', wrappedHandlerMaker);
         Object(object["c" /* fill */])(httpModule, 'request', wrappedHandlerMaker);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
@@ -10112,13 +10106,12 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(20);
+var external_os_ = __webpack_require__(19);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
 /* eslint-disable max-lines */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 
 
 
@@ -10132,16 +10125,12 @@ var DEFAULT_SHUTDOWN_TIMEOUT = 2000;
  */
 function tracingHandler() {
     return function sentryTracingMiddleware(req, res, next) {
-        // TODO: At this point `req.route.path` (which we use in `extractTransaction`) is not available
-        // but `req.path` or `req.url` should do the job as well. We could unify this here.
-        var reqMethod = (req.method || '').toUpperCase();
-        var reqUrl = req.url && Object(misc["i" /* stripUrlQueryAndFragment */])(req.url);
         // If there is a trace header set, we extract the data from it (parentSpanId, traceId, and sampling decision)
         var traceparentData;
         if (req.headers && Object(is["h" /* isString */])(req.headers['sentry-trace'])) {
             traceparentData = extractTraceparentData(req.headers['sentry-trace']);
         }
-        var transaction = startTransaction(__assign({ name: reqMethod + " " + reqUrl, op: 'http.server' }, traceparentData));
+        var transaction = startTransaction(__assign({ name: extractRouteInfo(req, { path: true, method: true }), op: 'http.server' }, traceparentData));
         // We put the transaction on the scope so users can attach children to it
         hub_getCurrentHub().configureScope(function (scope) {
             scope.setSpan(transaction);
@@ -10153,6 +10142,7 @@ function tracingHandler() {
         res.once('finish', function () {
             // We schedule the immediate execution of the `finish` to let all the spans being closed first.
             setImmediate(function () {
+                addExpressReqToTransaction(transaction, req);
                 transaction.setHttpStatus(res.statusCode);
                 transaction.finish();
             });
@@ -10160,34 +10150,62 @@ function tracingHandler() {
         next();
     };
 }
+/**
+ * Set parameterized as transaction name e.g.: `GET /users/:id`
+ * Also adds more context data on the transaction from the request
+ */
+function addExpressReqToTransaction(transaction, req) {
+    if (!transaction)
+        return;
+    transaction.name = extractRouteInfo(req, { path: true, method: true });
+    transaction.setData('url', req.originalUrl);
+    transaction.setData('baseUrl', req.baseUrl);
+    transaction.setData('query', req.query);
+}
+/**
+ * Extracts complete generalized path from the request object.
+ * eg. /mountpoint/user/:id
+ */
+function extractRouteInfo(req, options) {
+    if (options === void 0) { options = {}; }
+    var _a, _b;
+    var method = (_a = req.method) === null || _a === void 0 ? void 0 : _a.toUpperCase();
+    var path;
+    if (req.baseUrl && req.route) {
+        path = "" + req.baseUrl + req.route.path;
+    }
+    else if (req.originalUrl || req.url) {
+        path = Object(misc["i" /* stripUrlQueryAndFragment */])(req.originalUrl || req.url || '');
+    }
+    else {
+        path = ((_b = req.route) === null || _b === void 0 ? void 0 : _b.path) || '';
+    }
+    var info = '';
+    if (options.method && method) {
+        info += method;
+    }
+    if (options.method && options.path) {
+        info += " ";
+    }
+    if (options.path && path) {
+        info += path;
+    }
+    return info;
+}
 /** JSDoc */
 function extractTransaction(req, type) {
-    try {
-        // Express.js shape
-        var request = req;
-        var routePath = void 0;
-        try {
-            routePath = external_url_["parse"](request.originalUrl || request.url).pathname;
+    var _a;
+    switch (type) {
+        case 'path': {
+            return extractRouteInfo(req, { path: true });
         }
-        catch (_oO) {
-            routePath = request.route.path;
+        case 'handler': {
+            return ((_a = req.route) === null || _a === void 0 ? void 0 : _a.stack[0].name) || '<anonymous>';
         }
-        switch (type) {
-            case 'path': {
-                return routePath;
-            }
-            case 'handler': {
-                return request.route.stack[0].name;
-            }
-            case 'methodPath':
-            default: {
-                var method = request.method.toUpperCase();
-                return method + " " + routePath;
-            }
+        case 'methodPath':
+        default: {
+            return extractRouteInfo(req, { path: true, method: true });
         }
-    }
-    catch (_oO) {
-        return undefined;
     }
 }
 /** Default user keys that'll be used to extract data from the request */
@@ -10246,10 +10264,7 @@ function parseRequest(event, req, options) {
         }
     }
     if (options.transaction && !event.transaction) {
-        var transaction = extractTransaction(req, options.transaction);
-        if (transaction) {
-            event.transaction = transaction;
-        }
+        event.transaction = extractTransaction(req, options.transaction);
     }
     return event;
 }
@@ -10634,7 +10649,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(22);
+var external_path_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -10914,11 +10929,11 @@ const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(1));
 
 const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(79));
 
-const timestamps_1 = __webpack_require__(33);
+const timestamps_1 = __webpack_require__(32);
 
-const soft_execution_context_1 = __webpack_require__(25);
+const soft_execution_context_1 = __webpack_require__(24);
 
-const state_utils_1 = __webpack_require__(27);
+const state_utils_1 = __webpack_require__(26);
 
 const api_interface_1 = __webpack_require__(55);
 
@@ -11297,12 +11312,12 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(77);
 
-const soft_execution_context_1 = __webpack_require__(25); //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
+const soft_execution_context_1 = __webpack_require__(24); //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 
 const soft_execution_context_node_1 = __webpack_require__(186);
 
-const consts_1 = __webpack_require__(26);
+const consts_1 = __webpack_require__(25);
 
 const channel_1 = __webpack_require__(39);
 
@@ -11362,11 +11377,11 @@ if (ENV !== "production") {
 /***/ 186:
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(20);
+const os = __webpack_require__(19);
 
 const {
   getRootSEC
-} = __webpack_require__(25); // TODO protect from double install
+} = __webpack_require__(24); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -11429,7 +11444,7 @@ function _force_uda_logger_with_level(suggestedLevel) {
   }
 }
 
-module.exports = { ...__webpack_require__(25),
+module.exports = { ...__webpack_require__(24),
   listenToUncaughtErrors,
   listenToUnhandledRejections,
   decorateWithDetectedEnv,
@@ -11451,7 +11466,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const universal_debug_api_node_1 = __webpack_require__(64);
 
-const consts_1 = __webpack_require__(26);
+const consts_1 = __webpack_require__(25);
 
 const channel_1 = __webpack_require__(39); /////////////////////////////////////////////////
 
@@ -11758,6 +11773,13 @@ module.exports = function (source, reviver) {
     }({'': result}, '')) : result;
 };
 
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("os");
 
 /***/ }),
 
@@ -14862,7 +14884,7 @@ Object.defineProperty(module, 'exports', {
 /***/ 194:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(109);
+var conversions = __webpack_require__(110);
 var route = __webpack_require__(196);
 
 var convert = {};
@@ -15107,7 +15129,7 @@ module.exports = {
 /***/ 196:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(109);
+var conversions = __webpack_require__(110);
 
 /*
 	this function routes a model to all other models.
@@ -15213,7 +15235,7 @@ module.exports = function (fromModel) {
 
 "use strict";
 
-const os = __webpack_require__(20);
+const os = __webpack_require__(19);
 const hasFlag = __webpack_require__(198);
 
 const env = process.env;
@@ -15553,13 +15575,6 @@ function is_RootState(s) {
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-
 /***/ 200:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15573,7 +15588,7 @@ exports.require_http_method = exports.HttpMethod = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(7);
 
-const consts_1 = __webpack_require__(26);
+const consts_1 = __webpack_require__(25);
 
 const utils_1 = __webpack_require__(54); ////////////////////////////////////
 
@@ -15782,14 +15797,14 @@ function dezalgo(callback) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 21:
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
 
-/***/ 23:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16038,14 +16053,14 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 /***/ }),
 
-/***/ 24:
+/***/ 23:
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
 
-/***/ 25:
+/***/ 24:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16435,7 +16450,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(108);
+var generate = __webpack_require__(109);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--normalize.js
 var util_normalize = __webpack_require__(66);
@@ -16863,7 +16878,7 @@ function getRootSEC() {
 
 /***/ }),
 
-/***/ 26:
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16903,7 +16918,7 @@ exports.HTTP_STATUS_CODE = {
 
 /***/ }),
 
-/***/ 27:
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16917,7 +16932,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "compare", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["b"]; });
 
-/* harmony import */ var _migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
+/* harmony import */ var _migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(111);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "generic_migrate_to_latest", function() { return _migration__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
@@ -16958,7 +16973,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_RootState", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["c"]; });
 
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(111);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(112);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "enforce_immutability", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["c"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "complete_or_cancel_eager_mutation_propagating_possible_child_mutation", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["b"]; });
@@ -16971,6 +16986,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, exports) {
+
+module.exports = require("http");
 
 /***/ }),
 
@@ -17073,13 +17095,6 @@ function get_base_loose(s) {
 /***/ }),
 
 /***/ 30:
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-
-/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17290,13 +17305,13 @@ var browserPerformanceTimeOrigin = (function () {
 
 /***/ }),
 
-/***/ 33:
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEST_TIMESTAMP_MS", function() { return TEST_TIMESTAMP_MS; });
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(108);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(109);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
@@ -17316,6 +17331,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const TEST_TIMESTAMP_MS = 1234567890; // useful for unit tests
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
 
 /***/ }),
 
@@ -18387,7 +18409,7 @@ convert.rgb.gray = function (rgb) {
 
 "use strict";
 
-const os = __webpack_require__(20);
+const os = __webpack_require__(19);
 const tty = __webpack_require__(45);
 const hasFlag = __webpack_require__(85);
 
@@ -18709,11 +18731,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean_path = exports.get_relevant_path_segments = exports.create_error = void 0;
 
-const http_1 = __webpack_require__(30);
+const http_1 = __webpack_require__(29);
 
 const error_utils_1 = __webpack_require__(42);
 
-const consts_1 = __webpack_require__(26); // TODO extern
+const consts_1 = __webpack_require__(25); // TODO extern
 
 
 function create_error(message, details = {}, SEC) {
@@ -18901,7 +18923,7 @@ const SERVER_RESPONSE_VERSION = 1;
 
 const ReleaseChannel = Object(dist["Enum"])('prod', 'staging', 'dev');
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js + 2 modules
-var src_es2019 = __webpack_require__(31);
+var src_es2019 = __webpack_require__(30);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/online-adventur.es/api-interface/dist/src.es2019/utils.js
 
@@ -21202,7 +21224,7 @@ module.exports['DIFF_EQUAL'] = DIFF_EQUAL;
 
 /***/ }),
 
-/***/ 566:
+/***/ 564:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21226,7 +21248,7 @@ const runner_1 = __webpack_require__(184);
 
 const require_http_method_1 = __webpack_require__(200);
 
-const test_failure_1 = __webpack_require__(567); ////////////////////////////////////
+const test_failure_1 = __webpack_require__(565); ////////////////////////////////////
 
 
 async function _handler(SEC, event, context, response, next) {
@@ -21242,7 +21264,7 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 567:
+/***/ 565:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21261,7 +21283,7 @@ const typescript_string_enums_1 = __webpack_require__(7);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(1));
 
-const consts_1 = __webpack_require__(26);
+const consts_1 = __webpack_require__(25);
 
 const utils_1 = __webpack_require__(54); ////////////////////////////////////
 
@@ -23979,7 +24001,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(112);
+	createDebug.humanize = __webpack_require__(113);
 	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {

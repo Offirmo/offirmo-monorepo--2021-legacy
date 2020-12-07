@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 557);
+/******/ 	return __webpack_require__(__webpack_require__.s = 556);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -349,14 +349,14 @@ const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a b
 
 /***/ }),
 
-/***/ 20:
+/***/ 19:
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
 
-/***/ 26:
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -396,7 +396,7 @@ exports.HTTP_STATUS_CODE = {
 
 /***/ }),
 
-/***/ 30:
+/***/ 29:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
@@ -417,7 +417,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201201_06h30';
+exports.BUILD_DATE = '20201207_02h25';
 
 /***/ }),
 
@@ -1328,7 +1328,7 @@ convert.rgb.gray = function (rgb) {
 
 "use strict";
 
-const os = __webpack_require__(20);
+const os = __webpack_require__(19);
 const tty = __webpack_require__(45);
 const hasFlag = __webpack_require__(85);
 
@@ -1484,11 +1484,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean_path = exports.get_relevant_path_segments = exports.create_error = void 0;
 
-const http_1 = __webpack_require__(30);
+const http_1 = __webpack_require__(29);
 
 const error_utils_1 = __webpack_require__(42);
 
-const consts_1 = __webpack_require__(26); // TODO extern
+const consts_1 = __webpack_require__(25); // TODO extern
 
 
 function create_error(message, details = {}, SEC) {
@@ -1593,7 +1593,7 @@ exports.get_id_from_path = get_id_from_path;
 
 /***/ }),
 
-/***/ 557:
+/***/ 556:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
