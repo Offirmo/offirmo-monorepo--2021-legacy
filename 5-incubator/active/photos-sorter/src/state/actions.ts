@@ -2,6 +2,8 @@
 import { Enum } from 'typescript-string-enums'
 
 import { RelativePath } from '../types'
+import { FolderId } from './folder'
+import { FileId } from './file'
 
 /////////////////////
 
@@ -24,38 +26,38 @@ export interface BaseAction {
 
 export interface ActionExploreFolder extends BaseAction {
 	type: typeof ActionType.explore_folder
-	id: string
+	id: FolderId
 }
 
 export interface ActionQueryFsStats extends BaseAction {
 	type: typeof ActionType.query_fs_stats
-	id: string
+	id: FileId
 }
 
 export interface ActionQueryExif extends BaseAction {
 	type: typeof ActionType.query_exif
-	id: string
+	id: FileId
 }
 
 export interface ActionHash extends BaseAction {
 	type: typeof ActionType.hash
-	id: string
+	id: FileId
 }
 
 export interface ActionEnsureFolder extends BaseAction {
 	type: typeof ActionType.ensure_folder
-	id: string
+	id: FolderId
 }
 
 export interface ActionNormalizeFile extends BaseAction {
 	type: typeof ActionType.normalize_file
-	id: string
+	id: FileId
 }
 
 export interface ActionMoveFile extends BaseAction {
 	type: typeof ActionType.move_file
-	id: string
-	target_id: string
+	id: FileId
+	target_id: FileId
 }
 
 /* no need, move content + delete empty is better
@@ -67,8 +69,8 @@ export interface ActionMoveFolder extends BaseAction {
 */
 
 export interface ActionDeleteFile extends BaseAction {
-	type: typeof ActionType.move_file
-	id: string
+	type: typeof ActionType.delete_file
+	id: FileId
 }
 
 // TODO delete empty folder
@@ -85,37 +87,37 @@ export type Action =
 	| ActionMoveFile
 	| ActionDeleteFile
 
-export function create_action_explore_folder(id: RelativePath): ActionExploreFolder {
+export function create_action_explore_folder(id: FolderId): ActionExploreFolder {
 	return {
 		type: ActionType.explore_folder,
 		id,
 	}
 }
-export function create_action_query_fs_stats(id: RelativePath): ActionQueryFsStats {
+export function create_action_query_fs_stats(id: FileId): ActionQueryFsStats {
 	return {
 		type: ActionType.query_fs_stats,
 		id,
 	}
 }
-export function create_action_query_exif(id: RelativePath): ActionQueryExif {
+export function create_action_query_exif(id: FileId): ActionQueryExif {
 	return {
 		type: ActionType.query_exif,
 		id,
 	}
 }
-export function create_action_hash(id: RelativePath): ActionHash {
+export function create_action_hash(id: FileId): ActionHash {
 	return {
 		type: ActionType.hash,
 		id,
 	}
 }
-export function create_action_normalize_file(id: RelativePath): ActionNormalizeFile {
+export function create_action_normalize_file(id: FileId): ActionNormalizeFile {
 	return {
 		type: ActionType.normalize_file,
 		id,
 	}
 }
-export function create_action_ensure_folder(id: RelativePath): ActionEnsureFolder {
+export function create_action_ensure_folder(id: FolderId): ActionEnsureFolder {
 	return {
 		type: ActionType.ensure_folder,
 		id,
@@ -128,10 +130,16 @@ export function create_action_ensure_folder(id: RelativePath): ActionEnsureFolde
 		target_id,
 	}
 }*/
-export function create_action_move_file(id: RelativePath, target_id: RelativePath): ActionMoveFile {
+export function create_action_move_file(id: FileId, target_id: FileId): ActionMoveFile {
 	return {
 		type: ActionType.move_file,
 		id,
 		target_id,
+	}
+}
+export function create_action_delete_file(id: FileId): ActionDeleteFile {
+	return {
+		type: ActionType.delete_file,
+		id,
 	}
 }

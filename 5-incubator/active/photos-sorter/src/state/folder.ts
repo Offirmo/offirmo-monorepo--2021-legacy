@@ -28,8 +28,9 @@ export const Type = Enum(
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
 
+export type FolderId = RelativePath
 export interface State {
-	id: RelativePath
+	id: FolderId
 	type: Type
 
 	begin_date: undefined | SimpleYYYYMMDD
@@ -43,7 +44,7 @@ export interface State {
 
 ///////////////////// ACCESSORS /////////////////////
 
-function _infer_initial_folder_type(id: RelativePath, pathㆍparsed: path.ParsedPath): Type {
+function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
 	assert(id, '_infer_initial_folder_type() id')
 	if (id === '.') return Type.root
 

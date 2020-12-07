@@ -11,18 +11,19 @@ import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as Folder from './folder'
 import * as File from './file'
 import * as Notes from './notes'
+import { FolderId } from './folder'
+import { FileId, PersistedNotes } from './file'
+
 import {
 	Action,
+	create_action_delete_file,
+	create_action_ensure_folder,
 	create_action_explore_folder,
-	create_action_query_fs_stats,
-	create_action_query_exif,
 	create_action_hash,
 	create_action_normalize_file,
-	create_action_ensure_folder,
-	//create_action_move_folder,
-	create_action_move_file,
+	create_action_query_exif,
+	create_action_query_fs_stats,
 } from './actions'
-import { PersistedNotes } from './file'
 import { FileHash } from '../services/hash'
 
 
@@ -36,11 +37,11 @@ export interface State {
 	root: AbsolutePath
 
 	notes: Notes.State,
-	folders: { [id: string]: Folder.State }
-	files: { [id: string]: File.State }
+	folders: { [id: string /* FolderId */]: Folder.State }
+	files: { [id: string /* FileId */]: File.State }
 
 	encountered_hashes: {
-		[k: string]: boolean
+		[hash: string /* FileHash */]: boolean
 	}
 
 	queue: Action[],
@@ -88,15 +89,15 @@ export function get_all_media_file_ids(state: Immutable<State>): string[] {
 		.filter(k => File.is_media_file(state.files[k]))
 }
 
-export function is_existing(state: Immutable<State>, id: RelativePath): boolean {
+export function is_file_existing(state: Immutable<State>, id: FileId): boolean {
 	return state.files.hasOwnProperty(id) || is_folder_existing(state, id)
 }
 
-export function is_folder_existing(state: Immutable<State>, id: RelativePath): boolean {
+export function is_folder_existing(state: Immutable<State>, id: FolderId): boolean {
 	return state.folders.hasOwnProperty(id)
 }
 
-export function get_ideal_file_relative_path(state: Immutable<State>, id: RelativePath): RelativePath {
+export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
 	const file_state = state.files[id]
 	const highest_parent = file_state.memoized.get_parsed_path(file_state).dir.split(path.sep)[0]
 	const cantsort_segment = get_final_base(Folder.CANTSORT_BASENAME)
@@ -178,7 +179,7 @@ export function discard_first_pending_action(state: Immutable<State>): Immutable
 	}
 }
 
-function _register_folder(state: Immutable<State>, id: RelativePath, exists: boolean): Immutable<State> {
+function _register_folder(state: Immutable<State>, id: FolderId, exists: boolean): Immutable<State> {
 	const folder_state = Folder.create(id)
 
 	state = {
@@ -196,7 +197,7 @@ function _register_folder(state: Immutable<State>, id: RelativePath, exists: boo
 
 export function on_folder_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
-	logger.trace(`[${LIB}] on_folder_found(…)`, { id })
+	logger.trace(`[${LIB}] on_folder_found(…)`, { parent_id, sub_id, id })
 
 	state = _register_folder(state, id, true) // TODO remove exists
 	const folder_state = state.folders[id]
@@ -209,7 +210,7 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 
 export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
-	logger.trace(`[${LIB}] on_file_found(…)`, { id })
+	logger.trace(`[${LIB}] on_file_found(…)`, { parent_id, sub_id, id })
 
 	const file_state = File.create(id)
 
@@ -237,7 +238,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	return state
 }
 
-function _on_file_info_read(state: Immutable<State>, file_id: RelativePath): Immutable<State> {
+function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
 	const file_state = state.files[file_id]
 
 	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state)) {
@@ -258,7 +259,7 @@ function _on_file_info_read(state: Immutable<State>, file_id: RelativePath): Imm
 	return state
 }
 
-export function on_fs_stats_read(state: Immutable<State>, file_id: RelativePath, stats: Immutable<fs.Stats>): Immutable<State> {
+export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats: Immutable<fs.Stats>): Immutable<State> {
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { file_id })
 
 	const new_file_state = File.on_fs_stats_read(state.files[file_id], stats)
@@ -274,7 +275,7 @@ export function on_fs_stats_read(state: Immutable<State>, file_id: RelativePath,
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_exif_read(state: Immutable<State>, file_id: RelativePath, exif_data: Immutable<Tags>): Immutable<State> {
+export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data: Immutable<Tags>): Immutable<State> {
 	logger.trace(`[${LIB}] on_exif_read(…)`, { file_id })
 
 	const new_file_state = File.on_exif_read(state.files[file_id], exif_data)
@@ -290,7 +291,7 @@ export function on_exif_read(state: Immutable<State>, file_id: RelativePath, exi
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_hash_computed(state: Immutable<State>, file_id: RelativePath, hash: FileHash): Immutable<State> {
+export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash: FileHash): Immutable<State> {
 	logger.trace(`[${LIB}] on_hash_computed(…)`, { file_id })
 
 	const already_encountered_hash = state.encountered_hashes.hasOwnProperty(hash)
@@ -312,7 +313,7 @@ export function on_hash_computed(state: Immutable<State>, file_id: RelativePath,
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_media_file_notes_recovered(state: Immutable<State>, file_id: RelativePath, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+export function on_media_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`[${LIB}] on_media_file_notes_recovered(…)`, { file_id })
 
 	let new_file_state = File.on_notes_unpersisted(
@@ -510,7 +511,45 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 }
 
 export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
-	throw new Error('NIMP!')
+
+	const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
+		Object.entries(state.encountered_hashes)
+			.filter(([hash, has_duplicates]) => !!has_duplicates)
+			.map(([hash, has_duplicates]) => hash)
+	)
+
+	if (duplicated_hashes.size === 0) return state
+
+	const duplicates_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
+		.reduce((acc, file_id) => {
+			const file_state = state.files[file_id]
+			const hash = File.get_hash(file_state)
+			if (hash && duplicated_hashes.has(hash)) {
+				acc[hash] ??= []
+				acc[hash].push(file_id)
+			}
+			return acc
+		}, {} as { [hash: string]: FileId[] })
+
+	const files = {
+		...state.files,
+	}
+
+	Object.entries(duplicates_by_hash).forEach(([hash, file_ids]) => {
+		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
+		files[final_file_state.id] = final_file_state
+		file_ids.forEach(file_id => {
+			if (file_id === final_file_state.id) return
+
+			state = _enqueue_action(state, create_action_delete_file(file_id))
+			delete files[file_id]
+		})
+	})
+
+	return {
+		...state,
+		files,
+	}
 }
 
 export function normalize_medias_in_place(state: Immutable<State>): Immutable<State> {

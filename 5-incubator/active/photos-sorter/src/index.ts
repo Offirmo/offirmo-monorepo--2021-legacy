@@ -240,7 +240,7 @@ async function normalize_file(id: RelativePath) {
 	const target_basename = File.get_ideal_basename(media_state)
 	if (current_basename !== target_basename) {
 		const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
-		if (!DB.is_existing(db, relative_target_path)) {
+		if (!DB.is_file_existing(db, relative_target_path)) {
 			if (PARAMS.dry_run) {
 				console.log('DRY RUN would have renamed to', target_basename)
 			}

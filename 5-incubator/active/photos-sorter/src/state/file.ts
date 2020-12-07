@@ -17,17 +17,15 @@ import {
 	get_creation_date_from_exif,
 	get_creation_timezone_from_exif,
 } from '../services/exif'
-
 import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
 import {
 	BetterDate,
-	LegacyDate,
 	get_human_readable_timestamp_auto,
 	get_compact_date,
-	create_better_date_obj,
 	create_better_date_from_utc_tms,
 	create_better_date_from_ExifDateTime,
 } from '../services/better-date'
+import { FileHash } from '../services/hash'
 
 // Data that we modified (or plan to)
 export interface OriginalData {
@@ -50,12 +48,13 @@ export interface PersistedNotes {
 	original: OriginalData
 }
 
+export type FileId = RelativePath // TODO should it be hash?
 export interface State {
-	id: RelativePath // TODO should it be hash?
+	id: FileId
 
 	current_exif_data: undefined | null | EXIFTags // can be null if no EXIF for this format
 	current_fs_stats: undefined | fs.Stats // can't be null, always a file
-	current_hash: undefined | string // can't be null, always a file
+	current_hash: undefined | FileHash // can't be null, always a file
 
 	notes_restored: boolean
 	notes: PersistedNotes
@@ -279,9 +278,13 @@ export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Pa
 	return ideal
 }
 
+export function get_hash(state: Immutable<State>): FileHash | undefined {
+	return state.current_hash
+}
+
 ///////////////////// REDUCERS /////////////////////
 
-export function create(id: RelativePath): Immutable<State> {
+export function create(id: FileId): Immutable<State> {
 	logger.trace(`[${LIB}] create(…)`, { id })
 
 	// not a premature optim here,
@@ -435,13 +438,30 @@ export function on_notes_unpersisted(state: Immutable<State>, recovered_notes: n
 	return state
 }
 
-export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutable<State> {
+export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<State> {
 	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
 
 	return {
 		...state,
 		id: new_id,
 	}
+}
+
+export function merge_duplicates(...states: Immutable<State[]>): Immutable<State> {
+	logger.trace(`[${LIB}] merge_duplicates(…)`, { ids: states.map(s => s.id) })
+
+	const state = states.find(state => {
+		assert(state.notes_restored, 'merge_duplicates() should happen after notes are restored')
+		return !!state.notes.original.closest_parent_with_date_hint
+	}) || states[0]
+
+	assert(state, 'merge_duplicates(…) selected state')
+	states.forEach(duplicate_state => {
+		assert(duplicate_state.notes_restored)
+
+	})
+
+	return state
 }
 
 ///////////////////// DEBUG /////////////////////

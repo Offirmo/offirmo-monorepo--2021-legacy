@@ -29,7 +29,7 @@ describe(`${LIB} - root state`, function() {
 		it.only('should detect duplicated files', function () {
 			let state = create(TEST_FILES_DIR_ABS)
 
-			state = on_folder_found(state, '.', '.')
+			state = on_folder_found(state, '', '.')
 			state = on_file_found(state, '.', 'foo.jpg')
 			state = on_file_found(state, '.', 'bar.jpg')
 			state = on_file_found(state, '.', 'baz.jpg')
