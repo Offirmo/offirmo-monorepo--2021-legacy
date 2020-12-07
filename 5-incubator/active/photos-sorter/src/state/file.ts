@@ -476,11 +476,11 @@ export function to_string(state: Immutable<State>) {
 
 	if (is_eligible) {
 		if (!has_all_infos_for_extracting_the_creation_date(state)) {
-			str += '  📅 TODO ⏳'
+			str += ' ⏳processing in progress…'
 		}
 		else {
 			const best_creation_date = get_best_creation_date(state)
-			str += '  📅 ' + get_human_readable_timestamp_auto(best_creation_date, 'tz:embedded')
+			str += ' 📅 ' + get_human_readable_timestamp_auto(best_creation_date, 'tz:embedded')
 
 			if (id !== get_ideal_basename(state)) {
 				str += ` -> "${get_ideal_basename(state)}"`

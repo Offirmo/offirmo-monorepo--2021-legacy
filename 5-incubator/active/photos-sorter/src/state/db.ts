@@ -5,6 +5,7 @@ import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Tags } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
+import { prettify_json } from '@offirmo-private/prettify-any'
 
 import logger from '../services/logger'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
@@ -40,8 +41,8 @@ export interface State {
 	folders: { [id: string /* FolderId */]: Folder.State }
 	files: { [id: string /* FileId */]: File.State }
 
-	encountered_hashes: {
-		[hash: string /* FileHash */]: boolean
+	encountered_hash_count: {
+		[hash: string /* FileHash */]: number
 	}
 
 	queue: Action[],
@@ -155,7 +156,7 @@ export function create(root: AbsolutePath): Immutable<State> {
 		files: {},
 		queue: [],
 
-		encountered_hashes: {},
+		encountered_hash_count: {},
 	}
 
 	return state
@@ -294,15 +295,14 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash: FileHash): Immutable<State> {
 	logger.trace(`[${LIB}] on_hash_computed(…)`, { file_id })
 
-	const already_encountered_hash = state.encountered_hashes.hasOwnProperty(hash)
 
 	let new_file_state = File.on_hash_computed(state.files[file_id], hash)
 
 	state = {
 		...state,
-		encountered_hashes: {
-			...state.encountered_hashes,
-			[hash]: already_encountered_hash,
+		encountered_hash_count: {
+			...state.encountered_hash_count,
+			[hash]: (state.encountered_hash_count[hash] ?? 0) + 1,
 		},
 		files: {
 			...state.files,
@@ -375,6 +375,23 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 	}
 
 	return state
+}
+
+export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<State> {
+	logger.trace(`[${LIB}] on_file_deleted(…)`, { id })
+
+	let file_state = state.files[id]
+	assert(file_state, 'on_file_deleted() file state')
+
+	let files = {
+		...state.files
+	}
+	delete files[id]
+
+	return {
+		...state,
+		files,
+	}
 }
 
 /*
@@ -513,8 +530,8 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 
 	const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
-		Object.entries(state.encountered_hashes)
-			.filter(([hash, has_duplicates]) => !!has_duplicates)
+		Object.entries(state.encountered_hash_count)
+			.filter(([hash, count]) => count > 1)
 			.map(([hash, has_duplicates]) => hash)
 	)
 
@@ -536,13 +553,17 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 	}
 
 	Object.entries(duplicates_by_hash).forEach(([hash, file_ids]) => {
+		assert(file_ids.length > 1, 'clean_up_duplicates() sanity check 1')
+
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
+		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'clean_up_duplicates() sanity check 2')
+
 		files[final_file_state.id] = final_file_state
 		file_ids.forEach(file_id => {
 			if (file_id === final_file_state.id) return
 
 			state = _enqueue_action(state, create_action_delete_file(file_id))
-			delete files[file_id]
+			// don't delete from state, the files are not deleted yet!
 		})
 	})
 
@@ -764,7 +785,8 @@ Root: "${stylize_string.yellow.bold(root)}"
 	str += '\n' + Notes.to_string(notes)
 
 	queue.forEach(task => {
-		str += `\n- pending task: ${task.type}`
+		const { type, ...details } = task
+		str += `\n- pending task "${type}" ${prettify_json(details)}`
 	})
 
 	return str
