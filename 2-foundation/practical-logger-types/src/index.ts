@@ -67,10 +67,11 @@ export interface Logger {
 // inspired by:
 // https://github.com/trentm/node-bunyan#core-fields
 export interface LogPayload {
-	level: LogLevel
-	name: string
-	msg: string
+	name: string // logger name
+
 	time: number // UTC timestamp
+	level: LogLevel
+	msg: string
 	err?: Error
 	details: LogDetails
 }
