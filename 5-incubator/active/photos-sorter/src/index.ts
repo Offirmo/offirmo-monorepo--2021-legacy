@@ -34,6 +34,9 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 
 		const { type, id } = action
 		switch (type) {
+
+			/////// READ
+
 			case ActionType.explore_folder:
 				pending_actions.push(explore_folder(id))
 				break
@@ -50,12 +53,21 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 				pending_actions.push(compute_hash(id))
 				break
 
+			/////// WRITE
+
 			case ActionType.normalize_file:
+				assert(!PARAMS.dry_run, 'no normalize_file action in dry run mode')
 				pending_actions.push(normalize_file(id))
 				break
 
 			case ActionType.ensure_folder:
+				assert(!PARAMS.dry_run, 'no ensure_folder action in dry run mode')
 				pending_actions.push(ensure_folder(id))
+				break
+
+			case ActionType.delete_file:
+				assert(!PARAMS.dry_run, 'no delete action in dry run mode')
+				pending_actions.push(delete_file(id))
 				break
 
 			/*case ActionType.move_folder:
@@ -271,6 +283,15 @@ async function ensure_folder(id: RelativePath) {
 		await util.promisify(fs_extra.mkdirp)(abs_path)
 		DB.on_folder_found(db, '.', id)
 	}
+}
+
+async function delete_file(id: RelativePath) {
+	logger.trace(`- deleting file "${id}"…`)
+
+	const abs_path = DB.get_absolute_path(db, id)
+
+	await util.promisify(fs.rm)(abs_path)
+	db = DB.on_file_deleted(db, id)
 }
 
 /*

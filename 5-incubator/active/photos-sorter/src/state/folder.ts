@@ -33,6 +33,7 @@ export interface State {
 	id: FolderId
 	type: Type
 
+	//child_count: number TODO
 	begin_date: undefined | SimpleYYYYMMDD
 	end_date: undefined | SimpleYYYYMMDD
 

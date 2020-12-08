@@ -727,3 +727,9 @@ https://en.wikipedia.org/wiki/Strewn_field
 https://www.parismatch.com/Actu/Insolite/Comment-eviter-une-attaque-de-requin-1709553
 
 https://www.reddit.com/r/AskReddit/comments/js8e1z/therapists_of_reddit_what_was_your_biggest_i_know/
+
+https://toulon.maville.com/actu/actudet_-le-commando-hubert-la-palme-d-or-des-forces-speciales-francaises_54135-3719952_actu.Htm
+
+https://getpocket.com/explore/item/to-live-remarkably-repeat-this-1-affirmation-every-single-day-for-the-rest-of-your-life
+https://www.psychologytoday.com/au/blog/the-right-mindset/202011/10-habits-highly-resilient-people
+
