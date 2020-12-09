@@ -28,7 +28,7 @@ describe(`${LIB} - root state`, function() {
 
 	describe('de-duplication', function() {
 
-		it.only('should detect duplicated files', function () {
+		it('should detect duplicated files', function () {
 			let state = create(TEST_FILES_DIR_ABS)
 
 			state = on_folder_found(state, '', '.')

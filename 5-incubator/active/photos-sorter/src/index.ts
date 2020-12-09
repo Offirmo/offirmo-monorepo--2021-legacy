@@ -102,6 +102,8 @@ async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 
 async function sort_all_medias() {
 
+	////////// READ ONLY ////////////
+
 	logger.group('******* STARTING EXPLORATION PHASE *******')
 	db = DB.explore_fs_recursively(db)
 	await exec_pending_actions_recursively_until_no_more()
@@ -109,6 +111,14 @@ async function sort_all_medias() {
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 	logger.log('DB = ' + DB.to_string(db))
+
+	// this needs to be done before we start to write / delete
+	logger.group('******* STARTING ORIGINAL DATA BACKUP *******')
+	db = DB.consolidate_and_backup_original_data(db)
+	await exec_pending_actions_recursively_until_no_more()
+	logger.groupEnd()
+
+	////////// WRITE ////////////
 
 	logger.group('******* STARTING IN-PLACE CLEANUP PHASE *******')
 	db = DB.clean_up_duplicates(db)
@@ -123,7 +133,7 @@ async function sort_all_medias() {
 
 	logger.group('******* STARTING SORTING PHASE *******')
 
-	// move non-analizable to junk
+	// move non-analyzable to junk
 	// normalize in-place: rotate, rename, clean
 	// ensure structural dirs
 	// move to ideal location

@@ -134,7 +134,7 @@ describe(`${LIB} - file state`, function() {
 				deleted: false,
 				starred: false,
 				original: {
-					basename: 'IMG_20171020_050144625.jpg'
+					basename: 'IMG_20171020_050144625.jpg',
 				},
 			})
 

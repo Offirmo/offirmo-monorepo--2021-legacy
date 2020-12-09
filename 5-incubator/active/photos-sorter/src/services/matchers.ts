@@ -102,14 +102,15 @@ export const NON_MEANINGFUL_FULL: string[] = [
 
 export const NON_MEANINGFUL_ENDINGS_RE: { [k:string]: RegExp } = {
 	// greedier first
+	// https://javascript.info/regexp-groups#named-groups
 
-	trailing_copy_en: /( -)? copy( \d+)?$/,
-	leading_copy_en: /^copy (\(\d+\) )?(of )?/,
+	trailing_copy_en: /( -)? copy( (?<copy_index>\d+))?$/,
+	leading_copy_en: /^copy (\((?<copy_index>\d+)\) )?(of )?/,
 
-	trailing_copy_fr: /( -)? copie( \d+)?$/,
-	leading_copy_fr: /^copie (\(\d+\) )?(de )?(secours de )?/,
+	trailing_copy_fr: /( -)? copie( (?<copy_index>\d+))?$/,
+	leading_copy_fr: /^copie (\((?<copy_index>\d+)\) )?(de )?(secours de )?/,
 
-	trailing_copy_counter: /( \(\d+\))?$/,
+	trailing_copy_counter: /( \((?<copy_index>\d+)\))?$/,
 }
 
 ////////////////////////////////////

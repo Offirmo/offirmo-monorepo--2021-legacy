@@ -24,6 +24,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx-xx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: 1,
 
 		// for test
 		digit_blocks: '2019-12-16-20-38-08',
@@ -40,6 +41,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20130525',
@@ -56,6 +58,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx at xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2018-01-15-08-55-38',
@@ -72,6 +75,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2017-11-12-19-07-50',
@@ -88,6 +92,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx à xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2017-03-24-11-44-17',
@@ -104,6 +109,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx_xxxx_xxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2014-08-14-0137-48001',
@@ -120,6 +126,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '29082013-005206',
@@ -136,6 +143,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2010-06-26-094952',
@@ -152,6 +160,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx xxhxx+xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2011-05-17-16-47-54',
@@ -168,6 +177,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20140121-202914',
@@ -184,6 +194,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20150510-175834',
@@ -200,6 +211,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'IMG-WA0001',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20160202',
@@ -216,6 +228,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'IMG-WA0000',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20170721',
@@ -232,6 +245,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx_xx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'Spore',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2008-11-09-20-16-07',
@@ -248,6 +262,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx-xx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2015-11-14-09-36-22',
@@ -264,6 +279,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx-xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20171024-140849',
@@ -280,6 +296,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2012-12-15-15-05-47',
@@ -296,6 +313,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'PSX',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20170825-210632',
@@ -312,6 +330,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: 2,
 
 		// for test
 		digit_blocks: '2017-05-18',
@@ -327,6 +346,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '00008',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2013-04-14',
@@ -342,6 +362,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '1-Irrutilo',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20061107',
@@ -357,6 +378,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx-xxhxx_xxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20151015-23-01-22001',
@@ -372,6 +394,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '00001',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2013-10-17',
@@ -387,6 +410,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'IMG-WA0000',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20151110',
@@ -402,6 +426,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20150423-190241',
@@ -418,6 +443,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xx-x-xx at xx.xx',
 		is_date_ambiguous: false, // not ambiguous before 2025 but ambiguous after that!!!
 		meaningful_part: 'Photo #3',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '25-3-19-13-36',
@@ -433,6 +459,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2019-03-07',
@@ -449,6 +476,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'taronga_vivd',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20180603',
@@ -463,6 +491,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'resized',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20190429-154907',
@@ -481,6 +510,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx_xxhxx+xx.xxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20170303-12-00-45-632',
@@ -495,6 +525,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx_xxhxx+xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'i6-IMG_7794',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20190311-20-24-06',
@@ -511,6 +542,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'weekend special',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '20181026',
@@ -527,6 +559,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'voyage à Paris',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2019-08-15',
@@ -541,6 +574,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: 'xxxx-xx-xxTxx:xx:xx.xxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2019-12-16-09-38-08-123',
@@ -561,6 +595,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'WoWScrnShot_032407_100101',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '032407-100101',
@@ -576,6 +611,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'P1000010',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '1000010',
@@ -591,6 +627,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'IMG_3211',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '3211',
@@ -607,6 +644,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'Photo_021309_006',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '021309-006',
@@ -623,6 +661,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'img071009-131340',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '071009-131340',
@@ -639,6 +678,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '170455_10150886974822066_2009091174_o',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '170455-10150886974822066-2009091174',
@@ -653,6 +693,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'TR81801414546EGJ',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '81801414546',
@@ -666,6 +707,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'ANWP7390',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '7390',
@@ -679,6 +721,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'DSC_0085',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '0085',
@@ -692,6 +735,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'Image from iOS',
+		copy_index: 17,
 
 		// for test
 		digit_blocks: '',
@@ -705,6 +749,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'USER_SCOPED_TEMP_DATA_orca-image--1274802997',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '1274802997',
@@ -718,6 +763,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'IMAG0556',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '0556',
@@ -731,6 +777,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '181026_195329_Halloween_0388',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '181026-195329',
@@ -746,6 +793,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '377b892d-ab1c-4e55-a3f0-7eaf2373c10a',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '377',
@@ -761,6 +809,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'T2 (17-22 weeks) 0052',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '2-17-22',
@@ -774,6 +823,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'avocado_media_1425910682493',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '1425910682493',
@@ -787,6 +837,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'N1z9_Q79SSj9HUv9d_1yBv0U_Uf9AELBGX4N_TtcEf39RHQa_UP9_f39imAP-thumb',
+		copy_index: undefined,
 
 		// for test
 		digit_blocks: '39',
@@ -822,7 +873,7 @@ export const NON_MEANINGFUL_NAMES_SAMPLES: { [k: string]: NameDetails } = [
 	'foo - Copie.jpg',
 	'foo - copie 7.jpg',
 	'foo copie.jpg',
-].reduce((acc, val) => {
+].reduce((acc, val, index) => {
 	acc[val] = {
 		// ParseResult
 		extension_lc: '.jpg',
@@ -832,6 +883,7 @@ export const NON_MEANINGFUL_NAMES_SAMPLES: { [k: string]: NameDetails } = [
 		is_date_ambiguous: undefined,
 		meaningful_part: 'foo',
 		digit_blocks: '',
+		copy_index: [,,, 3, 0,0,4, 0,0,3, 0,0,0,3, 0,0,7,0][index],
 	}
 	return acc
 }, {} as { [k: string]: NameDetails })

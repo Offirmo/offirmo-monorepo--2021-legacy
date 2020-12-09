@@ -363,6 +363,8 @@ export interface ParseResult {
 	date: undefined | BetterDate
 	is_date_ambiguous: undefined | boolean
 	meaningful_part: string
+
+	copy_index: undefined | number
 }
 export function parse(name: string, debug: boolean = false): ParseResult {
 	logger.silly('\n\n\n\n----------------------------------------')
@@ -375,6 +377,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		date: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '',
+		copy_index: undefined,
 	}
 	name = NORMALIZERS.normalize_unicode(name)
 
@@ -432,7 +435,9 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 	// ends with "copies" We do it first to avoid the digits being interpreted as a date
 	state.buffer = Object.keys(NON_MEANINGFUL_ENDINGS_RE).reduce((acc, key) => {
 		const m = acc.toLowerCase().match(NON_MEANINGFUL_ENDINGS_RE[key])
+		//console.log(m)
 		if (m && m[0]) {
+			result.copy_index = Number(m.groups?.copy_index ?? 0)
 			acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
 			acc = acc.trim()
 			logger.trace('non meaningful', { r: NON_MEANINGFUL_ENDINGS_RE[key], m, acc })
