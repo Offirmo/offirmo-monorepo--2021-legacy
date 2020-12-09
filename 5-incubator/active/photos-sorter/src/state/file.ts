@@ -314,8 +314,8 @@ export function create(id: FileId): Immutable<State> {
 
 		notes_restored: false,
 		notes: {
-			deleted: false,
-			starred: false,
+			deleted: undefined,
+			starred: undefined,
 			original: {
 				basename: parsed_path.base,
 				closest_parent_with_date_hint: (() => {

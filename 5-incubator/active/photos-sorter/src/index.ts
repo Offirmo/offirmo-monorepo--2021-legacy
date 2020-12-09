@@ -2,15 +2,16 @@ import path from 'path'
 import util from 'util'
 import fs from 'fs'
 import assert from 'tiny-invariant'
-import hasha from 'hasha'
 
 import { exiftool } from 'exiftool-vendored'
+import { Immutable } from '@offirmo-private/ts-types'
+import json from '@offirmo/cli-toolbox/fs/json'
 
 import { LIB, NOTES_BASENAME } from './consts'
 import { RelativePath } from './types'
 import * as DB from './state/db'
 import * as File from './state/file'
-import * as Actions from './state/actions'
+import * as Notes from './state/notes'
 import { ActionType } from './state/actions'
 
 import logger from './services/logger'
@@ -55,6 +56,10 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 
 			/////// WRITE
 
+			case ActionType.persist_notes:
+				pending_actions.push(persist_notes(action.data, action.folder_path))
+				break
+
 			case ActionType.normalize_file:
 				assert(!PARAMS.dry_run, 'no normalize_file action in dry run mode')
 				pending_actions.push(normalize_file(action.id))
@@ -81,7 +86,7 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 				break
 
 			default:
-				throw new Error(`action not implemented: "${action.type}"!`)
+				throw new Error(`action not implemented: "${(action as any).type}"!`)
 		}
 	}
 
@@ -234,6 +239,14 @@ async function compute_hash(id: RelativePath) {
 	const hash = await get_file_hash(abs_path)
 
 	db = DB.on_hash_computed(db, id, hash!)
+}
+
+async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.') {
+	const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
+	logger.info(`persisting ${Object.keys(data.encountered_media_files).length} notes and X redirects into "${abs_path}"…`)
+
+
+	await json.write(abs_path, data)
 }
 
 async function normalize_file(id: RelativePath) {
