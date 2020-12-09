@@ -4,6 +4,8 @@ import { Enum } from 'typescript-string-enums'
 import { RelativePath } from '../types'
 import { FolderId } from './folder'
 import { FileId } from './file'
+import { State as NotesState } from './notes'
+import { Immutable } from '@offirmo-private/ts-types'
 
 /////////////////////
 
@@ -12,6 +14,7 @@ export const ActionType = Enum(
 	'query_fs_stats',
 	'query_exif',
 	'hash',
+	'persist_notes',
 	'ensure_folder',
 	'normalize_file',
 	'move_file',
@@ -44,6 +47,12 @@ export interface ActionHash extends BaseAction {
 	id: FileId
 }
 
+export interface ActionPersistNotes extends BaseAction {
+	type: typeof ActionType.persist_notes
+	data: Immutable<NotesState>
+	folder_path?: RelativePath
+}
+
 export interface ActionEnsureFolder extends BaseAction {
 	type: typeof ActionType.ensure_folder
 	id: FolderId
@@ -73,6 +82,7 @@ export interface ActionDeleteFile extends BaseAction {
 	id: FileId
 }
 
+
 // TODO delete empty folder
 
 export type Action =
@@ -82,6 +92,7 @@ export type Action =
 	| ActionQueryExif
 	| ActionHash
 	// write
+	| ActionPersistNotes
 	| ActionNormalizeFile
 	| ActionEnsureFolder
 	| ActionMoveFile
@@ -109,6 +120,13 @@ export function create_action_hash(id: FileId): ActionHash {
 	return {
 		type: ActionType.hash,
 		id,
+	}
+}
+export function create_action_persist_notes(data: Immutable<NotesState>, folder_path?: RelativePath): ActionPersistNotes {
+	return {
+		type: ActionType.persist_notes,
+		data,
+		folder_path,
 	}
 }
 export function create_action_normalize_file(id: FileId): ActionNormalizeFile {

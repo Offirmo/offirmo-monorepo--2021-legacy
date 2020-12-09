@@ -7,7 +7,13 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { BaseState, WithLastUserActionTimestamp } from '@offirmo-private/state-utils'
 
 import logger from '../services/logger'
-import { PersistedNotes as FileNotes, State as FileState } from './file'
+import {
+	PersistedNotes as FileNotes,
+	State as FileState,
+	get_hash,
+	merge_notes,
+} from './file'
+import { FileHash } from '../services/hash'
 
 
 ////////////////////////////////////
@@ -22,10 +28,25 @@ export interface State extends BaseState, WithLastUserActionTimestamp {
 
 ///////////////////// ACCESSORS /////////////////////
 
-export function get_file_notes_from_hash(state: Immutable<State>, hash: string): null | Immutable<FileNotes> {
+export function get_oldest_hash(state: Immutable<State>, hash: FileHash): FileHash {
+	assert(hash, `get_oldest_hash() param`)
+
+	let has_redirect = false
 	while (state.known_modifications_new_to_old[hash]) {
+		has_redirect = true
+		assert(!state.encountered_media_files[hash], 'get_oldest_hash() newer hash should not have notes')
 		hash = state.known_modifications_new_to_old[hash]
 	}
+
+	if (has_redirect) {
+		assert(state.encountered_media_files[hash], 'get_oldest_hash() known hash should have notes')
+	}
+
+	return hash
+}
+
+export function get_file_notes_from_hash(state: Immutable<State>, hash: FileHash): null | Immutable<FileNotes> {
+	hash = get_oldest_hash(state, hash)
 
 	return state.encountered_media_files[hash] || null
 }
@@ -45,6 +66,7 @@ export function create(): Immutable<State> {
 	}
 }
 
+// TODO
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] on_previous_notes_found(…)`, { })
 
@@ -54,27 +76,27 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 }
 
 // store infos for NEW files
-export function on_exploration_done_store_new_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
+export function on_exploration_done_merge_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
 	logger.trace(`[${LIB}] on_exploration_done_store_new_notes(…)`, { })
 
-	const media_files_notes: State['encountered_media_files'] = { ...state.encountered_media_files }
+	const encountered_media_files: State['encountered_media_files'] = { ...state.encountered_media_files }
 
 	media_file_states.forEach(media_file_state => {
-		const { current_hash } = media_file_state
-		assert(current_hash, 'file hashed')
+		let hash = get_hash(media_file_state)
+		assert(hash, 'file hashed')
 
-		if (media_files_notes[current_hash])
-			return
+		hash = get_oldest_hash(state, hash)
 
-		if (state.known_modifications_new_to_old[current_hash])
-			return
-
-		media_files_notes[current_hash] = cloneDeep(media_file_state.notes)
+		if (!encountered_media_files[hash]) {
+			encountered_media_files[hash] = media_file_state.notes
+		} else {
+			encountered_media_files[hash] = merge_notes(media_file_state.notes, encountered_media_files[hash])
+		}
 	})
 
 	return {
 		...state,
-		encountered_media_files: media_files_notes,
+		encountered_media_files,
 	}
 }
 
@@ -86,32 +108,6 @@ export function on_notes_taken(state: Immutable<State>, file_state: Immutable<Fi
 
 // TODO store and restore notes!
 
-/*
-export function on_file_hashed(state: Immutable<State>, hash: string, notes: FileNotes): Immutable<State> {
-	logger.trace(`[${LIB}] on_file_hashed(…)`, { hash, notes })
-
-	const existing_notes = get_file_notes_from_hash(state, hash)
-	if (existing_notes) {
-		assert(
-			stable_stringify(existing_notes.original) === stable_stringify(notes.original),
-			'matching originals'
-		)
-	}
-
-	state = {
-		...state,
-		files: {
-			...state.files,
-			hash: {
-				...existing_notes,
-				...notes,
-			},
-		}
-	}
-
-	return state
-}
-*/
 
 export function on_file_modified(state: Immutable<State>, previous_hash: string, current_hash: string): Immutable<State> {
 	logger.trace(`[${LIB}] on_file_modified(…)`, { previous_hash, current_hash })

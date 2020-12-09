@@ -43,8 +43,8 @@ export interface OriginalData {
 // notes contain infos that can't be preserved inside the file itself
 // but that neel to be preserved across invocations
 export interface PersistedNotes {
-	deleted: boolean // TODO
-	starred: boolean // TODO
+	deleted: undefined | boolean // TODO
+	starred: undefined | boolean // TODO
 	original: OriginalData
 }
 
@@ -450,18 +450,47 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 export function merge_duplicates(...states: Immutable<State[]>): Immutable<State> {
 	logger.trace(`[${LIB}] merge_duplicates(…)`, { ids: states.map(s => s.id) })
 
+	states.forEach(duplicate_state => {
+		assert(duplicate_state.current_hash === states[0].current_hash, 'merge_duplicates(…) should have the same hash')
+		assert(duplicate_state.notes_restored)
+	})
+
 	const state = states.find(state => {
 		assert(state.notes_restored, 'merge_duplicates() should happen after notes are restored')
 		return !!state.notes.original.closest_parent_with_date_hint
 	}) || states[0]
 
 	assert(state, 'merge_duplicates(…) selected state')
-	states.forEach(duplicate_state => {
-		assert(duplicate_state.notes_restored)
 
+	return {
+		...state,
+		notes: merge_notes(...states.map(s => s.notes)),
+	}
+}
+
+// merge notes concerning the same file (by hash). Could be:
+// - duplicated files
+// - persisted vs. reconstructed notes
+// If conflict, the latter will have priority
+export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
+	logger.trace(`[${LIB}] merge_notes(…)`, { ids: notes.map(n => n.original.basename) })
+
+	let note = notes[0]
+	assert(note, 'merge_notes(…) selected note')
+
+	notes.forEach(duplicate_notes => {
+		note = {
+			...note,
+			...duplicate_notes,
+			original: {
+				// TODO make the marge a little bit clever = select the best names
+				...note.original,
+				...duplicate_notes.original,
+			}
+		}
 	})
 
-	return state
+	return note
 }
 
 ///////////////////// DEBUG /////////////////////

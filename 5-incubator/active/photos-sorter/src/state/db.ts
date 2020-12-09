@@ -6,6 +6,7 @@ import stylize_string from 'chalk'
 import { Tags } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { prettify_json } from '@offirmo-private/prettify-any'
+import cloneDeep from 'lodash/cloneDeep'
 
 import logger from '../services/logger'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
@@ -21,6 +22,7 @@ import {
 	create_action_ensure_folder,
 	create_action_explore_folder,
 	create_action_hash,
+	create_action_persist_notes,
 	create_action_normalize_file,
 	create_action_query_exif,
 	create_action_query_fs_stats,
@@ -46,6 +48,10 @@ export interface State {
 	}
 
 	queue: Action[],
+
+	_optim: {
+		duplicates_by_hash?: { [hash: string]: FileId[] },
+	}
 }
 
 ///////////////////// ACCESSORS /////////////////////
@@ -157,6 +163,10 @@ export function create(root: AbsolutePath): Immutable<State> {
 		queue: [],
 
 		encountered_hash_count: {},
+
+		_optim: {
+			//duplicates_by_hash: {},
+		}
 	}
 
 	return state
@@ -441,6 +451,7 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 	return on_folder_found(state, '', '.')
 }
 
+// some decisions need to wait for the entire exploration to be done
 export function on_fs_exploration_done(_state: Immutable<State>): Immutable<State> {
 	logger.verbose('on_fs_exploration_done()…')
 
@@ -448,7 +459,7 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 	const all_media_files: Immutable<File.State>[] = Object.values(get_all_media_file_ids(_state)).map(id => _state.files[id])
 	_state = {
 		..._state,
-		notes: Notes.on_exploration_done_store_new_notes(_state.notes, all_media_files)
+		notes: Notes.on_exploration_done_merge_notes(_state.notes, all_media_files)
 	}
 	all_media_files.forEach(file_state => {
 		const { id, current_hash } = file_state
@@ -527,15 +538,13 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 	return state
 }
 
-export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
+export function consolidate_and_backup_original_data(state: Immutable<State>): Immutable<State> {
 
 	const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
 		Object.entries(state.encountered_hash_count)
 			.filter(([hash, count]) => count > 1)
 			.map(([hash, has_duplicates]) => hash)
 	)
-
-	if (duplicated_hashes.size === 0) return state
 
 	const duplicates_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
 		.reduce((acc, file_id) => {
@@ -553,12 +562,53 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 	}
 
 	Object.entries(duplicates_by_hash).forEach(([hash, file_ids]) => {
+		assert(file_ids.length > 1, 'consolidate_and_backup_original_data() sanity check 1')
+
+		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
+		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
+
+		// improve the notes
+		state = on_media_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_from_hash(state.notes, final_file_state.current_hash!))
+
+		file_ids.forEach(file_id => {
+			files[file_id] = {
+				...files[file_id],
+				notes: cloneDeep(final_file_state.notes)
+			}
+			if (file_id === final_file_state.id) return
+		})
+	})
+
+	state = {
+		...state,
+		files,
+		_optim: {
+			...state._optim,
+			duplicates_by_hash,
+		}
+	}
+
+	state = _enqueue_action(state, create_action_persist_notes(state.notes))
+
+	return state
+}
+
+export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
+
+	const duplicates_by_hash = state._optim.duplicates_by_hash
+	assert(duplicates_by_hash, `clean_up_duplicates() optim`)
+
+	const files = {
+		...state.files,
+	}
+
+	Object.entries(duplicates_by_hash).forEach(([hash, file_ids]) => {
 		assert(file_ids.length > 1, 'clean_up_duplicates() sanity check 1')
 
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'clean_up_duplicates() sanity check 2')
-
 		files[final_file_state.id] = final_file_state
+
 		file_ids.forEach(file_id => {
 			if (file_id === final_file_state.id) return
 

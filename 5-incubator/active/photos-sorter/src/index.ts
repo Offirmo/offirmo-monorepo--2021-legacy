@@ -10,7 +10,8 @@ import { LIB, NOTES_BASENAME } from './consts'
 import { RelativePath } from './types'
 import * as DB from './state/db'
 import * as File from './state/file'
-import { ActionType, ActionMoveFile } from './state/actions'
+import * as Actions from './state/actions'
+import { ActionType } from './state/actions'
 
 import logger from './services/logger'
 import fs_extra from './services/fs-extra'
@@ -32,42 +33,41 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 		logger.trace(`DQ1 executing action…`, { action })
 		db = DB.discard_first_pending_action(db)
 
-		const { type, id } = action
-		switch (type) {
+		switch (action.type) {
 
 			/////// READ
 
 			case ActionType.explore_folder:
-				pending_actions.push(explore_folder(id))
+				pending_actions.push(explore_folder(action.id))
 				break
 
 			case ActionType.query_fs_stats:
-				pending_actions.push(query_fs_stats(id))
+				pending_actions.push(query_fs_stats(action.id))
 				break
 
 			case ActionType.query_exif:
-				pending_actions.push(query_exif(id))
+				pending_actions.push(query_exif(action.id))
 				break
 
 			case ActionType.hash:
-				pending_actions.push(compute_hash(id))
+				pending_actions.push(compute_hash(action.id))
 				break
 
 			/////// WRITE
 
 			case ActionType.normalize_file:
 				assert(!PARAMS.dry_run, 'no normalize_file action in dry run mode')
-				pending_actions.push(normalize_file(id))
+				pending_actions.push(normalize_file(action.id))
 				break
 
 			case ActionType.ensure_folder:
 				assert(!PARAMS.dry_run, 'no ensure_folder action in dry run mode')
-				pending_actions.push(ensure_folder(id))
+				pending_actions.push(ensure_folder(action.id))
 				break
 
 			case ActionType.delete_file:
 				assert(!PARAMS.dry_run, 'no delete action in dry run mode')
-				pending_actions.push(delete_file(id))
+				pending_actions.push(delete_file(action.id))
 				break
 
 			/*case ActionType.move_folder:
@@ -77,11 +77,11 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 
 			case ActionType.move_file:
 				assert(!PARAMS.dry_run, 'no write action in dry run mode')
-				pending_actions.push(move_file(id, (action as ActionMoveFile).target_id))
+				pending_actions.push(move_file(action.id, action.target_id))
 				break
 
 			default:
-				throw new Error(`action not implemented: "${type}"!`)
+				throw new Error(`action not implemented: "${action.type}"!`)
 		}
 	}
 
@@ -110,11 +110,14 @@ async function sort_all_medias() {
 	db = DB.on_fs_exploration_done(db)
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
-	logger.log('DB = ' + DB.to_string(db))
+	//logger.log('DB = ' + DB.to_string(db))
+
+	////////// INTERMEDIATE ////////////
 
 	// this needs to be done before we start to write / delete
 	logger.group('******* STARTING ORIGINAL DATA BACKUP *******')
 	db = DB.consolidate_and_backup_original_data(db)
+	logger.log('DB = ' + DB.to_string(db))
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 

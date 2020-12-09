@@ -15,3 +15,5 @@ export async function get_file_hash(abs_path: AbsolutePath): Promise<FileHash> {
 }
 
 export default get_file_hash
+
+// TODO some cache for big files

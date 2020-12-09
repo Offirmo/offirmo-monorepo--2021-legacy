@@ -10,6 +10,9 @@ import {
 	on_file_found,
 	on_hash_computed,
 	on_media_file_notes_recovered,
+	on_fs_exploration_done,
+
+	consolidate_and_backup_original_data,
 
 	clean_up_duplicates,
 
@@ -48,6 +51,7 @@ describe(`${LIB} - root state`, function() {
 			expect(state.encountered_hash_count['hash01'], '01').to.equal(1)
 			expect(state.encountered_hash_count['hash02'], '02').to.equal(2)
 
+			state = consolidate_and_backup_original_data(state)
 			state = clean_up_duplicates(state)
 
 			//console.log(to_string(state))
