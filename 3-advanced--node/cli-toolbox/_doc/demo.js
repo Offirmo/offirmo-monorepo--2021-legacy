@@ -110,7 +110,12 @@ sequence = sequence.then(() => demo(
 		process_data(json.readSync(filepath))
 
 		return json.read(filepath)
-			.then(process_data)
+			.then(data => {
+				process_data(data)
+				return json.write('foo.json', data)
+			})
+
+
 	}
 ))
 ////////////////////////////////////
