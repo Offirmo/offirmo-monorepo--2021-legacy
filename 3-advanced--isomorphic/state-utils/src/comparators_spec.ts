@@ -10,6 +10,7 @@ import {
 } from './_test_helpers'
 
 import {
+	get_json_difference,
 	SemanticDifference,
 	s_max,
 	get_semantic_difference,
@@ -24,6 +25,34 @@ import {
 
 
 describe(`${LIB} - comparators`, function() {
+
+	describe('get_json_difference()', function() {
+
+		it('should work', () => {
+			const nodiff = get_json_difference({
+					foo: 33,
+				},
+				{
+					foo: 33,
+				})
+			expect(nodiff, 'no diff').to.deep.equal(undefined)
+
+			const diff = get_json_difference({
+					foo: 33,
+					bar:42,
+				},
+				{
+					foo: 34,
+					baz: 42,
+				})
+			//console.log(diff)
+			expect(diff).to.deep.equal({
+				foo: [ 33, 34 ],
+				bar: [ 42, 0, 0 ],
+				baz: [ 42 ],
+			})
+		})
+	})
 
 	describe('s_max()', function() {
 		it('should work', () => {

@@ -15,6 +15,7 @@ import {
 	get_timestamp,
 	get_timestamp_loose,
 } from './selectors'
+import { JSONObject } from '@offirmo-private/ts-types'
 
 
 // tslint:disable-next-line: variable-name
@@ -40,6 +41,12 @@ export function s_max(a: SemanticDifference, b: SemanticDifference): SemanticDif
 	return SemanticDifference.none
 }
 
+const _advanced_json_differ = jsondiffpatch.create({
+	// used to match objects when diffing arrays, by default only === operator is used
+	objectHash: (obj: any) => JSON.stringify(obj),
+})
+export const get_json_difference: (newer: any, older?: any) => JSONObject =
+	_advanced_json_differ.diff.bind(_advanced_json_differ)
 
 // newer and older so that we get order check as a side-effect
 // TODO improve unclear params
@@ -113,12 +120,7 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 	// however, the objects are different so bad immutability could have kicked in...
 	const is_truely_equal = is_deep_equal(newer, older)
 	if (!is_truely_equal) {
-		const advanced_comparator = jsondiffpatch.create({
-			// used to match objects when diffing arrays, by default only === operator is used
-			objectHash: (obj: any) => JSON.stringify(obj),
-		})
-		const get_advanced_diff = advanced_comparator.diff.bind(advanced_comparator)
-		const diff = get_advanced_diff(newer, older)
+		const diff = get_json_difference(newer, older)
 		console.error('ERROR get_semantic_difference() deep eq of semantically equal objects!', diff)
 		debugger
 	}
