@@ -16,6 +16,7 @@ import { ActionType } from './state/actions'
 
 import logger from './services/logger'
 import fs_extra from './services/fs-extra'
+import { get_fs_stats_subset } from './services/fs'
 import get_file_hash from './services/hash'
 import { get_params } from './params'
 
@@ -54,6 +55,10 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 				pending_actions.push(compute_hash(action.id))
 				break
 
+			case ActionType.load_notes:
+				pending_actions.push(load_notes(action.path))
+				break
+
 			/////// WRITE
 
 			case ActionType.persist_notes:
@@ -61,17 +66,17 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 				break
 
 			case ActionType.normalize_file:
-				assert(!PARAMS.dry_run, 'no normalize_file action in dry run mode')
+				//assert(!PARAMS.dry_run, 'no normalize_file action in dry run mode')
 				pending_actions.push(normalize_file(action.id))
 				break
 
 			case ActionType.ensure_folder:
-				assert(!PARAMS.dry_run, 'no ensure_folder action in dry run mode')
+				//assert(!PARAMS.dry_run, 'no ensure_folder action in dry run mode')
 				pending_actions.push(ensure_folder(action.id))
 				break
 
 			case ActionType.delete_file:
-				assert(!PARAMS.dry_run, 'no delete action in dry run mode')
+				//assert(!PARAMS.dry_run, 'no delete action in dry run mode')
 				pending_actions.push(delete_file(action.id))
 				break
 
@@ -81,7 +86,7 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 				break*/
 
 			case ActionType.move_file:
-				assert(!PARAMS.dry_run, 'no write action in dry run mode')
+				//assert(!PARAMS.dry_run, 'no write action in dry run mode')
 				pending_actions.push(move_file(action.id, action.target_id))
 				break
 
@@ -178,13 +183,6 @@ async function explore_folder(id: RelativePath) {
 	const sub_file_basenames = fs_extra.lsFilesSync(abs_path, { full_path: false })
 	//console.log(sub_file_basenames)
 	sub_file_basenames.forEach((basename: RelativePath) => {
-		const is_notes = basename === NOTES_BASENAME
-		if (is_notes) {
-			// TODO load
-			// TODO consolidate (inc. persist)
-			throw new Error('NIMP load notes')
-		}
-
 		//const normalized_extension TODO
 		const basename_lc = basename.toLowerCase()
 		const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename_lc.endsWith(ext))
@@ -216,7 +214,7 @@ async function query_fs_stats(id: RelativePath) {
 	//logger.group(`- got fs stats data for "${id}"…`)
 	logger.trace(`- got fs stats data for "${id}"…`)
 	//console.log(id, tags)
-	db = DB.on_fs_stats_read(db, id, stats)
+	db = DB.on_fs_stats_read(db, id, get_fs_stats_subset(stats))
 	//logger.groupEnd()
 }
 
@@ -241,12 +239,31 @@ async function compute_hash(id: RelativePath) {
 	db = DB.on_hash_computed(db, id, hash!)
 }
 
+async function load_notes(path: RelativePath) {
+	logger.trace(`loading notes from "${path}"…`)
+
+	const abs_path = DB.get_absolute_path(db, path)
+	const data = await json.read(abs_path)
+	assert(data?.schema_version, 'load_notes()')
+
+	db = DB.on_notes_found(db, data)
+}
+
 async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.') {
 	const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
-	logger.info(`persisting ${Object.keys(data.encountered_media_files).length} notes and X redirects into "${abs_path}"…`)
+	logger.info(`persisting ${Object.keys(data.encountered_media_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
 
+	try {
+		await json.write(abs_path, data)
+	}
+	catch (err) {
+		if (PARAMS.dry_run) {
+			// swallow
+		}
+		else
+			throw err
+	}
 
-	await json.write(abs_path, data)
 }
 
 async function normalize_file(id: RelativePath) {
@@ -264,7 +281,7 @@ async function normalize_file(id: RelativePath) {
 		const current_exif_data: any = media_state.current_exif_data
 		if (current_exif_data.Orientation) {
 			if (PARAMS.dry_run) {
-				console.log('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
+				logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
 			}
 			else {
 				logger.error('TODO losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
@@ -280,7 +297,7 @@ async function normalize_file(id: RelativePath) {
 		const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
 		if (!DB.is_file_existing(db, relative_target_path)) {
 			if (PARAMS.dry_run) {
-				console.log('DRY RUN would have renamed to', target_basename)
+				logger.info('DRY RUN would have renamed to ' + target_basename)
 			}
 			else {
 				actions.push(
@@ -303,7 +320,7 @@ async function ensure_folder(id: RelativePath) {
 	const abs_path = DB.get_absolute_path(db, id)
 
 	if (PARAMS.dry_run) {
-		console.log('DRY RUN would have created folder:', id)
+		logger.verbose('DRY RUN would have created folder: ' + id)
 	}
 	else {
 		await util.promisify(fs_extra.mkdirp)(abs_path)
@@ -316,8 +333,14 @@ async function delete_file(id: RelativePath) {
 
 	const abs_path = DB.get_absolute_path(db, id)
 
-	await util.promisify(fs.rm)(abs_path)
-	db = DB.on_file_deleted(db, id)
+	if (PARAMS.dry_run) {
+		logger.info('DRY RUN would have deleted ' + abs_path)
+	}
+	else {
+		logger.info('deleting…' + abs_path)
+		await util.promisify(fs.rm)(abs_path)
+		db = DB.on_file_deleted(db, id)
+	}
 }
 
 /*
@@ -337,8 +360,13 @@ async function move_file(id: RelativePath, target_id: RelativePath) {
 	const abs_path = DB.get_absolute_path(db, id)
 	const abs_path_target = DB.get_absolute_path(db, target_id)
 
-	await util.promisify(fs.rename)(abs_path, abs_path_target)
-	db = DB.on_file_moved(db, id, target_id)
+	if (PARAMS.dry_run) {
+		logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
+	}
+	else {
+		await util.promisify(fs.rename)(abs_path, abs_path_target)
+		db = DB.on_file_moved(db, id, target_id)
+	}
 }
 
 ////////////////////////////////////

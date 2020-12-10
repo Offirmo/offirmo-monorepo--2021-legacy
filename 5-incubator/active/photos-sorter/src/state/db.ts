@@ -1,5 +1,4 @@
 import path from 'path'
-import fs from 'fs'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
@@ -7,6 +6,7 @@ import { Tags } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { prettify_json } from '@offirmo-private/prettify-any'
 import cloneDeep from 'lodash/cloneDeep'
+import { get_base_loose } from '@offirmo-private/state-utils'
 
 import logger from '../services/logger'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
@@ -22,12 +22,15 @@ import {
 	create_action_ensure_folder,
 	create_action_explore_folder,
 	create_action_hash,
+	create_action_load_notes,
 	create_action_persist_notes,
 	create_action_normalize_file,
 	create_action_query_exif,
 	create_action_query_fs_stats,
 } from './actions'
 import { FileHash } from '../services/hash'
+import { NOTES_BASENAME } from '../consts'
+import { FsStatsSubset } from '../services/fs'
 
 
 /////////////////////
@@ -246,7 +249,21 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 		logger.verbose(`[${LIB}] non-media file found`, { id })
 	}
 
+	const is_notes = sub_id === NOTES_BASENAME
+	if (is_notes) {
+		state = _enqueue_action(state, create_action_load_notes(path.join(parent_id, sub_id)))
+	}
+
 	return state
+}
+
+export function on_notes_found(state: Immutable<State>, data: Notes.State): Immutable<State> {
+	logger.trace(`[${LIB}] on_notes_found(…)`, get_base_loose(data))
+
+	return {
+		...state,
+		notes: Notes.on_previous_notes_found(state.notes, data),
+	}
 }
 
 function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
@@ -270,7 +287,7 @@ function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable
 	return state
 }
 
-export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats: Immutable<fs.Stats>): Immutable<State> {
+export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats: Immutable<FsStatsSubset>): Immutable<State> {
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { file_id })
 
 	const new_file_state = File.on_fs_stats_read(state.files[file_id], stats)
@@ -609,9 +626,14 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'clean_up_duplicates() sanity check 2')
 		files[final_file_state.id] = final_file_state
 
+		logger.verbose(`Detected ${file_ids.length} duplicates for ${final_file_state.current_hash}`, {
+			...file_ids
+		})
+
 		file_ids.forEach(file_id => {
 			if (file_id === final_file_state.id) return
 
+			logger.verbose(`↳ Planning deletion of duplicate "${file_id}"…`)
 			state = _enqueue_action(state, create_action_delete_file(file_id))
 			// don't delete from state, the files are not deleted yet!
 		})

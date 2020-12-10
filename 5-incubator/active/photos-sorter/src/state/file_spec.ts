@@ -1,12 +1,12 @@
+import { FsStatsSubset } from '../services/fs'
+
+const { deepStrictEqual: assert_deepStrictEqual } = require('assert').strict
 import { expect } from 'chai'
 import assert from 'tiny-invariant'
-import { Tags, exiftool } from 'exiftool-vendored'
-import util from 'util'
-import path from 'path'
-import fs from 'fs'
-import hasha from 'hasha'
+import { Tags } from 'exiftool-vendored'
 
 import { Immutable } from '@offirmo-private/ts-types'
+import { get_json_difference, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB } from '../consts'
 import {
@@ -21,10 +21,11 @@ import {
 	is_exif_powered_media_file,
 	has_all_infos_for_extracting_the_creation_date,
 	get_best_creation_date_compact,
+	merge_duplicates,
 
 	on_fs_stats_read,
 	on_exif_read,
-	on_hash_computed, on_notes_unpersisted, get_best_creation_year,
+	on_hash_computed, on_notes_unpersisted, get_best_creation_year, FileId,
 } from './file'
 import {
 	get_timestamp_utc_ms_from,
@@ -68,7 +69,7 @@ describe(`${LIB} - file state`, function() {
 					atimeMs: creation_date_ms + 10000,
 					mtimeMs: creation_date_ms + 10000,
 					ctimeMs: creation_date_ms + 10000,
-				} as Partial<fs.Stats> as any)
+				})
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_unpersisted(state, null)
@@ -100,7 +101,7 @@ describe(`${LIB} - file state`, function() {
 				atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 				mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 				ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-			} as Partial<fs.Stats> as any)
+			})
 			state = on_exif_read(state, {
 				'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
 				'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
@@ -122,7 +123,7 @@ describe(`${LIB} - file state`, function() {
 				atimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 				mtimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 				ctimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-			} as Partial<fs.Stats> as any)
+			})
 			state = on_exif_read(state, {
 				'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
 				'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
@@ -151,7 +152,7 @@ describe(`${LIB} - file state`, function() {
 					atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 					mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 					ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				} as Partial<fs.Stats> as any)
+				})
 				state = on_exif_read(state, {
 					'CreateDate':        REAL_CREATION_DATE_EXIF,
 					'DateTimeOriginal':  REAL_CREATION_DATE_EXIF,
@@ -180,7 +181,7 @@ describe(`${LIB} - file state`, function() {
 						atimeMs:     REAL_CREATION_DATE_MS + 10000,
 						mtimeMs:     REAL_CREATION_DATE_MS + 10000,
 						ctimeMs:     REAL_CREATION_DATE_MS + 10000,
-					} as Partial<fs.Stats> as any)
+					})
 					state = on_exif_read(state, {} as Partial<Tags> as any)
 					state = on_hash_computed(state, '1234')
 					state = on_notes_unpersisted(state, null)
@@ -195,7 +196,7 @@ describe(`${LIB} - file state`, function() {
 						atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 						mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 						ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					} as Partial <fs.Stats> as any)
+					})
 					state = on_exif_read(state, {} as Partial<Tags> as any)
 					state = on_hash_computed(state, '1234')
 					state = on_notes_unpersisted(state, null)
@@ -207,6 +208,241 @@ describe(`${LIB} - file state`, function() {
 					})*/
 					expect(() => get_ideal_basename(state)).to.throw('Too big discrepancy')
 				})
+			})
+		})
+	})
+
+	describe('merge_duplicates()', function() {
+		const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
+		const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
+
+		function create_demo(id: FileId = 'foo/bar.jpg', time = CREATION_DATE): Immutable<State> {
+			let state = create(id)
+
+			state = on_fs_stats_read(state, {
+				birthtimeMs: get_timestamp_utc_ms_from(time),
+				atimeMs:     get_timestamp_utc_ms_from(time),
+				mtimeMs:     get_timestamp_utc_ms_from(time),
+				ctimeMs:     get_timestamp_utc_ms_from(time),
+			})
+			state = on_exif_read(state, {
+				'CreateDate': get_exif_datetime(time),
+			} as Tags)
+			state = on_hash_computed(state, '1234')
+			state = on_notes_unpersisted(state, null)
+
+			return enforce_immutability(state)
+		}
+
+		function expectㆍfileㆍstatesㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>, should_log = true): void {
+			const s1_alt = {
+				...s1,
+				memoized: null
+			}
+			const s2_alt = {
+				...s2,
+				memoized: null
+			}
+
+			try {
+				assert_deepStrictEqual(s1_alt, s2_alt)
+			}
+			catch (err) {
+				if (should_log)
+					console.error('expectㆍfileㆍstatesㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
+				throw err
+			}
+		}
+		function expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>): void {
+			try {
+				expectㆍfileㆍstatesㆍdeepㆍequal(s1, s2, false)
+			}
+			catch (err) {
+				if (err.message.includes('Expected values to be strictly deep-equal'))
+					return
+
+				throw err
+			}
+		}
+
+		describe('assumptions', function() {
+
+			it('should not matter if ctimes change, the hash stays the same', () => {
+				// verified: OK
+				// shasum A
+				// shasum B
+				// touch  B
+				// shasum B
+			})
+		})
+
+		describe('notes merging', function () {
+
+			it('should always merge notes and pick the best of all', () => {
+				const _s1 = create_demo()
+				const s1 = enforce_immutability<State>({
+					..._s1,
+					notes: {
+						..._s1.notes,
+						starred: true,
+					}
+				} as any)
+				const _s2 = create_demo()
+				const s2 = enforce_immutability<State>({
+					..._s2,
+					notes: {
+						..._s2.notes,
+						original: {
+							..._s2.notes.original,
+							closest_parent_with_date_hint: '2007',
+						}
+					}
+				} as any)
+				const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE)
+
+				const s = merge_duplicates(s1, s2, s3)
+				expect(s.notes).to.deep.equal({
+					deleted: undefined,
+					starred: true,
+					original: {
+						basename: "bar.jpg",
+						birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+						closest_parent_with_date_hint: '2007',
+						exif_orientation: undefined,
+					},
+				})
+			})
+		})
+
+		context('when there are no differences', function() {
+
+			it('should pick the 1st one', () => {
+				const s1 = create_demo()
+				const s2 = create_demo()
+				const s3 = create_demo()
+				expectㆍfileㆍstatesㆍdeepㆍequal(s1, s2)
+				expectㆍfileㆍstatesㆍdeepㆍequal(s1, s3)
+
+				const s = merge_duplicates(s1, s2, s3)
+				expect(s).not.to.equal(s1)
+				expect(s).not.to.equal(s2)
+				expect(s).not.to.equal(s3)
+				expectㆍfileㆍstatesㆍdeepㆍequal(s, s1)
+			})
+		})
+
+		context('when some of them are recognized as copies', function() {
+
+			context('when one of them is not recognized as a copy', function() {
+
+				it('should pick the non-copy', () => {
+					const s1 = create_demo('foo/bar - copy 02.jpg')
+					const s2 = create_demo()
+					const s3 = create_demo('foo/bar - copy 07.jpg')
+					expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1, s2)
+					expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1, s3)
+
+					const s = merge_duplicates(s1, s2, s3)
+					expect(s).not.to.equal(s1)
+					expect(s).not.to.equal(s2)
+					expect(s).not.to.equal(s3)
+					expectㆍfileㆍstatesㆍdeepㆍequal(s, s2)
+				})
+			})
+
+			context('when all of them are recognized as a copy', function() {
+
+				it('should pick the earliest copy', () => {
+					const s1 = create_demo('foo/bar - 01.jpg')
+					const s2 = create_demo('foo/bar - copy 03.jpg')
+					expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1, s2)
+
+					const s = merge_duplicates(s1, s2)
+					expect(s).not.to.equal(s1)
+					expect(s).not.to.equal(s2)
+					expectㆍfileㆍstatesㆍdeepㆍequal(s, s1)
+				})
+			})
+		})
+
+		context('when some have different best creation date', function() {
+
+			it('should pick the earliest one', () => {
+				const s1 = create_demo()
+				const s2 = create_demo('foo/bar.jpg', EARLIER_CREATION_DATE)
+				const s3 = create_demo()
+				/*console.log({
+					s1: get_best_creation_date(s1),
+					s2: get_best_creation_date(s2),
+				})*/
+
+				const s = merge_duplicates(s1, s2, s3)
+				expect(s).not.to.equal(s1)
+				expect(s).not.to.equal(s2)
+				expect(s).not.to.equal(s3)
+				expectㆍfileㆍstatesㆍdeepㆍequal(s, s2)
+			})
+		})
+
+		context('when some have different names', function() {
+
+			it('should pick the shortest one', () => {
+				const s1 = create_demo('foo/bar from email.jpg')
+				const s2 = create_demo()
+				const s3 = create_demo('foo/bar - duplicate.jpg')
+
+				const s = merge_duplicates(s1, s2, s3)
+				expect(s).not.to.equal(s1)
+				expect(s).not.to.equal(s2)
+				expect(s).not.to.equal(s3)
+				expectㆍfileㆍstatesㆍdeepㆍequal(s, s2)
+			})
+		})
+
+		context('when some of them are in a meaningful parent folder', function() {
+
+			it('should pick one with a meaningful parent folder', () => {
+				const s1 = create_demo()
+				const _s2 = create_demo()
+				const s2 = enforce_immutability<State>({
+					..._s2,
+					notes: {
+						..._s2.notes,
+						original: {
+							..._s2.notes.original,
+							closest_parent_with_date_hint: '2007',
+						}
+					}
+				} as any)
+				const s3 = create_demo()
+
+				const s = merge_duplicates(s1, s2, s3)
+				expect(s).not.to.equal(s1)
+				expect(s).not.to.equal(s2)
+				expect(s).not.to.equal(s3)
+				expectㆍfileㆍstatesㆍdeepㆍequal(s, s2)
+			})
+		})
+
+		describe('real cases', function () {
+
+			it('should work - 1', () => {
+				const s1 = create_demo('- inbox/IMG_20160327_102742 2.jpg')
+				const s2 = create_demo('- inbox/IMG_20160327_102742.jpg')
+
+				const s = merge_duplicates(s1, s2)
+				expectㆍfileㆍstatesㆍdeepㆍequal(s, s2)
+			})
+
+			it('should work - 2', () => {
+				const s1 = create_demo('Screen Shot 2019-08-01 at 00.40.33 copy 4.png')
+				const s2 = create_demo('Screen Shot 2019-08-01 at 00.40.33 copy 3.png')
+				const s3 = create_demo('Screen Shot 2019-08-01 at 00.40.33 copy 2.png')
+				const s4 = create_demo('Screen Shot 2019-08-01 at 00.40.33 copy.png')
+				const s5 = create_demo('Screen Shot 2019-08-01 at 00.40.33.png')
+
+				const s = merge_duplicates(s1, s2, s2, s3, s4, s5)
+				expectㆍfileㆍstatesㆍdeepㆍequal(s, s5)
 			})
 		})
 	})

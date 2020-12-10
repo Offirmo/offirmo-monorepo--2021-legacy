@@ -14,6 +14,7 @@ export const ActionType = Enum(
 	'query_fs_stats',
 	'query_exif',
 	'hash',
+	'load_notes',
 	'persist_notes',
 	'ensure_folder',
 	'normalize_file',
@@ -45,6 +46,11 @@ export interface ActionQueryExif extends BaseAction {
 export interface ActionHash extends BaseAction {
 	type: typeof ActionType.hash
 	id: FileId
+}
+
+export interface ActionLoadNotes extends BaseAction {
+	type: typeof ActionType.load_notes
+	path: RelativePath
 }
 
 export interface ActionPersistNotes extends BaseAction {
@@ -91,6 +97,7 @@ export type Action =
 	| ActionQueryFsStats
 	| ActionQueryExif
 	| ActionHash
+	| ActionLoadNotes
 	// write
 	| ActionPersistNotes
 	| ActionNormalizeFile
@@ -120,6 +127,12 @@ export function create_action_hash(id: FileId): ActionHash {
 	return {
 		type: ActionType.hash,
 		id,
+	}
+}
+export function create_action_load_notes(path: RelativePath): ActionLoadNotes {
+	return {
+		type: ActionType.load_notes,
+		path,
 	}
 }
 export function create_action_persist_notes(data: Immutable<NotesState>, folder_path?: RelativePath): ActionPersistNotes {

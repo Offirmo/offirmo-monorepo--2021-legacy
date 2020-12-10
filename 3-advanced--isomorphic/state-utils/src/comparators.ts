@@ -45,7 +45,7 @@ const _advanced_json_differ = jsondiffpatch.create({
 	// used to match objects when diffing arrays, by default only === operator is used
 	objectHash: (obj: any) => JSON.stringify(obj),
 })
-export const get_json_difference: (newer: any, older?: any) => JSONObject =
+export const get_json_difference: (a: any, b: any) => JSONObject =
 	_advanced_json_differ.diff.bind(_advanced_json_differ)
 
 // newer and older so that we get order check as a side-effect
@@ -171,3 +171,5 @@ export function compare(a: any, b: any): number {
 
 	return 0
 }
+
+export { dequal as is_deep_equal } from 'dequal'

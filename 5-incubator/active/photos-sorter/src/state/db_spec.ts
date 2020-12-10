@@ -9,8 +9,9 @@ import {
 	on_folder_found,
 	on_file_found,
 	on_hash_computed,
+	on_fs_stats_read,
+	on_exif_read,
 	on_media_file_notes_recovered,
-	on_fs_exploration_done,
 
 	consolidate_and_backup_original_data,
 
@@ -23,11 +24,13 @@ import {
 import {
 	TEST_FILES_DIR_ABS,
 } from '../__test_shared/real_files'
+import { create_better_date, get_exif_datetime, get_timestamp_utc_ms_from } from '../services/better-date'
 
 /////////////////////
 
-describe(`${LIB} - root state`, function() {
-
+describe(`${LIB} - DB (root) state`, function() {
+	const CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
+	const CREATION_DATE_MS = get_timestamp_utc_ms_from(CREATION_DATE)
 
 	describe('de-duplication', function() {
 
@@ -43,6 +46,29 @@ describe(`${LIB} - root state`, function() {
 			state = on_hash_computed(state, 'foo.jpg', 'hash01')
 			state = on_hash_computed(state, 'bar.jpg', 'hash02')
 			state = on_hash_computed(state, 'baz.jpg', 'hash02')
+
+			state = on_fs_stats_read(state, 'foo.jpg', {
+				birthtimeMs: CREATION_DATE_MS,
+				atimeMs:     CREATION_DATE_MS,
+				mtimeMs:     CREATION_DATE_MS,
+				ctimeMs:     CREATION_DATE_MS,
+			})
+			state = on_fs_stats_read(state, 'bar.jpg', {
+				birthtimeMs: CREATION_DATE_MS,
+				atimeMs:     CREATION_DATE_MS,
+				mtimeMs:     CREATION_DATE_MS,
+				ctimeMs:     CREATION_DATE_MS,
+			})
+			state = on_fs_stats_read(state, 'baz.jpg', {
+				birthtimeMs: CREATION_DATE_MS,
+				atimeMs:     CREATION_DATE_MS,
+				mtimeMs:     CREATION_DATE_MS,
+				ctimeMs:     CREATION_DATE_MS,
+			})
+
+			state = on_exif_read(state, 'foo.jpg', { 'CreateDate': get_exif_datetime(CREATION_DATE) })
+			state = on_exif_read(state, 'bar.jpg', { 'CreateDate': get_exif_datetime(CREATION_DATE) })
+			state = on_exif_read(state, 'baz.jpg', { 'CreateDate': get_exif_datetime(CREATION_DATE) })
 
 			state = on_media_file_notes_recovered(state, 'foo.jpg', null)
 			state = on_media_file_notes_recovered(state, 'bar.jpg', null)

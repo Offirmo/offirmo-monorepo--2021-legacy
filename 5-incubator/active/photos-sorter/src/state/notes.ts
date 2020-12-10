@@ -70,9 +70,42 @@ export function create(): Immutable<State> {
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] on_previous_notes_found(…)`, { })
 
-	// TODO reconcile the DBs
+	// TODO migration
 
-	throw new Error('NIMP')
+	const { encountered_media_files: encountered_media_files_a } = state
+	const { encountered_media_files: encountered_media_files_b } = old_state
+	const encountered_media_files: State['encountered_media_files'] = {}
+	state = {
+		...state,
+		encountered_media_files,
+		known_modifications_new_to_old: {
+			// easy merge
+			...state.known_modifications_new_to_old,
+			...old_state.known_modifications_new_to_old,
+		},
+	}
+
+	const encountered_media_files_hashes = new Set<FileHash>([
+		...Object.keys(encountered_media_files_a),
+		...Object.keys(encountered_media_files_b),
+	])
+
+	encountered_media_files_hashes.forEach(hash => {
+		const notes: Array<Immutable<FileNotes> | undefined> = []
+
+		notes.push(encountered_media_files_a[hash])
+		notes.push(encountered_media_files_b[hash])
+		while (state.known_modifications_new_to_old[hash]) {
+			hash = state.known_modifications_new_to_old[hash]
+			notes.push(encountered_media_files_a[hash])
+			notes.push(encountered_media_files_b[hash])
+		}
+
+		const final_note = merge_notes(...notes.filter(n => !!n) as Array<Immutable<FileNotes>>)
+		encountered_media_files[hash] = final_note
+	})
+
+	return state
 }
 
 // store infos for NEW files

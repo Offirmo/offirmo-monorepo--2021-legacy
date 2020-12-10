@@ -7,12 +7,13 @@ import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
+import { is_deep_equal } from '@offirmo-private/state-utils'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD, ISODateString, TimeZone } from '../types'
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
-import { get_most_reliable_birthtime_from_fs_stats } from '../services/fs'
+import { FsStatsSubset, get_most_reliable_birthtime_from_fs_stats } from '../services/fs'
 import {
 	get_creation_date_from_exif,
 	get_creation_timezone_from_exif,
@@ -23,7 +24,7 @@ import {
 	get_human_readable_timestamp_auto,
 	get_compact_date,
 	create_better_date_from_utc_tms,
-	create_better_date_from_ExifDateTime,
+	create_better_date_from_ExifDateTime, get_timestamp_utc_ms_from,
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
 
@@ -53,7 +54,7 @@ export interface State {
 	id: FileId
 
 	current_exif_data: undefined | null | EXIFTags // can be null if no EXIF for this format
-	current_fs_stats: undefined | fs.Stats // can't be null, always a file
+	current_fs_stats: undefined | FsStatsSubset // can't be null, is always a file
 	current_hash: undefined | FileHash // can't be null, always a file
 
 	notes_restored: boolean
@@ -347,12 +348,12 @@ export function create(id: FileId): Immutable<State> {
 	return state
 }
 
-export function on_fs_stats_read(state: Immutable<State>, fs_stats: Immutable<fs.Stats>): Immutable<State> {
+export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immutable<FsStatsSubset>): Immutable<State> {
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { })
-	assert (fs_stats)
+	assert(fs_stats_subset)
 
 	/* TODO add to a log
-	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats
+	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats_subset
 	if (birthtimeMs > atimeMs)
 		logger.warn('atime vs birthtime', {path: state.id, birthtimeMs, atimeMs})
 	if (birthtimeMs > mtimeMs)
@@ -363,12 +364,12 @@ export function on_fs_stats_read(state: Immutable<State>, fs_stats: Immutable<fs
 
 	state = {
 		...state,
-		current_fs_stats: fs_stats,
+		current_fs_stats: fs_stats_subset,
 		notes: {
 			...state.notes,
 			original: {
-				...(fs_stats && {
-					birthtimeMs: get_most_reliable_birthtime_from_fs_stats(fs_stats),
+				...(fs_stats_subset && {
+					birthtime_ms: get_most_reliable_birthtime_from_fs_stats(fs_stats_subset),
 				}),
 				...state.notes.original,
 			}
@@ -447,24 +448,100 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 	}
 }
 
+// all those states represent the same file
+// return the "best" one to keep, merged with extra infos
+// assumption is that other copies will be cleaned.
 export function merge_duplicates(...states: Immutable<State[]>): Immutable<State> {
 	logger.trace(`[${LIB}] merge_duplicates(…)`, { ids: states.map(s => s.id) })
+	assert(states.length > 1, 'merge_duplicates(…) params')
 
 	states.forEach(duplicate_state => {
+		assert(duplicate_state.notes_restored, 'merge_duplicates(…) should happen after notes are restored (if any)')
 		assert(duplicate_state.current_hash === states[0].current_hash, 'merge_duplicates(…) should have the same hash')
-		assert(duplicate_state.notes_restored)
+		//assert(is_deep_equal(_get_creation_date_from_exif(duplicate_state), _get_creation_date_from_exif(states[0])), 'merge_duplicates(…) should have the same EXIF')
 	})
 
-	const state = states.find(state => {
-		assert(state.notes_restored, 'merge_duplicates() should happen after notes are restored')
-		return !!state.notes.original.closest_parent_with_date_hint
-	}) || states[0]
+	let original_state = states[0] // so far
+	states.forEach(duplicate_state => {
+		if (duplicate_state === original_state) return
 
-	assert(state, 'merge_duplicates(…) selected state')
+		let original_parsed_result = original_state.memoized.get_parsed_original_basename(original_state)
+		let duplicate_parsed_result = duplicate_state.memoized.get_parsed_original_basename(duplicate_state)
+
+		if (original_parsed_result.copy_index !== duplicate_parsed_result.copy_index) {
+			console.log('different copy index')
+			if (original_parsed_result.copy_index === undefined)
+				return // current is better
+
+			if (duplicate_parsed_result.copy_index !== undefined && original_parsed_result.copy_index < duplicate_parsed_result.copy_index)
+				return // current is better
+
+			original_state = duplicate_state
+			return
+		}
+
+		// equality, try another criteria
+		const original_best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(original_state))
+		const duplicate_best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(duplicate_state))
+		if (original_best_creation_date_tms !== duplicate_best_creation_date_tms) {
+			console.log('different best_creation_date', original_best_creation_date_tms, duplicate_best_creation_date_tms)
+			// earliest file wins
+
+			if (original_best_creation_date_tms <= duplicate_best_creation_date_tms)
+				return // current is better
+
+			original_state = duplicate_state
+			return
+		}
+
+		// equality, try another criteria
+		// if one is already sorted, pick it
+		if (get_ideal_basename(original_state) === get_current_basename(original_state))
+			return // current is better
+		if (get_ideal_basename(duplicate_state) === get_current_basename(duplicate_state)) {
+			original_state = duplicate_state
+			return
+		}
+
+		// equality, try another criteria
+		if (duplicate_parsed_result.original_name.length !== original_parsed_result.original_name.length) {
+			console.log('different original_name.length')
+
+			// shorter name wins!
+			if (original_parsed_result.original_name.length < duplicate_parsed_result.original_name.length)
+				return // current is better
+
+			original_state = duplicate_state
+			return
+		}
+
+		// equality, try another criteria
+		if (original_state.notes.original.closest_parent_with_date_hint !== duplicate_state.notes.original.closest_parent_with_date_hint) {
+			console.log('different original.closest_parent_with_date_hint')
+
+			if (duplicate_state.notes.original.closest_parent_with_date_hint === undefined)
+				return // current is better
+
+			if (original_state.notes.original.closest_parent_with_date_hint !== undefined)
+				return // no way to discriminate, keep current
+
+			original_state = duplicate_state
+			return
+		}
+
+		// still equal
+		// no more criteria, 1st encountered wins
+	})
+
+	assert(original_state, 'merge_duplicates(…) selected original_state')
 
 	return {
-		...state,
-		notes: merge_notes(...states.map(s => s.notes)),
+		...original_state,
+		notes: merge_notes(
+			...states.map(s => s.notes),
+			// re-inject the best one at the end so that it takes precedence
+			original_state.notes
+		),
 	}
 }
 
@@ -472,23 +549,42 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 // - duplicated files
 // - persisted vs. reconstructed notes
 // If conflict, the latter will have priority
+// https://stackoverflow.com/a/56650790/587407
+const _get_defined_props = (obj: any) => Object.fromEntries(
+	Object.entries(obj).filter(([k, v]) => v !== undefined)
+)
 export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
 	logger.trace(`[${LIB}] merge_notes(…)`, { ids: notes.map(n => n.original.basename) })
 
 	let note = notes[0]
 	assert(note, 'merge_notes(…) selected note')
 
+	let shortest_basename: Basename = note.original.basename
 	notes.forEach(duplicate_notes => {
+		if (duplicate_notes.original.basename.length < shortest_basename.length)
+			shortest_basename = duplicate_notes.original.basename
 		note = {
 			...note,
-			...duplicate_notes,
+			..._get_defined_props(duplicate_notes),
 			original: {
-				// TODO make the marge a little bit clever = select the best names
 				...note.original,
-				...duplicate_notes.original,
+				..._get_defined_props(duplicate_notes.original),
+				basename: shortest_basename,
 			}
 		}
 	})
+
+
+	const defined_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms).filter(b => !!b) as any
+	if (defined_birthtimes.length) {
+		note = {
+			...note,
+			original: {
+				...note.original,
+				birthtime_ms: Math.min(...defined_birthtimes),
+			}
+		}
+	}
 
 	return note
 }
