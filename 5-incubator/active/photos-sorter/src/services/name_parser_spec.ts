@@ -16,6 +16,7 @@ import {
 	DigitsParseResult,
 	parse,
 	ParseResult,
+	get_copy_index,
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
@@ -28,7 +29,6 @@ function ꓺ(...t: Array<string | undefined>): string {
 }
 
 describe(`${LIB} - (base)name parser`, function() {
-	const DEBUG = false
 
 	describe('_get_y2k_year_from_fragment()', function () {
 		it('should work', () => {
@@ -53,7 +53,9 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		context('when possible', function () {
 			const filenames = Object.keys(DATED_NAMES_SAMPLES)
+				//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXX
 				//.slice(0, 2) // TEMP XXX
+
 			filenames.forEach(filename => {
 				const expected = DATED_NAMES_SAMPLES[filename]
 				const { _comment, human_ts_current_tz_for_tests, digit_blocks, date, is_date_ambiguous: is_ambiguous } = expected
@@ -74,7 +76,10 @@ describe(`${LIB} - (base)name parser`, function() {
 					}
 					else {
 						expected_result.summary = 'ok'
-						expect(result.summary).to.equal('ok')
+						if (result.summary !== expected_result.summary) {
+							console.error({ result })
+						}
+						expect(result.summary).to.equal(expected_result.summary)
 					}
 
 					expect(
@@ -129,6 +134,8 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		describe('extraction of the extension', function () {
 			const filenames = Object.keys(ALL_SAMPLES)
+				//.filter(name => name === 'IMG_20160327_102742 2.jpg')
+
 			filenames.forEach(filename => {
 
 				it(`should work for "${filename}"`, () => {
@@ -173,7 +180,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = parse(filename, DEBUG)
+						const result = parse(filename)
 						delete result.date?._debug
 						expect(
 							result.date_digits,
@@ -202,7 +209,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = parse(filename, DEBUG)
+						const result = parse(filename)
 						expect(
 							result,
 							`result for ${[_comment, `"${filename}"`].join(': ')}`
@@ -221,7 +228,7 @@ describe(`${LIB} - (base)name parser`, function() {
 				const {_comment, human_ts_current_tz_for_tests, ...expected_result_part} = expected
 
 				it(ꓺ('should correctly remove non meaningful parts', _comment, `"${filename}"`), () => {
-					const result = parse(filename, DEBUG)
+					const result = parse(filename)
 					delete result.date?._debug
 					expect(
 						result.meaningful_part,
@@ -237,9 +244,10 @@ describe(`${LIB} - (base)name parser`, function() {
 			context('when possible', function () {
 				const filenames = Object.keys(DATED_NAMES_SAMPLES)
 				//.slice(1) // TEMP XXX
+
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
-					const { _comment, human_ts_current_tz_for_tests, date, digit_blocks, ...expected_result_part } = expected
+					const { _comment, digit_blocks, human_ts_current_tz_for_tests, date, ...expected_result_part } = expected
 
 					it(ꓺ(`should return a correct result`, _comment, `"${filename}"`), () => {
 						const expected_result: ParseResult = {
@@ -248,7 +256,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = parse(filename, DEBUG)
+						const result = parse(filename)
 						delete result.date?._debug
 						expect(
 							result,
@@ -261,6 +269,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			context('when not possible', function () {
 				const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
 				//.slice(1) // TEMP XXX
+
 				filenames.forEach(filename => {
 					const expected = UNDATED_NAMES_SAMPLES[filename]
 					const {_comment, human_ts_current_tz_for_tests, digit_blocks, ...expected_result_part} = expected
@@ -271,7 +280,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = parse(filename, DEBUG)
+						const result = parse(filename)
 						delete result.date?._debug
 						expect(
 							result,
@@ -279,6 +288,23 @@ describe(`${LIB} - (base)name parser`, function() {
 						).to.deep.equal(expected_result)
 					})
 				})
+			})
+		})
+	})
+
+	describe('get_copy_index()', function () {
+		const filenames = Object.keys(ALL_SAMPLES)
+		//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXX
+		//.slice(0, 2) // TEMP XXX
+
+		filenames.forEach(filename => {
+			const expected = ALL_SAMPLES[filename]
+			const { _comment, copy_index } = expected
+
+			it(ꓺ(`should correctly extract the copy index #${copy_index} from`, `"${filename}"`, _comment), () => {
+				const copy_index = get_copy_index(filename)
+
+				expect( copy_index ).to.equal(expected.copy_index)
 			})
 		})
 	})

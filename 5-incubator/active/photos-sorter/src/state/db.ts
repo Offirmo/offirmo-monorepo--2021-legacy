@@ -14,7 +14,7 @@ import * as Folder from './folder'
 import * as File from './file'
 import * as Notes from './notes'
 import { FolderId } from './folder'
-import { FileId, PersistedNotes } from './file'
+import { FileId, get_current_basename, PersistedNotes } from './file'
 
 import {
 	Action,
@@ -53,7 +53,7 @@ export interface State {
 	queue: Action[],
 
 	_optim: {
-		duplicates_by_hash?: { [hash: string]: FileId[] },
+		duplicate_file_ids_by_hash?: { [hash: string]: FileId[] },
 	}
 }
 
@@ -168,7 +168,7 @@ export function create(root: AbsolutePath): Immutable<State> {
 		encountered_hash_count: {},
 
 		_optim: {
-			//duplicates_by_hash: {},
+			//duplicate_file_ids_by_hash: {},
 		}
 	}
 
@@ -560,10 +560,10 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 	const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
 		Object.entries(state.encountered_hash_count)
 			.filter(([hash, count]) => count > 1)
-			.map(([hash, has_duplicates]) => hash)
+			.map(([hash]) => hash)
 	)
 
-	const duplicates_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
+	const duplicate_file_ids_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
 		.reduce((acc, file_id) => {
 			const file_state = state.files[file_id]
 			const hash = File.get_hash(file_state)
@@ -574,19 +574,33 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 			return acc
 		}, {} as { [hash: string]: FileId[] })
 
+	/*const duplicate_original_basenames_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
+		.reduce((acc, file_id) => {
+			const file_state = state.files[file_id]
+			const hash = File.get_hash(file_state)
+			if (hash && duplicated_hashes.has(hash)) {
+				acc[hash] ??= []
+				acc[hash].push(file_state.notes.original.basename)
+			}
+			return acc
+		}, {} as { [hash: string]: string[] })
+
+	console.log({ duplicate_file_ids_by_hash, duplicate_original_basenames_by_hash })*/
+
 	const files = {
 		...state.files,
 	}
 
-	Object.entries(duplicates_by_hash).forEach(([hash, file_ids]) => {
+	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, file_ids]) => {
 		assert(file_ids.length > 1, 'consolidate_and_backup_original_data() sanity check 1')
 
+		//console.log({file_ids})
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
 
 		// improve the notes
 		state = on_media_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_from_hash(state.notes, final_file_state.current_hash!))
-
+		// propagate them immediately across duplicates
 		file_ids.forEach(file_id => {
 			files[file_id] = {
 				...files[file_id],
@@ -601,7 +615,7 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 		files,
 		_optim: {
 			...state._optim,
-			duplicates_by_hash,
+			duplicate_file_ids_by_hash: duplicate_file_ids_by_hash,
 		}
 	}
 
@@ -612,21 +626,21 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 
 export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 
-	const duplicates_by_hash = state._optim.duplicates_by_hash
-	assert(duplicates_by_hash, `clean_up_duplicates() optim`)
+	const duplicate_file_ids_by_hash = state._optim.duplicate_file_ids_by_hash
+	assert(duplicate_file_ids_by_hash, `clean_up_duplicates() optim`)
 
 	const files = {
 		...state.files,
 	}
 
-	Object.entries(duplicates_by_hash).forEach(([hash, file_ids]) => {
+	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, file_ids]) => {
 		assert(file_ids.length > 1, 'clean_up_duplicates() sanity check 1')
 
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'clean_up_duplicates() sanity check 2')
 		files[final_file_state.id] = final_file_state
 
-		logger.verbose(`Detected ${file_ids.length} duplicates for ${final_file_state.current_hash}`, {
+		logger.verbose(`Detected ${file_ids.length} copies for ${final_file_state.current_hash}`, {
 			...file_ids
 		})
 

@@ -1,16 +1,15 @@
 import path from 'path'
-import fs from 'fs'
 
 import memoize_once from 'memoize-one'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
-import { TimestampUTCMs } from '@offirmo-private/timestamps'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { is_deep_equal } from '@offirmo-private/state-utils'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
-import { Basename, RelativePath, SimpleYYYYMMDD, ISODateString, TimeZone } from '../types'
+import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
 import { FsStatsSubset, get_most_reliable_birthtime_from_fs_stats } from '../services/fs'
@@ -18,7 +17,7 @@ import {
 	get_creation_date_from_exif,
 	get_creation_timezone_from_exif,
 } from '../services/exif'
-import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
+import { parse as parse_basename, ParseResult, normalize_extension, get_copy_index } from '../services/name_parser'
 import {
 	BetterDate,
 	get_human_readable_timestamp_auto,
@@ -35,7 +34,8 @@ export interface OriginalData {
 	closest_parent_with_date_hint?: Basename
 
 	// from fs
-	birthtime_ms?: TimestampUTCMs
+	// we should always store it in case it changes for some reason
+	birthtime_ms: TimestampUTCMs
 
 	// from exif
 	exif_orientation?: number
@@ -49,7 +49,9 @@ export interface PersistedNotes {
 	original: OriginalData
 }
 
-export type FileId = RelativePath // TODO should it be hash?
+// Id = path relative to root
+export type FileId = RelativePath
+
 export interface State {
 	id: FileId
 
@@ -319,6 +321,7 @@ export function create(id: FileId): Immutable<State> {
 			starred: undefined,
 			original: {
 				basename: parsed_path.base,
+				birthtime_ms: get_UTC_timestamp_ms(), // so far
 				closest_parent_with_date_hint: (() => {
 					let hint_parent: OriginalData['closest_parent_with_date_hint'] = undefined
 					let dir = parsed_path.dir
@@ -456,24 +459,32 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 	assert(states.length > 1, 'merge_duplicates(…) params')
 
 	states.forEach(duplicate_state => {
-		assert(duplicate_state.notes_restored, 'merge_duplicates(…) should happen after notes are restored (if any)')
+		assert(duplicate_state.current_hash, 'merge_duplicates(…) should happen after hash computed')
 		assert(duplicate_state.current_hash === states[0].current_hash, 'merge_duplicates(…) should have the same hash')
+		assert(duplicate_state.current_fs_stats, 'merge_duplicates(…) should happen after fs stats read')
+		assert(duplicate_state.notes_restored, 'merge_duplicates(…) should happen after notes are restored (if any)')
 		//assert(is_deep_equal(_get_creation_date_from_exif(duplicate_state), _get_creation_date_from_exif(states[0])), 'merge_duplicates(…) should have the same EXIF')
 	})
 
+	const reasons = new Set<string>()
 	let original_state = states[0] // so far
+	let min_fs_birthtime_ms = get_most_reliable_birthtime_from_fs_stats(original_state.current_fs_stats!) // so far
 	states.forEach(duplicate_state => {
+		min_fs_birthtime_ms = Math.min(min_fs_birthtime_ms, get_most_reliable_birthtime_from_fs_stats(duplicate_state.current_fs_stats!))
 		if (duplicate_state === original_state) return
 
-		let original_parsed_result = original_state.memoized.get_parsed_original_basename(original_state)
-		let duplicate_parsed_result = duplicate_state.memoized.get_parsed_original_basename(duplicate_state)
+		//let original_parsed_result = original_state.memoized.get_parsed_original_basename(original_state)
+		//let duplicate_parsed_result = duplicate_state.memoized.get_parsed_original_basename(duplicate_state)
+		//console.log({ original_parsed_result, duplicate_parsed_result })
 
-		if (original_parsed_result.copy_index !== duplicate_parsed_result.copy_index) {
-			console.log('different copy index')
-			if (original_parsed_result.copy_index === undefined)
+		let original_current_copy_index = get_copy_index(get_current_basename(original_state))
+		let duplicate_current_copy_index = get_copy_index(get_current_basename(duplicate_state))
+		if (original_current_copy_index !== duplicate_current_copy_index) {
+			reasons.add('copy_index')
+			if (original_current_copy_index === undefined)
 				return // current is better
 
-			if (duplicate_parsed_result.copy_index !== undefined && original_parsed_result.copy_index < duplicate_parsed_result.copy_index)
+			if (duplicate_current_copy_index !== undefined && original_current_copy_index < duplicate_current_copy_index)
 				return // current is better
 
 			original_state = duplicate_state
@@ -484,7 +495,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		const original_best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(original_state))
 		const duplicate_best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(duplicate_state))
 		if (original_best_creation_date_tms !== duplicate_best_creation_date_tms) {
-			console.log('different best_creation_date', original_best_creation_date_tms, duplicate_best_creation_date_tms)
+			reasons.add('best_creation_date')
+			//console.log('different best_creation_date', original_best_creation_date_tms, duplicate_best_creation_date_tms)
 			// earliest file wins
 
 			if (original_best_creation_date_tms <= duplicate_best_creation_date_tms)
@@ -496,19 +508,22 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 
 		// equality, try another criteria
 		// if one is already sorted, pick it
-		if (get_ideal_basename(original_state) === get_current_basename(original_state))
+		if (get_ideal_basename(original_state) === get_current_basename(original_state)) {
+			reasons.add('ideal_basename')
 			return // current is better
+		}
 		if (get_ideal_basename(duplicate_state) === get_current_basename(duplicate_state)) {
+			reasons.add('ideal_basename')
 			original_state = duplicate_state
 			return
 		}
 
 		// equality, try another criteria
-		if (duplicate_parsed_result.original_name.length !== original_parsed_result.original_name.length) {
-			console.log('different original_name.length')
+		if (get_current_basename(original_state).length !== get_current_basename(duplicate_state).length) {
+			reasons.add('current_basename.length')
 
 			// shorter name wins!
-			if (original_parsed_result.original_name.length < duplicate_parsed_result.original_name.length)
+			if (get_current_basename(original_state).length < get_current_basename(duplicate_state).length)
 				return // current is better
 
 			original_state = duplicate_state
@@ -516,8 +531,9 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		}
 
 		// equality, try another criteria
+		// TODO review they most likely share the same notes...
 		if (original_state.notes.original.closest_parent_with_date_hint !== duplicate_state.notes.original.closest_parent_with_date_hint) {
-			console.log('different original.closest_parent_with_date_hint')
+			reasons.add('original.closest_parent_with_date_hint')
 
 			if (duplicate_state.notes.original.closest_parent_with_date_hint === undefined)
 				return // current is better
@@ -531,11 +547,18 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 
 		// still equal
 		// no more criteria, 1st encountered wins
+		reasons.add('order')
 	})
 
 	assert(original_state, 'merge_duplicates(…) selected original_state')
 
-	return {
+	logger.verbose('de-duplicated file states:', {
+		count: states.length,
+		final_basename: original_state.id,
+		criterias: [...reasons]
+	})
+
+	original_state = {
 		...original_state,
 		notes: merge_notes(
 			...states.map(s => s.notes),
@@ -543,6 +566,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 			original_state.notes
 		),
 	}
+
+	return original_state
 }
 
 // merge notes concerning the same file (by hash). Could be:
@@ -574,15 +599,12 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 		}
 	})
 
-
-	const defined_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms).filter(b => !!b) as any
-	if (defined_birthtimes.length) {
-		note = {
-			...note,
-			original: {
-				...note.original,
-				birthtime_ms: Math.min(...defined_birthtimes),
-			}
+	const original_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms)
+	note = {
+		...note,
+		original: {
+			...note.original,
+			birthtime_ms: Math.min(...original_birthtimes),
 		}
 	}
 

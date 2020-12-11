@@ -1,7 +1,6 @@
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import { SimpleYYYYMMDD } from '../types'
 import { get_params } from '../params'
 import {
 	SEPARATORS,
@@ -20,10 +19,8 @@ import {
 } from './matchers'
 import {
 	BetterDate,
-	get_compact_date,
 	get_human_readable_timestamp_auto,
 	create_better_date,
-	change_tz,
 } from './better-date'
 import logger from './logger'
 
@@ -366,7 +363,9 @@ export interface ParseResult {
 
 	copy_index: undefined | number
 }
-export function parse(name: string, debug: boolean = false): ParseResult {
+export function parse(name: string, { parse_up_to = 'full' }: {
+	parse_up_to?: 'full' | 'copy_index',
+} = {}): ParseResult {
 	logger.silly('\n\n\n\n----------------------------------------')
 	logger.trace('» parsing basename…', { name })
 	const result: ParseResult = {
@@ -416,7 +415,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		}
 	}
 
-	logger.silly('initial state', { state })
+	logger.silly('initial state', { state, result })
 
 	const name_lc = name.toLowerCase()
 	const split_by_dot = name_lc.split('.')
@@ -440,13 +439,17 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 			result.copy_index = Number(m.groups?.copy_index ?? 0)
 			acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
 			acc = acc.trim()
-			logger.trace('non meaningful', { r: NON_MEANINGFUL_ENDINGS_RE[key], m, acc })
+			logger.trace('non meaningful', { key, rgxp: NON_MEANINGFUL_ENDINGS_RE[key], m, acc })
 		}
 		return acc
 	}, state.buffer)
 	state.buffer = state.buffer.trim()
 
-	logger.silly('after buffer cleanup', { buffer: state.buffer })
+	logger.silly('after buffer cleanup', { state, result })
+
+	if (parse_up_to === 'copy_index') {
+		return result
+	}
 
 	let no_infinite_loop_counter = 255
 	let should_exit = false
@@ -625,6 +628,12 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 	})
 	return result
 }
+
+export function get_copy_index(name: string): undefined | number {
+	const result = parse(name, { parse_up_to: 'copy_index' })
+	return result.copy_index
+}
+
 
 const SCREENSHOT_ALIASES_LC = [
 	'screenshot',

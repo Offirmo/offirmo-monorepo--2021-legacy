@@ -17,6 +17,7 @@ import { FileHash } from '../services/hash'
 
 
 ////////////////////////////////////
+// TODO rewrite. Currently info is duplicated across files and here
 
 const LIB = '📃'
 const SCHEMA_VERSION = 1

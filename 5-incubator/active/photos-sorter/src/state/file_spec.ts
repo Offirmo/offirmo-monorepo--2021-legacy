@@ -136,6 +136,7 @@ describe(`${LIB} - file state`, function() {
 				starred: false,
 				original: {
 					basename: 'IMG_20171020_050144625.jpg',
+					birthtime_ms: REAL_CREATION_DATE_MS,
 				},
 			})
 
@@ -164,7 +165,8 @@ describe(`${LIB} - file state`, function() {
 					deleted: false,
 					starred: false,
 					original: {
-						basename: 'bar.jpg'
+						basename: 'bar.jpg',
+						birthtime_ms: BAD_CREATION_DATE_CANDIDATE_MS,
 					},
 				})
 				//console.log({ REAL_CREATION_DATE_RdTS })
@@ -212,7 +214,7 @@ describe(`${LIB} - file state`, function() {
 		})
 	})
 
-	describe('merge_duplicates()', function() {
+	describe.only('merge_duplicates()', function() {
 		const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
 		const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
 
@@ -229,7 +231,17 @@ describe(`${LIB} - file state`, function() {
 				'CreateDate': get_exif_datetime(time),
 			} as Tags)
 			state = on_hash_computed(state, '1234')
-			state = on_notes_unpersisted(state, null)
+
+			// yes, real case = since having the same hash,
+			// all the files will have the same notes.
+			state = on_notes_unpersisted(state, {
+				starred: undefined,
+				deleted: undefined,
+				original: {
+					basename: 'original.jpg',
+					birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+				}
+			})
 
 			return enforce_immutability(state)
 		}
@@ -267,7 +279,7 @@ describe(`${LIB} - file state`, function() {
 
 		describe('assumptions', function() {
 
-			it('should not matter if ctimes change, the hash stays the same', () => {
+			it('should not affect the hash if ctimes change,', () => {
 				// verified: OK
 				// shasum A
 				// shasum B
@@ -305,7 +317,7 @@ describe(`${LIB} - file state`, function() {
 					deleted: undefined,
 					starred: true,
 					original: {
-						basename: "bar.jpg",
+						basename: 'original.jpg',
 						birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 						closest_parent_with_date_hint: '2007',
 						exif_orientation: undefined,
@@ -337,7 +349,7 @@ describe(`${LIB} - file state`, function() {
 
 				it('should pick the non-copy', () => {
 					const s1 = create_demo('foo/bar - copy 02.jpg')
-					const s2 = create_demo()
+					const s2 = create_demo('foo/bar same lgth.jpg') // same length to no rely on "shortest"
 					const s3 = create_demo('foo/bar - copy 07.jpg')
 					expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1, s2)
 					expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1, s3)

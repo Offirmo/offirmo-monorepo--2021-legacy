@@ -48,6 +48,23 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		human_ts_current_tz_for_tests: '2013-05-25',
 	},
 
+	'IMG_20160327_102742 2.jpg': {
+		_comment: 'intelligent Android + catalina copy',
+
+		// ParseResult
+		extension_lc: '.jpg',
+		date: create_better_date('tz:auto', 2016, 3, 27, 10, 27, 42),
+		date_digits: '20160327102742',
+		digits_pattern: 'xxxxxxxx_xxxxxx',
+		is_date_ambiguous: false,
+		meaningful_part: '',
+		copy_index: 2,
+
+		// for test
+		digit_blocks: '20160327-102742',
+		human_ts_current_tz_for_tests: '2016-03-27_10h27m42',
+	},
+
 	'Screen Shot 2018-01-15 at 08.55.38.png': {
 		_comment: 'screenshot macOS en',
 
