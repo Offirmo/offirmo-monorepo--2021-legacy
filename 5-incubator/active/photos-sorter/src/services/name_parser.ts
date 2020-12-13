@@ -452,9 +452,11 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 		return result
 	}
 
-	if (is_already_normalized(result.original_name)) {
-		// TODO remove if not me, can happen if normalized on another computer and notes were lost
-		//throw new Error(`OFFIRMO ONLY Should not parse "${result.original_name}"! The original name should be parsed!`)
+	if (PARAMS.is_perfect_state) {
+		assert(
+			!is_already_normalized(result.original_name),
+			`PERFECT STATE Should never parse an already normalized basename "${result.original_name}"! The original name should be parsed!`
+		)
 	}
 
 	let no_infinite_loop_counter = 255

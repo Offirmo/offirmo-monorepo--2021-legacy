@@ -28,6 +28,7 @@ export interface Params {
 	extensions_to_delete: string[] // todo runtime check normalized
 	worthless_files: string[]
 	default_timezones: DefaultTzChange[]
+	is_perfect_state: boolean // For me (author) debug purpose.
 }
 
 export function get_current_year(): number {
@@ -65,6 +66,8 @@ export function get_params(): Params {
 
 		dry_run: true, // XXX
 		//dry_run: false,
+		is_perfect_state: false, // should be false in unit tests
+		//is_perfect_state: true,
 
 		extensions_to_normalize: {
 			'.jpeg': '.jpg',
@@ -110,7 +113,7 @@ export function get_params(): Params {
 				date_utc_ms: Number(Date.UTC(2017, 6, 14)),
 				new_default: TZONE_AU,
 			},
-		].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
+		].sort((a, b) => a.date_utc_ms - b.date_utc_ms),
 	}
 }
 

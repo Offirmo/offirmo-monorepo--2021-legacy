@@ -11,7 +11,7 @@ import {
 	on_hash_computed,
 	on_fs_stats_read,
 	on_exif_read,
-	on_media_file_notes_recovered,
+	on_fs_exploration_done,
 
 	consolidate_and_backup_original_data,
 
@@ -70,9 +70,10 @@ describe(`${LIB} - DB (root) state`, function() {
 			state = on_exif_read(state, 'bar.jpg', { 'CreateDate': get_exif_datetime(CREATION_DATE) })
 			state = on_exif_read(state, 'baz.jpg', { 'CreateDate': get_exif_datetime(CREATION_DATE) })
 
-			state = on_media_file_notes_recovered(state, 'foo.jpg', null)
+			state = on_fs_exploration_done(state)
+			/*state = on_media_file_notes_recovered(state, 'foo.jpg', null)
 			state = on_media_file_notes_recovered(state, 'bar.jpg', null)
-			state = on_media_file_notes_recovered(state, 'baz.jpg', null)
+			state = on_media_file_notes_recovered(state, 'baz.jpg', null)*/
 
 			expect(state.encountered_hash_count['hash01'], '01').to.equal(1)
 			expect(state.encountered_hash_count['hash02'], '02').to.equal(2)
