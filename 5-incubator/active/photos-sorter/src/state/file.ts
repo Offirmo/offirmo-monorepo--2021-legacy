@@ -119,6 +119,7 @@ function _get_creation_date_from_fs_stats(state: Immutable<State>): TimestampUTC
 }
 function _get_creation_date_from_basename(state: Immutable<State>): BetterDate | null {
 	if (is_already_normalized(get_current_basename(state))) {
+		//console.log('XXX _get_creation_date_from_basename() already normalized')
 		return null
 	}
 	return state.memoized.get_parsed_original_basename(state).date || null
@@ -444,6 +445,7 @@ export function on_notes_unpersisted(state: Immutable<State>, recovered_notes: n
 		notes: {
 			...state.notes,
 			...recovered_notes,
+			currently_known_as: state.memoized.get_parsed_path(state).base, // force keep this one
 			original: {
 				...state.notes.original,
 				...recovered_notes?.original,
@@ -606,17 +608,17 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	let note = notes[0]
 	assert(note, 'merge_notes(…) selected note')
 
-	let shortest_basename: Basename = note.original.basename
+	//let shortest_basename: Basename = note.original.basename
 	notes.forEach(duplicate_notes => {
-		if (duplicate_notes.original.basename.length < shortest_basename.length)
-			shortest_basename = duplicate_notes.original.basename
+		/*if (duplicate_notes.original.basename.length < shortest_basename.length)
+			shortest_basename = duplicate_notes.original.basename*/
 		note = {
 			...note,
 			..._get_defined_props(duplicate_notes),
 			original: {
 				...note.original,
 				..._get_defined_props(duplicate_notes.original),
-				basename: shortest_basename,
+				//basename: shortest_basename,
 			}
 		}
 	})

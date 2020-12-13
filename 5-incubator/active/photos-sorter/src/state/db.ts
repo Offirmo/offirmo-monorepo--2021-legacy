@@ -696,10 +696,15 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 		})
 	})
 
-	return {
+	state = {
 		...state,
 		files,
 	}
+
+	const folder_path = undefined
+	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+
+	return state
 }
 
 export function normalize_medias_in_place(state: Immutable<State>): Immutable<State> {
@@ -707,6 +712,9 @@ export function normalize_medias_in_place(state: Immutable<State>): Immutable<St
 	all_file_ids.forEach(id => {
 		state = _enqueue_action(state, create_action_normalize_file(id))
 	})
+
+	const folder_path = undefined
+	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
 
 	return state
 }

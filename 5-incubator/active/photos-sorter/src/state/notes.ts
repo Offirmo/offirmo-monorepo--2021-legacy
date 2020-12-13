@@ -120,18 +120,30 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 		assert(hash, 'file hashed')
 
 		hash = get_oldest_hash(state, hash)
+		const old_notes = encountered_media_files[hash]
+		const fresh_notes = media_file_state.notes
 
-		if (!encountered_media_files[hash]) {
+		if (!old_notes) {
 			if (get_params().is_perfect_state) {
 				assert(
-					!is_already_normalized(media_file_state.notes.original.basename),
-					`PERFECT STATE new notes should never reference an already normalized original basename "${media_file_state.notes.original.basename}"!`
+					!is_already_normalized(fresh_notes.original.basename),
+					`PERFECT STATE new notes should never reference an already normalized original basename "${fresh_notes.original.basename}"! ${hash}`
 				)
 			}
-			encountered_media_files[hash] = media_file_state.notes
+			encountered_media_files[hash] = fresh_notes
 		} else {
 			// merge with oldest having priority = at the end
-			encountered_media_files[hash] = merge_notes(media_file_state.notes, encountered_media_files[hash])
+			encountered_media_files[hash] = merge_notes(fresh_notes, old_notes)
+		}
+
+		if (get_params().is_perfect_state) {
+			const original_basename = encountered_media_files[hash].original.basename
+			console.error({ old_notes, fresh_notes, final_notes: encountered_media_files[hash] })
+
+			assert(
+				!is_already_normalized(original_basename),
+				`PERFECT STATE notes should never end up having an already normalized original basename "${original_basename}"!`
+			)
 		}
 	})
 

@@ -19,6 +19,7 @@ import fs_extra from './services/fs-extra'
 import { get_fs_stats_subset } from './services/fs'
 import get_file_hash from './services/hash'
 import { get_params } from './params'
+import { is_already_normalized } from './services/name_parser'
 
 const PARAMS = get_params()
 logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
@@ -307,7 +308,7 @@ async function normalize_file(id: RelativePath) {
 		const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
 		if (!DB.is_file_existing(db, relative_target_path)) {
 			if (PARAMS.dry_run) {
-				logger.info('DRY RUN would have renamed to ' + target_basename)
+				logger.info('DRY RUN would have renamed ' + current_basename + ' to ' + target_basename)
 			}
 			else {
 				actions.push(
@@ -366,11 +367,19 @@ async function move_folder(id: RelativePath, target_id: RelativePath) {
 
 async function move_file(id: RelativePath, target_id: RelativePath) {
 	logger.trace(`- moving file from "${id}" to "${target_id}"…`)
+	const parsed = path.parse(id)
+	const parsed_target = path.parse(target_id)
 	// TODO better verbose move vs rename
 	logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
 
 	const abs_path = DB.get_absolute_path(db, id)
 	const abs_path_target = DB.get_absolute_path(db, target_id)
+	if (get_params().is_perfect_state) {
+		assert(
+			!is_already_normalized(parsed.base),
+			`PERFECT STATE an already normalized basename "${parsed.base}" should not be renamed! to "${parsed_target.base}"`
+		)
+	}
 
 	if (PARAMS.dry_run) {
 		logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
