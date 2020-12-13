@@ -46,49 +46,6 @@ import { is_already_normalized } from '../services/name_parser'
 
 describe(`${LIB} - file state`, function() {
 
-	describe('get_ideal_basename()', function () {
-
-		type TCIdeal = { [k: string]: string }
-		const TEST_CASES: TCIdeal = {
-			// no date in basename
-			'P1000010.JPG': 'MM2018-11-21_06h00m45s627_P1000010.jpg',
-			'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_IMG_3211.jpg',
-			'TR81801414546EGJ.jpg': 'MM2018-11-21_06h00m45s627_TR81801414546EGJ.jpg', // lot of digits but not a date
-			// basename has date, takes precedence
-			'IMG_20130525.JPG': 'MM2013-05-25.jpg',
-			'IMG_20181121.PNG': 'MM2018-11-21_06h00m45s627.png', // fs increases precision since compatible with file date
-			'20180603_taronga_vivd.gif': 'MM2018-06-03_taronga_vivd.gif',
-			// already normalized
-			//'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg',
-			'MM2017-10-20_05h01m44s625.jpg': 'MM2018-11-21_06h00m45s627_hi.jpg'
-		}
-		Object.keys(TEST_CASES).forEach(tc_key => {
-			it(`should concatenate the date and meaningful part - "${tc_key}"`, () => {
-				let state = create(tc_key)
-				const creation_date_ms = get_timestamp_utc_ms_from(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
-
-				state = on_fs_stats_read(state, {
-					birthtimeMs: creation_date_ms,
-					atimeMs: creation_date_ms + 10000,
-					mtimeMs: creation_date_ms + 10000,
-					ctimeMs: creation_date_ms + 10000,
-				})
-				state = on_exif_read(state, {} as any)
-				state = on_hash_computed(state, '1234')
-				state = on_notes_unpersisted(state, is_already_normalized(tc_key) ? {
-					deleted: false,
-					starred: false,
-					original: {
-						basename: 'hi.jpg',
-						birthtime_ms: creation_date_ms,
-					}
-				}
-				: null)
-				expect(get_ideal_basename(state), tc_key).to.equal(TEST_CASES[tc_key])
-			})
-		})
-	})
-
 	describe('get_best_creation_date()', function() {
 		const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
 		const REAL_CREATION_DATE_MS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
@@ -277,6 +234,49 @@ describe(`${LIB} - file state`, function() {
 						expect(() => get_ideal_basename(state)).to.throw('Too big discrepancy')
 					})
 				})
+			})
+		})
+	})
+
+	describe('get_ideal_basename()', function () {
+
+		type TCIdeal = { [k: string]: string }
+		const TEST_CASES: TCIdeal = {
+			// no date in basename
+			'P1000010.JPG': 'MM2018-11-21_06h00m45s627_P1000010.jpg',
+			'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_IMG_3211.jpg',
+			'TR81801414546EGJ.jpg': 'MM2018-11-21_06h00m45s627_TR81801414546EGJ.jpg', // lot of digits but not a date
+			// basename has date, takes precedence
+			'IMG_20130525.JPG': 'MM2013-05-25.jpg',
+			'IMG_20181121.PNG': 'MM2018-11-21_06h00m45s627.png', // fs increases precision since compatible with file date
+			'20180603_taronga_vivd.gif': 'MM2018-06-03_taronga_vivd.gif',
+			// already normalized
+			//'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg',
+			'MM2017-10-20_05h01m44s625.jpg': 'MM2018-11-21_06h00m45s627_hi.jpg'
+		}
+		Object.keys(TEST_CASES).forEach(tc_key => {
+			it(`should concatenate the date and meaningful part - "${tc_key}"`, () => {
+				let state = create(tc_key)
+				const creation_date_ms = get_timestamp_utc_ms_from(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
+
+				state = on_fs_stats_read(state, {
+					birthtimeMs: creation_date_ms,
+					atimeMs: creation_date_ms + 10000,
+					mtimeMs: creation_date_ms + 10000,
+					ctimeMs: creation_date_ms + 10000,
+				})
+				state = on_exif_read(state, {} as any)
+				state = on_hash_computed(state, '1234')
+				state = on_notes_unpersisted(state, is_already_normalized(tc_key) ? {
+					deleted: false,
+					starred: false,
+					original: {
+						basename: 'hi.jpg',
+						birthtime_ms: creation_date_ms,
+					}
+				}
+				: null)
+				expect(get_ideal_basename(state), tc_key).to.equal(TEST_CASES[tc_key])
 			})
 		})
 	})
