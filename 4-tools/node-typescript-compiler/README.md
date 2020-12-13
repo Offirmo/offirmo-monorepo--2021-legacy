@@ -54,8 +54,12 @@ thus I'm not enforcing the node version. But not promising anything either.
 
 ## Usage
 
+***WARNING*** You should strive to have a working tsc setup with a `tsc`+`tsconfig.json` before using this tool. It'll be easier to know where the errors are from.
+
+
 The module exposes a unique function, `compile({tscOptions}, [files], [{options}])`:
 * `tscOptions` is a hashmap of [tsc options](https://www.typescriptlang.org/docs/handbook/compiler-options.html)
+  * Note: you're better re-using a `tsconfig.json` and using just `{ project: '.' }` to refer to it
 * `files` is an optional array of files to compile, if not implied through `tscOptions`
 * `options` is an optional hash of:
   * `verbose: boolean` (default `false`) explain what's happening and display more detailed errors

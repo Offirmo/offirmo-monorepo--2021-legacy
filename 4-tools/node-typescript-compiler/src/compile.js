@@ -6,15 +6,16 @@ const { spawn } = require('child_process')
 const tildify = require('tildify')
 const { flatten, map, split, isArray } = require('lodash')
 
-const { find_tsc } = require('./find-tsc')
+const { EXECUTABLE, find_tsc } = require('./find-tsc')
 const { LIB } = require('./consts')
+const { set_banner, display_banner_if_1st_output } = require('./logger')
 
 ///////////////////////////////////////////////////////
 
 const spawn_options = {
 	env: process.env,
 }
-const RADIX = 'tsc'
+const RADIX = EXECUTABLE
 
 ///////////////////////////////////////////////////////
 
@@ -23,14 +24,17 @@ function compile(tscOptions, files, options) {
 	files = files || []
 	options = options || {}
 	options.verbose = Boolean(options.verbose)
-	options.banner = options.banner || 'node-typescript-compiler:'
+	set_banner(options.banner)
+
+
+	if (options.verbose) display_banner_if_1st_output()
+
 
 	return new Promise((resolve, reject) => {
-
 		let stdout = ''
 		let stderr = ''
 		let already_failed = false
-		function fail(reason, err) {
+		function on_failure(reason, err) {
 			if (already_failed && !options.verbose)
 				return
 
@@ -46,16 +50,19 @@ function compile(tscOptions, files, options) {
 				return null
 			})()
 
-			err = err || new Error(`[${LIB}] ${reason_from_stdout || reason}`)
+			err = err || new Error(`${reason_from_stdout || reason}`)
 			err.stdout = stdout
 			err.stderr = stderr
 			err.reason = reason
 
 			if (options.verbose) {
-				console.error(`[${LIB}] Failure during tsc invocation: "${reason}"`)
+				display_banner_if_1st_output()
+				console.error(`[${LIB}] Failure during tsc invocation: ${reason}`)
 				console.error(err)
 			}
 
+			display_banner_if_1st_output()
+			err.message = `[${LIB}] ${err.message}`
 			reject(err)
 			already_failed = true
 		}
@@ -75,47 +82,40 @@ function compile(tscOptions, files, options) {
 
 			// not returning due to complex "callback style" async code
 			find_tsc()
-				.then(spawn_executable => {
-					if (options.verbose) console.log(`spawning: ${tildify(spawn_executable)} ` + spawn_params.join(' ') + '\n')
+				.then(tsc_executable_relative_path => {
+					if (options.verbose) console.log(`${LIB}: spawning: "${tildify(tsc_executable_relative_path)} ` + spawn_params.join(' ') + '"\n')
 
-					const spawn_instance = spawn(spawn_executable, spawn_params, spawn_options)
-
-					let seen_any_output_yet = false
-					function display_banner_if_1st_output() {
-						if (seen_any_output_yet) return
-
-						console.log(options.banner)
-
-						seen_any_output_yet = true
-					}
+					const spawn_instance = spawn(tsc_executable_relative_path, spawn_params, spawn_options)
 
 					// listen to events
 					spawn_instance.on('error', err => {
-						fail('Spawn: got event "err"', err)
+						on_failure('Spawn: got event "err"', err)
 					})
 					spawn_instance.on('disconnect', () => {
-						console.log('Spawn: got event "disconnect"')
+						display_banner_if_1st_output()
+						console.log(`${LIB}: Spawn: got event "disconnect"`)
 					})
 					spawn_instance.on('exit', (code, signal) => {
 						if (code === 0)
 							resolve(stdout)
 						else
-							fail(`Spawn: got event "exit" with error code "${code}" & signal "${signal}"!`)
+							on_failure(`Spawn: got event "exit" with error code "${code}" & signal "${signal}"!`)
 					})
 					spawn_instance.on('close', (code, signal) => {
 						if (code === 0)
 							resolve(stdout)
 						else
-							fail(`Spawn: got event "close" with error code "${code}" & signal "${signal}"`)
+							on_failure(`Spawn: got event "close" with error code "${code}" & signal "${signal}"`)
 					})
 
 					// for debug purpose only
 					spawn_instance.stdin.on('data', data => {
-						console.log(`got stdin event "data": "${data}"`)
+						display_banner_if_1st_output()
+						console.log(`${LIB}: got stdin event "data": "${data}"`)
 					})
 					// mandatory for correct error detection
 					spawn_instance.stdin.on('error', err => {
-						fail('got stdin event "error"', err)
+						on_failure('got stdin event "error"', err)
 					})
 
 					spawn_instance.stdout.on('data', data => {
@@ -135,7 +135,7 @@ function compile(tscOptions, files, options) {
 					})
 					// mandatory for correct error detection
 					spawn_instance.stdout.on('error', err => {
-						fail('got stdout event "error"', err)
+						on_failure('got stdout event "error"', err)
 					})
 
 					spawn_instance.stderr.on('data', data => {
@@ -145,13 +145,13 @@ function compile(tscOptions, files, options) {
 					})
 					// mandatory for correct error detection
 					spawn_instance.stderr.on('error', err => {
-						fail('got stderr event "error"', err)
+						on_failure('got stderr event "error"', err)
 					})
 				})
-				.catch(reject) // ugly but due to complex "callback style" async code
+				.catch(err => on_failure('final catch', err)) // ugly but due to complex "callback style" async code
 		}
 		catch (err) {
-			fail('global try/catch', err)
+			on_failure(`unexpected global catch`, err)
 		}
 	})
 }

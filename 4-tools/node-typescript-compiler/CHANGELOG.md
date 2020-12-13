@@ -3,6 +3,9 @@
 
 ## PENDING
 * TODO remove lodash as a dependency
+* [feat] improved error messages
+* [fix] improved error handling
+* [doc] README++
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
 * ...
