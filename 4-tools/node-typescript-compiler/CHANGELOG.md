@@ -3,12 +3,15 @@
 
 ## PENDING
 * TODO remove lodash as a dependency
+* ...
+
+## v2.2.0
+2020/12/13
 * [feat] improved error messages
 * [fix] improved error handling
 * [doc] README++
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
-* ...
 
 ## v2.1.2
 * [chore] mark as supported
