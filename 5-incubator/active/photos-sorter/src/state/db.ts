@@ -8,6 +8,7 @@ import { prettify_json } from '@offirmo-private/prettify-any'
 import cloneDeep from 'lodash/cloneDeep'
 import { get_base_loose } from '@offirmo-private/state-utils'
 
+import { LIB as APP } from '../consts'
 import logger from '../services/logger'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as Folder from './folder'
@@ -110,7 +111,7 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
 	const file_state = state.files[id]
 	const highest_parent = file_state.memoized.get_parsed_path(file_state).dir.split(path.sep)[0]
-	const cantsort_segment = get_final_base(Folder.CANTSORT_BASENAME)
+	const cantsort_segment = get_final_base(Folder.FOLDER_BASENAME_CANT_SORT)
 
 	if (!File.is_media_file(file_state)) {
 		if (highest_parent === cantsort_segment)
@@ -180,7 +181,10 @@ function _enqueue_action(state: Immutable<State>, action: Action): Immutable<Sta
 
 	return {
 		...state,
-		queue: [ ...state.queue, action ],
+		queue: [
+			...state.queue,
+			action,
+		],
 	}
 }
 
@@ -669,8 +673,9 @@ export function normalize_medias_in_place(state: Immutable<State>): Immutable<St
 }
 
 export function ensure_structural_dirs_are_present(state: Immutable<State>): Immutable<State> {
-	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.INBOX_BASENAME)))
-	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.CANTSORT_BASENAME)))
+	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_INBOX)))
+	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_CANT_SORT)))
+	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_CANT_RECOGNIZE)))
 
 	const years = new Set<number>()
 	const all_file_ids = get_all_media_file_ids(state)
@@ -690,7 +695,7 @@ export function move_all_files_to_their_ideal_location_incl_deduping(state: Immu
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.files[id]
-
+		throw new Error('NIMP move_all_files_to_their_ideal_location_incl_deduping()')
 	})
 	throw new Error('NIMP move_all_files_to_their_ideal_location_incl_deduping')
 }
@@ -850,7 +855,7 @@ export function to_string(state: Immutable<State>) {
 	const { root, folders, files, notes, queue } = state
 
 	let str = `
-${stylize_string.blue.bold('####### Photo sorter’s DB #######')}
+${stylize_string.blue.bold(`##################### ${LIB} ${APP}’s DB #####################`)}
 Root: "${stylize_string.yellow.bold(root)}"
 `
 

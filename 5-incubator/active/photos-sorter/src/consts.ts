@@ -1,4 +1,4 @@
-export const LIB = 'offirmo-photos-sorter'
+export const LIB = '@offirmo-photos-sorter'
 
 export const EXIF_POWERED_FILE_EXTENSIONS = [
 	// https://en.wikipedia.org/wiki/Exif

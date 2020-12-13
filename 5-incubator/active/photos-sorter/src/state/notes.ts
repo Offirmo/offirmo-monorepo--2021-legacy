@@ -23,6 +23,7 @@ const LIB = '📃'
 const SCHEMA_VERSION = 1
 
 export interface State extends BaseState, WithLastUserActionTimestamp {
+	_comment: string
 	encountered_media_files: { [oldest_hash: string]: FileNotes }
 	known_modifications_new_to_old: { [newer_hash: string]: string }
 }
@@ -58,6 +59,8 @@ export function create(): Immutable<State> {
 	logger.trace(`[${LIB}] create(…)`, { })
 
 	return {
+		_comment: "This data is from @offirmo/photo-sorter https://github.com/Offirmo/offirmo-monorepo/tree/master/5-incubator/active/photos-sorter",
+
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 		last_user_action_tms: get_UTC_timestamp_ms(),
@@ -159,7 +162,7 @@ export function to_string(state: Immutable<State>) {
 
 	const oldest_hashes: string[] = Object.keys(encountered_media_files)
 
-	const known_modifications_old_to_new = Object.entries(known_modifications_new_to_old)
+	/*const known_modifications_old_to_new = Object.entries(known_modifications_new_to_old)
 			.reduce((acc, [n, o]) => {
 				acc[o] ??= []
 				acc[o].push(n)
@@ -167,7 +170,7 @@ export function to_string(state: Immutable<State>) {
 				return acc
 			}, {} as { [old: string]: string[] })
 
-	/*const newest_hashes: string[] = Object.keys(known_modifications_new_to_old)
+	const newest_hashes: string[] = Object.keys(known_modifications_new_to_old)
 	const target_hashes: string[] = Object.values(known_modifications_new_to_old)*/
 
 	oldest_hashes.forEach(hash => {

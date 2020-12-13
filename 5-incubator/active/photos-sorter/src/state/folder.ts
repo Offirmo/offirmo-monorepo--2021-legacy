@@ -15,18 +15,21 @@ import { get_compact_date, add_days_to_simple_date } from '../services/better-da
 ////////////////////////////////////
 
 const LIB = '📂'
-export const INBOX_BASENAME = 'inbox'
-export const CANTSORT_BASENAME = 'cantsort'
+
 
 export const Type = Enum(
 	'root',
 	'inbox',
-	'cantsort',
+	'cant_recognize',
+	'cant_sort',
 	'year',
 	'event', // by default
 	'unknown', // anything else that can't be an event
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
+export const FOLDER_BASENAME_INBOX = Type.inbox as string
+export const FOLDER_BASENAME_CANT_SORT = Type.cant_sort as string
+export const FOLDER_BASENAME_CANT_RECOGNIZE = Type.cant_recognize as string
 
 export type FolderId = RelativePath
 export interface State {
@@ -51,8 +54,9 @@ function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath
 
 	const depth = pathㆍparsed.dir.split(path.sep).length - 1
 
-	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === INBOX_BASENAME) return Type.inbox
-	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === CANTSORT_BASENAME) return Type.cantsort
+	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === FOLDER_BASENAME_INBOX) return Type.inbox
+	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === FOLDER_BASENAME_CANT_SORT) return Type.cant_sort
+	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === FOLDER_BASENAME_CANT_RECOGNIZE) return Type.cant_recognize
 	if (depth === 0 && is_year(pathㆍparsed.base)) return Type.year
 
 	return Type.event // so far
@@ -228,7 +232,8 @@ export function to_string(state: Immutable<State>) {
 	let str = `📓  [${String(type).padStart(8)}]`
 	switch(type) {
 		case Type.inbox:
-		case Type.cantsort:
+		case Type.cant_sort:
+		case Type.cant_recognize:
 			str = stylize_string.blue(str)
 			break
 		case Type.year:

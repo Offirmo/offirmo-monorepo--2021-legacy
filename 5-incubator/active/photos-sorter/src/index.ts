@@ -111,61 +111,69 @@ async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 }
 
 async function sort_all_medias() {
+	const up_to = 'normalize' as 'explore' | 'take_notes' | 'deduplicate' | 'normalize' | 'move'
 
-	////////// READ ONLY ////////////
+	await (async () => {
+		logger.verbose('Starting sort up to: "' + up_to + '"…')
 
-	logger.group('******* STARTING EXPLORATION PHASE *******')
-	db = DB.explore_fs_recursively(db)
-	await exec_pending_actions_recursively_until_no_more()
-	db = DB.on_fs_exploration_done(db)
-	await exec_pending_actions_recursively_until_no_more()
-	logger.groupEnd()
-	//logger.log('DB = ' + DB.to_string(db))
+		////////// READ ONLY ////////////
 
-	////////// INTERMEDIATE ////////////
+		logger.group('******* STARTING EXPLORATION PHASE *******')
+		db = DB.explore_fs_recursively(db)
+		await exec_pending_actions_recursively_until_no_more()
+		db = DB.on_fs_exploration_done(db)
+		await exec_pending_actions_recursively_until_no_more()
+		logger.groupEnd()
+		if (up_to === 'explore') return
 
-	// this needs to be done before we start to write / delete
-	logger.group('******* STARTING ORIGINAL DATA BACKUP *******')
-	db = DB.consolidate_and_backup_original_data(db)
-	logger.log('DB = ' + DB.to_string(db))
-	await exec_pending_actions_recursively_until_no_more()
-	logger.groupEnd()
+		////////// INTERMEDIATE ////////////
 
-	////////// WRITE ////////////
+		// this needs to be done before we start to write / delete
+		logger.group('******* STARTING ORIGINAL DATA BACKUP *******')
+		db = DB.consolidate_and_backup_original_data(db)
+		await exec_pending_actions_recursively_until_no_more()
+		logger.groupEnd()
+		if (up_to === 'take_notes') return
 
-	logger.group('******* STARTING IN-PLACE CLEANUP PHASE *******')
-	db = DB.clean_up_duplicates(db)
-	await exec_pending_actions_recursively_until_no_more()
-	logger.groupEnd()
+		////////// WRITE ////////////
 
-	logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
-	db = DB.normalize_medias_in_place(db)
-	await exec_pending_actions_recursively_until_no_more()
-	logger.groupEnd()
-	logger.log('DB = ' + DB.to_string(db))
+		logger.group('******* STARTING IN-PLACE CLEANUP PHASE *******')
+		db = DB.clean_up_duplicates(db)
+		await exec_pending_actions_recursively_until_no_more()
+		logger.groupEnd()
+		if (up_to === 'deduplicate') return
 
-	logger.group('******* STARTING SORTING PHASE *******')
+		logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
+		db = DB.normalize_medias_in_place(db)
+		await exec_pending_actions_recursively_until_no_more()
+		logger.groupEnd()
+		if (up_to === 'normalize') return
 
-	// move non-analyzable to junk
-	// normalize in-place: rotate, rename, clean
-	// ensure structural dirs
-	// move to ideal location
+		logger.group('******* STARTING SORTING PHASE *******')
 
-	db = DB.ensure_structural_dirs_are_present(db)
-	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_pending_actions_recursively_until_no_more()
+		// move non-analyzable to junk
+		// normalize in-place: rotate, rename, clean
+		// ensure structural dirs
+		// move to ideal location
 
-	db = DB.move_all_files_to_their_ideal_location_incl_deduping(db)
-	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_pending_actions_recursively_until_no_more()
-	logger.log('DB = ' + DB.to_string(db))
+		db = DB.ensure_structural_dirs_are_present(db)
+		db.queue.forEach(action => console.log(JSON.stringify(action)))
+		await exec_pending_actions_recursively_until_no_more()
 
-	db = DB.delete_empty_folders_recursively(db)
-	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_pending_actions_recursively_until_no_more()
-	logger.log('DB = ' + DB.to_string(db))
+		db = DB.move_all_files_to_their_ideal_location_incl_deduping(db)
+		db.queue.forEach(action => console.log(JSON.stringify(action)))
+		await exec_pending_actions_recursively_until_no_more()
+		logger.log('DB = ' + DB.to_string(db))
 
-	logger.groupEnd()
+		db = DB.delete_empty_folders_recursively(db)
+		db.queue.forEach(action => console.log(JSON.stringify(action)))
+		await exec_pending_actions_recursively_until_no_more()
+		logger.log('DB = ' + DB.to_string(db))
+
+		logger.groupEnd()
+	})()
+	logger.verbose('Sort up to: "' + up_to + '" done.')
+	logger.info('DB = ' + DB.to_string(db))
 }
 
 ////////////////////////////////////
@@ -280,12 +288,13 @@ async function normalize_file(id: RelativePath) {
 	if (is_exif_powered) {
 		const current_exif_data: any = media_state.current_exif_data
 		if (current_exif_data.Orientation) {
-			if (PARAMS.dry_run) {
+			// TODO one day NOTE will need hash chaining
+			/*if (PARAMS.dry_run) {
 				logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
 			}
 			else {
 				logger.error('TODO losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
-			}
+			}*/
 		}
 	}
 
@@ -337,7 +346,7 @@ async function delete_file(id: RelativePath) {
 		logger.info('DRY RUN would have deleted ' + abs_path)
 	}
 	else {
-		logger.info('deleting…' + abs_path)
+		logger.info('deleting… ' + abs_path)
 		await util.promisify(fs.rm)(abs_path)
 		db = DB.on_file_deleted(db, id)
 	}

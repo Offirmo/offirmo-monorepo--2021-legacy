@@ -353,7 +353,7 @@ export function create(id: FileId): Immutable<State> {
 
 export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immutable<FsStatsSubset>): Immutable<State> {
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { })
-	assert(fs_stats_subset)
+	assert(fs_stats_subset, `on_fs_stats_read()`)
 
 	/* TODO add to a log
 	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats_subset
@@ -371,10 +371,8 @@ export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immut
 		notes: {
 			...state.notes,
 			original: {
-				...(fs_stats_subset && {
-					birthtime_ms: get_most_reliable_birthtime_from_fs_stats(fs_stats_subset),
-				}),
 				...state.notes.original,
+				birthtime_ms: get_most_reliable_birthtime_from_fs_stats(fs_stats_subset),
 			}
 		}
 	}
@@ -402,8 +400,8 @@ export function on_exif_read(state: Immutable<State>, exif_data: Immutable<EXIFT
 		notes: {
 			...state.notes,
 			original: {
-				exif_orientation: exif_data?.Orientation,
 				...state.notes.original,
+				exif_orientation: exif_data?.Orientation,
 			}
 		}
 	}
@@ -626,17 +624,12 @@ export function to_string(state: Immutable<State>) {
 			str += ' ⏳processing in progress…'
 		}
 		else {
-			const best_creation_date = get_best_creation_date(state)
-			str += ' 📅 ' + get_human_readable_timestamp_auto(best_creation_date, 'tz:embedded')
-
-			if (id !== get_ideal_basename(state)) {
-				str += ` -> "${get_ideal_basename(state)}"`
-			}
+			str += ` 📅 -> "${get_ideal_basename(state)}"`
 		}
 	}
 
 	if (base !== state.notes.original.basename) {
-		str += `(formerly "${state.notes.original.closest_parent_with_date_hint}/${state.notes.original.basename}")`
+		str += ` (Note: historically known as "${state.notes.original.closest_parent_with_date_hint ? state.notes.original.closest_parent_with_date_hint + '/' : ''}${state.notes.original.basename}")`
 	}
 
 	return stylize_string.gray.dim(str)
