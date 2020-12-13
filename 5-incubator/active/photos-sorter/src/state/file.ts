@@ -22,6 +22,7 @@ import {
 	ParseResult,
 	get_normalized_extension as _get_normalized_extension,
 	get_copy_index,
+	is_already_normalized,
 } from '../services/name_parser'
 import {
 	BetterDate,
@@ -116,6 +117,9 @@ function _get_creation_date_from_fs_stats(state: Immutable<State>): TimestampUTC
 	return state.notes.original.birthtime_ms ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date_from_basename(state: Immutable<State>): BetterDate | null {
+	if (is_already_normalized(get_current_basename(state))) {
+		return null
+	}
 	return state.memoized.get_parsed_original_basename(state).date || null
 }
 function _get_creation_date_from_parent_name(state: Immutable<State>): BetterDate | null {

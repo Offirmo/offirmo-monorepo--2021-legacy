@@ -40,6 +40,7 @@ import {
 	MEDIA_DEMO_02_basename,
 	get_MEDIA_DEMO_02,
 } from '../__test_shared/real_files'
+import { is_already_normalized } from '../services/name_parser'
 
 /////////////////////
 
@@ -57,7 +58,9 @@ describe(`${LIB} - file state`, function() {
 			'IMG_20130525.JPG': 'MM2013-05-25.jpg',
 			'IMG_20181121.PNG': 'MM2018-11-21_06h00m45s627.png', // fs increases precision since compatible with file date
 			'20180603_taronga_vivd.gif': 'MM2018-06-03_taronga_vivd.gif',
-			'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg',
+			// already normalized
+			//'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg',
+			'MM2017-10-20_05h01m44s625.jpg': 'MM2018-11-21_06h00m45s627_hi.jpg'
 		}
 		Object.keys(TEST_CASES).forEach(tc_key => {
 			it(`should concatenate the date and meaningful part - "${tc_key}"`, () => {
@@ -72,7 +75,15 @@ describe(`${LIB} - file state`, function() {
 				})
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
-				state = on_notes_unpersisted(state, null)
+				state = on_notes_unpersisted(state, is_already_normalized(tc_key) ? {
+					deleted: false,
+					starred: false,
+					original: {
+						basename: 'hi.jpg',
+						birthtime_ms: creation_date_ms,
+					}
+				}
+				: null)
 				expect(get_ideal_basename(state), tc_key).to.equal(TEST_CASES[tc_key])
 			})
 		})
@@ -94,60 +105,11 @@ describe(`${LIB} - file state`, function() {
 		const BAD_CREATION_DATE_CANDIDATE_RdTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
-		it('should always prioritize the basename date', () => {
-			let state = create(`foo/MM${REAL_CREATION_DATE_RdTS}.jpg`)
+		describe('when already normalized', function() {
 
-			state = on_fs_stats_read(state, {
-				birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-				atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-			})
-			state = on_exif_read(state, {
-				'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
-				'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
-				'DateTimeGenerated': BAD_CREATION_DATE_CANDIDATE_EXIF,
-				'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
-			} as Tags)
-			state = on_hash_computed(state, '1234')
-			state = on_notes_unpersisted(state, null)
-			expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
-		})
-
-		it('should prioritize the original basename over the current one', () => {
-			let state = create(
-				`2000/${BAD_CREATION_DATE_CANDIDATE_COMPACT}/MM${BAD_CREATION_DATE_CANDIDATE_COMPACT}_09h08m07s006.jpg`
-			)
-
-			state = on_fs_stats_read(state, {
-				birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-				atimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				mtimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				ctimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-			})
-			state = on_exif_read(state, {
-				'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
-				'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
-				'DateTimeGenerated': BAD_CREATION_DATE_CANDIDATE_EXIF,
-				'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
-			} as Partial<Tags> as any)
-			state = on_hash_computed(state, '1234')
-			state = on_notes_unpersisted(state, {
-				deleted: false,
-				starred: false,
-				original: {
-					basename: 'IMG_20171020_050144625.jpg',
-					birthtime_ms: REAL_CREATION_DATE_MS,
-				},
-			})
-
-			expect(get_best_creation_date(state)).to.deep.equal(REAL_CREATION_DATE)
-		})
-
-		context('when no date in current nor original basename', function() {
-
-			it('should prioritise the EXIF data', () => {
-				let state = create('foo/bar.jpg')
+			it('should NOT use the basename date', () => {
+				let state = create(`foo/MM${BAD_CREATION_DATE_CANDIDATE_RdTS}.jpg`)
+				console.log(state)
 
 				state = on_fs_stats_read(state, {
 					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
@@ -157,42 +119,99 @@ describe(`${LIB} - file state`, function() {
 				})
 				state = on_exif_read(state, {
 					'CreateDate':        REAL_CREATION_DATE_EXIF,
-					'DateTimeOriginal':  REAL_CREATION_DATE_EXIF,
-					'DateTimeGenerated': REAL_CREATION_DATE_EXIF,
-					'MediaCreateDate':   REAL_CREATION_DATE_EXIF,
+				} as Tags)
+				state = on_hash_computed(state, '1234')
+				state = on_notes_unpersisted(state, null)
+				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
+			})
+
+			it('should prioritize the original basename over the current one', () => {
+				let state = create(
+					`2000/${BAD_CREATION_DATE_CANDIDATE_COMPACT}/MM${BAD_CREATION_DATE_CANDIDATE_COMPACT}.jpg`
+				)
+
+				state = on_fs_stats_read(state, {
+					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
+					atimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+					mtimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+					ctimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+				})
+				state = on_exif_read(state, {
+					'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'DateTimeGenerated': BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
 				} as Partial<Tags> as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_unpersisted(state, {
 					deleted: false,
 					starred: false,
 					original: {
-						basename: 'bar.jpg',
-						birthtime_ms: BAD_CREATION_DATE_CANDIDATE_MS,
+						basename: 'IMG_20171020_050144625.jpg',
+						birthtime_ms: REAL_CREATION_DATE_MS,
 					},
 				})
-				//console.log({ REAL_CREATION_DATE_RdTS })
-				expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+
+				expect(get_best_creation_date(state)).to.deep.equal(REAL_CREATION_DATE)
+			})
+		})
+
+		describe('when not normalized', function() {
+
+			it('should always prioritize the basename date', () => {
+				let state = create(`foo/Hello ${REAL_CREATION_DATE_RdTS} foo.jpg`)
+
+				state = on_fs_stats_read(state, {
+					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
+					atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+					mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+					ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+				})
+				state = on_exif_read(state, {
+					'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'DateTimeGenerated': BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
+				} as Tags)
+				state = on_hash_computed(state, '1234')
+				state = on_notes_unpersisted(state, null)
+				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
 			})
 
-			context('when no EXIF date', function () {
+			it('should prioritize the original basename over the current one', () => {
+				let state = create(
+					`2000/${BAD_CREATION_DATE_CANDIDATE_COMPACT}/Hello ${BAD_CREATION_DATE_CANDIDATE_RdTS} foo.jpg`
+				)
 
-				it('should use fs stats', () => {
-					let state = create('foo/bar.jpg')
-
-					state = on_fs_stats_read(state, {
-						birthtimeMs: REAL_CREATION_DATE_MS,
-						atimeMs:     REAL_CREATION_DATE_MS + 10000,
-						mtimeMs:     REAL_CREATION_DATE_MS + 10000,
-						ctimeMs:     REAL_CREATION_DATE_MS + 10000,
-					})
-					state = on_exif_read(state, {} as Partial<Tags> as any)
-					state = on_hash_computed(state, '1234')
-					state = on_notes_unpersisted(state, null)
-					expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+				state = on_fs_stats_read(state, {
+					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
+					atimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+					mtimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+					ctimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+				})
+				state = on_exif_read(state, {
+					'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'DateTimeGenerated': BAD_CREATION_DATE_CANDIDATE_EXIF,
+					'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
+				} as Partial<Tags> as any)
+				state = on_hash_computed(state, '1234')
+				state = on_notes_unpersisted(state, {
+					deleted: false,
+					starred: false,
+					original: {
+						basename: 'IMG_20171020_050144625.jpg',
+						birthtime_ms: REAL_CREATION_DATE_MS,
+					},
 				})
 
-				it('should cross check with the parent hint if any', () => {
-					let state = create('20171020 - holidays/foo.jpg')
+				expect(get_best_creation_date(state)).to.deep.equal(REAL_CREATION_DATE)
+			})
+
+			context('when no date in current nor original basename', function() {
+
+				it('should prioritise the EXIF data', () => {
+					let state = create('foo/bar.jpg')
 
 					state = on_fs_stats_read(state, {
 						birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
@@ -200,16 +219,63 @@ describe(`${LIB} - file state`, function() {
 						mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 						ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
 					})
-					state = on_exif_read(state, {} as Partial<Tags> as any)
+					state = on_exif_read(state, {
+						'CreateDate':        REAL_CREATION_DATE_EXIF,
+						'DateTimeOriginal':  REAL_CREATION_DATE_EXIF,
+						'DateTimeGenerated': REAL_CREATION_DATE_EXIF,
+						'MediaCreateDate':   REAL_CREATION_DATE_EXIF,
+					} as Partial<Tags> as any)
 					state = on_hash_computed(state, '1234')
-					state = on_notes_unpersisted(state, null)
-					/*state = on_notes_unpersisted(state, {
+					state = on_notes_unpersisted(state, {
 						deleted: false,
+						starred: false,
 						original: {
-							basename: 'IMG_20171020_050144625.jpg'
+							basename: 'bar.jpg',
+							birthtime_ms: BAD_CREATION_DATE_CANDIDATE_MS,
 						},
-					})*/
-					expect(() => get_ideal_basename(state)).to.throw('Too big discrepancy')
+					})
+					//console.log({ REAL_CREATION_DATE_RdTS })
+					expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+				})
+
+				context('when no EXIF date', function () {
+
+					it('should use fs stats', () => {
+						let state = create('foo/bar.jpg')
+
+						state = on_fs_stats_read(state, {
+							birthtimeMs: REAL_CREATION_DATE_MS,
+							atimeMs:     REAL_CREATION_DATE_MS + 10000,
+							mtimeMs:     REAL_CREATION_DATE_MS + 10000,
+							ctimeMs:     REAL_CREATION_DATE_MS + 10000,
+						})
+						state = on_exif_read(state, {} as Partial<Tags> as any)
+						state = on_hash_computed(state, '1234')
+						state = on_notes_unpersisted(state, null)
+						expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+					})
+
+					it('should cross check with the parent hint if any', () => {
+						let state = create('20171020 - holidays/foo.jpg')
+
+						state = on_fs_stats_read(state, {
+							birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
+							atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+							mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+							ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+						})
+						state = on_exif_read(state, {} as Partial<Tags> as any)
+						state = on_hash_computed(state, '1234')
+						state = on_notes_unpersisted(state, null)
+						/*state = on_notes_unpersisted(state, {
+							deleted: false,
+							original: {
+								basename: 'IMG_20171020_050144625.jpg'
+							},
+						})*/
+						// TODO remove log
+						expect(() => get_ideal_basename(state)).to.throw('Too big discrepancy')
+					})
 				})
 			})
 		})

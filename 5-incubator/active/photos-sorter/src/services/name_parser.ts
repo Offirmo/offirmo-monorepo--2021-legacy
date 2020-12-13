@@ -452,6 +452,11 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 		return result
 	}
 
+	if (is_already_normalized(result.original_name)) {
+		// TODO remove if not me, can happen if normalized on another computer and notes were lost
+		//throw new Error(`OFFIRMO ONLY Should not parse "${result.original_name}"! The original name should be parsed!`)
+	}
+
 	let no_infinite_loop_counter = 255
 	let should_exit = false
 	do {
@@ -616,6 +621,10 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 	logger.silly(`Starting meaningful part last normalization: "${meaningful_part}"…`)
 
 	// normalize the meaningful part
+	if (meaningful_part.startsWith('MM') && result.digits_pattern?.startsWith('xxxx-xx-xx')) {
+		// it's our format, starting MM is not meaningful
+		meaningful_part = meaningful_part.slice(2)
+	}
 	if (SCREENSHOT_ALIASES_LC.includes(meaningful_part.toLowerCase()))
 		meaningful_part = 'screenshot'
 	if (NON_MEANINGFUL_FULL.includes(meaningful_part.toUpperCase()))
@@ -685,11 +694,11 @@ export function is_already_normalized(base: Basename): boolean {
 		return false
 
 	const ext = '.' + split.slice(-1)[0]
-	if (ext !== get_normalized_extension(ext))
+	if (ext.length <= 2 || ext !== get_normalized_extension(ext))
 		return false
 
 	const dp = get_digit_pattern(base)
-	console.log('is_already_normalized()', { base, dp })
+	//console.log('is_already_normalized()', { base, dp })
 
 	if (!dp.startsWith('MMxxxx-xx-xx_xxhxx'))
 		return false
