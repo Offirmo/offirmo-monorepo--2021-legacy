@@ -242,6 +242,7 @@ async function compute_hash(id: RelativePath) {
 	logger.trace(`computing hash for "${id}"…`)
 
 	const abs_path = DB.get_absolute_path(db, id)
+	// TODO time limit + cache
 	const hash = await get_file_hash(abs_path)
 
 	db = DB.on_hash_computed(db, id, hash!)
@@ -278,7 +279,7 @@ async function normalize_file(id: RelativePath) {
 	logger.trace(`initiating media file normalization for "${id}"…`)
 	const actions: Promise<void>[] = []
 
-	const abs_path = DB.get_absolute_path(db, id)
+	//const abs_path = DB.get_absolute_path(db, id)
 	const media_state = db.files[id]
 	assert(media_state, 'normalize_file() media_state')
 
@@ -320,7 +321,7 @@ async function normalize_file(id: RelativePath) {
 }
 
 async function ensure_folder(id: RelativePath) {
-	logger.trace(`- ensuring dir "${id}"…`)
+	logger.verbose(`- ensuring dir "${id}" exists…`)
 
 	const is_existing_according_to_db = DB.is_folder_existing(db, id)
 	//logger.log('so far:', { is_existing_according_to_db })
@@ -365,6 +366,8 @@ async function move_folder(id: RelativePath, target_id: RelativePath) {
 
 async function move_file(id: RelativePath, target_id: RelativePath) {
 	logger.trace(`- moving file from "${id}" to "${target_id}"…`)
+	// TODO better verbose move vs rename
+	logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
 
 	const abs_path = DB.get_absolute_path(db, id)
 	const abs_path_target = DB.get_absolute_path(db, target_id)

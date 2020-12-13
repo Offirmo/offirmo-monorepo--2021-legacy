@@ -23,12 +23,13 @@ import {
 	create_better_date,
 } from './better-date'
 import logger from './logger'
+import { Basename } from '../types'
 
 
 export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
 
 
-export function normalize_extension(extension: string): string {
+export function get_normalized_extension(extension: string): string {
 	if (extension === '') return ''
 
 	assert(extension[0] === '.', `normalize_extension() param starts with dot "${extension}"`)
@@ -664,3 +665,36 @@ export function extract_compact_date_from_canonical_folder(s: string): SimpleYYY
 
 	return get_compact_date(result.date, 'tz:embedded')
 }*/
+
+
+export function get_digit_pattern(s: string): string {
+	return s.split('')
+		.map(c => {
+			if (DIGITS.includes(c)) {
+				return 'x'
+			}
+			return c
+		})
+		.join('')
+}
+
+
+export function is_already_normalized(base: Basename): boolean {
+	const split = base.split('.')
+	if (split.length <= 1)
+		return false
+
+	const ext = '.' + split.slice(-1)[0]
+	if (ext !== get_normalized_extension(ext))
+		return false
+
+	const dp = get_digit_pattern(base)
+	console.log('is_already_normalized()', { base, dp })
+
+	if (!dp.startsWith('MMxxxx-xx-xx_xxhxx'))
+		return false
+
+
+
+	return true
+}

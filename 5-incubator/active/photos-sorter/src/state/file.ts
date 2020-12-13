@@ -17,7 +17,12 @@ import {
 	get_creation_date_from_exif,
 	get_creation_timezone_from_exif,
 } from '../services/exif'
-import { parse as parse_basename, ParseResult, normalize_extension, get_copy_index } from '../services/name_parser'
+import {
+	parse as parse_basename,
+	ParseResult,
+	get_normalized_extension as _get_normalized_extension,
+	get_copy_index,
+} from '../services/name_parser'
 import {
 	BetterDate,
 	get_human_readable_timestamp_auto,
@@ -186,7 +191,8 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 				if (auto_from_exif.startsWith(auto_from_basename))
 					return from_exif // perfect match, EXIF more precise
 
-				// no match, date from the basename always takes precedence,
+				// no match, date from the basename always takes precedence
+				// TODO if MMxxx
 
 				if (Math.abs(Number(from_exif) - Number(from_basename)) >= DAY_IN_MILLIS) {
 					// however this is suspicious
@@ -235,6 +241,8 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 			}
 		}
 
+		// fs is really too unreliable
+		// TODO assess reliability of fs
 		return from_fs
 	}
 	catch (err) {
@@ -294,7 +302,7 @@ export function create(id: FileId): Immutable<State> {
 	// the goal is to avoid repeated logs
 	const memoized_parse_path = memoize_once(path.parse)
 	const memoized_parse_basename = memoize_once(parse_basename)
-	const memoized_normalize_extension = memoize_once(normalize_extension)
+	const memoized_normalize_extension = memoize_once(_get_normalized_extension)
 
 	function get_parsed_path(state: Immutable<State>) { return memoized_parse_path(state.id) }
 	function get_parsed_original_basename(state: Immutable<State>) {
@@ -355,15 +363,7 @@ export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immut
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { })
 	assert(fs_stats_subset, `on_fs_stats_read()`)
 
-	/* TODO add to a log
-	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats_subset
-	if (birthtimeMs > atimeMs)
-		logger.warn('atime vs birthtime', {path: state.id, birthtimeMs, atimeMs})
-	if (birthtimeMs > mtimeMs)
-		logger.warn('mtime vs birthtime', {path: state.id, birthtimeMs, mtimeMs})
-	if (birthtimeMs > ctimeMs)
-		logger.warn('ctime vs birthtime', {path: state.id, birthtimeMs, ctimeMs})
-	*/
+	// TODO add to a log for bad fs stats
 
 	state = {
 		...state,

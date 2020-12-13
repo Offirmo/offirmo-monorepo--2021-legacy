@@ -87,10 +87,11 @@ describe(`${LIB} - file state`, function() {
 		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test precond')
 
 		// must be OLDER yet we won't pick it
-		const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2016, 11, 21)
+		const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2016, 11, 21, 9, 8, 7, 654)
 		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms_from(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_LEGACY = new Date(BAD_CREATION_DATE_CANDIDATE_MS)
 		const BAD_CREATION_DATE_CANDIDATE_EXIF = get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
+		const BAD_CREATION_DATE_CANDIDATE_RdTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
 		it('should always prioritize the basename date', () => {
@@ -214,7 +215,7 @@ describe(`${LIB} - file state`, function() {
 		})
 	})
 
-	describe.only('merge_duplicates()', function() {
+	describe('merge_duplicates()', function() {
 		const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
 		const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
 

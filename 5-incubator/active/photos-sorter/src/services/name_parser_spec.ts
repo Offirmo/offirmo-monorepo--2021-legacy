@@ -17,6 +17,8 @@ import {
 	parse,
 	ParseResult,
 	get_copy_index,
+	get_digit_pattern,
+	is_already_normalized,
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
@@ -243,7 +245,8 @@ describe(`${LIB} - (base)name parser`, function() {
 
 			context('when possible', function () {
 				const filenames = Object.keys(DATED_NAMES_SAMPLES)
-				//.slice(1) // TEMP XXX
+					//.filter(k => k === 'MM2019-07-31_21h00m15_screenshot.png') // TEMP XXX
+					//.slice(1) // TEMP XXX
 
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
@@ -305,6 +308,32 @@ describe(`${LIB} - (base)name parser`, function() {
 				const copy_index = get_copy_index(filename)
 
 				expect( copy_index ).to.equal(expected.copy_index)
+			})
+		})
+	})
+
+	describe('get_digit_pattern()', function() {
+
+		it('should work', () => {
+			expect(get_digit_pattern('MM2019-07-31_21h00m15_screenshot.mp3'))
+				.to.equal('MMxxxx-xx-xx_xxhxxmxx_screenshot.mpx')
+		})
+	})
+
+	describe('is_already_normalized()', function() {
+		const T: { [k: string]: boolean } = {
+			'MM2019-07-31_21h00m15_screenshot.mp3': true,
+			'IMG-20151110-WA0000.jpg': false,
+			'MM2019-07-31_21h00m15_screenshot': false,
+			'MM2019-07-31_21h00m15_screenshot.': false,
+			'MMs.mp3': false,
+			'MM2000.mp3': false,
+		}
+
+		Object.keys(T).forEach(basename => {
+			it(`should work for "${basename}"`, () => {
+				expect(is_already_normalized(basename))
+					.to.equal(T[basename])
 			})
 		})
 	})

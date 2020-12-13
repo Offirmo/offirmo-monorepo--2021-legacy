@@ -517,6 +517,22 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 	// already formatted by us, don't touch
 	// TODO update with successive versions
+	// v0.1
+	'MM2019-07-31_21h00m15_screenshot.png': {
+
+		// ParseResult
+		extension_lc: '.png',
+		date: create_better_date('tz:auto', 2019, 7, 31, 21, 0, 15),
+		date_digits: '20190731210015',
+		digits_pattern: 'xxxx-xx-xx_xxhxxmxx',
+		is_date_ambiguous: false,
+		meaningful_part: 'screenshot',
+		copy_index: undefined,
+
+		// for test
+		digit_blocks: '2019-07-31-21-00-15',
+		human_ts_current_tz_for_tests: '2019-07-31_21h00m15',
+	},
 	// v0
 	'20170303_12h00+45.632.jpg': {
 
@@ -597,6 +613,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digit_blocks: '2019-12-16-09-38-08-123',
 		human_ts_current_tz_for_tests: '2019-12-16_09h38m08s123',
 	},
+
 }
 
 export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {

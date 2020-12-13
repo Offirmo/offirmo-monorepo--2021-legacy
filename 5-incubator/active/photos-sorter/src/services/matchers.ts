@@ -99,7 +99,6 @@ export const NON_MEANINGFUL_FULL: string[] = [
 
 ///////////////////// WITH Regexp :( /////////////////////
 
-
 export const NON_MEANINGFUL_ENDINGS_RE: { [k:string]: RegExp } = {
 	// greedier first
 	// https://javascript.info/regexp-groups#named-groups

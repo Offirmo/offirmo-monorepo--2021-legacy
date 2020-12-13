@@ -390,6 +390,7 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 	logger.trace(`[${LIB}] on_file_moved(…)`, { })
 
 	assert(!state.files[target_id], 'on_file_moved() file state')
+	// todo inc/dec folders
 
 	let file_state = state.files[id]
 	file_state = File.on_moved(file_state, target_id)
