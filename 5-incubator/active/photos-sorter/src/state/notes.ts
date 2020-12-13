@@ -1,7 +1,4 @@
-import stable_stringify from 'json-stable-stringify'
-import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
-const { cloneDeep } = require('lodash')
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { BaseState, WithLastUserActionTimestamp } from '@offirmo-private/state-utils'
@@ -14,6 +11,8 @@ import {
 	merge_notes,
 } from './file'
 import { FileHash } from '../services/hash'
+import { is_already_normalized } from '../services/name_parser'
+import { get_params } from '../params'
 
 
 ////////////////////////////////////
@@ -47,7 +46,7 @@ export function get_oldest_hash(state: Immutable<State>, hash: FileHash): FileHa
 	return hash
 }
 
-export function get_file_notes_from_hash(state: Immutable<State>, hash: FileHash): null | Immutable<FileNotes> {
+export function get_file_notes_for_hash(state: Immutable<State>, hash: FileHash): null | Immutable<FileNotes> {
 	hash = get_oldest_hash(state, hash)
 
 	return state.encountered_media_files[hash] || null
@@ -70,7 +69,6 @@ export function create(): Immutable<State> {
 	}
 }
 
-// TODO
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] on_previous_notes_found(…)`, { })
 
@@ -112,8 +110,7 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 	return state
 }
 
-// store infos for NEW files
-export function on_exploration_done_merge_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
+export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
 	logger.trace(`[${LIB}] on_exploration_done_store_new_notes(…)`, { })
 
 	const encountered_media_files: State['encountered_media_files'] = { ...state.encountered_media_files }
@@ -125,8 +122,15 @@ export function on_exploration_done_merge_notes(state: Immutable<State>, media_f
 		hash = get_oldest_hash(state, hash)
 
 		if (!encountered_media_files[hash]) {
+			if (get_params().is_perfect_state) {
+				assert(
+					!is_already_normalized(media_file_state.notes.original.basename),
+					`PERFECT STATE new notes should never reference an already normalized original basename "${media_file_state.notes.original.basename}"!`
+				)
+			}
 			encountered_media_files[hash] = media_file_state.notes
 		} else {
+			// merge with oldest having priority = at the end
 			encountered_media_files[hash] = merge_notes(media_file_state.notes, encountered_media_files[hash])
 		}
 	})
@@ -137,14 +141,28 @@ export function on_exploration_done_merge_notes(state: Immutable<State>, media_f
 	}
 }
 
-export function on_notes_taken(state: Immutable<State>, file_state: Immutable<FileState>): Immutable<State> {
-	logger.trace(`[${LIB}] on_notes_taken(…)`, { })
+export function on_media_file_notes_recovered(state: Immutable<State>, current_hash: FileHash): Immutable<State> {
+	//console.log('on_media_file_notes_recovered', current_hash)
+	let encountered_media_files = {
+		...state.encountered_media_files,
+	}
 
-	throw new Error('NIMP')
+	const oldest_hash = get_oldest_hash(state, current_hash)
+	assert(encountered_media_files[oldest_hash], `on_media_file_notes_recovered() notes should exist`)
+	delete encountered_media_files[oldest_hash] // clean to avoid redundancy, lives in the file state!
+	assert(!encountered_media_files[oldest_hash], 'on_media_file_notes_recovered() delete')
+
+	let hash = current_hash
+	while (hash !== oldest_hash) {
+		assert(!encountered_media_files[hash], 'on_media_file_notes_recovered() should not longer have notes')
+		hash = state.known_modifications_new_to_old[hash]
+	}
+
+	return {
+		...state,
+		encountered_media_files,
+	}
 }
-
-// TODO store and restore notes!
-
 
 export function on_file_modified(state: Immutable<State>, previous_hash: string, current_hash: string): Immutable<State> {
 	logger.trace(`[${LIB}] on_file_modified(…)`, { previous_hash, current_hash })

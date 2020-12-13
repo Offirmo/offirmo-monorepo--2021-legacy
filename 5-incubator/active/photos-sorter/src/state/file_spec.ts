@@ -101,6 +101,7 @@ describe(`${LIB} - file state`, function() {
 				} as Partial<Tags> as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_unpersisted(state, {
+					currently_known_as: 'whatever.jpg',
 					deleted: false,
 					starred: false,
 					original: {
@@ -154,6 +155,7 @@ describe(`${LIB} - file state`, function() {
 				} as Partial<Tags> as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_unpersisted(state, {
+					currently_known_as: 'whatever.jpg',
 					deleted: false,
 					starred: false,
 					original: {
@@ -184,6 +186,7 @@ describe(`${LIB} - file state`, function() {
 					} as Partial<Tags> as any)
 					state = on_hash_computed(state, '1234')
 					state = on_notes_unpersisted(state, {
+						currently_known_as: 'whatever.jpg',
 						deleted: false,
 						starred: false,
 						original: {
@@ -225,6 +228,7 @@ describe(`${LIB} - file state`, function() {
 						state = on_hash_computed(state, '1234')
 						state = on_notes_unpersisted(state, null)
 						/*state = on_notes_unpersisted(state, {
+					currently_known_as: 'whatever.jpg',
 							deleted: false,
 							original: {
 								basename: 'IMG_20171020_050144625.jpg'
@@ -268,14 +272,15 @@ describe(`${LIB} - file state`, function() {
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_unpersisted(state, is_already_normalized(tc_key) ? {
-					deleted: false,
-					starred: false,
-					original: {
-						basename: 'hi.jpg',
-						birthtime_ms: creation_date_ms,
+						currently_known_as: 'whatever.jpg',
+						deleted: false,
+						starred: false,
+						original: {
+							basename: 'hi.jpg',
+							birthtime_ms: creation_date_ms,
+						}
 					}
-				}
-				: null)
+					: null)
 				expect(get_ideal_basename(state), tc_key).to.equal(TEST_CASES[tc_key])
 			})
 		})
@@ -302,6 +307,7 @@ describe(`${LIB} - file state`, function() {
 			// yes, real case = since having the same hash,
 			// all the files will have the same notes.
 			state = on_notes_unpersisted(state, {
+				currently_known_as: 'whatever.jpg',
 				starred: undefined,
 				deleted: undefined,
 				original: {
@@ -381,6 +387,7 @@ describe(`${LIB} - file state`, function() {
 
 				const s = merge_duplicates(s1, s2, s3)
 				expect(s.notes).to.deep.equal({
+					currently_known_as: 'whatever.jpg',
 					deleted: undefined,
 					starred: true,
 					original: {

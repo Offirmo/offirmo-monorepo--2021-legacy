@@ -43,7 +43,7 @@ const LIB = '🗄'
 export interface State {
 	root: AbsolutePath
 
-	notes: Notes.State,
+	extra_notes: Notes.State,
 	folders: { [id: string /* FolderId */]: Folder.State }
 	files: { [id: string /* FileId */]: File.State }
 
@@ -100,6 +100,10 @@ export function get_all_media_file_ids(state: Immutable<State>): string[] {
 		.filter(k => File.is_media_file(state.files[k]))
 }
 
+export function get_all_media_files(state: Immutable<State>): Immutable<File.State>[] {
+	return Object.values(get_all_media_file_ids(state)).map(id => state.files[id])
+}
+
 export function is_file_existing(state: Immutable<State>, id: FileId): boolean {
 	return state.files.hasOwnProperty(id) || is_folder_existing(state, id)
 }
@@ -154,6 +158,31 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	//return path.join(year, event_folder, ideal_basename)
 }
 
+export function get_past_and_present_notes(state: Immutable<State>, folder_path?: RelativePath): Immutable<Notes.State> {
+	assert(!folder_path, `get_past_and_present_notes() by folder = NIMP!`)
+
+	const encountered_media_files = {
+		...state.extra_notes.encountered_media_files,
+	}
+
+	get_all_media_files(state)
+		.forEach(file_state => {
+			assert(file_state.current_hash, `get_past_and_present_notes() should happen on hashed files`)
+			// check the original, no the one we're refilling. 2x files may have the same hash
+			assert(!state.extra_notes.encountered_media_files[file_state.current_hash], `get_past_and_present_notes() no redundant data`)
+			encountered_media_files[file_state.current_hash] = file_state.notes
+		})
+
+	const result = {
+		...Notes.create(),
+		encountered_media_files,
+		known_modifications_new_to_old: state.extra_notes.known_modifications_new_to_old,
+	}
+
+	//logger.info(`get_past_and_present_notes(): ` + Notes.to_string(result))
+	return result
+}
+
 ///////////////////// REDUCERS /////////////////////
 
 export function create(root: AbsolutePath): Immutable<State> {
@@ -161,7 +190,7 @@ export function create(root: AbsolutePath): Immutable<State> {
 
 	let state: State = {
 		root,
-		notes: Notes.create(),
+		extra_notes: Notes.create(),
 		folders: {},
 		files: {},
 		queue: [],
@@ -266,7 +295,7 @@ export function on_notes_found(state: Immutable<State>, data: Notes.State): Immu
 
 	return {
 		...state,
-		notes: Notes.on_previous_notes_found(state.notes, data),
+		extra_notes: Notes.on_previous_notes_found(state.extra_notes, data),
 	}
 }
 
@@ -344,8 +373,8 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_media_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`[${LIB}] on_media_file_notes_recovered(…)`, { file_id })
+function _on_media_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+	logger.trace(`[${LIB}] _on_media_file_notes_recovered(…)`, { file_id })
 
 	let new_file_state = File.on_notes_unpersisted(
 		state.files[file_id],
@@ -478,24 +507,32 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 	logger.verbose('on_fs_exploration_done()…')
 
 	// finish evaluating all file data
-	const all_media_files: Immutable<File.State>[] = Object.values(get_all_media_file_ids(_state)).map(id => _state.files[id])
+	const all_media_files = get_all_media_files(_state)
 	_state = {
 		..._state,
-		notes: Notes.on_exploration_done_merge_notes(_state.notes, all_media_files)
+		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(_state.extra_notes, all_media_files)
 	}
+	// now re-attach notes to their respective files and clean the copy from "extra notes" to avoid redundancy
+	const all_media_hashes = new Set<FileHash>()
 	all_media_files.forEach(file_state => {
 		const { id, current_hash } = file_state
-		_state = on_media_file_notes_recovered(_state, id, Notes.get_file_notes_from_hash(_state.notes, current_hash!))
+		assert(current_hash)
+		all_media_hashes.add(current_hash)
+		_state = _on_media_file_notes_recovered(_state, id, Notes.get_file_notes_for_hash(_state.extra_notes, current_hash!))
 	})
-
-	let { notes } = _state
+	let extra_notes = {
+		..._state.extra_notes,
+	}
+	all_media_hashes.forEach(hash => {
+		extra_notes = Notes.on_media_file_notes_recovered(extra_notes, hash)
+	})
 	let folders: { [id: string]: Immutable<Folder.State> } = { ..._state.folders }
 	let files: { [id: string]: Immutable<File.State> } = { ..._state.files }
 	let state = {
 		..._state,
 		files,
 		folders,
-		notes,
+		extra_notes,
 	}
 
 	// demote event folders with no dates
@@ -585,7 +622,7 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 			const hash = File.get_hash(file_state)
 			if (hash && duplicated_hashes.has(hash)) {
 				acc[hash] ??= []
-				acc[hash].push(file_state.notes.original.basename)
+				acc[hash].push(file_state.extra_notes.original.basename)
 			}
 			return acc
 		}, {} as { [hash: string]: string[] })
@@ -604,7 +641,7 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
 
 		// improve the notes
-		state = on_media_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_from_hash(state.notes, final_file_state.current_hash!))
+		state = _on_media_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
 		// propagate them immediately across duplicates
 		file_ids.forEach(file_id => {
 			files[file_id] = {
@@ -624,7 +661,8 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 		}
 	}
 
-	state = _enqueue_action(state, create_action_persist_notes(state.notes))
+	const folder_path = undefined
+	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
 
 	return state
 }
@@ -679,9 +717,7 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_CANT_RECOGNIZE)))
 
 	const years = new Set<number>()
-	const all_file_ids = get_all_media_file_ids(state)
-	all_file_ids.forEach(id => {
-		const file_state = state.files[id]
+	get_all_media_files(state).forEach(file_state => {
 		years.add(File.get_best_creation_year(file_state))
 	})
 	for(const y of years) {
@@ -853,7 +889,7 @@ export function ensure_all_eligible_files_are_correctly_named(state: Immutable<S
 ///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Immutable<State>) {
-	const { root, folders, files, notes, queue } = state
+	const { root, folders, files, extra_notes, queue } = state
 
 	let str = `
 ${stylize_string.blue.bold(`##################### ${LIB} ${APP}’s DB #####################`)}
@@ -874,7 +910,7 @@ Root: "${stylize_string.yellow.bold(root)}"
 	)
 	str += all_file_ids.map(id => File.to_string(files[id])).join('\n')
 
-	str += '\n' + Notes.to_string(notes)
+	str += '\n' + Notes.to_string(extra_notes)
 
 	queue.forEach(task => {
 		const { type, ...details } = task

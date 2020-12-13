@@ -50,6 +50,7 @@ export interface OriginalData {
 // notes contain infos that can't be preserved inside the file itself
 // but that neel to be preserved across invocations
 export interface PersistedNotes {
+	currently_known_as: Basename | null // not really used, intended at humans reading the notes
 	deleted: undefined | boolean // TODO
 	starred: undefined | boolean // TODO
 	original: OriginalData
@@ -311,6 +312,13 @@ export function create(id: FileId): Immutable<State> {
 	function get_parsed_path(state: Immutable<State>) { return memoized_parse_path(state.id) }
 	function get_parsed_original_basename(state: Immutable<State>) {
 		const original_basename = state.notes.original.basename
+		if (get_params().is_perfect_state) {
+			assert(
+				!is_already_normalized(original_basename),
+				`PERFECT STATE original basename should never be an already normalized basename "${original_basename}"!`
+			)
+		}
+
 		return memoized_parse_basename(original_basename)
 	}
 	function get_normalized_extension(state: Immutable<State>) {
@@ -329,6 +337,7 @@ export function create(id: FileId): Immutable<State> {
 
 		notes_restored: false,
 		notes: {
+			currently_known_as: parsed_path.base,
 			deleted: undefined,
 			starred: undefined,
 			original: {
@@ -427,6 +436,7 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 
 export function on_notes_unpersisted(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`[${LIB}] on_notes_unpersisted(…)`, { id: state.id })
+	assert(state.current_hash, 'on_notes_unpersisted() param') // obvious but just in case…
 
 	state = {
 		...state,
@@ -447,9 +457,18 @@ export function on_notes_unpersisted(state: Immutable<State>, recovered_notes: n
 export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<State> {
 	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
 
-	return {
+	state =  {
 		...state,
 		id: new_id,
+	}
+	const parsed = state.memoized.get_parsed_path(state)
+
+	return {
+		...state,
+		notes: {
+			...state.notes,
+			currently_known_as: parsed.base,
+		}
 	}
 }
 
@@ -566,6 +585,7 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 			...states.map(s => s.notes),
 			// re-inject the best one at the end so that it takes precedence
 			original_state.notes
+			// TODO check "currently known as"
 		),
 	}
 
