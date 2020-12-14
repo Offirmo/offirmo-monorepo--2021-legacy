@@ -91,4 +91,59 @@ describe(`${LIB} - DB (root) state`, function() {
 			console.log(to_string(state))
 		})
 	})
+
+	describe('notes', function() {
+
+		it('should be accurate')
+
+		it('should be stable across runs')
+
+		it('should take into account file moves')
+	})
+
+
+	describe('stability', function() {
+
+		/*
+		Real bug seen:
+VERBOSE›  - moving file from "MM2019-07-31_21h00m15_screenshot.png" to "MM2019-07-31_13h00m22_screenshot.png"…
+VERBOSE›  - moving file from "MM2019-07-31_21h01m36_screenshot.png" to "MM2019-07-31_13h01m42_screenshot.png"…
+VERBOSE›  - moving file from "MM2019-07-31_21h01m42_screenshot.png" to "MM2019-07-31_13h01m48_screenshot.png"…
+VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019-07-31_16h40m38_screenshot.png"…
+		 */
+		it.only('should be stable after the first round', function () {
+			const BASENAME = 'Capture d’écran 2019-07-31 à 21.00.15.png'
+			const CREATION_DATE_MS = 1564542022000
+			let state = create(TEST_FILES_DIR_ABS)
+
+			state = on_folder_found(state, '', '.')
+
+			state = on_file_found(state, '.', BASENAME)
+
+			state = on_hash_computed(state, BASENAME, 'hash01')
+
+			state = on_fs_stats_read(state, BASENAME, {
+				birthtimeMs: CREATION_DATE_MS,
+				atimeMs:     CREATION_DATE_MS,
+				mtimeMs:     CREATION_DATE_MS,
+				ctimeMs:     CREATION_DATE_MS,
+			})
+
+			state = on_fs_exploration_done(state)
+			state = consolidate_and_backup_original_data(state)
+
+			/*
+			state = clean_up_duplicates(state)
+
+			//console.log(to_string(state))
+			expect(state.queue.slice(-1)[0]).to.deep.equal({
+				type: 'delete_file',
+				id: 'baz.jpg'
+			})
+
+			state = on_file_deleted(state, 'baz.jpg')*/
+			console.log(to_string(state))
+		})
+	})
+
 })

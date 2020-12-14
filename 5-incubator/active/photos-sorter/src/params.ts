@@ -64,10 +64,18 @@ export function get_params(): Params {
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted/- inbox/some posh event with no date in inbox`),
 
-		dry_run: true, // XXX
-		//dry_run: false,
-		is_perfect_state: false, // should be false in unit tests
-		//is_perfect_state: true,
+		...(true // XXX local debug?
+			? {
+					//dry_run: true,
+					dry_run: false,
+					is_perfect_state: true,
+				}
+			: {
+					// nominal case for prod and unit tests
+					dry_run: false,
+					is_perfect_state: false,
+				}
+		),
 
 		extensions_to_normalize: {
 			'.jpeg': '.jpg',

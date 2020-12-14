@@ -138,7 +138,7 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 
 		if (get_params().is_perfect_state) {
 			const original_basename = encountered_media_files[hash].original.basename
-			console.error({ old_notes, fresh_notes, final_notes: encountered_media_files[hash] })
+			//console.error({ old_notes, fresh_notes, final_notes: encountered_media_files[hash] })
 
 			assert(
 				!is_already_normalized(original_basename),

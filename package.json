@@ -64,6 +64,7 @@
 		"chalk": "^4",
 		"classnames": "^2",
 		"cli-columns": "^3",
+		"cli-progress": "^3",
 		"columnify": "^1",
 		"deep-freeze-strict": "^1",
 		"deepmerge": "^4",

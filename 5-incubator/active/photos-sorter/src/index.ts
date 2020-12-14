@@ -369,17 +369,25 @@ async function move_file(id: RelativePath, target_id: RelativePath) {
 	logger.trace(`- moving file from "${id}" to "${target_id}"…`)
 	const parsed = path.parse(id)
 	const parsed_target = path.parse(target_id)
-	// TODO better verbose move vs rename
-	logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
-
-	const abs_path = DB.get_absolute_path(db, id)
-	const abs_path_target = DB.get_absolute_path(db, target_id)
-	if (get_params().is_perfect_state) {
+	const is_renaming = parsed.base !== parsed_target.base
+	const is_moving = id.split('/').slice(0, -1).join('/') !== target_id.split('/').slice(0, -1).join('/')
+	assert(is_moving || is_renaming, `move_file() should do sth`)
+	if (is_moving) {
+		logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
+	}
+	else {
+		logger.verbose(`- renaming file in-place from "${parsed.base}" to "${parsed_target.base}"…`)
+	}
+	if (is_renaming && get_params().is_perfect_state) {
 		assert(
 			!is_already_normalized(parsed.base),
 			`PERFECT STATE an already normalized basename "${parsed.base}" should not be renamed! to "${parsed_target.base}"`
 		)
 	}
+
+	const abs_path = DB.get_absolute_path(db, id)
+	const abs_path_target = DB.get_absolute_path(db, target_id)
+
 
 	if (PARAMS.dry_run) {
 		logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
