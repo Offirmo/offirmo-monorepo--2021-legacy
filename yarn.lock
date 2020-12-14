@@ -2574,10 +2574,10 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-batch-cluster@^5.11.3:
-  version "5.11.3"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.11.3.tgz#9ba2fec6bd45ded668495d7d8eecf7d730f67397"
-  integrity sha512-oOYnoLQSvSNbJVcG4OtzScjLWMsirT21MNwZ2xdqDZQRqhUtrBYybLZU7ls8J44NBV/vOBmGf4/OHmpzEnl57Q==
+batch-cluster@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-6.0.0.tgz#06bb3dac7913e129f0bb30f2ce293d7df7d8ab86"
+  integrity sha512-MzCUEMvgCk2ZPo6GdO4nX9aCHbBBmhwNws1KsHgqYbSQ922NAZiRbc3XhbciIe4MidRpDtX2CgXKQvjRA+4L1Q==
 
 bcrypt-pbkdf@^1.0.0:
   version "1.0.2"
@@ -5128,27 +5128,27 @@ exenv@^1.2.2:
   resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
   integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
-exiftool-vendored.exe@^12.10.0:
+exiftool-vendored.exe@^12.12.0:
   version "12.12.0"
   resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-12.12.0.tgz#23cceb07de91c832ae3091d99d78a52d38ce3757"
   integrity sha512-XdY82N8K4LOe3TLI0Mg3MA1/gve3AevO5XjJpFwE2PSki72gUnsZwriI+0J8gaAY7L2O//43dtrZArC5mN9O7A==
 
-exiftool-vendored.pl@^12.10.0:
+exiftool-vendored.pl@^12.12.0:
   version "12.12.0"
   resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-12.12.0.tgz#c866424510ee2fd9ff3f4389a7a8a41cb11cfdb2"
   integrity sha512-C9EJauh1aoK5DudZcP79BSjr4YyskHn9r0T3BPkgCGT6MxZTzJTxMsS2T09rhloyf4dWlAZbwGg7Y8re7RbEZA==
 
-exiftool-vendored@^12:
-  version "12.3.1"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored/-/exiftool-vendored-12.3.1.tgz#e87553700d6b1c10b71073d687ef2c2acda9f3f0"
-  integrity sha512-7vcF56XUwHUr7hTD5IICecf9NeD/5E9Rp9rFq+zmN1EaqkGIYJN5qwltf6F1ARY4SxGLGp9f3MT5MM46YuJMOA==
+exiftool-vendored@^13:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored/-/exiftool-vendored-13.0.0.tgz#bdc4d69bc11d889705f6f9305dcff89c1a5b7aea"
+  integrity sha512-JL7+JdyGRmJRB25w4Ij0jIaW0bvBML8QrOnmdzbhdq2A+swi12ZPQsw8A4TrPPUyPG2+jJkWaKZX8Qc0BUF7Zw==
   dependencies:
-    batch-cluster "^5.11.3"
+    batch-cluster "^6.0.0"
     luxon "^1.25.0"
     tz-lookup "^6.1.25"
   optionalDependencies:
-    exiftool-vendored.exe "^12.10.0"
-    exiftool-vendored.pl "^12.10.0"
+    exiftool-vendored.exe "^12.12.0"
+    exiftool-vendored.pl "^12.12.0"
 
 expand-brackets@^0.1.4:
   version "0.1.5"
