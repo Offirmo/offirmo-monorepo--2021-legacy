@@ -14,6 +14,7 @@
 		"@offirmo/cli-toolbox": "^2",
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/universal-debug-api-node": "^0",
+		"cli-progress": "^3",
 		"exiftool-vendored": "^13",
 		"fs-extra": "^9",
 		"hasha": "^5",

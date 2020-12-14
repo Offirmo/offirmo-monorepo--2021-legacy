@@ -79,6 +79,10 @@ export function get_first_pending_action(state: Immutable<State>): Action {
 	return state.queue[0]
 }
 
+export function get_pending_actions(state: Immutable<State>): Immutable<Action[]> {
+	return state.queue
+}
+
 export function get_all_folder_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.folders)
 		.sort()
@@ -223,6 +227,15 @@ export function discard_first_pending_action(state: Immutable<State>): Immutable
 	return {
 		...state,
 		queue: state.queue.slice(1),
+	}
+}
+
+export function discard_all_pending_actions(state: Immutable<State>): Immutable<State> {
+	logger.trace(`[${LIB}] discard_all_pending_action(…)`, { action_count: state.queue.length })
+
+	return {
+		...state,
+		queue: [],
 	}
 }
 

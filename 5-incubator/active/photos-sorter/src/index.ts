@@ -15,104 +15,19 @@ import * as Notes from './state/notes'
 import { ActionType } from './state/actions'
 
 import logger from './services/logger'
-import fs_extra from './services/fs-extra'
-import { get_fs_stats_subset } from './services/fs'
-import get_file_hash from './services/hash'
+import { exec_pending_actions_recursively_until_no_more } from './services/actions'
 import { get_params } from './params'
-import { is_already_normalized } from './services/name_parser'
 
 const PARAMS = get_params()
 logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
 
 ////////////////////////////////////
 
-let db = DB.create(PARAMS.root)
-
-function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
-	const pending_actions: Promise<any>[] = []
-
-	while(DB.has_pending_actions(db)) {
-		const action = DB.get_first_pending_action(db)
-		logger.trace(`DQ1 executing action…`, { action })
-		db = DB.discard_first_pending_action(db)
-
-		switch (action.type) {
-
-			/////// READ
-
-			case ActionType.explore_folder:
-				pending_actions.push(explore_folder(action.id))
-				break
-
-			case ActionType.query_fs_stats:
-				pending_actions.push(query_fs_stats(action.id))
-				break
-
-			case ActionType.query_exif:
-				pending_actions.push(query_exif(action.id))
-				break
-
-			case ActionType.hash:
-				pending_actions.push(compute_hash(action.id))
-				break
-
-			case ActionType.load_notes:
-				pending_actions.push(load_notes(action.path))
-				break
-
-			/////// WRITE
-
-			case ActionType.persist_notes:
-				pending_actions.push(persist_notes(action.data, action.folder_path))
-				break
-
-			case ActionType.normalize_file:
-				//assert(!PARAMS.dry_run, 'no normalize_file action in dry run mode')
-				pending_actions.push(normalize_file(action.id))
-				break
-
-			case ActionType.ensure_folder:
-				//assert(!PARAMS.dry_run, 'no ensure_folder action in dry run mode')
-				pending_actions.push(ensure_folder(action.id))
-				break
-
-			case ActionType.delete_file:
-				//assert(!PARAMS.dry_run, 'no delete action in dry run mode')
-				pending_actions.push(delete_file(action.id))
-				break
-
-			/*case ActionType.move_folder:
-				assert(!PARAMS.dry_run, 'no write action in dry run mode')
-				pending_actions.push(move_folder(id, (action as ActionMoveFolder).target_id))
-				break*/
-
-			case ActionType.move_file:
-				//assert(!PARAMS.dry_run, 'no write action in dry run mode')
-				pending_actions.push(move_file(action.id, action.target_id))
-				break
-
-			default:
-				throw new Error(`action not implemented: "${(action as any).type}"!`)
-		}
-	}
-
-	return pending_actions
-}
-
-async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
-	const pending_actions: Promise<any>[] = [ Promise.resolve() ]
-
-	function run_and_wait_for_queued_actions(): Promise<void> {
-		const pending_actions = dequeue_and_run_all_first_level_db_actions()
-			.map(pending_action => pending_action.then(run_and_wait_for_queued_actions))
-		return Promise.all(pending_actions).then(() => {})
-	}
-
-	await run_and_wait_for_queued_actions()
-}
 
 async function sort_all_medias() {
 	const up_to = 'normalize' as 'explore' | 'take_notes' | 'deduplicate' | 'normalize' | 'move'
+
+	let db = DB.create(PARAMS.root)
 
 	await (async () => {
 		logger.verbose('Starting sort up to: "' + up_to + '"…')
@@ -121,9 +36,9 @@ async function sort_all_medias() {
 
 		logger.group('******* STARTING EXPLORATION PHASE *******')
 		db = DB.explore_fs_recursively(db)
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		db = DB.on_fs_exploration_done(db)
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.groupEnd()
 		if (up_to === 'explore') return
 
@@ -132,7 +47,7 @@ async function sort_all_medias() {
 		// this needs to be done before we start to write / delete
 		logger.group('******* STARTING ORIGINAL DATA BACKUP *******')
 		db = DB.consolidate_and_backup_original_data(db)
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.groupEnd()
 		if (up_to === 'take_notes') return
 
@@ -140,13 +55,13 @@ async function sort_all_medias() {
 
 		logger.group('******* STARTING IN-PLACE CLEANUP PHASE *******')
 		db = DB.clean_up_duplicates(db)
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.groupEnd()
 		if (up_to === 'deduplicate') return
 
 		logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
 		db = DB.normalize_medias_in_place(db)
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.groupEnd()
 		if (up_to === 'normalize') return
 
@@ -159,243 +74,23 @@ async function sort_all_medias() {
 
 		db = DB.ensure_structural_dirs_are_present(db)
 		db.queue.forEach(action => console.log(JSON.stringify(action)))
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 
 		db = DB.move_all_files_to_their_ideal_location_incl_deduping(db)
 		db.queue.forEach(action => console.log(JSON.stringify(action)))
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.log('DB = ' + DB.to_string(db))
 
 		db = DB.delete_empty_folders_recursively(db)
 		db.queue.forEach(action => console.log(JSON.stringify(action)))
-		await exec_pending_actions_recursively_until_no_more()
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.log('DB = ' + DB.to_string(db))
 
 		logger.groupEnd()
 	})()
+
 	logger.verbose('Sort up to: "' + up_to + '" done.')
 	logger.info('DB = ' + DB.to_string(db))
-}
-
-////////////////////////////////////
-
-async function explore_folder(id: RelativePath) {
-	logger.group(`- exploring dir "${id}"…`)
-
-	const abs_path = DB.get_absolute_path(db, id)
-	let pending_tasks: Promise<void>[] = []
-
-	const sub_dirs = fs_extra.lsDirsSync(abs_path, { full_path: false })
-	//console.log(sub_dirs)
-	sub_dirs.forEach((sub_id: RelativePath) => db = DB.on_folder_found(db, id, sub_id))
-
-	const sub_file_basenames = fs_extra.lsFilesSync(abs_path, { full_path: false })
-	//console.log(sub_file_basenames)
-	sub_file_basenames.forEach((basename: RelativePath) => {
-		//const normalized_extension TODO
-		const basename_lc = basename.toLowerCase()
-		const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename_lc.endsWith(ext))
-			||PARAMS.worthless_files.includes(basename_lc)
-		if (should_delete_asap) {
-			const abs_path_target = DB.get_absolute_path(db, path.join(id, basename))
-			if (PARAMS.dry_run) {
-				logger.verbose(`ignoring trash`, { basename })
-			}
-			else {
-				logger.verbose(`ignoring trash, cleaning it…`, { basename })
-				pending_tasks.push(fs_extra.remove(abs_path_target))
-			}
-		}
-		else {
-			db = DB.on_file_found(db, id, basename)
-		}
-	})
-	logger.groupEnd()
-
-	await Promise.all(pending_tasks)
-}
-
-async function query_fs_stats(id: RelativePath) {
-	logger.trace(`initiating fs stats query for "${id}"…`)
-
-	const abs_path = DB.get_absolute_path(db, id)
-	const stats = await util.promisify(fs.stat)(abs_path)
-	//logger.group(`- got fs stats data for "${id}"…`)
-	logger.trace(`- got fs stats data for "${id}"…`)
-	//console.log(id, tags)
-	db = DB.on_fs_stats_read(db, id, get_fs_stats_subset(stats))
-	//logger.groupEnd()
-}
-
-async function query_exif(id: RelativePath) {
-	logger.trace(`initiating exif query for "${id}"…`)
-
-	const abs_path = DB.get_absolute_path(db, id)
-	const exif_data = await exiftool.read(abs_path)
-	//logger.group(`- got exif data for "${id}"…`)
-	logger.trace(`- got exif data for "${id}"…`)
-	//console.log(id, tags)
-	db = DB.on_exif_read(db, id, exif_data)
-	//logger.groupEnd()
-}
-
-async function compute_hash(id: RelativePath) {
-	logger.trace(`computing hash for "${id}"…`)
-
-	const abs_path = DB.get_absolute_path(db, id)
-	// TODO time limit + cache
-	const hash = await get_file_hash(abs_path)
-
-	db = DB.on_hash_computed(db, id, hash!)
-}
-
-async function load_notes(path: RelativePath) {
-	logger.trace(`loading notes from "${path}"…`)
-
-	const abs_path = DB.get_absolute_path(db, path)
-	const data = await json.read(abs_path)
-	assert(data?.schema_version, 'load_notes()')
-
-	db = DB.on_notes_found(db, data)
-}
-
-async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.') {
-	const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
-	logger.info(`persisting ${Object.keys(data.encountered_media_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
-
-	try {
-		await json.write(abs_path, data)
-	}
-	catch (err) {
-		if (PARAMS.dry_run) {
-			// swallow
-		}
-		else
-			throw err
-	}
-
-}
-
-async function normalize_file(id: RelativePath) {
-	logger.trace(`initiating media file normalization for "${id}"…`)
-	const actions: Promise<void>[] = []
-
-	//const abs_path = DB.get_absolute_path(db, id)
-	const media_state = db.files[id]
-	assert(media_state, 'normalize_file() media_state')
-
-	const is_exif_powered = File.is_exif_powered_media_file(media_state)
-	//console.log({ id, media_state, abs_path, is_exif_powered})
-
-	if (is_exif_powered) {
-		const current_exif_data: any = media_state.current_exif_data
-		if (current_exif_data.Orientation) {
-			// TODO one day NOTE will need hash chaining
-			/*if (PARAMS.dry_run) {
-				logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
-			}
-			else {
-				logger.error('TODO losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
-			}*/
-		}
-	}
-
-	// TODO fix birthtime
-
-	const current_basename = File.get_current_basename(media_state)
-	const target_basename = File.get_ideal_basename(media_state)
-	if (current_basename !== target_basename) {
-		const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
-		if (!DB.is_file_existing(db, relative_target_path)) {
-			if (PARAMS.dry_run) {
-				logger.info('DRY RUN would have renamed ' + current_basename + ' to ' + target_basename)
-			}
-			else {
-				actions.push(
-					move_file(id, relative_target_path)
-				)
-			}
-		}
-	}
-
-	return Promise.all(actions)
-}
-
-async function ensure_folder(id: RelativePath) {
-	logger.verbose(`- ensuring dir "${id}" exists…`)
-
-	const is_existing_according_to_db = DB.is_folder_existing(db, id)
-	//logger.log('so far:', { is_existing_according_to_db })
-	if (is_existing_according_to_db) return
-
-	const abs_path = DB.get_absolute_path(db, id)
-
-	if (PARAMS.dry_run) {
-		logger.verbose('DRY RUN would have created folder: ' + id)
-	}
-	else {
-		await util.promisify(fs_extra.mkdirp)(abs_path)
-		DB.on_folder_found(db, '.', id)
-	}
-}
-
-async function delete_file(id: RelativePath) {
-	logger.trace(`- deleting file "${id}"…`)
-
-	const abs_path = DB.get_absolute_path(db, id)
-
-	if (PARAMS.dry_run) {
-		logger.info('DRY RUN would have deleted ' + abs_path)
-	}
-	else {
-		logger.info('deleting… ' + abs_path)
-		await util.promisify(fs.rm)(abs_path)
-		db = DB.on_file_deleted(db, id)
-	}
-}
-
-/*
-async function move_folder(id: RelativePath, target_id: RelativePath) {
-	logger.trace(`- moving folder from "${id}" to "${target_id}"…`)
-
-	const abs_path = DB.get_absolute_path(db, id)
-	const abs_path_target = DB.get_absolute_path(db, target_id)
-
-	await util.promisify(fs.rename)(abs_path, abs_path_target)
-	db = DB.on_folder_moved(db, id, target_id)
-}*/
-
-async function move_file(id: RelativePath, target_id: RelativePath) {
-	logger.trace(`- moving file from "${id}" to "${target_id}"…`)
-	const parsed = path.parse(id)
-	const parsed_target = path.parse(target_id)
-	const is_renaming = parsed.base !== parsed_target.base
-	const is_moving = id.split('/').slice(0, -1).join('/') !== target_id.split('/').slice(0, -1).join('/')
-	assert(is_moving || is_renaming, `move_file() should do sth`)
-	if (is_moving) {
-		logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
-	}
-	else {
-		logger.verbose(`- renaming file in-place from "${parsed.base}" to "${parsed_target.base}"…`)
-	}
-	if (is_renaming && get_params().is_perfect_state) {
-		assert(
-			!is_already_normalized(parsed.base),
-			`PERFECT STATE an already normalized basename "${parsed.base}" should not be renamed! to "${parsed_target.base}"`
-		)
-	}
-
-	const abs_path = DB.get_absolute_path(db, id)
-	const abs_path_target = DB.get_absolute_path(db, target_id)
-
-
-	if (PARAMS.dry_run) {
-		logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
-	}
-	else {
-		await util.promisify(fs.rename)(abs_path, abs_path_target)
-		db = DB.on_file_moved(db, id, target_id)
-	}
 }
 
 ////////////////////////////////////
