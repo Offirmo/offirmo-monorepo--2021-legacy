@@ -142,6 +142,8 @@ export function create_action_persist_notes(data: Immutable<NotesState>, folder_
 		folder_path,
 	}
 }
+
+// TODO this should not be an action, too low level
 export function create_action_normalize_file(id: FileId): ActionNormalizeFile {
 	return {
 		type: ActionType.normalize_file,

@@ -1,5 +1,4 @@
-import { FsStatsSubset } from '../services/fs'
-
+import path from 'path'
 const { deepStrictEqual: assert_deepStrictEqual } = require('assert').strict
 import { expect } from 'chai'
 import assert from 'tiny-invariant'
@@ -45,6 +44,71 @@ import { is_already_normalized } from '../services/name_parser'
 /////////////////////
 
 describe(`${LIB} - file state`, function() {
+	const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
+	const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
+
+	function create_demo(id: FileId = 'foo/bar.jpg', time = CREATION_DATE): Immutable<State> {
+		let state = create(id)
+
+		state = on_fs_stats_read(state, {
+			birthtimeMs: get_timestamp_utc_ms_from(time),
+			atimeMs:     get_timestamp_utc_ms_from(time),
+			mtimeMs:     get_timestamp_utc_ms_from(time),
+			ctimeMs:     get_timestamp_utc_ms_from(time),
+		})
+		state = on_exif_read(state, {
+			'CreateDate': get_exif_datetime(time),
+		} as Tags)
+		state = on_hash_computed(state, '1234')
+
+		// yes, real case = since having the same hash,
+		// all the files will have the same notes.
+		state = on_notes_unpersisted(state, {
+			currently_known_as: 'whatever, will be replaced.jpg',
+			starred: undefined,
+			deleted: undefined,
+			original: {
+				basename: 'original.jpg',
+				birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+			}
+		})
+
+		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
+
+		return enforce_immutability(state)
+	}
+
+	function expectㆍfileㆍstatesㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>, should_log = true): void {
+		const s1_alt = {
+			...s1,
+			memoized: null
+		}
+		const s2_alt = {
+			...s2,
+			memoized: null
+		}
+
+		try {
+			assert_deepStrictEqual(s1_alt, s2_alt)
+		}
+		catch (err) {
+			if (should_log)
+				console.error('expectㆍfileㆍstatesㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
+			throw err
+		}
+	}
+	function expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>): void {
+		try {
+			expectㆍfileㆍstatesㆍdeepㆍequal(s1, s2, false)
+		}
+		catch (err) {
+			if (err.message.includes('Expected values to be strictly deep-equal'))
+				return
+
+			throw err
+		}
+	}
+
 
 	describe('get_best_creation_date()', function() {
 		const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
@@ -286,69 +350,12 @@ describe(`${LIB} - file state`, function() {
 		})
 	})
 
+	describe('merge_notes()', function () {
+
+		it('should work and pick the best of all') // this is tested as part of merge_duplicates()
+	})
+
 	describe('merge_duplicates()', function() {
-		const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
-		const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
-
-		function create_demo(id: FileId = 'foo/bar.jpg', time = CREATION_DATE): Immutable<State> {
-			let state = create(id)
-
-			state = on_fs_stats_read(state, {
-				birthtimeMs: get_timestamp_utc_ms_from(time),
-				atimeMs:     get_timestamp_utc_ms_from(time),
-				mtimeMs:     get_timestamp_utc_ms_from(time),
-				ctimeMs:     get_timestamp_utc_ms_from(time),
-			})
-			state = on_exif_read(state, {
-				'CreateDate': get_exif_datetime(time),
-			} as Tags)
-			state = on_hash_computed(state, '1234')
-
-			// yes, real case = since having the same hash,
-			// all the files will have the same notes.
-			state = on_notes_unpersisted(state, {
-				currently_known_as: 'whatever.jpg',
-				starred: undefined,
-				deleted: undefined,
-				original: {
-					basename: 'original.jpg',
-					birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-				}
-			})
-
-			return enforce_immutability(state)
-		}
-
-		function expectㆍfileㆍstatesㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>, should_log = true): void {
-			const s1_alt = {
-				...s1,
-				memoized: null
-			}
-			const s2_alt = {
-				...s2,
-				memoized: null
-			}
-
-			try {
-				assert_deepStrictEqual(s1_alt, s2_alt)
-			}
-			catch (err) {
-				if (should_log)
-					console.error('expectㆍfileㆍstatesㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
-				throw err
-			}
-		}
-		function expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>): void {
-			try {
-				expectㆍfileㆍstatesㆍdeepㆍequal(s1, s2, false)
-			}
-			catch (err) {
-				if (err.message.includes('Expected values to be strictly deep-equal'))
-					return
-
-				throw err
-			}
-		}
 
 		describe('assumptions', function() {
 
@@ -383,11 +390,11 @@ describe(`${LIB} - file state`, function() {
 						}
 					}
 				} as any)
-				const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE)
+				const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // copy but has earlier creation date
 
 				const s = merge_duplicates(s1, s2, s3)
 				expect(s.notes).to.deep.equal({
-					currently_known_as: 'whatever.jpg',
+					currently_known_as: 'bar.jpg', // selected as "the best"
 					deleted: undefined,
 					starred: true,
 					original: {

@@ -54,7 +54,6 @@ export interface State {
 	queue: Action[],
 
 	_optim: {
-		duplicate_file_ids_by_hash?: { [hash: string]: FileId[] },
 	}
 }
 
@@ -173,18 +172,52 @@ export function get_past_and_present_notes(state: Immutable<State>, folder_path?
 		.forEach(file_state => {
 			assert(file_state.current_hash, `get_past_and_present_notes() should happen on hashed files`)
 			// check the original, no the one we're refilling. 2x files may have the same hash
-			assert(!state.extra_notes.encountered_media_files[file_state.current_hash], `get_past_and_present_notes() no redundant data`)
+			assert(!state.extra_notes.encountered_media_files[file_state.current_hash], `get_past_and_present_notes() no redundant data ` + file_state.current_hash)
 			encountered_media_files[file_state.current_hash] = file_state.notes
 		})
 
 	const result = {
-		...Notes.create(),
+		...Notes.create('for persisting'),
 		encountered_media_files,
 		known_modifications_new_to_old: state.extra_notes.known_modifications_new_to_old,
 	}
 
 	//logger.info(`get_past_and_present_notes(): ` + Notes.to_string(result))
 	return result
+}
+
+export function get_duplicate_file_ids_by_hash(state: Immutable<State>): { [hash: string]: FileId[] } {
+	const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
+		Object.entries(state.encountered_hash_count)
+			.filter(([ hash, count ]) => count > 1)
+			.map(([ hash ]) => hash)
+	)
+
+	const duplicate_file_ids_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
+		.reduce((acc, file_id) => {
+			const file_state = state.files[file_id]
+			const hash = File.get_hash(file_state)
+			if (hash && duplicated_hashes.has(hash)) {
+				acc[hash] ??= []
+				acc[hash].push(file_id)
+			}
+			return acc
+		}, {} as { [hash: string]: FileId[] })
+
+	/*const duplicate_original_basenames_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
+		.reduce((acc, file_id) => {
+			const file_state = state.files[file_id]
+			const hash = File.get_hash(file_state)
+			if (hash && duplicated_hashes.has(hash)) {
+				acc[hash] ??= []
+				acc[hash].push(file_state.extra_notes.original.basename)
+			}
+			return acc
+		}, {} as { [hash: string]: string[] })
+
+	console.log({ duplicate_file_ids_by_hash, duplicate_original_basenames_by_hash })*/
+
+	return duplicate_file_ids_by_hash
 }
 
 ///////////////////// REDUCERS /////////////////////
@@ -194,7 +227,7 @@ export function create(root: AbsolutePath): Immutable<State> {
 
 	let state: State = {
 		root,
-		extra_notes: Notes.create(),
+		extra_notes: Notes.create('substate'),
 		folders: {},
 		files: {},
 		queue: [],
@@ -202,7 +235,6 @@ export function create(root: AbsolutePath): Immutable<State> {
 		encountered_hash_count: {},
 
 		_optim: {
-			//duplicate_file_ids_by_hash: {},
 		}
 	}
 
@@ -290,6 +322,9 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 
 		state = _enqueue_action(state, create_action_query_fs_stats(id))
 		state = _enqueue_action(state, create_action_query_exif(id))
+
+		// did we already recover notes for this file?
+		// can't tell yet, we need the hash for that!
 	}
 	else {
 		logger.verbose(`[${LIB}] non-media file found`, { id })
@@ -303,12 +338,14 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	return state
 }
 
-export function on_notes_found(state: Immutable<State>, data: Notes.State): Immutable<State> {
-	logger.trace(`[${LIB}] on_notes_found(…)`, get_base_loose(data))
+export function on_notes_found(state: Immutable<State>, raw_data: any): Immutable<State> {
+	logger.trace(`[${LIB}] on_notes_found(…)`, get_base_loose(raw_data))
+
+	const recovered_data = Notes.migrate_to_latest(raw_data)
 
 	return {
 		...state,
-		extra_notes: Notes.on_previous_notes_found(state.extra_notes, data),
+		extra_notes: Notes.on_previous_notes_found(state.extra_notes, recovered_data),
 	}
 }
 
@@ -370,6 +407,11 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 
 
 	let new_file_state = File.on_hash_computed(state.files[file_id], hash)
+
+	if (File.is_media_file(new_file_state)) {
+		// since we now have the hash, we can recover notes if any
+		// NO we could have several notes files, let's wait until consolidation
+	}
 
 	state = {
 		...state,
@@ -539,6 +581,10 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 	all_media_hashes.forEach(hash => {
 		extra_notes = Notes.on_media_file_notes_recovered(extra_notes, hash)
 	})
+	// since we updated the notes, time for a save
+	const folder_path = undefined
+	_state = _enqueue_action(_state, create_action_persist_notes(get_past_and_present_notes(_state, folder_path), folder_path))
+
 	let folders: { [id: string]: Immutable<Folder.State> } = { ..._state.folders }
 	let files: { [id: string]: Immutable<File.State> } = { ..._state.files }
 	let state = {
@@ -612,35 +658,7 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 
 export function consolidate_and_backup_original_data(state: Immutable<State>): Immutable<State> {
 
-	const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
-		Object.entries(state.encountered_hash_count)
-			.filter(([hash, count]) => count > 1)
-			.map(([hash]) => hash)
-	)
-
-	const duplicate_file_ids_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
-		.reduce((acc, file_id) => {
-			const file_state = state.files[file_id]
-			const hash = File.get_hash(file_state)
-			if (hash && duplicated_hashes.has(hash)) {
-				acc[hash] ??= []
-				acc[hash].push(file_id)
-			}
-			return acc
-		}, {} as { [hash: string]: FileId[] })
-
-	/*const duplicate_original_basenames_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
-		.reduce((acc, file_id) => {
-			const file_state = state.files[file_id]
-			const hash = File.get_hash(file_state)
-			if (hash && duplicated_hashes.has(hash)) {
-				acc[hash] ??= []
-				acc[hash].push(file_state.extra_notes.original.basename)
-			}
-			return acc
-		}, {} as { [hash: string]: string[] })
-
-	console.log({ duplicate_file_ids_by_hash, duplicate_original_basenames_by_hash })*/
+	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
 
 	const files = {
 		...state.files,
@@ -653,7 +671,7 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
 
-		// improve the notes
+		// improve the notes for those duplicates
 		state = _on_media_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
 		// propagate them immediately across duplicates
 		file_ids.forEach(file_id => {
@@ -682,8 +700,7 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 
 export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 
-	const duplicate_file_ids_by_hash = state._optim.duplicate_file_ids_by_hash
-	assert(duplicate_file_ids_by_hash, `clean_up_duplicates() optim`)
+	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
 
 	const files = {
 		...state.files,
@@ -931,7 +948,8 @@ Root: "${stylize_string.yellow.bold(root)}"
 	)
 	str += all_file_ids.map(id => File.to_string(files[id])).join('\n')
 
-	str += '\n' + Notes.to_string(extra_notes)
+	str += stylize_string.bold('\n\nExtra notes:') + ' (on hashes no longer existing we encountered in the past)'
+	str += '\n' + (Notes.to_string(extra_notes) || '  (none)')
 
 	queue.forEach(task => {
 		const { type, ...details } = task

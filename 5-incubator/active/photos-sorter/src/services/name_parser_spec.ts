@@ -22,6 +22,7 @@ import {
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
+	get_embedded_timezone,
 } from './better-date'
 
 /////////////////////
@@ -104,7 +105,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 			filenames.forEach(filename => {
 				const expected = UNDATED_NAMES_SAMPLES[filename]
-				const {_comment, human_ts_current_tz_for_tests, digit_blocks, ...expected_result_part} = expected
+				const {_comment, digit_blocks } = expected
 
 				it(ꓺ('should correctly fail to parse', _comment, `"${filename}"`), () => {
 					const expected_result: DigitsParseResult = {
@@ -170,18 +171,14 @@ describe(`${LIB} - (base)name parser`, function() {
 
 			context('when possible', function () {
 				const filenames = Object.keys(DATED_NAMES_SAMPLES)
-				//.slice(1) // TEMP XXX
+					//.filter(k => k === 'Capture d’écran 2019-07-31 à 21.00.15.png') // TEMP XXX
+					//.slice(1) // TEMP XXX
 
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
-					const {_comment, human_ts_current_tz_for_tests, ...expected_result_part} = expected
+					const { _comment } = expected
 
 					it(ꓺ('should correctly parse and find the date', _comment, `"${filename}"`), () => {
-						const expected_result: ParseResult = {
-							original_name: filename,
-							...expected_result_part,
-						}
-
 						const result = parse(filename)
 						delete result.date?._debug
 						expect(
@@ -221,13 +218,36 @@ describe(`${LIB} - (base)name parser`, function() {
 			})
 		})
 
+		describe('extraction of the TZ', function () {
+
+			context('when possible', function () {
+				const filenames = Object.keys(DATED_NAMES_SAMPLES)
+				//.filter(k => k === 'Capture d’écran 2019-07-31 à 21.00.15.png') // TEMP XXX
+				//.slice(1) // TEMP XXX
+
+				filenames.forEach(filename => {
+					const expected = DATED_NAMES_SAMPLES[filename]
+					const { _comment, expected_tz } = expected
+					if (!expected_tz)
+						return
+
+					it(ꓺ('should correctly extract or infer the TZ', _comment, `"${filename}"`), () => {
+						const result = parse(filename)
+						delete result.date?._debug
+						//console.log(result.date)
+						expect(get_embedded_timezone(result.date!)).to.equal(expected_tz)
+					})
+				})
+			})
+		})
+
 		describe('removal of non meaningful parts', function () {
 			const filenames = Object.keys(NON_MEANINGFUL_NAMES_SAMPLES)
 			//.slice(1) // TEMP XXX
 
 			filenames.forEach(filename => {
 				const expected = NON_MEANINGFUL_NAMES_SAMPLES[filename]
-				const {_comment, human_ts_current_tz_for_tests, ...expected_result_part} = expected
+				const { _comment } = expected
 
 				it(ꓺ('should correctly remove non meaningful parts', _comment, `"${filename}"`), () => {
 					const result = parse(filename)
@@ -250,7 +270,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
-					const { _comment, digit_blocks, human_ts_current_tz_for_tests, date, ...expected_result_part } = expected
+					const { _comment, digit_blocks, human_ts_current_tz_for_tests, date, expected_tz, ...expected_result_part } = expected
 
 					it(ꓺ(`should return a correct result`, _comment, `"${filename}"`), () => {
 						const expected_result: ParseResult = {
@@ -275,7 +295,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 				filenames.forEach(filename => {
 					const expected = UNDATED_NAMES_SAMPLES[filename]
-					const {_comment, human_ts_current_tz_for_tests, digit_blocks, ...expected_result_part} = expected
+					const {_comment, human_ts_current_tz_for_tests, digit_blocks, expected_tz, ...expected_result_part} = expected
 
 					it(ꓺ(`should return a correct result`, _comment, `"${filename}"`), () => {
 						const expected_result: ParseResult = {

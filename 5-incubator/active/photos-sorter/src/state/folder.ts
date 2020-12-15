@@ -249,9 +249,7 @@ export function to_string(state: Immutable<State>) {
 
 	str += stylize_string.yellow.bold(` "${id}"`)
 
-	if (begin_date !== -1 || end_date !== -1) {
-		str += ` ${begin_date} → ${end_date}`
-	}
+	str += ` 📅 ${begin_date} → ${end_date}`
 
 	return str
 }

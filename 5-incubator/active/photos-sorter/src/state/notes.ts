@@ -2,6 +2,7 @@ import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { BaseState, WithLastUserActionTimestamp } from '@offirmo-private/state-utils'
+import stylize_string from 'chalk'
 
 import logger from '../services/logger'
 import {
@@ -11,6 +12,10 @@ import {
 	merge_notes,
 } from './file'
 import { FileHash } from '../services/hash'
+import {
+	get_human_readable_timestamp_auto,
+	create_better_date_from_utc_tms,
+} from '../services/better-date'
 import { is_already_normalized } from '../services/name_parser'
 import { get_params } from '../params'
 
@@ -54,8 +59,8 @@ export function get_file_notes_for_hash(state: Immutable<State>, hash: FileHash)
 
 ///////////////////// REDUCERS /////////////////////
 
-export function create(): Immutable<State> {
-	logger.trace(`[${LIB}] create(…)`, { })
+export function create(debug_id: string): Immutable<State> {
+	logger.trace(`[${LIB}] create(…) (${debug_id})`, { })
 
 	return {
 		_comment: "This data is from @offirmo/photo-sorter https://github.com/Offirmo/offirmo-monorepo/tree/master/5-incubator/active/photos-sorter",
@@ -69,10 +74,13 @@ export function create(): Immutable<State> {
 	}
 }
 
+export function migrate_to_latest(prev: any): Immutable<State> {
+	// TODO proper migration
+	return prev as Immutable<State>
+}
+
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`[${LIB}] on_previous_notes_found(…)`, { })
-
-	// TODO migration
 
 	const { encountered_media_files: encountered_media_files_a } = state
 	const { encountered_media_files: encountered_media_files_b } = old_state
@@ -111,7 +119,7 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 }
 
 export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
-	logger.trace(`[${LIB}] on_exploration_done_store_new_notes(…)`, { })
+	logger.trace(`[${LIB}] on_exploration_done_merge_new_and_recovered_notes(…)`, { })
 
 	const encountered_media_files: State['encountered_media_files'] = { ...state.encountered_media_files }
 
@@ -184,7 +192,7 @@ export function on_file_modified(state: Immutable<State>, previous_hash: string,
 
 ///////////////////// DEBUG /////////////////////
 
-export function to_string(state: Immutable<State>) {
+export function to_string(state: Immutable<State>): string {
 	const { encountered_media_files, known_modifications_new_to_old } = state
 
 	let str = ''
@@ -207,10 +215,23 @@ export function to_string(state: Immutable<State>) {
 		processed.add(hash)
 
 		const notes = encountered_media_files[hash]
-		str += `\n📄 notes: ${hash} = "${notes.original.basename}"`
+		str += `\n📄 notes: ${hash}: ` + media_notes_to_string(notes)
 
 		//str += '\n    TODO old hashes'
 	})
+
+	return str
+}
+
+function media_notes_to_string(notes: Immutable<FileNotes>): string {
+	let str = ''
+
+	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" FKA "${stylize_string.yellow.bold(
+		[
+			notes.original.closest_parent_with_date_hint,
+			notes.original.basename,
+			].filter(e => !!e).join('/')
+	)}" 📅(fs)${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.birthtime_ms, 'tz:auto'), 'tz:embedded')}`
 
 	return str
 }

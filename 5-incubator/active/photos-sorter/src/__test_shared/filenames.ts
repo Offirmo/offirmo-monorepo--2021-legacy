@@ -1,6 +1,7 @@
 
 import { create_better_date } from '../services/better-date'
 import { ParseResult } from '../services/name_parser'
+import { TimeZone } from '../types'
 
 /////////////////////
 
@@ -8,6 +9,7 @@ interface NameDetails extends Omit<ParseResult, 'original_name'> {
 	_comment?: string
 	digit_blocks: string
 	human_ts_current_tz_for_tests?: string
+	expected_tz?: TimeZone
 }
 
 // all taken from my actual files in my library

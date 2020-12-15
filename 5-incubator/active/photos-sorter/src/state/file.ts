@@ -605,34 +605,39 @@ const _get_defined_props = (obj: any) => Object.fromEntries(
 export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
 	logger.trace(`[${LIB}] merge_notes(…)`, { ids: notes.map(n => n.original.basename) })
 
-	let note = notes[0]
-	assert(note, 'merge_notes(…) selected note')
+	let merged_notes = notes[0]
+	assert(merged_notes, 'merge_notes(…) selected merged_notes')
 
-	//let shortest_basename: Basename = note.original.basename
-	notes.forEach(duplicate_notes => {
-		/*if (duplicate_notes.original.basename.length < shortest_basename.length)
-			shortest_basename = duplicate_notes.original.basename*/
-		note = {
-			...note,
-			..._get_defined_props(duplicate_notes),
-			original: {
-				...note.original,
-				..._get_defined_props(duplicate_notes.original),
-				//basename: shortest_basename,
-			}
-		}
-	})
+	const original_fs_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms)
+	const earliest_fs_birthtime = Math.min(...original_fs_birthtimes)
 
-	const original_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms)
-	note = {
-		...note,
+	merged_notes = {
+		...merged_notes,
 		original: {
-			...note.original,
-			birthtime_ms: Math.min(...original_birthtimes),
+			...merged_notes.original,
+			birthtime_ms: earliest_fs_birthtime,
 		}
 	}
 
-	return note
+
+	let shortest_original_basename: Basename = merged_notes.original.basename
+	notes.forEach(duplicate_notes => {
+		if (duplicate_notes.original.basename.length < shortest_original_basename.length)
+			shortest_original_basename = duplicate_notes.original.basename
+		merged_notes = {
+			...merged_notes,
+			..._get_defined_props(duplicate_notes),
+			original: {
+				...merged_notes.original,
+				..._get_defined_props(duplicate_notes.original),
+			}
+		}
+	})
+	if (merged_notes.original.basename !== shortest_original_basename) {
+		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is not the shortest: "${shortest_original_basename}"`)
+	}
+
+	return merged_notes
 }
 
 ///////////////////// DEBUG /////////////////////
