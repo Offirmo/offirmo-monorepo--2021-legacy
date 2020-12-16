@@ -78,7 +78,7 @@ export interface State {
 
 ////////////////////////////////////
 
-const LIB = '🖼'
+const LIB = '🖼 ' // iTerm has the wrong width 2020/12/15
 
 ///////////////////// ACCESSORS /////////////////////
 
@@ -302,7 +302,7 @@ export function get_hash(state: Immutable<State>): FileHash | undefined {
 ///////////////////// REDUCERS /////////////////////
 
 export function create(id: FileId): Immutable<State> {
-	logger.trace(`[${LIB}] create(…)`, { id })
+	logger.trace(`${LIB} create(…)`, { id })
 
 	// not a premature optim here,
 	// the goal is to avoid repeated logs
@@ -374,7 +374,7 @@ export function create(id: FileId): Immutable<State> {
 }
 
 export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immutable<FsStatsSubset>): Immutable<State> {
-	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { })
+	logger.trace(`${LIB} on_fs_stats_read(…)`, { })
 	assert(fs_stats_subset, `on_fs_stats_read()`)
 
 	// TODO add to a log for bad fs stats
@@ -395,7 +395,7 @@ export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immut
 }
 
 export function on_exif_read(state: Immutable<State>, exif_data: Immutable<EXIFTags>): Immutable<State> {
-	logger.trace(`[${LIB}] on_exif_read(…)`, { })
+	logger.trace(`${LIB} on_exif_read(…)`, { })
 	assert(exif_data, 'on_exif_read() ok')
 	if (exif_data && exif_data.errors && exif_data.errors.length) {
 		logger.error(`Error reading exif data for "${state.id}"!`, { errors: exif_data.errors })
@@ -424,7 +424,7 @@ export function on_exif_read(state: Immutable<State>, exif_data: Immutable<EXIFT
 }
 
 export function on_hash_computed(state: Immutable<State>, hash: string): Immutable<State> {
-	logger.trace(`[${LIB}] on_hash_computed(…)`, { })
+	logger.trace(`${LIB} on_hash_computed(…)`, { })
 	assert(hash, 'on_hash_computed() ok')
 
 	state = {
@@ -435,9 +435,9 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 	return state
 }
 
-export function on_notes_unpersisted(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`[${LIB}] on_notes_unpersisted(…)`, { id: state.id })
-	assert(state.current_hash, 'on_notes_unpersisted() param') // obvious but just in case…
+export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+	logger.trace(`${LIB} on_notes_unpersisted(…)`, { id: state.id, recovered_notes })
+	assert(state.current_hash, 'on_notes_recovered() param') // obvious but just in case…
 
 	state = {
 		...state,
@@ -457,7 +457,7 @@ export function on_notes_unpersisted(state: Immutable<State>, recovered_notes: n
 }
 
 export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<State> {
-	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
+	logger.trace(`${LIB} on_moved(…)`, { new_id })
 
 	state =  {
 		...state,
@@ -478,7 +478,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 // return the "best" one to keep, merged with extra infos
 // assumption is that other copies will be cleaned.
 export function merge_duplicates(...states: Immutable<State[]>): Immutable<State> {
-	logger.trace(`[${LIB}] merge_duplicates(…)`, { ids: states.map(s => s.id) })
+	logger.trace(`${LIB} merge_duplicates(…)`, { ids: states.map(s => s.id) })
 	assert(states.length > 1, 'merge_duplicates(…) params')
 
 	states.forEach(duplicate_state => {
@@ -603,9 +603,9 @@ const _get_defined_props = (obj: any) => Object.fromEntries(
 	Object.entries(obj).filter(([k, v]) => v !== undefined)
 )
 export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
-	logger.trace(`[${LIB}] merge_notes(…)`, { ids: notes.map(n => n.original.basename) })
+	logger.trace(`${LIB} merge_notes(…)`, { ids: notes.map(n => n.original.basename) })
 
-	let merged_notes = notes[0]
+	let merged_notes = notes.find(n => !is_already_normalized(n.original.basename)) || notes[0]
 	assert(merged_notes, 'merge_notes(…) selected merged_notes')
 
 	const original_fs_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms)
@@ -619,10 +619,9 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 		}
 	}
 
-
 	let shortest_original_basename: Basename = merged_notes.original.basename
 	notes.forEach(duplicate_notes => {
-		if (duplicate_notes.original.basename.length < shortest_original_basename.length)
+		if (duplicate_notes.original.basename.length < shortest_original_basename.length && !is_already_normalized(duplicate_notes.original.basename))
 			shortest_original_basename = duplicate_notes.original.basename
 		merged_notes = {
 			...merged_notes,
@@ -635,6 +634,9 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	})
 	if (merged_notes.original.basename !== shortest_original_basename) {
 		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is not the shortest: "${shortest_original_basename}"`)
+	}
+	if (is_already_normalized(merged_notes.original.basename)) {
+		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is already normalized`)
 	}
 
 	return merged_notes

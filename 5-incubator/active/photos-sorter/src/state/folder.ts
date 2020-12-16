@@ -99,7 +99,7 @@ export function is_canonical(state: Immutable<State>): boolean {
 ///////////////////// REDUCERS /////////////////////
 
 export function create(id: RelativePath): Immutable<State> {
-	logger.trace(`[${LIB}] create(…)`, { id })
+	logger.trace(`${LIB} create(…)`, { id })
 
 	const pathㆍparsed = path.parse(id)
 	const base = pathㆍparsed.base
@@ -121,7 +121,7 @@ export function create(id: RelativePath): Immutable<State> {
 }
 
 export function on_subfile_found(state: Immutable<State>, file_state: Immutable<MediaFile.State>): Immutable<State> {
-	logger.trace(`[${LIB}] on_subfile_found(…)`, { file_id: file_state.id })
+	logger.trace(`${LIB} on_subfile_found(…)`, { file_id: file_state.id })
 
 	if (state.type == Type.event) {
 		const file_compact_date = MediaFile.get_best_creation_date_compact(file_state)
@@ -139,19 +139,19 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 			// range too big, unlikely to be an event
 			if (!is_current_name_intentful(state)) {
 				logger.info(
-					`[${LIB}] demoting folder: most likely not an event (date range too big)`, {
+					`${LIB} demoting folder: most likely not an event (date range too big)`, {
 						id: state.id,
 						file_id: file_state.id,
 						file_compact_date,
 						begin_date: new_start_date,
 						end_date: new_end_date,
 					})
-				state = demote_to_unknown(state, `[${LIB}] demoting folder: most likely not an event (date range too big)`)
+				state = demote_to_unknown(state, `${LIB} demoting folder: most likely not an event (date range too big)`)
 			}
 			else {
 				new_end_date = add_days_to_simple_date(new_start_date, 28)
 				logger.info(
-					`[${LIB}] folder: date range too big but intentful: capping end_date at +28`, {
+					`${LIB} folder: date range too big but intentful: capping end_date at +28`, {
 						id: state.id,
 						file_id: file_state.id,
 						file_compact_date,
@@ -169,7 +169,7 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 		}
 		else {
 			logger.verbose(
-				`[${LIB}] updating folder’s date range`,
+				`${LIB} updating folder’s date range`,
 				{
 					id: state.id,
 					file_compact_date,
@@ -188,7 +188,7 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 }
 
 export function on_overlap_clarified(state: Immutable<State>, end_date: SimpleYYYYMMDD): Immutable<State> {
-	logger.trace(`[${LIB}] on_overlap_clarified(…)`, {
+	logger.trace(`${LIB} on_overlap_clarified(…)`, {
 		prev_end_date: state.end_date,
 		new_end_date: end_date,
 	})
@@ -200,7 +200,7 @@ export function on_overlap_clarified(state: Immutable<State>, end_date: SimpleYY
 }
 
 export function demote_to_unknown(state: Immutable<State>, reason: string): Immutable<State> {
-	logger.trace(`[${LIB}] demote_to_unknown(…)`, { })
+	logger.trace(`${LIB} demote_to_unknown(…)`, { })
 
 	assert(state.type === Type.event, 'demote_to_unknown(): should be demote-able')
 
@@ -212,7 +212,7 @@ export function demote_to_unknown(state: Immutable<State>, reason: string): Immu
 
 /*
 export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutable<State> {
-	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
+	logger.trace(`${LIB} on_moved(…)`, { new_id })
 
 	return {
 		...state,

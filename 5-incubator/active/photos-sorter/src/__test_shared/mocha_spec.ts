@@ -5,7 +5,7 @@ import { getLogger } from '@offirmo/universal-debug-api-node'
 
 after(() => exiftool.end())
 
-// our mocha tool forces to silly
+// REM our mocha tool forces default to silly
 const logger = getLogger()
-//logger.setLevel('silly')
-logger.setLevel('info')
+logger.setLevel('trace')
+//logger.setLevel('info')

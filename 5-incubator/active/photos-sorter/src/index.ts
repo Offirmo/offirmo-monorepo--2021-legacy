@@ -25,31 +25,22 @@ logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
 
 
 async function sort_all_medias() {
-	const up_to = 'normalize' as 'explore' | 'take_notes' | 'deduplicate' | 'normalize' | 'move'
+	const up_to = 'normalize' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move'
 
 	let db = DB.create(PARAMS.root)
 
 	await (async () => {
 		logger.verbose('Starting sort up to: "' + up_to + '"…')
 
-		////////// READ ONLY ////////////
+		////////// READ ONLY / INTERMEDIATE ////////////
 
 		logger.group('******* STARTING EXPLORATION PHASE *******')
 		db = DB.explore_fs_recursively(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
-		db = DB.on_fs_exploration_done(db)
+		db = DB.on_fs_exploration_done_consolidate_data_and_backup_originals(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.groupEnd()
-		if (up_to === 'explore') return
-
-		////////// INTERMEDIATE ////////////
-
-		// this needs to be done before we start to write / delete
-		logger.group('******* STARTING ORIGINAL DATA BACKUP *******')
-		db = DB.consolidate_and_backup_original_data(db)
-		db = await exec_pending_actions_recursively_until_no_more(db)
-		logger.groupEnd()
-		if (up_to === 'take_notes') return
+		if (up_to === 'explore_and_take_notes') return
 
 		////////// WRITE ////////////
 

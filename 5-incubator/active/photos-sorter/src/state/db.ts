@@ -36,7 +36,7 @@ import { FsStatsSubset } from '../services/fs'
 
 /////////////////////
 
-const LIB = '🗄'
+const LIB = '🗄 ' // iTerm has the wrong width 2020/12/15
 
 /////////////////////
 
@@ -223,7 +223,7 @@ export function get_duplicate_file_ids_by_hash(state: Immutable<State>): { [hash
 ///////////////////// REDUCERS /////////////////////
 
 export function create(root: AbsolutePath): Immutable<State> {
-	logger.trace(`[${LIB}] create(…)`, { root })
+	logger.trace(`${LIB} create(…)`, { root })
 
 	let state: State = {
 		root,
@@ -242,7 +242,7 @@ export function create(root: AbsolutePath): Immutable<State> {
 }
 
 function _enqueue_action(state: Immutable<State>, action: Action): Immutable<State> {
-	logger.trace(`[${LIB}] enqueue_action(…)`, action)
+	logger.trace(`${LIB} _enqueue_action(…)`, action)
 
 	return {
 		...state,
@@ -254,7 +254,7 @@ function _enqueue_action(state: Immutable<State>, action: Action): Immutable<Sta
 }
 
 export function discard_first_pending_action(state: Immutable<State>): Immutable<State> {
-	logger.trace(`[${LIB}] discard_first_pending_action(…)`, { action: state.queue[0] })
+	logger.trace(`${LIB} discard_first_pending_action(…)`, { action: state.queue[0] })
 
 	return {
 		...state,
@@ -263,7 +263,7 @@ export function discard_first_pending_action(state: Immutable<State>): Immutable
 }
 
 export function discard_all_pending_actions(state: Immutable<State>): Immutable<State> {
-	logger.trace(`[${LIB}] discard_all_pending_action(…)`, { action_count: state.queue.length })
+	logger.trace(`${LIB} discard_all_pending_action(…)`, { action_count: state.queue.length })
 
 	return {
 		...state,
@@ -282,14 +282,15 @@ function _register_folder(state: Immutable<State>, id: FolderId, exists: boolean
 		},
 	}
 
-	logger.verbose(`[${LIB}] folder ${exists ? 'found' : 'registered'}`, {id, type: folder_state.type })
+	logger.trace(`${LIB} _register_folder()`, { exists, id, type: folder_state.type })
 
 	return state
 }
 
 export function on_folder_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
-	logger.trace(`[${LIB}] on_folder_found(…)`, { parent_id, sub_id, id })
+	logger.trace(`${LIB} on_folder_found(…)`, { parent_id, sub_id, id })
+	logger.verbose(`${LIB} found a folder`, { id })
 
 	state = _register_folder(state, id, true) // TODO remove exists
 	const folder_state = state.folders[id]
@@ -302,7 +303,8 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 
 export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
-	logger.trace(`[${LIB}] on_file_found(…)`, { parent_id, sub_id, id })
+	logger.trace(`${LIB} on_file_found(…)`, { parent_id, sub_id, id })
+	logger.verbose(`${LIB} found a file`, { id })
 
 	const file_state = File.create(id)
 
@@ -314,32 +316,37 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 		},
 	}
 
-	// always, for dedupe
-	state = _enqueue_action(state, create_action_hash(id))
-
-	if (File.is_media_file(file_state)) {
-		logger.verbose(`[${LIB}] media file found`, { id })
-
-		state = _enqueue_action(state, create_action_query_fs_stats(id))
-		state = _enqueue_action(state, create_action_query_exif(id))
-
-		// did we already recover notes for this file?
-		// can't tell yet, we need the hash for that!
-	}
-	else {
-		logger.verbose(`[${LIB}] non-media file found`, { id })
-	}
-
 	const is_notes = sub_id === NOTES_BASENAME
+	const is_media_file = File.is_media_file(file_state)
+
 	if (is_notes) {
 		state = _enqueue_action(state, create_action_load_notes(path.join(parent_id, sub_id)))
+	}
+	else {
+		// always, for dedupe
+		state = _enqueue_action(state, create_action_hash(id))
+
+		if (is_media_file) {
+			logger.verbose(`${ LIB } file found is a media file`, {id})
+
+			state = _enqueue_action(state, create_action_query_fs_stats(id))
+
+			if(File.is_exif_powered_media_file(file_state))
+				state = _enqueue_action(state, create_action_query_exif(id))
+
+			// did we already recover notes for this file?
+			// can't tell yet, we need the hash for that!
+		} else {
+			logger.verbose(`${ LIB } file found is NOT a media file`, {id})
+		}
 	}
 
 	return state
 }
 
 export function on_notes_found(state: Immutable<State>, raw_data: any): Immutable<State> {
-	logger.trace(`[${LIB}] on_notes_found(…)`, get_base_loose(raw_data))
+	logger.trace(`${LIB} on_notes_found(…)`, get_base_loose(raw_data))
+	logger.verbose(`${LIB} found previous notes about the files`)
 
 	const recovered_data = Notes.migrate_to_latest(raw_data)
 
@@ -357,6 +364,8 @@ function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable
 		const folder_id = File.get_current_parent_folder_id(file_state)
 		const old_folder_state = state.folders[folder_id]
 		assert(old_folder_state, `folder state for "${folder_id}" - "${file_id}"!`)
+		// XXX TODO unclear, should be systematic
+		// should split the semantic
 		const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)
 		state = {
 			...state,
@@ -371,7 +380,7 @@ function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable
 }
 
 export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats: Immutable<FsStatsSubset>): Immutable<State> {
-	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { file_id })
+	logger.trace(`${LIB} on_fs_stats_read(…)`, { file_id })
 
 	const new_file_state = File.on_fs_stats_read(state.files[file_id], stats)
 
@@ -387,7 +396,7 @@ export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats
 }
 
 export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data: Immutable<Tags>): Immutable<State> {
-	logger.trace(`[${LIB}] on_exif_read(…)`, { file_id })
+	logger.trace(`${LIB} on_exif_read(…)`, { file_id })
 
 	const new_file_state = File.on_exif_read(state.files[file_id], exif_data)
 
@@ -403,8 +412,7 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 }
 
 export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash: FileHash): Immutable<State> {
-	logger.trace(`[${LIB}] on_hash_computed(…)`, { file_id })
-
+	logger.trace(`${LIB} on_hash_computed(…)`, { file_id })
 
 	let new_file_state = File.on_hash_computed(state.files[file_id], hash)
 
@@ -429,9 +437,9 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 }
 
 function _on_media_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`[${LIB}] _on_media_file_notes_recovered(…)`, { file_id })
+	logger.trace(`${LIB} _on_media_file_notes_recovered(…)`, { file_id })
 
-	let new_file_state = File.on_notes_unpersisted(
+	let new_file_state = File.on_notes_recovered(
 		state.files[file_id],
 		recovered_notes,
 	)
@@ -449,7 +457,7 @@ function _on_media_file_notes_recovered(state: Immutable<State>, file_id: FileId
 
 /*
 export function on_folder_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
-	logger.trace(`[${LIB}] on_folder_moved(…)`, { })
+	logger.trace(`${LIB} on_folder_moved(…)`, { })
 
 	assert(!state.folders[target_id])
 
@@ -471,7 +479,7 @@ export function on_folder_moved(state: Immutable<State>, id: RelativePath, targe
 }*/
 
 export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
-	logger.trace(`[${LIB}] on_file_moved(…)`, { })
+	logger.trace(`${LIB} on_file_moved(…)`, { })
 
 	assert(!state.files[target_id], 'on_file_moved() file state')
 	// todo inc/dec folders
@@ -494,7 +502,7 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 }
 
 export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<State> {
-	logger.trace(`[${LIB}] on_file_deleted(…)`, { id })
+	logger.trace(`${LIB} on_file_deleted(…)`, { id })
 
 	let file_state = state.files[id]
 	assert(file_state, 'on_file_deleted() file state')
@@ -553,49 +561,51 @@ export function merge_folder(state: Immutable<State>, id: RelativePath, target_i
 ///////////////////// REDUCERS -> ACTIONS /////////////////////
 
 export function explore_fs_recursively(state: Immutable<State>): Immutable<State> {
-	logger.verbose('explore_fs_recursively()…')
+	logger.trace(`${LIB} explore_fs_recursively()…`)
+	logger.verbose(`${LIB} Starting exploration of the file system…`)
+
 	return on_folder_found(state, '', '.')
 }
 
 // some decisions need to wait for the entire exploration to be done
-export function on_fs_exploration_done(_state: Immutable<State>): Immutable<State> {
-	logger.verbose('on_fs_exploration_done()…')
+function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _consolidate_notes_between_persisted_and_regenerated()…`)
 
-	// finish evaluating all file data
-	const all_media_files = get_all_media_files(_state)
-	_state = {
-		..._state,
-		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(_state.extra_notes, all_media_files)
+	// merge notes recovered from notes bkp and notes (re)generated) from fs
+	const all_media_files = get_all_media_files(state)
+	state = {
+		...state,
+		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(state.extra_notes, all_media_files)
 	}
-	// now re-attach notes to their respective files and clean the copy from "extra notes" to avoid redundancy
+
+	// now re-attach notes to their respective files and remove the copy from "extra notes" to avoid redundancy
 	const all_media_hashes = new Set<FileHash>()
 	all_media_files.forEach(file_state => {
 		const { id, current_hash } = file_state
 		assert(current_hash)
 		all_media_hashes.add(current_hash)
-		_state = _on_media_file_notes_recovered(_state, id, Notes.get_file_notes_for_hash(_state.extra_notes, current_hash!))
+		state = _on_media_file_notes_recovered(state, id, Notes.get_file_notes_for_hash(state.extra_notes, current_hash!))
 	})
-	let extra_notes = {
-		..._state.extra_notes,
-	}
+	let extra_notes = { ...state.extra_notes }
 	all_media_hashes.forEach(hash => {
-		extra_notes = Notes.on_media_file_notes_recovered(extra_notes, hash)
+		extra_notes = Notes.on_media_file_notes_recovered(extra_notes, hash) // remove
 	})
-	// since we updated the notes, time for a save
-	const folder_path = undefined
-	_state = _enqueue_action(_state, create_action_persist_notes(get_past_and_present_notes(_state, folder_path), folder_path))
 
-	let folders: { [id: string]: Immutable<Folder.State> } = { ..._state.folders }
-	let files: { [id: string]: Immutable<File.State> } = { ..._state.files }
-	let state = {
-		..._state,
-		files,
-		folders,
+	// since we updated the notes, time for a save
+	// (see later)
+
+	return {
+		...state,
 		extra_notes,
 	}
+}
+function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _consolidate_folders_by_demoting_and_de_overlapping()…`)
+
+	let folders: { [id: string]: Immutable<Folder.State> } = { ..._state.folders }
 
 	// demote event folders with no dates
-	let all_event_folder_ids = get_all_event_folder_ids(state)
+	let all_event_folder_ids = get_all_event_folder_ids(_state)
 	all_event_folder_ids.forEach(id => {
 		const folder = folders[id]
 		if (folder.begin_date === folder.end_date && folder.begin_date === undefined) {
@@ -603,11 +613,16 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 		}
 	})
 
+	let state = {
+		..._state,
+		folders,
+	}
+
 	// demote non-canonical or overlapping folder events but create the canonical ones
 	all_event_folder_ids = get_all_event_folder_ids(state)
-	// first get all the start dates
+	// first get all the start dates + demote conflictings
 	const folders_by_start_date = all_event_folder_ids.reduce((acc, id) => {
-		const folder = state.folders[id]
+		const folder = folders[id]
 		const start_date = folder.begin_date!
 		const existing_conflicting_folder = acc[start_date]
 		acc[start_date] = (() => {
@@ -642,6 +657,7 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 
 		return acc
 	}, {} as { [start: number]: Immutable<Folder.State> })
+
 	// then remove overlaps
 	const ordered_start_dates: SimpleYYYYMMDD[] = Object.keys(folders_by_start_date).map(k => Number(k)).sort()
 	ordered_start_dates.forEach((start_date: SimpleYYYYMMDD, index: number) => {
@@ -655,42 +671,42 @@ export function on_fs_exploration_done(_state: Immutable<State>): Immutable<Stat
 
 	return state
 }
-
-export function consolidate_and_backup_original_data(state: Immutable<State>): Immutable<State> {
+function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _consolidate_notes_across_duplicates()…`)
 
 	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
+	let files: { [id: string]: Immutable<File.State> } = { ...state.files }
 
-	const files = {
-		...state.files,
-	}
+	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, duplicates_ids]) => {
+		assert(duplicates_ids.length > 1, 'consolidate_and_backup_original_data() sanity check 1')
 
-	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, file_ids]) => {
-		assert(file_ids.length > 1, 'consolidate_and_backup_original_data() sanity check 1')
-
-		//console.log({file_ids})
-		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
-		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
+		//console.log({duplicates_ids})
+		const final_file_state = File.merge_duplicates(...duplicates_ids.map(file_id => files[file_id]))
+		assert(duplicates_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
 
 		// improve the notes for those duplicates
 		state = _on_media_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
 		// propagate them immediately across duplicates
-		file_ids.forEach(file_id => {
+		duplicates_ids.forEach(file_id => {
 			files[file_id] = {
 				...files[file_id],
 				notes: cloneDeep(final_file_state.notes)
 			}
-			if (file_id === final_file_state.id) return
 		})
 	})
 
-	state = {
+	return {
 		...state,
 		files,
-		_optim: {
-			...state._optim,
-			duplicate_file_ids_by_hash: duplicate_file_ids_by_hash,
-		}
 	}
+}
+export function on_fs_exploration_done_consolidate_data_and_backup_originals(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} on_fs_exploration_done_consolidate_data_and_backup_originals()…`)
+	logger.verbose(`${LIB} Exploration of the file system done, now processing this data with handcrafted AI…`)
+
+	state = _consolidate_notes_between_persisted_and_regenerated(state)
+	state = _consolidate_notes_across_duplicates(state)
+	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
 
 	const folder_path = undefined
 	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
@@ -699,6 +715,8 @@ export function consolidate_and_backup_original_data(state: Immutable<State>): I
 }
 
 export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} clean_up_duplicates()…`)
+	logger.verbose(`${LIB} Detecting duplicates and cleaning the lower ranked copies…`)
 
 	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
 
@@ -738,6 +756,9 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 }
 
 export function normalize_medias_in_place(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} normalize_medias_in_place()…`)
+	logger.verbose(`${LIB} Normalizing media files in-place…`)
+
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
 		state = _enqueue_action(state, create_action_normalize_file(id))
@@ -750,6 +771,8 @@ export function normalize_medias_in_place(state: Immutable<State>): Immutable<St
 }
 
 export function ensure_structural_dirs_are_present(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} ensure_structural_dirs_are_present()…`)
+
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_INBOX)))
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_CANT_SORT)))
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_CANT_RECOGNIZE)))
@@ -767,6 +790,8 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 }
 
 export function move_all_files_to_their_ideal_location_incl_deduping(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} move_all_files_to_their_ideal_location_incl_deduping()…`)
+
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.files[id]
@@ -776,6 +801,8 @@ export function move_all_files_to_their_ideal_location_incl_deduping(state: Immu
 }
 
 export function delete_empty_folders_recursively(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} delete_empty_folders_recursively()…`)
+
 	throw new Error('NIMP')
 }
 /*

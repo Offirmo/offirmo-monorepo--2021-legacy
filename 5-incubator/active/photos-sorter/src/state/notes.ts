@@ -60,7 +60,7 @@ export function get_file_notes_for_hash(state: Immutable<State>, hash: FileHash)
 ///////////////////// REDUCERS /////////////////////
 
 export function create(debug_id: string): Immutable<State> {
-	logger.trace(`[${LIB}] create(…) (${debug_id})`, { })
+	logger.trace(`${LIB} create(…) (${debug_id})`, { })
 
 	return {
 		_comment: "This data is from @offirmo/photo-sorter https://github.com/Offirmo/offirmo-monorepo/tree/master/5-incubator/active/photos-sorter",
@@ -80,7 +80,7 @@ export function migrate_to_latest(prev: any): Immutable<State> {
 }
 
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
-	logger.trace(`[${LIB}] on_previous_notes_found(…)`, { })
+	logger.trace(`${LIB} on_previous_notes_found(…)`, { })
 
 	const { encountered_media_files: encountered_media_files_a } = state
 	const { encountered_media_files: encountered_media_files_b } = old_state
@@ -119,7 +119,7 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 }
 
 export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
-	logger.trace(`[${LIB}] on_exploration_done_merge_new_and_recovered_notes(…)`, { })
+	logger.trace(`${LIB} on_exploration_done_merge_new_and_recovered_notes(…)`, { })
 
 	const encountered_media_files: State['encountered_media_files'] = { ...state.encountered_media_files }
 
@@ -185,7 +185,7 @@ export function on_media_file_notes_recovered(state: Immutable<State>, current_h
 }
 
 export function on_file_modified(state: Immutable<State>, previous_hash: string, current_hash: string): Immutable<State> {
-	logger.trace(`[${LIB}] on_file_modified(…)`, { previous_hash, current_hash })
+	logger.trace(`${LIB} on_file_modified(…)`, { previous_hash, current_hash })
 
 	throw new Error('NIMP')
 }

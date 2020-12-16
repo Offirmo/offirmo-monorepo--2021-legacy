@@ -64,7 +64,7 @@ export function get_params(): Params {
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted/- inbox/some posh event with no date in inbox`),
 
-		...(true // XXX local debug?
+		...(false // XXX local debug?
 			? {
 					//dry_run: true,
 					dry_run: false,

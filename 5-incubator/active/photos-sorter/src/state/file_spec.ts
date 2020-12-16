@@ -24,7 +24,7 @@ import {
 
 	on_fs_stats_read,
 	on_exif_read,
-	on_hash_computed, on_notes_unpersisted, get_best_creation_year, FileId,
+	on_hash_computed, on_notes_recovered, get_best_creation_year, FileId,
 } from './file'
 import {
 	get_timestamp_utc_ms_from,
@@ -63,7 +63,7 @@ describe(`${LIB} - file state`, function() {
 
 		// yes, real case = since having the same hash,
 		// all the files will have the same notes.
-		state = on_notes_unpersisted(state, {
+		state = on_notes_recovered(state, {
 			currently_known_as: 'whatever, will be replaced.jpg',
 			starred: undefined,
 			deleted: undefined,
@@ -142,7 +142,7 @@ describe(`${LIB} - file state`, function() {
 					'CreateDate':        REAL_CREATION_DATE_EXIF,
 				} as Tags)
 				state = on_hash_computed(state, '1234')
-				state = on_notes_unpersisted(state, null)
+				state = on_notes_recovered(state, null)
 				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
 			})
 
@@ -164,7 +164,7 @@ describe(`${LIB} - file state`, function() {
 					'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
 				} as Partial<Tags> as any)
 				state = on_hash_computed(state, '1234')
-				state = on_notes_unpersisted(state, {
+				state = on_notes_recovered(state, {
 					currently_known_as: 'whatever.jpg',
 					deleted: false,
 					starred: false,
@@ -196,7 +196,7 @@ describe(`${LIB} - file state`, function() {
 					'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
 				} as Tags)
 				state = on_hash_computed(state, '1234')
-				state = on_notes_unpersisted(state, null)
+				state = on_notes_recovered(state, null)
 				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
 			})
 
@@ -218,7 +218,7 @@ describe(`${LIB} - file state`, function() {
 					'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
 				} as Partial<Tags> as any)
 				state = on_hash_computed(state, '1234')
-				state = on_notes_unpersisted(state, {
+				state = on_notes_recovered(state, {
 					currently_known_as: 'whatever.jpg',
 					deleted: false,
 					starred: false,
@@ -249,7 +249,7 @@ describe(`${LIB} - file state`, function() {
 						'MediaCreateDate':   REAL_CREATION_DATE_EXIF,
 					} as Partial<Tags> as any)
 					state = on_hash_computed(state, '1234')
-					state = on_notes_unpersisted(state, {
+					state = on_notes_recovered(state, {
 						currently_known_as: 'whatever.jpg',
 						deleted: false,
 						starred: false,
@@ -275,7 +275,7 @@ describe(`${LIB} - file state`, function() {
 						})
 						state = on_exif_read(state, {} as Partial<Tags> as any)
 						state = on_hash_computed(state, '1234')
-						state = on_notes_unpersisted(state, null)
+						state = on_notes_recovered(state, null)
 						expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
 					})
 
@@ -290,8 +290,8 @@ describe(`${LIB} - file state`, function() {
 						})
 						state = on_exif_read(state, {} as Partial<Tags> as any)
 						state = on_hash_computed(state, '1234')
-						state = on_notes_unpersisted(state, null)
-						/*state = on_notes_unpersisted(state, {
+						state = on_notes_recovered(state, null)
+						/*state = on_notes_recovered(state, {
 					currently_known_as: 'whatever.jpg',
 							deleted: false,
 							original: {
@@ -335,7 +335,7 @@ describe(`${LIB} - file state`, function() {
 				})
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
-				state = on_notes_unpersisted(state, is_already_normalized(tc_key) ? {
+				state = on_notes_recovered(state, is_already_normalized(tc_key) ? {
 						currently_known_as: 'whatever.jpg',
 						deleted: false,
 						starred: false,
