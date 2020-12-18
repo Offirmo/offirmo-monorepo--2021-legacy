@@ -481,7 +481,10 @@ export function on_folder_moved(state: Immutable<State>, id: RelativePath, targe
 export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} on_file_moved(…)`, { })
 
-	assert(!state.files[target_id], 'on_file_moved() file state')
+	assert(id !== target_id, 'on_file_moved(): should be an actual move!')
+	assert(state.files[id], 'on_file_moved() file state: src should exist')
+	assert(!state.files[target_id], 'on_file_moved() file state: target should no exist')
+
 	// todo inc/dec folders
 
 	let file_state = state.files[id]
@@ -764,8 +767,10 @@ export function normalize_medias_in_place(state: Immutable<State>): Immutable<St
 		state = _enqueue_action(state, create_action_normalize_file(id))
 	})
 
-	const folder_path = undefined
-	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+	// NO! Too early, should happen once all the normalizations are done
+	//const folder_path = undefined
+	//state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+	// TODO find a way to mark this as TODO
 
 	return state
 }

@@ -10,6 +10,8 @@ import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { ExifDateTime } from 'exiftool-vendored'
+const { deepStrictEqual: assert_deepStrictEqual } = require('assert').strict
+import { get_json_difference } from '@offirmo-private/state-utils'
 
 ///////
 //import moment, { Moment } from 'moment'
@@ -212,7 +214,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 		_lx,
 		_debug: {
 			'create_better_date_from_ExifDateTime': {
-				exif_date,
+				//exif_date,
 			}
 		}
 	}
@@ -333,4 +335,24 @@ export function add_days_to_simple_date(date: SimpleYYYYMMDD, inc_days: number):
 	let _ld = new Date(years, months - 1, days)
 
 	return _ld.getDate() + (_ld.getMonth() + 1) * 100 + _ld.getFullYear() * 10000
+}
+
+export function expectㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {
+	const s1_alt = {
+		...s1,
+		_debug: null
+	}
+	const s2_alt = {
+		...s2,
+		_debug: null
+	}
+
+	try {
+		assert_deepStrictEqual(s1_alt, s2_alt)
+	}
+	catch (err) {
+		if (should_log)
+			console.error('expectㆍbetter_dateㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
+		throw err
+	}
 }

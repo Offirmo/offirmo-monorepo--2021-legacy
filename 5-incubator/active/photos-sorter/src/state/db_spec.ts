@@ -161,9 +161,9 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 			state = discard_all_pending_actions(state)
 
 			state = normalize_medias_in_place(state)
-			expect(get_pending_actions(state)).to.have.lengthOf(2)
+			expect(get_pending_actions(state)).to.have.lengthOf(1)
 			let next_id = File.get_ideal_basename(state.files[file_ut_basename])
-			//console.log(state.files)
+			//console.log(next_id, state.files)
 			state = on_file_moved(state, file_ut_basename, next_id)
 			file_ut_basename = next_id
 			persisted_notes = get_past_and_present_notes(state)
@@ -210,11 +210,6 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 
 			next_id = File.get_ideal_basename(state.files[file_ut_basename])
 			expect(next_id).to.equal(file_ut_basename) // should be stable!!!
-
-			state = normalize_medias_in_place(state)
-			expect(get_pending_actions(state)).to.have.lengthOf(0)
-			state = on_file_moved(state, file_ut_basename, next_id)
-			persisted_notes = get_past_and_present_notes(state)
 
 			console.log(to_string(state))
 			console.log(Notes.to_string(persisted_notes))

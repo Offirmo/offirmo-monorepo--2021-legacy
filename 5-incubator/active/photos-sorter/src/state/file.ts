@@ -209,7 +209,7 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		result.candidate = from_exif
 		result.source = 'exif'
 		result.confidence = true
-		result.is_matching_fs = Math.abs(Number(from_fs) - Number(from_exif)) < DAY_IN_MILLIS
+		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_exif)) < DAY_IN_MILLIS
 
 		if (from_basename) {
 			const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
@@ -224,18 +224,18 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 			// date from EXIF is the most reliable
 			// (TODO review. should basename have priority?)
 
-			if (Math.abs(Number(from_exif) - Number(from_basename)) <= DAY_IN_MILLIS) {
+			if (Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_basename)) <= DAY_IN_MILLIS) {
 				// good enough
 			}
 			else {
 				// this is suspicious
-				logger.warn(`get_best_creation_date_meta() EXIF date is not matching the basename`, {
+				logger.warn(`get_best_creation_date_meta() EXIF/basename discrepancy`, {
 					basename: get_oldest_basename(state),
-					diff: Math.abs(Number(from_exif) - Number(from_basename)),
+					diff: Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_basename)),
 					id: state.id,
-					from_basename,
+					//from_basename,
 					auto_from_basename,
-					from_exif,
+					//from_exif,
 					auto_from_exif,
 				})
 			}
@@ -249,7 +249,7 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		result.candidate = from_basename
 		result.source = 'original_basename'
 		result.confidence = !is_already_normalized(get_oldest_basename(state))
-		result.is_matching_fs = Math.abs(Number(from_fs) - Number(from_basename)) < DAY_IN_MILLIS
+		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_basename)) < DAY_IN_MILLIS
 
 		const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'tz:embedded')
@@ -263,12 +263,12 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		if (!result.is_matching_fs) {
 			// this is suspicious
 			result.confidence = false
-			logger.warn('exif/basename dates discrepancy', {
+			logger.warn('basename/fs dates discrepancy', {
 				id: state.id,
-				from_basename,
+				//from_basename,
 				auto_from_basename,
-				from_exif,
 				auto_from_fs,
+				diff: Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_basename)),
 			})
 			// TODO log inside file
 		}
@@ -302,7 +302,8 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 }
 
 export function get_best_creation_date(state: Immutable<State>): BetterDate {
-	return get_best_creation_date_meta(state).candidate
+	const meta = get_best_creation_date_meta(state)
+	return meta.candidate
 }
 
 export function get_best_creation_date_compact(state: Immutable<State>): SimpleYYYYMMDD {
@@ -329,6 +330,7 @@ export function get_confidence_in_date(state: Immutable<State>): boolean {
 
 export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Params> = get_params(), requested_confidence = true): Basename {
 	const data = get_best_creation_date_meta(state)
+	logger.trace(`get_ideal_basename()`, data)
 	if (!data.confidence && requested_confidence) {
 		// not confident enough in getting the date, can't rename
 		return get_current_basename(state)
