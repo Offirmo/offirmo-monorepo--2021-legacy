@@ -7,5 +7,6 @@ after(() => exiftool.end())
 
 // REM our mocha tool forces default to silly
 const logger = getLogger()
-logger.setLevel('trace')
+//logger.setLevel('trace')
+logger.setLevel('verbose')
 //logger.setLevel('info')

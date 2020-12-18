@@ -85,16 +85,19 @@ describe(`${LIB} - DB (root) state`, function() {
 			expect(state.encountered_hash_count['hash01'], '01').to.equal(1)
 			expect(state.encountered_hash_count['hash02'], '02').to.equal(2)
 
+			state = discard_all_pending_actions(state)
 			state = clean_up_duplicates(state)
 
 			//console.log(to_string(state))
-			expect(state.queue.slice(-1)[0]).to.deep.equal({
+			expect(get_pending_actions(state)).to.have.lengthOf(2)
+			expect(get_first_pending_action(state)).to.deep.equal({
 				type: 'delete_file',
 				id: 'baz.jpg'
 			})
+			//console.log(state.queue)
 
 			state = on_file_deleted(state, 'baz.jpg')
-			console.log(to_string(state))
+			//console.log(to_string(state))
 		})
 	})
 
@@ -116,7 +119,7 @@ VERBOSE›  - moving file from "MM2019-07-31_21h01m36_screenshot.png" to "MM2019
 VERBOSE›  - moving file from "MM2019-07-31_21h01m42_screenshot.png" to "MM2019-07-31_13h01m48_screenshot.png"…
 VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019-07-31_16h40m38_screenshot.png"…
 		 */
-		it.only('should be stable after the first round', function () {
+		it('should be stable after the first round', function () {
 			const DEBUG = true
 			const BASENAME = 'Capture d’écran 2019-07-31 à 21.00.15.png'
 			const CREATION_DATE_MS = 1564542022000
@@ -200,25 +203,21 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 			persisted_notes = get_past_and_present_notes(state)
 			state = discard_all_pending_actions(state)
 
-			console.log(to_string(state))
-			console.log(Notes.to_string(persisted_notes))
-			/*
 			state = clean_up_duplicates(state)
 			expect(get_pending_actions(state)).to.have.lengthOf(1)
 			persisted_notes = get_past_and_present_notes(state)
 			state = discard_all_pending_actions(state)
 
-			state = normalize_medias_in_place(state)
-			expect(get_pending_actions(state)).to.have.lengthOf(2)
 			next_id = File.get_ideal_basename(state.files[file_ut_basename])
 			expect(next_id).to.equal(file_ut_basename) // should be stable!!!
+
+			state = normalize_medias_in_place(state)
+			expect(get_pending_actions(state)).to.have.lengthOf(0)
 			state = on_file_moved(state, file_ut_basename, next_id)
-			file_ut_basename = next_id
 			persisted_notes = get_past_and_present_notes(state)
-			state = discard_all_pending_actions(state)
 
 			console.log(to_string(state))
-			console.log(Notes.to_string(persisted_notes))*/
+			console.log(Notes.to_string(persisted_notes))
 		})
 	})
 })

@@ -16,6 +16,7 @@ import {
 	get_best_creation_date,
 	get_current_parent_folder_id,
 	get_current_basename,
+	get_best_creation_date_meta,
 	is_media_file,
 	is_exif_powered_media_file,
 	has_all_infos_for_extracting_the_creation_date,
@@ -308,44 +309,66 @@ describe(`${LIB} - file state`, function() {
 
 	describe('get_ideal_basename()', function () {
 
-		type TCIdeal = { [k: string]: string }
-		const TEST_CASES: TCIdeal = {
-			// no date in basename
-			'P1000010.JPG': 'MM2018-11-21_06h00m45s627_P1000010.jpg',
-			'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_IMG_3211.jpg',
-			'TR81801414546EGJ.jpg': 'MM2018-11-21_06h00m45s627_TR81801414546EGJ.jpg', // lot of digits but not a date
-			// basename has date, takes precedence
-			'IMG_20130525.JPG': 'MM2013-05-25.jpg',
-			'IMG_20181121.PNG': 'MM2018-11-21_06h00m45s627.png', // fs increases precision since compatible with file date
-			'20180603_taronga_vivd.gif': 'MM2018-06-03_taronga_vivd.gif',
-			// already normalized
-			//'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg',
-			'MM2017-10-20_05h01m44s625.jpg': 'MM2018-11-21_06h00m45s627_hi.jpg'
-		}
-		Object.keys(TEST_CASES).forEach(tc_key => {
-			it(`should concatenate the date and meaningful part - "${tc_key}"`, () => {
-				let state = create(tc_key)
-				const creation_date_ms = get_timestamp_utc_ms_from(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
+		context('when encountering the file for the first time', function () {
+			type TCIdeal = { [k: string]: string }
+			const TEST_CASES: TCIdeal = {
+				// no date in basename
+				'P1000010.JPG': 'MM2018-11-21_06h00m45s627_P1000010.jpg',
+				'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_IMG_3211.jpg',
+				'TR81801414546EGJ.jpg': 'MM2018-11-21_06h00m45s627_TR81801414546EGJ.jpg', // lot of digits but not a date
+				// basename has date, takes precedence
+				'IMG_20130525.JPG': 'MM2013-05-25.jpg',
+				'IMG_20181121.PNG': 'MM2018-11-21_06h00m45s627.png', // fs increases precision since compatible with file date
+				'20180603_taronga_vivd.gif': 'MM2018-06-03_taronga_vivd.gif',
+				// already normalized but no notes about it
+				'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg'
+			}
+			Object.keys(TEST_CASES).forEach(tc_key => {
+				it(`should work = concatenate the date and meaningful part -- "${ tc_key }"`, () => {
+					let state = create(tc_key)
+					const creation_date_ms = get_timestamp_utc_ms_from(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
 
+					state = on_fs_stats_read(state, {
+						birthtimeMs: creation_date_ms,
+						atimeMs: creation_date_ms + 10000,
+						mtimeMs: creation_date_ms + 10000,
+						ctimeMs: creation_date_ms + 10000,
+					})
+					state = on_exif_read(state, {} as any)
+					state = on_hash_computed(state, '1234')
+					state = on_notes_recovered(state, null)
+
+					console.log(get_best_creation_date_meta(state))
+					expect(get_ideal_basename(state, undefined, false), tc_key).to.equal(TEST_CASES[tc_key])
+				})
+			})
+		})
+
+		context('when encountering the file again', function () {
+
+			// real bug encountered 2020/12/16
+			const CURRENT_BASENAME = 'MM2019-07-31_21h00m15_screenshot.png'
+			it(`should be stable = no change, even without authoritative EXIF`, () => {
+				let state = create(CURRENT_BASENAME)
+				const creation_date_ms = 1564542022000
 				state = on_fs_stats_read(state, {
 					birthtimeMs: creation_date_ms,
-					atimeMs: creation_date_ms + 10000,
+					atimeMs: creation_date_ms + 10000, // TODO test with random
 					mtimeMs: creation_date_ms + 10000,
 					ctimeMs: creation_date_ms + 10000,
 				})
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
-				state = on_notes_recovered(state, is_already_normalized(tc_key) ? {
-						currently_known_as: 'whatever.jpg',
+				state = on_notes_recovered(state, {
+						currently_known_as: CURRENT_BASENAME,
 						deleted: false,
 						starred: false,
 						original: {
-							basename: 'hi.jpg',
+							basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
 							birthtime_ms: creation_date_ms,
 						}
-					}
-					: null)
-				expect(get_ideal_basename(state), tc_key).to.equal(TEST_CASES[tc_key])
+					})
+				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
 	})
