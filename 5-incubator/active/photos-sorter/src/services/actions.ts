@@ -281,6 +281,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
 		}
 		else {
+			await util.promisify(fs_extra.mkdirp)(abs_path_target.split(path.sep).slice(0, -1).join(path.sep))
 			await util.promisify(fs.rename)(abs_path, abs_path_target)
 			db = DB.on_file_moved(db, id, target_id)
 		}

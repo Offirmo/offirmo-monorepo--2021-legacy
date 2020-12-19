@@ -17,8 +17,9 @@ import {
 	create_action_explore_folder,
 	create_action_hash,
 	create_action_load_notes,
-	create_action_persist_notes,
+	create_action_move_file,
 	create_action_normalize_file,
+	create_action_persist_notes,
 	create_action_query_exif,
 	create_action_query_fs_stats,
 } from './actions'
@@ -115,8 +116,11 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 	return state.folders.hasOwnProperty(id)
 }
 
-export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
+export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId, force_cant_sort = false): RelativePath {
 	logger.trace(`get_ideal_file_relative_path()`, { id })
+
+	if (id === NOTES_BASENAME)
+		return id
 
 	const file_state = state.files[id]
 	const split_path = File.get_path(file_state).split(path.sep)
@@ -124,6 +128,14 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	const is_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(highest_parent)
 
 	logger.trace(`get_ideal_file_relative_path() processing…`, { highest_parent, is_parent_special, is_media_file: File.is_media_file(file_state) })
+
+	if (force_cant_sort) {
+		if (is_parent_special)
+			split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
+		else
+			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
+		return split_path.join(path.sep)
+	}
 
 	if (!File.is_media_file(file_state)) {
 		if (is_parent_special)
@@ -812,12 +824,17 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 
 	const all_file_ids = get_all_file_ids(state)
 	all_file_ids.forEach(id => {
-		const file_state = state.files[id]
+		const target_id = get_ideal_file_relative_path(state, id)
+		if (id === target_id) return
+		if (state.files[target_id]) {
+			logger.warn('move_all_files_to_their_ideal_location() conflict target location', { target_id, id })
+			return
+		}
 
-
-		throw new Error('NIMP move_all_files_to_their_ideal_location()')
+		state = _enqueue_action(state, create_action_move_file(id, target_id))
 	})
-	throw new Error('NIMP move_all_files_to_their_ideal_location')
+
+	return state
 }
 
 export function delete_empty_folders_recursively(state: Immutable<State>): Immutable<State> {
