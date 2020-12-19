@@ -132,7 +132,7 @@ describe(`${LIB} - file state`, function() {
 
 			it('should NOT use the current basename date', () => {
 				let state = create(`foo/MM${BAD_CREATION_DATE_CANDIDATE_RdTS}.jpg`)
-				console.log(state)
+				//console.log(state)
 
 				state = on_fs_stats_read(state, {
 					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
@@ -323,7 +323,7 @@ describe(`${LIB} - file state`, function() {
 					state = on_hash_computed(state, '1234')
 					state = on_notes_recovered(state, null)
 
-					console.log(get_best_creation_date_meta(state))
+					//console.log(get_best_creation_date_meta(state))
 					expect(get_ideal_basename(state, undefined, false), tc_key).to.equal(TEST_CASES[tc_key])
 				})
 			})

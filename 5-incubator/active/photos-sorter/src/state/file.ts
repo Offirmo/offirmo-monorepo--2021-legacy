@@ -82,12 +82,20 @@ const LIB = '🖼 ' // iTerm has the wrong width 2020/12/15
 
 ///////////////////// ACCESSORS /////////////////////
 
+export function get_path(state: Immutable<State>): RelativePath {
+	return state.id
+}
+
+export function get_parsed_path(state: Immutable<State>): Immutable<path.ParsedPath> {
+	return state.memoized.get_parsed_path(state)
+}
+
 export function get_current_parent_folder_id(state: Immutable<State>): RelativePath {
-	return state.memoized.get_parsed_path(state).dir || '.'
+	return get_parsed_path(state).dir || '.'
 }
 
 export function get_current_basename(state: Immutable<State>): Basename {
-	return state.memoized.get_parsed_path(state).base
+	return get_parsed_path(state).base
 }
 
 export function get_oldest_basename(state: Immutable<State>): Basename {
@@ -95,7 +103,7 @@ export function get_oldest_basename(state: Immutable<State>): Basename {
 }
 
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
-	const parsed_path = state.memoized.get_parsed_path(state)
+	const parsed_path = get_parsed_path(state)
 
 	if (parsed_path.base.startsWith('.')) return false
 	let normalized_extension = state.memoized.get_normalized_extension(state)
@@ -111,7 +119,7 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>): boolean {
 	// TODO optim if name = canonical
 	return ( state.notes_restored
-			&& state.current_exif_data !== undefined
+			&& (is_exif_powered_media_file(state) ? state.current_exif_data !== undefined : true)
 			&& state.current_fs_stats !== undefined
 			&& state.current_hash !== undefined
 		)
@@ -246,15 +254,22 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 
 	if (from_basename) {
 		// second most authoritative source
+		const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
+
 		result.candidate = from_basename
 		result.source = 'original_basename'
-		result.confidence = !is_already_normalized(get_oldest_basename(state))
+		result.confidence = (() => {
+			// We mostly trust the embedded date
+			// TODO if already normalized, untrust?
+			// is_already_normalized(get_oldest_basename(state))
+			return true
+		})()
 		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_basename)) < DAY_IN_MILLIS
 
-		const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'tz:embedded')
 		if (auto_from_fs.startsWith(auto_from_basename)) {
 			// correlation OK
+			// TODO later when fixing fsstats, don't trust if already normalized
 			result.candidate = from_fs // more precise
 			result.confidence = true
 			return result
@@ -319,7 +334,7 @@ export function get_confidence_in_date(state: Immutable<State>): boolean {
 	const { confidence } = meta
 
 	if (!confidence) {
-		logger.verbose(`get_confidence_in_date()`, {
+		logger.warn(`get_confidence_in_date() low confidence`, {
 			id: state.id,
 			...meta,
 		})
@@ -329,6 +344,9 @@ export function get_confidence_in_date(state: Immutable<State>): boolean {
 }
 
 export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Params> = get_params(), requested_confidence = true): Basename {
+	if (!is_media_file(state))
+		return get_current_basename(state)
+
 	const data = get_best_creation_date_meta(state)
 	logger.trace(`get_ideal_basename()`, data)
 	if (!data.confidence && requested_confidence) {
@@ -500,7 +518,7 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 		notes: {
 			...state.notes,
 			...recovered_notes,
-			currently_known_as: state.memoized.get_parsed_path(state).base, // force keep this one
+			currently_known_as: get_parsed_path(state).base, // force keep this one
 			original: {
 				...state.notes.original,
 				...recovered_notes?.original,
@@ -518,7 +536,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 		...state,
 		id: new_id,
 	}
-	const parsed = state.memoized.get_parsed_path(state)
+	const parsed = get_parsed_path(state)
 
 	return {
 		...state,
@@ -702,7 +720,7 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 export function to_string(state: Immutable<State>) {
 	const { id } = state
 	const is_eligible = is_media_file(state)
-	const parsed_path = state.memoized.get_parsed_path(state)
+	const parsed_path = get_parsed_path(state)
 	const { dir, base } = parsed_path
 
 	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
@@ -712,12 +730,17 @@ export function to_string(state: Immutable<State>) {
 			str += ' ⏳processing in progress…'
 		}
 		else {
-			str += ` 📅 -> "${get_ideal_basename(state)}"`
+			const ideal_basename = get_ideal_basename(state)
+			if (base === ideal_basename)
+				str += '✅'
+			else
+				str += ` 📅 -> "${ideal_basename}"`
 		}
 	}
 
 	if (base !== state.notes.original.basename) {
-		str += ` (Note: historically known as "${state.notes.original.closest_parent_with_date_hint ? state.notes.original.closest_parent_with_date_hint + '/' : ''}${state.notes.original.basename}")`
+		// historically known as
+		str += ` (Note: HKA "${state.notes.original.closest_parent_with_date_hint ? state.notes.original.closest_parent_with_date_hint + '/' : ''}${state.notes.original.basename}")`
 	}
 
 	return stylize_string.gray.dim(str)

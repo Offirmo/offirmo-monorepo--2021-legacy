@@ -226,11 +226,11 @@ export function to_string(state: Immutable<State>): string {
 function media_notes_to_string(notes: Immutable<FileNotes>): string {
 	let str = ''
 
-	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" FKA "${stylize_string.yellow.bold(
+	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(
 		[
 			notes.original.closest_parent_with_date_hint,
 			notes.original.basename,
-			].filter(e => !!e).join('/')
+		].filter(e => !!e).join('/')
 	)}" 📅(fs)${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.birthtime_ms, 'tz:auto'), 'tz:embedded')}`
 
 	return str

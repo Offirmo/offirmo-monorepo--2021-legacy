@@ -8,15 +8,8 @@ import { prettify_json } from '@offirmo-private/prettify-any'
 import cloneDeep from 'lodash/cloneDeep'
 import { get_base_loose } from '@offirmo-private/state-utils'
 
-import { LIB as APP } from '../consts'
-import logger from '../services/logger'
+import { NOTES_BASENAME,  LIB as APP } from '../consts'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
-import * as Folder from './folder'
-import * as File from './file'
-import * as Notes from './notes'
-import { FolderId } from './folder'
-import { FileId, get_current_basename, PersistedNotes } from './file'
-
 import {
 	Action,
 	create_action_delete_file,
@@ -30,8 +23,19 @@ import {
 	create_action_query_fs_stats,
 } from './actions'
 import { FileHash } from '../services/hash'
-import { NOTES_BASENAME } from '../consts'
 import { FsStatsSubset } from '../services/fs'
+import {
+	get_compact_date,
+	get_day_of_week_index,
+	add_days,
+} from '../services/better-date'
+import logger from '../services/logger'
+
+import * as Folder from './folder'
+import * as File from './file'
+import * as Notes from './notes'
+import { FolderId } from './folder'
+import { FileId, PersistedNotes } from './file'
 
 
 /////////////////////
@@ -61,10 +65,6 @@ export interface State {
 
 export function get_absolute_path(state: Immutable<State>, id: RelativePath): AbsolutePath {
 	return path.join(state.root, id)
-}
-
-export function get_final_base(base: Basename): Basename {
-	return `- ${base}`
 }
 
 export function has_pending_actions(state: Immutable<State>): boolean {
@@ -116,49 +116,57 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 }
 
 export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
+	logger.trace(`get_ideal_file_relative_path()`, { id })
+
 	const file_state = state.files[id]
-	const highest_parent = file_state.memoized.get_parsed_path(file_state).dir.split(path.sep)[0]
-	const cantsort_segment = get_final_base(Folder.FOLDER_BASENAME_CANT_SORT)
+	const split_path = File.get_path(file_state).split(path.sep)
+	const highest_parent = split_path[0]
+	const is_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(highest_parent)
+
+	logger.trace(`get_ideal_file_relative_path() processing…`, { highest_parent, is_parent_special, is_media_file: File.is_media_file(file_state) })
 
 	if (!File.is_media_file(file_state)) {
-		if (highest_parent === cantsort_segment)
-			return id // no change
+		if (is_parent_special)
+			split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
-			return path.join(cantsort_segment, id)
+			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
+		return split_path.join(path.sep)
 	}
 
-	const ideal_basename = File.get_ideal_basename(file_state)
+	// file is a media
+	if (!File.get_confidence_in_date(file_state)) {
+		if (is_parent_special)
+			split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
+		else
+			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
+		return split_path.join(path.sep)
+	}
+
+	// file is a media + we have confidence
 	const year = String(File.get_best_creation_year(file_state))
-	/*const event_folder = ((): string => {
+	const current_basename = File.get_current_basename(file_state)
+	const ideal_basename = File.get_ideal_basename(file_state)
+	assert(current_basename === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! ${ideal_basename} vs ${current_basename}`)
+	const event_folder_base = ((): string => {
 		const compact_date = File.get_best_creation_date_compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
 		let compatible_event_folder_id = all_events_folder_ids.find(fid => _event_folder_matches(state.folders[fid], compact_date))
-		if (!compatible_event_folder_id) {
-			// need to create a new event folder!
-			// note: we group weekends together
-			compatible_event_folder_id = (() => {
-				const timestamp = File.get_best_creation_date(file_state)
-				let date = new Date(timestamp) // XXX TODO use Date everywhere!
+		if (compatible_event_folder_id)
+			return Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
 
-				if (date.getDay() === 0) {
-					// sunday is coalesced to sat = start of weekend
-					const timestamp_one_day_before = timestamp - (1000 * 3600 * 24)
-					date = new Date(timestamp_one_day_before)
-				}
+		// need to create a new event folder!
+		// We don't group too much, split day / wek-end
+		let folder_date = File.get_best_creation_date(file_state)
 
-				const radix = get_human_readable_UTC_timestamp_days(date)
-
-				return path.join(year, radix + ' - ' + (date.getDay() === 6 ? 'weekend' : 'life'))
-			})()
-
-			state = _register_folder(state, compatible_event_folder_id, false)
-			actions.push(create_action_ensure_folder(compatible_event_folder_id))
-			all_events_folder_ids.push(compatible_event_folder_id)
+		if (get_day_of_week_index(folder_date) === 0) {
+			// sunday is coalesced to sat = start of weekend
+			folder_date = add_days(folder_date, -1)
 		}
-	})()*/
 
-	throw new Error('NIMP')
-	//return path.join(year, event_folder, ideal_basename)
+		return String(get_compact_date(folder_date, 'tz:embedded')) + ' - ' + (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life')
+	})()
+
+	return path.join(year, event_folder_base, ideal_basename)
 }
 
 export function get_past_and_present_notes(state: Immutable<State>, folder_path?: RelativePath): Immutable<Notes.State> {
@@ -570,6 +578,13 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 	return on_folder_found(state, '', '.')
 }
 
+export function backup_notes(state: Immutable<State>): Immutable<State> {
+	const folder_path = undefined
+	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+
+	return state
+}
+
 // some decisions need to wait for the entire exploration to be done
 function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_notes_between_persisted_and_regenerated()…`)
@@ -710,12 +725,11 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 	state = _consolidate_notes_between_persisted_and_regenerated(state)
 	state = _consolidate_notes_across_duplicates(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
-
-	const folder_path = undefined
-	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+	state = backup_notes(state)
 
 	return state
 }
+
 
 export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} clean_up_duplicates()…`)
@@ -752,8 +766,7 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 		files,
 	}
 
-	const folder_path = undefined
-	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+	state = backup_notes(state)
 
 	return state
 }
@@ -778,9 +791,9 @@ export function normalize_medias_in_place(state: Immutable<State>): Immutable<St
 export function ensure_structural_dirs_are_present(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} ensure_structural_dirs_are_present()…`)
 
-	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_INBOX)))
-	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_CANT_SORT)))
-	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.FOLDER_BASENAME_CANT_RECOGNIZE)))
+	state = _enqueue_action(state, create_action_ensure_folder(Folder.SPECIAL_FOLDER__INBOX__BASENAME))
+	state = _enqueue_action(state, create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME))
+	state = _enqueue_action(state, create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME))
 
 	const years = new Set<number>()
 	get_all_media_files(state).forEach(file_state => {
@@ -794,15 +807,17 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 	return state
 }
 
-export function move_all_files_to_their_ideal_location_incl_deduping(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} move_all_files_to_their_ideal_location_incl_deduping()…`)
+export function move_all_files_to_their_ideal_location(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} move_all_files_to_their_ideal_location()…`)
 
-	const all_file_ids = get_all_media_file_ids(state)
+	const all_file_ids = get_all_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.files[id]
-		throw new Error('NIMP move_all_files_to_their_ideal_location_incl_deduping()')
+
+
+		throw new Error('NIMP move_all_files_to_their_ideal_location()')
 	})
-	throw new Error('NIMP move_all_files_to_their_ideal_location_incl_deduping')
+	throw new Error('NIMP move_all_files_to_their_ideal_location')
 }
 
 export function delete_empty_folders_recursively(state: Immutable<State>): Immutable<State> {
@@ -981,8 +996,13 @@ Root: "${stylize_string.yellow.bold(root)}"
 	str += all_file_ids.map(id => File.to_string(files[id])).join('\n')
 
 	str += stylize_string.bold('\n\nExtra notes:') + ' (on hashes no longer existing we encountered in the past)'
-	str += '\n' + (Notes.to_string(extra_notes) || '  (none)')
+	str += (Notes.to_string(extra_notes) || '\n  (none)')
 
+	str += stylize_string.bold('\n\nAll notes:')
+	str += (Notes.to_string(get_past_and_present_notes(state)) || '\n  (none)')
+
+	str += stylize_string.bold('\n\nActions queue:')
+	if (queue.length === 0) str += '\n  (empty)'
 	queue.forEach(task => {
 		const { type, ...details } = task
 		str += `\n- pending task "${type}" ${prettify_json(details)}`

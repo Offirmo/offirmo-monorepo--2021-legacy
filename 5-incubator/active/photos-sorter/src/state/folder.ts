@@ -5,7 +5,7 @@ import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
 
-import { is_year, get_normalized_dirname, is_compact_date } from '../services/matchers'
+import { is_year, is_compact_date } from '../services/matchers'
 import { parse as parse_basename, ParseResult } from '../services/name_parser'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as MediaFile from './file'
@@ -27,9 +27,18 @@ export const Type = Enum(
 	'unknown', // anything else that can't be an event
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
-export const FOLDER_BASENAME_INBOX = Type.inbox as string
-export const FOLDER_BASENAME_CANT_SORT = Type.cant_sort as string
-export const FOLDER_BASENAME_CANT_RECOGNIZE = Type.cant_recognize as string
+
+function _get_special_folder_final_base(type: Type): Basename {
+	return `- ${type}`
+}
+export const SPECIAL_FOLDER__INBOX__BASENAME = _get_special_folder_final_base(Type.inbox)
+export const SPECIAL_FOLDER__CANT_SORT__BASENAME = _get_special_folder_final_base(Type.cant_sort)
+export const SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME = _get_special_folder_final_base(Type.cant_recognize)
+export const SPECIAL_FOLDERS__BASENAMES = [
+	SPECIAL_FOLDER__INBOX__BASENAME,
+	SPECIAL_FOLDER__CANT_SORT__BASENAME,
+	SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME,
+]
 
 export type FolderId = RelativePath
 export interface State {
@@ -54,9 +63,9 @@ function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath
 
 	const depth = pathㆍparsed.dir.split(path.sep).length - 1
 
-	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === FOLDER_BASENAME_INBOX) return Type.inbox
-	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === FOLDER_BASENAME_CANT_SORT) return Type.cant_sort
-	if (depth === 0 && get_normalized_dirname(pathㆍparsed.base) === FOLDER_BASENAME_CANT_RECOGNIZE) return Type.cant_recognize
+	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__INBOX__BASENAME) return Type.inbox
+	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_SORT__BASENAME) return Type.cant_sort
+	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME) return Type.cant_recognize
 	if (depth === 0 && is_year(pathㆍparsed.base)) return Type.year
 
 	return Type.event // so far
@@ -104,6 +113,7 @@ export function create(id: RelativePath): Immutable<State> {
 	const pathㆍparsed = path.parse(id)
 	const base = pathㆍparsed.base
 	const type = _infer_initial_folder_type(id, pathㆍparsed)
+	// TODO remove prema optim? Or skip if special folder?
 	const nameㆍparsed = parse_basename(base)
 	const date = _infer_start_date(nameㆍparsed)
 
@@ -229,7 +239,7 @@ export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutab
 export function to_string(state: Immutable<State>) {
 	const { id, type, begin_date, end_date } = state
 
-	let str = `📓  [${String(type).padStart(8)}]`
+	let str = `📓  [${String(type).padStart('cant_recognize'.length)}]`
 	switch(type) {
 		case Type.inbox:
 		case Type.cant_sort:
@@ -249,7 +259,8 @@ export function to_string(state: Immutable<State>) {
 
 	str += stylize_string.yellow.bold(` "${id}"`)
 
-	str += ` 📅 ${begin_date} → ${end_date}`
+	if (type === Type.event)
+		str += ` 📅 ${begin_date} → ${end_date}`
 
 	return str
 }

@@ -25,7 +25,7 @@ logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
 
 
 async function sort_all_medias() {
-	const up_to = 'normalize' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move'
+	const up_to = 'move' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move'
 
 	let db = DB.create(PARAMS.root)
 
@@ -53,6 +53,8 @@ async function sort_all_medias() {
 		logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
 		db = DB.normalize_medias_in_place(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
+		db = DB.backup_notes(db)
+		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.groupEnd()
 		if (up_to === 'normalize') return
 
@@ -64,18 +66,19 @@ async function sort_all_medias() {
 		// move to ideal location
 
 		db = DB.ensure_structural_dirs_are_present(db)
-		db.queue.forEach(action => console.log(JSON.stringify(action)))
+		db.queue.forEach(action => console.log(JSON.stringify(action))) // TODO clean JSON.stringify
 		db = await exec_pending_actions_recursively_until_no_more(db)
 
-		db = DB.move_all_files_to_their_ideal_location_incl_deduping(db)
+		db = DB.move_all_files_to_their_ideal_location(db)
 		db.queue.forEach(action => console.log(JSON.stringify(action)))
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		logger.log('DB = ' + DB.to_string(db))
 
+		/*
 		db = DB.delete_empty_folders_recursively(db)
 		db.queue.forEach(action => console.log(JSON.stringify(action)))
 		db = await exec_pending_actions_recursively_until_no_more(db)
-		logger.log('DB = ' + DB.to_string(db))
+		logger.log('DB = ' + DB.to_string(db))*/
 
 		logger.groupEnd()
 	})()

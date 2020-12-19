@@ -114,12 +114,3 @@ export const NON_MEANINGFUL_ENDINGS_RE: { [k:string]: RegExp } = {
 }
 
 ////////////////////////////////////
-
-// TODO check
-export function get_normalized_dirname(base: Basename): string {
-	base = base.toLowerCase()
-
-	if (base.startsWith('- ')) return base.slice(2)
-
-	return base
-}

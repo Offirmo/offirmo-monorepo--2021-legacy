@@ -117,6 +117,11 @@ export function get_embedded_timezone(date: Immutable<BetterDate>): TimeZone {
 	return date._lx.zone.name
 }
 
+// sunday = 0
+export function get_day_of_week_index(date: Immutable<BetterDate>): number {
+	return date._lx.weekday % 7
+}
+
 // used in unit tests only
 export function get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
 	return new ExifDateTime(
@@ -303,14 +308,6 @@ export function create_better_date_obj({
 			}
 		}
 	}
-
-		/*
-	const legacy_date = new LegacyDate()
-
-	year ??= legacy_date.getFullYear()
-	const month_0based = month ? month - 1 : legacy_date.getMonth()
-
-	return create_better_date_compat(year, month_0based, day, hour, minute, second, milli, tz)*/
 }
 
 ////////////////////////////////////
@@ -326,6 +323,20 @@ export function change_tz(previous: Immutable<BetterDate>, tz: TimeZone): Better
 		previous._lx.second,
 		previous._lx.millisecond,
 	)
+}
+
+// negative supported
+export function add_days(previous: Immutable<BetterDate>, days: number): Immutable<BetterDate> {
+	const _lx = previous._lx.plus({ days })
+
+	return {
+		_lx,
+		_debug: {
+			'add_days': {
+				days
+			}
+		}
+	}
 }
 
 export function add_days_to_simple_date(date: SimpleYYYYMMDD, inc_days: number): SimpleYYYYMMDD {
