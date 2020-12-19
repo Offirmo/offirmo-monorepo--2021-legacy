@@ -99,6 +99,11 @@ export function get_all_file_ids(state: Immutable<State>): string[] {
 		.sort()
 }
 
+export function get_all_files_except_notes(state: Immutable<State>): Immutable<File.State>[] {
+	return Object.values(state.files)
+		.filter(state => !File.is_notes(state))
+}
+
 export function get_all_media_file_ids(state: Immutable<State>): string[] {
 	return get_all_file_ids(state)
 		.filter(k => File.is_media_file(state.files[k]))
@@ -184,21 +189,21 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 export function get_past_and_present_notes(state: Immutable<State>, folder_path?: RelativePath): Immutable<Notes.State> {
 	assert(!folder_path, `get_past_and_present_notes() by folder = NIMP!`)
 
-	const encountered_media_files = {
-		...state.extra_notes.encountered_media_files,
+	const encountered_files = {
+		...state.extra_notes.encountered_files,
 	}
 
 	get_all_media_files(state)
 		.forEach(file_state => {
 			assert(file_state.current_hash, `get_past_and_present_notes() should happen on hashed files`)
 			// check the original, no the one we're refilling. 2x files may have the same hash
-			assert(!state.extra_notes.encountered_media_files[file_state.current_hash], `get_past_and_present_notes() no redundant data ` + file_state.current_hash)
-			encountered_media_files[file_state.current_hash] = file_state.notes
+			assert(!state.extra_notes.encountered_files[file_state.current_hash], `get_past_and_present_notes() no redundant data ` + file_state.current_hash)
+			encountered_files[file_state.current_hash] = file_state.notes
 		})
 
 	const result = {
 		...Notes.create('for persisting'),
-		encountered_media_files,
+		encountered_files,
 		known_modifications_new_to_old: state.extra_notes.known_modifications_new_to_old,
 	}
 
@@ -324,7 +329,6 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_file_found(…)`, { parent_id, sub_id, id })
-	logger.verbose(`${LIB} found a file`, { id })
 
 	const file_state = File.create(id)
 
@@ -341,15 +345,15 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 
 	if (is_notes) {
 		state = _enqueue_action(state, create_action_load_notes(path.join(parent_id, sub_id)))
+		logger.verbose(`${ LIB } found notes from a previous sorting`, {id})
 	}
 	else {
-		// always, for dedupe
+		// always, for dedupe (fs used to identify the earliest copy)
 		state = _enqueue_action(state, create_action_hash(id))
+		state = _enqueue_action(state, create_action_query_fs_stats(id))
 
 		if (is_media_file) {
-			logger.verbose(`${ LIB } file found is a media file`, {id})
-
-			state = _enqueue_action(state, create_action_query_fs_stats(id))
+			logger.verbose(`${ LIB } found a media file`, {id})
 
 			if(File.is_exif_powered_media_file(file_state))
 				state = _enqueue_action(state, create_action_query_exif(id))
@@ -357,7 +361,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 			// did we already recover notes for this file?
 			// can't tell yet, we need the hash for that!
 		} else {
-			logger.verbose(`${ LIB } file found is NOT a media file`, {id})
+			logger.verbose(`${ LIB } found a NON media file`, {id})
 		}
 	}
 
@@ -456,8 +460,8 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 	return _on_file_info_read(state, file_id)
 }
 
-function _on_media_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`${LIB} _on_media_file_notes_recovered(…)`, { file_id })
+function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id })
 
 	let new_file_state = File.on_notes_recovered(
 		state.files[file_id],
@@ -602,23 +606,23 @@ function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<S
 	logger.trace(`${LIB} _consolidate_notes_between_persisted_and_regenerated()…`)
 
 	// merge notes recovered from notes bkp and notes (re)generated) from fs
-	const all_media_files = get_all_media_files(state)
+	const all_files = get_all_files_except_notes(state)
 	state = {
 		...state,
-		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(state.extra_notes, all_media_files)
+		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(state.extra_notes, all_files)
 	}
 
 	// now re-attach notes to their respective files and remove the copy from "extra notes" to avoid redundancy
 	const all_media_hashes = new Set<FileHash>()
-	all_media_files.forEach(file_state => {
+	all_files.forEach(file_state => {
 		const { id, current_hash } = file_state
 		assert(current_hash)
 		all_media_hashes.add(current_hash)
-		state = _on_media_file_notes_recovered(state, id, Notes.get_file_notes_for_hash(state.extra_notes, current_hash!))
+		state = _on_file_notes_recovered(state, id, Notes.get_file_notes_for_hash(state.extra_notes, current_hash!))
 	})
 	let extra_notes = { ...state.extra_notes }
 	all_media_hashes.forEach(hash => {
-		extra_notes = Notes.on_media_file_notes_recovered(extra_notes, hash) // remove
+		extra_notes = Notes.on_file_notes_recovered(extra_notes, hash) // remove
 	})
 
 	// since we updated the notes, time for a save
@@ -715,7 +719,7 @@ function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutabl
 		assert(duplicates_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
 
 		// improve the notes for those duplicates
-		state = _on_media_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
+		state = _on_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
 		// propagate them immediately across duplicates
 		duplicates_ids.forEach(file_id => {
 			files[file_id] = {
@@ -741,7 +745,6 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 
 	return state
 }
-
 
 export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} clean_up_duplicates()…`)
@@ -824,6 +827,8 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 
 	const all_file_ids = get_all_file_ids(state)
 	all_file_ids.forEach(id => {
+		if (File.is_notes(state.files[id])) return
+
 		const target_id = get_ideal_file_relative_path(state, id)
 		if (id === target_id) return
 		if (state.files[target_id]) {

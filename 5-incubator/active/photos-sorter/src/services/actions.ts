@@ -143,7 +143,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
 		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
-		logger.info(`persisting ${Object.keys(data.encountered_media_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
+		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
 		on_new_task(TASK_ID)
 
 		try {

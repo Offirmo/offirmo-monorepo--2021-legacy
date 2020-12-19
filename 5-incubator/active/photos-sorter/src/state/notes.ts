@@ -28,7 +28,7 @@ const SCHEMA_VERSION = 1
 
 export interface State extends BaseState, WithLastUserActionTimestamp {
 	_comment: string
-	encountered_media_files: { [oldest_hash: string]: FileNotes }
+	encountered_files: { [oldest_hash: string]: FileNotes }
 	known_modifications_new_to_old: { [newer_hash: string]: string }
 }
 
@@ -40,12 +40,12 @@ export function get_oldest_hash(state: Immutable<State>, hash: FileHash): FileHa
 	let has_redirect = false
 	while (state.known_modifications_new_to_old[hash]) {
 		has_redirect = true
-		assert(!state.encountered_media_files[hash], 'get_oldest_hash() newer hash should not have notes')
+		assert(!state.encountered_files[hash], 'get_oldest_hash() newer hash should not have notes')
 		hash = state.known_modifications_new_to_old[hash]
 	}
 
 	if (has_redirect) {
-		assert(state.encountered_media_files[hash], 'get_oldest_hash() known hash should have notes')
+		assert(state.encountered_files[hash], 'get_oldest_hash() known hash should have notes')
 	}
 
 	return hash
@@ -54,7 +54,7 @@ export function get_oldest_hash(state: Immutable<State>, hash: FileHash): FileHa
 export function get_file_notes_for_hash(state: Immutable<State>, hash: FileHash): null | Immutable<FileNotes> {
 	hash = get_oldest_hash(state, hash)
 
-	return state.encountered_media_files[hash] || null
+	return state.encountered_files[hash] || null
 }
 
 ///////////////////// REDUCERS /////////////////////
@@ -69,7 +69,7 @@ export function create(debug_id: string): Immutable<State> {
 		revision: 0,
 		last_user_action_tms: get_UTC_timestamp_ms(),
 
-		encountered_media_files: {},
+		encountered_files: {},
 		known_modifications_new_to_old: {},
 	}
 }
@@ -82,12 +82,12 @@ export function migrate_to_latest(prev: any): Immutable<State> {
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} on_previous_notes_found(…)`, { })
 
-	const { encountered_media_files: encountered_media_files_a } = state
-	const { encountered_media_files: encountered_media_files_b } = old_state
-	const encountered_media_files: State['encountered_media_files'] = {}
+	const { encountered_files: encountered_files_a } = state
+	const { encountered_files: encountered_files_b } = old_state
+	const encountered_files: State['encountered_files'] = {}
 	state = {
 		...state,
-		encountered_media_files,
+		encountered_files,
 		known_modifications_new_to_old: {
 			// easy merge
 			...state.known_modifications_new_to_old,
@@ -95,41 +95,41 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 		},
 	}
 
-	const encountered_media_files_hashes = new Set<FileHash>([
-		...Object.keys(encountered_media_files_a),
-		...Object.keys(encountered_media_files_b),
+	const encountered_files_hashes = new Set<FileHash>([
+		...Object.keys(encountered_files_a),
+		...Object.keys(encountered_files_b),
 	])
 
-	encountered_media_files_hashes.forEach(hash => {
+	encountered_files_hashes.forEach(hash => {
 		const notes: Array<Immutable<FileNotes> | undefined> = []
 
-		notes.push(encountered_media_files_a[hash])
-		notes.push(encountered_media_files_b[hash])
+		notes.push(encountered_files_a[hash])
+		notes.push(encountered_files_b[hash])
 		while (state.known_modifications_new_to_old[hash]) {
 			hash = state.known_modifications_new_to_old[hash]
-			notes.push(encountered_media_files_a[hash])
-			notes.push(encountered_media_files_b[hash])
+			notes.push(encountered_files_a[hash])
+			notes.push(encountered_files_b[hash])
 		}
 
 		const final_note = merge_notes(...notes.filter(n => !!n) as Array<Immutable<FileNotes>>)
-		encountered_media_files[hash] = final_note
+		encountered_files[hash] = final_note
 	})
 
 	return state
 }
 
-export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, media_file_states: Immutable<FileState>[]): Immutable<State> {
+export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, file_states: Immutable<FileState>[]): Immutable<State> {
 	logger.trace(`${LIB} on_exploration_done_merge_new_and_recovered_notes(…)`, { })
 
-	const encountered_media_files: State['encountered_media_files'] = { ...state.encountered_media_files }
+	const encountered_files: State['encountered_files'] = { ...state.encountered_files }
 
-	media_file_states.forEach(media_file_state => {
-		let hash = get_hash(media_file_state)
-		assert(hash, 'file hashed')
+	file_states.forEach(file_state => {
+		let hash = get_hash(file_state)
+		assert(hash, `on_exploration_done_merge_new_and_recovered_notes() file should be hashed: "${file_state.id}"`)
 
 		hash = get_oldest_hash(state, hash)
-		const old_notes = encountered_media_files[hash]
-		const fresh_notes = media_file_state.notes
+		const old_notes = encountered_files[hash]
+		const fresh_notes = file_state.notes
 
 		if (!old_notes) {
 			if (get_params().is_perfect_state) {
@@ -138,15 +138,15 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 					`PERFECT STATE new notes should never reference an already normalized original basename "${fresh_notes.original.basename}"! ${hash}`
 				)
 			}
-			encountered_media_files[hash] = fresh_notes
+			encountered_files[hash] = fresh_notes
 		} else {
 			// merge with oldest having priority = at the end
-			encountered_media_files[hash] = merge_notes(fresh_notes, old_notes)
+			encountered_files[hash] = merge_notes(fresh_notes, old_notes)
 		}
 
 		if (get_params().is_perfect_state) {
-			const original_basename = encountered_media_files[hash].original.basename
-			//console.error({ old_notes, fresh_notes, final_notes: encountered_media_files[hash] })
+			const original_basename = encountered_files[hash].original.basename
+			//console.error({ old_notes, fresh_notes, final_notes: encountered_files[hash] })
 
 			assert(
 				!is_already_normalized(original_basename),
@@ -157,30 +157,29 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 
 	return {
 		...state,
-		encountered_media_files,
+		encountered_files,
 	}
 }
 
-export function on_media_file_notes_recovered(state: Immutable<State>, current_hash: FileHash): Immutable<State> {
-	//console.log('on_media_file_notes_recovered', current_hash)
-	let encountered_media_files = {
-		...state.encountered_media_files,
+export function on_file_notes_recovered(state: Immutable<State>, current_hash: FileHash): Immutable<State> {
+	let encountered_files = {
+		...state.encountered_files,
 	}
 
 	const oldest_hash = get_oldest_hash(state, current_hash)
-	assert(encountered_media_files[oldest_hash], `on_media_file_notes_recovered() notes should exist`)
-	delete encountered_media_files[oldest_hash] // clean to avoid redundancy, lives in the file state!
-	assert(!encountered_media_files[oldest_hash], 'on_media_file_notes_recovered() delete')
+	assert(encountered_files[oldest_hash], `on_file_notes_recovered() notes should exist`)
+	delete encountered_files[oldest_hash] // clean to avoid redundancy, lives in the file state!
+	assert(!encountered_files[oldest_hash], 'on_file_notes_recovered() delete')
 
 	let hash = current_hash
 	while (hash !== oldest_hash) {
-		assert(!encountered_media_files[hash], 'on_media_file_notes_recovered() should not longer have notes')
+		assert(!encountered_files[hash], 'on_file_notes_recovered() should not longer have notes')
 		hash = state.known_modifications_new_to_old[hash]
 	}
 
 	return {
 		...state,
-		encountered_media_files,
+		encountered_files,
 	}
 }
 
@@ -193,12 +192,12 @@ export function on_file_modified(state: Immutable<State>, previous_hash: string,
 ///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Immutable<State>): string {
-	const { encountered_media_files, known_modifications_new_to_old } = state
+	const { encountered_files, known_modifications_new_to_old } = state
 
 	let str = ''
 	const processed = new Set<string>()
 
-	const oldest_hashes: string[] = Object.keys(encountered_media_files)
+	const oldest_hashes: string[] = Object.keys(encountered_files)
 
 	/*const known_modifications_old_to_new = Object.entries(known_modifications_new_to_old)
 			.reduce((acc, [n, o]) => {
@@ -214,8 +213,8 @@ export function to_string(state: Immutable<State>): string {
 	oldest_hashes.forEach(hash => {
 		processed.add(hash)
 
-		const notes = encountered_media_files[hash]
-		str += `\n📄 notes: ${hash}: ` + media_notes_to_string(notes)
+		const notes = encountered_files[hash]
+		str += `\n📄 notes: ${hash}: ` + notes_to_string(notes)
 
 		//str += '\n    TODO old hashes'
 	})
@@ -223,7 +222,7 @@ export function to_string(state: Immutable<State>): string {
 	return str
 }
 
-function media_notes_to_string(notes: Immutable<FileNotes>): string {
+function notes_to_string(notes: Immutable<FileNotes>): string {
 	let str = ''
 
 	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(

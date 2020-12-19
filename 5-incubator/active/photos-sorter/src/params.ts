@@ -64,10 +64,10 @@ export function get_params(): Params {
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted/- inbox/some posh event with no date in inbox`),
 
-		...(false // XXX local debug?
+		...(false // XXX true = local execution on Offirmo's machine
 			? {
-					//dry_run: true,
-					dry_run: false,
+					dry_run: true,
+					//dry_run: false,
 					is_perfect_state: true,
 				}
 			: {
@@ -100,6 +100,7 @@ export function get_params(): Params {
 		worthless_files: [
 			'.DS_Store',
 			'.picasa.ini',
+			'pspbrwse.jbf', // paint shop pro
 		].map(s => s.toLowerCase()),
 
 		default_timezones: [

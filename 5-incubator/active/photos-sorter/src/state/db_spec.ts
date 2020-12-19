@@ -405,7 +405,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 	describe('de-duplication', function() {
 
-		it('should detect duplicated files', function () {
+		it('should detect duplicated and clean media files', function () {
 			let state = create(TEST_FILES_DIR_ABS)
 
 			state = on_folder_found(state, '', '.')
@@ -442,9 +442,9 @@ describe(`${LIB} - DB (root) state`, function() {
 			state = on_exif_read(state, 'baz.jpg', { 'CreateDate': get_exif_datetime(CREATION_DATE) })
 
 			state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
-			/*state = on_media_file_notes_recovered(state, 'foo.jpg', null)
-			state = on_media_file_notes_recovered(state, 'bar.jpg', null)
-			state = on_media_file_notes_recovered(state, 'baz.jpg', null)*/
+			/*state = on_file_notes_recovered(state, 'foo.jpg', null)
+			state = on_file_notes_recovered(state, 'bar.jpg', null)
+			state = on_file_notes_recovered(state, 'baz.jpg', null)*/
 
 			expect(state.encountered_hash_count['hash01'], '01').to.equal(1)
 			expect(state.encountered_hash_count['hash02'], '02').to.equal(2)
@@ -461,6 +461,51 @@ describe(`${LIB} - DB (root) state`, function() {
 			//console.log(state.queue)
 
 			state = on_file_deleted(state, 'baz.jpg')
+			//console.log(to_string(state))
+		})
+
+		it('should also work on non media files', function () {
+			let state = create(TEST_FILES_DIR_ABS)
+
+			state = on_folder_found(state, '', '.')
+			state = on_folder_found(state, '', 'foo')
+			state = on_folder_found(state, '', 'bar')
+
+
+			state = on_file_found(state, '.', 'foo/description.txt')
+			state = on_file_found(state, '.', 'bar/description.txt')
+
+			state = on_hash_computed(state, 'foo/description.txt', 'hash01')
+			state = on_hash_computed(state, 'bar/description.txt', 'hash01')
+			state = on_fs_stats_read(state, 'foo/description.txt', {
+				birthtimeMs: CREATION_DATE_MS,
+				atimeMs:     CREATION_DATE_MS,
+				mtimeMs:     CREATION_DATE_MS,
+				ctimeMs:     CREATION_DATE_MS,
+			})
+			state = on_fs_stats_read(state, 'bar/description.txt', {
+				birthtimeMs: CREATION_DATE_MS,
+				atimeMs:     CREATION_DATE_MS,
+				mtimeMs:     CREATION_DATE_MS,
+				ctimeMs:     CREATION_DATE_MS,
+			})
+
+			state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
+
+			expect(state.encountered_hash_count['hash01']).to.equal(2)
+
+			state = discard_all_pending_actions(state)
+			state = clean_up_duplicates(state)
+
+			//console.log(to_string(state))
+			expect(get_pending_actions(state)).to.have.lengthOf(2)
+			expect(get_first_pending_action(state)).to.deep.equal({
+				type: 'delete_file',
+				id: 'foo/description.txt',
+			})
+			//console.log(state.queue)
+
+			state = on_file_deleted(state, 'foo/description.txt')
 			//console.log(to_string(state))
 		})
 	})

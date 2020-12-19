@@ -17,7 +17,7 @@ export function get_fs_stats_subset(fs_stats: Immutable<fs.Stats>): FsStatsSubse
 }
 
 export function get_most_reliable_birthtime_from_fs_stats(fs_stats_subset: Immutable<FsStatsSubset>): TimestampUTCMs {
-	assert(fs_stats_subset, 'fs stats ok ✔')
+	assert(fs_stats_subset, 'get_most_reliable_birthtime_from_fs_stats() fs stats ok ✔')
 	//console.log(fs_stats_subset)
 
 	// fs stats are unreliable for some reasons.

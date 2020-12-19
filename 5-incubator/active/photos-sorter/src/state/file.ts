@@ -8,7 +8,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { is_deep_equal } from '@offirmo-private/state-utils'
 
-import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
+import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
@@ -110,6 +110,9 @@ export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params>
 	 return PARAMS.media_files_extensions.includes(normalized_extension)
 }
 
+export function is_notes(state: Immutable<State>): boolean {
+	return get_current_basename(state) === NOTES_BASENAME
+}
 export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 	let normalized_extension = state.memoized.get_normalized_extension(state)
 
@@ -555,11 +558,20 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 	assert(states.length > 1, 'merge_duplicates(…) params')
 
 	states.forEach(duplicate_state => {
-		assert(duplicate_state.current_hash, 'merge_duplicates(…) should happen after hash computed')
-		assert(duplicate_state.current_hash === states[0].current_hash, 'merge_duplicates(…) should have the same hash')
-		assert(duplicate_state.current_fs_stats, 'merge_duplicates(…) should happen after fs stats read')
-		assert(duplicate_state.notes_restored, 'merge_duplicates(…) should happen after notes are restored (if any)')
-		//assert(is_deep_equal(_get_creation_date_from_exif(duplicate_state), _get_creation_date_from_exif(states[0])), 'merge_duplicates(…) should have the same EXIF')
+		try {
+			assert(duplicate_state.current_hash, 'merge_duplicates(…) should happen after hash computed')
+			assert(duplicate_state.current_hash === states[0].current_hash, 'merge_duplicates(…) should have the same hash')
+			assert(duplicate_state.current_fs_stats, 'merge_duplicates(…) should happen after fs stats read')
+			assert(duplicate_state.notes_restored, 'merge_duplicates(…) should happen after notes are restored (if any)')
+			//assert(is_deep_equal(_get_creation_date_from_exif(duplicate_state), _get_creation_date_from_exif(states[0])), 'merge_duplicates(…) should have the same EXIF')
+		}
+		catch (err) {
+			logger.error('merge_duplicates(…) initial assertion failed', {
+				err,
+				states,
+			})
+			throw err
+		}
 	})
 
 	const reasons = new Set<string>()
