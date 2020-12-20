@@ -57,11 +57,18 @@ export interface State {
 
 ///////////////////// ACCESSORS /////////////////////
 
+export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): number {
+	const pathㆍparsed = (data as any).base
+		? (data as Immutable<path.ParsedPath>)
+		: (data as Immutable<State>).cached.pathㆍparsed
+	return pathㆍparsed.dir.split(path.sep).length - 1
+}
+
 function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
 	assert(id, '_infer_initial_folder_type() id')
 	if (id === '.') return Type.root
 
-	const depth = pathㆍparsed.dir.split(path.sep).length - 1
+	const depth = get_depth(pathㆍparsed)
 
 	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__INBOX__BASENAME) return Type.inbox
 	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_SORT__BASENAME) return Type.cant_sort
@@ -92,19 +99,13 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 	return String(state.begin_date + ' - ' + state.cached.nameㆍparsed.meaningful_part)
 }
 
-export function is_current_name_intentful(state: Immutable<State>): boolean {
+export function is_current_basename_intentful(state: Immutable<State>): boolean {
 	const current_basename = get_basename(state)
 	return current_basename.length > 11
 		&& current_basename.slice(8, 11) === ' - '
 		&& is_compact_date(current_basename.slice(0, 8))
 }
-/*
-export function is_canonical(state: Immutable<State>): boolean {
-	const current_basename = get_basename(state)
-	const ideal_basename = get_ideal_basename(state)
-	return current_basename === ideal_basename
-}
-*/
+
 ///////////////////// REDUCERS /////////////////////
 
 export function create(id: RelativePath): Immutable<State> {
@@ -130,67 +131,84 @@ export function create(id: RelativePath): Immutable<State> {
 	}
 }
 
-export function on_subfile_found(state: Immutable<State>, file_state: Immutable<MediaFile.State>): Immutable<State> {
+export function on_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_found(…)`, { file_id: file_state.id })
 
-	if (state.type == Type.event) {
-		const file_compact_date = MediaFile.get_best_creation_date_compact(file_state)
-		const { end_date: previous_end_date } = state
-		const new_start_date = state.begin_date
-			? is_current_name_intentful(state)
-				? state.begin_date // no change, the dir name is clear thus has precedence
-				: Math.min(state.begin_date, file_compact_date)
-			: file_compact_date
-		let new_end_date = state.end_date
-			? Math.max(state.end_date, file_compact_date)
-			: file_compact_date
+	return {
+		...state,
+		child_count: state.child_count + 1,
+	}
+}
 
-		if (new_end_date - new_start_date > 28) {
-			// range too big, unlikely to be an event
-			if (!is_current_name_intentful(state)) {
-				logger.info(
-					`${LIB} demoting folder: most likely not an event (date range too big)`, {
-						id: state.id,
-						file_id: file_state.id,
-						file_compact_date,
-						begin_date: new_start_date,
-						end_date: new_end_date,
-					})
-				state = demote_to_unknown(state, `${LIB} demoting folder: most likely not an event (date range too big)`)
-			}
-			else {
-				new_end_date = add_days_to_simple_date(new_start_date, 28)
-				logger.info(
-					`${LIB} folder: date range too big but intentful: capping end_date at +28`, {
-						id: state.id,
-						file_id: file_state.id,
-						file_compact_date,
-						begin_date: new_start_date,
-						end_date: new_end_date,
-					})
-				if (new_end_date !== previous_end_date) {
-					state = {
-						...state,
-						begin_date: new_start_date,
-						end_date: new_end_date,
-					}
-				}
-			}
-		}
-		else {
-			logger.verbose(
-				`${LIB} updating folder’s date range`,
-				{
+export function on_dated_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
+	logger.trace(`${LIB} on_dated_subfile_found(…)`, { file_id: file_state.id })
+
+	if (state.type !== Type.event)
+		return state
+
+	const meta = File.get_best_creation_date_meta(file_state)
+	if (!meta.confidence) {
+		// low confidence = don't demote the folder for that
+		// TODO improve this heuristic
+		return state
+	}
+
+	const file_compact_date = File.get_best_creation_date_compact(file_state)
+	const { end_date: previous_end_date } = state
+	const new_start_date = state.begin_date
+		? is_current_basename_intentful(state)
+			? state.begin_date // no change, the dir name is clear thus has precedence
+			: Math.min(state.begin_date, file_compact_date)
+		: file_compact_date
+	let new_end_date = state.end_date
+		? Math.max(state.end_date, file_compact_date)
+		: file_compact_date
+
+	if (new_end_date - new_start_date > 28) {
+		// range too big, unlikely to be an event
+		if (!is_current_basename_intentful(state)) {
+			logger.info(
+				`${LIB} demoting folder: most likely not an event (date range too big)`, {
 					id: state.id,
+					file_id: file_state.id,
 					file_compact_date,
 					begin_date: new_start_date,
 					end_date: new_end_date,
 				})
-			state = {
-				...state,
+			state = demote_to_unknown(state, `${LIB} demoting folder: most likely not an event (date range too big)`)
+		}
+		else {
+			new_end_date = add_days_to_simple_date(new_start_date, 28)
+			logger.info(
+				`${LIB} folder: date range too big but intentful: capping end_date at +28`, {
+					id: state.id,
+					file_id: file_state.id,
+					file_compact_date,
+					begin_date: new_start_date,
+					end_date: new_end_date,
+				})
+			if (new_end_date !== previous_end_date) {
+				state = {
+					...state,
+					begin_date: new_start_date,
+					end_date: new_end_date,
+				}
+			}
+		}
+	}
+	else {
+		logger.verbose(
+			`${LIB} updating folder’s date range`,
+			{
+				id: state.id,
+				file_compact_date,
 				begin_date: new_start_date,
 				end_date: new_end_date,
-			}
+			})
+		state = {
+			...state,
+			begin_date: new_start_date,
+			end_date: new_end_date,
 		}
 	}
 

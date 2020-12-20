@@ -53,6 +53,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function explore_folder(id: RelativePath): Promise<void> {
 		logger.group(`- exploring dir "${id}"…`)
+		const TASK_ID = 'explore_folder'
 		on_new_task(TASK_ID)
 
 		let pending_tasks: Promise<void>[] = []
@@ -93,6 +94,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function query_fs_stats(id: RelativePath): Promise<void> {
 		logger.trace(`initiating fs stats query for "${id}"…`)
+		const TASK_ID = 'query_fs_stats'
 		on_new_task(TASK_ID)
 
 		const abs_path = DB.get_absolute_path(db, id)
@@ -105,6 +107,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function query_exif(id: RelativePath): Promise<void> {
 		logger.trace(`initiating exif query for "${id}"…`)
+		const TASK_ID = 'query_exif'
 		on_new_task(TASK_ID)
 
 		const abs_path = DB.get_absolute_path(db, id)
@@ -117,6 +120,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function compute_hash(id: RelativePath): Promise<void> {
 		logger.trace(`computing hash for "${id}"…`)
+		const TASK_ID = 'hash'
 		on_new_task(TASK_ID)
 
 		const abs_path = DB.get_absolute_path(db, id)
@@ -289,6 +293,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		on_task_finished(TASK_ID)
 	}
 
+	TODO clean folder if empty
+	TODO leave undated files in event folder
+	
 ////////////////////////////////////
 
 	async function asyncjs_iteratee(action: Immutable<Action>): Promise<void> {

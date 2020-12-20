@@ -180,6 +180,8 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 			folder_date = add_days(folder_date, -1)
 		}
 
+		// TODO use the existing parent folder as a base hint anyway
+
 		return String(get_compact_date(folder_date, 'tz:embedded')) + ' - ' + (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life')
 	})()
 
@@ -331,12 +333,19 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	logger.trace(`${LIB} on_file_found(…)`, { parent_id, sub_id, id })
 
 	const file_state = File.create(id)
+	const folder_id = File.get_current_parent_folder_id(file_state)
+	const old_folder_state = state.folders[folder_id]
+	const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)
 
 	state = {
 		...state,
 		files: {
 			...state.files,
 			[id]: file_state,
+		},
+		folders: {
+			...state.folders,
+			[folder_id]: new_folder_state,
 		},
 	}
 
@@ -388,9 +397,7 @@ function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable
 		const folder_id = File.get_current_parent_folder_id(file_state)
 		const old_folder_state = state.folders[folder_id]
 		assert(old_folder_state, `folder state for "${folder_id}" - "${file_id}"!`)
-		// XXX TODO unclear, should be systematic
-		// should split the semantic
-		const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)
+		const new_folder_state = Folder.on_dated_subfile_found(old_folder_state, file_state)
 		state = {
 			...state,
 			folders: {
@@ -663,14 +670,14 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 			if (!existing_conflicting_folder)
 				return folder
 
-			if (Folder.is_current_name_intentful(existing_conflicting_folder)
-				&& !Folder.is_current_name_intentful(folder)) {
+			if (Folder.is_current_basename_intentful(existing_conflicting_folder)
+				&& !Folder.is_current_basename_intentful(folder)) {
 				// demote the non-canonical one
 				folders[folder.id] = Folder.demote_to_unknown(folder, 'conflicting: non canonical')
 				return existing_conflicting_folder
 			}
-			if (Folder.is_current_name_intentful(folder)
-				&& !Folder.is_current_name_intentful(existing_conflicting_folder)) {
+			if (Folder.is_current_basename_intentful(folder)
+				&& !Folder.is_current_basename_intentful(existing_conflicting_folder)) {
 				// demote the non-canonical one
 				folders[existing_conflicting_folder.id] = Folder.demote_to_unknown(existing_conflicting_folder, 'conflicting: non canonical')
 				return folder
@@ -812,7 +819,8 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 
 	const years = new Set<number>()
 	get_all_media_files(state).forEach(file_state => {
-		years.add(File.get_best_creation_year(file_state))
+		const year = File.get_best_creation_year(file_state)
+		years.add(year)
 	})
 	for(const y of years) {
 		//state = _register_folder(state, String(y), false)

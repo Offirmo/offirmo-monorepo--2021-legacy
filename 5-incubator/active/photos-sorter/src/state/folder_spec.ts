@@ -4,11 +4,12 @@ import { LIB } from '../consts'
 import {
 	State,
 
-	is_current_name_intentful,
+	is_current_basename_intentful,
 	get_ideal_basename,
 
 	create,
 	on_subfile_found,
+	on_dated_subfile_found,
 } from './folder'
 
 import {
@@ -16,7 +17,6 @@ import {
 } from '../__test_shared/real_files'
 
 /////////////////////
-
 
 describe(`${LIB} - folder state`, function() {
 
@@ -71,6 +71,7 @@ describe(`${LIB} - folder state`, function() {
 
 					let file_state = await get_MEDIA_DEMO_01()
 					state = on_subfile_found(state, file_state)
+					state = on_dated_subfile_found(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.begin_date).to.equal(20180903)
@@ -87,6 +88,7 @@ describe(`${LIB} - folder state`, function() {
 
 					let file_state = await get_MEDIA_DEMO_01()
 					state = on_subfile_found(state, file_state)
+					state = on_dated_subfile_found(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.begin_date).to.equal(20180903)
@@ -97,10 +99,11 @@ describe(`${LIB} - folder state`, function() {
 					let state = create('20180904 - holiday')
 					expect(state.begin_date).to.equal(20180904)
 					expect(state.end_date).to.equal(20180904)
-					expect(is_current_name_intentful(state)).to.be.true
+					expect(is_current_basename_intentful(state)).to.be.true
 
 					let file_state = await get_MEDIA_DEMO_01()
 					state = on_subfile_found(state, file_state)
+					state = on_dated_subfile_found(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.begin_date).to.equal(20180904)
@@ -114,6 +117,7 @@ describe(`${LIB} - folder state`, function() {
 
 					let file_state = await get_MEDIA_DEMO_01()
 					state = on_subfile_found(state, file_state)
+					state = on_dated_subfile_found(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.begin_date).to.equal(20180902)
@@ -130,6 +134,7 @@ describe(`${LIB} - folder state`, function() {
 
 						let file_state = await get_MEDIA_DEMO_01()
 						state = on_subfile_found(state, file_state)
+						state = on_dated_subfile_found(state, file_state)
 
 						expect(state.type).to.equal('unknown') // demoted
 						expect(state.begin_date).to.equal(20180704)
@@ -144,6 +149,7 @@ describe(`${LIB} - folder state`, function() {
 
 						let file_state = await get_MEDIA_DEMO_01()
 						state = on_subfile_found(state, file_state)
+						state = on_dated_subfile_found(state, file_state)
 
 						expect(state.type).to.equal('event')
 						expect(state.begin_date).to.equal(20180704)

@@ -62,7 +62,7 @@ export function get_params(): Params {
 		date_upper_bound: DATE_UPPER_BOUND,
 
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted/- inbox/some posh event with no date in inbox`),
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- souvenirs/- photo-sorted`),
 
 		...(false // XXX true = local execution on Offirmo's machine
 			? {
@@ -91,6 +91,8 @@ export function get_params(): Params {
 			'.png',
 			'.psp', // photoshop I believe, screens from Warcraft III are in this format
 			'.tga', // WoW
+			'.txt', // used to take notes
+			'.doc', '.ppt', // often hold memories as well
 		].map(s => s.toLowerCase()),
 
 		extensions_to_delete: [
