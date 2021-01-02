@@ -22,8 +22,8 @@ export interface XXError extends XError {
 		[k: string]: boolean | number | string | null | undefined
 	}
 	_temp?: {
-		SEC?: any
-		statePath?: string
+		SEC?: any // Software Execution Context (Offirmo private)
+		statePath?: string // idem
 		[k: string]: any
 	}
 }

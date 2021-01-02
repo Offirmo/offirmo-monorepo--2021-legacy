@@ -1,4 +1,3 @@
-
 import {
 	XError,
 	XXError
@@ -13,13 +12,16 @@ interface Attributes extends XXError {
 	[k: string]: any
 }
 
-export function createError(message: string, attributes: Partial<Attributes> = {}, ctor = Error) {
+export function createError(message: string, attributes: Partial<Attributes> = {}, ctor = Error): XXError {
 	message = String(message || attributes.message || 'Unknown error!')
 	if (!(message.toLowerCase()).includes('error')) {
-		message = 'Error: ' + message
+		if (ctor.name?.endsWith('Error'))
+			message = ctor.name + ': ' + message
+		else
+			message = 'Error: ' + message
 	}
 
-	let err: XXError = new ctor(message)
+	let err: XXError = (new ctor(message)) as any
 
 	Object.keys(attributes).forEach(k => {
 		const isErrorAttribute = COMMON_ERROR_FIELDS_EXTENDED.has(k as keyof XXError)
