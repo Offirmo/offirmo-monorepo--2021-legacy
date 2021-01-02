@@ -8,6 +8,7 @@
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
 * XXX DO NOT PUBLISH BEFORE RESOLVING THE PRIVATE DEP (temporary, work in progress)
+* [doc] marked as maintained in 2021! Happy new year!
 * ...
 
 ## v3.0.0

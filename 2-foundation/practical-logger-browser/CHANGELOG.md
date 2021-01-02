@@ -14,6 +14,7 @@ NOTE: not much reason to publish this lib since it's supposed to be bundled
 * [doc] ++
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
+* [doc] marked as maintained in 2021! Happy new year!
 * ...
 
 ## v3.0.0

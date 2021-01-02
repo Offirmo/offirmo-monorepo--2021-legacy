@@ -28,7 +28,7 @@
 		  src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
 	</a>
 	<img alt="maintenance status badge"
-	  src="https://img.shields.io/maintenance/yes/2020.svg">
+	  src="https://img.shields.io/maintenance/yes/2021.svg">
 </p>
 
 **This is a minimal, no-operation implementation of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.app/).**

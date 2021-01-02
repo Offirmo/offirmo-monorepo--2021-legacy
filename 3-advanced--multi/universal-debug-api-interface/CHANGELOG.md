@@ -7,6 +7,7 @@
 * [chore] fix incorrect LIB
 * TODO clean the useless debug setup? NO IT PROVED USEFUL EVEN FOR MYSELF
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
+* [doc] marked as maintained in 2021! Happy new year!
 * ...
 
 ## v1.0.0

@@ -9,6 +9,7 @@ NOTE: Reminder to increase REVISION when releasing!
 * [chore] tweaked some logs
 * [chore] bumped dependencies (minor)
 * [feat] [breaking] added ENV key normalization of a few unicode separater chars to "_"
+* [doc] marked as maintained in 2021! Happy new year!
 * ...
 
 ## v0.1.0

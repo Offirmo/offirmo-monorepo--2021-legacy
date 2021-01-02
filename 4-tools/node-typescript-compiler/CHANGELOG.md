@@ -3,6 +3,7 @@
 
 ## PENDING
 * TODO remove lodash as a dependency
+* [doc] marked as maintained in 2021! Happy new year!
 * ...
 
 ## v2.2.0

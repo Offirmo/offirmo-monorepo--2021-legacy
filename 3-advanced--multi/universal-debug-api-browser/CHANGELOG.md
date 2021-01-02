@@ -10,6 +10,7 @@ NOTE: Reminder to increase REVISION when releasing!
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] tweaked some logs
 * [chore] bumped dependencies (minor)
+* [doc] marked as maintained in 2021! Happy new year!
 * ...
 
 ## v1.0.0
