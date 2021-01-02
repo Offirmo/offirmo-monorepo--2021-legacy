@@ -36,7 +36,7 @@
 
 This is seldom used but useful sometimes.
 
-Be sure to review your options before using the deferred pattern over a simple promise.
+**Be sure to review your options** before using the deferred pattern over a simple promise.
 
 Note: no dependencies!
 
@@ -56,4 +56,4 @@ promise.reject(new Error('Foo!'))
 
 ## Credits
 
-iterated from https://github.com/Microsoft/TypeScript/issues/15202#issuecomment-318900991
+Iterated from https://github.com/Microsoft/TypeScript/issues/15202#issuecomment-318900991

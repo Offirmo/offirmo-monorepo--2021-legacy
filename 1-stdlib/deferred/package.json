@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/deferred",
 	"description": "Implementation of the deferred pattern on top of a Promise",
-	"version": "3.0.0",
+	"version": "4.0.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
