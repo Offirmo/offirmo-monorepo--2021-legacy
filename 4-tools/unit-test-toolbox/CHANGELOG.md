@@ -4,6 +4,7 @@
 ## PENDING
 * [major] [breaking] now requiring oldest node LTS = 14 (may still work with older ones, just not supported)
 * [chore] removed the "engines" requirement on node version since we *may* work with older versions
+* [doc] README++
 * [major][fix] major bump of chai-fetch-mock because of a conflict with sinon-chai (which [I reported](https://github.com/gakimball/chai-fetch-mock/issues/3))
 * [feat][fix] Optionally, the init script will now initialize a node SEC/UDA environment if those are available.
     This happens only in my monorepo thus I silenced an existing warning (fix)

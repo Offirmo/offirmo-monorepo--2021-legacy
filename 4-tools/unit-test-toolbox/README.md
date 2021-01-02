@@ -37,8 +37,8 @@ The proposed solution:
 
 **:+1: WITH @offirmo/unit-test-toolbox :+1: :sunglasses:**:
 1. install only one module `npm i -D @offirmo/unit-test-toolbox`
-1. copy this npm task `"test": "mocha --config node_modules/@offirmo/unit-test-toolbox/mocharc.json node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js '<glob_to_my_tests/**/*spec.js>'"`
-1. keep @offirmo/unit-test-toolbox up-to-date
+1. write this npm task `"test": "mocha --config node_modules/@offirmo/unit-test-toolbox/mocharc.json node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js '<glob_to_my_tests/**/*spec.js>'"`
+1. keep just @offirmo/unit-test-toolbox up-to-date
 
 
 ## Installation & usage
