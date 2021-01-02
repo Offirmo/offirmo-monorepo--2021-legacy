@@ -2,14 +2,17 @@
 **This package follows [semver](https://semver.org/).**
 
 ## pending
-* [test] unit tests
-* [feat] improve typings (inspired from tiny-invariant)
 * TODO check the semantic (once?) + duplication handling
-* [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
-* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
+* ...
+
+## v0.0.4
+2021/01/03
+* [feat] improve typings (inspired from tiny-invariant)
+* [test] unit tests
 * [doc] ++
 * [doc] marked as maintained in 2021! Happy new year!
-* ...
+* [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
+* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 
 ## v0.0.3
 2020/07/01
