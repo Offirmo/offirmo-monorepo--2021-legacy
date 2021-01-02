@@ -3,6 +3,9 @@
 
 ## PENDING
 * ...
+
+## v0.0.1
+2021/01/03
 * initial release to npm
 
 ## template

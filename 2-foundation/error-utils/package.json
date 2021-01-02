@@ -4,7 +4,6 @@
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
-	"private": true,
 
 	"esnext": "dist/src.es2019/index.js",
 	"module": "dist/src.es2019/index.js",
