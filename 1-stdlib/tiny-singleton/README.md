@@ -32,32 +32,33 @@
 </p>
 
 
-This is a trivial, isomorphic, straightforward TypeScript-compatible singleton
+This is a trivial, isomorphic, straightforward, TypeScript-compatible [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) implementation:
 * NO dependencies
+* lazily created on 1st use, as expected
 
 ### Usage
 
-Note: lazily created on 1st use, of course!
+**Be sure to review your options** before using the singleton pattern.
+While there are legitimate usages, it can also be a code smell close to a global variable.
 
 ```typescript
 // "@offirmo/tiny-singleton": "^0",
 import tiny_singleton from '@offirmo/tiny-singleton'
 
-interface DBClient {
-	read: (id: number): Promise<void>
-	write: (stuff: string): Promise<void>
-}
-
-function create_client(ip: string, logger: Console = console): DBClient {
+// example: a DB client is a correct case where the singleton pattern can be useful
+function create_db_client(ip: string, logger: Console = console): DBClient {
 	return ...
 }
 
-// case 1: use an intermediate function to typecheck the params
-const get_client = tiny_singleton(() => create_client('127.0.0.1'))
-get_client().read(1234).then(...)
+// example 1: best semantic
+const get_db_client = tiny_singleton(() => create_db_client('127.0.0.1'))
+get_db_client().read(1234).then(...)
 
-// case 2: params should be propagated (depending on your usage)
-const get_client = tiny_singleton((options?: CreationOptions) => create_client(options.ip || '127.0.0.1'))
-get_client('127.0.0.1')
-get_client().write('hello').then(...)
+// example 2: with params (not recommended as the params will only affect the 1st call, but sometimes convenient)
+const get_db_client = tiny_singleton(create_db_client)
+// alternative (not better, just an alternative example)
+const get_db_client = tiny_singleton((options?: CreationOptions) => create_db_client(options.ip || '127.0.0.1'))
+get_db_client('127.0.0.1')
+get_db_client('1.2.3.4') // XXX This will return the same as above!! No new instance creation.
+get_db_client().write('hello').then(...)
 ```
