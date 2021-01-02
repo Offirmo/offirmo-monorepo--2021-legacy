@@ -3,11 +3,14 @@
 
 ## PENDING
 * [test] TODO unit tests!
+* ...
+
+## v3.0.1
+2021/01/03
+* [doc] marked as maintained in 2021! Happy new year!
 * [doc] ++
 * [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
-* [doc] marked as maintained in 2021! Happy new year!
-* ...
 
 ## v3.0.0
 2020/07/01
