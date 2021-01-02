@@ -37,7 +37,7 @@
 	"dependencies": {
 		"@offirmo-private/async-utils": "^0",
 		"@offirmo-private/db": "^0",
-		"@offirmo-private/error-utils": "^0",
+		"@offirmo/error-utils": "^0",
 		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/soft-execution-context-node": "^0",
 		"@offirmo-private/state-utils": "^0",

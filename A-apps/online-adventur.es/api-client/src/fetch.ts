@@ -1,5 +1,5 @@
 import fetch_ponyfill from 'fetch-ponyfill'
-import { XXError, createError } from '@offirmo-private/error-utils'
+import { XXError, createError } from '@offirmo/error-utils'
 import { getRootSEC, SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 

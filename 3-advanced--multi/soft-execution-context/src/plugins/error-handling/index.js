@@ -1,6 +1,6 @@
 import { promiseTry } from '@offirmo-private/promise-try'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { createError as _createError, normalizeError } from '@offirmo-private/error-utils'
+import { createError as _createError, normalizeError } from '@offirmo/error-utils'
 
 
 import { INTERNAL_PROP } from '../../consts'

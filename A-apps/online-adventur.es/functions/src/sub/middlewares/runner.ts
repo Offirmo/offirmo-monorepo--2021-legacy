@@ -4,7 +4,7 @@ import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { getRootSEC, SoftExecutionContext, OperationParams } from '@offirmo-private/soft-execution-context'
-import { XXError } from '@offirmo-private/error-utils'
+import { XXError } from '@offirmo/error-utils'
 import { get_base_loose, Immutable, is_revisioned } from '@offirmo-private/state-utils'
 import {
 	OAServerResponseBody,

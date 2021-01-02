@@ -46,7 +46,7 @@
 		"prepublishOnly": "run-s clean build test ensure-size"
 	},
 	"devDependencies": {
-		"@offirmo-private/error-utils": "^0",
+		"@offirmo/error-utils": "^0",
 		"@offirmo/unit-test-toolbox": "^6",
 		"@size-limit/preset-small-lib": "^4",
 		"np": "^7",

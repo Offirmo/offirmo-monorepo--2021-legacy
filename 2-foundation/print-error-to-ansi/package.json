@@ -16,7 +16,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo-private/error-utils": "^0",
+		"@offirmo/error-utils": "^0",
 		"chalk": "^4",
 		"tslib": "^2"
 	},

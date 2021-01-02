@@ -1,5 +1,5 @@
 import { STATUS_CODES } from 'http'
-import { createError, XXError} from '@offirmo-private/error-utils'
+import { createError, XXError} from '@offirmo/error-utils'
 import { XSoftExecutionContext } from '../services/sec'
 
 import { APIGatewayEvent } from '../types'

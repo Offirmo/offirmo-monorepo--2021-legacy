@@ -3,7 +3,7 @@ import { LogDetails } from '@offirmo/practical-logger-types'
 
 import { LIB } from './consts'
 import { normalizeArguments } from './normalize-args'
-import { XXError } from '@offirmo-private/error-utils'
+import { XXError } from '@offirmo/error-utils'
 
 describe(`${LIB} - normalize args`, () => {
 	function getNormalizedMessage(...args: any[]): string {

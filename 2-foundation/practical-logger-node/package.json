@@ -23,7 +23,6 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/error-utils": "^0",
 		"@offirmo-private/prettify-any": "^0",
 		"@offirmo-private/print-error-to-ansi": "^0",
 		"@offirmo/practical-logger-core": "^3",
