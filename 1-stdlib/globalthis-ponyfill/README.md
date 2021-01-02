@@ -35,8 +35,8 @@
 This is a trivial TypeScript-compatible [`globalThis`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis) [ponyfill](https://ponyfill.com/).
 * very small minzipped size
 * NO dependencies
-* doesn't alter the environment
-* compatible node & browser
+* doesn't alter the environment ([ponyfill](https://ponyfill.com/))
+* compatible with node & browser
 
 
 ## Usage
@@ -51,16 +51,17 @@ const globalThis = getGlobalThis()
 
 * `globalThis` is a [TC-39 proposal](https://github.com/tc39/proposal-global)
  which is [already supported by Firefox and Chrome](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis).
-* a [ponyfill](https://ponyfill.com/) is a better polyfill that doesn't patch the environment.
+* There are existing ponyfills/polyfills [out there](https://github.com/ljharb/globalThis), but they didn't work for me:
+  * mine is much simpler: a single TS file of 6 meaningful lines
+  * I needed TypeScript
+  * a [ponyfill](https://ponyfill.com/) is better than a polyfill, it doesn't patch the environment.
 
-There are existing ponyfills/polyfills [out there](https://github.com/ljharb/globalThis), but they didn't work for me:
-* mine is much simpler: a single TS file of 6 meaningful lines
-* I needed TypeScript
+
 
 
 ## Credits
 
-**YES** I had a look at [ljharb/globalThis](https://github.com/ljharb/globalThis)'s [implementation](https://github.com/ljharb/globalThis/blob/master/implementation.js) (MIT)
+**YES** I had a look at [ljharb/globalThis](https://github.com/ljharb/globalThis) 's [implementation](https://github.com/ljharb/globalThis/blob/master/implementation.js) (MIT)
 and started my implementation from it! Thanks a lot and all credits due!
 
 About the proposed implementation here: https://mathiasbynens.be/notes/globalthis we can't use it: it creates a polyfill, not a ponyfill.
