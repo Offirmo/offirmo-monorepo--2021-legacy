@@ -27,7 +27,7 @@ Unless it's more convenient for some reasons, this repo strives to adhere to tho
 
 
 ## Installation
-I use macOS 10.15 but should work on any unix-like system.
+I use macOS 10.15 [](update marker) but should work on any unix-like system.
 
 This set of command will build everything: (required as there are dependencies between modules)
 ```bash
@@ -44,7 +44,7 @@ bolt test
 
 ### normal dev
 
-Now that every modules are built (required), you can move into an individual module:
+Now that all modules are built (required), you can move into an individual module:
 ```bash
 ## this will trigger watch build of the compatible cjs version, which works in all envs
 yarn dev
@@ -52,7 +52,7 @@ yarn dev
 yarn test
 ```
 
-Note than modifiying a module's source most likely requires a build for it to take effect.
+Note than modifying a module's source most likely requires a build for it to take effect.
 Be aware of the dependencies.
 
 At the moment, there are dependency loops which require a refactoring I don't plan to do right now. They don't prevent development.
