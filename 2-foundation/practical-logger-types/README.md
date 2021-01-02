@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2021.svg">
 </p>
 
-This is an **internal** component of [Offirmo’s practical logger](https://practical-logger-js.netlify.app/).
+This is an **internal** module of [Offirmo’s practical logger](https://practical-logger-js.netlify.app/).
 * declares only TypeScript types
 * **No code, 0 bytes** = will do nothing to your bundle size
 * no dependencies
@@ -65,7 +65,7 @@ A logger will have the following interface:
   * `debug(…) idem`
   * `trace(…) idem`
   * `silly(…) idem`
-* those functions are present but may not do anything (platform-dependent):
+* those functions are present for convenience but may not do anything (platform-dependent):
   * `group(groupTitle?: string): void`
   * `groupCollapsed(groupTitle?: string): void`
   * `groupEnd(): void`
