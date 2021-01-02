@@ -39,7 +39,7 @@
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/view-css": "^0",
-		"@offirmo/deferred": "^3",
+		"@offirmo/deferred": "^4",
 		"@offirmo/practical-logger-browser": "^3",
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/practical-logger-types": "^3",

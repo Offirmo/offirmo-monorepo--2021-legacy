@@ -19,7 +19,7 @@
 		"@offirmo-private/soft-execution-context-browser": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/xoff": "^0",
-		"@offirmo/deferred": "^3",
+		"@offirmo/deferred": "^4",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@online-adventur.es/api-client": "^0",
