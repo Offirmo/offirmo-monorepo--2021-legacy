@@ -4,9 +4,12 @@
 ## PENDING
 * TODO remove lodash as a dependency
 * TODO change the interface to use named params
+* ...
+
+## v2.2.1
+2021/01/03
 * [doc]++
 * [doc] marked as maintained in 2021! Happy new year!
-* ...
 
 ## v2.2.0
 2020/12/13
