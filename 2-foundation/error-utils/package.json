@@ -1,6 +1,6 @@
 {
-	"name": "@offirmo-private/error-utils",
-	"description": "known properties of an error object",
+	"name": "@offirmo/error-utils",
+	"description": "utilities around JavaScript Error creation and manipulation",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
@@ -13,8 +13,18 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"size-limit": [
+		{
+			"limit": "600B",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "700B",
+			"path": "dist/src.es2019.cjs/index.js"
+		}
+	],
+
 	"peerDependencies": {
-		"tslib": "^2"
 	},
 	"dependencies": {
 	},
@@ -27,12 +37,34 @@
 
 		"dev": "run-s clean build:dev:watch",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"ensure-size": "size-limit",
 		"build": "run-s build:prod",
-		"demo": "node doc/demo.js"
+		"demo": "node doc/demo.js",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build test ensure-size"
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^6",
+		"@size-limit/preset-small-lib": "^4",
 		"deep-freeze-strict": "^1",
-		"npm-run-all": "^4"
-	}
+		"np": "^7",
+		"npm-run-all": "^4",
+		"size-limit": "^4"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
+	},
+	"keywords": [
+		"error",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-foundation/error-utils",
+	"bugs": { "url": "https://github.com/Offirmo/offirmo-monorepo/issues" }
 }

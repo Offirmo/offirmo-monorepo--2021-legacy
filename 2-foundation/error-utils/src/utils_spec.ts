@@ -86,7 +86,7 @@ describe(`common-error-fields - utils`, () => {
 
 				const expected = {
 					name: 'TypeError',
-					message: 'Error: test!',
+					message: 'TypeError: test!',
 					stack: err.stack,
 					code: '1234', // rem: string type according to nodejs doc
 					statusCode: 567,
