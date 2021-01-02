@@ -34,6 +34,12 @@ Allows you to invoke `tsc` from a node script.
 This work trivially by [spawning](https://devdocs.io/node/child_process#child_process_child_process_spawn_command_args_options) `tsc`
 from whenever it can be found, ideally a sibling `../node_modules/typescript` module.
 
+**Example use case:** I'm using this to build several variants of my modules = node / browser, calling `tsc` with slight modifications of `target` and `lib`.
+
+**Note to evaluators:** This module is solidly built (not a hack), it works in a straightforward and reliable way
+and will properly catch and report any possible error.
+Usage in production is thus possible.
+
 
 ## installation
 
@@ -49,18 +55,19 @@ npm i --save-dev node-typescript-compiler
 ```
 
 Node requirements: unknown. I'm using the latest LTS but I believe it should work for older node >=4,
-thus I'm not enforcing the node version. But not promising anything either.
+thus I'm not enforcing the node version. Not promising anything either.
 
 
 ## Usage
 
-***WARNING*** You should strive to have a working tsc setup with a `tsc`+`tsconfig.json` before using this tool. It'll be easier to know where the errors are from.
+***WARNING* You should have a working TypeScript setup with a `tsc`+`tsconfig.json` before using this tool.**
+It'll be easier to know where the errors are from: your setup or this tool?
 
 
 The module exposes a unique function, `compile({tscOptions}, [files], [{options}])`:
 * `tscOptions` is a hashmap of [tsc options](https://www.typescriptlang.org/docs/handbook/compiler-options.html)
   * Note: you're better re-using a `tsconfig.json` and using just `{ project: '.' }` to refer to it
-* `files` is an optional array of files to compile, if not implied through `tscOptions`
+* `files` is an optional array of files to compile, if not implied through `tscOptions` (force it to `undefined` if you need the 3rd param)
 * `options` is an optional hash of:
   * `verbose: boolean` (default `false`) explain what's happening and display more detailed errors
   * `banner: string` (default `node-typescript-compiler:`) what is displayed as the first line of stdout
