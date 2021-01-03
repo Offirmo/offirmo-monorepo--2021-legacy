@@ -4,18 +4,21 @@
 NOTE: not much reason to publish this lib since it's supposed to be bundled
 
 ## PENDING
-* [feat] the "better groups" now supports more console methods! (ex. .table() and .assert())
-* [test] TODO unit tests!
+* TODO more unit tests!
 * TODO lower size by removing duplication + useless sink
-  * NOTE bigger size but not a problem since you're not supposed to bundle this lib
+  * NOTE big size not really a problem since you're not supposed to bundle this lib
 * TODO test EDGE, IE
 * TODO test Windows, Ubuntu
 * TODO local pictures
+* ...
+
+## v3.1.0
+2021/01/03
+* [feat] the "better groups" now supports more console methods! (ex. .table() and .assert())
 * [doc] ++
+* [doc] marked as maintained in 2021! Happy new year!
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
-* [doc] marked as maintained in 2021! Happy new year!
-* ...
 
 ## v3.0.0
 2020/07/01
