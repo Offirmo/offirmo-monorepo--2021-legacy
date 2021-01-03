@@ -4,6 +4,7 @@
 ## PENDING
 * TODO remove lodash as a dependency
 * TODO change the interface to use named params
+* [feat] added the CWD base in error as a hint to the failed compilation. Useful when building several modules at the same time.
 * ...
 
 ## v2.2.1

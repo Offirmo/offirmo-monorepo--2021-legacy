@@ -2,6 +2,7 @@
 
 ///////////////////////////////////////////////////////
 
+const path = require('path')
 const { spawn } = require('child_process')
 const tildify = require('tildify')
 const { flatten, map, split, isArray } = require('lodash')
@@ -62,7 +63,7 @@ function compile(tscOptions, files, options) {
 			}
 
 			display_banner_if_1st_output()
-			err.message = `[${LIB}] ${err.message}`
+			err.message = `[${LIB}@dir:${path.parse(process.cwd()).base}] ${err.message}`
 			reject(err)
 			already_failed = true
 		}
