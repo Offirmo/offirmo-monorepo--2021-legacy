@@ -47,7 +47,7 @@
 	},
 	"devDependencies": {
 		"@offirmo/error-utils": "^0",
-		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/unit-test-toolbox": "^7",
 		"@size-limit/preset-small-lib": "^4",
 		"np": "^7",
 		"npm-run-all": "^4",

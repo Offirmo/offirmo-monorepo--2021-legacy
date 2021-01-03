@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [chore] bumped deps
 * ...
 
 ## v0.0.1

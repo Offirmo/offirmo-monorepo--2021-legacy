@@ -4,6 +4,7 @@
 ## PENDING
 * TODO add an extra level for no logs at all?
 * TODO type tests!
+* [chore] bumped deps
 * ...
 
 ## v3.0.1

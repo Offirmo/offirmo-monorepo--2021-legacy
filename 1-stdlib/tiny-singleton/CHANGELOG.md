@@ -3,6 +3,7 @@
 
 ## pending
 * TODO check the semantic (once?) + duplication handling
+* [chore] bumped deps
 * ...
 
 ## v0.0.4
@@ -31,4 +32,5 @@
 
 ## template
 * [doc] README++
+* [chore] bumped deps
 * [chore] upgraded pre-built code target to latest stable JS (ES2019)
