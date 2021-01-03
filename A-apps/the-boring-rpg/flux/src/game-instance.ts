@@ -50,7 +50,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}) => {
 		logger.trace(`${LIB}.create_game_instance()…`)
 
-		const emitter = new EventEmitter.Typed<{
+		const emitter = new EventEmitter<{
 			[Event.model_change]: string,
 			[Event.view_change]: string,
 		}>()

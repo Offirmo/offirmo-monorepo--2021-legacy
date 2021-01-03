@@ -57,7 +57,7 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	createChild: ()
 		=> SoftExecutionContext<Injections, AnalyticsDetails, ErrorDetails>
 
-	emitter: Emittery.Typed<EventDataMap>
+	emitter: Emittery<EventDataMap>
 
 	// plugin: logical stack
 	setLogicalStack: (p: { module?: string, operation?: string})

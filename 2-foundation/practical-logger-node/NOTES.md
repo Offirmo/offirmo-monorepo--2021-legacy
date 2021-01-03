@@ -1,4 +1,24 @@
 
+https://github.com/sindresorhus/boxen/commit/8881426c677a0fd0201807c467d6eb5589407673
+const terminalColumns = () => {
+const {env, stdout, stderr} = process;
+
+	if (stdout && stdout.columns) {
+		return stdout.columns;
+	}
+
+	if (stderr && stderr.columns) {
+		return stderr.columns;
+	}
+
+	if (env.COLUMNS) {
+		return Number.parseInt(env.COLUMNS, 10);
+	}
+
+	return 80;
+};
+
+
 
 TODO review
 https://www.npmjs.com/package/console-probe

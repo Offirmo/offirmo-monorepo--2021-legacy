@@ -110,7 +110,7 @@ export function create(
 
 		/////////////////////////////////////////////////
 
-		const emitter = new EventEmitter.Typed<{}, 'change'>()
+		const emitter = new EventEmitter<{}, 'change'>()
 
 		/////////////////////////////////////////////////
 		let is_enabled = overrideHook('cloud_save_enabled', false)

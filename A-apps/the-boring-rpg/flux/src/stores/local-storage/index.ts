@@ -115,7 +115,7 @@ export function create(
 			})
 		}
 
-		const emitter = new EventEmitter.Typed<{}, 'change'>()
+		const emitter = new EventEmitter<{}, 'change'>()
 
 		/////////////////////////////////////////////////
 		// bkp pipeline

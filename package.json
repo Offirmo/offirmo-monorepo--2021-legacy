@@ -69,7 +69,7 @@
 		"deep-freeze-strict": "^1",
 		"deepmerge": "^4",
 		"dequal": "^2",
-		"emittery": "^0.7",
+		"emittery": "^0.8",
 		"exiftool-vendored": "^13",
 		"express": "^4",
 		"favico.js": "^0.3",

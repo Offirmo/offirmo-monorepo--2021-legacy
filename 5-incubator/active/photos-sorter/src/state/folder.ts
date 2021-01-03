@@ -8,7 +8,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { is_year, is_compact_date } from '../services/matchers'
 import { parse as parse_basename, ParseResult } from '../services/name_parser'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
-import * as MediaFile from './file'
+import * as File from './file'
 import logger from '../services/logger'
 import { get_compact_date, add_days_to_simple_date } from '../services/better-date'
 
@@ -134,10 +134,10 @@ export function create(id: RelativePath): Immutable<State> {
 export function on_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_found(…)`, { file_id: file_state.id })
 
-	return {
-		...state,
-		child_count: state.child_count + 1,
-	}
+	// TODO maybe?
+	//child_count: state.child_count + 1,
+
+	return state
 }
 
 export function on_dated_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {

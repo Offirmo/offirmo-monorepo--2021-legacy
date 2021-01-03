@@ -20,7 +20,7 @@
 		"@offirmo-private/promise-try": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo/globalthis-ponyfill": "^3",
-		"emittery": "^0.7"
+		"emittery": "^0.8"
 	},
 
 	"devDependencies": {

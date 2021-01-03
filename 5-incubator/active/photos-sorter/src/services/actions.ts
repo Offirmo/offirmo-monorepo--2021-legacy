@@ -293,9 +293,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		on_task_finished(TASK_ID)
 	}
 
-	TODO clean folder if empty
-	TODO leave undated files in event folder
-	
+	//TODO clean folder if empty
+	//TODO leave undated files in event folder
+
 ////////////////////////////////////
 
 	async function asyncjs_iteratee(action: Immutable<Action>): Promise<void> {
