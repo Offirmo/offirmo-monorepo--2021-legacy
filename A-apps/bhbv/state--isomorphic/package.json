@@ -39,7 +39,7 @@
 	},
 	"devDependencies": {
 		"@offirmo-private/state-migration-tester": "^0",
-		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/unit-test-toolbox": "^7",
 		"icepick": "^2",
 		"npm-run-all": "^4"
 	}

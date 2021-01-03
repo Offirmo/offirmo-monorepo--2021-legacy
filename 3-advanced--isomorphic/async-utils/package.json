@@ -36,7 +36,7 @@
 	"devDependencies": {
 		"@offirmo/universal-debug-api-node": "^0",
 		"@offirmo-private/soft-execution-context-node": "^0",
-		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/unit-test-toolbox": "^7",
 		"npm-run-all": "^4"
 	}
 }

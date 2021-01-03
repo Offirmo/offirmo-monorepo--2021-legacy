@@ -38,7 +38,7 @@
 		"build": "run-s build:prod"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/unit-test-toolbox": "^7",
 		"@offirmo/universal-debug-api-node": "^0",
 		"npm-run-all": "^4",
 		"typescript": "^4"

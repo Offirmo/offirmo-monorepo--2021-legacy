@@ -74,7 +74,7 @@
 		"build": "run-s refresh-build-variables build:prod build:netlify-functions ensure-privacy"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/unit-test-toolbox": "^7",
 		"@online-adventur.es/api-client": "^0",
 		"@size-limit/file": "^4",
 		"@types/aws-lambda": "^8",

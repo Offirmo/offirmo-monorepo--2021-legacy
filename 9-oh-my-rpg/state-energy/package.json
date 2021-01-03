@@ -41,7 +41,7 @@
 		"@offirmo-private/prettify-any": "^0",
 		"@offirmo-private/state-migration-tester": "^0",
 		"@offirmo-private/ts-types": "^0",
-		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/unit-test-toolbox": "^7",
 		"npm-run-all": "^4"
 	}
 }

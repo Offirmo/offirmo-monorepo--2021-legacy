@@ -47,7 +47,7 @@
 		"@offirmo-private/prettify-any": "^0",
 		"@offirmo-private/rich-text-format-to-ansi": "^0",
 		"@offirmo-private/ts-types": "^0",
-		"@offirmo/unit-test-toolbox": "^6",
+		"@offirmo/unit-test-toolbox": "^7",
 		"@oh-my-rpg/state-prng": "^0",
 		"@tbrpg/state": "^0",
 		"npm-run-all": "^4",
