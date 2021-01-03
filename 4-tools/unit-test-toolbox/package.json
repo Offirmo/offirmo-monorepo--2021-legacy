@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/unit-test-toolbox",
-	"version": "6.0.0",
+	"version": "7.0.0",
 	"description": "An aggregation of quality npm modules to be used for writing unit tests.",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
