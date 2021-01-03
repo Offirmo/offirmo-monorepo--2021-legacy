@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/universal-debug-api-node",
 	"description": "Implementation of Offirmo’s Universal Debug Api for node",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 

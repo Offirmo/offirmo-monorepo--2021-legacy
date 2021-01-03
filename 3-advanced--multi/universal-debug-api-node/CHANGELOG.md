@@ -3,14 +3,18 @@
 
 ## PENDING
 NOTE: Reminder to increase REVISION when releasing!
-* TODO node & browser should share a lot of logic
-* [test] TODO unit tests!
+* TODO fix underlying practical-logger-node!!
+* TODO node & browser should share some logic
+* TODO unit tests!
+* ...
+
+## v0.2.0
+2021/01/03
+* [feat] [breaking] added ENV key normalization of a few unicode separator chars to "_"
+* [doc] marked as maintained in 2021! Happy new year!
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] tweaked some logs
 * [chore] bumped dependencies (minor)
-* [feat] [breaking] added ENV key normalization of a few unicode separater chars to "_"
-* [doc] marked as maintained in 2021! Happy new year!
-* ...
 
 ## v0.1.0
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
