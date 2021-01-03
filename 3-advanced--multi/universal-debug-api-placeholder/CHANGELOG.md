@@ -2,11 +2,14 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* TODO unit tests!
+* ...
+
+## v1.0.1
+2021/01/03
+* [doc] marked as maintained in 2021! Happy new year!
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
-* [test] TODO unit tests!
-* [doc] marked as maintained in 2021! Happy new year!
-* ...
 
 ## v1.0.0
 2020/07/01
