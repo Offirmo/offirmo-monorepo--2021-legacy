@@ -3,15 +3,18 @@
 
 ## PENDING
 NOTE: Reminder to increase REVISION when releasing!
-* [test] TODO unit tests!
+* TODO unit tests!
 * TODO extract core implementation common bw node & browser?
 * TODO better handle no local storage
 * TODO handle iframes?
+* ...
+
+## v1.0.1
+2021/01/03
+* [doc] marked as maintained in 2021! Happy new year!
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] tweaked some logs
 * [chore] bumped dependencies (minor)
-* [doc] marked as maintained in 2021! Happy new year!
-* ...
 
 ## v1.0.0
 2020/07/02
