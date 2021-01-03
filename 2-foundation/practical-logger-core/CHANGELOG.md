@@ -2,14 +2,16 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [doc] ++
+* ...
+
+## v3.1.0
+2021/01/03
 * [feat] improve typing to better enforce immutability
 * [feat] extend input options for normalizeArguments
+* [doc] ++
+* [doc] marked as maintained in 2021! Happy new year!
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
-* XXX DO NOT PUBLISH BEFORE RESOLVING THE PRIVATE DEP (temporary, work in progress)
-* [doc] marked as maintained in 2021! Happy new year!
-* ...
 
 ## v3.0.0
 2020/07/01
