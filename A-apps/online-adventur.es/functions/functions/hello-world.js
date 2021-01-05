@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 559);
+/******/ 	return __webpack_require__(__webpack_require__.s = 556);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(81);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(44);
+const ansiStyles = __webpack_require__(80);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(57);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(86);
+} = __webpack_require__(85);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(87);
+		template = __webpack_require__(86);
 	}
 
 	return template(chalk, parts.join(''));
@@ -334,29 +334,32 @@ module.exports = chalk;
 const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
 'name', 'message']);
-const QUASI_STANDARD_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+const QUASI_STANDARD_ERROR_FIELDS = new Set([// first inherit from previous
+// conv to array needed due to a babel bug 😢
 ...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
 'stack']);
-const COMMON_ERROR_FIELDS = new Set([// conv to array needed due to a babel bug 😢
+const COMMON_ERROR_FIELDS = new Set([// first inherit from previous
+// conv to array needed due to a babel bug 😢
 ...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
 'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
 // non standard but widely used:
 'statusCode', 'shouldRedirect', 'framesToPop']);
-const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a babel bug 😢
+const COMMON_ERROR_FIELDS_EXTENDED = new Set([// first inherit from previous
+// conv to array needed due to a babel bug 😢
 ...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'details', '_temp']);
+'_temp', 'details']);
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
 
-/***/ 313:
+/***/ 311:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -370,11 +373,11 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20201207_02h25';
+exports.BUILD_DATE = '20210104_23h52';
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -403,12 +406,12 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 43:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(83);
+const cssKeywords = __webpack_require__(82);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -1249,14 +1252,54 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 44:
+/***/ 556:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(19);
-const tty = __webpack_require__(45);
-const hasFlag = __webpack_require__(85);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handler = void 0;
+/*
+process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
+*/
+
+__webpack_require__(64);
+
+const build_1 = __webpack_require__(311); ////////////////////////////////////
+
+
+const handler = async (event, badly_typed_context) => {
+  const msg = `Hello from ${build_1.BUILD_DATE}!`;
+  console.log('(console.log)', msg);
+  console.info('(console.info)', msg);
+  console.warn('(console.warn)', msg);
+  console.error('(console.error)', msg);
+  return {
+    statusCode: 200,
+    headers: {},
+    body: msg
+  };
+};
+
+exports.handler = handler;
+
+/***/ }),
+
+/***/ 57:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const os = __webpack_require__(20);
+const tty = __webpack_require__(58);
+const hasFlag = __webpack_require__(84);
 
 const {env} = process;
 
@@ -1392,50 +1435,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 45:
+/***/ 58:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
-
-/***/ }),
-
-/***/ 559:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.handler = void 0;
-/*
-process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
-*/
-
-__webpack_require__(64);
-
-const build_1 = __webpack_require__(313); ////////////////////////////////////
-
-
-const handler = async (event, badly_typed_context) => {
-  const msg = `Hello from ${build_1.BUILD_DATE}!`;
-  console.log('(console.log)', msg);
-  console.info('(console.info)', msg);
-  console.warn('(console.warn)', msg);
-  console.error('(console.error)', msg);
-  return {
-    statusCode: 200,
-    headers: {},
-    body: msg
-  };
-};
-
-exports.handler = handler;
 
 /***/ }),
 
@@ -2219,7 +2222,7 @@ function getEnvKeyForOverride(key) {
  ////////////////////////////////////
 
 const OWN_LOGGER_NAME = ENV_ROOT;
-const REVISION = 2; ////////////////////////////////////
+const REVISION = 100.; ////////////////////////////////////
 
 function v1_create() {
   //console.trace('[UDA--node installing…]')
@@ -2483,7 +2486,7 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 81:
+/***/ 80:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2529,7 +2532,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(82);
+		colorConvert = __webpack_require__(81);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -2651,15 +2654,15 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(39)(module)))
 
 /***/ }),
 
-/***/ 82:
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(43);
-const route = __webpack_require__(84);
+const conversions = __webpack_require__(44);
+const route = __webpack_require__(83);
 
 const convert = {};
 
@@ -2743,7 +2746,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 83:
+/***/ 82:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2903,10 +2906,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 84:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(43);
+const conversions = __webpack_require__(44);
 
 /*
 	This function routes a model to all other models.
@@ -3007,7 +3010,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 85:
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3023,7 +3026,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 86:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3070,7 +3073,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 87:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
