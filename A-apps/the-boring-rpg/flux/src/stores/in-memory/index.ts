@@ -21,7 +21,7 @@ export function create(
 
 		let state: Immutable<State> | undefined = undefined
 
-		const emitter = new EventEmitter<{}, 'change'>()
+		const emitter = new EventEmitter<{ change: undefined }>()
 
 		/////////////////////////////////////////////////
 

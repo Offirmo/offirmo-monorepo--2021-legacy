@@ -114,10 +114,12 @@ sequence = sequence.then(() => demo(
 				process_data(data)
 				return json.write('foo.json', data)
 			})
-
-
 	}
 ))
+sequence = sequence.then(() => {
+	const fs = require('@offirmo/cli-toolbox/fs/extra')
+	fs.removeSync('foo.json')
+})
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'fs/extra',
