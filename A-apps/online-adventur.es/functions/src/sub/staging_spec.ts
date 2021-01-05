@@ -7,7 +7,7 @@ import { fetch_oa, ReleaseChannel, Endpoint, SERVER_RESPONSE_VERSION } from '@on
 import { APP } from './consts'
 
 
-describe(`${APP} - live`, function() {
+describe(`${APP} - [sub/staging] live`, function() {
 	const SEC = getRootSEC()
 		.createChild()
 		.setLogicalStack({module: 'UT'})
@@ -34,7 +34,9 @@ describe(`${APP} - live`, function() {
 						console.log,
 						err => {
 							const is_auth_error = err.message.includes('not logged in')
-							expect(is_auth_error).to.be.true
+							if (!is_auth_error)
+								console.error('unexpected error:', err)
+							expect(is_auth_error, 'is_auth_error').to.be.true
 						},
 					)
 				})

@@ -42,7 +42,7 @@ export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
 				&& event.headers.origin
 
 			if (is_preflight) {
-				http_method = event.headers['access-control-request-method'].toUpperCase() as HttpMethod
+				http_method = event.headers['access-control-request-method']!.toUpperCase() as HttpMethod
 				//console.log('require_http_method(): handling a preflight…', http_method)
 			}
 

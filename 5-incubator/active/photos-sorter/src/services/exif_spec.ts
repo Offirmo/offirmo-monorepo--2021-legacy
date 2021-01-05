@@ -35,6 +35,7 @@ describe(`${LIB} - exif service`, function() {
 	})
 
 	describe('integration', function() {
+		this.timeout(5000) // in parallel, seen bigger delays
 
 		describe('real files', function() {
 			const TEST_FILES_DIR = '../../../src/__test_shared'

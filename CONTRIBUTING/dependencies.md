@@ -1,7 +1,7 @@
 
 ## policy
 
-* We strive for the latest LTS unless feature needed. Using `yarn outdated`
+* We strive for the latest LTS unless a feature is critically needed. Using `yarn outdated`
 * prod vs dev
 
 
@@ -14,7 +14,6 @@ In alphabetical order:
 * `@types/node` we rightfully target the oldest active LTS, should be ignored
 * `pg` there is a breaking change that we can't overcome yet through our ORM (knex) TODO https://github.com/brianc/node-postgres/blob/master/CHANGELOG.md#pg810
 * `styled-components` old version required by @atlaskit
-* `typescript` always tricky to update
 
 ### Pending upgrade
 

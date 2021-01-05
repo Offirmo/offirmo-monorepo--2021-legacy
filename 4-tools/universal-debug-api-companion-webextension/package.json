@@ -46,7 +46,7 @@
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@offirmo/universal-debug-api-interface": "^1",
 		"@offirmo/universal-debug-api-placeholder": "^1",
-		"emittery": "^0.7",
+		"emittery": "^0.8",
 		"memoize-one": "^5",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",

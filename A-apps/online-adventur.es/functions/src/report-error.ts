@@ -31,7 +31,7 @@ const handler: NetlifyHandler = async (
 	return {
 		statusCode: 200,
 		headers: {},
-		body: 'Error reported✔',
+		body: JSON.stringify('Error reported✔'),
 	}
 }
 

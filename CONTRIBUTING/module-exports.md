@@ -35,9 +35,9 @@ Notes:
 
 
 ### FUTURE update ???
+- 2021/06 ?? new ES 2020 → 2021
 - 2021/10/26 oldest active LTS node 14 → 16  https://nodejs.org/en/about/releases/
 - ??? webpack release 5 → 6  https://github.com/webpack/webpack/milestones
-- ??? new ES 2020 → 2021
 
 ### update 2020-10-20
 - 2020/10/27 oldest active LTS node 12 → 14
@@ -51,7 +51,7 @@ Updated state:
   * latest webpack version = [5](https://webpack.js.org/)   ___⬅CHANGE___
   * version of Acorn in this webpack version = [^8](https://github.com/webpack/webpack/blob/master/package.json)   ___⬅CHANGE___
   * latest ES syntax supported by this Acorn = [2020](https://github.com/acornjs/acorn/tree/master/acorn)   ___⬅CHANGE___
-* (special use) latest ES syntax suuported by netlify-lambda = ES2019
+* (special use) latest ES syntax supported by netlify-lambda = ES2019
   * latest netlify-lambda version = [2.01](https://github.com/netlify/netlify-lambda)
   * version of webpack in this version = [4](https://github.com/netlify/netlify-lambda/blob/master/package.json)
   * version of Acorn in this webpack version = [^6](https://github.com/webpack/webpack/blob/webpack-4/package.json)
