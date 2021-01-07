@@ -69,14 +69,17 @@ async function sort_all_medias() {
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		db = DB.move_all_files_to_their_ideal_location(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
-		logger.log('DB = ' + DB.to_string(db))
-		//db = DB.delete_empty_folders_recursively(db)
-		//db = await exec_pending_actions_recursively_until_no_more(db)
+
+		const max_folder_depth = DB.get_max_folder_depth(db)
+		for(let depth = max_folder_depth; depth >= 0; --depth) {
+			db = DB.delete_empty_folders_recursively(db, depth)
+			db = await exec_pending_actions_recursively_until_no_more(db)
+		}
 		logger.groupEnd()
 	})()
 
 	logger.verbose('Sort up to: "' + up_to + '" done.')
-	//logger.info('DB = ' + DB.to_string(db))
+	logger.info('DB = ' + DB.to_string(db))
 }
 
 ////////////////////////////////////

@@ -49,7 +49,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	////////////////////////////////////
-	const TASK_ID = 'any'
+	const TASK_ID = 'other'
 
 	async function explore_folder(id: RelativePath): Promise<void> {
 		logger.group(`- exploring dir "${id}"…`)
@@ -169,6 +169,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function normalize_file(id: RelativePath): Promise<void> {
 		logger.trace(`initiating media file normalization for "${id}"…`)
+		const TASK_ID = 'normalize_file'
 		on_new_task(TASK_ID)
 
 		const actions: Promise<void>[] = []
@@ -244,10 +245,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		const abs_path = DB.get_absolute_path(db, id)
 
 		if (PARAMS.dry_run) {
-			logger.info('DRY RUN would have deleted ' + abs_path)
+			logger.info('DRY RUN would have deleted file ' + abs_path)
 		}
 		else {
-			logger.info('deleting… ' + abs_path)
+			logger.info('deleting file… ' + abs_path)
 			await util.promisify(fs.rm)(abs_path)
 			db = DB.on_file_deleted(db, id)
 		}
@@ -293,7 +294,30 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		on_task_finished(TASK_ID)
 	}
 
-	//TODO clean folder if empty
+	async function delete_folder_if_empty(id: RelativePath): Promise<void> {
+		logger.trace(`- deleting folder if it's empty "${id}"…`)
+		on_new_task(TASK_ID)
+
+		const abs_path = DB.get_absolute_path(db, id)
+
+		const children = [
+			...fs_extra.lsDirsSync(abs_path, { full_path: false }),
+			...fs_extra.lsFilesSync(abs_path, { full_path: false }),
+		]
+		if (children.length === 0) {
+			if (PARAMS.dry_run) {
+				logger.info('DRY RUN would have deleted empty folder ' + abs_path)
+			}
+			else {
+				logger.info('deleting empty folder… ' + abs_path)
+				await util.promisify(fs_extra.remove)(abs_path)
+				db = DB.on_folder_deleted(db, id)
+			}
+		}
+
+		on_task_finished(TASK_ID)
+	}
+
 	//TODO leave undated files in event folder
 
 ////////////////////////////////////
@@ -347,6 +371,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			case ActionType.move_file:
 				//assert(!PARAMS.dry_run, 'no write action in dry run mode')
 				await move_file(action.id, action.target_id)
+				break
+
+			case ActionType.delete_folder_if_empty:
+				//assert(!PARAMS.dry_run, 'no write action in dry run mode')
+				await delete_folder_if_empty(action.id)
 				break
 
 			default:

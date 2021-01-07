@@ -10,13 +10,11 @@ import '@offirmo/universal-debug-api-node'
 import {
 	APIGatewayEvent,
 	Context,
-	NetlifyContext,
 	Response,
 	NetlifyHandler,
 } from './sub/types'
-import { HTTP_STATUS_CODE } from './sub/consts'
 import { VERSION, BUILD_DATE } from './sub/build'
-import { get_key_from_path, get_id_from_path, create_error } from './sub/utils'
+import { get_key_from_path } from './sub/utils'
 
 ////////////////////////////////////
 

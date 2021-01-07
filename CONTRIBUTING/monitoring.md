@@ -4,7 +4,9 @@
 ## Prod
 
 Netlify deploy status
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b2bbd92c-ab3d-43c5-ba8f-44bb0dbcd8cb/deploy-status)](https://app.netlify.com/sites/online-adventures/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b2bbd92c-ab3d-43c5-ba8f-44bb0dbcd8cb/deploy-status)](https://app.netlify.com/sites/online-adventures/deploys) |
+[Sentry backend](https://sentry.io/organizations/offirmo/issues/?project=1772719) |
+[Sentry TBRPG frontend](https://sentry.io/organizations/offirmo/issues/?project=1235383)
 
 | web surface | status |
 | --- | --- |
@@ -19,9 +21,8 @@ Netlify deploy status
 | webapp -- TBRPG | ![Custom badge](https://img.shields.io/endpoint?color=orange&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=orange&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_time.json)
 | webapp -- TBRPG preprod | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_time.json)
 | API | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
-| heroku | TODO | TODO
+| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | TODO | TODO
 
-[Sentry backend](https://sentry.io/organizations/offirmo/issues/?project=1772719) - [Sentry TBRPG frontend](https://sentry.io/organizations/offirmo/issues/?project=1235383)
 
 
 
@@ -41,7 +42,7 @@ Netlify deploy status
 | --- | --- | --- |
 | webapp -- TBRPG | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2Fa-apps%2Fthe-boring-rpg%2Fclient-browser%2Fdist%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2Fa-apps%2Fthe-boring-rpg%2Fclient-browser%2Fdist%2Fbuild_badge_time.json)
 | API | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
-| heroku | TODO | TODO
+| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | TODO | TODO
 
 ## Github pages
 

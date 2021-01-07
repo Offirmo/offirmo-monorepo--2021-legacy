@@ -20,6 +20,7 @@ export const ActionType = Enum(
 	'normalize_file',
 	'move_file',
 	'delete_file',
+	'delete_folder_if_empty'
 )
 export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
@@ -75,17 +76,15 @@ export interface ActionMoveFile extends BaseAction {
 	target_id: FileId
 }
 
-/* no need, move content + delete empty is better
-export interface ActionMoveFolder extends BaseAction {
-	type: typeof ActionType.move_folder
-	id: string
-	target_id: string
-}
-*/
-
 export interface ActionDeleteFile extends BaseAction {
 	type: typeof ActionType.delete_file
 	id: FileId
+}
+
+export interface ActionDeleteFolderIfEmpty extends BaseAction {
+	type: typeof ActionType.delete_folder_if_empty
+	id: FolderId
+	//depth: number // needed to order the actions
 }
 
 
@@ -104,6 +103,7 @@ export type Action =
 	| ActionEnsureFolder
 	| ActionMoveFile
 	| ActionDeleteFile
+	| ActionDeleteFolderIfEmpty
 
 export function create_action_explore_folder(id: FolderId): ActionExploreFolder {
 	return {
@@ -173,6 +173,12 @@ export function create_action_move_file(id: FileId, target_id: FileId): ActionMo
 export function create_action_delete_file(id: FileId): ActionDeleteFile {
 	return {
 		type: ActionType.delete_file,
+		id,
+	}
+}
+export function create_action_delete_folder_if_empty(id: FolderId): ActionDeleteFolderIfEmpty {
+	return {
+		type: ActionType.delete_folder_if_empty,
 		id,
 	}
 }

@@ -10,19 +10,8 @@ import { get_base_loose } from '@offirmo-private/state-utils'
 
 import { NOTES_BASENAME,  LIB as APP } from '../consts'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
-import {
-	Action,
-	create_action_delete_file,
-	create_action_ensure_folder,
-	create_action_explore_folder,
-	create_action_hash,
-	create_action_load_notes,
-	create_action_move_file,
-	create_action_normalize_file,
-	create_action_persist_notes,
-	create_action_query_exif,
-	create_action_query_fs_stats,
-} from './actions'
+import { Action } from './actions'
+import * as Actions from './actions'
 import { FileHash } from '../services/hash'
 import { FsStatsSubset } from '../services/fs'
 import {
@@ -83,6 +72,17 @@ export function get_pending_actions(state: Immutable<State>): Immutable<Action[]
 	return state.queue
 }
 
+function get_all_folders(state: Immutable<State>): Immutable<Folder.State>[] {
+	return Object.values(state.folders)
+}
+
+export function get_max_folder_depth(state: Immutable<State>): number {
+	return get_all_folders(state).reduce((acc, folder_state) => {
+		const depth = Folder.get_depth(folder_state)
+		return Math.max(acc, depth)
+	}, 0)
+}
+
 export function get_all_folder_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.folders)
 		.sort()
@@ -104,13 +104,14 @@ export function get_all_files_except_notes(state: Immutable<State>): Immutable<F
 		.filter(state => !File.is_notes(state))
 }
 
-export function get_all_media_file_ids(state: Immutable<State>): string[] {
-	return get_all_file_ids(state)
-		.filter(k => File.is_media_file(state.files[k]))
+export function get_all_media_files(state: Immutable<State>): Immutable<File.State>[] {
+	return Object.values(state.files)
+		.filter(s => File.is_media_file(s))
 }
 
-export function get_all_media_files(state: Immutable<State>): Immutable<File.State>[] {
-	return Object.values(get_all_media_file_ids(state)).map(id => state.files[id])
+export function get_all_media_file_ids(state: Immutable<State>): string[] {
+	return get_all_media_files(state)
+		.map(s => s.id)
 }
 
 export function is_file_existing(state: Immutable<State>, id: FileId): boolean {
@@ -323,7 +324,7 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 	const folder_state = state.folders[id]
 
 	//if (folder_state.type !== Folder.Type.cantsort)
-	state = _enqueue_action(state, create_action_explore_folder(id))
+	state = _enqueue_action(state, Actions.create_action_explore_folder(id))
 
 	return state
 }
@@ -353,19 +354,19 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	const is_media_file = File.is_media_file(file_state)
 
 	if (is_notes) {
-		state = _enqueue_action(state, create_action_load_notes(path.join(parent_id, sub_id)))
+		state = _enqueue_action(state, Actions.create_action_load_notes(path.join(parent_id, sub_id)))
 		logger.verbose(`${ LIB } found notes from a previous sorting`, {id})
 	}
 	else {
 		// always, for dedupe (fs used to identify the earliest copy)
-		state = _enqueue_action(state, create_action_hash(id))
-		state = _enqueue_action(state, create_action_query_fs_stats(id))
+		state = _enqueue_action(state, Actions.create_action_hash(id))
+		state = _enqueue_action(state, Actions.create_action_query_fs_stats(id))
 
 		if (is_media_file) {
 			logger.verbose(`${ LIB } found a media file`, {id})
 
 			if(File.is_exif_powered_media_file(file_state))
-				state = _enqueue_action(state, create_action_query_exif(id))
+				state = _enqueue_action(state, Actions.create_action_query_exif(id))
 
 			// did we already recover notes for this file?
 			// can't tell yet, we need the hash for that!
@@ -486,29 +487,6 @@ function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, reco
 	return _on_file_info_read(state, file_id)
 }
 
-/*
-export function on_folder_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
-	logger.trace(`${LIB} on_folder_moved(…)`, { })
-
-	assert(!state.folders[target_id])
-
-	// TODO immu
-	let folder_state = state.folders[id]
-	folder_state = Folder.on_moved(folder_state, target_id)
-	delete state.folders[id]
-	state.folders[target_id] = folder_state
-
-	get_all_file_ids(state).forEach(fid => {
-		const file_state = state.files[fid]
-		if (File.get_current_parent_folder_id(file_state) !== id) return
-
-		const new_file_id = path.join(target_id, File.get_current_basename(file_state))
-		state = on_file_moved(state, fid, new_file_id)
-	})
-
-	return state
-}*/
-
 export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} on_file_moved(…)`, { })
 
@@ -552,45 +530,23 @@ export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<
 	}
 }
 
-/*
-export function merge_folder(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
-	logger.info(`merging folders: "${id}" into "${target_id}"`)
+export function on_folder_deleted(state: Immutable<State>, id: FolderId): Immutable<State> {
+	logger.trace(`${LIB} on_folder_deleted(…)`, { id })
 
-	assert(id !== target_id)
+	let folder_state = state.folders[id]
+	assert(folder_state, 'on_folder_deleted() target state')
 
-	const folder_state = state.folders[id]
-	const target_folder_state = state.folders[target_id]
-
-	assert(folder_state.type === Folder.Type.event, 'NIMP merging folder from non-event!')
-	assert(target_folder_state.type === Folder.Type.event, 'NIMP merging folder into non-event target!')
-
-	// merge the dates
-	// TODO reducer action ?
-	// TODO can dates be -1 at this point ?? (can they even be -1 at all?)
-	if (target_folder_state.begin_date === -1)
-		target_folder_state.begin_date = folder_state.begin_date
-	if (target_folder_state.end_date === -1)
-		target_folder_state.end_date = folder_state.end_date
-	if (folder_state.begin_date !== -1)
-		target_folder_state.begin_date = Math.min(target_folder_state.begin_date, folder_state.begin_date)
-	if (folder_state.end_date !== -1)
-		target_folder_state.end_date = Math.min(target_folder_state.end_date, folder_state.end_date)
-
-	// merge the names
-	if (Folder.get_current_basename(target_folder_state) !== Folder.get_current_basename(folder_state)) {
-		throw new Error('TODO merge folders: merge basenames')
+	let folders = {
+		...state.folders
 	}
+	delete folders[id]
 
-	// move all img files to target (merge as well if needed)
-
-
-	// mark the src folder as no longer event
-
-	// clean it / move it away if needed
-
-	throw new Error('NIMP merging folders')
+	return {
+		...state,
+		folders,
+	}
 }
-*/
+
 
 ///////////////////// REDUCERS -> ACTIONS /////////////////////
 
@@ -603,7 +559,7 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 
 export function backup_notes(state: Immutable<State>): Immutable<State> {
 	const folder_path = undefined
-	state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+	state = _enqueue_action(state, Actions.create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
 
 	return state
 }
@@ -778,7 +734,7 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 			if (file_id === final_file_state.id) return
 
 			logger.verbose(`↳ Planning deletion of duplicate "${file_id}"…`)
-			state = _enqueue_action(state, create_action_delete_file(file_id))
+			state = _enqueue_action(state, Actions.create_action_delete_file(file_id))
 			// don't delete from state, the files are not deleted yet!
 		})
 	})
@@ -799,12 +755,12 @@ export function normalize_medias_in_place(state: Immutable<State>): Immutable<St
 
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
-		state = _enqueue_action(state, create_action_normalize_file(id))
+		state = _enqueue_action(state, Actions.create_action_normalize_file(id))
 	})
 
 	// NO! Too early, should happen once all the normalizations are done
 	//const folder_path = undefined
-	//state = _enqueue_action(state, create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+	//state = _enqueue_action(state, Actions.create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
 	// TODO find a way to mark this as TODO
 
 	return state
@@ -813,9 +769,9 @@ export function normalize_medias_in_place(state: Immutable<State>): Immutable<St
 export function ensure_structural_dirs_are_present(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} ensure_structural_dirs_are_present()…`)
 
-	state = _enqueue_action(state, create_action_ensure_folder(Folder.SPECIAL_FOLDER__INBOX__BASENAME))
-	state = _enqueue_action(state, create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME))
-	state = _enqueue_action(state, create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME))
+	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__INBOX__BASENAME))
+	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME))
+	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME))
 
 	const years = new Set<number>()
 	get_all_media_files(state).forEach(file_state => {
@@ -824,7 +780,7 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 	})
 	for(const y of years) {
 		//state = _register_folder(state, String(y), false)
-		state = _enqueue_action(state, create_action_ensure_folder(String(y)))
+		state = _enqueue_action(state, Actions.create_action_ensure_folder(String(y)))
 	}
 
 	return state
@@ -844,17 +800,29 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 			return
 		}
 
-		state = _enqueue_action(state, create_action_move_file(id, target_id))
+		state = _enqueue_action(state, Actions.create_action_move_file(id, target_id))
 	})
 
 	return state
 }
 
-export function delete_empty_folders_recursively(state: Immutable<State>): Immutable<State> {
+export function delete_empty_folders_recursively(state: Immutable<State>, target_depth: number): Immutable<State> {
 	logger.trace(`${LIB} delete_empty_folders_recursively()…`)
 
-	throw new Error('NIMP')
+	type FbD = Array<Array<Immutable<Folder.State>>>
+	const folders_by_depth: FbD = get_all_folders(state).reduce((acc, folder_state) => {
+			const depth = Folder.get_depth(folder_state)
+			acc[depth] = [ ...(acc[depth] ?? []), folder_state]
+			return acc
+		}, [] as FbD)
+	const folder_states = folders_by_depth[target_depth] ?? []
+	folder_states.forEach(folder_state => {
+		state = _enqueue_action(state, Actions.create_action_delete_folder_if_empty(folder_state.id))
+	})
+
+	return state
 }
+
 /*
 export function ensure_existing_event_folders_are_organized(state: Immutable<State>): Immutable<State> {
 
@@ -911,7 +879,7 @@ export function ensure_existing_event_folders_are_organized(state: Immutable<Sta
 		}
 		else {
 			assert(false, 'todo reimplement')
-			//state = _enqueue_action(state, create_action_move_folder(id, ideal_id))
+			//state = _enqueue_action(state, Actions.create_action_move_folder(id, ideal_id))
 		}
 	})
 
@@ -961,7 +929,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 			})()
 
 			state = _register_folder(state, compatible_event_folder_id, false)
-			actions.push(create_action_ensure_folder(compatible_event_folder_id))
+			actions.push(Actions.create_action_ensure_folder(compatible_event_folder_id))
 			all_events_folder_ids.push(compatible_event_folder_id)
 		}
 
@@ -971,7 +939,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 			// conflict, TODO
 			throw new Error('NIMP file conflict!')
 		}
-		actions.push(create_action_move_file(id, new_file_id))
+		actions.push(Actions.create_action_move_file(id, new_file_id))
 	})
 
 	return {
@@ -991,7 +959,7 @@ export function ensure_all_eligible_files_are_correctly_named(state: Immutable<S
 		const current_basename = File.get_current_basename(file_state)
 		const ideal_basename = File.get_ideal_basename(file_state)
 		if (current_basename !== ideal_basename) {
-			actions.push(create_action_move_file(id, path.join(File.get_current_parent_folder_id(file_state), ideal_basename)))
+			actions.push(Actions.create_action_move_file(id, path.join(File.get_current_parent_folder_id(file_state), ideal_basename)))
 		}
 	})
 

@@ -733,3 +733,11 @@ https://toulon.maville.com/actu/actudet_-le-commando-hubert-la-palme-d-or-des-fo
 https://getpocket.com/explore/item/to-live-remarkably-repeat-this-1-affirmation-every-single-day-for-the-rest-of-your-life
 https://www.psychologytoday.com/au/blog/the-right-mindset/202011/10-habits-highly-resilient-people
 
+Planting:
+- water, sunlight, temperature
+- soil types
+- yellow leaves
+- aphids
+- scale insects
+- fungus gnats
+- caterpillar (+ can become spiritual beast??)
