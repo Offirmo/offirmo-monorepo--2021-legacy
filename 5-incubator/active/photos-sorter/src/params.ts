@@ -61,13 +61,13 @@ export function get_params(): Params {
 		date_lower_bound: DATE_LOWER_BOUND,
 		date_upper_bound: DATE_UPPER_BOUND,
 
-		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- souvenirs/- photo-sorted`),
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
+		root: path.normalize(`/Users/${process.env.USER}/Documents/- souvenirs/- photo-sorted`),
 
-		...(false // XXX true = local execution on Offirmo's machine
+		...(false // XXX true = local execution on Offirmo's machine, don't commit
 			? {
-					dry_run: true,
-					//dry_run: false,
+					//dry_run: true,
+					dry_run: false,
 					is_perfect_state: true,
 				}
 			: {
@@ -89,10 +89,14 @@ export function get_params(): Params {
 			'.mp4',
 			'.pdf',
 			'.png',
-			'.psp', // photoshop I believe, screens from Warcraft III are in this format
+			'.psp', // photoshop I believe, seen screens from Warcraft III are in this format XXX TODO review
 			'.tga', // WoW
-			'.txt', // used to take notes
-			'.doc', '.ppt', // often hold memories as well
+
+			// NO: while they are memories, they usually are
+			// - not "automatically created" from a camera app with an auto name
+			// - not have easy way to determine the date (like exif)
+			//'.txt', // used to take notes
+			//'.doc', '.ppt', // often hold memories as well
 		].map(s => s.toLowerCase()),
 
 		extensions_to_delete: [

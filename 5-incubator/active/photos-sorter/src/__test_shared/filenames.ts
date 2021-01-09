@@ -620,6 +620,22 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
+	'PICT0012.JPG': {
+		_comment: 'old camera',
+
+		// ParseResult
+		extension_lc: '.jpg',
+		date: undefined,
+		date_digits: undefined,
+		digits_pattern: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'PICT0012',
+		copy_index: undefined,
+
+		// for test
+		digit_blocks: '0012',
+	},
+
 	// looks like a date but numbers don't match
 	'WoWScrnShot_032407_100101.tga': {
 		_comment: 'World of Warcraft screenshots',

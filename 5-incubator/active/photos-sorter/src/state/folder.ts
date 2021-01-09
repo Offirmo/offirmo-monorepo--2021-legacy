@@ -88,6 +88,12 @@ export function get_basename(state: Immutable<State>): Basename {
 	return state.cached.pathㆍparsed.base
 }
 
+export function get_year(state: Immutable<State>): number | undefined {
+	if (!state.begin_date) return undefined
+
+	return Math.trunc(state.begin_date / 10000)
+}
+
 export function get_ideal_basename(state: Immutable<State>): Basename {
 	const current_basename = get_basename(state)
 

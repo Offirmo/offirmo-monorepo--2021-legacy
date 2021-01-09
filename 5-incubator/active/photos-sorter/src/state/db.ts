@@ -122,7 +122,7 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 	return state.folders.hasOwnProperty(id)
 }
 
-export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId, force_cant_sort = false): RelativePath {
+export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`get_ideal_file_relative_path()`, { id })
 
 	if (id === NOTES_BASENAME)
@@ -130,21 +130,28 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 
 	const file_state = state.files[id]
 	const split_path = File.get_path(file_state).split(path.sep)
-	const highest_parent = split_path[0]
-	const is_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(highest_parent)
+	const parent_folder_id: FolderId = split_path.slice(0, -1).join(path.sep)
+	assert(is_folder_existing(state, parent_folder_id), 'get_ideal_file_relative_path() parent folder exists')
+	const top_parent_id: FolderId = split_path[0]
+	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
+	const is_parent_folder_an_event = state.folders[parent_folder_id].type === Folder.Type.event
 
-	logger.trace(`get_ideal_file_relative_path() processing…`, { highest_parent, is_parent_special, is_media_file: File.is_media_file(file_state) })
+	logger.trace(`get_ideal_file_relative_path() processing…`, { top_parent: top_parent_id, is_top_parent_special, is_parent_folder_an_event, is_media_file: File.is_media_file(file_state) })
 
-	if (force_cant_sort) {
-		if (is_parent_special)
-			split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
-		else
-			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
-		return split_path.join(path.sep)
+	if (is_parent_folder_an_event) {
+		// regardless of the file type,
+		// if it's in an event folder
+		// we assume it's sorted already and keep it that way
+		const ideal_basename = File.get_ideal_basename(file_state)
+		const current_parent_folder_state = state.folders[parent_folder_id]
+		const event_folder_base = Folder.get_ideal_basename(state.folders[parent_folder_id])
+		const year = String(Folder.get_year(current_parent_folder_state))
+
+		return path.join(year, event_folder_base, ideal_basename)
 	}
 
 	if (!File.is_media_file(file_state)) {
-		if (is_parent_special)
+		if (is_top_parent_special)
 			split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
 			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
@@ -153,7 +160,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 
 	// file is a media
 	if (!File.get_confidence_in_date(file_state)) {
-		if (is_parent_special)
+		if (is_top_parent_special)
 			split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
 		else
 			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
@@ -547,7 +554,6 @@ export function on_folder_deleted(state: Immutable<State>, id: FolderId): Immuta
 	}
 }
 
-
 ///////////////////// REDUCERS -> ACTIONS /////////////////////
 
 export function explore_fs_recursively(state: Immutable<State>): Immutable<State> {
@@ -817,6 +823,8 @@ export function delete_empty_folders_recursively(state: Immutable<State>, target
 		}, [] as FbD)
 	const folder_states = folders_by_depth[target_depth] ?? []
 	folder_states.forEach(folder_state => {
+		if (folder_state.id === Folder.SPECIAL_FOLDER__INBOX__BASENAME) return
+
 		state = _enqueue_action(state, Actions.create_action_delete_folder_if_empty(folder_state.id))
 	})
 
