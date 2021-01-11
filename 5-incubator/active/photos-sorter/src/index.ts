@@ -63,7 +63,7 @@ async function sort_all_medias() {
 		logger.groupEnd()
 		if (up_to === 'normalize') return
 
-		logger.group('******* STARTING SORTING PHASE *******')
+		logger.group('******* STARTING FILE MOVE PHASE *******')
 		db = DB.ensure_structural_dirs_are_present(db)
 		//db.queue.forEach(action => console.log(JSON.stringify(action))) // TODO clean JSON.stringify
 		db = await exec_pending_actions_recursively_until_no_more(db)

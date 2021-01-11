@@ -232,7 +232,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		}
 		else {
 			await util.promisify(fs_extra.mkdirp)(abs_path)
-			DB.on_folder_found(db, '.', id)
+			db = DB.on_folder_found(db, '.', id)
 		}
 
 		on_task_finished(TASK_ID)

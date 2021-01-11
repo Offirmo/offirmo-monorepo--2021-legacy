@@ -660,7 +660,7 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 
 	assert(original_state, 'merge_duplicates(…) selected original_state')
 
-	logger.verbose('de-duplicated file states:', {
+	logger.log('de-duplicated file states:', {
 		count: states.length,
 		final_basename: original_state.id,
 		criterias: [...reasons]

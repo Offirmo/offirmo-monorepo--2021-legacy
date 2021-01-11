@@ -24,6 +24,7 @@ export const Type = Enum(
 	'cant_sort',
 	'year',
 	'event', // by default
+	'overlapping_event', // used to be an event but other folders are overlapping it
 	'unknown', // anything else that can't be an event
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
@@ -46,8 +47,8 @@ export interface State {
 	type: Type
 
 	//child_count: number TODO
-	begin_date: undefined | SimpleYYYYMMDD
-	end_date: undefined | SimpleYYYYMMDD
+	begin_date_symd: undefined | SimpleYYYYMMDD
+	end_date_symd: undefined | SimpleYYYYMMDD
 
 	cached: {
 		pathㆍparsed: path.ParsedPath,
@@ -61,7 +62,11 @@ export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): 
 	const pathㆍparsed = (data as any).base
 		? (data as Immutable<path.ParsedPath>)
 		: (data as Immutable<State>).cached.pathㆍparsed
-	return pathㆍparsed.dir.split(path.sep).length - 1
+	//console.log({data})
+	//console.log({pathㆍparsed})
+	return pathㆍparsed.dir
+		? pathㆍparsed.dir.split(path.sep).length
+		: 0
 }
 
 function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
@@ -88,10 +93,14 @@ export function get_basename(state: Immutable<State>): Basename {
 	return state.cached.pathㆍparsed.base
 }
 
-export function get_year(state: Immutable<State>): number | undefined {
-	if (!state.begin_date) return undefined
+export function get_starting_date(state: Immutable<State>): SimpleYYYYMMDD | undefined {
+	return state.begin_date_symd
+}
 
-	return Math.trunc(state.begin_date / 10000)
+export function get_starting_year(state: Immutable<State>): number | undefined {
+	if (!state.begin_date_symd) return undefined
+
+	return Math.trunc(state.begin_date_symd / 10000)
 }
 
 export function get_ideal_basename(state: Immutable<State>): Basename {
@@ -100,9 +109,9 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 	if (state.type !== Type.event)
 		return current_basename
 
-	assert(state.begin_date, 'get_ideal_basename() start date')
+	assert(state.begin_date_symd, 'get_ideal_basename() start date')
 
-	return String(state.begin_date + ' - ' + state.cached.nameㆍparsed.meaningful_part)
+	return String(state.begin_date_symd + ' - ' + state.cached.nameㆍparsed.meaningful_part)
 }
 
 export function is_current_basename_intentful(state: Immutable<State>): boolean {
@@ -127,8 +136,8 @@ export function create(id: RelativePath): Immutable<State> {
 	return {
 		id,
 		type,
-		begin_date: date, // so far
-		end_date: date, // so far
+		begin_date_symd: date, // so far
+		end_date_symd: date, // so far
 
 		cached: {
 			pathㆍparsed,
@@ -160,14 +169,14 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 	}
 
 	const file_compact_date = File.get_best_creation_date_compact(file_state)
-	const { end_date: previous_end_date } = state
-	const new_start_date = state.begin_date
+	const { end_date_symd: previous_end_date } = state
+	const new_start_date = state.begin_date_symd
 		? is_current_basename_intentful(state)
-			? state.begin_date // no change, the dir name is clear thus has precedence
-			: Math.min(state.begin_date, file_compact_date)
+			? state.begin_date_symd // no change, the dir name is clear thus has precedence
+			: Math.min(state.begin_date_symd, file_compact_date)
 		: file_compact_date
-	let new_end_date = state.end_date
-		? Math.max(state.end_date, file_compact_date)
+	let new_end_date = state.end_date_symd
+		? Math.max(state.end_date_symd, file_compact_date)
 		: file_compact_date
 
 	if (new_end_date - new_start_date > 28) {
@@ -178,26 +187,26 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 					id: state.id,
 					file_id: file_state.id,
 					file_compact_date,
-					begin_date: new_start_date,
-					end_date: new_end_date,
+					begin_date_symd: new_start_date,
+					end_date_symd: new_end_date,
 				})
-			state = demote_to_unknown(state, `${LIB} demoting folder: most likely not an event (date range too big)`)
+			state = demote_to_unknown(state, `date range too big`)
 		}
 		else {
 			new_end_date = add_days_to_simple_date(new_start_date, 28)
 			logger.info(
-				`${LIB} folder: date range too big but intentful: capping end_date at +28`, {
+				`${LIB} folder: date range too big but intentful: capping end_date_symd at +28`, {
 					id: state.id,
 					file_id: file_state.id,
 					file_compact_date,
-					begin_date: new_start_date,
-					end_date: new_end_date,
+					begin_date_symd: new_start_date,
+					end_date_symd: new_end_date,
 				})
 			if (new_end_date !== previous_end_date) {
 				state = {
 					...state,
-					begin_date: new_start_date,
-					end_date: new_end_date,
+					begin_date_symd: new_start_date,
+					end_date_symd: new_end_date,
 				}
 			}
 		}
@@ -208,28 +217,39 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 			{
 				id: state.id,
 				file_compact_date,
-				begin_date: new_start_date,
-				end_date: new_end_date,
+				begin_date_symd: new_start_date,
+				end_date_symd: new_end_date,
 			})
 		state = {
 			...state,
-			begin_date: new_start_date,
-			end_date: new_end_date,
+			begin_date_symd: new_start_date,
+			end_date_symd: new_end_date,
 		}
 	}
 
 	return state
 }
 
-export function on_overlap_clarified(state: Immutable<State>, end_date: SimpleYYYYMMDD): Immutable<State> {
+export function on_overlap_clarified(state: Immutable<State>, end_date_symd: SimpleYYYYMMDD): Immutable<State> {
 	logger.trace(`${LIB} on_overlap_clarified(…)`, {
-		prev_end_date: state.end_date,
-		new_end_date: end_date,
+		prev_end_date: state.end_date_symd,
+		new_end_date: end_date_symd,
 	})
 
 	return {
 		...state,
-		end_date,
+		end_date_symd,
+	}
+}
+
+export function demote_to_overlapping(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} demote_to_overlapping(…)`, { })
+
+	assert(state.type === Type.event, 'demote_to_overlapping(): should be demote-able')
+
+	return {
+		...state,
+		type: Type.overlapping_event,
 	}
 }
 
@@ -261,7 +281,7 @@ export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutab
 ///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Immutable<State>) {
-	const { id, type, begin_date, end_date } = state
+	const { id, type, begin_date_symd, end_date_symd } = state
 
 	let str = `📓  [${String(type).padStart('cant_recognize'.length)}]`
 	switch(type) {
@@ -284,7 +304,7 @@ export function to_string(state: Immutable<State>) {
 	str += stylize_string.yellow.bold(` "${id}"`)
 
 	if (type === Type.event)
-		str += ` 📅 ${begin_date} → ${end_date}`
+		str += ` 📅 ${begin_date_symd} → ${end_date_symd}`
 
 	return str
 }

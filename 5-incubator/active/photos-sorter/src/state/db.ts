@@ -91,7 +91,7 @@ export function get_all_folder_ids(state: Immutable<State>): string[] {
 export function get_all_event_folder_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.folders)
 		.filter(k => state.folders[k].type === Folder.Type.event)
-		//.sort((a, b) => state.folders[a].begin_date! - state.folders[b].begin_date!)
+		//.sort((a, b) => state.folders[a].begin_date_symd! - state.folders[b].begin_date_symd!)
 }
 
 export function get_all_file_ids(state: Immutable<State>): string[] {
@@ -122,6 +122,14 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 	return state.folders.hasOwnProperty(id)
 }
 
+function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
+	return true
+		&& !!folder_state.begin_date_symd
+		&& !!folder_state.end_date_symd
+		&& compact_date >= folder_state.begin_date_symd
+		&& compact_date <= folder_state.end_date_symd
+}
+
 export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`get_ideal_file_relative_path()`, { id })
 
@@ -134,20 +142,49 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	assert(is_folder_existing(state, parent_folder_id), 'get_ideal_file_relative_path() parent folder exists')
 	const top_parent_id: FolderId = split_path[0]
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
-	const is_parent_folder_an_event = state.folders[parent_folder_id].type === Folder.Type.event
 
-	logger.trace(`get_ideal_file_relative_path() processing…`, { top_parent: top_parent_id, is_top_parent_special, is_parent_folder_an_event, is_media_file: File.is_media_file(file_state) })
+	logger.trace(`get_ideal_file_relative_path() processing…`, {
+		top_parent: top_parent_id,
+		is_top_parent_special,
+		parent_folder_type: state.folders[parent_folder_id].type,
+		is_media_file: File.is_media_file(file_state),
+	})
 
-	if (is_parent_folder_an_event) {
-		// regardless of the file type,
-		// if it's in an event folder
-		// we assume it's sorted already and keep it that way
-		const ideal_basename = File.get_ideal_basename(file_state)
-		const current_parent_folder_state = state.folders[parent_folder_id]
-		const event_folder_base = Folder.get_ideal_basename(state.folders[parent_folder_id])
-		const year = String(Folder.get_year(current_parent_folder_state))
+	switch(state.folders[parent_folder_id].type) {
+		case Folder.Type.event: {
+			// regardless of the file type,
+			// if it's in an event folder
+			// we assume it's sorted already and keep it that way
+			const ideal_basename = File.get_ideal_basename(file_state)
+			const current_parent_folder_state = state.folders[parent_folder_id]
+			const event_folder_base = Folder.get_ideal_basename(state.folders[parent_folder_id])
+			const year = String(Folder.get_starting_year(current_parent_folder_state))
 
-		return path.join(year, event_folder_base, ideal_basename)
+			return path.join(year, event_folder_base, ideal_basename)
+		}
+
+		case Folder.Type.overlapping_event: {
+			// regardless of the file type,
+			// if it was in an event folder
+			// we move it to the corresponding event folder
+			const ideal_basename = File.get_ideal_basename(file_state)
+
+			const current_parent_folder_state = state.folders[parent_folder_id]
+			const current_parent_starting_compact_date = Folder.get_starting_date(current_parent_folder_state)
+			assert(current_parent_starting_compact_date, `get_ideal_file_relative_path() overlapping_event should have a start date`)
+			let compatible_event_folder_id = get_all_event_folder_ids(state)
+				.find(fid => _event_folder_matches(state.folders[fid], current_parent_starting_compact_date))
+			assert(compatible_event_folder_id, `get_ideal_file_relative_path() overlapping_event should have an overlapping folder`)
+
+			const event_folder_base = Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
+
+			const year = String(Folder.get_starting_year(state.folders[compatible_event_folder_id]))
+
+			return path.join(year, event_folder_base, ideal_basename)
+		}
+
+		default:
+			break
 	}
 
 	if (!File.is_media_file(file_state)) {
@@ -306,7 +343,9 @@ export function discard_all_pending_actions(state: Immutable<State>): Immutable<
 	}
 }
 
-function _register_folder(state: Immutable<State>, id: FolderId, exists: boolean): Immutable<State> {
+function _register_folder(state: Immutable<State>, id: FolderId): Immutable<State> {
+	assert(!state.folders[id], `_register_folder("${id}") should not already exist`)
+
 	const folder_state = Folder.create(id)
 
 	state = {
@@ -317,7 +356,7 @@ function _register_folder(state: Immutable<State>, id: FolderId, exists: boolean
 		},
 	}
 
-	logger.trace(`${LIB} _register_folder()`, { exists, id, type: folder_state.type })
+	logger.trace(`${LIB} _register_folder()`, { id, type: folder_state.type })
 
 	return state
 }
@@ -327,10 +366,8 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 	logger.trace(`${LIB} on_folder_found(…)`, { parent_id, sub_id, id })
 	logger.verbose(`${LIB} found a folder`, { id })
 
-	state = _register_folder(state, id, true) // TODO remove exists
-	const folder_state = state.folders[id]
+	state = _register_folder(state, id)
 
-	//if (folder_state.type !== Folder.Type.cantsort)
 	state = _enqueue_action(state, Actions.create_action_explore_folder(id))
 
 	return state
@@ -611,7 +648,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 	let all_event_folder_ids = get_all_event_folder_ids(_state)
 	all_event_folder_ids.forEach(id => {
 		const folder = folders[id]
-		if (folder.begin_date === folder.end_date && folder.begin_date === undefined) {
+		if (folder.begin_date_symd === folder.end_date_symd && folder.begin_date_symd === undefined) {
 			folders[id] = Folder.demote_to_unknown(folder, 'no date could be inferred')
 		}
 	})
@@ -626,7 +663,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 	// first get all the start dates + demote conflictings
 	const folders_by_start_date = all_event_folder_ids.reduce((acc, id) => {
 		const folder = folders[id]
-		const start_date = folder.begin_date!
+		const start_date = folder.begin_date_symd!
 		const existing_conflicting_folder = acc[start_date]
 		acc[start_date] = (() => {
 			if (!existing_conflicting_folder)
@@ -647,11 +684,11 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 
 			// same canonical status...
 			// the shortest one wins
-			const existing_range_size = existing_conflicting_folder.end_date! - start_date
-			const candidate_range_size = folder.end_date! - start_date
+			const existing_range_size = existing_conflicting_folder.end_date_symd! - start_date
+			const candidate_range_size = folder.end_date_symd! - start_date
 			if (candidate_range_size === existing_range_size) {
 				// demote the competing one
-				folders[folder.id] = Folder.demote_to_unknown(folder, 'lower prio')
+				folders[folder.id] = Folder.demote_to_overlapping(folder)
 			}
 			return existing_range_size <= candidate_range_size
 				? existing_conflicting_folder
@@ -667,7 +704,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 		const folder = folders_by_start_date[start_date]
 		const next_start_date = ordered_start_dates[index + 1]
 		if (next_start_date) {
-			if (next_start_date <= folder.end_date!)
+			if (next_start_date <= folder.end_date_symd!)
 				folders[folder.id] = Folder.on_overlap_clarified(folder, next_start_date - 1)
 		}
 	})
@@ -739,7 +776,7 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 		file_ids.forEach(file_id => {
 			if (file_id === final_file_state.id) return
 
-			logger.verbose(`↳ Planning deletion of duplicate "${file_id}"…`)
+			logger.verbose(` ↳ Planning deletion of duplicate "${file_id}"…`)
 			state = _enqueue_action(state, Actions.create_action_delete_file(file_id))
 			// don't delete from state, the files are not deleted yet!
 		})
@@ -813,16 +850,13 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 }
 
 export function delete_empty_folders_recursively(state: Immutable<State>, target_depth: number): Immutable<State> {
-	logger.trace(`${LIB} delete_empty_folders_recursively()…`)
+	logger.trace(`${LIB} delete_empty_folders_recursively(target_depth = ${target_depth})…`)
+	logger.verbose(`${LIB} deleting empty folders at depth ${target_depth}…`)
 
-	type FbD = Array<Array<Immutable<Folder.State>>>
-	const folders_by_depth: FbD = get_all_folders(state).reduce((acc, folder_state) => {
-			const depth = Folder.get_depth(folder_state)
-			acc[depth] = [ ...(acc[depth] ?? []), folder_state]
-			return acc
-		}, [] as FbD)
-	const folder_states = folders_by_depth[target_depth] ?? []
-	folder_states.forEach(folder_state => {
+	const folder_states_at_depth: Immutable<Folder.State>[] = get_all_folders(state)
+		.filter(folder_state => Folder.get_depth(folder_state) === target_depth)
+
+	folder_states_at_depth.forEach(folder_state => {
 		if (folder_state.id === Folder.SPECIAL_FOLDER__INBOX__BASENAME) return
 
 		state = _enqueue_action(state, Actions.create_action_delete_folder_if_empty(folder_state.id))
@@ -830,152 +864,6 @@ export function delete_empty_folders_recursively(state: Immutable<State>, target
 
 	return state
 }
-
-/*
-export function ensure_existing_event_folders_are_organized(state: Immutable<State>): Immutable<State> {
-
-	// first re-qualify some event folders
-	Object.keys(state.folders).forEach(id => {
-		const folder_state = state.folders[id]
-		if (folder_state.type !== Folder.Type.event) return
-
-		// TODO ensure the picture's dates spread is coherent with a single event
-	})
-
-	get_all_event_folder_ids(state).forEach(id => {
-		const folder_state = state.folders[id]
-		if (folder_state.type !== Folder.Type.event) return
-
-		const ideal_basename = Folder.get_ideal_basename(folder_state)
-		const year = Folder.get_best_creation_year(folder_state)
-
-		const ideal_id = path.join(String(year), ideal_basename)
-		if (id === ideal_id) return // nothing to do
-
-		if (state.folders[ideal_id]) {
-			// conflict...
-			// TODO reducer action ?
-			logger.info(`deduping folders: "${id}" vs. "${ideal_id}"`)
-			const target_folder_state = state.folders[ideal_id]
-
-			if (target_folder_state.type !== Folder.Type.event) {
-				// shouldn't be here, move to inbox
-
-			}
-
-			// merge the dates
-			// TODO reducer action ?
-			// TODO can dates be -1 at this point ?? (can they even be -1 at all?)
-			if (target_folder_state.begin_date === -1)
-				target_folder_state.begin_date = folder_state.begin_date
-			if (target_folder_state.end_date === -1)
-				target_folder_state.end_date = folder_state.end_date
-			if (folder_state.begin_date !== -1)
-				target_folder_state.begin_date = Math.min(target_folder_state.begin_date, folder_state.begin_date)
-			if (folder_state.end_date !== -1)
-				target_folder_state.end_date = Math.min(target_folder_state.end_date, folder_state.end_date)
-
-			// merge the names
-			if (Folder.get_basename(target_folder_state) !== Folder.get_basename(folder_state)) {
-				throw new Error('TODO dedupe folders: merge basenames')
-			}
-
-			// move all non-event files to inbox
-
-
-			throw new Error('TODO dedupe folders')
-		}
-		else {
-			assert(false, 'todo reimplement')
-			//state = _enqueue_action(state, Actions.create_action_move_folder(id, ideal_id))
-		}
-	})
-
-	return state
-}
-*/
-
-
-function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
-	return true
-		&& !!folder_state.begin_date
-		&& !!folder_state.end_date
-		&& compact_date >= folder_state.begin_date
-		&& compact_date <= folder_state.end_date
-}
-/*
-export function ensure_all_needed_events_folders_are_present_and_move_files_in_them(state: Immutable<State>): Immutable<State> {
-	const actions: Action[] = []
-
-	const all_events_folder_ids = get_all_event_folder_ids(state)
-
-	const all_file_ids = get_all_media_file_ids(state)
-	all_file_ids.forEach(id => {
-		const file_state = state.files[id]
-		const current_parent_id = File.get_current_parent_folder_id(file_state)
-		const compact_date = File.get_best_creation_date_compact(file_state)
-		if (all_events_folder_ids.includes(current_parent_id) && _event_folder_matches(state.folders[current_parent_id], compact_date))
-			return // all good
-
-		let compatible_event_folder_id = all_events_folder_ids.find(fid => _event_folder_matches(state.folders[fid], compact_date))
-		if (!compatible_event_folder_id) {
-			// need to create a new event folder!
-			// note: we group weekends together
-			compatible_event_folder_id = (() => {
-				const timestamp = File.get_best_creation_date(file_state)
-				let date = new Date(timestamp)
-
-				if (date.getDay() === 0) {
-					// sunday is coalesced to sat = start of weekend
-					const timestamp_one_day_before = timestamp - (1000 * 3600 * 24)
-					date = new Date(timestamp_one_day_before)
-				}
-
-				const radix = get_human_readable_timestamp_days(date)
-
-				return path.join(String(File.get_best_creation_year(file_state)), radix + ' - ' + (date.getDay() === 6 ? 'weekend' : 'life'))
-			})()
-
-			state = _register_folder(state, compatible_event_folder_id, false)
-			actions.push(Actions.create_action_ensure_folder(compatible_event_folder_id))
-			all_events_folder_ids.push(compatible_event_folder_id)
-		}
-
-		// now move the file there
-		const new_file_id = path.join(compatible_event_folder_id, File.get_ideal_basename(file_state))
-		if (state.files[new_file_id]) {
-			// conflict, TODO
-			throw new Error('NIMP file conflict!')
-		}
-		actions.push(Actions.create_action_move_file(id, new_file_id))
-	})
-
-	return {
-		...state,
-		queue: [ ...state.queue, ...actions ],
-	}
-}
-
-// TODO move non-event folders to cantsort, or delete them if empty
-
-export function ensure_all_eligible_files_are_correctly_named(state: Immutable<State>): Immutable<State> {
-	const actions: Action[] = []
-
-	const all_file_ids = get_all_media_file_ids(state)
-	all_file_ids.forEach(id => {
-		const file_state = state.files[id]
-		const current_basename = File.get_current_basename(file_state)
-		const ideal_basename = File.get_ideal_basename(file_state)
-		if (current_basename !== ideal_basename) {
-			actions.push(Actions.create_action_move_file(id, path.join(File.get_current_parent_folder_id(file_state), ideal_basename)))
-		}
-	})
-
-	return {
-		...state,
-		queue: [ ...state.queue, ...actions ],
-	}}
-*/
 
 ///////////////////// DEBUG /////////////////////
 

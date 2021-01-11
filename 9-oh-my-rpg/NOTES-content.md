@@ -741,3 +741,6 @@ Planting:
 - scale insects
 - fungus gnats
 - caterpillar (+ can become spiritual beast??)
+
+https://science.slashdot.org/story/20/12/06/0139246/the-best-way-to-win-a-horse-race-mathematicians-may-have-the-answer
+
