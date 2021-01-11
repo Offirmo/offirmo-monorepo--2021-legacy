@@ -324,7 +324,7 @@ describe(`${LIB} - file state`, function() {
 					state = on_notes_recovered(state, null)
 
 					//console.log(get_best_creation_date_meta(state))
-					expect(get_ideal_basename(state, undefined, false), tc_key).to.equal(TEST_CASES[tc_key])
+					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
 				})
 			})
 		})

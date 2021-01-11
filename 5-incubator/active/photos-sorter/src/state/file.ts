@@ -346,18 +346,52 @@ export function get_confidence_in_date(state: Immutable<State>): boolean {
 	return confidence
 }
 
+export function get_ideal_basename(state: Immutable<State>, {
+	PARAMS = get_params(),
+	requested_confidence = true,
+	copy_marker = 'none',
+}: {
+	PARAMS?: Immutable<Params>
+	requested_confidence?: boolean
+	copy_marker?: 'none' | 'preserve' | number
+} = {}): Basename {
+	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
+	const meaningful_part = parsed_original_basename.meaningful_part
+	let extension = parsed_original_basename.extension_lc
+	extension = PARAMS.extensions_to_normalize[extension] || extension
+	let result = meaningful_part + extension
+
+	if (is_media_file(state)) {
+		const bcd_meta = get_best_creation_date_meta(state)
+		logger.trace(`get_ideal_basename()`, bcd_meta)
+
+		if (!bcd_meta.confidence && requested_confidence) {
+			// not confident enough in getting the date, can't add the date
+		}
+		else {
+			const bcd = bcd_meta.candidate
+			result = 'MM'
+				+ get_human_readable_timestamp_auto(bcd, 'tz:embedded')
+				+ '_'
+				+ result
+		}
+	}
+
+	return result
+}
+/*
 export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Params> = get_params(), requested_confidence = true): Basename {
 	if (!is_media_file(state))
 		return get_current_basename(state)
 
-	const data = get_best_creation_date_meta(state)
-	logger.trace(`get_ideal_basename()`, data)
-	if (!data.confidence && requested_confidence) {
+	const bcd_meta = get_best_creation_date_meta(state)
+	logger.trace(`get_ideal_basename()`, bcd_meta)
+	if (!bcd_meta.confidence && requested_confidence) {
 		// not confident enough in getting the date, can't rename
 		return get_current_basename(state)
 	}
 
-	const bcd = data.candidate
+	const bcd = bcd_meta.candidate
 	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
 	const meaningful_part = parsed_original_basename.meaningful_part
 	let extension = parsed_original_basename.extension_lc
@@ -370,6 +404,7 @@ export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Pa
 
 	return ideal
 }
+*/
 
 export function get_hash(state: Immutable<State>): FileHash | undefined {
 	return state.current_hash

@@ -744,3 +744,7 @@ Planting:
 
 https://science.slashdot.org/story/20/12/06/0139246/the-best-way-to-win-a-horse-race-mathematicians-may-have-the-answer
 
+https://www.smh.com.au/lifestyle/life-and-relationships/when-michael-met-his-future-wife-he-was-at-her-engagement-party-20201209-p56lxe.html
+
+https://www.wildfooduk.com/wild-plant-guide/
+
