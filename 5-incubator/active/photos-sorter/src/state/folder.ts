@@ -254,7 +254,7 @@ export function demote_to_overlapping(state: Immutable<State>): Immutable<State>
 }
 
 export function demote_to_unknown(state: Immutable<State>, reason: string): Immutable<State> {
-	logger.trace(`${LIB} demote_to_unknown(…)`, { })
+	logger.trace(`${LIB} demote_to_unknown(…)`, { id: state.id, reason})
 
 	assert(state.type === Type.event, 'demote_to_unknown(): should be demote-able')
 

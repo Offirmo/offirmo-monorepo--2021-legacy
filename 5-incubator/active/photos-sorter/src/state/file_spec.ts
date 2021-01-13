@@ -356,6 +356,36 @@ describe(`${LIB} - file state`, function() {
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
+
+		context('when the basename has a copy marker', function() {
+			function get_test_state() {
+				const CURRENT_BASENAME = 'foo - copie 3.png'
+				let state = create(CURRENT_BASENAME)
+				const creation_date_ms = 1564542022000
+				state = on_fs_stats_read(state, {
+					birthtimeMs: creation_date_ms,
+					atimeMs: creation_date_ms + 10000,
+					mtimeMs: creation_date_ms + 10000,
+					ctimeMs: creation_date_ms + 10000,
+				})
+				state = on_exif_read(state, {} as any)
+				state = on_hash_computed(state, '1234')
+				state = on_notes_recovered(state, null)
+				return state
+			}
+
+			it('should be removed by default', () => {
+				expect(get_ideal_basename(get_test_state())).to.equal('foo.png')
+			})
+
+			it('should be internally preserved and can be optionally reused (normalized)', () => {
+				expect(get_ideal_basename(get_test_state(), { copy_marker: 'preserve'})).to.equal('foo (3).png')
+			})
+
+			it('can be optionally overriden', () => {
+				expect(get_ideal_basename(get_test_state(), { copy_marker: 7})).to.equal('foo (7).png')
+			})
+		})
 	})
 
 	describe('merge_notes()', function () {

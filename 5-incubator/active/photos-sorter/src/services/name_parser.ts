@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { get_params } from '../params'
 import {
@@ -60,7 +61,7 @@ export interface DigitsParseResult {
 	date: undefined | BetterDate
 	is_ambiguous: boolean
 }
-export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): DigitsParseResult {
+export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): Immutable<DigitsParseResult> {
 	let blocks: string[] = digit_blocks
 		.split('-')
 		.filter(b => !!b)
@@ -364,11 +365,16 @@ export interface ParseResult {
 
 	copy_index: undefined | number
 }
+let last_call: undefined | {
+	// small memoize-once
+	name: string
+	up_to: string
+	result: Immutable<ParseResult>
+} = undefined
 export function parse(name: string, { parse_up_to = 'full' }: {
 	parse_up_to?: 'full' | 'copy_index',
-} = {}): ParseResult {
-	logger.silly('\n\n\n\n----------------------------------------')
-	logger.trace('» parsing basename…', { name })
+} = {}): Immutable<ParseResult> {
+	logger.trace('» parsing basename…', { name, up_to: parse_up_to })
 	const result: ParseResult = {
 		original_name: name,
 		extension_lc: '',
@@ -379,6 +385,17 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 		meaningful_part: '',
 		copy_index: undefined,
 	}
+	// small optim for readability in unit tests
+	if (name === '.') {
+		return result
+	}
+	if (last_call && last_call.name === name && last_call.up_to === parse_up_to) {
+		logger.trace('« parse basename final result = memoized from last call')
+		return last_call.result
+	}
+
+	logger.silly(`parsing basename "${name}"...\n\n\n\n----------------------------------------`)
+
 	name = NORMALIZERS.normalize_unicode(name)
 
 	let state = {
@@ -440,7 +457,7 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 			result.copy_index = Number(m.groups?.copy_index ?? 0)
 			acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
 			acc = acc.trim()
-			logger.trace('non meaningful', { key, rgxp: NON_MEANINGFUL_ENDINGS_RE[key], m, acc })
+			logger.trace('non meaningful part removed', { key, rgxp: NON_MEANINGFUL_ENDINGS_RE[key], m, cleaned: acc })
 		}
 		return acc
 	}, state.buffer)
@@ -449,6 +466,7 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 	logger.silly('after buffer cleanup', { state, result })
 
 	if (parse_up_to === 'copy_index') {
+		result.meaningful_part = state.buffer
 		return result
 	}
 
@@ -634,16 +652,25 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 
 	result.meaningful_part = meaningful_part
 
-	logger.trace('« final', {
+	logger.trace('« parse basename final result =', {
 		...result,
 		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, 'tz:embedded') : null
 	})
+	last_call = {
+		name,
+		up_to: parse_up_to,
+		result,
+	}
 	return result
 }
 
 export function get_copy_index(name: string): undefined | number {
 	const result = parse(name, { parse_up_to: 'copy_index' })
 	return result.copy_index
+}
+export function get_without_copy_index(name: string): string {
+	const result = parse(name, { parse_up_to: 'copy_index' })
+	return result.meaningful_part + result.extension_lc
 }
 
 

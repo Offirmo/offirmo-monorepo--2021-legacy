@@ -22,8 +22,9 @@ import {
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
-	get_embedded_timezone,
+	get_embedded_timezone, BetterDate,
 } from './better-date'
+import { Immutable } from '@offirmo-private/ts-types'
 
 /////////////////////
 
@@ -32,6 +33,13 @@ function ꓺ(...t: Array<string | undefined>): string {
 }
 
 describe(`${LIB} - (base)name parser`, function() {
+	function _clean_parse_result<T extends { date: undefined | BetterDate }>(result: Immutable<T>): Immutable<T> {
+		if (result.date) {
+			delete (result.date as NonNullable<T['date']>)._debug
+		}
+
+		return result
+	}
 
 	describe('_get_y2k_year_from_fragment()', function () {
 		it('should work', () => {
@@ -70,9 +78,8 @@ describe(`${LIB} - (base)name parser`, function() {
 						date,
 						is_ambiguous,
 					}
-					const result = _parse_digit_blocks(digit_blocks!, 'other')
+					const result = _clean_parse_result(_parse_digit_blocks(digit_blocks!, 'other'))
 					//console.log({ result })
-					delete result.date?._debug
 
 					if (result.summary === 'perfect') {
 						// ok
@@ -114,9 +121,8 @@ describe(`${LIB} - (base)name parser`, function() {
 						date: undefined,
 						is_ambiguous: false,
 					}
-					const result = _parse_digit_blocks(digit_blocks!, 'other')
+					const result = _clean_parse_result(_parse_digit_blocks(digit_blocks!, 'other'))
 					//console.log({ result })
-					delete result.date?._debug
 
 					expect(result.reason).not.to.be.null
 					expected_result.reason = result.reason
@@ -179,8 +185,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					const { _comment } = expected
 
 					it(ꓺ('should correctly parse and find the date', _comment, `"${filename}"`), () => {
-						const result = parse(filename)
-						delete result.date?._debug
+						const result = _clean_parse_result(parse(filename))
 						expect(
 							result.date_digits,
 							`digits for ${[_comment, `"${filename}"`].join(': ')}`
@@ -232,8 +237,7 @@ describe(`${LIB} - (base)name parser`, function() {
 						return
 
 					it(ꓺ('should correctly extract or infer the TZ', _comment, `"${filename}"`), () => {
-						const result = parse(filename)
-						delete result.date?._debug
+						const result = _clean_parse_result(parse(filename))
 						//console.log(result.date)
 						expect(get_embedded_timezone(result.date!)).to.equal(expected_tz)
 					})
@@ -250,8 +254,7 @@ describe(`${LIB} - (base)name parser`, function() {
 				const { _comment } = expected
 
 				it(ꓺ('should correctly remove non meaningful parts', _comment, `"${filename}"`), () => {
-					const result = parse(filename)
-					delete result.date?._debug
+					const result = _clean_parse_result(parse(filename))
 					expect(
 						result.meaningful_part,
 						`meaningful part for ${[_comment, `"${filename}"`].join(': ')}`
@@ -279,8 +282,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = parse(filename)
-						delete result.date?._debug
+						const result = _clean_parse_result(parse(filename))
 						expect(
 							result,
 							`full result for ${[_comment, `"${filename}"`].join(': ')}`
@@ -303,8 +305,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = parse(filename)
-						delete result.date?._debug
+						const result = _clean_parse_result(parse(filename))
 						expect(
 							result,
 							`full result for ${[_comment, `"${filename}"`].join(': ')}`

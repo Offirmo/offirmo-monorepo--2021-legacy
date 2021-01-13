@@ -359,7 +359,8 @@ export function get_ideal_basename(state: Immutable<State>, {
 	const meaningful_part = parsed_original_basename.meaningful_part
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize[extension] || extension
-	let result = meaningful_part + extension
+
+	let result = meaningful_part
 
 	if (is_media_file(state)) {
 		const bcd_meta = get_best_creation_date_meta(state)
@@ -376,6 +377,21 @@ export function get_ideal_basename(state: Immutable<State>, {
 				+ result
 		}
 	}
+
+	switch (copy_marker) {
+		case 'none':
+			break
+		case 'preserve':
+			if (parsed_original_basename.copy_index)
+				result += ` (${parsed_original_basename.copy_index})`
+			break
+		default:
+			if (copy_marker)
+				result += ` (${copy_marker})`
+			break
+	}
+
+	result += extension
 
 	return result
 }
@@ -547,7 +563,7 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 }
 
 export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`${LIB} on_notes_unpersisted(…)`, { id: state.id, recovered_notes })
+	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
 	assert(state.current_hash, 'on_notes_recovered() param') // obvious but just in case…
 
 	state = {

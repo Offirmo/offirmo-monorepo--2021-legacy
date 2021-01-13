@@ -26,3 +26,8 @@ reflexion on capitalism
 
 ally suffragette
 event: realize they don't come from the same time "what happened to?"
+
+
+https://en.wikipedia.org/wiki/Discount_store
+https://en.wikipedia.org/wiki/Category_killer
+https://en.wikipedia.org/wiki/Aldi

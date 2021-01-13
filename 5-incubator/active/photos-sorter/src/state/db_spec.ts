@@ -42,6 +42,34 @@ describe(`${LIB} - DB (root) state`, function() {
 
 	describe('get_ideal_file_relative_path()', function() {
 
+		it('should remove copy markers', () => {
+			let file_parent = 'foo'
+			let file_basename = 'bar - copie 3.xyz'
+			let file_id = path.join(file_parent, file_basename)
+
+			let state = create(TEST_FILES_DIR_ABS)
+
+			state = on_folder_found(state, '', '.')
+			state = on_folder_found(state, '', file_parent)
+			state = on_file_found(state, '.', file_id)
+			state = on_hash_computed(state, file_id, 'hash01')
+			state = on_fs_stats_read(state, file_id, {
+				birthtimeMs: CREATION_DATE_MS,
+				atimeMs:     CREATION_DATE_MS,
+				mtimeMs:     CREATION_DATE_MS,
+				ctimeMs:     CREATION_DATE_MS,
+			})
+			state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
+
+			// underlying function
+			expect(File.get_ideal_basename(state.files[file_id]), 'get_ideal_basename').to.equal('bar.xyz')
+
+			expect(get_ideal_file_relative_path(state, file_id), 'get_ideal_file_relative_path').to.equal(path.join(
+				'- cant_recognize',
+				'foo',
+				'bar.xyz',
+			))
+		})
 		context('when media file', function() {
 
 			context('when NOT confident in the date', function() {

@@ -9,11 +9,12 @@ import cloneDeep from 'lodash/cloneDeep'
 import { get_base_loose } from '@offirmo-private/state-utils'
 
 import { NOTES_BASENAME,  LIB as APP } from '../consts'
-import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
+import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import { Action } from './actions'
 import * as Actions from './actions'
 import { FileHash } from '../services/hash'
 import { FsStatsSubset } from '../services/fs'
+import { get_without_copy_index } from '../services/name_parser'
 import {
 	get_compact_date,
 	get_day_of_week_index,
@@ -26,6 +27,7 @@ import * as File from './file'
 import * as Notes from './notes'
 import { FolderId } from './folder'
 import { FileId, PersistedNotes } from './file'
+import { get_params } from '../params'
 
 
 /////////////////////
@@ -137,10 +139,10 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 		return id
 
 	const file_state = state.files[id]
-	const split_path = File.get_path(file_state).split(path.sep)
-	const parent_folder_id: FolderId = split_path.slice(0, -1).join(path.sep)
+	const parent_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
+	const parent_folder_id: FolderId = parent_split_path.join(path.sep)
 	assert(is_folder_existing(state, parent_folder_id), 'get_ideal_file_relative_path() parent folder exists')
-	const top_parent_id: FolderId = split_path[0]
+	const top_parent_id: FolderId = parent_split_path[0]
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
 
 	logger.trace(`get_ideal_file_relative_path() processing…`, {
@@ -150,12 +152,19 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 		is_media_file: File.is_media_file(file_state),
 	})
 
+	let ideal_basename = File.get_ideal_basename(file_state)
+	if (!get_params().dry_run) {
+		const current_basename = File.get_current_basename(file_state)
+		const current_basename_cleaned = get_without_copy_index(current_basename)
+		assert(current_basename_cleaned === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! "${ideal_basename}" vs "${current_basename_cleaned}" ~ "${current_basename}"`)
+	}
+
+	// whatever the file, is it already in an event folder? (= already sorted)
 	switch(state.folders[parent_folder_id].type) {
 		case Folder.Type.event: {
 			// regardless of the file type,
 			// if it's in an event folder
 			// we assume it's sorted already and keep it that way
-			const ideal_basename = File.get_ideal_basename(file_state)
 			const current_parent_folder_state = state.folders[parent_folder_id]
 			const event_folder_base = Folder.get_ideal_basename(state.folders[parent_folder_id])
 			const year = String(Folder.get_starting_year(current_parent_folder_state))
@@ -167,6 +176,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 			// regardless of the file type,
 			// if it was in an event folder
 			// we move it to the corresponding event folder
+			// XXX TODO keep in a duplicated event folder?
 			const ideal_basename = File.get_ideal_basename(file_state)
 
 			const current_parent_folder_state = state.folders[parent_folder_id]
@@ -188,27 +198,25 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	}
 
 	if (!File.is_media_file(file_state)) {
+		// XXX immu
 		if (is_top_parent_special)
-			split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
+			parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
-			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
-		return split_path.join(path.sep)
+			parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
+		return path.join(parent_split_path.join(path.sep), ideal_basename)
 	}
 
 	// file is a media
 	if (!File.get_confidence_in_date(file_state)) {
 		if (is_top_parent_special)
-			split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
+			parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
 		else
-			split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
-		return split_path.join(path.sep)
+			parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
+		return path.join(parent_split_path.join(path.sep), ideal_basename)
 	}
 
 	// file is a media + we have confidence
 	const year = String(File.get_best_creation_year(file_state))
-	const current_basename = File.get_current_basename(file_state)
-	const ideal_basename = File.get_ideal_basename(file_state)
-	assert(current_basename === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! ${ideal_basename} vs ${current_basename}`)
 	const event_folder_base = ((): string => {
 		const compact_date = File.get_best_creation_date_compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
@@ -513,7 +521,7 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 }
 
 function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id })
+	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id, data: !!recovered_notes })
 
 	let new_file_state = File.on_notes_recovered(
 		state.files[file_id],
@@ -532,11 +540,11 @@ function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, reco
 }
 
 export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
-	logger.trace(`${LIB} on_file_moved(…)`, { })
+	logger.trace(`${LIB} on_file_moved(…)`, { id, target_id })
 
 	assert(id !== target_id, 'on_file_moved(): should be an actual move!')
 	assert(state.files[id], 'on_file_moved() file state: src should exist')
-	assert(!state.files[target_id], 'on_file_moved() file state: target should no exist')
+	assert(!state.files[target_id], 'on_file_moved() file state: target should no already exist')
 
 	// todo inc/dec folders
 
@@ -624,6 +632,7 @@ function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<S
 		const { id, current_hash } = file_state
 		assert(current_hash)
 		all_media_hashes.add(current_hash)
+		// TODO clarify null vs. sth (currently never null)
 		state = _on_file_notes_recovered(state, id, Notes.get_file_notes_for_hash(state.extra_notes, current_hash!))
 	})
 	let extra_notes = { ...state.extra_notes }
