@@ -6,7 +6,6 @@ import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { is_deep_equal } from '@offirmo-private/state-utils'
 
 import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
@@ -360,21 +359,23 @@ export function get_ideal_basename(state: Immutable<State>, {
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize[extension] || extension
 
-	let result = meaningful_part
+	logger.trace(`get_ideal_basename()`, {
+		is_media_file: is_media_file(state),
+		parsed_original_basename,
+	})
+
+	let result = meaningful_part // so far
 
 	if (is_media_file(state)) {
 		const bcd_meta = get_best_creation_date_meta(state)
-		logger.trace(`get_ideal_basename()`, bcd_meta)
 
 		if (!bcd_meta.confidence && requested_confidence) {
 			// not confident enough in getting the date, can't add the date
 		}
 		else {
 			const bcd = bcd_meta.candidate
-			result = 'MM'
-				+ get_human_readable_timestamp_auto(bcd, 'tz:embedded')
-				+ '_'
-				+ result
+			const prefix = 'MM' + get_human_readable_timestamp_auto(bcd, 'tz:embedded')
+			result = [ prefix, result].filter(s => !!s).join('_') // take into account chance of name being empty
 		}
 	}
 
@@ -391,6 +392,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 			break
 	}
 
+	assert(result.length > 0, `get_ideal_basename() extensionless basename should not be empty`)
 	result += extension
 
 	return result

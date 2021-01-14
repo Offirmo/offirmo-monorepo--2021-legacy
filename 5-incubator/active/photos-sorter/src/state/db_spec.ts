@@ -42,34 +42,99 @@ describe(`${LIB} - DB (root) state`, function() {
 
 	describe('get_ideal_file_relative_path()', function() {
 
-		it('should remove copy markers', () => {
-			let file_parent = 'foo'
-			let file_basename = 'bar - copie 3.xyz'
-			let file_id = path.join(file_parent, file_basename)
+		describe('copy markers handling', function() {
 
-			let state = create(TEST_FILES_DIR_ABS)
+			it('should remove copy markers', () => {
+				let file_parent = 'foo'
+				let file_basename = 'bar - copie 3.xyz'
+				let file_id = path.join(file_parent, file_basename)
 
-			state = on_folder_found(state, '', '.')
-			state = on_folder_found(state, '', file_parent)
-			state = on_file_found(state, '.', file_id)
-			state = on_hash_computed(state, file_id, 'hash01')
-			state = on_fs_stats_read(state, file_id, {
-				birthtimeMs: CREATION_DATE_MS,
-				atimeMs:     CREATION_DATE_MS,
-				mtimeMs:     CREATION_DATE_MS,
-				ctimeMs:     CREATION_DATE_MS,
+				let state = create(TEST_FILES_DIR_ABS)
+
+				state = on_folder_found(state, '', '.')
+				state = on_folder_found(state, '', file_parent)
+				state = on_file_found(state, '.', file_id)
+				state = on_hash_computed(state, file_id, 'hash01')
+				state = on_fs_stats_read(state, file_id, {
+					birthtimeMs: CREATION_DATE_MS,
+					atimeMs:     CREATION_DATE_MS,
+					mtimeMs:     CREATION_DATE_MS,
+					ctimeMs:     CREATION_DATE_MS,
+				})
+				state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
+
+				// underlying function
+				expect(File.get_ideal_basename(state.files[file_id]), 'get_ideal_basename').to.equal('bar.xyz')
+
+				expect(get_ideal_file_relative_path(state, file_id), 'get_ideal_file_relative_path').to.equal(path.join(
+					'- cant_recognize',
+					'foo',
+					'bar.xyz',
+				))
 			})
-			state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 
-			// underlying function
-			expect(File.get_ideal_basename(state.files[file_id]), 'get_ideal_basename').to.equal('bar.xyz')
+			context('when a conflict happened and was handled by the underlying action', function() {
 
-			expect(get_ideal_file_relative_path(state, file_id), 'get_ideal_file_relative_path').to.equal(path.join(
-				'- cant_recognize',
-				'foo',
-				'bar.xyz',
-			))
+				it('should accept the potential renaming but still remove copy markers', () => {
+					let file_parent = 'foo'
+					let file_basename_a = 'bar.png'
+					let file_basename_b = 'bar - copy 3.png'
+
+					let file_id_a = path.join(file_parent, file_basename_a)
+					let file_id_b = path.join(file_parent, file_basename_b)
+
+					let state = create(TEST_FILES_DIR_ABS)
+
+					state = on_folder_found(state, '', '.')
+					state = on_folder_found(state, '', file_parent)
+					state = on_file_found(state, '.', file_id_a)
+					state = on_file_found(state, '.', file_id_b)
+					state = on_hash_computed(state, file_id_a, 'hash01')
+					state = on_hash_computed(state, file_id_b, 'hash02') // MUST have different hashes to be a real conflict!
+					state = on_fs_stats_read(state, file_id_a, {
+						birthtimeMs: CREATION_DATE_MS,
+						atimeMs:     CREATION_DATE_MS,
+						mtimeMs:     CREATION_DATE_MS,
+						ctimeMs:     CREATION_DATE_MS,
+					})
+					state = on_fs_stats_read(state, file_id_b, {
+						birthtimeMs: CREATION_DATE_MS,
+						atimeMs:     CREATION_DATE_MS,
+						mtimeMs:     CREATION_DATE_MS,
+						ctimeMs:     CREATION_DATE_MS,
+					})
+					state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
+
+					// quick re-check of the underlying function
+					expect(File.get_ideal_basename(state.files[file_id_a]), 'Fgib_a').to.equal('bar.png')
+					expect(File.get_ideal_basename(state.files[file_id_b]), 'Fgib_b').to.equal('bar.png')
+					expect(
+						File.get_ideal_basename(state.files[file_id_b], { copy_marker: 'preserve'}),
+						'Fgib_b_preserve',
+					).to.equal('bar (3).png')
+
+					// 1st file is fine, no conflict during normalization
+					// not an actual move state = on_file_moved(state, file_id_a, [ file_parent, File.get_ideal_basename(state.files[file_id_a])].join(path.sep))
+					// however, the second normalization discovers that there is a conflict and restores the marker
+					let next_file_id_b = [ file_parent, File.get_ideal_basename(state.files[file_id_b], { copy_marker: 'preserve'})].join(path.sep)
+					state = on_file_moved(state, file_id_b, next_file_id_b)
+					file_id_b = next_file_id_b
+
+					// however that doesn't impact the "ideal" name
+					expect(get_ideal_file_relative_path(state, file_id_a)).to.equal(path.join(
+						'- cant_sort', // due to not dated, not event
+						'foo',
+						'bar.png',
+					))
+					expect(get_ideal_file_relative_path(state, file_id_b)).to.equal(path.join(
+						'- cant_sort', // due to not dated, not event
+						'foo',
+						'bar.png',
+					))
+				})
+			})
 		})
+
 		context('when media file', function() {
 
 			context('when NOT confident in the date', function() {

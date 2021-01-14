@@ -51,6 +51,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	////////////////////////////////////
 	const TASK_ID = 'other'
 
+	// read only
 	async function explore_folder(id: RelativePath): Promise<void> {
 		logger.group(`- exploring dir "${id}"…`)
 		const TASK_ID = 'explore_folder'
@@ -145,78 +146,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		on_task_finished(TASK_ID)
 	}
 
-	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
-		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
-		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
-		on_new_task(TASK_ID)
-
-		try {
-			// always write, even in dry run
-			// this is not risky
-			// the oldest = the more authoritative
-			await json.write(abs_path, data)
-		}
-		catch (err) {
-			if (PARAMS.dry_run) {
-				// swallow
-			}
-			else
-				throw err
-		}
-
-		on_task_finished(TASK_ID)
-	}
-
-	async function normalize_file(id: RelativePath): Promise<void> {
-		logger.trace(`initiating media file normalization for "${id}"…`)
-		const TASK_ID = 'normalize_file'
-		on_new_task(TASK_ID)
-
-		const actions: Promise<void>[] = []
-
-		//const abs_path = DB.get_absolute_path(db, id)
-		const media_state = db.files[id]
-		assert(media_state, 'normalize_file() media_state')
-
-		const is_exif_powered = File.is_exif_powered_media_file(media_state)
-		//console.log({ id, media_state, abs_path, is_exif_powered})
-
-		if (is_exif_powered) {
-			const current_exif_data: any = media_state.current_exif_data
-			if (current_exif_data.Orientation) {
-				// TODO one day NOTE will need hash chaining
-				/*if (PARAMS.dry_run) {
-					logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
-				}
-				else {
-					logger.error('TODO losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
-				}*/
-			}
-		}
-
-		// TODO fix birthtime
-
-		const current_basename = File.get_current_basename(media_state)
-		const target_basename = File.get_ideal_basename(media_state)
-		if (current_basename !== target_basename) {
-			const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
-			if (!DB.is_file_existing(db, relative_target_path)) {
-				if (PARAMS.dry_run) {
-					logger.info('DRY RUN would have renamed ' + current_basename + ' to ' + target_basename)
-				}
-				else {
-					actions.push(
-						move_file(id, relative_target_path)
-					)
-				}
-			}
-		}
-
-		await Promise.all(actions)
-
-		on_task_finished(TASK_ID)
-	}
-
+	// write
 	async function ensure_folder(id: RelativePath): Promise<void> {
 		logger.verbose(`- ensuring dir "${id}" exists…`)
 		on_new_task(TASK_ID)
@@ -290,6 +220,114 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			await util.promisify(fs.rename)(abs_path, abs_path_target)
 			db = DB.on_file_moved(db, id, target_id)
 		}
+
+		on_task_finished(TASK_ID)
+	}
+
+	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
+		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
+		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
+		on_new_task(TASK_ID)
+
+		try {
+			// always write, even in dry run
+			// this is not risky
+			// the oldest = the more authoritative
+			await json.write(abs_path, data)
+		}
+		catch (err) {
+			if (PARAMS.dry_run) {
+				// swallow
+			}
+			else
+				throw err
+		}
+
+		on_task_finished(TASK_ID)
+	}
+
+	async function normalize_file(id: RelativePath): Promise<void> {
+		logger.trace(`initiating media file normalization for "${id}"…`)
+		const TASK_ID = 'normalize_file'
+		on_new_task(TASK_ID)
+
+		const actions: Promise<void>[] = []
+
+		//const abs_path = DB.get_absolute_path(db, id)
+		const media_state = db.files[id]
+		assert(media_state, 'normalize_file() media_state')
+
+		const is_exif_powered = File.is_exif_powered_media_file(media_state)
+		//console.log({ id, media_state, abs_path, is_exif_powered})
+
+		if (is_exif_powered) {
+			const current_exif_data: any = media_state.current_exif_data
+			if (current_exif_data.Orientation) {
+				// TODO one day NOTE will need hash chaining
+				logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
+				/*if (PARAMS.dry_run) {
+					logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
+				}
+				else {
+					logger.error('TODO losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
+				}*/
+			}
+		}
+
+		// TODO fix birthtime
+
+		const current_basename = File.get_current_basename(media_state)
+		let copy_marker: 'none' | 'preserve' | number = 'none'
+		let target_basename = File.get_ideal_basename(media_state, { copy_marker })
+		let good_target_found = false
+		do {
+			if (target_basename === current_basename) {
+				// ideal
+				good_target_found = true
+				break
+			}
+
+			const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
+			if (!DB.is_file_existing(db, relative_target_path)) {
+				// good
+				good_target_found = true
+				break
+			}
+
+			// try an alternative name
+			switch (copy_marker) {
+				case 'none':
+					copy_marker = 'preserve'
+					break
+				case 'preserve':
+					copy_marker = 0
+					break
+				default:
+					copy_marker = copy_marker++
+					break
+			}
+			target_basename = File.get_ideal_basename(media_state, { copy_marker })
+		} while (typeof copy_marker !== 'number' || copy_marker <= 10)
+
+		if (!good_target_found) {
+			logger.warn(`Couldn't rename ` + current_basename + ' to a proper normalized name (' + target_basename + ')')
+		}
+		else if (current_basename !== target_basename) {
+			if (PARAMS.dry_run) {
+				logger.info('DRY RUN would have renamed ' + current_basename + ' to ' + target_basename)
+			}
+			else {
+				const target_id = path.join(File.get_current_parent_folder_id(media_state), target_basename)
+				// NO, we don't use the "move" action, we need to be sync for race condition reasons
+				//actions.push( move_file(id, target_id) )
+				const abs_path = DB.get_absolute_path(db, id)
+				const abs_path_target = DB.get_absolute_path(db, target_id)
+				fs_extra.moveSync(abs_path, abs_path_target)
+				db = DB.on_file_moved(db, id, target_id)
+			}
+		}
+
+		await Promise.all(actions) // TODO schedule the actions in order
 
 		on_task_finished(TASK_ID)
 	}

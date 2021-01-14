@@ -61,10 +61,10 @@ export function get_params(): Params {
 		date_lower_bound: DATE_LOWER_BOUND,
 		date_upper_bound: DATE_UPPER_BOUND,
 
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
-		root: path.normalize(`/Users/${process.env.USER}/Documents/- souvenirs/- photo-sorted`),
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- TEST photos sorter/- sorted`), // TEST
+		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories`),
 
-		...(false // XXX true = local execution on Offirmo's machine, don't commit
+		...(false // XXX true = local execution on Offirmo's machine, don't commit "true"
 			? {
 					//dry_run: true,
 					dry_run: false,

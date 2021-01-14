@@ -1,6 +1,7 @@
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { Immutable } from '@offirmo-private/ts-types'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import { get_params } from '../params'
 import {
@@ -390,7 +391,7 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 		return result
 	}
 	if (last_call && last_call.name === name && last_call.up_to === parse_up_to) {
-		logger.trace('« parse basename final result = memoized from last call')
+		logger.trace('« parse basename final result = memoized from last call', last_call.result)
 		return last_call.result
 	}
 
@@ -653,13 +654,14 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 	result.meaningful_part = meaningful_part
 
 	logger.trace('« parse basename final result =', {
-		...result,
+		result,
 		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, 'tz:embedded') : null
 	})
 	last_call = {
 		name,
 		up_to: parse_up_to,
 		result,
+		//result: enforce_immutability(result),
 	}
 	return result
 }
