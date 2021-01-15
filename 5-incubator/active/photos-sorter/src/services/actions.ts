@@ -22,7 +22,7 @@ import logger from './logger'
 import fs_extra from './fs-extra'
 import { get_fs_stats_subset } from './fs'
 import get_file_hash from './hash'
-import { is_already_normalized } from './name_parser'
+import { is_normalized_media_basename } from './name_parser'
 import { FolderId } from '../state/folder'
 
 function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boolean {
@@ -226,14 +226,17 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			//logger.log('so far:', { is_existing_according_to_db })
 			if (is_existing_according_to_db) return
 
-			const abs_path = DB.get_absolute_path(db, id)
-
 			if (PARAMS.dry_run) {
 				logger.verbose('DRY RUN would have created folder: ' + id)
 			}
 			else {
+				const abs_path = DB.get_absolute_path(db, id)
 				await util.promisify(fs_extra.mkdirp)(abs_path)
-				db = DB.on_folder_found(db, '.', id)
+				if (!DB.is_folder_existing(db, id)) { // re-check in case of race conditions
+					// Note: can still fail due to case/unicode normalization
+					// no big deal
+					db = DB.on_folder_found(db, '.', id)
+				}
 			}
 		}
 		catch (err) {
@@ -417,12 +420,14 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			else {
 				logger.verbose(`- renaming file in-place from "${parsed.base}" to ideally "${parsed_target.base}"…`)
 			}
-			if (get_params().is_perfect_state && !is_already_normalized(parsed.base)) {
+
+			/*
+			if (get_params().is_perfect_state && File.is_media_file() && File.get_confidence_in_date()) {
 				assert(
-					is_already_normalized(parsed.base),
-					`PERFECT STATE when moving to ideal location, the "${parsed.base}" is expected to be already normalized to "${parsed_target.base}"`
+					is_normalized_media_basename(parsed.base),
+					`PERFECT STATE when moving to ideal location, file "${parsed.base}" is expected to be already normalized to "${parsed_target.base}"`
 				)
-			}
+			}*/
 
 			const abs_path = DB.get_absolute_path(db, id)
 			const abs_path_target = DB.get_absolute_path(db, target_id)

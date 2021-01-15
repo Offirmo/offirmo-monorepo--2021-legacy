@@ -16,7 +16,7 @@ import {
 	get_human_readable_timestamp_auto,
 	create_better_date_from_utc_tms,
 } from '../services/better-date'
-import { is_already_normalized } from '../services/name_parser'
+import { is_normalized_media_basename } from '../services/name_parser'
 import { get_params } from '../params'
 
 
@@ -55,6 +55,10 @@ export function get_file_notes_for_hash(state: Immutable<State>, hash: FileHash)
 	hash = get_oldest_hash(state, hash)
 
 	return state.encountered_files[hash] || null
+}
+
+export function has_notes_for_hash(state: Immutable<State>, hash: FileHash): boolean {
+	return get_file_notes_for_hash(state, hash) !== null
 }
 
 ///////////////////// REDUCERS /////////////////////
@@ -134,7 +138,7 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 		if (!old_notes) {
 			if (get_params().is_perfect_state) {
 				assert(
-					!is_already_normalized(fresh_notes.original.basename),
+					!is_normalized_media_basename(fresh_notes.original.basename),
 					`PERFECT STATE new notes should never reference an already normalized original basename "${fresh_notes.original.basename}"! ${hash}`
 				)
 			}
@@ -149,7 +153,7 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 			//console.error({ old_notes, fresh_notes, final_notes: encountered_files[hash] })
 
 			assert(
-				!is_already_normalized(original_basename),
+				!is_normalized_media_basename(original_basename),
 				`PERFECT STATE notes should never end up having an already normalized original basename "${original_basename}"!`
 			)
 		}

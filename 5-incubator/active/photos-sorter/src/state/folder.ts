@@ -184,7 +184,9 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 		? Math.max(state.end_date_symd, file_compact_date)
 		: file_compact_date
 
-	if (new_end_date - new_start_date > 28) {
+	const MAX_EVENT_DURATION_IN_DAYS = 28
+	const capped_end_date = add_days_to_simple_date(new_start_date, MAX_EVENT_DURATION_IN_DAYS)
+	if (new_end_date > capped_end_date) {
 		// range too big, unlikely to be an event
 		if (!is_current_basename_intentful(state)) {
 			logger.info(
@@ -198,9 +200,9 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 			state = demote_to_unknown(state, `date range too big`)
 		}
 		else {
-			new_end_date = add_days_to_simple_date(new_start_date, 28)
+			new_end_date = capped_end_date
 			logger.info(
-				`${LIB} folder: date range too big but intentful: capping end_date_symd at +28`, {
+				`${LIB} folder: date range too big but intentful: capping end_date_symd at +${MAX_EVENT_DURATION_IN_DAYS}`, {
 					id: state.id,
 					file_id: file_state.id,
 					file_compact_date,

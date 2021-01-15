@@ -348,6 +348,10 @@ export function add_days_to_simple_date(date: SimpleYYYYMMDD, inc_days: number):
 	return _ld.getDate() + (_ld.getMonth() + 1) * 100 + _ld.getFullYear() * 10000
 }
 
+/*export function diff_simple_dates(a: SimpleYYYYMMDD, b: SimpleYYYYMMDD): number {
+
+}*/
+
 export function expectㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {
 	const s1_alt = {
 		...s1,

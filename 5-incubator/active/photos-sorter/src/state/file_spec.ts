@@ -41,7 +41,7 @@ import {
 	MEDIA_DEMO_02_basename,
 	get_MEDIA_DEMO_02,
 } from '../__test_shared/real_files'
-import { is_already_normalized } from '../services/name_parser'
+import { is_normalized_media_basename } from '../services/name_parser'
 
 /////////////////////
 

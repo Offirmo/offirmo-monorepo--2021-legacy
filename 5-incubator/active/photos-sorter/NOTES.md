@@ -9,6 +9,7 @@
 05 - 886MB
 total 211GB
 
+2021/01/16 230.51s for 2368x2 photos
 
 https://www.epochconverter.com/
 

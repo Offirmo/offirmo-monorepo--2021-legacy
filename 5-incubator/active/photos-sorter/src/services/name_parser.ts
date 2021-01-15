@@ -473,7 +473,7 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 
 	if (PARAMS.is_perfect_state) {
 		assert(
-			!is_already_normalized(result.original_name),
+			!is_normalized_media_basename(result.original_name),
 			`PERFECT STATE Should never parse an already normalized basename "${result.original_name}"! The original name should be parsed!`
 		)
 	}
@@ -719,7 +719,7 @@ export function get_digit_pattern(s: string): string {
 }
 
 
-export function is_already_normalized(base: Basename): boolean {
+export function is_normalized_media_basename(base: Basename): boolean {
 	const split = base.split('.')
 	if (split.length <= 1)
 		return false
@@ -729,12 +729,10 @@ export function is_already_normalized(base: Basename): boolean {
 		return false
 
 	const dp = get_digit_pattern(base)
-	//console.log('is_already_normalized()', { base, dp })
+	//console.log('is_normalized_media_basename()', { base, dp })
 
 	if (!dp.startsWith('MMxxxx-xx-xx_xxhxx'))
 		return false
-
-
 
 	return true
 }

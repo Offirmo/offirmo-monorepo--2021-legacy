@@ -117,7 +117,7 @@ export function get_all_media_file_ids(state: Immutable<State>): string[] {
 }
 
 export function is_file_existing(state: Immutable<State>, id: FileId): boolean {
-	return state.files.hasOwnProperty(id) || is_folder_existing(state, id)
+	return state.files.hasOwnProperty(id)/* || is_folder_existing(state, id)*/
 }
 
 export function is_folder_existing(state: Immutable<State>, id: FolderId): boolean {

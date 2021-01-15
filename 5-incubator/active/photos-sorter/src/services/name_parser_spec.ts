@@ -18,7 +18,7 @@ import {
 	ParseResult,
 	get_copy_index,
 	get_digit_pattern,
-	is_already_normalized,
+	is_normalized_media_basename,
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
@@ -341,7 +341,7 @@ describe(`${LIB} - (base)name parser`, function() {
 		})
 	})
 
-	describe('is_already_normalized()', function() {
+	describe('is_normalized_media_basename()', function() {
 		const T: { [k: string]: boolean } = {
 			'MM2019-07-31_21h00m15_screenshot.mp3': true,
 			'IMG-20151110-WA0000.jpg': false,
@@ -353,7 +353,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		Object.keys(T).forEach(basename => {
 			it(`should work for "${basename}"`, () => {
-				expect(is_already_normalized(basename))
+				expect(is_normalized_media_basename(basename))
 					.to.equal(T[basename])
 			})
 		})

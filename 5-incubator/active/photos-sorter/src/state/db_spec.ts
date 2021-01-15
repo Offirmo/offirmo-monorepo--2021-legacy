@@ -9,6 +9,8 @@ import {
 	State,
 	clean_up_duplicates,
 	create,
+	is_folder_existing,
+	is_file_existing,
 	discard_all_pending_actions,
 	get_first_pending_action,
 	get_ideal_file_relative_path,
@@ -39,6 +41,53 @@ describe(`${LIB} - DB (root) state`, function() {
 	const CREATION_DATE_MS = get_timestamp_utc_ms_from(CREATION_DATE)
 	//console.log(state.queue)
 	//console.log(to_string(state))
+
+	function _create_demo_state(file_basename = 'bar.xyz') {
+		let file_parent = 'foo'
+		let file_id = path.join(file_parent, file_basename)
+
+		let state = create(TEST_FILES_DIR_ABS)
+
+		state = on_folder_found(state, '', '.')
+		state = on_folder_found(state, '', file_parent)
+		state = on_file_found(state, '.', file_id)
+		state = on_hash_computed(state, file_id, 'hash01')
+		state = on_fs_stats_read(state, file_id, {
+			birthtimeMs: CREATION_DATE_MS,
+			atimeMs:     CREATION_DATE_MS,
+			mtimeMs:     CREATION_DATE_MS,
+			ctimeMs:     CREATION_DATE_MS,
+		})
+		state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
+
+		return state
+	}
+
+	describe('is_folder_existing()', function() {
+
+		it('should work', () => {
+			let state = _create_demo_state()
+
+			expect(is_folder_existing(state, '.')).to.be.true
+			expect(is_folder_existing(state, 'foo')).to.be.true
+			expect(is_folder_existing(state, 'bar')).to.be.false
+			expect(is_folder_existing(state, 'foo/bar')).to.be.false
+			expect(is_folder_existing(state, 'foo/bar.xyz')).to.be.false
+		})
+	})
+
+	describe('is_file_existing()', function() {
+
+		it('should work', () => {
+			let state = _create_demo_state()
+
+			expect(is_file_existing(state, '.')).to.be.false
+			expect(is_file_existing(state, 'foo')).to.be.false
+			expect(is_file_existing(state, 'foo/bar')).to.be.false
+			expect(is_file_existing(state, 'foo/bar.xyz')).to.be.true
+			expect(is_file_existing(state, 'foo/bar.xyz/hahaha')).to.be.false
+		})
+	})
 
 	describe('get_ideal_file_relative_path()', function() {
 

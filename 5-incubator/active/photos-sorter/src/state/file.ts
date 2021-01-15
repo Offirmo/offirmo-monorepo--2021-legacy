@@ -22,7 +22,7 @@ import {
 	ParseResult,
 	get_normalized_extension as _get_normalized_extension,
 	get_copy_index,
-	is_already_normalized,
+	is_normalized_media_basename,
 } from '../services/name_parser'
 import {
 	BetterDate,
@@ -38,6 +38,7 @@ export interface OriginalData {
 	// from path
 	basename: Basename
 	closest_parent_with_date_hint?: Basename
+	hinted_date_from_neighbours?: SimpleYYYYMMDD // TODO only if not confident + parent was originally an event = start date of parent
 
 	// from fs
 	// we should always store it in case it changes for some reason
@@ -204,7 +205,7 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 	const result: BestDate = {
 		candidate: from_basename || from_fs,
 		source: from_basename ? 'original_basename' : 'fs',
-		confidence: from_basename ? !is_already_normalized(get_oldest_basename(state)) : false,
+		confidence: from_basename ? !is_normalized_media_basename(get_oldest_basename(state)) : false,
 		//is_fs_reliable: false, // TODO one day
 		is_matching_fs: undefined, // so far
 	}
@@ -264,7 +265,7 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		result.confidence = (() => {
 			// We mostly trust the embedded date
 			// TODO if already normalized, untrust?
-			// is_already_normalized(get_oldest_basename(state))
+			// is_normalized_media_basename(get_oldest_basename(state))
 			return true
 		})()
 		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_basename)) < DAY_IN_MILLIS
@@ -448,7 +449,7 @@ export function create(id: FileId): Immutable<State> {
 		const original_basename = state.notes.original.basename
 		if (get_params().is_perfect_state) {
 			assert(
-				!is_already_normalized(original_basename),
+				!is_normalized_media_basename(original_basename),
 				`PERFECT STATE original basename should never be an already normalized basename "${original_basename}"!`
 			)
 		}
@@ -747,7 +748,7 @@ const _get_defined_props = (obj: any) => Object.fromEntries(
 export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
 	logger.trace(`${LIB} merge_notes(…)`, { ids: notes.map(n => n.original.basename) })
 
-	let merged_notes = notes.find(n => !is_already_normalized(n.original.basename)) || notes[0]
+	let merged_notes = notes.find(n => !is_normalized_media_basename(n.original.basename)) || notes[0]
 	assert(merged_notes, 'merge_notes(…) selected merged_notes')
 
 	const original_fs_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms)
@@ -763,7 +764,7 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 
 	let shortest_original_basename: Basename = merged_notes.original.basename
 	notes.forEach(duplicate_notes => {
-		if (duplicate_notes.original.basename.length < shortest_original_basename.length && !is_already_normalized(duplicate_notes.original.basename))
+		if (duplicate_notes.original.basename.length < shortest_original_basename.length && !is_normalized_media_basename(duplicate_notes.original.basename))
 			shortest_original_basename = duplicate_notes.original.basename
 		merged_notes = {
 			...merged_notes,
@@ -777,7 +778,7 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	if (merged_notes.original.basename !== shortest_original_basename) {
 		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is not the shortest: "${shortest_original_basename}"`)
 	}
-	if (is_already_normalized(merged_notes.original.basename)) {
+	if (is_normalized_media_basename(merged_notes.original.basename)) {
 		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is already normalized`)
 	}
 
