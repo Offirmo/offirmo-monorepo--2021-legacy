@@ -353,7 +353,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 }: {
 	PARAMS?: Immutable<Params>
 	requested_confidence?: boolean
-	copy_marker?: 'none' | 'preserve' | number
+	copy_marker?: 'none' | 'preserve' | 'temp' | number
 } = {}): Basename {
 	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
 	const meaningful_part = parsed_original_basename.meaningful_part
@@ -386,6 +386,9 @@ export function get_ideal_basename(state: Immutable<State>, {
 		case 'preserve':
 			if (parsed_original_basename.copy_index)
 				result += ` (${parsed_original_basename.copy_index})`
+			break
+		case 'temp':
+			result += ` (temp)`
 			break
 		default:
 			if (copy_marker)
