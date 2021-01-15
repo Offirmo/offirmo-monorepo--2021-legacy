@@ -4,6 +4,7 @@ import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
+import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { is_year, is_compact_date } from '../services/matchers'
 import { parse as parse_basename, ParseResult } from '../services/name_parser'
@@ -107,11 +108,15 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 	const current_basename = get_basename(state)
 
 	if (state.type !== Type.event)
-		return current_basename
+		return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(current_basename))
 
 	assert(state.begin_date_symd, 'get_ideal_basename() start date')
 
-	return String(state.begin_date_symd + ' - ' + state.cached.nameㆍparsed.meaningful_part)
+	return NORMALIZERS.trim(
+		NORMALIZERS.normalize_unicode(
+			String(state.begin_date_symd + ' - ' + state.cached.nameㆍparsed.meaningful_part)
+		)
+	)
 }
 
 export function is_current_basename_intentful(state: Immutable<State>): boolean {

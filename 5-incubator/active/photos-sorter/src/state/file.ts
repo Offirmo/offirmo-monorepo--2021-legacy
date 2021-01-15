@@ -6,6 +6,7 @@ import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
@@ -395,7 +396,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 	assert(result.length > 0, `get_ideal_basename() extensionless basename should not be empty`)
 	result += extension
 
-	return result
+	return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(result))
 }
 /*
 export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Params> = get_params(), requested_confidence = true): Basename {

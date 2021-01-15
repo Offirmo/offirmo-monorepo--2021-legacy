@@ -4,8 +4,9 @@ import fs from 'fs'
 import assert from 'tiny-invariant'
 import json from '@offirmo/cli-toolbox/fs/json'
 import { Immutable } from '@offirmo-private/ts-types'
-const cli_progress = require('cli-progress')
+//const cli_progress = require('cli-progress')
 import { exiftool } from 'exiftool-vendored'
+import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { RelativePath } from '../types'
 import { NOTES_BASENAME } from '../consts'
@@ -21,7 +22,11 @@ import logger from './logger'
 import fs_extra from './fs-extra'
 import { get_fs_stats_subset } from './fs'
 import get_file_hash from './hash'
-import { is_already_normalized } from './name_parser'
+import { get_without_copy_index, is_already_normalized } from './name_parser'
+import * as Folder from '../state/folder'
+import { FolderId } from '../state/folder'
+
+// TODO try catch finally
 
 export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>): Promise<Immutable<State>> {
 	// TODO handle errors
@@ -29,23 +34,28 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	const PARAMS = get_params()
 
 	// https://www.npmjs.com/package/cli-progress
-	const progress_multibar = new cli_progress.MultiBar({
+	/*const progress_multibar = new cli_progress.MultiBar({
 		clearOnComplete: false,
-		hideCursor: true
-	}, cli_progress.Presets.shades_grey)
+		linewrap: null,
+		hideCursor: null,
+		forceRedraw: true,
+		barsize: 80,
+		format: '{name} [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}'
+	}, cli_progress.Presets.shades_grey)*/
 
 	const progress_bars: { [id: string]: { size: number, bar: any }} = {}
 	function on_new_task(id: string) {
-		progress_bars[id] ??= {
+		/*progress_bars[id] ??= {
 			size: 0,
 			bar: progress_multibar.create(0, 0),
 		}
 
 		progress_bars[id].size++
 		progress_bars[id].bar.setTotal(progress_bars[id].size)
+		progress_bars[id].bar.update(0, {name: id.padEnd(14)})*/
 	}
 	function on_task_finished(id: string) {
-		progress_bars[id].bar.increment()
+		//progress_bars[id].bar.increment()
 	}
 
 	////////////////////////////////////
@@ -62,30 +72,34 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		const abs_path = DB.get_absolute_path(db, id)
 
 		const sub_dirs = fs_extra.lsDirsSync(abs_path, { full_path: false })
-		sub_dirs.forEach((sub_id: RelativePath) => {
-			db = DB.on_folder_found(db, id, sub_id)
-		})
+		sub_dirs
+			//.map((sub: RelativePath): RelativePath => NORMALIZERS.normalize_unicode(sub)) NO!
+			.forEach((sub_id: RelativePath) => {
+				db = DB.on_folder_found(db, id, sub_id)
+			})
 
 		const sub_file_basenames = fs_extra.lsFilesSync(abs_path, { full_path: false })
-		sub_file_basenames.forEach((basename: RelativePath) => {
-			//const normalized_extension TODO
-			const basename_lc = basename.toLowerCase()
-			const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename_lc.endsWith(ext))
-				|| PARAMS.worthless_files.includes(basename_lc)
-			if (should_delete_asap) {
-				const abs_path_target = DB.get_absolute_path(db, path.join(id, basename))
-				if (PARAMS.dry_run) {
-					logger.verbose(`encountered trash, DRY RUN would have deleted it`, { basename })
+		sub_file_basenames
+			//.map((sub: RelativePath): RelativePath => NORMALIZERS.normalize_unicode(sub)) NO!
+			.forEach((basename: RelativePath) => {
+				//const normalized_extension TODO
+				const basename_lc = basename.toLowerCase()
+				const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename_lc.endsWith(ext))
+					|| PARAMS.worthless_files.includes(basename_lc)
+				if (should_delete_asap) {
+					const abs_path_target = DB.get_absolute_path(db, path.join(id, basename))
+					if (PARAMS.dry_run) {
+						logger.verbose(`encountered trash, DRY RUN would have deleted it`, { basename })
+					}
+					else {
+						logger.verbose(`encountered trash, cleaning it…`, { basename })
+						pending_tasks.push(fs_extra.remove(abs_path_target))
+					}
+					return
 				}
-				else {
-					logger.verbose(`encountered trash, cleaning it…`, { basename })
-					pending_tasks.push(fs_extra.remove(abs_path_target))
-				}
-				return
-			}
 
-			db = DB.on_file_found(db, id, basename)
-		})
+				db = DB.on_file_found(db, id, basename)
+			})
 
 		logger.groupEnd()
 
@@ -186,44 +200,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		on_task_finished(TASK_ID)
 	}
 
-	async function move_file(id: RelativePath, target_id: RelativePath): Promise<void> {
-		logger.trace(`- moving/renaming file from "${id}" to "${target_id}"…`)
-		on_new_task(TASK_ID)
-
-		const parsed = path.parse(id)
-		const parsed_target = path.parse(target_id)
-		const is_renaming = parsed.base !== parsed_target.base
-		const is_moving = id.split('/').slice(0, -1).join('/') !== target_id.split('/').slice(0, -1).join('/')
-		assert(is_moving || is_renaming, `move_file() should do sth`)
-
-		if (is_moving) {
-			logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
-		}
-		else {
-			logger.verbose(`- renaming file in-place from "${parsed.base}" to "${parsed_target.base}"…`)
-		}
-		if (is_renaming && get_params().is_perfect_state) {
-			assert(
-				!is_already_normalized(parsed.base),
-				`PERFECT STATE an already normalized basename "${parsed.base}" should not be renamed! to "${parsed_target.base}"`
-			)
-		}
-
-		const abs_path = DB.get_absolute_path(db, id)
-		const abs_path_target = DB.get_absolute_path(db, target_id)
-
-		if (PARAMS.dry_run) {
-			logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
-		}
-		else {
-			await util.promisify(fs_extra.mkdirp)(abs_path_target.split(path.sep).slice(0, -1).join(path.sep))
-			await util.promisify(fs.rename)(abs_path, abs_path_target)
-			db = DB.on_file_moved(db, id, target_id)
-		}
-
-		on_task_finished(TASK_ID)
-	}
-
 	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
 		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
 		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
@@ -246,22 +222,146 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		on_task_finished(TASK_ID)
 	}
 
+	// intelligently = will avoid conflicts at the target location by using a copy marker (x)
+	// needs to be sync bc we'll do a check for conflict = race condition
+	// expecting the folder to be pre-existing
+	function _intelligently_normalize_file_basename_sync(
+		id: RelativePath,
+		target_folder: FolderId = File.get_current_parent_folder_id(db.files[id])
+	): void {
+		const current_file_state = db.files[id]
+		assert(current_file_state, `_intelligently_normalize_file_basename_sync() should have current_file_state "${id}"`)
+
+		const current_basename = File.get_current_basename(current_file_state)
+		let copy_marker: 'none' | 'preserve' | number = 'none'
+		let target_basename = File.get_ideal_basename(current_file_state, { copy_marker })
+		const ideal_target_id = path.join(target_folder, target_basename)
+		if (id === ideal_target_id) {
+			// perfect! Nothing to do!
+			return
+		}
+
+		let good_target_found = false
+		do {
+			const relative_target_path = path.join(target_folder, target_basename)
+			if (!DB.is_file_existing(db, relative_target_path)) {
+				// good, fs target emplacement is free
+				good_target_found = true
+				break
+			}
+
+			// not free, try an alternative basename
+			switch (copy_marker) {
+				case 'none':
+					copy_marker = 'preserve'
+					break
+				case 'preserve':
+					copy_marker = 1
+					break
+				default:
+					copy_marker = copy_marker++
+					break
+			}
+			target_basename = File.get_ideal_basename(current_file_state, { copy_marker })
+		} while (!good_target_found && (typeof copy_marker !== 'number' || copy_marker <= 10))
+
+		const target_id = path.join(target_folder, target_basename)
+
+		if (!good_target_found) {
+			logger.warn(`Couldn't rename "${id}" to a proper normalized name "${target_id}" due to conflicts...`)
+		}
+		else if (id === target_id) {
+			logger.warn('norm: nothing to do at the end #1, is it normal?', { id, target_id })
+			return
+		}
+		else {
+			if (PARAMS.dry_run) {
+				logger.info(`DRY RUN would have renamed/moved "${id}" to "${target_id}"`)
+			}
+			else {
+				console.log(`about to rename/move "${id}" to "${target_id}"…`)
+				// NO, we don't use the "move" action, we need to be sync for race condition reasons
+				const abs_path_current = DB.get_absolute_path(db, id)
+				const abs_path_target = DB.get_absolute_path(db, target_id)
+				if (abs_path_current === abs_path_target) {
+					logger.warn('norm: nothing to do at the end #2, is it normal???', {
+						id,
+						target_id,
+						abs_path_current,
+						abs_path_target,
+					})
+					return
+				}
+				try {
+					fs_extra.moveSync(abs_path_current, abs_path_target)
+					db = DB.on_file_moved(db, id, target_id)
+				} catch (err) {
+					logger.error('norm: #3 error', {
+						id,
+						target_id,
+						id_equality: id === target_id,
+						id_equality_u: NORMALIZERS.normalize_unicode(id) === NORMALIZERS.normalize_unicode(target_id),
+						abs_path_current,
+						abs_path_target,
+						path_equality: abs_path_current === abs_path_target,
+						path_equality_u: NORMALIZERS.normalize_unicode(abs_path_current) === NORMALIZERS.normalize_unicode(abs_path_target),
+						err,
+					})
+				}
+			}
+		}
+	}
+
+	async function move_file_to_ideal_location(id: RelativePath): Promise<void> {
+		const target_id = DB.get_ideal_file_relative_path(db, id)
+		logger.trace(`- moving/renaming file "${id}" to its ideal location "${target_id}"…`)
+		on_new_task(TASK_ID)
+
+		const parsed = path.parse(id)
+		const parsed_target = path.parse(target_id)
+		const is_renaming = parsed.base !== parsed_target.base
+		const is_moving = id.split('/').slice(0, -1).join('/') !== target_id.split('/').slice(0, -1).join('/')
+		assert(is_moving || is_renaming, `move_file_to_ideal_location() should do sth`)
+
+		if (is_moving) {
+			logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
+		}
+		else {
+			logger.verbose(`- renaming file in-place from "${parsed.base}" to ideally "${parsed_target.base}"…`)
+		}
+		if (get_params().is_perfect_state && !is_already_normalized(parsed.base)) {
+			assert(
+				is_already_normalized(parsed.base),
+				`PERFECT STATE when moving to ideal location, the "${parsed.base}" is expected to be already normalized to "${parsed_target.base}"`
+			)
+		}
+
+		const abs_path = DB.get_absolute_path(db, id)
+		const abs_path_target = DB.get_absolute_path(db, target_id)
+
+		if (PARAMS.dry_run) {
+			logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
+		}
+		else {
+			const target_folder_id = DB.get_ideal_file_relative_folder(db, id)
+			await ensure_folder(target_folder_id)
+			_intelligently_normalize_file_basename_sync(id, target_folder_id)
+			db = DB.on_file_moved(db, id, target_id)
+		}
+
+		on_task_finished(TASK_ID)
+	}
+
 	async function normalize_file(id: RelativePath): Promise<void> {
-		logger.trace(`initiating media file normalization for "${id}"…`)
+		logger.trace(`initiating file normalization for "${id}"…`)
 		const TASK_ID = 'normalize_file'
 		on_new_task(TASK_ID)
 
-		const actions: Promise<void>[] = []
+		const file_state = db.files[id]
+		assert(file_state, 'normalize_file() file_state')
 
-		//const abs_path = DB.get_absolute_path(db, id)
-		const media_state = db.files[id]
-		assert(media_state, 'normalize_file() media_state')
-
-		const is_exif_powered = File.is_exif_powered_media_file(media_state)
-		//console.log({ id, media_state, abs_path, is_exif_powered})
-
-		if (is_exif_powered) {
-			const current_exif_data: any = media_state.current_exif_data
+		if (File.is_exif_powered_media_file(file_state)) {
+			const current_exif_data: any = file_state.current_exif_data
 			if (current_exif_data.Orientation) {
 				// TODO one day NOTE will need hash chaining
 				logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
@@ -274,60 +374,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 		}
 
-		// TODO fix birthtime
-
-		const current_basename = File.get_current_basename(media_state)
-		let copy_marker: 'none' | 'preserve' | number = 'none'
-		let target_basename = File.get_ideal_basename(media_state, { copy_marker })
-		let good_target_found = false
-		do {
-			if (target_basename === current_basename) {
-				// ideal
-				good_target_found = true
-				break
-			}
-
-			const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
-			if (!DB.is_file_existing(db, relative_target_path)) {
-				// good
-				good_target_found = true
-				break
-			}
-
-			// try an alternative name
-			switch (copy_marker) {
-				case 'none':
-					copy_marker = 'preserve'
-					break
-				case 'preserve':
-					copy_marker = 0
-					break
-				default:
-					copy_marker = copy_marker++
-					break
-			}
-			target_basename = File.get_ideal_basename(media_state, { copy_marker })
-		} while (typeof copy_marker !== 'number' || copy_marker <= 10)
-
-		if (!good_target_found) {
-			logger.warn(`Couldn't rename ` + current_basename + ' to a proper normalized name (' + target_basename + ')')
-		}
-		else if (current_basename !== target_basename) {
-			if (PARAMS.dry_run) {
-				logger.info('DRY RUN would have renamed ' + current_basename + ' to ' + target_basename)
-			}
-			else {
-				const target_id = path.join(File.get_current_parent_folder_id(media_state), target_basename)
-				// NO, we don't use the "move" action, we need to be sync for race condition reasons
-				//actions.push( move_file(id, target_id) )
-				const abs_path = DB.get_absolute_path(db, id)
-				const abs_path_target = DB.get_absolute_path(db, target_id)
-				fs_extra.moveSync(abs_path, abs_path_target)
-				db = DB.on_file_moved(db, id, target_id)
-			}
+		if (File.is_media_file(file_state) && File.get_confidence_in_date(file_state)) {
+			// TODO fix birthtime if wrong
 		}
 
-		await Promise.all(actions) // TODO schedule the actions in order
+		_intelligently_normalize_file_basename_sync(id)
 
 		on_task_finished(TASK_ID)
 	}
@@ -406,9 +457,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				await delete_file(action.id)
 				break
 
-			case ActionType.move_file:
+			case ActionType.move_file_to_ideal_location:
 				//assert(!PARAMS.dry_run, 'no write action in dry run mode')
-				await move_file(action.id, action.target_id)
+				await move_file_to_ideal_location(action.id)
 				break
 
 			case ActionType.delete_folder_if_empty:
@@ -444,7 +495,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 	finally {
 		// stop all bars
-		progress_multibar.stop()
+		//progress_multibar.stop()
 	}
 
 	return db

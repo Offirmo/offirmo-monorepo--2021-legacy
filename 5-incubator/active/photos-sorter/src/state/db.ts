@@ -132,54 +132,43 @@ function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_da
 		&& compact_date <= folder_state.end_date_symd
 }
 
-export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
-	logger.trace(`get_ideal_file_relative_path()`, { id })
+export function get_ideal_file_relative_folder(state: Immutable<State>, id: FileId): RelativePath {
+	logger.trace(`get_ideal_file_relative_folder()`, { id })
 
 	if (id === NOTES_BASENAME)
-		return id
+		return ''
 
 	const file_state = state.files[id]
-	const parent_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
-	const parent_folder_id: FolderId = parent_split_path.join(path.sep)
-	assert(is_folder_existing(state, parent_folder_id), 'get_ideal_file_relative_path() parent folder exists')
-	const top_parent_id: FolderId = parent_split_path[0]
+	const current_parent_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
+	const current_parent_folder_id: FolderId = current_parent_split_path.join(path.sep)
+	assert(is_folder_existing(state, current_parent_folder_id), 'get_ideal_file_relative_folder() current parent folder exists')
+	const top_parent_id: FolderId = current_parent_split_path[0]
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
 
-	logger.trace(`get_ideal_file_relative_path() processing…`, {
+	logger.trace(`get_ideal_file_relative_folder() processing…`, {
 		top_parent: top_parent_id,
 		is_top_parent_special,
-		parent_folder_type: state.folders[parent_folder_id].type,
+		parent_folder_type: state.folders[current_parent_folder_id].type,
 		is_media_file: File.is_media_file(file_state),
 	})
 
-	let ideal_basename = File.get_ideal_basename(file_state)
-	if (!get_params().dry_run) {
-		const current_basename = File.get_current_basename(file_state)
-		const current_basename_cleaned = get_without_copy_index(current_basename)
-		assert(current_basename_cleaned === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! "${ideal_basename}" vs "${current_basename_cleaned}" ~ "${current_basename}"`)
-	}
-
 	// whatever the file, is it already in an event folder? (= already sorted)
-	switch(state.folders[parent_folder_id].type) {
+	switch(state.folders[current_parent_folder_id].type) {
 		case Folder.Type.event: {
-			// regardless of the file type,
 			// if it's in an event folder
 			// we assume it's sorted already and keep it that way
-			const current_parent_folder_state = state.folders[parent_folder_id]
-			const event_folder_base = Folder.get_ideal_basename(state.folders[parent_folder_id])
+			const current_parent_folder_state = state.folders[current_parent_folder_id]
+			const event_folder_base = Folder.get_ideal_basename(state.folders[current_parent_folder_id])
 			const year = String(Folder.get_starting_year(current_parent_folder_state))
 
-			return path.join(year, event_folder_base, ideal_basename)
+			return path.join(year, event_folder_base)
 		}
 
 		case Folder.Type.overlapping_event: {
-			// regardless of the file type,
 			// if it was in an event folder
 			// we move it to the corresponding event folder
 			// XXX TODO keep in a duplicated event folder?
-			const ideal_basename = File.get_ideal_basename(file_state)
-
-			const current_parent_folder_state = state.folders[parent_folder_id]
+			const current_parent_folder_state = state.folders[current_parent_folder_id]
 			const current_parent_starting_compact_date = Folder.get_starting_date(current_parent_folder_state)
 			assert(current_parent_starting_compact_date, `get_ideal_file_relative_path() overlapping_event should have a start date`)
 			let compatible_event_folder_id = get_all_event_folder_ids(state)
@@ -190,7 +179,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 
 			const year = String(Folder.get_starting_year(state.folders[compatible_event_folder_id]))
 
-			return path.join(year, event_folder_base, ideal_basename)
+			return path.join(year, event_folder_base)
 		}
 
 		default:
@@ -200,19 +189,19 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	if (!File.is_media_file(file_state)) {
 		// XXX immu
 		if (is_top_parent_special)
-			parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
+			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
-			parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
-		return path.join(parent_split_path.join(path.sep), ideal_basename)
+			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
+		return path.join(current_parent_split_path.join(path.sep))
 	}
 
 	// file is a media
 	if (!File.get_confidence_in_date(file_state)) {
 		if (is_top_parent_special)
-			parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
+			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
 		else
-			parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
-		return path.join(parent_split_path.join(path.sep), ideal_basename)
+			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
+		return current_parent_split_path.join(path.sep)
 	}
 
 	// file is a media + we have confidence
@@ -238,7 +227,25 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 		return String(get_compact_date(folder_date, 'tz:embedded')) + ' - ' + (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life')
 	})()
 
-	return path.join(year, event_folder_base, ideal_basename)
+	return path.join(year, event_folder_base)
+}
+
+export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
+	logger.trace(`get_ideal_file_relative_path()`, { id })
+
+	if (id === NOTES_BASENAME)
+		return id
+
+	const file_state = state.files[id]
+
+	let ideal_basename = File.get_ideal_basename(file_state)
+	if (!get_params().dry_run) {
+		const current_basename = File.get_current_basename(file_state)
+		const current_basename_cleaned = get_without_copy_index(current_basename)
+		assert(current_basename_cleaned === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! "${ideal_basename}" vs "${current_basename_cleaned}" ~ "${current_basename}"`)
+	}
+
+	return path.join(get_ideal_file_relative_folder(state, id), ideal_basename)
 }
 
 export function get_past_and_present_notes(state: Immutable<State>, folder_path?: RelativePath): Immutable<Notes.State> {
@@ -847,12 +854,8 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 
 		const target_id = get_ideal_file_relative_path(state, id)
 		if (id === target_id) return
-		if (state.files[target_id]) {
-			logger.warn('move_all_files_to_their_ideal_location() conflict target location', { target_id, id })
-			return
-		}
 
-		state = _enqueue_action(state, Actions.create_action_move_file(id, target_id))
+		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
 	})
 
 	return state

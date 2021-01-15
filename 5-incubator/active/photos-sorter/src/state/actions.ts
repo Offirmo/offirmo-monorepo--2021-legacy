@@ -18,7 +18,7 @@ export const ActionType = Enum(
 	'persist_notes',
 	'ensure_folder',
 	'normalize_file',
-	'move_file',
+	'move_file_to_ideal_location',
 	'delete_file',
 	'delete_folder_if_empty'
 )
@@ -70,10 +70,10 @@ export interface ActionNormalizeFile extends BaseAction {
 	id: FileId
 }
 
-export interface ActionMoveFile extends BaseAction {
-	type: typeof ActionType.move_file
+export interface ActionMoveFileToIdealLocation extends BaseAction {
+	type: typeof ActionType.move_file_to_ideal_location
 	id: FileId
-	target_id: FileId
+	// all info is contained in the id
 }
 
 export interface ActionDeleteFile extends BaseAction {
@@ -101,7 +101,7 @@ export type Action =
 	| ActionPersistNotes
 	| ActionNormalizeFile
 	| ActionEnsureFolder
-	| ActionMoveFile
+	| ActionMoveFileToIdealLocation
 	| ActionDeleteFile
 	| ActionDeleteFolderIfEmpty
 
@@ -163,11 +163,10 @@ export function create_action_ensure_folder(id: FolderId): ActionEnsureFolder {
 		target_id,
 	}
 }*/
-export function create_action_move_file(id: FileId, target_id: FileId): ActionMoveFile {
+export function create_action_move_file_to_ideal_location(id: FileId): ActionMoveFileToIdealLocation {
 	return {
-		type: ActionType.move_file,
+		type: ActionType.move_file_to_ideal_location,
 		id,
-		target_id,
 	}
 }
 export function create_action_delete_file(id: FileId): ActionDeleteFile {
