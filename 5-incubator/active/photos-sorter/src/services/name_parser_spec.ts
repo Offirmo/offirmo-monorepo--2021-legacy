@@ -22,7 +22,10 @@ import {
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
-	get_embedded_timezone, BetterDate,
+	get_embedded_timezone,
+	BetterDate,
+	create_better_date,
+	_clean_debug,
 } from './better-date'
 import { Immutable } from '@offirmo-private/ts-types'
 
@@ -35,7 +38,10 @@ function ꓺ(...t: Array<string | undefined>): string {
 describe(`${LIB} - (base)name parser`, function() {
 	function _clean_parse_result<T extends { date: undefined | BetterDate }>(result: Immutable<T>): Immutable<T> {
 		if (result.date) {
-			delete (result.date as NonNullable<T['date']>)._debug
+			result = {
+				...result,
+				date: _clean_debug(result.date)
+			}
 		}
 
 		return result
@@ -79,7 +85,8 @@ describe(`${LIB} - (base)name parser`, function() {
 						is_ambiguous,
 					}
 					const result = _clean_parse_result(_parse_digit_blocks(digit_blocks!, 'other'))
-					//console.log({ result })
+					//console.log(result)
+					//console.log(expected_result)
 
 					if (result.summary === 'perfect') {
 						// ok
@@ -98,6 +105,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					).to.equal(human_ts_current_tz_for_tests)
 					//console.log(result.date!.toISOString())
 					//console.log(date!.toISOString())
+
 					expect(
 						result,
 						`full result`
@@ -287,6 +295,23 @@ describe(`${LIB} - (base)name parser`, function() {
 							result,
 							`full result for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.deep.equal(expected_result)
+					})
+				})
+
+				it('should work -- manual bug case', () => {
+					const BASENAME_UT = '20011125 - 00- voyage à Paris - 2001'
+					const result = _clean_parse_result(parse(BASENAME_UT))
+					expect(
+						result,
+					).to.deep.equal({
+						original_name: BASENAME_UT,
+						copy_index: undefined,
+						date: _clean_debug(create_better_date('tz:auto', 2001, 11, 25)),
+						date_digits: "20011125",
+						digits_pattern: "xxxxxxxx",
+						extension_lc: "",
+						is_date_ambiguous: false,
+						meaningful_part: '00- voyage à Paris - 2001',
 					})
 				})
 			})

@@ -1,5 +1,5 @@
 
-import { create_better_date } from '../services/better-date'
+import { create_better_date, _clean_debug } from '../services/better-date'
 import { ParseResult } from '../services/name_parser'
 import { TimeZone } from '../types'
 
@@ -21,7 +21,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2019, 12, 16, 20, 38, 8),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 12, 16, 20, 38, 8)),
 		date_digits: '20191216203808',
 		digits_pattern: 'xxxx-xx-xx-xx-xx-xx',
 		is_date_ambiguous: false,
@@ -38,7 +38,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2013, 5, 25),
+		date: _clean_debug(create_better_date('tz:auto', 2013, 5, 25)),
 		date_digits: '20130525',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
@@ -55,7 +55,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2016, 3, 27, 10, 27, 42),
+		date: _clean_debug(create_better_date('tz:auto', 2016, 3, 27, 10, 27, 42)),
 		date_digits: '20160327102742',
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
@@ -72,7 +72,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2018, 1, 15, 8, 55, 38),
+		date: _clean_debug(create_better_date('tz:auto', 2018, 1, 15, 8, 55, 38)),
 		date_digits: '20180115085538',
 		digits_pattern: 'xxxx-xx-xx at xx.xx.xx',
 		is_date_ambiguous: false,
@@ -89,7 +89,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2017, 11, 12, 19, 7, 50),
+		date: _clean_debug(create_better_date('tz:auto', 2017, 11, 12, 19, 7, 50)),
 		date_digits: '20171112190750',
 		digits_pattern: 'xxxx-xx-xx xx.xx.xx',
 		is_date_ambiguous: false,
@@ -106,7 +106,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2017, 3, 24, 11, 44, 17),
+		date: _clean_debug(create_better_date('tz:auto', 2017, 3, 24, 11, 44, 17)),
 		date_digits: '20170324114417',
 		digits_pattern: 'xxxx-xx-xx à xx.xx.xx',
 		is_date_ambiguous: false,
@@ -123,7 +123,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2014, 8, 14, 1, 37, 48, 1),
+		date: _clean_debug(create_better_date('tz:auto', 2014, 8, 14, 1, 37, 48, 1)),
 		date_digits: '20140814013748001',
 		digits_pattern: 'xxxx-xx-xx_xxxx_xxxxx',
 		is_date_ambiguous: false,
@@ -140,7 +140,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.bmp',
-		date: create_better_date('tz:auto', 2013, 8, 29, 0, 52, 6),
+		date: _clean_debug(create_better_date('tz:auto', 2013, 8, 29, 0, 52, 6)),
 		date_digits: '29082013005206',
 		digits_pattern: 'xxxxxxxx xxxxxx',
 		is_date_ambiguous: false,
@@ -157,7 +157,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.bmp',
-		date: create_better_date('tz:auto', 2010, 6, 26, 9, 49, 52),
+		date: _clean_debug(create_better_date('tz:auto', 2010, 6, 26, 9, 49, 52)),
 		date_digits: '20100626094952',
 		digits_pattern: 'xxxx-xx-xx xxxxxx',
 		is_date_ambiguous: false,
@@ -174,7 +174,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2011, 5, 17, 16, 47, 54),
+		date: _clean_debug(create_better_date('tz:auto', 2011, 5, 17, 16, 47, 54)),
 		date_digits: '20110517164754',
 		digits_pattern: 'xxxx-xx-xx xxhxx+xx',
 		is_date_ambiguous: false,
@@ -191,7 +191,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2014, 1, 21, 20, 29, 14),
+		date: _clean_debug(create_better_date('tz:auto', 2014, 1, 21, 20, 29, 14)),
 		date_digits: '20140121202914',
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
@@ -208,7 +208,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2015, 5, 10, 17, 58, 34),
+		date: _clean_debug(create_better_date('tz:auto', 2015, 5, 10, 17, 58, 34)),
 		date_digits: '20150510175834',
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
@@ -225,7 +225,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpeg',
-		date: create_better_date('tz:auto', 2016, 2, 2),
+		date: _clean_debug(create_better_date('tz:auto', 2016, 2, 2)),
 		date_digits: '20160202',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
@@ -242,7 +242,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2017, 7, 21),
+		date: _clean_debug(create_better_date('tz:auto', 2017, 7, 21)),
 		date_digits: '20170721',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
@@ -259,7 +259,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2008, 11, 9, 20, 16, 7),
+		date: _clean_debug(create_better_date('tz:auto', 2008, 11, 9, 20, 16, 7)),
 		date_digits: '20081109201607',
 		digits_pattern: 'xxxx-xx-xx_xx-xx-xx',
 		is_date_ambiguous: false,
@@ -276,7 +276,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2015, 11, 14, 9, 36, 22),
+		date: _clean_debug(create_better_date('tz:auto', 2015, 11, 14, 9, 36, 22)),
 		date_digits: '20151114093622',
 		digits_pattern: 'xxxx-xx-xx-xx-xx-xx',
 		is_date_ambiguous: false,
@@ -293,7 +293,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2017, 10, 24, 14, 8, 49),
+		date: _clean_debug(create_better_date('tz:auto', 2017, 10, 24, 14, 8, 49)),
 		date_digits: '20171024140849',
 		digits_pattern: 'xxxxxxxx-xxxxxx',
 		is_date_ambiguous: false,
@@ -310,7 +310,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2012, 12, 15, 15, 5, 47),
+		date: _clean_debug(create_better_date('tz:auto', 2012, 12, 15, 15, 5, 47)),
 		date_digits: '20121215150547',
 		digits_pattern: 'xxxx-xx-xx xx.xx.xx',
 		is_date_ambiguous: false,
@@ -327,7 +327,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2017, 8, 25, 21, 6, 32),
+		date: _clean_debug(create_better_date('tz:auto', 2017, 8, 25, 21, 6, 32)),
 		date_digits: '20170825210632',
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
@@ -344,7 +344,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2017, 5, 18),
+		date: _clean_debug(create_better_date('tz:auto', 2017, 5, 18)),
 		date_digits: '20170518',
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
@@ -360,7 +360,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2013, 4, 14),
+		date: _clean_debug(create_better_date('tz:auto', 2013, 4, 14)),
 		date_digits: '20130414',
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
@@ -376,7 +376,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2006, 11, 7),
+		date: _clean_debug(create_better_date('tz:auto', 2006, 11, 7)),
 		date_digits: '20061107',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
@@ -392,7 +392,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2015, 10, 15, 23, 1, 22, 1),
+		date: _clean_debug(create_better_date('tz:auto', 2015, 10, 15, 23, 1, 22, 1)),
 		date_digits: '20151015230122001',
 		digits_pattern: 'xxxxxxxx-xxhxx_xxxxx',
 		is_date_ambiguous: false,
@@ -408,7 +408,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2013, 10, 17),
+		date: _clean_debug(create_better_date('tz:auto', 2013, 10, 17)),
 		date_digits: '20131017',
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
@@ -424,7 +424,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2015, 11, 10),
+		date: _clean_debug(create_better_date('tz:auto', 2015, 11, 10)),
 		date_digits: '20151110',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
@@ -440,7 +440,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.mp4',
-		date: create_better_date('tz:auto', 2015, 4, 23, 19, 2, 41),
+		date: _clean_debug(create_better_date('tz:auto', 2015, 4, 23, 19, 2, 41)),
 		date_digits: '20150423190241',
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
@@ -457,7 +457,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2019, 3, 25, 13, 36),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 3, 25, 13, 36)),
 		date_digits: '253191336',
 		digits_pattern: 'xx-x-xx at xx.xx',
 		is_date_ambiguous: false, // not ambiguous before 2025 but ambiguous after that!!!
@@ -473,7 +473,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2019, 3, 7),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 3, 7)),
 		date_digits: '20190307',
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
@@ -490,7 +490,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.gif',
-		date: create_better_date('tz:auto', 2018, 6, 3),
+		date: _clean_debug(create_better_date('tz:auto', 2018, 6, 3)),
 		date_digits: '20180603',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
@@ -505,7 +505,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2019, 4, 29, 15, 49, 7),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 4, 29, 15, 49, 7)),
 		date_digits: '20190429154907',
 		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
@@ -524,7 +524,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		date: create_better_date('tz:auto', 2019, 7, 31, 21, 0, 15),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 7, 31, 21, 0, 15)),
 		date_digits: '20190731210015',
 		digits_pattern: 'xxxx-xx-xx_xxhxxmxx',
 		is_date_ambiguous: false,
@@ -540,7 +540,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2017, 3, 3, 12, 0, 45, 632),
+		date: _clean_debug(create_better_date('tz:auto', 2017, 3, 3, 12, 0, 45, 632)),
 		date_digits: '20170303120045632',
 		digits_pattern: 'xxxxxxxx_xxhxx+xx.xxx',
 		is_date_ambiguous: false,
@@ -555,7 +555,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2019, 3, 11, 20, 24, 6),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 3, 11, 20, 24, 6)),
 		date_digits: '20190311202406',
 		digits_pattern: 'xxxxxxxx_xxhxx+xx',
 		is_date_ambiguous: false,
@@ -572,7 +572,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '',
-		date: create_better_date('tz:auto', 2018, 10, 26),
+		date: _clean_debug(create_better_date('tz:auto', 2018, 10, 26)),
 		date_digits: '20181026',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
@@ -589,7 +589,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2019, 8, 15),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 8, 15)),
 		date_digits: '20190815',
 		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
@@ -600,11 +600,26 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digit_blocks: '2019-08-15',
 		human_ts_current_tz_for_tests: '2019-08-15',
 	},
+	'2019-08-15- 00- voyage à Paris .jpg': { // date collated with extra non-date digits (actual bug)
+
+		// ParseResult
+		extension_lc: '.jpg',
+		date: _clean_debug(create_better_date('tz:auto', 2019, 8, 15)),
+		date_digits: '20190815',
+		digits_pattern: 'xxxx-xx-xx',
+		is_date_ambiguous: false,
+		meaningful_part: '00- voyage à Paris',
+		copy_index: undefined,
+
+		// for test
+		digit_blocks: '2019-08-15',
+		human_ts_current_tz_for_tests: '2019-08-15',
+	},
 	'2019-12-16T09:38:08.123Z.jpg': { // toISOString / toJSON
 
 		// ParseResult
 		extension_lc: '.jpg',
-		date: create_better_date('tz:auto', 2019, 12, 16, 9, 38, 8, 123),
+		date: _clean_debug(create_better_date('tz:auto', 2019, 12, 16, 9, 38, 8, 123)),
 		date_digits: '20191216093808123',
 		digits_pattern: 'xxxx-xx-xxTxx:xx:xx.xxx',
 		is_date_ambiguous: false,
@@ -948,15 +963,11 @@ export const ALL_SAMPLES: { [k: string]: NameDetails } = {
 	...NON_MEANINGFUL_NAMES_SAMPLES,
 }
 
-Object.keys(ALL_SAMPLES).forEach(k => {
-	delete ALL_SAMPLES[k].date?._debug
-})
-
 /////////////////////
 
 export const REAL_FILES = {
-	'exif_date_cn_exif_gps.jpg': create_better_date('tz:auto', 2002, 1, 26, 16, 5, 50),
-	'exif_date_fr_alt_no_tz_conflicting_fs.jpg': create_better_date('tz:auto', 2002, 1, 26, 16, 5, 50),
-	'exif_date_fr_no_tz_conflicting_fs.jpg': create_better_date('tz:auto', 2001, 1),
-	'no_exif_date_no_tz.jpg': create_better_date('tz:auto', 2001, 1),
+	'exif_date_cn_exif_gps.jpg': _clean_debug(create_better_date('tz:auto', 2002, 1, 26, 16, 5, 50)),
+	'exif_date_fr_alt_no_tz_conflicting_fs.jpg': _clean_debug(create_better_date('tz:auto', 2002, 1, 26, 16, 5, 50)),
+	'exif_date_fr_no_tz_conflicting_fs.jpg': _clean_debug(create_better_date('tz:auto', 2001, 1)),
+	'no_exif_date_no_tz.jpg': _clean_debug(create_better_date('tz:auto', 2001, 1)),
 }

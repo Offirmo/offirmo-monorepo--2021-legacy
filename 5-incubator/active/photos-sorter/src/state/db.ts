@@ -647,6 +647,11 @@ function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<S
 		extra_notes = Notes.on_file_notes_recovered(extra_notes, hash) // remove
 	})
 
+	// finalize notes (re)generation from fs
+	/*all_files.forEach(file_state => {
+		// TODO hinted_date_from_neighbours
+	})*/
+
 	// since we updated the notes, time for a save
 	// (see later)
 

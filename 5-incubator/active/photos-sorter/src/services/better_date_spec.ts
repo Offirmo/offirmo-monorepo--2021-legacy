@@ -22,6 +22,8 @@ import {
 	change_tz,
 	create_better_date_from_utc_tms,
 	create_better_date_obj,
+
+	expectㆍbetter_dateㆍdeepㆍequal,
 } from './better-date'
 
 describe('Better Date', function() {
@@ -246,9 +248,7 @@ describe('Better Date', function() {
 				const date = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
 				const exif_datetime = get_exif_datetime(date)
 				const date2 = create_better_date_from_ExifDateTime(exif_datetime)
-				delete date._debug
-				delete date2._debug
-				expect(date).to.deep.equal(date2)
+				expectㆍbetter_dateㆍdeepㆍequal(date, date2)
 			})
 		})
 	})

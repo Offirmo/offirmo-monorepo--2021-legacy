@@ -37,6 +37,7 @@ import { FileHash } from '../services/hash'
 export interface OriginalData {
 	// from path
 	basename: Basename
+	parent_path: RelativePath // useful to manually re-sort in multi-level folder cases
 	closest_parent_with_date_hint?: Basename
 	hinted_date_from_neighbours?: SimpleYYYYMMDD // TODO only if not confident + parent was originally an event = start date of parent
 
@@ -477,6 +478,7 @@ export function create(id: FileId): Immutable<State> {
 			starred: undefined,
 			original: {
 				basename: parsed_path.base,
+				parent_path: parsed_path.dir,
 				birthtime_ms: get_UTC_timestamp_ms(), // so far
 				closest_parent_with_date_hint: (() => {
 					let hint_parent: OriginalData['closest_parent_with_date_hint'] = undefined

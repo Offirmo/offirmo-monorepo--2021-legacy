@@ -62,6 +62,7 @@ export interface DigitsParseResult {
 	date: undefined | BetterDate
 	is_ambiguous: boolean
 }
+// TODO memoize up to 2
 export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): Immutable<DigitsParseResult> {
 	let blocks: string[] = digit_blocks
 		.split('-')
@@ -86,18 +87,21 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	if (digits.length < 8) {
 		result.summary = 'need_more'
 		result.reason = 'too few digits'
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
-	if ( separator === 'none') {
+	if (separator === 'none') {
 		result.summary = 'need_more'
 		result.reason = 'not on sep'
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
 	if (blocks[0].length > 4 && blocks[0].length !== 8) {
 		result.summary = 'no_match'
 		result.reason = '1st block mismatch - length'
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
@@ -151,21 +155,23 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		})
 
 		if (blocks.join('') !== digits) {
-			logger.error('splitting improvement failure', {
+			logger.error('PDB splitting improvement failure', {
 				blocks_before: blocks_previous,
 				blocks_after: blocks,
 				digits_before: digits,
 				digits_after: blocks.join(''),
 			})
 			result.reason = 'internal error while improving the splitting'
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 			return result
 		}
 	}
 	catch (e) {
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
-	logger.silly('after improved splitting:', {
+	logger.silly('PDB after improved splitting:', {
 		before: blocks_previous,
 		after: blocks,
 	})
@@ -173,7 +179,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	// improve padding
 	blocks = blocks.map(b => (b.length < 2) ? b.padStart(2, '0') : b)
-	logger.silly('after improved padding:', {
+	logger.silly('PDB after improved padding:', {
 		before: blocks_previous,
 		after: blocks,
 	})
@@ -202,9 +208,9 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	if (date_pattern === 'unknown') {
 		result.summary = 'no_match'
 		result.reason = 'unknown date pattern'
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
-
 
 	let date_creation_args: number[] = []
 
@@ -220,12 +226,14 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 			if (error) {
 				result.summary = 'no_match'
 				result.reason = 'Y-M-D mismatch'
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 				return result
 			}
 
 			if (blocks.length < 3) {
 				result.summary = 'need_more'
 				result.reason = 'Y-M-D needs more blocks'
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 				return result
 			}
 
@@ -249,12 +257,14 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 			if (error) {
 				result.summary = 'no_match'
 				result.reason = 'D-M-Y mismatch'
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 				return result
 			}
 
 			if (blocks.length < 3) {
 				result.summary = 'need_more'
 				result.reason = 'D-M-Y needs more blocks'
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 				return result
 			}
 
@@ -271,7 +281,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 			throw new Error('Impossible!')
 	}
 
-	logger.silly('…still parsing digit blocks…', {
+	logger.silly('PDB still parsing…', {
 		blocks,
 		date_pattern,
 		date_creation_args
@@ -315,16 +325,18 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (error) {
 		result.summary = 'no_match'
-		logger.silly('no match parsing digit blocks…', {
+		logger.silly('PDB no match parsing digit blocks…', {
 			blocks,
 			reason: result.reason,
 			date_creation_args,
 		})
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
 	if (blocks.length > 7) {
 		result.summary = 'too_much'
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
@@ -336,6 +348,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
 		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
@@ -346,11 +359,13 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
 		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 		return result
 	}
 
 	result.summary = 'need_more'
 	result.reason = 'end'
+	logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
 	return result
 }
 
@@ -390,14 +405,14 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 	if (name === '.') {
 		return result
 	}
+	// small memoize-once
 	if (last_call && last_call.name === name && last_call.up_to === parse_up_to) {
 		logger.trace('« parse basename final result = memoized from last call', last_call.result)
 		return last_call.result
 	}
 
-	logger.silly(`parsing basename "${name}"...\n\n\n\n----------------------------------------`)
-
 	name = NORMALIZERS.normalize_unicode(name)
+	logger.silly(`parsing basename "${name}"...\n\n\n\n----------------------------------------`)
 
 	let state = {
 		buffer: name,
@@ -417,11 +432,12 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 		state.is_date_found = true
 		result.date_digits = state.digit_blocks.split('-').join('')
 		//result.digit_blocks = state.digit_blocks
+		state.digit_blocks = '' // done with the current block
 		result.digits_pattern = deep_trim(state.digits_pattern) || undefined
 		result.date = dpr.date
 		result.is_date_ambiguous = dpr.is_ambiguous
 
-		logger.silly(`found date in filename`, {
+		logger.silly(`found date in basename`, {
 			name,
 			state,
 			dpr,
@@ -661,7 +677,7 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 		name,
 		up_to: parse_up_to,
 		result,
-		//result: enforce_immutability(result),
+		//result: enforce_immutability(result), TEMP for tests
 	}
 	return result
 }
@@ -686,25 +702,6 @@ const SCREENSHOT_ALIASES_LC = [
 	NORMALIZERS.normalize_unicode('capture plein écran'),
 	'capture',
 ]
-
-/*
-export function extract_compact_date_from_canonical_folder(s: string): SimpleYYYYMMDD | null {
-	if (s.length <= 11)
-		return null
-	if (s.slice(8, 10) !== ' - ')
-		return null
-
-	const digits = s.slice(0, 8))
-
-
-
-
-	const result = parsed ?? parse(s)
-	if (!result.date)
-		return null
-
-	return get_compact_date(result.date, 'tz:embedded')
-}*/
 
 
 export function get_digit_pattern(s: string): string {

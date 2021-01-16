@@ -31,6 +31,7 @@ describe(`${LIB} - folder state`, function() {
 					'foo': '20001231 - foo',
 					'20140803 - holidays': '20140803 - holidays',
 					'- inbox': '- inbox',
+					'20011125 - 00- voyage à Paris - 2001': '20011125 - 00- voyage à Paris - 2001' // explicit date + unicode (seen BUG strange unicode destruction)
 				}
 				Object.keys(TEST_CASES).forEach(tc => {
 					let state: State = create(tc)
@@ -47,6 +48,12 @@ describe(`${LIB} - folder state`, function() {
 				state.begin_date_symd = state.end_date_symd = 20001231
 				//console.log(state)
 				expect(get_ideal_basename(state)).to.equal('20001231 - holidays')
+			})
+
+			it('should work -- manual test for bug', () => {
+				let state: State = create('20011125 - 00- voyage à Paris - 2001')
+				//console.log(state)
+				expect(get_ideal_basename(state)).to.equal('20011125 - 00- voyage à Paris - 2001')
 			})
 		})
 

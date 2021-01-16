@@ -44,14 +44,14 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	const display_progress = false // activating sort of turns off wrapping in iTerm = bad for debug
 
 	// https://www.npmjs.com/package/cli-progress
-	const progress_multibar = display_progress ? new (require('cli-progress')).MultiBar({
+	const progress_multibar = null as any /*display_progress ? new (require('cli-progress')).MultiBar({
 		clearOnComplete: false,
 		linewrap: null,
 		hideCursor: null,
 		forceRedraw: true,
 		barsize: 80,
 		format: '{name} [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}'
-	}/*, cli_progress.Presets.shades_grey*/) : null
+	}, cli_progress.Presets.shades_grey) : null*/
 
 	const progress_bars: { [id: string]: { size: number, bar: any }} = {}
 	function on_new_task(id: string) {
@@ -460,8 +460,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 			if (File.is_exif_powered_media_file(file_state)) {
 				const current_exif_data: any = file_state.current_exif_data
-				if (current_exif_data.Orientation) {
+				// https://www.impulseadventure.com/photo/exif-orientation.html
+				if (current_exif_data.Orientation > 1) {
 					// TODO one day NOTE will need hash chaining
+					// https://www.impulseadventure.com/photo/lossless-rotation.html
 					logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
 					/*if (PARAMS.dry_run) {
 						logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)

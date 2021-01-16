@@ -71,6 +71,7 @@ describe(`${LIB} - file state`, function() {
 			deleted: undefined,
 			original: {
 				basename: 'original.jpg',
+				parent_path: 'foo',
 				birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 			}
 		})
@@ -172,6 +173,7 @@ describe(`${LIB} - file state`, function() {
 					starred: false,
 					original: {
 						basename: 'IMG_20171020_050144625.jpg',
+						parent_path: 'foo',
 						birthtime_ms: REAL_CREATION_DATE_MS,
 					},
 				})
@@ -204,6 +206,7 @@ describe(`${LIB} - file state`, function() {
 					starred: false,
 					original: {
 						basename: 'bar.jpg',
+						parent_path: 'foo',
 						birthtime_ms: BAD_CREATION_DATE_CANDIDATE_MS,
 					},
 				})
@@ -247,6 +250,7 @@ describe(`${LIB} - file state`, function() {
 						starred: false,
 						original: {
 							basename: 'IMG_20171020_050144625.jpg',
+							parent_path: 'foo',
 							birthtime_ms: REAL_CREATION_DATE_MS,
 						},
 					})
@@ -350,6 +354,7 @@ describe(`${LIB} - file state`, function() {
 						starred: false,
 						original: {
 							basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
+							parent_path: 'foo',
 							birthtime_ms: creation_date_ms,
 						}
 					})
@@ -437,6 +442,7 @@ describe(`${LIB} - file state`, function() {
 					starred: true,
 					original: {
 						basename: 'original.jpg',
+						parent_path: 'foo',
 						birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 						closest_parent_with_date_hint: '2007',
 						exif_orientation: undefined,

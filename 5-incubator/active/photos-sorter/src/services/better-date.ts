@@ -352,15 +352,16 @@ export function add_days_to_simple_date(date: SimpleYYYYMMDD, inc_days: number):
 
 }*/
 
+export function _clean_debug(date: Immutable<BetterDate>): Immutable<BetterDate> {
+	return {
+		...date,
+		_debug: null,
+	}
+}
+
 export function expectㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {
-	const s1_alt = {
-		...s1,
-		_debug: null
-	}
-	const s2_alt = {
-		...s2,
-		_debug: null
-	}
+	const s1_alt = _clean_debug(s1)
+	const s2_alt = _clean_debug(s2)
 
 	try {
 		assert_deepStrictEqual(s1_alt, s2_alt)
@@ -371,3 +372,4 @@ export function expectㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s
 		throw err
 	}
 }
+
