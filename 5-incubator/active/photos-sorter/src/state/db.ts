@@ -198,9 +198,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	// file is a media
 	if (!File.get_confidence_in_date(file_state)) {
 		if (is_top_parent_special)
-			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME
+			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 		else
-			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME)
+			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME)
 		return current_parent_split_path.join(path.sep)
 	}
 
@@ -834,7 +834,7 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 	logger.trace(`${LIB} ensure_structural_dirs_are_present()…`)
 
 	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__INBOX__BASENAME))
-	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_SORT__BASENAME))
+	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME))
 	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME))
 
 	const years = new Set<number>()

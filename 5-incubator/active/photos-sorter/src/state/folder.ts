@@ -22,7 +22,7 @@ export const Type = Enum(
 	'root',
 	'inbox',
 	'cant_recognize',
-	'cant_sort',
+	'cant_autosort',
 	'year',
 	'event', // by default
 	'overlapping_event', // used to be an event but other folders are overlapping it
@@ -34,11 +34,11 @@ function _get_special_folder_final_base(type: Type): Basename {
 	return `- ${type}`
 }
 export const SPECIAL_FOLDER__INBOX__BASENAME = _get_special_folder_final_base(Type.inbox)
-export const SPECIAL_FOLDER__CANT_SORT__BASENAME = _get_special_folder_final_base(Type.cant_sort)
+export const SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME = _get_special_folder_final_base(Type.cant_autosort)
 export const SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME = _get_special_folder_final_base(Type.cant_recognize)
 export const SPECIAL_FOLDERS__BASENAMES = [
 	SPECIAL_FOLDER__INBOX__BASENAME,
-	SPECIAL_FOLDER__CANT_SORT__BASENAME,
+	SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
 	SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME,
 ]
 
@@ -77,7 +77,7 @@ function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath
 	const depth = get_depth(pathㆍparsed)
 
 	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__INBOX__BASENAME) return Type.inbox
-	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_SORT__BASENAME) return Type.cant_sort
+	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME) return Type.cant_autosort
 	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME) return Type.cant_recognize
 	if (depth === 0 && is_year(pathㆍparsed.base)) return Type.year
 
@@ -293,7 +293,7 @@ export function to_string(state: Immutable<State>) {
 	let str = `📓  [${String(type).padStart('cant_recognize'.length)}]`
 	switch(type) {
 		case Type.inbox:
-		case Type.cant_sort:
+		case Type.cant_autosort:
 		case Type.cant_recognize:
 			str = stylize_string.blue(str)
 			break

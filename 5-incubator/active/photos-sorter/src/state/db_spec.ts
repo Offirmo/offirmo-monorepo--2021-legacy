@@ -33,6 +33,7 @@ import {
 } from '../__test_shared/real_files'
 import { create_better_date, get_exif_datetime, get_timestamp_utc_ms_from } from '../services/better-date'
 import * as File from './file'
+import * as Folder from './folder'
 
 /////////////////////
 
@@ -171,12 +172,12 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					// however that doesn't impact the "ideal" name
 					expect(get_ideal_file_relative_path(state, file_id_a)).to.equal(path.join(
-						'- cant_sort', // due to not dated, not event
+						Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME, // due to not dated, not event
 						'foo',
 						'bar.png',
 					))
 					expect(get_ideal_file_relative_path(state, file_id_b)).to.equal(path.join(
-						'- cant_sort', // due to not dated, not event
+						Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME, // due to not dated, not event
 						'foo',
 						'bar.png',
 					))
@@ -191,7 +192,7 @@ describe(`${LIB} - DB (root) state`, function() {
 				context('when already well placed', function () {
 
 					it('should stay stable', () => {
-						let file_parent = '- cant_sort'
+						let file_parent = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 						let file_basename = 'foo.png'
 						let file_id = path.join(file_parent, file_basename)
 
@@ -213,7 +214,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						expect(File.get_confidence_in_date(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-							'- cant_sort',
+							Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
 							'foo.png'
 						))
 					})
@@ -244,7 +245,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						expect(File.get_confidence_in_date(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-							'- cant_sort',
+							Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
 							'foo.png',
 						))
 					})
@@ -275,7 +276,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						expect(File.get_confidence_in_date(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-							'- cant_sort',
+							Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
 							'hello',
 							'foo.png',
 						))
