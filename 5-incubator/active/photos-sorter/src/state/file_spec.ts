@@ -69,6 +69,7 @@ describe(`${LIB} - file (state)`, function() {
 			currently_known_as: 'whatever, will be replaced.jpg',
 			starred: undefined,
 			deleted: undefined,
+			manual_date: undefined,
 			original: {
 				basename: 'original.jpg',
 				parent_path: 'foo',
@@ -171,6 +172,7 @@ describe(`${LIB} - file (state)`, function() {
 					currently_known_as: 'whatever.jpg',
 					deleted: false,
 					starred: false,
+					manual_date: undefined,
 					original: {
 						basename: 'IMG_20171020_050144625.jpg',
 						parent_path: 'foo',
@@ -204,6 +206,7 @@ describe(`${LIB} - file (state)`, function() {
 					currently_known_as: 'whatever.jpg',
 					deleted: false,
 					starred: false,
+					manual_date: undefined,
 					original: {
 						basename: 'bar.jpg',
 						parent_path: 'foo',
@@ -248,6 +251,7 @@ describe(`${LIB} - file (state)`, function() {
 						currently_known_as: 'whatever.jpg',
 						deleted: false,
 						starred: false,
+						manual_date: undefined,
 						original: {
 							basename: 'IMG_20171020_050144625.jpg',
 							parent_path: 'foo',
@@ -349,15 +353,16 @@ describe(`${LIB} - file (state)`, function() {
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_recovered(state, {
-						currently_known_as: CURRENT_BASENAME,
-						deleted: false,
-						starred: false,
-						original: {
-							basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
-							parent_path: 'foo',
-							birthtime_ms: creation_date_ms,
-						}
-					})
+					currently_known_as: CURRENT_BASENAME,
+					deleted: false,
+					starred: false,
+					manual_date: undefined,
+					original: {
+						basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
+						parent_path: 'foo',
+						birthtime_ms: creation_date_ms,
+					}
+				})
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
@@ -429,22 +434,36 @@ describe(`${LIB} - file (state)`, function() {
 						..._s2.notes,
 						original: {
 							..._s2.notes.original,
-							closest_parent_with_date_hint: '2007',
+							parent_path: '2007/20070102 - foo', // imagine was manually sorted
 						}
 					}
 				} as any)
-				const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // copy but has earlier creation date
+				const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // should not impact
 
-				const s = merge_duplicates(s1, s2, s3)
-				expect(s.notes).to.deep.equal({
-					currently_known_as: 'bar.jpg', // selected as "the best"
+				const s_order1 = merge_duplicates(s1, s2, s3)
+				expect(s_order1.notes, 'order1').to.deep.equal({
+					currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
 					deleted: undefined,
-					starred: true,
+					starred: true, // correctly preserved
+					manual_date: undefined,
 					original: {
 						basename: 'original.jpg',
 						parent_path: 'foo',
 						birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-						closest_parent_with_date_hint: '2007',
+						exif_orientation: undefined,
+					},
+				})
+				const s_order2 = merge_duplicates(s3, s2, s1)
+				expect(s_order2.notes, 'order2').to.deep.equal({
+					// same as previous
+					currently_known_as: 'bar.jpg',
+					deleted: undefined,
+					starred: true,
+					manual_date: undefined,
+					original: {
+						basename: 'original.jpg',
+						parent_path: 'foo',
+						birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 						exif_orientation: undefined,
 					},
 				})
@@ -540,16 +559,16 @@ describe(`${LIB} - file (state)`, function() {
 
 			it('should pick one with a meaningful parent folder', () => {
 				const s1 = create_demo()
-				const _s2 = create_demo()
+				const _s2 = create_demo('2007/20070102 - foo/bar.jpg')
 				const s2 = enforce_immutability<State>({
 					..._s2,
-					notes: {
+					/*notes: {
 						..._s2.notes,
 						original: {
 							..._s2.notes.original,
-							closest_parent_with_date_hint: '2007',
+							parent_path: '2007/20070102 - foo',
 						}
-					}
+					}*/
 				} as any)
 				const s3 = create_demo()
 

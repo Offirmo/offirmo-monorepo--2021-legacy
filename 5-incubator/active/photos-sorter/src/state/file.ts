@@ -22,7 +22,9 @@ import {
 	ParseResult,
 	get_normalized_extension as _get_normalized_extension,
 	get_copy_index,
+	get_without_copy_index,
 	is_normalized_media_basename,
+	is_normalized_event_folder,
 } from '../services/name_parser'
 import {
 	BetterDate,
@@ -38,8 +40,7 @@ export interface OriginalData {
 	// from path
 	basename: Basename
 	parent_path: RelativePath // useful to manually re-sort in multi-level folder cases
-	closest_parent_with_date_hint?: Basename
-	hinted_date_from_neighbours?: SimpleYYYYMMDD // TODO only if not confident + parent was originally an event = start date of parent
+	hinted_date_range_from_neighbours?: [ SimpleYYYYMMDD, SimpleYYYYMMDD ], // TODO only if not confident + parent was originally an event = start date of parent
 
 	// from fs
 	// we should always store it in case it changes for some reason
@@ -55,6 +56,7 @@ export interface PersistedNotes {
 	currently_known_as: Basename | null // not strictly useful, intended at humans reading the notes manually
 	deleted: undefined | boolean // TODO
 	starred: undefined | boolean // TODO
+	manual_date: undefined // TODO
 	original: OriginalData
 }
 
@@ -130,20 +132,12 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 		)
 }
 
-function _get_creation_date_from_fs_stats(state: Immutable<State>): TimestampUTCMs {
-	assert(state.current_fs_stats, 'fs stats collected')
-	return state.notes.original.birthtime_ms ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
-}
-function _get_creation_date_from_basename(state: Immutable<State>): BetterDate | null {
+function _get_creation_date_from_original_basename(state: Immutable<State>): BetterDate | null {
 	return state.memoized.get_parsed_original_basename(state).date || null
 }
-function _get_creation_date_from_parent_name(state: Immutable<State>): BetterDate | null {
-	const { closest_parent_with_date_hint } = state.notes.original
-	if (!closest_parent_with_date_hint) return null
-
-	const parsed = parse_basename(closest_parent_with_date_hint)
-
-	return parsed.date || null
+function _get_creation_date_from_original_fs_stats(state: Immutable<State>): TimestampUTCMs {
+	assert(state.current_fs_stats, 'fs stats collected')
+	return state.notes.original.birthtime_ms /* ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)*/
 }
 function _get_creation_date_from_exif(state: Immutable<State>): ExifDateTime | undefined {
 	const { id, current_exif_data } = state
@@ -179,10 +173,25 @@ function _get_creation_tz_from_exif(state: Immutable<State>): TimeZone | undefin
 		throw err
 	}
 }
+
+
+function _get_creation_date_from_parent_name(state: Immutable<State>): BetterDate | null {
+	let dir = get_current_parent_folder_id(state)
+	while (dir) {
+		const parsed = path.parse(dir)
+		const parsed_basename = parse_basename(parsed.base)
+		if (parsed_basename.date) {
+			return parsed_basename.date
+		}
+		dir = parsed.dir
+	}
+
+	return null
+}
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
 interface BestDate {
 	candidate: BetterDate
-	source: 'original_basename' | 'exif' | 'fs',
+	source: 'original_basename' | 'exif' | 'original_fs',
 	confidence: boolean
 	//is_fs_reliable: boolean
 	is_matching_fs: undefined | boolean
@@ -194,19 +203,19 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		assert(false, 'has_all_infos_for_extracting_the_creation_date() === true')
 	}
 
-	const from_basename: BetterDate | null = _get_creation_date_from_basename(state)
-	//console.log({ from_basename })
+	const from_original_basename: BetterDate | null = _get_creation_date_from_original_basename(state)
+	//console.log({ from_original_basename })
 
-	const from_fs = create_better_date_from_utc_tms(_get_creation_date_from_fs_stats(state), 'tz:auto')
+	const from_original_fs = create_better_date_from_utc_tms(_get_creation_date_from_original_fs_stats(state), 'tz:auto')
 
 	// even if we have a date from name,
-	// the exif one may be more precise,
+	// the exif or fs may be more precise,
 	// so let's continue
 
 	const result: BestDate = {
-		candidate: from_basename || from_fs,
-		source: from_basename ? 'original_basename' : 'fs',
-		confidence: from_basename ? !is_normalized_media_basename(get_oldest_basename(state)) : false,
+		candidate: from_original_basename || from_original_fs,
+		source: from_original_basename ? 'original_basename' : 'original_fs',
+		confidence: from_original_basename ? !is_normalized_media_basename(get_oldest_basename(state)) : false,
 		//is_fs_reliable: false, // TODO one day
 		is_matching_fs: undefined, // so far
 	}
@@ -222,10 +231,10 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		result.candidate = from_exif
 		result.source = 'exif'
 		result.confidence = true
-		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_exif)) < DAY_IN_MILLIS
+		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_original_fs) - get_timestamp_utc_ms_from(from_exif)) < DAY_IN_MILLIS
 
-		if (from_basename) {
-			const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
+		if (from_original_basename) {
+			const auto_from_basename = get_human_readable_timestamp_auto(from_original_basename, 'tz:embedded')
 			const auto_from_exif = get_human_readable_timestamp_auto(from_exif, 'tz:embedded')
 
 			if (auto_from_exif.startsWith(auto_from_basename)) {
@@ -237,16 +246,16 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 			// date from EXIF is the most reliable
 			// (TODO review. should basename have priority?)
 
-			if (Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_basename)) <= DAY_IN_MILLIS) {
+			if (Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_original_basename)) <= DAY_IN_MILLIS) {
 				// good enough
 			}
 			else {
 				// this is suspicious
 				logger.warn(`get_best_creation_date_meta() EXIF/basename discrepancy`, {
 					basename: get_oldest_basename(state),
-					diff: Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_basename)),
+					diff: Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_original_basename)),
 					id: state.id,
-					//from_basename,
+					//from_original_basename,
 					auto_from_basename,
 					//from_exif,
 					auto_from_exif,
@@ -257,11 +266,11 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		return result
 	}
 
-	if (from_basename) {
+	if (from_original_basename) {
 		// second most authoritative source
-		const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'tz:embedded')
+		const auto_from_basename = get_human_readable_timestamp_auto(from_original_basename, 'tz:embedded')
 
-		result.candidate = from_basename
+		result.candidate = from_original_basename
 		result.source = 'original_basename'
 		result.confidence = (() => {
 			// We mostly trust the embedded date
@@ -269,13 +278,13 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 			// is_normalized_media_basename(get_oldest_basename(state))
 			return true
 		})()
-		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_basename)) < DAY_IN_MILLIS
+		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_original_fs) - get_timestamp_utc_ms_from(from_original_basename)) < DAY_IN_MILLIS
 
-		const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'tz:embedded')
+		const auto_from_fs = get_human_readable_timestamp_auto(from_original_fs, 'tz:embedded')
 		if (auto_from_fs.startsWith(auto_from_basename)) {
 			// correlation OK
 			// TODO later when fixing fsstats, don't trust if already normalized
-			result.candidate = from_fs // more precise
+			result.candidate = from_original_fs // more precise
 			result.confidence = true
 			return result
 		}
@@ -285,10 +294,10 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 			result.confidence = false
 			logger.warn('basename/fs dates discrepancy', {
 				id: state.id,
-				//from_basename,
+				//from_original_basename,
 				auto_from_basename,
 				auto_from_fs,
-				diff: Math.abs(get_timestamp_utc_ms_from(from_fs) - get_timestamp_utc_ms_from(from_basename)),
+				diff: Math.abs(get_timestamp_utc_ms_from(from_original_fs) - get_timestamp_utc_ms_from(from_original_basename)),
 			})
 			// TODO log inside file
 		}
@@ -297,14 +306,14 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 	}
 
 	// fs is really unreliable so we attempt to take hints from the parent folder if available
-	result.candidate = from_fs
-	result.source = 'fs'
+	result.candidate = from_original_fs
+	result.source = 'original_fs'
 	result.confidence = false
 	result.is_matching_fs = true
 	const from_parent = _get_creation_date_from_parent_name(state)
 	if (from_parent) {
 		const auto_from_parent = get_human_readable_timestamp_auto(from_parent, 'tz:embedded')
-		const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'tz:embedded')
+		const auto_from_fs = get_human_readable_timestamp_auto(from_original_fs, 'tz:embedded')
 		if (auto_from_fs.startsWith(auto_from_parent.slice(0, 7))) {
 			// correlation OK
 			result.confidence = true
@@ -403,32 +412,6 @@ export function get_ideal_basename(state: Immutable<State>, {
 
 	return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(result))
 }
-/*
-export function get_ideal_basename(state: Immutable<State>, PARAMS: Immutable<Params> = get_params(), requested_confidence = true): Basename {
-	if (!is_media_file(state))
-		return get_current_basename(state)
-
-	const bcd_meta = get_best_creation_date_meta(state)
-	logger.trace(`get_ideal_basename()`, bcd_meta)
-	if (!bcd_meta.confidence && requested_confidence) {
-		// not confident enough in getting the date, can't rename
-		return get_current_basename(state)
-	}
-
-	const bcd = bcd_meta.candidate
-	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
-	const meaningful_part = parsed_original_basename.meaningful_part
-	let extension = parsed_original_basename.extension_lc
-	extension = PARAMS.extensions_to_normalize[extension] || extension
-
-	let ideal = 'MM' + get_human_readable_timestamp_auto(bcd, 'tz:embedded')
-	if (meaningful_part)
-		ideal += '_' + meaningful_part
-	ideal += extension
-
-	return ideal
-}
-*/
 
 export function get_hash(state: Immutable<State>): FileHash | undefined {
 	return state.current_hash
@@ -476,23 +459,12 @@ export function create(id: FileId): Immutable<State> {
 			currently_known_as: parsed_path.base,
 			deleted: undefined,
 			starred: undefined,
+			manual_date: undefined,
 			original: {
 				basename: parsed_path.base,
 				parent_path: parsed_path.dir,
 				birthtime_ms: get_UTC_timestamp_ms(), // so far
-				closest_parent_with_date_hint: (() => {
-					let hint_parent: OriginalData['closest_parent_with_date_hint'] = undefined
-					let dir = parsed_path.dir
-					while (dir && !hint_parent) {
-						const parsed = path.parse(dir)
-						const parsed_basename = parse_basename(parsed.base)
-						if (parsed_basename.date) {
-							hint_parent = parsed.base
-						}
-						dir = parsed.dir
-					}
-					return hint_parent
-				})(),
+
 			},
 		},
 
@@ -610,14 +582,15 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 	}
 }
 
-// all those states represent the same file
+// all those states represent the same file anyway!
 // return the "best" one to keep, merged with extra infos
 // assumption is that other copies will be cleaned.
+// The "best" one is thus the MORE already sorted, assuming others are re-appearance of old backups
 export function merge_duplicates(...states: Immutable<State[]>): Immutable<State> {
 	logger.trace(`${LIB} merge_duplicates(…)`, { ids: states.map(s => s.id) })
 	assert(states.length > 1, 'merge_duplicates(…) params')
 
-	states.forEach(duplicate_state => {
+	states.forEach((duplicate_state, index) => {
 		try {
 			assert(duplicate_state.current_hash, 'merge_duplicates(…) should happen after hash computed')
 			assert(duplicate_state.current_hash === states[0].current_hash, 'merge_duplicates(…) should have the same hash')
@@ -628,88 +601,86 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		catch (err) {
 			logger.error('merge_duplicates(…) initial assertion failed', {
 				err,
-				states,
+				state: states[index],
 			})
 			throw err
 		}
 	})
 
 	const reasons = new Set<string>()
-	let original_state = states[0] // so far
-	let min_fs_birthtime_ms = get_most_reliable_birthtime_from_fs_stats(original_state.current_fs_stats!) // so far
-	states.forEach(duplicate_state => {
-		min_fs_birthtime_ms = Math.min(min_fs_birthtime_ms, get_most_reliable_birthtime_from_fs_stats(duplicate_state.current_fs_stats!))
-		if (duplicate_state === original_state) return
+	let selected_state = states[0] // so far
+	//let min_fs_birthtime_ms = get_most_reliable_birthtime_from_fs_stats(selected_state.current_fs_stats!) // so far
+	states.forEach(candidate_state => {
+		if (candidate_state === selected_state) return
 
-		//let original_parsed_result = original_state.memoized.get_parsed_original_basename(original_state)
-		//let duplicate_parsed_result = duplicate_state.memoized.get_parsed_original_basename(duplicate_state)
-		//console.log({ original_parsed_result, duplicate_parsed_result })
+		//min_fs_birthtime_ms = Math.min(min_fs_birthtime_ms, get_most_reliable_birthtime_from_fs_stats(candidate_state.current_fs_stats!))
 
-		let original_current_copy_index = get_copy_index(get_current_basename(original_state))
-		let duplicate_current_copy_index = get_copy_index(get_current_basename(duplicate_state))
-		if (original_current_copy_index !== duplicate_current_copy_index) {
-			reasons.add('copy_index')
-			if (original_current_copy_index === undefined)
+		// equal so far, try to discriminate with a criteria
+		const selected__has_normalized_basename = get_without_copy_index(get_current_basename(selected_state)) === get_ideal_basename(selected_state)
+		const candidate__has_normalized_basename = get_without_copy_index(get_current_basename(candidate_state)) === get_ideal_basename(candidate_state)
+		if (selected__has_normalized_basename !== candidate__has_normalized_basename) {
+			reasons.add('normalized_basename')
+
+			if (selected__has_normalized_basename)
 				return // current is better
 
-			if (duplicate_current_copy_index !== undefined && original_current_copy_index < duplicate_current_copy_index)
-				return // current is better
-
-			original_state = duplicate_state
+			selected_state = candidate_state
 			return
 		}
 
-		// equality, try another criteria
-		const original_best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(original_state))
-		const duplicate_best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(duplicate_state))
-		if (original_best_creation_date_tms !== duplicate_best_creation_date_tms) {
+		// still equal so far, try to discriminate with another criteria
+		const selected__has_normalized_parent_folder = is_normalized_event_folder(get_current_parent_folder_id(selected_state))
+		const candidate__has_normalized_parent_folder = is_normalized_event_folder(get_current_parent_folder_id(candidate_state))
+		if (selected__has_normalized_parent_folder !== candidate__has_normalized_parent_folder) {
+			reasons.add('normalized_parent_folder')
+
+			if (selected__has_normalized_parent_folder)
+				return // current is better
+
+			selected_state = candidate_state
+			return
+		}
+
+		// still equal so far, try to discriminate with another criteria
+		let selected__current_copy_index = get_copy_index(get_current_basename(selected_state))
+		let candidate__current_copy_index = get_copy_index(get_current_basename(candidate_state))
+		if (selected__current_copy_index !== candidate__current_copy_index) {
+			reasons.add('copy_index')
+
+			if (selected__current_copy_index === undefined)
+				return // current is better
+
+			if (candidate__current_copy_index !== undefined && selected__current_copy_index < candidate__current_copy_index)
+				return // current is better
+
+			selected_state = candidate_state
+			return
+		}
+
+		// still equal so far, try to discriminate with another criteria
+		const selected__best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(selected_state))
+		const candidate__best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(candidate_state))
+		if (selected__best_creation_date_tms !== candidate__best_creation_date_tms) {
 			reasons.add('best_creation_date')
-			//console.log('different best_creation_date', original_best_creation_date_tms, duplicate_best_creation_date_tms)
+			//console.log('different best_creation_date', selected__best_creation_date_tms, candidate__best_creation_date_tms)
 			// earliest file wins
 
-			if (original_best_creation_date_tms <= duplicate_best_creation_date_tms)
+			if (selected__best_creation_date_tms <= candidate__best_creation_date_tms)
 				return // current is better
 
-			original_state = duplicate_state
+			selected_state = candidate_state
 			return
 		}
 
-		// equality, try another criteria
-		// if one is already sorted, pick it
-		if (get_ideal_basename(original_state) === get_current_basename(original_state)) {
-			reasons.add('ideal_basename')
-			return // current is better
-		}
-		if (get_ideal_basename(duplicate_state) === get_current_basename(duplicate_state)) {
-			reasons.add('ideal_basename')
-			original_state = duplicate_state
-			return
-		}
-
-		// equality, try another criteria
-		if (get_current_basename(original_state).length !== get_current_basename(duplicate_state).length) {
+		// still equal so far, try to discriminate with another criteria
+		if (get_current_basename(selected_state).length !== get_current_basename(candidate_state).length) {
 			reasons.add('current_basename.length')
 
 			// shorter name wins!
-			if (get_current_basename(original_state).length < get_current_basename(duplicate_state).length)
+			if (get_current_basename(selected_state).length < get_current_basename(candidate_state).length)
 				return // current is better
 
-			original_state = duplicate_state
-			return
-		}
-
-		// equality, try another criteria
-		// TODO review they most likely share the same notes...
-		if (original_state.notes.original.closest_parent_with_date_hint !== duplicate_state.notes.original.closest_parent_with_date_hint) {
-			reasons.add('original.closest_parent_with_date_hint')
-
-			if (duplicate_state.notes.original.closest_parent_with_date_hint === undefined)
-				return // current is better
-
-			if (original_state.notes.original.closest_parent_with_date_hint !== undefined)
-				return // no way to discriminate, keep current
-
-			original_state = duplicate_state
+			selected_state = candidate_state
 			return
 		}
 
@@ -718,43 +689,81 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		reasons.add('order')
 	})
 
-	assert(original_state, 'merge_duplicates(…) selected original_state')
-
 	logger.log('de-duplicated file states:', {
 		count: states.length,
-		final_basename: original_state.id,
+		final_basename: selected_state.id,
 		criterias: [...reasons]
 	})
 
-	original_state = {
-		...original_state,
-		notes: merge_notes(
-			...states.map(s => s.notes),
-			// re-inject the best one at the end so that it takes precedence
-			original_state.notes
-			// TODO check "currently known as"
-		),
+	selected_state = {
+		...selected_state,
+		notes: {
+			// merge notes separately.
+			// Even if we discard duplicates, they may still hold precious original info
+			...merge_notes(...states.map(s => s.notes)),
+			// update
+			currently_known_as: get_current_basename(selected_state),
+		},
 	}
 
-	return original_state
+	return selected_state
 }
 
 // merge notes concerning the same file (by hash). Could be:
+// - duplicated notes
 // - duplicated files
 // - persisted vs. reconstructed notes
-// If conflict, the latter will have priority
+// the earliest best choice will take precedence
+// NOTE that this function works in an opposite way than merge_duplicates,
+//      it will try to preserve the LESS sorted data = the oldest
 // https://stackoverflow.com/a/56650790/587407
-const _get_defined_props = (obj: any) => Object.fromEntries(
-	Object.entries(obj).filter(([k, v]) => v !== undefined)
-)
+const _get_defined_props = (obj: any) =>
+	Object.fromEntries(
+		Object.entries(obj)
+			.filter(([k, v]) => v !== undefined)
+	)
 export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
 	logger.trace(`${LIB} merge_notes(…)`, { ids: notes.map(n => n.original.basename) })
+	assert(notes.length > 1, 'merge_notes(…) should be given several notes to merge')
 
-	let merged_notes = notes.find(n => !is_normalized_media_basename(n.original.basename)) || notes[0]
-	assert(merged_notes, 'merge_notes(…) selected merged_notes')
+	// get hints at earliest
+	const index__non_normalized_basename = notes.findIndex(n => !is_normalized_media_basename(n.original.basename))
+	const index__earliest_birthtime = notes.reduce((acc, val, index) => {
+		// birthtimes tend to be botched to a *later* date by the FS
+		if (val.original.birthtime_ms < acc[1]) {
+			acc[0] = index
+			acc[1] = val.original.birthtime_ms
+		}
+		return acc
+	}, [-1, Number.POSITIVE_INFINITY])[0]
+	const index__shortest_non_normalized_basename = notes.reduce((acc, val, index) => {
+		const candidate = val.original.basename
+		if (candidate.length < acc[1] && !is_normalized_media_basename(candidate)) {
+			acc[0] = index
+			acc[1] = candidate.length
+		}
+		return acc
+	}, [-1, Number.POSITIVE_INFINITY])[0]
 
-	const original_fs_birthtimes: TimestampUTCMs[] = notes.map(n => n.original.birthtime_ms)
-	const earliest_fs_birthtime = Math.min(...original_fs_birthtimes)
+	let index__best_starting_candidate = index__shortest_non_normalized_basename >= 0
+		? index__shortest_non_normalized_basename
+		: index__non_normalized_basename >= 0
+			? index__non_normalized_basename
+			:  index__earliest_birthtime >= 0 // fs time really unreliable
+				? index__earliest_birthtime
+				: 0
+	let merged_notes = notes[index__best_starting_candidate]
+	assert(merged_notes, 'merge_notes(…) selected a starting point')
+
+	logger.silly(`merge_notes(…)`, {
+		index__best_starting_candidate,
+		index__shortest_non_normalized_basename,
+		index__non_normalized_basename,
+		index__earliest_birthtime,
+	})
+
+	// selectively merge best data
+	const earliest_fs_birthtime = notes[index__earliest_birthtime].original.birthtime_ms
 
 	merged_notes = {
 		...merged_notes,
@@ -764,22 +773,28 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 		}
 	}
 
-	let shortest_original_basename: Basename = merged_notes.original.basename
+	// fill holes with whatever is defined, earliest wins
+	logger.silly('nsf', merged_notes)
 	notes.forEach(duplicate_notes => {
-		if (duplicate_notes.original.basename.length < shortest_original_basename.length && !is_normalized_media_basename(duplicate_notes.original.basename))
-			shortest_original_basename = duplicate_notes.original.basename
+		/*if (duplicate_notes.original.basename.length < shortest_original_basename.length && !is_normalized_media_basename(duplicate_notes.original.basename))
+			shortest_original_basename = duplicate_notes.original.basename*/
 		merged_notes = {
 			...merged_notes,
 			..._get_defined_props(duplicate_notes),
+			..._get_defined_props(merged_notes),
 			original: {
 				...merged_notes.original,
 				..._get_defined_props(duplicate_notes.original),
+				..._get_defined_props(merged_notes.original),
 			}
 		}
+		logger.silly('nsf', merged_notes)
 	})
+
+	/*let shortest_original_basename: Basename = merged_notes.original.basename // for now
 	if (merged_notes.original.basename !== shortest_original_basename) {
 		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is not the shortest: "${shortest_original_basename}"`)
-	}
+	}*/
 	if (is_normalized_media_basename(merged_notes.original.basename)) {
 		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is already normalized`)
 	}
@@ -812,7 +827,7 @@ export function to_string(state: Immutable<State>) {
 
 	if (base !== state.notes.original.basename) {
 		// historically known as
-		str += ` (Note: HKA "${state.notes.original.closest_parent_with_date_hint ? state.notes.original.closest_parent_with_date_hint + '/' : ''}${state.notes.original.basename}")`
+		str += ` (Note: HKA "${state.notes.original.parent_path}/${state.notes.original.basename}")`
 	}
 
 	return stylize_string.gray.dim(str)
