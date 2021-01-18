@@ -166,8 +166,8 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 		case Folder.Type.overlapping_event: {
 			// if it was in an event folder
-			// we move it to the corresponding event folder
-			// XXX TODO keep in a duplicated event folder?
+			// we keep it into the corresponding event folder
+			// TODO keep in a duplicated event folder
 			const current_parent_folder_state = state.folders[current_parent_folder_id]
 			const current_parent_starting_compact_date = Folder.get_starting_date(current_parent_folder_state)
 			assert(current_parent_starting_compact_date, `get_ideal_file_relative_path() overlapping_event should have a start date`)

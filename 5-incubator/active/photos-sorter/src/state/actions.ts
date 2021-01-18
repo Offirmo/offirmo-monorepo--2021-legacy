@@ -87,9 +87,6 @@ export interface ActionDeleteFolderIfEmpty extends BaseAction {
 	//depth: number // needed to order the actions
 }
 
-
-// TODO delete empty folder
-
 export type Action =
 	// read only
 	| ActionExploreFolder
@@ -142,8 +139,6 @@ export function create_action_persist_notes(data: Immutable<NotesState>, folder_
 		folder_path,
 	}
 }
-
-// TODO this should not be an action, too low level
 export function create_action_normalize_file(id: FileId): ActionNormalizeFile {
 	return {
 		type: ActionType.normalize_file,
@@ -156,13 +151,6 @@ export function create_action_ensure_folder(id: FolderId): ActionEnsureFolder {
 		id,
 	}
 }
-/*export function create_action_move_folder(id: RelativePath, target_id: RelativePath): ActionMoveFolder {
-	return {
-		type: ActionType.move_folder,
-		id,
-		target_id,
-	}
-}*/
 export function create_action_move_file_to_ideal_location(id: FileId): ActionMoveFileToIdealLocation {
 	return {
 		type: ActionType.move_file_to_ideal_location,

@@ -47,7 +47,6 @@ export interface State {
 	id: FolderId
 	type: Type
 
-	//child_count: number TODO
 	begin_date_symd: undefined | SimpleYYYYMMDD
 	end_date_symd: undefined | SimpleYYYYMMDD
 
@@ -154,8 +153,7 @@ export function create(id: RelativePath): Immutable<State> {
 export function on_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_found(…)`, { file_id: file_state.id })
 
-	// TODO maybe?
-	//child_count: state.child_count + 1,
+	// eventually not used, keeping it just in case
 
 	return state
 }

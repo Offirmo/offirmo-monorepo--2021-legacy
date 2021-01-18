@@ -19,6 +19,7 @@ import {
 	get_copy_index,
 	get_digit_pattern,
 	is_normalized_media_basename,
+	is_normalized_event_folder,
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
@@ -380,6 +381,23 @@ describe(`${LIB} - (base)name parser`, function() {
 			it(`should work for "${basename}"`, () => {
 				expect(is_normalized_media_basename(basename))
 					.to.equal(T[basename])
+			})
+		})
+	})
+
+	describe('is_normalized_event_folder()', function() {
+		const T: { [k: string]: boolean } = {
+			'2007/20070101 - foo': true,
+			'2007/20070101 - 00- voyage à Paris': true,
+			'2007/01012007 - foo': false,
+			'foo': false,
+			'2007': false,
+		}
+
+		Object.keys(T).forEach(relpath => {
+			it(`should work for "${relpath}"`, () => {
+				expect(is_normalized_event_folder(relpath))
+					.to.equal(T[relpath])
 			})
 		})
 	})

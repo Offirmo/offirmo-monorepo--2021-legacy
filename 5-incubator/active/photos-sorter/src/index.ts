@@ -1,21 +1,12 @@
-import path from 'path'
-import util from 'util'
-import fs from 'fs'
 import assert from 'tiny-invariant'
 
 import { exiftool } from 'exiftool-vendored'
-import { Immutable } from '@offirmo-private/ts-types'
-import json from '@offirmo/cli-toolbox/fs/json'
 
-import { LIB, NOTES_BASENAME } from './consts'
-import { RelativePath } from './types'
+import { LIB } from './consts'
 import * as DB from './state/db'
-import * as File from './state/file'
-import * as Notes from './state/notes'
-import { ActionType } from './state/actions'
 
 import logger from './services/logger'
-import { exec_pending_actions_recursively_until_no_more } from './services/actions'
+import { exec_pending_actions_recursively_until_no_more, get_report_to_string } from './services/actions'
 import { get_params } from './params'
 
 const PARAMS = get_params()
@@ -65,7 +56,6 @@ async function sort_all_medias() {
 
 		logger.group('******* STARTING FILE MOVE PHASE *******')
 		db = DB.ensure_structural_dirs_are_present(db)
-		//db.queue.forEach(action => console.log(JSON.stringify(action))) // TODO clean JSON.stringify
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		db = DB.move_all_files_to_their_ideal_location(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
@@ -80,6 +70,7 @@ async function sort_all_medias() {
 
 	logger.verbose('Sort up to: "' + up_to + '" done.')
 	logger.info('DB = ' + DB.to_string(db))
+	logger.info('\nactions done: ' + get_report_to_string())
 }
 
 ////////////////////////////////////

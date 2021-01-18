@@ -39,15 +39,3 @@ export function get_most_reliable_birthtime_from_fs_stats(fs_stats_subset: Immut
 	assert(Number.isSafeInteger(lowest_ms), `get_most_reliable_birthtime_from_fs_stats(): no correct tms found: ${lowest_ms}`)
 	return lowest_ms
 }
-
-/* TODO
-function are_fs_stats_looking_good(fs_stats_subset: Immutable<FsStatsSubset>): boolean {
-	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats_subset
-	if (birthtimeMs > atimeMs)
-		logger.warn('atime vs birthtime', {path: state.id, birthtimeMs, atimeMs})
-	if (birthtimeMs > mtimeMs)
-		logger.warn('mtime vs birthtime', {path: state.id, birthtimeMs, mtimeMs})
-	if (birthtimeMs > ctimeMs)
-		logger.warn('ctime vs birthtime', {path: state.id, birthtimeMs, ctimeMs})
-}
-*/

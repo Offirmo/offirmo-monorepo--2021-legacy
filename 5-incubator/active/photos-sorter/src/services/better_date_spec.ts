@@ -56,7 +56,7 @@ describe('Better Date', function() {
 				//console.log({ current_tz })
 				expect(current_tz).to.be.a('string')
 				expect(current_tz.length).to.be.at.least(5)
-				expect(current_tz).to.equal('Australia/Sydney') // practical while I'm the only dev
+				expect(current_tz).to.equal('Australia/Sydney') // practical while I'm the only dev TODO improve
 			})
 		})
 

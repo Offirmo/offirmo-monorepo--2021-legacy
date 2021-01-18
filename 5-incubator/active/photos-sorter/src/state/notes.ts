@@ -21,7 +21,6 @@ import { get_params } from '../params'
 
 
 ////////////////////////////////////
-// TODO rewrite. Currently info is duplicated across files and here
 
 const LIB = '📃'
 const SCHEMA_VERSION = 1
@@ -63,7 +62,7 @@ export function has_notes_for_hash(state: Immutable<State>, hash: FileHash): boo
 
 ///////////////////// REDUCERS /////////////////////
 
-export function create(debug_id: string): Immutable<State> {
+export function create(debug_id: string): State {
 	logger.trace(`${LIB} create(…) (${debug_id})`, { })
 
 	return {
@@ -88,7 +87,7 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 
 	const { encountered_files: encountered_files_a } = state
 	const { encountered_files: encountered_files_b } = old_state
-	const encountered_files: State['encountered_files'] = {}
+	const encountered_files: { [oldest_hash: string]: Immutable<FileNotes> } = {}
 	state = {
 		...state,
 		encountered_files,
@@ -125,7 +124,7 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, file_states: Immutable<FileState>[]): Immutable<State> {
 	logger.trace(`${LIB} on_exploration_done_merge_new_and_recovered_notes(…)`, { })
 
-	const encountered_files: State['encountered_files'] = { ...state.encountered_files }
+	const encountered_files: { [oldest_hash: string]: Immutable<FileNotes> } = { ...state.encountered_files }
 
 	file_states.forEach(file_state => {
 		let hash = get_hash(file_state)
@@ -220,7 +219,7 @@ export function to_string(state: Immutable<State>): string {
 		const notes = encountered_files[hash]
 		str += `\n📄 notes: ${hash}: ` + notes_to_string(notes)
 
-		//str += '\n    TODO old hashes'
+		//str += '\n    old hashes'
 	})
 
 	return str
@@ -231,7 +230,7 @@ function notes_to_string(notes: Immutable<FileNotes>): string {
 
 	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(
 		[
-			notes.original.closest_parent_with_date_hint,
+			notes.original.parent_path,
 			notes.original.basename,
 		].filter(e => !!e).join('/')
 	)}" 📅(fs)${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.birthtime_ms, 'tz:auto'), 'tz:embedded')}`

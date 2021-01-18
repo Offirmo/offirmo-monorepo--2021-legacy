@@ -64,7 +64,7 @@ export function get_params(): Params {
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 01`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- TEST photos sorter/- sorted`), // TEST don't commit
 
-		...(false // XXX true = local execution on Offirmo's machine, don't commit "true"
+		...(false // XXX true = local execution on Offirmo's machine, XXX don't commit "true"
 			? {
 					//dry_run: true,
 					dry_run: false,
@@ -89,7 +89,7 @@ export function get_params(): Params {
 			'.mp4',
 			'.pdf',
 			'.png',
-			'.psp', // photoshop I believe, seen screens from Warcraft III are in this format XXX TODO review
+			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
 			'.tga', // WoW
 			'.bmp',
 

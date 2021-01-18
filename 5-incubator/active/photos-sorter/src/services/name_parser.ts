@@ -1,3 +1,4 @@
+import { sep as PATH_SEPARATOR } from 'path'
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { Immutable } from '@offirmo-private/ts-types'
@@ -25,7 +26,7 @@ import {
 	create_better_date,
 } from './better-date'
 import logger from './logger'
-import { Basename } from '../types'
+import { Basename, RelativePath } from '../types'
 
 
 export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
@@ -729,6 +730,22 @@ export function is_normalized_media_basename(base: Basename): boolean {
 	//console.log('is_normalized_media_basename()', { base, dp })
 
 	if (!dp.startsWith('MMxxxx-xx-xx_xxhxx'))
+		return false
+
+	return true
+}
+
+export function is_normalized_event_folder(relpath: RelativePath): boolean {
+	const splitted = relpath.split(PATH_SEPARATOR)
+	if (splitted.length !== 2) return false
+
+	if (!is_year(splitted[0])) return false
+
+	const dp = get_digit_pattern(splitted[1])
+	if (!dp.startsWith('xxxxxxxx - '))
+		return false
+
+	if (!is_YYYYMMDD(splitted[1].slice(0, 8)))
 		return false
 
 	return true

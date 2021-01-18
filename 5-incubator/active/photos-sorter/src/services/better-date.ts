@@ -182,7 +182,6 @@ export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:aut
 export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, better_tz?: TimeZone): BetterDate {
 	let _lx: LuxonDateTime = exif_date.toDateTime()
 
-	//assert(exif_date.hasZone, 'exif date has zone?') // XXX
 	if (!exif_date.hasZone) {
 		assert(!better_tz, 'create_better_date_from_ExifDateTime() tz suggested with no tz embedded = ???')
 		let tz: TimeZone = get_default_timezone(_lx.toMillis())

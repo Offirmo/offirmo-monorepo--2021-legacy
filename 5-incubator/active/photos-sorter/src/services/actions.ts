@@ -375,7 +375,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 					db = DB.on_file_moved(db, id, target_id)
 				} catch (err) {
 					if (err.message.includes('Source and destination must not be the same')) {
-						// this happens for unicode normalization or case-sensitivity reasons
+						// this may happens for unicode normalization or case-sensitivity of the underlying FS
 						assert(NORMALIZERS.normalize_unicode(id.toLowerCase()) === NORMALIZERS.normalize_unicode(target_id.toLowerCase()), 'expecting real identity')
 						const intermediate_target_id = path.join(target_folder, File.get_ideal_basename(current_file_state, { copy_marker: 'temp' }))
 						const intermediate_target_abs_path = DB.get_absolute_path(db, intermediate_target_id)
@@ -462,15 +462,14 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				const current_exif_data: any = file_state.current_exif_data
 				// https://www.impulseadventure.com/photo/exif-orientation.html
 				if (current_exif_data.Orientation > 1) {
-					// TODO one day NOTE will need hash chaining
 					// https://www.impulseadventure.com/photo/lossless-rotation.html
-					logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
-					/*if (PARAMS.dry_run) {
+					if (PARAMS.dry_run) {
 						logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
 					}
 					else {
-						logger.error('TODO losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
-					}*/
+						logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
+						// TODO one day NOTE will need hash chaining
+					}
 				}
 			}
 
@@ -518,8 +517,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			on_task_finished(TASK_ID)
 		}
 	}
-
-	//TODO leave undated files in event folder
 
 ////////////////////////////////////
 
