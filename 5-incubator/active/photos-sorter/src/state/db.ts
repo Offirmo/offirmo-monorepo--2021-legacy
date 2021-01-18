@@ -48,6 +48,7 @@ export interface State {
 	}
 
 	queue: Action[],
+	notes_save_required: boolean // TODO finish implementation
 
 	_optim: {
 	}
@@ -317,9 +318,11 @@ export function create(root: AbsolutePath): Immutable<State> {
 		extra_notes: Notes.create('substate'),
 		folders: {},
 		files: {},
-		queue: [],
 
 		encountered_hash_count: {},
+
+		queue: [],
+		notes_save_required: false,
 
 		_optim: {
 		}
@@ -652,12 +655,10 @@ function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<S
 		// TODO hinted_date_from_neighbours
 	})*/
 
-	// since we updated the notes, time for a save
-	// (see later)
-
 	return {
 		...state,
 		extra_notes,
+		notes_save_required: true,
 	}
 }
 function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<State>): Immutable<State> {

@@ -8,7 +8,7 @@ import { exiftool } from 'exiftool-vendored'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { checkPathsSync as throw_if_identical_sync } from 'fs-extra/lib/util/stat.js'
 
-import { AbsolutePath, RelativePath } from '../types'
+import { AbsolutePath, Basename, RelativePath } from '../types'
 import { NOTES_BASENAME } from '../consts'
 import { get_params } from '../params'
 
@@ -24,6 +24,8 @@ import { get_fs_stats_subset } from './fs'
 import get_file_hash from './hash'
 import { is_normalized_media_basename } from './name_parser'
 import { FolderId } from '../state/folder'
+import { FileId } from '../state/file'
+import { number } from 'prop-types'
 
 function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boolean {
 	// abusing an internal non-documented function of fs-extra
@@ -36,6 +38,13 @@ function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boo
 			return true
 	}
 	return false
+}
+
+const _report = {
+	file_deletions: [] as FileId[],
+	file_renamings: {} as { [k: string]: Basename },
+	file_moves: {} as { [k: string]: FolderId },
+	error_count: 0,
 }
 
 export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>): Promise<Immutable<State>> {
@@ -76,6 +85,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	const TASK_ID = 'other'
 
 	function _on_error(TASK_ID: string, err: Error, details: any): void {
+		_report.error_count++
 		logger.error(`Error when processing task "${TASK_ID}"`, { err, ...details })
 	}
 
@@ -255,6 +265,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
 
+			_report.file_deletions.push(id)
 			if (PARAMS.dry_run) {
 				logger.info('DRY RUN would have deleted file ' + abs_path)
 			}
@@ -368,6 +379,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 			else {
 				console.log(`about to rename/move "${id}" to "${target_id}"…`)
+				if (File.get_current_basename(current_file_state) !== target_basename)
+					_report.file_renamings[id] = target_basename
+				if (File.get_current_parent_folder_id(current_file_state) !== target_folder)
+					_report.file_moves[id] = target_folder
+
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				const abs_path_target = DB.get_absolute_path(db, target_id)
 				try {
@@ -382,6 +398,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 						fs_extra.moveSync(abs_path_current, intermediate_target_abs_path)
 						fs_extra.moveSync(intermediate_target_abs_path, abs_path_target)
 						db = DB.on_file_moved(db, id, target_id)
+						if (File.get_current_basename(current_file_state) !== target_basename)
+							_report.file_renamings[id] = target_basename
+						if (File.get_current_parent_folder_id(current_file_state) !== target_folder)
+							_report.file_moves[id] = target_folder
 					}
 					else {
 						logger.error('norm: #3 error', {
@@ -608,4 +628,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	return db
+}
+
+export function get_report_to_string(): string {
+	return JSON.stringify(_report)
 }

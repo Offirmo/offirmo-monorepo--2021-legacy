@@ -16,7 +16,7 @@ logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
 
 
 async function sort_all_medias() {
-	const up_to = 'move' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move'
+	const up_to = 'move' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move' | 'cleanup'
 
 	let db = DB.create(PARAMS.root)
 
@@ -39,7 +39,7 @@ async function sort_all_medias() {
 
 		////////// WRITE ////////////
 
-		logger.group('******* STARTING IN-PLACE CLEANUP PHASE *******')
+		logger.group('******* STARTING DE-DUPLICATION PHASE *******')
 		db = DB.clean_up_duplicates(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		assert(DB.get_pending_actions(db).length === 0, 'eq 3')
@@ -59,13 +59,17 @@ async function sort_all_medias() {
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		db = DB.move_all_files_to_their_ideal_location(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
+		logger.groupEnd()
+		if (up_to === 'move') return
 
+		logger.group('******* STARTING FINAL CLEANUP PHASE *******')
 		const max_folder_depth = DB.get_max_folder_depth(db)
 		for(let depth = max_folder_depth; depth >= 0; --depth) {
 			db = DB.delete_empty_folders_recursively(db, depth)
 			db = await exec_pending_actions_recursively_until_no_more(db)
 		}
 		logger.groupEnd()
+		if (up_to === 'cleanup') return
 	})()
 
 	logger.verbose('Sort up to: "' + up_to + '" done.')

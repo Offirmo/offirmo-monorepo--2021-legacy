@@ -33,7 +33,7 @@ import {
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
 
-// Data that we modified (or plan to)
+// Data that we'll destroy/modify but is worth keeping
 export interface OriginalData {
 	// from path
 	basename: Basename
@@ -52,7 +52,7 @@ export interface OriginalData {
 // notes contain infos that can't be preserved inside the file itself
 // but that neel to be preserved across invocations
 export interface PersistedNotes {
-	currently_known_as: Basename | null // not really used, intended at humans reading the notes
+	currently_known_as: Basename | null // not strictly useful, intended at humans reading the notes manually
 	deleted: undefined | boolean // TODO
 	starred: undefined | boolean // TODO
 	original: OriginalData

@@ -45,7 +45,7 @@ import { is_normalized_media_basename } from '../services/name_parser'
 
 /////////////////////
 
-describe(`${LIB} - file state`, function() {
+describe(`${LIB} - file (state)`, function() {
 	const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
 	const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
 

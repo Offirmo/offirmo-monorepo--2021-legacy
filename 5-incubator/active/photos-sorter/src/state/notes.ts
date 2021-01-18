@@ -19,12 +19,14 @@ import {
 import { is_normalized_media_basename } from '../services/name_parser'
 import { get_params } from '../params'
 
-
 ////////////////////////////////////
 
 const LIB = '📃'
 const SCHEMA_VERSION = 1
 
+// DESIGN NOTE: the idea is to NOT have a duplication of info
+// However since we don't control the order of file discovery in the explore phase,
+// there'll be a temporary redundancy which will be corrected in the consolidation phase
 export interface State extends BaseState, WithLastUserActionTimestamp {
 	_comment: string
 	encountered_files: { [oldest_hash: string]: FileNotes }
@@ -104,18 +106,22 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 	])
 
 	encountered_files_hashes.forEach(hash => {
-		const notes: Array<Immutable<FileNotes> | undefined> = []
+		const raw_notes: Array<Immutable<FileNotes> | undefined> = []
 
-		notes.push(encountered_files_a[hash])
-		notes.push(encountered_files_b[hash])
+		raw_notes.push(encountered_files_a[hash])
+		raw_notes.push(encountered_files_b[hash])
 		while (state.known_modifications_new_to_old[hash]) {
 			hash = state.known_modifications_new_to_old[hash]
-			notes.push(encountered_files_a[hash])
-			notes.push(encountered_files_b[hash])
+			raw_notes.push(encountered_files_a[hash])
+			raw_notes.push(encountered_files_b[hash])
 		}
 
-		const final_note = merge_notes(...notes.filter(n => !!n) as Array<Immutable<FileNotes>>)
-		encountered_files[hash] = final_note
+		const notes = raw_notes.filter(n => !!n) as Array<Immutable<FileNotes>>
+		const final_notes = notes.length === 1
+			? notes[0]
+			: merge_notes(...notes)
+
+		encountered_files[hash] = final_notes
 	})
 
 	return state
@@ -143,8 +149,8 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 			}
 			encountered_files[hash] = fresh_notes
 		} else {
-			// merge with oldest having priority = at the end
-			encountered_files[hash] = merge_notes(fresh_notes, old_notes)
+			// merge with oldest having priority = at the beginning
+			encountered_files[hash] = merge_notes(old_notes, fresh_notes)
 		}
 
 		if (get_params().is_perfect_state) {
