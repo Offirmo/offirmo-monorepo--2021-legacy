@@ -8,6 +8,17 @@
 
 * info should never be redundant, should have a single place
 * allow dry run
+* sorted into <YYYY>/<YYYYMMDD - name>/<MMYYYYMMMD-...>
+
+Date algorithm:
+1. Manual, if present
+1. EXIF if present
+1. basename
+1. FS but ONLY IF CONFIRMED by other hints
+
+Date will always be improved by FS if the FS matches
+
+
 
 ### Phases
 1. **exploration** the file system will be recursively explored at the given location

@@ -6,17 +6,17 @@ import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
+import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
+import { get_params, Params } from '../params'
 import { is_year, is_compact_date } from '../services/matchers'
 import { parse as parse_basename, ParseResult } from '../services/name_parser'
-import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
-import * as File from './file'
 import logger from '../services/logger'
 import { get_compact_date, add_days_to_simple_date } from '../services/better-date'
+import * as File from './file'
 
 ////////////////////////////////////
 
 const LIB = '📂'
-
 
 export const Type = Enum(
 	'root',
@@ -158,7 +158,7 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 	return state
 }
 
-export function on_dated_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
+export function on_dated_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_dated_subfile_found(…)`, { file_id: file_state.id })
 
 	if (state.type !== Type.event)
@@ -182,8 +182,7 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 		? Math.max(state.end_date_symd, file_compact_date)
 		: file_compact_date
 
-	const MAX_EVENT_DURATION_IN_DAYS = 28
-	const capped_end_date = add_days_to_simple_date(new_start_date, MAX_EVENT_DURATION_IN_DAYS)
+	const capped_end_date = add_days_to_simple_date(new_start_date, PARAMS.max_event_duration_in_days)
 	if (new_end_date > capped_end_date) {
 		// range too big, unlikely to be an event
 		if (!is_current_basename_intentful(state)) {
@@ -200,7 +199,7 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 		else {
 			new_end_date = capped_end_date
 			logger.info(
-				`${LIB} folder: date range too big but intentful: capping end_date_symd at +${MAX_EVENT_DURATION_IN_DAYS}`, {
+				`${LIB} folder: date range too big but intentful: capping end_date_symd at +${PARAMS.max_event_duration_in_days}d`, {
 					id: state.id,
 					file_id: file_state.id,
 					file_compact_date,

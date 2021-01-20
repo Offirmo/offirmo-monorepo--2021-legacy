@@ -197,7 +197,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	}
 
 	// file is a media
-	if (!File.get_confidence_in_date(file_state)) {
+	if (!File.is_confident_in_date(file_state)) {
 		if (is_top_parent_special)
 			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 		else

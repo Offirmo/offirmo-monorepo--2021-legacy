@@ -224,6 +224,29 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 	}
 }
 
+export function create_better_date_from_simple(simple_date: SimpleYYYYMMDD, tz: 'tz:auto'): BetterDate {
+	let day = simple_date % 100
+	let month = Math.trunc(simple_date / 100) % 100
+	let year = Math.trunc(simple_date / 10000)
+
+	const date = create_better_date_obj({
+		year,
+		month,
+		day,
+		tz,
+	})
+	date._debug = {
+		'create_better_date_from_simple': {
+			simple_date,
+			year,
+			month,
+			day,
+			tz,
+		}
+	}
+	return date
+}
+
 export function create_better_date(
 	tz: TimeZone | 'tz:auto',
 	year?: number,
@@ -234,7 +257,7 @@ export function create_better_date(
 	second?: number,
 	milli?: number,
 ): BetterDate {
-	return create_better_date_obj({
+	const date = create_better_date_obj({
 		year,
 		month,
 		day,
@@ -244,6 +267,19 @@ export function create_better_date(
 		milli,
 		tz,
 	})
+	date._debug = {
+		'create_better_date': {
+			year,
+			month,
+			day,
+			hour,
+			minute,
+			second,
+			milli,
+			tz,
+		}
+	}
+	return date
 }
 
 export function create_better_date_obj({

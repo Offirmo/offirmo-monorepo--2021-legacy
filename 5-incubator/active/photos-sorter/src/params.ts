@@ -23,6 +23,7 @@ export interface Params {
 	YYYY_upper_bound: number
 	date_lower_bound: SimpleYYYYMMDD
 	date_upper_bound: SimpleYYYYMMDD
+	max_event_duration_in_days: number
 	extensions_to_normalize: { [k: string]: string } // todo runtime check LCase
 	media_files_extensions: string[] // todo runtime check normalized
 	extensions_to_delete: string[] // todo runtime check normalized
@@ -53,6 +54,7 @@ assert(YYYY_UPPER_BOUND >= YYYY_LOWER_BOUND, 'higher > lower')
 const DATE_LOWER_BOUND: SimpleYYYYMMDD = (YYYY_LOWER_BOUND * 10000) + 101
 const DATE_UPPER_BOUND: SimpleYYYYMMDD = (YYYY_UPPER_BOUND * 10000) + 102 // photos taken "next" year can only happen during new year eve
 
+const MAX_EVENT_DURATION_IN_DAYS = 28
 
 export function get_params(): Params {
 	return {
@@ -60,6 +62,7 @@ export function get_params(): Params {
 		YYYY_upper_bound: YYYY_UPPER_BOUND,
 		date_lower_bound: DATE_LOWER_BOUND,
 		date_upper_bound: DATE_UPPER_BOUND,
+		max_event_duration_in_days: MAX_EVENT_DURATION_IN_DAYS,
 
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 01`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- TEST photos sorter/- sorted`), // TEST don't commit

@@ -21,6 +21,7 @@ import {
 	create_better_date_from_ExifDateTime,
 	change_tz,
 	create_better_date_from_utc_tms,
+	create_better_date_from_simple,
 	create_better_date_obj,
 
 	expectㆍbetter_dateㆍdeepㆍequal,
@@ -255,6 +256,13 @@ describe('Better Date', function() {
 
 	describe('factories', function() {
 
+		describe('create_better_date_from_simple()', function () {
+
+			it('should work', () => {
+				const bd1 = create_better_date_from_simple(20000101, 'tz:auto')
+				expect(get_human_readable_timestamp_auto(bd1, 'tz:embedded')).to.equal('2000-01-01')
+			})
+		})
 	})
 
 	describe('reducers', function() {

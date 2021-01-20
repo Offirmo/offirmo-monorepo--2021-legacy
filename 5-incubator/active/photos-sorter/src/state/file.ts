@@ -31,7 +31,7 @@ import {
 	get_human_readable_timestamp_auto,
 	get_compact_date,
 	create_better_date_from_utc_tms,
-	create_better_date_from_ExifDateTime, get_timestamp_utc_ms_from,
+	create_better_date_from_ExifDateTime, get_timestamp_utc_ms_from, create_better_date_from_simple,
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
 
@@ -40,7 +40,7 @@ export interface OriginalData {
 	// from path
 	basename: Basename
 	parent_path: RelativePath // useful to manually re-sort in multi-level folder cases
-	hinted_date_range_from_neighbours?: [ SimpleYYYYMMDD, SimpleYYYYMMDD ], // TODO only if not confident + parent was originally an event = start date of parent
+	date_range_hint_from_reliable_neighbours?: [ SimpleYYYYMMDD, SimpleYYYYMMDD ], // TODO only if not confident + parent was originally an event = start date of parent
 
 	// from fs
 	// we should always store it in case it changes for some reason
@@ -69,6 +69,7 @@ export interface State {
 	current_exif_data: undefined | null | EXIFTags // can be null if no EXIF for this format
 	current_fs_stats: undefined | FsStatsSubset // can't be null, is always a file
 	current_hash: undefined | FileHash // can't be null, always a file
+	current_date_range_hint_from_reliable_neighbours: undefined | null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] // can be null if no reliable neighbours
 
 	notes_restored: boolean
 	notes: PersistedNotes
@@ -125,19 +126,21 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 
 export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>): boolean {
 	// TODO optim if name = canonical
+
 	return ( state.notes_restored
 			&& (is_exif_powered_media_file(state) ? state.current_exif_data !== undefined : true)
 			&& state.current_fs_stats !== undefined
 			&& state.current_hash !== undefined
+			//&& state.current_date_range_hint_from_reliable_neighbours !== undefined XXX don't merge
 		)
 }
 
-function _get_creation_date_from_original_basename(state: Immutable<State>): BetterDate | null {
-	return state.memoized.get_parsed_original_basename(state).date || null
-}
-function _get_creation_date_from_original_fs_stats(state: Immutable<State>): TimestampUTCMs {
-	assert(state.current_fs_stats, 'fs stats collected')
-	return state.notes.original.birthtime_ms /* ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)*/
+// primary, in order
+function _get_creation_date_manual(state: Immutable<State>): BetterDate | undefined {
+	if (state.notes.manual_date === undefined)
+		return undefined
+
+	throw new Error('NIMP manual date!')
 }
 function _get_creation_date_from_exif(state: Immutable<State>): ExifDateTime | undefined {
 	const { id, current_exif_data } = state
@@ -173,9 +176,37 @@ function _get_creation_tz_from_exif(state: Immutable<State>): TimeZone | undefin
 		throw err
 	}
 }
+function _get_creation_date_from_original_basename(state: Immutable<State>): BetterDate | null {
+	if (is_normalized_media_basename(get_oldest_basename(state)))
+		return null // definitely not the original basename
 
+	return state.memoized.get_parsed_original_basename(state).date || null
+}
+function _get_creation_date_from_original_fs_stats(state: Immutable<State>): TimestampUTCMs {
+	assert(state.current_fs_stats, 'fs stats collected')
+	return state.notes.original.birthtime_ms /* ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)*/
+}
+// secondary
+function _get_creation_date_from_original_parent_folder(state: Immutable<State>): BetterDate | null {
+	let dir = state.notes.original.parent_path
+	while (dir) {
+		const parsed = path.parse(dir)
+		const parsed_basename = parse_basename(parsed.base)
+		if (parsed_basename.date) {
+			return parsed_basename.date
+		}
+		dir = parsed.dir
+	}
 
-function _get_creation_date_from_parent_name(state: Immutable<State>): BetterDate | null {
+	return null
+}
+function _get_creation_date_range_of_original_reliable_neighbours(state: Immutable<State>): null | [ BetterDate, BetterDate] {
+	const symd_range = state.notes.original.date_range_hint_from_reliable_neighbours
+	if (!symd_range) return null
+
+	return symd_range.map(symd => create_better_date_from_simple(symd, 'tz:auto')) as any
+}
+function _get_creation_date_from_any_current_parent_folder(state: Immutable<State>): BetterDate | null {
 	let dir = get_current_parent_folder_id(state)
 	while (dir) {
 		const parsed = path.parse(dir)
@@ -188,76 +219,93 @@ function _get_creation_date_from_parent_name(state: Immutable<State>): BetterDat
 
 	return null
 }
+function _get_creation_date_range_of_current_reliable_neighbours(state: Immutable<State>): null | [ BetterDate, BetterDate] {
+	const symd_range = state.current_date_range_hint_from_reliable_neighbours
+	if (!symd_range) return null
+
+	return symd_range.map(symd => create_better_date_from_simple(symd, 'tz:auto')) as any
+}
+// all together
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
+export type DateConfidence = 'primary' | 'secondary' | 'junk'
 interface BestDate {
 	candidate: BetterDate
-	source: 'original_basename' | 'exif' | 'original_fs',
-	confidence: boolean
-	//is_fs_reliable: boolean
-	is_matching_fs: undefined | boolean
+	source:
+		// primary
+		| 'manual'
+		| 'exif'
+		| 'original_basename'| 'original_basename+fs'
+		| 'original_fs+original_hints'
+		// secondary
+		| 'original_fs+current_hints'
+		| 'current_hints'
+		// junk
+		| 'original_fs'
+	confidence: DateConfidence // TODO redundant with source?
+	is_fs_matching: undefined | boolean // TODO useful?
 }
-export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
+export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): BestDate {
 	logger.trace('get_best_creation_date_meta()', { id: state.id })
+
 	if (!has_all_infos_for_extracting_the_creation_date(state)) {
 		logger.error('has_all_infos_for_extracting_the_creation_date() !== true', state)
 		assert(false, 'has_all_infos_for_extracting_the_creation_date() === true')
 	}
 
-	const from_original_basename: BetterDate | null = _get_creation_date_from_original_basename(state)
-	//console.log({ from_original_basename })
-
-	const from_original_fs = create_better_date_from_utc_tms(_get_creation_date_from_original_fs_stats(state), 'tz:auto')
-
-	// even if we have a date from name,
-	// the exif or fs may be more precise,
-	// so let's continue
+	const date__from_original_fs = create_better_date_from_utc_tms(_get_creation_date_from_original_fs_stats(state), 'tz:auto')
 
 	const result: BestDate = {
-		candidate: from_original_basename || from_original_fs,
-		source: from_original_basename ? 'original_basename' : 'original_fs',
-		confidence: from_original_basename ? !is_normalized_media_basename(get_oldest_basename(state)) : false,
-		//is_fs_reliable: false, // TODO one day
-		is_matching_fs: undefined, // so far
+		candidate: date__from_original_fs,
+		source: 'original_fs',
+		confidence: 'junk',
+		is_fs_matching: undefined, // so far
 	}
 
+	/////// PRIMARY SOURCES ///////
+
+	// the strongest indicator = explicit user's will
+	const date__manual = _get_creation_date_manual(state)
+	if (date__manual) {
+		throw new Error('NIMP!')
+	}
+
+	// some good cameras put the date in the file name
+	// however it's usually only precise up to the day,
+	// so we'll try to get a more precise one from EXIF or FS if matching
+	const date__from_original_basename: BetterDate | null = _get_creation_date_from_original_basename(state)
+
+	// strongest source after "manual"
 	const _from_exif: ExifDateTime | undefined = _get_creation_date_from_exif(state)
 	const _from_exif__tz = _get_creation_tz_from_exif(state)
-	const from_exif: BetterDate | undefined = _from_exif
+	const date__from_exif: BetterDate | undefined = _from_exif
 		? create_better_date_from_ExifDateTime(_from_exif, _from_exif__tz)
 		: undefined
-
-	if (from_exif) {
+	if (date__from_exif) {
 		// best situation, EXIF is the most reliable
-		result.candidate = from_exif
+		result.candidate = date__from_exif
 		result.source = 'exif'
-		result.confidence = true
-		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_original_fs) - get_timestamp_utc_ms_from(from_exif)) < DAY_IN_MILLIS
+		result.confidence = 'primary'
+		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_original_fs) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
 
-		if (from_original_basename) {
-			const auto_from_basename = get_human_readable_timestamp_auto(from_original_basename, 'tz:embedded')
-			const auto_from_exif = get_human_readable_timestamp_auto(from_exif, 'tz:embedded')
+		if (date__from_original_basename) {
+			const auto_from_basename = get_human_readable_timestamp_auto(date__from_original_basename, 'tz:embedded')
+			const auto_from_exif = get_human_readable_timestamp_auto(date__from_exif, 'tz:embedded')
 
 			if (auto_from_exif.startsWith(auto_from_basename)) {
 				// perfect match + EXIF more precise
-				return result
 			}
-
-			// no match
-			// date from EXIF is the most reliable
-			// (TODO review. should basename have priority?)
-
-			if (Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_original_basename)) <= DAY_IN_MILLIS) {
-				// good enough
+			else if (Math.abs(get_timestamp_utc_ms_from(date__from_original_basename) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS) {
+				// good enough, keep EXIF
 			}
 			else {
-				// this is suspicious
+				// this is suspicious, report it
 				logger.warn(`get_best_creation_date_meta() EXIF/basename discrepancy`, {
 					basename: get_oldest_basename(state),
-					diff: Math.abs(get_timestamp_utc_ms_from(from_exif) - get_timestamp_utc_ms_from(from_original_basename)),
+					diff: Math.abs(get_timestamp_utc_ms_from(date__from_exif) - get_timestamp_utc_ms_from(date__from_original_basename)),
 					id: state.id,
-					//from_original_basename,
+					//date__from_original_basename,
 					auto_from_basename,
-					//from_exif,
+					//date__from_exif,
 					auto_from_exif,
 				})
 			}
@@ -266,66 +314,94 @@ export function get_best_creation_date_meta(state: Immutable<State>): BestDate {
 		return result
 	}
 
-	if (from_original_basename) {
-		// second most authoritative source
-		const auto_from_basename = get_human_readable_timestamp_auto(from_original_basename, 'tz:embedded')
-
-		result.candidate = from_original_basename
+	// second most authoritative source
+	if (date__from_original_basename) {
+		result.candidate = date__from_original_basename
 		result.source = 'original_basename'
-		result.confidence = (() => {
-			// We mostly trust the embedded date
-			// TODO if already normalized, untrust?
-			// is_normalized_media_basename(get_oldest_basename(state))
-			return true
-		})()
-		result.is_matching_fs = Math.abs(get_timestamp_utc_ms_from(from_original_fs) - get_timestamp_utc_ms_from(from_original_basename)) < DAY_IN_MILLIS
+		result.confidence = 'primary'
+		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_original_fs) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
 
-		const auto_from_fs = get_human_readable_timestamp_auto(from_original_fs, 'tz:embedded')
+		const auto_from_basename = get_human_readable_timestamp_auto(date__from_original_basename, 'tz:embedded')
+		const auto_from_fs = get_human_readable_timestamp_auto(date__from_original_fs, 'tz:embedded')
 		if (auto_from_fs.startsWith(auto_from_basename)) {
-			// correlation OK
-			// TODO later when fixing fsstats, don't trust if already normalized
-			result.candidate = from_original_fs // more precise
-			result.confidence = true
-			return result
+			// perfect match, switch to FS more precise
+			result.source = 'original_basename+fs'
+			result.candidate = date__from_original_fs
 		}
-
-		if (!result.is_matching_fs) {
-			// this is suspicious
-			result.confidence = false
-			logger.warn('basename/fs dates discrepancy', {
-				id: state.id,
-				//from_original_basename,
-				auto_from_basename,
-				auto_from_fs,
-				diff: Math.abs(get_timestamp_utc_ms_from(from_original_fs) - get_timestamp_utc_ms_from(from_original_basename)),
-			})
-			// TODO log inside file
+		else if (result.is_fs_matching) {
+			// good enough, switch to FS more precise
+			result.source = 'original_basename+fs'
+			result.candidate = date__from_original_fs
+		}
+		else {
+			// FS is notoriously unreliable, don't care
 		}
 
 		return result
 	}
 
-	// fs is really unreliable so we attempt to take hints from the parent folder if available
-	result.candidate = from_original_fs
-	result.source = 'original_fs'
-	result.confidence = false
-	result.is_matching_fs = true
-	const from_parent = _get_creation_date_from_parent_name(state)
-	if (from_parent) {
-		const auto_from_parent = get_human_readable_timestamp_auto(from_parent, 'tz:embedded')
-		const auto_from_fs = get_human_readable_timestamp_auto(from_original_fs, 'tz:embedded')
-		if (auto_from_fs.startsWith(auto_from_parent.slice(0, 7))) {
-			// correlation OK
-			result.confidence = true
+	// finally, FS is ok if confirmed by some primary hints
+	const date__from_original_parent_folder = _get_creation_date_from_original_parent_folder(state)
+	const date_range__hinted_from_original_primary_neighbours = _get_creation_date_range_of_original_reliable_neighbours(state)
+	const is_fs_confirmed_by_other_hints: boolean = (() => {
+		const tms__from_original_fs = get_timestamp_utc_ms_from(date__from_original_fs)
+
+		if (date__from_original_parent_folder) {
+			const tms___from_original_parent_folder = get_timestamp_utc_ms_from(date__from_original_parent_folder)
+
+			if (tms__from_original_fs >= tms___from_original_parent_folder
+				&& tms__from_original_fs < (tms___from_original_parent_folder + PARAMS.max_event_duration_in_days * DAY_IN_MILLIS)) {
+				return true
+			}
 		}
-		else if (auto_from_fs.startsWith(auto_from_parent.slice(0, 4))) {
-			// parent hint is less authoritative, we make a trade off here bc fs seems to match
-			// ok but confidence stays low
-		} else {
-			logger.warn('Too big discrepancy between fs and parent hint = dangerous!')
-			// confidence stays low
+
+		if (date_range__hinted_from_original_primary_neighbours) {
+			throw new Error('NIMP!')
 		}
+
+		return false
+	})()
+	if (is_fs_confirmed_by_other_hints) {
+		result.candidate = date__from_original_fs
+		result.source = 'original_fs+original_hints'
+		result.confidence = 'primary'
+		result.is_fs_matching = true
+		return result
 	}
+
+	/////// SECONDARY SOURCES ///////
+
+	const date__from_any_parent_folder = _get_creation_date_from_any_current_parent_folder(state)
+	if (date__from_any_parent_folder) {
+		// weak source
+		result.candidate = date__from_any_parent_folder
+		result.source = 'current_hints'
+		result.confidence = 'secondary'
+		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_original_fs) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
+
+		const tms__from_original_fs = get_timestamp_utc_ms_from(date__from_original_fs)
+		const tms__from_any_parent_folder = get_timestamp_utc_ms_from(date__from_any_parent_folder)
+
+		if (tms__from_original_fs >= tms__from_any_parent_folder
+			&& tms__from_original_fs < (tms__from_any_parent_folder + PARAMS.max_event_duration_in_days * DAY_IN_MILLIS)) {
+			result.candidate = date__from_original_fs
+			result.source = 'original_fs+current_hints'
+		}
+
+		return result
+	}
+
+	const date_range__from_current_neighbours = _get_creation_date_range_of_current_reliable_neighbours(state)
+	if (date_range__from_current_neighbours) {
+		// cross-check with fs
+		throw new Error('NIMP')
+	}
+
+	/////// JUNK SOURCE ///////
+
+	// still the starting default
+	assert(result.candidate === date__from_original_fs)
+	assert(result.confidence === 'junk')
 
 	return result
 }
@@ -343,18 +419,19 @@ export function get_best_creation_year(state: Immutable<State>): number {
 	return Math.trunc(get_best_creation_date_compact(state) / 10000)
 }
 
-export function get_confidence_in_date(state: Immutable<State>): boolean {
+export function is_confident_in_date(state: Immutable<State>): boolean {
 	const meta = get_best_creation_date_meta(state)
 	const { confidence } = meta
 
-	if (!confidence) {
+	if (confidence !== 'primary') {
 		logger.warn(`get_confidence_in_date() low confidence`, {
 			id: state.id,
 			...meta,
 		})
+		return false
 	}
 
-	return confidence
+	return true
 }
 
 export function get_ideal_basename(state: Immutable<State>, {
@@ -453,6 +530,7 @@ export function create(id: FileId): Immutable<State> {
 		current_exif_data: undefined,
 		current_fs_stats: undefined,
 		current_hash: undefined,
+		current_date_range_hint_from_reliable_neighbours: undefined,
 
 		notes_restored: false,
 		notes: {

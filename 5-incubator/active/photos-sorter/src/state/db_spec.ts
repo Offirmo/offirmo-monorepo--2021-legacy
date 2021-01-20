@@ -211,7 +211,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal(file_basename) // THIS TEST
-						expect(File.get_confidence_in_date(state.files[file_id])).to.be.false // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 							Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
@@ -242,7 +242,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal(file_basename) // THIS TEST
-						expect(File.get_confidence_in_date(state.files[file_id])).to.be.false // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 							Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
@@ -273,7 +273,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal(file_basename) // THIS TEST
-						expect(File.get_confidence_in_date(state.files[file_id])).to.be.false // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 							Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
@@ -312,7 +312,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// normalization in-place
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal(file_basename) // THIS TEST
-						expect(File.get_confidence_in_date(state.files[file_id])).to.be.true // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
 
 						// stable
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
@@ -348,7 +348,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// normalization in-place is a prerequisite
 						expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(file_basename) // THIS TEST
-						expect(File.get_confidence_in_date(state.files[file_id])).to.be.true // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
 
 						state = normalize_medias_in_place(state)
 						const expected_next_id = path.join(file_parent__year, file_parent__event, File.get_ideal_basename(state.files[file_id]))
@@ -390,7 +390,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// normalization in-place
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal(file_basename) // THIS TEST
-						expect(File.get_confidence_in_date(state.files[file_id])).to.be.true // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
 						state = discard_all_pending_actions(state)
 
 						// stable
@@ -430,7 +430,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// normalization in-place = prerequisite
 						expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(file_basename) // THIS TEST
-						expect(File.get_confidence_in_date(state.files[file_id])).to.be.true // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
 						state = normalize_medias_in_place(state)
 						const expected_next_id = path.join(file_parent__1, file_parent__2, File.get_ideal_basename(state.files[file_id]))
 						state = on_file_moved(state, file_id, expected_next_id)
