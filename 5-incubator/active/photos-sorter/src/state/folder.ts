@@ -164,10 +164,8 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 	if (state.type !== Type.event)
 		return state
 
-	const meta = File.get_best_creation_date_meta(file_state)
-	if (!meta.confidence) {
+	if (!File.is_confident_in_date(file_state)) {
 		// low confidence = don't demote the folder for that
-		// TODO improve this heuristic
 		return state
 	}
 

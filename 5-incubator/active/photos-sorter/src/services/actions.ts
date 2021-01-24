@@ -47,6 +47,8 @@ const _report = {
 	error_count: 0,
 }
 
+// TODO add an "enforce stable" mode
+
 export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>): Promise<Immutable<State>> {
 
 	const PARAMS = get_params()

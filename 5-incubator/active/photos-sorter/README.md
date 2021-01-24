@@ -7,6 +7,7 @@
 ### generic principles
 
 * info should never be redundant, should have a single place
+* execution should be stable on subsequent runs, i.e. we don't infer extra data from ourselves (would imply we enriched...)
 * allow dry run
 * sorted into <YYYY>/<YYYYMMDD - name>/<MMYYYYMMMD-...>
 

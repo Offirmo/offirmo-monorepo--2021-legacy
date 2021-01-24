@@ -113,6 +113,11 @@ export function get_human_readable_timestamp_auto(date: Immutable<BetterDate>, t
 	return get_human_readable_timestamp_millis(date, tz)
 }
 
+export function is_auto_precise_to_second(hrts: PhotoSorterTimestampMillis): boolean {
+	// ex. 2017-10-20_05h01m44s625
+	return hrts.length >= 16
+}
+
 export function get_embedded_timezone(date: Immutable<BetterDate>): TimeZone {
 	return date._lx.zone.name
 }

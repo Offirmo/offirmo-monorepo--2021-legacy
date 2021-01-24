@@ -95,9 +95,9 @@
 
 		<!-- the actual app, initially hidden -->
 		<iframe class="o⋄top-container progressive"
-			  importance="high"
-			  loading="eager"
-			  scrolling="no"
+			importance="high"
+			loading="eager"
+			scrolling="no"
 		>
 			<p>Error. Your app should be here.</p>
 			<p>Check your add blocker?</p>
@@ -172,6 +172,7 @@
 		const LS_KEY_CACHED_CONFIG = `XOF.${LIB}.config_cache.url(${state.settings.app_url})`
 
 		/////////////////////
+		// SELECTORS
 
 		function get_load_infos(state) {
 			const rsrc_keys = Object.keys(state.is_rsrc_loaded)
@@ -192,6 +193,7 @@
 		}
 
 		/////////////////////
+		// REDUCERS
 
 		function on_error(state, error) {
 			logger.error('[IL] on error', { error })
@@ -226,6 +228,7 @@
 		}
 
 		/////////////////////
+		// EXPOSE API
 
 		if (window[PROP]) {
 			logger.error('[IL] Error! iframe-loading recursion!')
@@ -268,6 +271,7 @@
 		// TODO favicon?
 
 		/////////////////////
+		// UX
 
 		function render(state, caller) {
 			const elt_iframe = document.getElementsByTagName('iframe')[0]
@@ -406,6 +410,7 @@
 		// PM listener for cross origin sub-frames
 		window.addEventListener('message', ({data, origin, source}) => {
 			if (!data[PROP]) return
+
 			logger.log(`[IL] 📥 PM ["${prop}"] received`, data[PROP])
 			const { method, args } = data[PROP]
 			window[PROP][method](...args)
