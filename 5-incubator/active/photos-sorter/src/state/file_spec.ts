@@ -25,7 +25,12 @@ import {
 
 	on_fs_stats_read,
 	on_exif_read,
-	on_hash_computed, on_notes_recovered, get_best_creation_year, FileId,
+	on_hash_computed,
+	on_notes_recovered,
+	get_best_creation_year,
+	on_reliable_neighbours_range_assessed,
+	FileId,
+	PersistedNotes,
 } from './file'
 import {
 	get_timestamp_utc_ms_from,
@@ -33,7 +38,7 @@ import {
 	get_human_readable_timestamp_auto,
 	get_embedded_timezone,
 	create_better_date, get_exif_datetime,
-	expectㆍbetter_dateㆍdeepㆍequal,
+	assertㆍbetter_dateㆍdeepㆍequal,
 } from '../services/better-date'
 import {
 	MEDIA_DEMO_01_basename,
@@ -42,6 +47,7 @@ import {
 	get_MEDIA_DEMO_02,
 } from '../__test_shared/real_files'
 import { is_normalized_media_basename } from '../services/name_parser'
+import { SimpleYYYYMMDD } from '../types'
 
 /////////////////////
 
@@ -130,171 +136,384 @@ describe(`${LIB} - file (state)`, function() {
 		const BAD_CREATION_DATE_CANDIDATE_RdTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
-		describe('when already normalized', function() {
+		// everything bad / undated by default, so that the tests must override those
+		let parent_folder_name__current = 'foo'
+		let file_basename__current = 'bar.jpg'
+		let date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS // always exist
+		let parent_folder_name__original = parent_folder_name__current
+		let file_basename__original = file_basename__current
+		let date__fs_ms__original = date__fs_ms__current // always exist
+		let date__exif: null | typeof REAL_CREATION_DATE_EXIF = BAD_CREATION_DATE_CANDIDATE_EXIF
+		let notes: null | 'auto' | Immutable<PersistedNotes> = null
+		let hints_from_reliable_neighbours__current: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
+		beforeEach(() => {
+			parent_folder_name__current = 'foo'
+			file_basename__current = 'bar.jpg'
+			date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+			parent_folder_name__original = parent_folder_name__current
+			file_basename__original = file_basename__current
+			date__fs_ms__original = date__fs_ms__current // always exist
+			date__exif = BAD_CREATION_DATE_CANDIDATE_EXIF
+			notes = null
+			hints_from_reliable_neighbours__current = null
+		})
+		function create_test_file_state(): Immutable<State> {
+			let state = create(path.join(parent_folder_name__current, file_basename__current))
 
-			it('should NOT use the current basename date', () => {
-				let state = create(`foo/MM${BAD_CREATION_DATE_CANDIDATE_RdTS}.jpg`)
-				//console.log(state)
-
-				state = on_fs_stats_read(state, {
-					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-					atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				})
-				state = on_exif_read(state, {
-					'CreateDate':        REAL_CREATION_DATE_EXIF,
-				} as Tags)
-				state = on_hash_computed(state, '1234')
-				state = on_notes_recovered(state, null)
-				expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
+			state = on_fs_stats_read(state, {
+				birthtimeMs: date__fs_ms__current,
+				atimeMs:     date__fs_ms__current + 10000,
+				mtimeMs:     date__fs_ms__current + 10000,
+				ctimeMs:     date__fs_ms__current + 10000,
 			})
-
-			it('should prioritize the original basename over the current one', () => {
-				let state = create(
-					`2000/${BAD_CREATION_DATE_CANDIDATE_COMPACT}/MM${BAD_CREATION_DATE_CANDIDATE_COMPACT}.png` // not exif powered
-				)
-
-				state = on_fs_stats_read(state, {
-					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-					atimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					mtimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					ctimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				})
-				/*state = on_exif_read(state, {
-					'CreateDate':        BAD_CREATION_DATE_CANDIDATE_EXIF,
-					'DateTimeOriginal':  BAD_CREATION_DATE_CANDIDATE_EXIF,
-					'DateTimeGenerated': BAD_CREATION_DATE_CANDIDATE_EXIF,
-					'MediaCreateDate':   BAD_CREATION_DATE_CANDIDATE_EXIF,
-				} as Partial<Tags> as any)*/
-				state = on_hash_computed(state, '1234')
-				state = on_notes_recovered(state, {
-					currently_known_as: 'whatever.jpg',
+			if (is_exif_powered_media_file(state)) {
+				state = on_exif_read(state, {
+					...(date__exif && {
+						// may be exif powered without the info we need
+						'CreateDate':        date__exif,
+						'DateTimeOriginal':  date__exif,
+						'DateTimeGenerated': date__exif,
+						'MediaCreateDate':   date__exif,
+					})
+				} as Partial<Tags> as any)
+			}
+			state = on_hash_computed(state, '1234')
+			if (notes === 'auto') {
+				notes = {
+					currently_known_as: file_basename__current,
 					deleted: false,
 					starred: false,
 					manual_date: undefined,
 					original: {
-						basename: 'IMG_20171020_050144625.jpg',
-						parent_path: 'foo',
-						birthtime_ms: REAL_CREATION_DATE_MS,
+						basename: file_basename__original,
+						parent_path: parent_folder_name__original,
+						birthtime_ms: date__fs_ms__original,
 					},
+				}
+			}
+			console.log({
+				parent_folder_name__original,
+				parent_folder_name__current,
+				file_basename__original,
+				file_basename__current,
+				date__fs_ms__original,
+				date__fs_ms__current,
+				date__exif,
+				notes,
+				hints_from_reliable_neighbours__current,
+			})
+			state = on_notes_recovered(state, notes)
+			state = on_reliable_neighbours_range_assessed(state, hints_from_reliable_neighbours__current)
+
+			return state
+		}
+
+		context('when encountering the file for the 1st time == NOT having notes incl. original data', function() {
+
+			// not possible, stupid
+			//describe('when having a manual date'
+
+			context('when having an EXIF date', function() {
+				beforeEach(() => {
+					date__exif = REAL_CREATION_DATE_EXIF
 				})
 
-				expectㆍbetter_dateㆍdeepㆍequal(get_best_creation_date(state), REAL_CREATION_DATE)
+				it('should be prioritised as a primary source', () => {
+					let state = create_test_file_state()
+
+					const bcdm = get_best_creation_date_meta(state)
+					expect(bcdm.source, 'source').to.equal('exif')
+					expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+					expect(bcdm.confidence, 'confidence').to.equal('primary')
+					expect(bcdm.is_fs_matching, 'fs matching').to.be.false
+
+					// final as integration
+					expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+				})
+			})
+
+			context('when NOT having EXIF date', function() {
+				beforeEach(() => {
+					date__exif = null
+				})
+
+				context('when having a date in the basename', function() {
+
+					context('when this basename is NOT normalized', function() {
+						beforeEach(() => {
+							file_basename__current = 'IMG_20171020_0501.jpg'
+						})
+
+						context('when having a matching FS date', function() {
+							beforeEach(() => {
+								date__fs_ms__current = REAL_CREATION_DATE_MS
+							})
+
+							it('should use the basename and enrich it with fs, as primary', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('some_basename_nn+fs')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625.jpg')
+							})
+						})
+
+						context('when NOT having a matching FS date', function() {
+							beforeEach(() => {
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+							})
+
+							it('should use the basename only as primary WITHOUT using fs', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('some_basename_nn')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01')
+								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01.jpg')
+							})
+						})
+					})
+
+					context('when this basename is normalized', function() {
+						beforeEach(() => {
+							file_basename__current = `MM${REAL_CREATION_DATE_RdTS}_hello.jpg`
+						})
+
+						context('when NOT having a matching FS date', function() {
+							beforeEach(() => {
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+							})
+
+							it('should trust the previous run as primary and ignore FS', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('some_basename_normalized')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_hello.jpg')
+							})
+						})
+
+						context('when having a matching FS date', function() {
+							beforeEach(() => {
+								date__fs_ms__current = REAL_CREATION_DATE_MS
+							})
+
+							it('should trust the previous run as primary and ignore FS which cannot give us anything more', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('some_basename_normalized')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_hello.jpg')
+							})
+						})
+					})
+				})
+
+				context('when NOT having a date in the basename', function () {
+
+					context('when having hints -- from parent folder only', function() {
+						beforeEach(() => {
+							parent_folder_name__current = '20171010 - holiday at the beach'
+						})
+
+						context('when FS is matching (date range)', function () {
+							beforeEach(() => {
+								date__fs_ms__current = REAL_CREATION_DATE_MS
+							})
+
+							it('should use FS as primary', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+							})
+						})
+
+						context('when FS is NOT matching', function () {
+							beforeEach(() => {
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+							})
+
+							it('should use parent folder but NOT great confidence', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('env_hints')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-10')
+								expect(bcdm.confidence, 'confidence').to.equal('secondary')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no confidence
+							})
+						})
+					})
+
+					context('when having hints -- from reliable neighbours only', function() {
+						beforeEach(() => {
+							hints_from_reliable_neighbours__current = [ 20171010, 20171022 ]
+						})
+
+						context('when FS is matching (date range)', function () {
+							beforeEach(() => {
+								date__fs_ms__current = REAL_CREATION_DATE_MS
+							})
+
+							it('should use FS as primary', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+							})
+						})
+
+						context('when FS is NOT matching', function () {
+							beforeEach(() => {
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+							})
+
+							it('should default to original FS with lowest confidence', () => {
+								let state = create_test_file_state()
+
+								const bcdm = get_best_creation_date_meta(state)
+								expect(bcdm.source, 'source').to.equal('original_fs')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
+								expect(bcdm.confidence, 'confidence').to.equal('junk')
+								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
+
+								// final as integration
+								expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no confidence
+							})
+						})
+					})
+
+					context('when having NO hints from environment', function() {
+
+						it('should default to original FS with lowest confidence', () => {
+							let state = create_test_file_state()
+
+							const bcdm = get_best_creation_date_meta(state)
+							expect(bcdm.source, 'source').to.equal('original_fs')
+							expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
+							expect(bcdm.confidence, 'confidence').to.equal('junk')
+							expect(bcdm.is_fs_matching, 'fs matching').to.be.true
+
+							// final as integration
+							expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no confidence
+						})
+					})
+				})
 			})
 		})
 
-		describe('when not normalized', function() {
-
-			it('should always prioritise the EXIF data', () => {
-				let state = create('foo/bar.jpg')
-
-				state = on_fs_stats_read(state, {
-					birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-					atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-				})
-				state = on_exif_read(state, {
-					'CreateDate':        REAL_CREATION_DATE_EXIF,
-					'DateTimeOriginal':  REAL_CREATION_DATE_EXIF,
-					'DateTimeGenerated': REAL_CREATION_DATE_EXIF,
-					'MediaCreateDate':   REAL_CREATION_DATE_EXIF,
-				} as Partial<Tags> as any)
-				state = on_hash_computed(state, '1234')
-				state = on_notes_recovered(state, {
-					currently_known_as: 'whatever.jpg',
-					deleted: false,
-					starred: false,
-					manual_date: undefined,
-					original: {
-						basename: 'bar.jpg',
-						parent_path: 'foo',
-						birthtime_ms: BAD_CREATION_DATE_CANDIDATE_MS,
-					},
-				})
-				//console.log({ REAL_CREATION_DATE_RdTS })
-				expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+		context('when encountering the file again == having notes incl. original data', function() {
+			// There are too many cases, we pick only a few notable ones
+			beforeEach(() => {
+				notes = 'auto'
 			})
 
-			context('when no EXIF data', function() {
+			context('when having a manual date', function() {
 
-				it('should prioritize the basename date IF corroborated by sth else', () => {
-					let state = create(`foo/Hello ${REAL_CREATION_DATE_RdTS} foo.png`)
+				it('should have the absolute priority')
+			})
 
-					state = on_fs_stats_read(state, {
-						birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-						atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-						mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-						ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					})
-					//state = on_exif_read(... NO EXIF
-					state = on_hash_computed(state, '1234')
-					state = on_notes_recovered(state, null)
-					expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'tz:embedded').to.equal(REAL_CREATION_DATE_RdTS)
+			context('when NOT having a manual date', function () {
+
+				context('when having an EXIF date', function() {
+
+					it('should have priority')
 				})
 
-				it('should prioritize the original basename over the current one', () => {
-					let state = create(
-						`2000/${BAD_CREATION_DATE_CANDIDATE_COMPACT}/Hello ${BAD_CREATION_DATE_CANDIDATE_RdTS} foo.png`
-					)
-
-					state = on_fs_stats_read(state, {
-						birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-						atimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-						mtimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-						ctimeMs: BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-					})
-					//state = on_exif_read(... NO EXIF
-					state = on_hash_computed(state, '1234')
-					state = on_notes_recovered(state, {
-						currently_known_as: 'whatever.jpg',
-						deleted: false,
-						starred: false,
-						manual_date: undefined,
-						original: {
-							basename: 'IMG_20171020_050144625.jpg',
-							parent_path: 'foo',
-							birthtime_ms: REAL_CREATION_DATE_MS,
-						},
+				context('when NOT having an EXIF date', function() {
+					beforeEach(() => {
+						date__exif = null
 					})
 
-					expectㆍbetter_dateㆍdeepㆍequal(get_best_creation_date(state), REAL_CREATION_DATE)
-				})
+					context('when having a date in the ORIGINAL basename -- NON normalized', function() {
 
-				context('when no basename date', function () {
+						context('when having a date in the CURRENT basename', function() {
 
-					it('should use fs stats', () => {
-						let state = create('foo/bar.png')
+							context('when the CURRENT basename is already normalized and valid', function() {
 
-						state = on_fs_stats_read(state, {
-							birthtimeMs: REAL_CREATION_DATE_MS,
-							atimeMs:     REAL_CREATION_DATE_MS + 10000,
-							mtimeMs:     REAL_CREATION_DATE_MS + 10000,
-							ctimeMs:     REAL_CREATION_DATE_MS + 10000,
+								context.only(' real bug encountered 2020/12/16', function() {
+									beforeEach(() => {
+										date__fs_ms__original = 1564542022000 // matching but not exact match
+										date__fs_ms__current = date__fs_ms__original // TODO test with random
+										file_basename__original = 'Capture d’écran 2019-07-31 à 21.00.15.png'
+										file_basename__current = 'MM2019-07-31_21h00m15_screenshot.png' // perfectly matching
+									})
+
+									it(`should be stable = no change`, () => {
+										let state = create_test_file_state()
+
+										const bcdm = get_best_creation_date_meta(state)
+										expect(bcdm.source, 'source').not.to.equal('some_basename_normalized') // data was restored identical from original data
+										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2019-07-31_21h00m15')
+										expect(bcdm.confidence, 'confidence').to.equal('primary')
+										expect(bcdm.is_fs_matching, 'fs matching').to.be.true
+
+										// final as integration
+										expect(get_ideal_basename(state), 'ideal basename').to.equal(file_basename__current)
+									})
+								})
+							})
+
+
+							it('should pick the ORIGINAL basename date first')
 						})
-						//state = on_exif_read(... NO EXIF
-						state = on_hash_computed(state, '1234')
-						state = on_notes_recovered(state, null)
-						expectㆍbetter_dateㆍdeepㆍequal(get_best_creation_date(state), REAL_CREATION_DATE)
-						//expect(get_ideal_basename(state)).to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+
+						context('when having a CURRENT FS not matching but an ORIGINAL FS matching', function() {
+
+							it('should always enrich with the original FS')
+						})
 					})
 
-					// TODO check confidence level
-					it('should cross check with the parent hint if any') /*, () => {
-						let state = create('20171020 - holidays/foo.png')
+					context('when having a date in the ORIGINAL basename -- NORMALIZED', function() {
 
-						state = on_fs_stats_read(state, {
-							birthtimeMs: BAD_CREATION_DATE_CANDIDATE_MS,
-							atimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-							mtimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
-							ctimeMs:     BAD_CREATION_DATE_CANDIDATE_MS + 10000,
+						context('when having a date in the CURRENT basename', function() {
+
+							it('should pick the ORIGINAL basename date first')
 						})
-						//state = on_exif_read(... NO EXIF
-						state = on_hash_computed(state, '1234')
-						state = on_notes_recovered(state, null)
-						expectㆍbetter_dateㆍdeepㆍequal(get_best_creation_date(state), REAL_CREATION_DATE)
-					})*/
+					})
+
+					context('when NOT having a date in the original basename', function() {
+
+						context('when having ORIGINAL hints', function() {
+
+							it('should use the original hints over the current ones')
+						})
+					})
 				})
 			})
 		})
@@ -330,6 +549,7 @@ describe(`${LIB} - file (state)`, function() {
 					state = on_exif_read(state, {} as any)
 					state = on_hash_computed(state, '1234')
 					state = on_notes_recovered(state, null)
+					state = on_reliable_neighbours_range_assessed(state, null)
 
 					//console.log(get_best_creation_date_meta(state))
 					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
@@ -363,6 +583,7 @@ describe(`${LIB} - file (state)`, function() {
 						birthtime_ms: creation_date_ms,
 					}
 				})
+				state = on_reliable_neighbours_range_assessed(state, null)
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
@@ -381,6 +602,7 @@ describe(`${LIB} - file (state)`, function() {
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_recovered(state, null)
+				state = on_reliable_neighbours_range_assessed(state, null)
 				return state
 			}
 

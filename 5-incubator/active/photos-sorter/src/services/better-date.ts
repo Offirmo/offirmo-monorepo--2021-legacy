@@ -399,7 +399,7 @@ export function _clean_debug(date: Immutable<BetterDate>): Immutable<BetterDate>
 	}
 }
 
-export function expectㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {
+export function assertㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {
 	const s1_alt = _clean_debug(s1)
 	const s2_alt = _clean_debug(s2)
 
@@ -408,7 +408,7 @@ export function expectㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s
 	}
 	catch (err) {
 		if (should_log)
-			console.error('expectㆍbetter_dateㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
+			console.error('assertㆍbetter_dateㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
 		throw err
 	}
 }
