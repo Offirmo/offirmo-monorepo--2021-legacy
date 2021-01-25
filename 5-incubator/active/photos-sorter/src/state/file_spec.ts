@@ -82,6 +82,7 @@ describe(`${LIB} - file (state)`, function() {
 				birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 			}
 		})
+		state = on_reliable_neighbours_range_assessed(state, null)
 
 		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
 
@@ -466,7 +467,7 @@ describe(`${LIB} - file (state)`, function() {
 
 							context('when the CURRENT basename is already normalized and valid', function() {
 
-								context.only(' real bug encountered 2020/12/16', function() {
+								context(' real bug encountered 2020/12/16', function() {
 									beforeEach(() => {
 										date__fs_ms__original = 1564542022000 // matching but not exact match
 										date__fs_ms__current = date__fs_ms__original // TODO test with random
@@ -488,7 +489,6 @@ describe(`${LIB} - file (state)`, function() {
 									})
 								})
 							})
-
 
 							it('should pick the ORIGINAL basename date first')
 						})

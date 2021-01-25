@@ -129,7 +129,7 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 	return EXIF_POWERED_FILE_EXTENSIONS.includes(normalized_extension)
 }
 
-export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>): boolean {
+export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>, should_log = true): boolean {
 	// TODO optim if name = canonical
 
 	const are_notes_restored = state.are_notes_restored
@@ -145,8 +145,9 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 		&& is_current_hash_computed
 		&& are_neighbours_hints_collected
 
-	if (!has_all_infos) {
-		logger.error(`has_all_infos_for_extracting_the_creation_date`, {
+	if (!has_all_infos && should_log) {
+		// TODO remove, valid check most of the time
+		logger.warn(`has_all_infos_for_extracting_the_creation_date`, {
 			are_notes_restored,
 			is_exif_available_if_needed,
 			are_fs_stats_read,
@@ -293,10 +294,7 @@ interface BestDate {
 export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): BestDate {
 	logger.trace('get_best_creation_date_meta()', { id: state.id })
 
-	if (!has_all_infos_for_extracting_the_creation_date(state)) {
-		logger.error('has_all_infos_for_extracting_the_creation_date() !== true', state)
-		assert(false, 'has_all_infos_for_extracting_the_creation_date() === true')
-	}
+	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')
 
 	const date__from_fs__original = create_better_date_from_utc_tms(_get_creation_date_from_original_fs_stats(state), 'tz:auto')
 	const tms__from_fs__original = get_timestamp_utc_ms_from(date__from_fs__original)
@@ -1038,7 +1036,7 @@ export function to_string(state: Immutable<State>) {
 	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
 
 	if (is_eligible) {
-		if (!has_all_infos_for_extracting_the_creation_date(state)) {
+		if (!has_all_infos_for_extracting_the_creation_date(state, false)) {
 			str += ' ⏳processing in progress…'
 		}
 		else {

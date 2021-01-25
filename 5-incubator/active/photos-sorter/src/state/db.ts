@@ -455,7 +455,7 @@ export function on_notes_found(state: Immutable<State>, raw_data: any): Immutabl
 function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
 	const file_state = state.files[file_id]
 
-	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state)) {
+	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state, false)) {
 		// update folder date range
 		const folder_id = File.get_current_parent_folder_id(file_state)
 		const old_folder_state = state.folders[folder_id]
