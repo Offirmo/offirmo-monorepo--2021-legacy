@@ -28,6 +28,7 @@ import * as Notes from './notes'
 import { FolderId } from './folder'
 import { FileId, PersistedNotes } from './file'
 import { get_params } from '../params'
+import { enforce_immutability } from '../../../../../3-advanced--isomorphic/state-utils/src'
 
 
 /////////////////////
@@ -252,8 +253,10 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 export function get_past_and_present_notes(state: Immutable<State>, folder_path?: RelativePath): Immutable<Notes.State> {
 	assert(!folder_path, `get_past_and_present_notes() by folder = NIMP!`)
 
+	let result = enforce_immutability(Notes.create('for persisting', state.extra_notes))
+
 	const encountered_files = {
-		...state.extra_notes.encountered_files,
+		...result.encountered_files,
 	}
 
 	get_all_media_files(state)
@@ -264,10 +267,9 @@ export function get_past_and_present_notes(state: Immutable<State>, folder_path?
 			encountered_files[file_state.current_hash] = file_state.notes
 		})
 
-	const result = {
-		...Notes.create('for persisting'),
+	result = {
+		...result,
 		encountered_files,
-		known_modifications_new_to_old: state.extra_notes.known_modifications_new_to_old,
 	}
 
 	//logger.info(`get_past_and_present_notes(): ` + Notes.to_string(result))
@@ -281,7 +283,7 @@ export function get_duplicate_file_ids_by_hash(state: Immutable<State>): { [hash
 			.map(([ hash ]) => hash)
 	)
 
-	const duplicate_file_ids_by_hash: { [hash: string]: FileId[] } = get_all_file_ids(state)
+	const duplicate_file_ids_by_hash = get_all_file_ids(state)
 		.reduce((acc, file_id) => {
 			const file_state = state.files[file_id]
 			const hash = File.get_hash(file_state)
@@ -768,6 +770,7 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 
 	state = _consolidate_notes_between_persisted_and_regenerated(state)
 	state = _consolidate_notes_across_duplicates(state)
+	// order is important
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
 	state = backup_notes(state)
 

@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 import icepick from 'icepick'
-import { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types'
+import { Immutable, Mutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types'
 
 import {
 	BaseUState,
@@ -27,8 +27,8 @@ export const enforce_immutability: ImmutabilityEnforcer = <T>(state: T | Immutab
 //const enforce_immutability: ImmutabilityEnforcer = <T>(state: T): Immutable<T> => deep_freeze<T>(state)
 export { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types' // for convenience
 
-export function get_mutable_copy<T>(state: Immutable<T>): T {
-	return icepick.thaw<T>(state as T)
+export function get_mutable_copy<I>(state: I): Mutable<I> {
+	return icepick.thaw<Mutable<I>>(state as any)
 }
 
 // Use this in case of reducing a child state while unsure whether this child state has changed or not.
