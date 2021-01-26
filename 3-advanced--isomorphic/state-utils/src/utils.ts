@@ -27,6 +27,9 @@ export const enforce_immutability: ImmutabilityEnforcer = <T>(state: T | Immutab
 //const enforce_immutability: ImmutabilityEnforcer = <T>(state: T): Immutable<T> => deep_freeze<T>(state)
 export { Immutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types' // for convenience
 
+export function get_mutable_copy<T>(state: Immutable<T>): T {
+	return icepick.thaw<T>(state as T)
+}
 
 // Use this in case of reducing a child state while unsure whether this child state has changed or not.
 // - the best case is to return 'previous' = no mutation

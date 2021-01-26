@@ -1,7 +1,7 @@
 import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { BaseState, WithLastUserActionTimestamp } from '@offirmo-private/state-utils'
+import { BaseState, WithLastUserActionTimestamp, get_mutable_copy } from '@offirmo-private/state-utils'
 import stylize_string from 'chalk'
 
 import logger from '../services/logger'
@@ -64,10 +64,10 @@ export function has_notes_for_hash(state: Immutable<State>, hash: FileHash): boo
 
 ///////////////////// REDUCERS /////////////////////
 
-export function create(debug_id: string): State {
+export function create(debug_id: string, notes_to_copy?: Immutable<State>): State {
 	logger.trace(`${LIB} create(…) (${debug_id})`, { })
 
-	return {
+	let state: State = {
 		_comment: "This data is from @offirmo/photo-sorter https://github.com/Offirmo/offirmo-monorepo/tree/master/5-incubator/active/photos-sorter",
 
 		schema_version: SCHEMA_VERSION,
@@ -77,6 +77,17 @@ export function create(debug_id: string): State {
 		encountered_files: {},
 		known_modifications_new_to_old: {},
 	}
+
+	if (notes_to_copy) {
+		state.encountered_files = {
+			...get_mutable_copy(notes_to_copy.encountered_files),
+		}
+		state.known_modifications_new_to_old = {
+			...get_mutable_copy(notes_to_copy.known_modifications_new_to_old)
+		}
+	}
+
+	return state
 }
 
 export function migrate_to_latest(prev: any): Immutable<State> {

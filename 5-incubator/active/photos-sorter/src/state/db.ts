@@ -661,6 +661,35 @@ function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<S
 		notes_save_required: true,
 	}
 }
+function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _consolidate_notes_across_duplicates()…`)
+
+	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
+	let files: { [id: string]: Immutable<File.State> } = { ...state.files }
+
+	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, duplicates_ids]) => {
+		assert(duplicates_ids.length > 1, 'consolidate_and_backup_original_data() sanity check 1')
+
+		//console.log({duplicates_ids})
+		const final_file_state = File.merge_duplicates(...duplicates_ids.map(file_id => files[file_id]))
+		assert(duplicates_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
+
+		// improve the notes for those duplicates
+		state = _on_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
+		// propagate them immediately across duplicates
+		duplicates_ids.forEach(file_id => {
+			files[file_id] = {
+				...files[file_id],
+				notes: cloneDeep(final_file_state.notes)
+			}
+		})
+	})
+
+	return {
+		...state,
+		files,
+	}
+}
 function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_folders_by_demoting_and_de_overlapping()…`)
 
@@ -732,35 +761,6 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 	})
 
 	return state
-}
-function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} _consolidate_notes_across_duplicates()…`)
-
-	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
-	let files: { [id: string]: Immutable<File.State> } = { ...state.files }
-
-	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, duplicates_ids]) => {
-		assert(duplicates_ids.length > 1, 'consolidate_and_backup_original_data() sanity check 1')
-
-		//console.log({duplicates_ids})
-		const final_file_state = File.merge_duplicates(...duplicates_ids.map(file_id => files[file_id]))
-		assert(duplicates_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
-
-		// improve the notes for those duplicates
-		state = _on_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
-		// propagate them immediately across duplicates
-		duplicates_ids.forEach(file_id => {
-			files[file_id] = {
-				...files[file_id],
-				notes: cloneDeep(final_file_state.notes)
-			}
-		})
-	})
-
-	return {
-		...state,
-		files,
-	}
 }
 export function on_fs_exploration_done_consolidate_data_and_backup_originals(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} on_fs_exploration_done_consolidate_data_and_backup_originals()…`)
