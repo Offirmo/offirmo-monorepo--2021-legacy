@@ -22,10 +22,8 @@ import logger from './logger'
 import fs_extra from './fs-extra'
 import { get_fs_stats_subset } from './fs'
 import get_file_hash from './hash'
-import { is_normalized_media_basename } from './name_parser'
 import { FolderId } from '../state/folder'
 import { FileId } from '../state/file'
-import { number } from 'prop-types'
 
 function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boolean {
 	// abusing an internal non-documented function of fs-extra

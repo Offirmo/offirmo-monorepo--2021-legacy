@@ -5,8 +5,7 @@ import stylize_string from 'chalk'
 import { Tags } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { prettify_json } from '@offirmo-private/prettify-any'
-import cloneDeep from 'lodash/cloneDeep'
-import { get_base_loose } from '@offirmo-private/state-utils'
+import { get_base_loose, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { NOTES_BASENAME,  LIB as APP } from '../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
@@ -28,7 +27,6 @@ import * as Notes from './notes'
 import { FolderId } from './folder'
 import { FileId, PersistedNotes } from './file'
 import { get_params } from '../params'
-import { enforce_immutability } from '../../../../../3-advanced--isomorphic/state-utils/src'
 
 
 /////////////////////
