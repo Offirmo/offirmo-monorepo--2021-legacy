@@ -49,11 +49,11 @@ function * gen_next_step(navigate_to_savegame_editor) {
 						value = value.toLowerCase().trim()
 						console.log({value, type: typeof value})
 						if (value) {
-							if (value === 'dm') { // dev mode
+							if (value === 'dev') { // dev mode
 								localStorage.setItem(LS_KEYS.dev_mode, true)
 								execute_from_top(() => 	window.location.reload())
 							}
-							else if (value === 'nodm') { // dev mode
+							else if (value === 'nodev') { // dev mode
 								localStorage.removeItem(LS_KEYS.dev_mode)
 								execute_from_top(() => 	window.location.reload())
 							}

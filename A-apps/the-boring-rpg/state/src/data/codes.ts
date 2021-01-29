@@ -31,6 +31,8 @@ const TEST_CODES: Immutable<{ [key: string]: Immutable<Partial<CodeSpec<State>>>
 		redeem_limit: null,
 		is_redeemable: () => is_alpha(),
 	},
+
+	// see also DEV and NODEV in the-boring-rpg/client-browser/src/components/panels/meta/component.jsx
 }
 
 const ALPHA_CODES: Immutable<{ [key: string]: Immutable<Partial<CodeSpec<State>>> }> = {
