@@ -50,17 +50,21 @@ const _report = {
 export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>): Promise<Immutable<State>> {
 
 	const PARAMS = get_params()
-	const display_progress = false // activating sort of turns off wrapping in iTerm = bad for debug
+	const display_progress = true // activating sort of turns off wrapping in iTerm = bad for debug
 
 	// https://www.npmjs.com/package/cli-progress
-	const progress_multibar = null as any /*display_progress ? new (require('cli-progress')).MultiBar({
-		clearOnComplete: false,
-		linewrap: null,
-		hideCursor: null,
-		forceRedraw: true,
-		barsize: 80,
-		format: '{name} [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}'
-	}, cli_progress.Presets.shades_grey) : null*/
+	let progress_multibar = null as any
+	if (display_progress) {
+		const CliProgress = require('cli-progress')
+		progress_multibar = new CliProgress.MultiBar({
+			clearOnComplete: false,
+			linewrap: null,
+			hideCursor: null,
+			forceRedraw: true,
+			barsize: 80,
+			format: '{name} [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}'
+		}, CliProgress.Presets.shades_grey)
+	}
 
 	const progress_bars: { [id: string]: { size: number, bar: any }} = {}
 	function on_new_task(id: string) {

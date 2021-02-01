@@ -54,7 +54,7 @@ export interface OriginalData {
 }
 
 // notes contain infos that can't be preserved inside the file itself
-// but that neel to be preserved across invocations
+// but that need to be preserved across invocations
 export interface PersistedNotes {
 	currently_known_as: Basename | null // not strictly useful, intended at humans reading the notes manually
 	deleted: undefined | boolean // TODO
@@ -166,7 +166,6 @@ export function is_first_file_encounter(state: Immutable<State>): boolean | unde
 	return state.is_first_encounter
 }
 
-
 // primary, in order
 function _get_creation_date_manual(state: Immutable<State>): BetterDate | undefined {
 	if (state.notes.manual_date === undefined)
@@ -174,7 +173,7 @@ function _get_creation_date_manual(state: Immutable<State>): BetterDate | undefi
 
 	throw new Error('NIMP manual date!')
 }
-function _get_creation_date_from_exif(state: Immutable<State>): ExifDateTime | undefined {
+function _get_creation_date_from_exif__internal(state: Immutable<State>): ExifDateTime | undefined {
 	const { id, current_exif_data } = state
 	if (!is_exif_powered_media_file(state)) {
 		// exif reader manage to put some stuff, but it's not interesting
@@ -208,9 +207,28 @@ function _get_creation_tz_from_exif(state: Immutable<State>): TimeZone | undefin
 		throw err
 	}
 }
+function _get_creation_date_from_exif(state: Immutable<State>): BetterDate | undefined {
+	if (!is_exif_powered_media_file(state)) {
+		// exif reader manage to put some stuff, but it's not interesting
+		return undefined
+	}
+
+	const { id, current_exif_data } = state
+	assert(current_exif_data, `${id}: exif data read`)
+	const _from_exif__internal: ExifDateTime | undefined = _get_creation_date_from_exif__internal(state)
+	if (!_from_exif__internal) return undefined
+
+	const _from_exif__tz = _get_creation_tz_from_exif(state)
+	return create_better_date_from_ExifDateTime(_from_exif__internal, _from_exif__tz)
+
+}
 function _get_creation_date_from_original_fs_stats(state: Immutable<State>): TimestampUTCMs {
 	assert(state.current_fs_stats, 'fs stats collected')
 	return state.notes.original.birthtime_ms /* ?? get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)*/
+}
+function _get_creation_date_from_current_fs_stats(state: Immutable<State>): TimestampUTCMs {
+	assert(state.current_fs_stats, 'fs stats collected')
+	return get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date_from_whatever_non_normalized_basename(state: Immutable<State>): BetterDate | null {
 	if (!is_normalized_media_basename(get_oldest_basename(state)))
@@ -271,6 +289,27 @@ function _get_creation_date_range_of_current_reliable_neighbours(state: Immutabl
 
 	return symd_range.map(symd => create_better_date_from_simple(symd, 'tz:auto')) as any
 }
+// consolidation
+export function is_current_fs_date_reliable(state: Immutable<State>): boolean | undefined {
+	if (!is_exif_powered_media_file(state)) return undefined // don't know
+
+	const is_exif_available = state.current_exif_data !== undefined
+	assert(is_exif_available, `is_exif_available`)
+	const date__from_exif = _get_creation_date_from_exif(state)
+	if (!date__from_exif) return undefined
+
+	const are_fs_stats_read = state.current_fs_stats !== undefined
+	assert(are_fs_stats_read, `are_fs_stats_read`)
+	const date__from_fs__current = create_better_date_from_utc_tms(_get_creation_date_from_current_fs_stats(state), 'tz:auto')
+	assert(_get_creation_date_from_current_fs_stats(state) === get_timestamp_utc_ms_from(date__from_fs__current), `current fs tms back and forth stability`)
+
+	const auto_from_exif = get_human_readable_timestamp_auto(date__from_exif, 'tz:embedded')
+	const auto_from_fs__current = get_human_readable_timestamp_auto(date__from_fs__current, 'tz:embedded')
+
+	assert(auto_from_fs__current.length >= auto_from_exif.length, `auto lengths`)
+
+	return auto_from_fs__current.startsWith(auto_from_exif)
+}
 // all together
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
 export type DateConfidence = 'primary' | 'secondary' | 'junk'
@@ -296,8 +335,9 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 
 	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')
 
-	const date__from_fs__original = create_better_date_from_utc_tms(_get_creation_date_from_original_fs_stats(state), 'tz:auto')
-	const tms__from_fs__original = get_timestamp_utc_ms_from(date__from_fs__original)
+	const tms__from_fs__original = _get_creation_date_from_original_fs_stats(state)
+	const date__from_fs__original = create_better_date_from_utc_tms(tms__from_fs__original, 'tz:auto')
+	assert(tms__from_fs__original === get_timestamp_utc_ms_from(date__from_fs__original), `original fs tms back and forth stability`)
 
 	const result: BestDate = {
 		candidate: date__from_fs__original,
@@ -321,11 +361,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 	const date__from_basename__whatever_non_normalized: BetterDate | null = _get_creation_date_from_whatever_non_normalized_basename(state)
 
 	// strongest source after "manual"
-	const _from_exif: ExifDateTime | undefined = _get_creation_date_from_exif(state)
-	const _from_exif__tz = _get_creation_tz_from_exif(state)
-	const date__from_exif: BetterDate | undefined = _from_exif
-		? create_better_date_from_ExifDateTime(_from_exif, _from_exif__tz)
-		: undefined
+	const date__from_exif = _get_creation_date_from_exif(state)
 	logger.trace('get_best_creation_date_meta() trying EXIF…')
 	if (date__from_exif) {
 		// best situation, EXIF is the most reliable
@@ -660,7 +696,7 @@ export function create(id: FileId): Immutable<State> {
 
 			},
 		},
-		is_first_encounter: false, // AFAWK
+		is_first_encounter: true, // AFAWK
 
 		memoized: {
 			get_parsed_path,
