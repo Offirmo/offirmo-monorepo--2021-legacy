@@ -28,7 +28,7 @@ import {
 	on_hash_computed,
 	on_notes_recovered,
 	get_best_creation_year,
-	on_reliable_neighbours_range_assessed,
+	on_reliable_neighbors_range_assessed,
 	FileId,
 	PersistedNotes,
 } from './file'
@@ -82,7 +82,7 @@ describe(`${LIB} - file (state)`, function() {
 				birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 			}
 		})
-		state = on_reliable_neighbours_range_assessed(state, null)
+		state = on_reliable_neighbors_range_assessed(state, null)
 
 		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
 
@@ -146,7 +146,7 @@ describe(`${LIB} - file (state)`, function() {
 		let date__fs_ms__original = date__fs_ms__current // always exist
 		let date__exif: null | typeof REAL_CREATION_DATE_EXIF = BAD_CREATION_DATE_CANDIDATE_EXIF
 		let notes: null | 'auto' | Immutable<PersistedNotes> = null
-		let hints_from_reliable_neighbours__current: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
+		let hints_from_reliable_neighbors__current: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
 		beforeEach(() => {
 			parent_folder_name__current = 'foo'
 			file_basename__current = 'bar.jpg'
@@ -156,7 +156,7 @@ describe(`${LIB} - file (state)`, function() {
 			date__fs_ms__original = date__fs_ms__current // always exist
 			date__exif = BAD_CREATION_DATE_CANDIDATE_EXIF
 			notes = null
-			hints_from_reliable_neighbours__current = null
+			hints_from_reliable_neighbors__current = null
 		})
 		function create_test_file_state(): Immutable<State> {
 			let state = create(path.join(parent_folder_name__current, file_basename__current))
@@ -201,10 +201,10 @@ describe(`${LIB} - file (state)`, function() {
 				date__fs_ms__current,
 				date__exif,
 				notes,
-				hints_from_reliable_neighbours__current,
+				hints_from_reliable_neighbors__current,
 			})
 			state = on_notes_recovered(state, notes)
-			state = on_reliable_neighbours_range_assessed(state, hints_from_reliable_neighbours__current)
+			state = on_reliable_neighbors_range_assessed(state, hints_from_reliable_neighbors__current)
 
 			return state
 		}
@@ -375,9 +375,9 @@ describe(`${LIB} - file (state)`, function() {
 						})
 					})
 
-					context('when having hints -- from reliable neighbours only', function() {
+					context('when having hints -- from reliable neighbors only', function() {
 						beforeEach(() => {
-							hints_from_reliable_neighbours__current = [ 20171010, 20171022 ]
+							hints_from_reliable_neighbors__current = [ 20171010, 20171022 ]
 						})
 
 						context('when FS is matching (date range)', function () {
@@ -549,7 +549,7 @@ describe(`${LIB} - file (state)`, function() {
 					state = on_exif_read(state, {} as any)
 					state = on_hash_computed(state, '1234')
 					state = on_notes_recovered(state, null)
-					state = on_reliable_neighbours_range_assessed(state, null)
+					state = on_reliable_neighbors_range_assessed(state, null)
 
 					//console.log(get_best_creation_date_meta(state))
 					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
@@ -583,7 +583,7 @@ describe(`${LIB} - file (state)`, function() {
 						birthtime_ms: creation_date_ms,
 					}
 				})
-				state = on_reliable_neighbours_range_assessed(state, null)
+				state = on_reliable_neighbors_range_assessed(state, null)
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
@@ -602,7 +602,7 @@ describe(`${LIB} - file (state)`, function() {
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_recovered(state, null)
-				state = on_reliable_neighbours_range_assessed(state, null)
+				state = on_reliable_neighbors_range_assessed(state, null)
 				return state
 			}
 

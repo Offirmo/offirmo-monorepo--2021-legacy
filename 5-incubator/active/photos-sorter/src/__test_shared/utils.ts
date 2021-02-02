@@ -17,7 +17,7 @@ import {
 	on_exif_read,
 	on_fs_stats_read,
 	on_hash_computed,
-	on_reliable_neighbours_range_assessed,
+	on_reliable_neighbors_range_assessed,
 	PersistedNotes,
 	State as FileState,
 } from '../state/file'
@@ -47,7 +47,7 @@ export async function load_real_media_file(abs_path: string, state: Immutable<Fi
 	])
 
 	state = on_notes_recovered(state, recovered_notes)
-	state = on_reliable_neighbours_range_assessed(state, null)
+	state = on_reliable_neighbors_range_assessed(state, null)
 
 	expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.true
 

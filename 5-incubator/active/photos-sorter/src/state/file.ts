@@ -43,7 +43,7 @@ export interface OriginalData {
 	// from path
 	basename: Basename
 	parent_path: RelativePath // useful to manually re-sort in multi-level folder cases
-	date_range_hint_from_reliable_neighbours?: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ], // TODO only if not confident + parent was originally an event = start date of parent
+	date_range_hint_from_reliable_neighbors?: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ], // TODO only if not confident + parent was originally an event = start date of parent
 
 	// from fs
 	// we should always store it in case it changes for some reason
@@ -72,7 +72,7 @@ export interface State {
 	current_exif_data: undefined | null | EXIFTags // can be null if no EXIF for this format
 	current_fs_stats: undefined | FsStatsSubset // can't be null, is always a file
 	current_hash: undefined | FileHash // can't be null, always a file
-	current_date_range_hint_from_reliable_neighbours: undefined | null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] // can be null if no reliable neighbours
+	current_date_range_hint_from_reliable_neighbors: undefined | null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] // can be null if no reliable neighbors
 
 	are_notes_restored: boolean
 	notes: PersistedNotes
@@ -136,14 +136,14 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 	const is_exif_available_if_needed = is_exif_powered_media_file(state) ? state.current_exif_data !== undefined : true
 	const are_fs_stats_read = state.current_fs_stats !== undefined
 	const is_current_hash_computed = state.current_hash !== undefined
-	const are_neighbours_hints_collected = state.current_date_range_hint_from_reliable_neighbours !== undefined
+	const are_neighbors_hints_collected = state.current_date_range_hint_from_reliable_neighbors !== undefined
 
 	const has_all_infos =
 		   are_notes_restored
 		&& is_exif_available_if_needed
 		&& are_fs_stats_read
 		&& is_current_hash_computed
-		&& are_neighbours_hints_collected
+		//&& are_neighbors_hints_collected
 
 	if (!has_all_infos && should_log) {
 		// TODO remove, valid check most of the time
@@ -152,7 +152,7 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 			is_exif_available_if_needed,
 			are_fs_stats_read,
 			is_current_hash_computed,
-			are_neighbours_hints_collected,
+			are_neighbors_hints_collected,
 		})
 	}
 
@@ -264,8 +264,8 @@ function _get_creation_date_from_original_parent_folder(state: Immutable<State>)
 
 	return null
 }
-function _get_creation_date_range_of_original_reliable_neighbours(state: Immutable<State>): null | [ BetterDate, BetterDate] {
-	const symd_range = state.notes.original.date_range_hint_from_reliable_neighbours
+function _get_creation_date_range_of_original_reliable_neighbors(state: Immutable<State>): null | [ BetterDate, BetterDate] {
+	const symd_range = state.notes.original.date_range_hint_from_reliable_neighbors
 	if (!symd_range) return null
 
 	return symd_range.map(symd => create_better_date_from_simple(symd, 'tz:auto')) as any
@@ -283,8 +283,8 @@ function _get_creation_date_from_any_current_parent_folder(state: Immutable<Stat
 
 	return null
 }
-function _get_creation_date_range_of_current_reliable_neighbours(state: Immutable<State>): null | [ BetterDate, BetterDate] {
-	const symd_range = state.current_date_range_hint_from_reliable_neighbours
+function _get_creation_date_range_of_current_reliable_neighbors(state: Immutable<State>): null | [ BetterDate, BetterDate] {
+	const symd_range = state.current_date_range_hint_from_reliable_neighbors
 	if (!symd_range) return null
 
 	return symd_range.map(symd => create_better_date_from_simple(symd, 'tz:auto')) as any
@@ -429,7 +429,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 
 	// FS is ok if confirmed by some primary hints
 	const date__from_parent_folder__original = _get_creation_date_from_original_parent_folder(state)
-	const date_range__from_reliable_neighbours__original = _get_creation_date_range_of_original_reliable_neighbours(state)
+	const date_range__from_reliable_neighbors__original = _get_creation_date_range_of_original_reliable_neighbors(state)
 	const is_fs_confirmed_by_original_hints: boolean = (() => {
 
 		if (date__from_parent_folder__original) {
@@ -441,17 +441,17 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 			}
 		}
 
-		if (date_range__from_reliable_neighbours__original) {
-			const tms__from_original_reliable_neighbours__begin = get_timestamp_utc_ms_from(
-					date_range__from_reliable_neighbours__original[0],
+		if (date_range__from_reliable_neighbors__original) {
+			const tms__from_original_reliable_neighbors__begin = get_timestamp_utc_ms_from(
+					date_range__from_reliable_neighbors__original[0],
 				)
-			const tms__from_original_reliable_neighbours__end = get_timestamp_utc_ms_from(
-				date_range__from_reliable_neighbours__original[1],
+			const tms__from_original_reliable_neighbors__end = get_timestamp_utc_ms_from(
+				date_range__from_reliable_neighbors__original[1],
 			)
 
 			// TODO allow a little bit of margin?
-			if (tms__from_fs__original >= tms__from_original_reliable_neighbours__begin
-				&& tms__from_fs__original <= tms__from_original_reliable_neighbours__end) {
+			if (tms__from_fs__original >= tms__from_original_reliable_neighbors__begin
+				&& tms__from_fs__original <= tms__from_original_reliable_neighbors__end) {
 				return true
 			}
 		}
@@ -506,20 +506,20 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		return result
 	}
 
-	const date_range__from_current_neighbours = _get_creation_date_range_of_current_reliable_neighbours(state)
-	if (date_range__from_current_neighbours) {
+	const date_range__from_current_neighbors = _get_creation_date_range_of_current_reliable_neighbors(state)
+	if (date_range__from_current_neighbors) {
 		// cross-check with fs
-		const tms__from_current_reliable_neighbours__begin = get_timestamp_utc_ms_from(
-			date_range__from_current_neighbours[0],
+		const tms__from_current_reliable_neighbors__begin = get_timestamp_utc_ms_from(
+			date_range__from_current_neighbors[0],
 		)
-		const tms__from_current_reliable_neighbours__end = get_timestamp_utc_ms_from(
-			date_range__from_current_neighbours[1],
+		const tms__from_current_reliable_neighbors__end = get_timestamp_utc_ms_from(
+			date_range__from_current_neighbors[1],
 		)
 
 		// TODO if the date range is
 		// TODO allow a little bit of margin?
-		if (tms__from_fs__original >= tms__from_current_reliable_neighbours__begin
-			&& tms__from_fs__original <= tms__from_current_reliable_neighbours__end) {
+		if (tms__from_fs__original >= tms__from_current_reliable_neighbors__begin
+			&& tms__from_fs__original <= tms__from_current_reliable_neighbors__end) {
 			assert(false, 'this should already have been handled above')
 			// this means that FS looks reliable
 			/*result.candidate = date__from_fs__original
@@ -681,7 +681,7 @@ export function create(id: FileId): Immutable<State> {
 		current_exif_data: undefined,
 		current_fs_stats: undefined,
 		current_hash: undefined,
-		current_date_range_hint_from_reliable_neighbours: undefined,
+		current_date_range_hint_from_reliable_neighbors: undefined,
 
 		are_notes_restored: false,
 		notes: {
@@ -774,6 +774,7 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 	return state
 }
 
+// note that this can be called 2x times, once for actual notes and another for duplicates consolidation
 export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
 	assert(state.current_hash, 'on_notes_recovered() param') // obvious but just in case…
@@ -796,15 +797,15 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 	return state
 }
 
-export function on_reliable_neighbours_range_assessed(state: Immutable<State>, range_hint_from_reliable_neighbours: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ]): Immutable<State> {
-	logger.trace(`${LIB} on_reliable_neighbours_range_assessed(…)`, { id: state.id, range_hint_from_reliable_neighbours })
+export function on_reliable_neighbors_range_assessed(state: Immutable<State>, range_hint_from_reliable_neighbors: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ]): Immutable<State> {
+	logger.trace(`${LIB} on_reliable_neighbors_range_assessed(…)`, { id: state.id, range_hint_from_reliable_neighbors })
 
 	const should_update_original: boolean = !state.are_notes_restored
 		|| is_first_file_encounter(state)!
 
 	state = {
 		...state,
-		current_date_range_hint_from_reliable_neighbours: range_hint_from_reliable_neighbours,
+		current_date_range_hint_from_reliable_neighbors: range_hint_from_reliable_neighbors,
 	}
 
 	if (should_update_original) {
@@ -814,7 +815,7 @@ export function on_reliable_neighbours_range_assessed(state: Immutable<State>, r
 				...state.notes,
 				original: {
 					...state.notes.original,
-					date_range_hint_from_reliable_neighbours: range_hint_from_reliable_neighbours,
+					date_range_hint_from_reliable_neighbors: range_hint_from_reliable_neighbors,
 				},
 			},
 		}
