@@ -137,7 +137,7 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 
 	return state
 }
-
+/*
 export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, file_states: Immutable<FileState>[]): Immutable<State> {
 	logger.trace(`${LIB} on_exploration_done_merge_new_and_recovered_notes(…)`, { })
 
@@ -180,7 +180,7 @@ export function on_exploration_done_merge_new_and_recovered_notes(state: Immutab
 		encountered_files,
 	}
 }
-
+*/
 export function on_file_notes_recovered(state: Immutable<State>, current_hash: FileHash): Immutable<State> {
 	let encountered_files = {
 		...state.encountered_files,

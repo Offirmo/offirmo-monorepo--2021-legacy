@@ -274,18 +274,22 @@ export function get_past_and_present_notes(state: Immutable<State>, folder_path?
 	return result
 }
 
-export function get_duplicate_file_ids_by_hash(state: Immutable<State>): { [hash: string]: FileId[] } {
-	const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
+export function get_file_ids_by_hash(state: Immutable<State>): { [hash: string]: FileId[] } {
+	/*const duplicated_hashes: Set<FileHash> = new Set<FileHash>(
 		Object.entries(state.encountered_hash_count)
 			.filter(([ hash, count ]) => count > 1)
 			.map(([ hash ]) => hash)
-	)
+	)*/
 
-	const duplicate_file_ids_by_hash = get_all_file_ids(state)
+	const file_ids_by_hash = get_all_file_ids(state)
 		.reduce((acc, file_id) => {
 			const file_state = state.files[file_id]
 			const hash = File.get_hash(file_state)
-			if (hash && duplicated_hashes.has(hash)) {
+
+			if (!hash) {
+				// happens for some special files such as notes. TODO clarify
+			}
+			else {
 				acc[hash] ??= []
 				acc[hash].push(file_id)
 			}
@@ -305,7 +309,7 @@ export function get_duplicate_file_ids_by_hash(state: Immutable<State>): { [hash
 
 	console.log({ duplicate_file_ids_by_hash, duplicate_original_basenames_by_hash })*/
 
-	return duplicate_file_ids_by_hash
+	return file_ids_by_hash
 }
 
 ///////////////////// REDUCERS /////////////////////
@@ -626,29 +630,58 @@ export function backup_notes(state: Immutable<State>): Immutable<State> {
 }
 
 // some decisions need to wait for the entire exploration to be done
-function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} _consolidate_notes_between_persisted_and_regenerated()…`)
+function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _consolidate_notes_between_persisted_regenerated_and_duplicates()…`)
 
-	// merge notes recovered from notes bkp and notes (re)generated) from fs
+	// merge notes recovered from notes bkp, notes (re)generated) from fs, across all duplicates if any
 	const all_files = get_all_files_except_notes(state)
-	state = {
-		...state,
-		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(state.extra_notes, all_files)
-	}
-
-	// now re-attach notes to their respective files and remove the copy from "extra notes" to avoid redundancy
-	const all_media_hashes = new Set<FileHash>()
-	all_files.forEach(file_state => {
+	const all_media_hashes = all_files.reduce((acc, file_state) => {
 		const { id, current_hash } = file_state
 		assert(current_hash)
-		all_media_hashes.add(current_hash)
-		// TODO clarify null vs. sth (currently never null)
-		state = _on_file_notes_recovered(state, id, Notes.get_file_notes_for_hash(state.extra_notes, current_hash!))
-	})
-	let extra_notes = { ...state.extra_notes }
+		acc.add(current_hash)
+		return acc
+	}, new Set<FileHash>())
+	const file_ids_by_hash = get_file_ids_by_hash(state)
+
 	all_media_hashes.forEach(hash => {
-		extra_notes = Notes.on_file_notes_recovered(extra_notes, hash) // remove
+		logger.trace(`_consolidate_notes_between…() processing ${hash}`)
+
+		const all_notes_for_this_hash: Array<Immutable<File.PersistedNotes>> = []
+
+		const hash_has_restored_notes = Notes.has_notes_for_hash(state.extra_notes, hash)
+		if (hash_has_restored_notes) {
+			logger.trace(`- found notes`)
+			all_notes_for_this_hash.push(Notes.get_file_notes_for_hash(state.extra_notes, hash)!)
+		}
+
+		file_ids_by_hash[hash].forEach((id: FileId) => {
+			const file_state = state.files[id]
+			all_notes_for_this_hash.push(file_state.notes)
+		})
+
+		const recovered_consolidated_notes: Immutable<PersistedNotes> =
+			all_notes_for_this_hash.length === 1
+				? all_notes_for_this_hash[0]
+				: File.merge_notes(...all_notes_for_this_hash)
+
+		file_ids_by_hash[hash].forEach((id: FileId) => {
+			state = _on_file_notes_recovered(state, id, recovered_consolidated_notes)
+		})
+
+		// can only clean after all duplicates are restored
+		if (hash_has_restored_notes) {
+			// clean
+			state = {
+				...state,
+				extra_notes: Notes.on_file_notes_recovered(state.extra_notes, hash)
+			}
+		}
 	})
+
+	/*state = {
+		...state,
+		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(state.extra_notes, all_files)
+	}*/
 
 	// finalize notes (re)generation from fs
 	/*all_files.forEach(file_state => {
@@ -657,14 +690,13 @@ function _consolidate_notes_between_persisted_and_regenerated(state: Immutable<S
 
 	return {
 		...state,
-		extra_notes,
 		notes_save_required: true,
 	}
 }
+/*
 function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_notes_across_duplicates()…`)
 
-	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
 	let files: { [id: string]: Immutable<File.State> } = { ...state.files }
 
 	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, duplicates_ids]) => {
@@ -689,6 +721,15 @@ function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutabl
 		...state,
 		files,
 	}
+}
+*/
+function _evaluate_reliability_of_fs_by_folders(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _evaluate_reliability_of_fs_by_folders()…`)
+
+	//throw new Error('NIMP!')
+	// XXX TODO
+
+	return state
 }
 function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_folders_by_demoting_and_de_overlapping()…`)
@@ -766,9 +807,9 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 	logger.trace(`${LIB} on_fs_exploration_done_consolidate_data_and_backup_originals()…`)
 	logger.verbose(`${LIB} Exploration of the file system done, now processing this data with handcrafted AI…`)
 
-	state = _consolidate_notes_between_persisted_and_regenerated(state)
-	state = _consolidate_notes_across_duplicates(state)
 	// order is important
+	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
+	state = _evaluate_reliability_of_fs_by_folders(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
 	state = backup_notes(state)
 
@@ -779,14 +820,15 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} clean_up_duplicates()…`)
 	logger.verbose(`${LIB} Detecting duplicates and cleaning the lower ranked copies…`)
 
-	const duplicate_file_ids_by_hash = get_duplicate_file_ids_by_hash(state)
+	const file_ids_by_hash = get_file_ids_by_hash(state)
 
 	const files = {
 		...state.files,
 	}
 
-	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, file_ids]) => {
-		assert(file_ids.length > 1, 'clean_up_duplicates() sanity check 1')
+	Object.entries(file_ids_by_hash).forEach(([hash, file_ids]) => {
+		assert(file_ids.length > 0, 'clean_up_duplicates() sanity check 1')
+		if (file_ids.length === 1) return // no duplicqtes
 
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'clean_up_duplicates() sanity check 2')
