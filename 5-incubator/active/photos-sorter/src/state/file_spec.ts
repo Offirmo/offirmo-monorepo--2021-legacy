@@ -64,9 +64,11 @@ describe(`${LIB} - file (state)`, function() {
 			mtimeMs:     get_timestamp_utc_ms_from(time),
 			ctimeMs:     get_timestamp_utc_ms_from(time),
 		})
-		state = on_exif_read(state, {
-			'CreateDate': get_exif_datetime(time),
-		} as Tags)
+		if (is_exif_powered_media_file(state)) {
+			state = on_exif_read(state, {
+				'CreateDate': get_exif_datetime(time),
+			} as Tags)
+		}
 		state = on_hash_computed(state, '1234')
 
 		// yes, real case = since having the same hash,
@@ -150,7 +152,8 @@ describe(`${LIB} - file (state)`, function() {
 		let date__fs_ms__original = date__fs_ms__current // always exist
 		let date__exif: null | typeof REAL_CREATION_DATE_EXIF = BAD_CREATION_DATE_CANDIDATE_EXIF
 		let notes: null | 'auto' | Immutable<PersistedNotes> = null
-		let hints_from_reliable_neighbors__current: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
+		let hints_from_reliable_neighbors__current__range: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
+		let hints_from_reliable_neighbors__current__fs_reliability: undefined | boolean = undefined
 		beforeEach(() => {
 			parent_folder_name__current = 'foo'
 			file_basename__current = 'bar.jpg'
@@ -160,7 +163,8 @@ describe(`${LIB} - file (state)`, function() {
 			date__fs_ms__original = date__fs_ms__current // always exist
 			date__exif = BAD_CREATION_DATE_CANDIDATE_EXIF
 			notes = null
-			hints_from_reliable_neighbors__current = null
+			hints_from_reliable_neighbors__current__range = null
+			hints_from_reliable_neighbors__current__fs_reliability = undefined
 		})
 		function create_test_file_state(): Immutable<State> {
 			let state = create(path.join(parent_folder_name__current, file_basename__current))
@@ -209,10 +213,10 @@ describe(`${LIB} - file (state)`, function() {
 				date__fs_ms__current,
 				date__exif,
 				notes,
-				hints_from_reliable_neighbors__current,
+				hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__range,
 			})
 			state = on_notes_recovered(state, notes)
-			state = on_neighbors_hints_collected(state, hints_from_reliable_neighbors__current, undefined)
+			state = on_neighbors_hints_collected(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
 
 			return state
 		}
@@ -385,7 +389,8 @@ describe(`${LIB} - file (state)`, function() {
 
 					context('when having hints -- from reliable neighbors only', function() {
 						beforeEach(() => {
-							hints_from_reliable_neighbors__current = [ 20171010, 20171022 ]
+							hints_from_reliable_neighbors__current__range = [ 20171010, 20171022 ]
+							hints_from_reliable_neighbors__current__fs_reliability = true
 						})
 
 						context('when FS is matching (date range)', function () {
@@ -554,7 +559,8 @@ describe(`${LIB} - file (state)`, function() {
 						mtimeMs: creation_date_ms + 10000,
 						ctimeMs: creation_date_ms + 10000,
 					})
-					state = on_exif_read(state, {} as any)
+					if (is_exif_powered_media_file(state))
+						state = on_exif_read(state, {} as any)
 					state = on_hash_computed(state, '1234')
 					state = on_notes_recovered(state, null)
 					state = on_neighbors_hints_collected(state, null, undefined)
@@ -578,7 +584,8 @@ describe(`${LIB} - file (state)`, function() {
 					mtimeMs: creation_date_ms + 10000,
 					ctimeMs: creation_date_ms + 10000,
 				})
-				state = on_exif_read(state, {} as any)
+				if (is_exif_powered_media_file(state))
+						state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_recovered(state, {
 					currently_known_as: CURRENT_BASENAME,
@@ -611,10 +618,11 @@ describe(`${LIB} - file (state)`, function() {
 					mtimeMs: creation_date_ms + 10000,
 					ctimeMs: creation_date_ms + 10000,
 				})
-				state = on_exif_read(state, {} as any)
+				if (is_exif_powered_media_file(state))
+						state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_recovered(state, null)
-					state = on_neighbors_hints_collected(state, null, undefined)
+				state = on_neighbors_hints_collected(state, null, undefined)
 				return state
 			}
 
@@ -677,13 +685,15 @@ describe(`${LIB} - file (state)`, function() {
 				const s_order1 = merge_duplicates(s1, s2, s3)
 				expect(s_order1.notes, 'order1').to.deep.equal({
 					currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
+					renaming_source: undefined,
 					deleted: undefined,
 					starred: true, // correctly preserved
 					manual_date: undefined,
 					original: {
 						basename: 'original.jpg',
 						parent_path: 'foo',
-						birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+						fs_birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+						is_fs_birthtime_assessed_reliable: false,
 						exif_orientation: undefined,
 					},
 				})
@@ -691,13 +701,15 @@ describe(`${LIB} - file (state)`, function() {
 				expect(s_order2.notes, 'order2').to.deep.equal({
 					// same as previous
 					currently_known_as: 'bar.jpg',
+					renaming_source: undefined,
 					deleted: undefined,
 					starred: true,
 					manual_date: undefined,
 					original: {
 						basename: 'original.jpg',
 						parent_path: 'foo',
-						birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+						fs_birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+						is_fs_birthtime_assessed_reliable: false,
 						exif_orientation: undefined,
 					},
 				})

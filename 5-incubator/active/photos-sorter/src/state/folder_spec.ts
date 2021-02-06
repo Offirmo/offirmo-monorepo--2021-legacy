@@ -81,14 +81,14 @@ describe(`${LIB} - folder state`, function() {
 
 			it('should infer the date ranges', () => {
 				let state = create('holiday 2018-09-04')
-				expect(state.children_begin_date_symd, 'inferred children begin').to.be.undefined
-				expect(state.children_end_date_symd, 'inferred children end').to.be.undefined
+				expect(state.children_begin_date_symd, 'children begin').to.be.undefined
+				expect(state.children_end_date_symd, 'children end').to.be.undefined
 				expect(state.event_begin_date_symd, 'inferred event begin').to.equal(20180904)
 				expect(state.event_end_date_symd, 'inferred event end').to.equal(20180904)
 			})
 		})
 
-		describe('on_subfile_found()', function () {
+		describe('on_dated_subfile_found()', function () {
 			before(() => get_MEDIA_DEMO_01())
 
 			context('when no event range', function() {
@@ -110,16 +110,18 @@ describe(`${LIB} - folder state`, function() {
 
 			context('when existing event range', function() {
 
-				it('should extend the begin date', async () => {
+				it('should extend the event begin date', async () => {
 					let state = create('holiday 20180904')
-					expect(state.event_begin_date_symd, 'inferred begin').to.equal(20180904)
-					expect(state.event_end_date_symd, 'inferred end').to.equal(20180904)
+					expect(state.event_begin_date_symd, 'inferred event begin').to.equal(20180904)
+					expect(state.event_end_date_symd, 'inferred event end').to.equal(20180904)
 
 					let file_state = await get_MEDIA_DEMO_01()
 					state = on_subfile_found(state, file_state)
 					state = on_dated_subfile_found(state, file_state)
 
 					expect(state.type).to.equal('event')
+					expect(state.children_begin_date_symd, 'children begin').to.equal(20180903)
+					expect(state.children_end_date_symd, 'children end').to.equal(20180903)
 					expect(state.event_begin_date_symd).to.equal(20180903)
 					expect(state.event_end_date_symd).to.equal(20180904)
 				})
@@ -166,8 +168,10 @@ describe(`${LIB} - folder state`, function() {
 						state = on_dated_subfile_found(state, file_state)
 
 						expect(state.type).to.equal('unknown') // demoted
-						expect(state.event_begin_date_symd).to.equal(20180704)
-						expect(state.event_end_date_symd).to.equal(20180704)
+						expect(state.children_begin_date_symd, 'children begin').to.equal(20180903)
+						expect(state.children_end_date_symd, 'children end').to.equal(20180903)
+						expect(state.event_begin_date_symd).to.be.undefined
+						expect(state.event_end_date_symd).to.be.undefined
 					})
 				})
 

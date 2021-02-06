@@ -180,7 +180,6 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 }
 
 export function is_first_file_encounter(state: Immutable<State>): boolean | undefined {
-	// XXX to review
 	if (!state.are_notes_restored)
 		return undefined // don't know yet
 
@@ -483,7 +482,6 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
 
-	/*
 	const date__from_any_parent_folder = _get_creation_date_from_any_current_parent_folder(state)
 	if (date__from_any_parent_folder) {
 		// weak source
@@ -492,19 +490,8 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.confidence = 'secondary'
 		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_fs__original) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
 
-		const tms__from_any_parent_folder = get_timestamp_utc_ms_from(date__from_any_parent_folder)
-
-		if (tms__from_fs__original >= tms__from_any_parent_folder
-			&& tms__from_fs__original < (tms__from_any_parent_folder + PARAMS.max_event_duration_in_days * DAY_IN_MILLIS)) {
-			assert(false, 'this should already have been handled above')
-			result.candidate = date__from_fs__original
-			result.source = 'original_fs+env_hints'
-			result.confidence = 'primary'
-			result.is_fs_matching = true
-		}
-
 		return result
-	}*/
+	}
 
 	/////// JUNK SOURCE ///////
 
@@ -658,7 +645,6 @@ export function create(id: FileId): Immutable<State> {
 		current_exif_data: undefined,
 		current_fs_stats: undefined,
 		current_hash: undefined,
-		//current_date_range_hint_from_reliable_neighbors: undefined,
 
 		are_notes_restored: false,
 		notes: {
@@ -720,6 +706,7 @@ export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immut
 export function on_exif_read(state: Immutable<State>, exif_data: Immutable<EXIFTags>): Immutable<State> {
 	logger.trace(`${LIB} on_exif_read(…)`, { })
 
+	assert(is_exif_powered_media_file(state), `on_exif_read() should expect EXIF`)
 	assert(exif_data, 'on_exif_read() params')
 	assert(state.current_exif_data === undefined, `on_exif_read() should not be called several times`)
 	assert(!state.are_notes_restored, `on_exif_read() notes`)
@@ -767,8 +754,10 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
 
-	assert(state.current_hash, 'on_notes_recovered() should be called based on the hash') // obvious but just in case…
 	assert(!state.are_notes_restored, `on_notes_recovered() should not be called several times`)
+	assert(state.current_hash, 'on_notes_recovered() should be called based on the hash') // obvious but just in case…
+	assert(state.current_exif_data !== undefined, 'on_notes_recovered() should be called after exif') // obvious but just in case…
+	assert(state.current_fs_stats, 'on_notes_recovered() should be called after FS') // obvious but just in case…
 
 	state = {
 		...state,
@@ -867,19 +856,35 @@ export function on_neighbors_hints_collected(
 export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<State> {
 	logger.trace(`${LIB} on_moved(…)`, { new_id })
 
+	const previous_base = get_parsed_path(state).base
+	const ideal_basename = get_ideal_basename(state)
+	const meta = get_best_creation_date_meta(state)
+
 	state =  {
 		...state,
 		id: new_id,
 	}
 	const parsed = get_parsed_path(state)
 
-	return {
+	state = {
 		...state,
 		notes: {
 			...state.notes,
 			currently_known_as: parsed.base,
 		}
 	}
+
+	if (parsed.base !== previous_base && parsed.base === ideal_basename) {
+		state = {
+			...state,
+			notes: {
+				...state.notes,
+				renaming_source: meta.source,
+			}
+		}
+	}
+
+	return state
 }
 
 // all those states represent the same file anyway!
@@ -896,7 +901,6 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 			assert(duplicate_state.current_hash === states[0].current_hash, 'merge_duplicates(…) should have the same hash')
 			assert(duplicate_state.current_fs_stats, 'merge_duplicates(…) should happen after fs stats read')
 			assert(duplicate_state.are_notes_restored, 'merge_duplicates(…) should happen after notes are restored (if any)')
-			//assert(is_deep_equal(_get_creation_date_from_exif(duplicate_state), _get_creation_date_from_exif(states[0])), 'merge_duplicates(…) should have the same EXIF')
 		}
 		catch (err) {
 			logger.error('merge_duplicates(…) initial assertion failed', {
