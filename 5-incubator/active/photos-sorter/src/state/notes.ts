@@ -250,7 +250,7 @@ function notes_to_string(notes: Immutable<FileNotes>): string {
 			notes.original.parent_path,
 			notes.original.basename,
 		].filter(e => !!e).join('/')
-	)}" 📅(fs)${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.birthtime_ms, 'tz:auto'), 'tz:embedded')}`
+	)}" 📅(fs)${notes.original.is_fs_birthtime_assessed_reliable ? '✅' : '❌'}${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.fs_birthtime_ms, 'tz:auto'), 'tz:embedded')}`
 
 	return str
 }

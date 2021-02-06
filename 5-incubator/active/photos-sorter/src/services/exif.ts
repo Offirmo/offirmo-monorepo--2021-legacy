@@ -177,3 +177,8 @@ export function get_creation_timezone_from_exif(exif_data: Immutable<Tags>): Tim
 	assert(typeof res === 'string' || typeof res === 'undefined', 'exif_data.tz type check')
 	return res
 }
+
+// there are several orientation fields, provision for the future
+export function get_orientation_from_exif(exif_data: Immutable<Tags>): number | undefined {
+	return exif_data.Orientation
+}

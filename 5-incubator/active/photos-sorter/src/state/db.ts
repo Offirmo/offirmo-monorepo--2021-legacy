@@ -91,7 +91,7 @@ export function get_all_folder_ids(state: Immutable<State>): string[] {
 }
 
 export function get_all_event_folder_ids(state: Immutable<State>): string[] {
-	return Object.keys(state.folders)
+	return get_all_folder_ids(state)
 		.filter(k => state.folders[k].type === Folder.Type.event)
 		//.sort((a, b) => state.folders[a].begin_date_symd! - state.folders[b].begin_date_symd!)
 }
@@ -117,7 +117,7 @@ export function get_all_media_file_ids(state: Immutable<State>): string[] {
 }
 
 export function is_file_existing(state: Immutable<State>, id: FileId): boolean {
-	return state.files.hasOwnProperty(id)/* || is_folder_existing(state, id)*/
+	return state.files.hasOwnProperty(id)
 }
 
 export function is_folder_existing(state: Immutable<State>, id: FolderId): boolean {
@@ -126,10 +126,10 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 
 function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
 	return true
-		&& !!folder_state.begin_date_symd
-		&& !!folder_state.end_date_symd
-		&& compact_date >= folder_state.begin_date_symd
-		&& compact_date <= folder_state.end_date_symd
+		&& !!folder_state.event_begin_date_symd
+		&& !!folder_state.event_end_date_symd
+		&& compact_date >= folder_state.event_begin_date_symd
+		&& compact_date <= folder_state.event_end_date_symd
 }
 
 export function get_ideal_file_relative_folder(state: Immutable<State>, id: FileId): RelativePath {
@@ -159,7 +159,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			// we assume it's sorted already and keep it that way
 			const current_parent_folder_state = state.folders[current_parent_folder_id]
 			const event_folder_base = Folder.get_ideal_basename(state.folders[current_parent_folder_id])
-			const year = String(Folder.get_starting_year(current_parent_folder_state))
+			const year = String(Folder.get_event_begin_year(current_parent_folder_state))
 
 			return path.join(year, event_folder_base)
 		}
@@ -169,7 +169,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			// we keep it into the corresponding event folder
 			// TODO keep in a duplicated event folder
 			const current_parent_folder_state = state.folders[current_parent_folder_id]
-			const current_parent_starting_compact_date = Folder.get_starting_date(current_parent_folder_state)
+			const current_parent_starting_compact_date = Folder.get_event_begin_date(current_parent_folder_state)
 			assert(current_parent_starting_compact_date, `get_ideal_file_relative_path() overlapping_event should have a start date`)
 			let compatible_event_folder_id = get_all_event_folder_ids(state)
 				.find(fid => _event_folder_matches(state.folders[fid], current_parent_starting_compact_date))
@@ -177,7 +177,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 			const event_folder_base = Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
 
-			const year = String(Folder.get_starting_year(state.folders[compatible_event_folder_id]))
+			const year = String(Folder.get_event_begin_year(state.folders[compatible_event_folder_id]))
 
 			return path.join(year, event_folder_base)
 		}
@@ -366,7 +366,7 @@ export function discard_all_pending_actions(state: Immutable<State>): Immutable<
 }
 
 function _register_folder(state: Immutable<State>, id: FolderId): Immutable<State> {
-	assert(!state.folders[id], `_register_folder("${id}") should not already exist`)
+	assert(!state.folders[id], `_register_folder("${id}"): should not already exist`)
 
 	const folder_state = Folder.create(id)
 
@@ -444,6 +444,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	return state
 }
 
+// TODO check if redundant with on_file_found()
 export function on_notes_found(state: Immutable<State>, raw_data: any): Immutable<State> {
 	logger.trace(`${LIB} on_notes_found(…)`, get_base_loose(raw_data))
 	logger.verbose(`${LIB} found previous notes about the files`)
@@ -456,10 +457,10 @@ export function on_notes_found(state: Immutable<State>, raw_data: any): Immutabl
 	}
 }
 
-function _on_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
+function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
 	const file_state = state.files[file_id]
 
-	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state, false)) {
+	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state, { require_neighbors_hints: false })) {
 		// update folder date range
 		const folder_id = File.get_current_parent_folder_id(file_state)
 		const old_folder_state = state.folders[folder_id]
@@ -490,7 +491,7 @@ export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats
 		},
 	}
 
-	return _on_file_info_read(state, file_id)
+	return _on_any_file_info_read(state, file_id)
 }
 
 export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data: Immutable<Tags>): Immutable<State> {
@@ -506,7 +507,7 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 		},
 	}
 
-	return _on_file_info_read(state, file_id)
+	return _on_any_file_info_read(state, file_id)
 }
 
 export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash: FileHash): Immutable<State> {
@@ -531,11 +532,11 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 		},
 	}
 
-	return _on_file_info_read(state, file_id)
+	return _on_any_file_info_read(state, file_id)
 }
 
 function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id, data: !!recovered_notes })
+	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id, has_data: !!recovered_notes })
 
 	let new_file_state = File.on_notes_recovered(
 		state.files[file_id],
@@ -550,7 +551,7 @@ function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, reco
 		},
 	}
 
-	return _on_file_info_read(state, file_id)
+	return _on_any_file_info_read(state, file_id)
 }
 
 export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
@@ -581,6 +582,8 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 
 export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<State> {
 	logger.trace(`${LIB} on_file_deleted(…)`, { id })
+
+		// todo dec folders
 
 	let file_state = state.files[id]
 	assert(file_state, 'on_file_deleted() file state')
@@ -625,6 +628,10 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 export function backup_notes(state: Immutable<State>): Immutable<State> {
 	const folder_path = undefined
 	state = _enqueue_action(state, Actions.create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+	state = {
+		...state,
+		notes_save_required: false,
+	}
 
 	return state
 }
@@ -654,17 +661,21 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 			all_notes_for_this_hash.push(Notes.get_file_notes_for_hash(state.extra_notes, hash)!)
 		}
 
+		const has_duplicates = file_ids_by_hash[hash].length > 1
 		file_ids_by_hash[hash].forEach((id: FileId) => {
 			const file_state = state.files[id]
 			all_notes_for_this_hash.push(file_state.notes)
 		})
 
-		const recovered_consolidated_notes: Immutable<PersistedNotes> =
-			all_notes_for_this_hash.length === 1
-				? all_notes_for_this_hash[0]
-				: File.merge_notes(...all_notes_for_this_hash)
+		const recovered_consolidated_notes: null | Immutable<PersistedNotes> =
+			(!hash_has_restored_notes && !has_duplicates)
+				? null // nothing new
+				: all_notes_for_this_hash.length === 1
+					? all_notes_for_this_hash[0]
+					: File.merge_notes(...all_notes_for_this_hash)
 
 		file_ids_by_hash[hash].forEach((id: FileId) => {
+			//if (!hash_has_restored_notes && deep equal) TODO no change = null
 			state = _on_file_notes_recovered(state, id, recovered_consolidated_notes)
 		})
 
@@ -685,7 +696,7 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 
 	// finalize notes (re)generation from fs
 	/*all_files.forEach(file_state => {
-		// TODO hinted_date_from_neighbours
+		// TODO hinted_date_from_neighbors
 	})*/
 
 	return {
@@ -723,11 +734,44 @@ function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutabl
 	}
 }
 */
-function _evaluate_reliability_of_fs_by_folders(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} _evaluate_reliability_of_fs_by_folders()…`)
+function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders()…`)
 
-	//throw new Error('NIMP!')
-	// XXX TODO
+	get_all_media_files(state).forEach((file_state) => {
+		const is_fs_reliable = File.is_current_fs_date_reliable__primary(file_state)
+
+		const parent_folder_id = File.get_current_parent_folder_id(file_state)
+		let folder_state = state.folders[parent_folder_id]
+		assert(folder_state, `${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders() should have folder state`)
+
+		folder_state = Folder.on_subfile_fs_reliability_assessed(folder_state, is_fs_reliable)
+
+		state = {
+			...state,
+			folders: {
+				...state.folders,
+				[parent_folder_id]: folder_state,
+			}
+		}
+	})
+
+	get_all_media_files(state).forEach(file_state => {
+		const parent_folder_id = File.get_current_parent_folder_id(file_state)
+		let folder_state = state.folders[parent_folder_id]
+		const parent_folder_fs_reliability = Folder.are_children_fs_reliable(folder_state)
+		file_state = File.on_neighbors_hints_collected(
+				file_state,
+				Folder.get_reliable_children_range(folder_state),
+				Folder.are_children_fs_reliable(folder_state),
+			)
+		state = {
+			...state,
+			files: {
+				...state.files,
+				[file_state.id]: file_state,
+			}
+		}
+	})
 
 	return state
 }
@@ -740,7 +784,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 	let all_event_folder_ids = get_all_event_folder_ids(_state)
 	all_event_folder_ids.forEach(id => {
 		const folder = folders[id]
-		if (folder.begin_date_symd === folder.end_date_symd && folder.begin_date_symd === undefined) {
+		if (folder.event_begin_date_symd === folder.event_end_date_symd && folder.event_begin_date_symd === undefined) {
 			folders[id] = Folder.demote_to_unknown(folder, 'no date could be inferred')
 		}
 	})
@@ -753,9 +797,9 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 	// demote non-canonical or overlapping folder events but create the canonical ones
 	all_event_folder_ids = get_all_event_folder_ids(state)
 	// first get all the start dates + demote conflictings
-	const folders_by_start_date = all_event_folder_ids.reduce((acc, id) => {
+	const event_folders_by_start_date = all_event_folder_ids.reduce((acc, id) => {
 		const folder = folders[id]
-		const start_date = folder.begin_date_symd!
+		const start_date = folder.event_begin_date_symd!
 		const existing_conflicting_folder = acc[start_date]
 		acc[start_date] = (() => {
 			if (!existing_conflicting_folder)
@@ -776,8 +820,8 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 
 			// same canonical status...
 			// the shortest one wins
-			const existing_range_size = existing_conflicting_folder.end_date_symd! - start_date
-			const candidate_range_size = folder.end_date_symd! - start_date
+			const existing_range_size = existing_conflicting_folder.event_end_date_symd! - start_date
+			const candidate_range_size = folder.event_end_date_symd! - start_date
 			if (candidate_range_size === existing_range_size) {
 				// demote the competing one
 				folders[folder.id] = Folder.demote_to_overlapping(folder)
@@ -791,12 +835,12 @@ function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<S
 	}, {} as { [start: number]: Immutable<Folder.State> })
 
 	// then remove overlaps
-	const ordered_start_dates: SimpleYYYYMMDD[] = Object.keys(folders_by_start_date).map(k => Number(k)).sort()
+	const ordered_start_dates: SimpleYYYYMMDD[] = Object.keys(event_folders_by_start_date).map(k => Number(k)).sort()
 	ordered_start_dates.forEach((start_date: SimpleYYYYMMDD, index: number) => {
-		const folder = folders_by_start_date[start_date]
+		const folder = event_folders_by_start_date[start_date]
 		const next_start_date = ordered_start_dates[index + 1]
 		if (next_start_date) {
-			if (next_start_date <= folder.end_date_symd!)
+			if (next_start_date <= folder.event_end_date_symd!)
 				folders[folder.id] = Folder.on_overlap_clarified(folder, next_start_date - 1)
 		}
 	})
@@ -809,7 +853,7 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 
 	// order is important
 	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
-	state = _evaluate_reliability_of_fs_by_folders(state)
+	state = _evaluate_and_propagate_reliability_of_fs_by_folders(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
 	state = backup_notes(state)
 
@@ -828,7 +872,7 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 
 	Object.entries(file_ids_by_hash).forEach(([hash, file_ids]) => {
 		assert(file_ids.length > 0, 'clean_up_duplicates() sanity check 1')
-		if (file_ids.length === 1) return // no duplicqtes
+		if (file_ids.length === 1) return // no duplicates
 
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'clean_up_duplicates() sanity check 2')

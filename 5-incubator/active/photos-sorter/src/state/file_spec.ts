@@ -28,7 +28,7 @@ import {
 	on_hash_computed,
 	on_notes_recovered,
 	get_best_creation_year,
-	on_reliable_neighbors_range_assessed,
+	on_neighbors_hints_collected,
 	FileId,
 	PersistedNotes,
 } from './file'
@@ -73,16 +73,20 @@ describe(`${LIB} - file (state)`, function() {
 		// all the files will have the same notes.
 		state = on_notes_recovered(state, {
 			currently_known_as: 'whatever, will be replaced.jpg',
+			renaming_source: undefined,
+
 			starred: undefined,
 			deleted: undefined,
 			manual_date: undefined,
+
 			original: {
 				basename: 'original.jpg',
 				parent_path: 'foo',
-				birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+				fs_birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+				is_fs_birthtime_assessed_reliable: false,
 			}
 		})
-		state = on_reliable_neighbors_range_assessed(state, null)
+		state = on_neighbors_hints_collected(state, null, undefined)
 
 		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
 
@@ -182,13 +186,17 @@ describe(`${LIB} - file (state)`, function() {
 			if (notes === 'auto') {
 				notes = {
 					currently_known_as: file_basename__current,
+					renaming_source: undefined,
+
 					deleted: false,
 					starred: false,
 					manual_date: undefined,
+
 					original: {
 						basename: file_basename__original,
 						parent_path: parent_folder_name__original,
-						birthtime_ms: date__fs_ms__original,
+						fs_birthtime_ms: date__fs_ms__original,
+						is_fs_birthtime_assessed_reliable: false,
 					},
 				}
 			}
@@ -204,7 +212,7 @@ describe(`${LIB} - file (state)`, function() {
 				hints_from_reliable_neighbors__current,
 			})
 			state = on_notes_recovered(state, notes)
-			state = on_reliable_neighbors_range_assessed(state, hints_from_reliable_neighbors__current)
+			state = on_neighbors_hints_collected(state, hints_from_reliable_neighbors__current, undefined)
 
 			return state
 		}
@@ -219,7 +227,7 @@ describe(`${LIB} - file (state)`, function() {
 					date__exif = REAL_CREATION_DATE_EXIF
 				})
 
-				it('should be prioritised as a primary source', () => {
+				it('should be prioritized as a primary source', () => {
 					let state = create_test_file_state()
 
 					const bcdm = get_best_creation_date_meta(state)
@@ -549,7 +557,7 @@ describe(`${LIB} - file (state)`, function() {
 					state = on_exif_read(state, {} as any)
 					state = on_hash_computed(state, '1234')
 					state = on_notes_recovered(state, null)
-					state = on_reliable_neighbors_range_assessed(state, null)
+					state = on_neighbors_hints_collected(state, null, undefined)
 
 					//console.log(get_best_creation_date_meta(state))
 					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
@@ -574,16 +582,20 @@ describe(`${LIB} - file (state)`, function() {
 				state = on_hash_computed(state, '1234')
 				state = on_notes_recovered(state, {
 					currently_known_as: CURRENT_BASENAME,
+					renaming_source: undefined,
+
 					deleted: false,
 					starred: false,
 					manual_date: undefined,
+
 					original: {
 						basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
 						parent_path: 'foo',
-						birthtime_ms: creation_date_ms,
+						fs_birthtime_ms: creation_date_ms,
+						is_fs_birthtime_assessed_reliable: false,
 					}
 				})
-				state = on_reliable_neighbors_range_assessed(state, null)
+				state = on_neighbors_hints_collected(state, null, undefined)
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
@@ -602,7 +614,7 @@ describe(`${LIB} - file (state)`, function() {
 				state = on_exif_read(state, {} as any)
 				state = on_hash_computed(state, '1234')
 				state = on_notes_recovered(state, null)
-				state = on_reliable_neighbors_range_assessed(state, null)
+					state = on_neighbors_hints_collected(state, null, undefined)
 				return state
 			}
 

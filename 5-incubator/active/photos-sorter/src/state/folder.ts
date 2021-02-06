@@ -1,6 +1,5 @@
 import path from 'path'
 import { Enum } from 'typescript-string-enums'
-
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
@@ -21,11 +20,13 @@ const LIB = '📂'
 export const Type = Enum(
 	'root',
 	'inbox',
-	'cant_recognize',
-	'cant_autosort',
+
 	'year',
 	'event', // by default
-	'overlapping_event', // used to be an event but other folders are overlapping it
+
+	'overlapping_event', // used to be an event but other folders are overlapping it (or duplicate)
+	'cant_recognize',
+	'cant_autosort',
 	'unknown', // anything else that can't be an event
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
@@ -47,8 +48,22 @@ export interface State {
 	id: FolderId
 	type: Type
 
-	begin_date_symd: undefined | SimpleYYYYMMDD
-	end_date_symd: undefined | SimpleYYYYMMDD
+	// range of the RELIABLE media files currently in this folder
+	// TODO review, it's redundant
+	// TODO review precision?
+	children_begin_date_symd: undefined | SimpleYYYYMMDD
+	children_end_date_symd: undefined | SimpleYYYYMMDD
+
+	// if this folder is an event, what is the range assigned to it? (may be arbitrarily set)
+	event_begin_date_symd: undefined | SimpleYYYYMMDD
+	event_end_date_symd: undefined | SimpleYYYYMMDD
+
+	children_count: number,
+	children_fs_reliability_count: {
+		'undefined': number,
+		'true': number,
+		'false': number,
+	}
 
 	cached: {
 		pathㆍparsed: path.ParsedPath,
@@ -71,6 +86,7 @@ export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): 
 
 function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
 	assert(id, '_infer_initial_folder_type() id')
+
 	if (id === '.') return Type.root
 
 	const depth = get_depth(pathㆍparsed)
@@ -93,14 +109,18 @@ export function get_basename(state: Immutable<State>): Basename {
 	return state.cached.pathㆍparsed.base
 }
 
-export function get_starting_date(state: Immutable<State>): SimpleYYYYMMDD | undefined {
-	return state.begin_date_symd
+export function get_event_begin_date(state: Immutable<State>): SimpleYYYYMMDD | undefined {
+	assert(state.type === Type.event, `${LIB} get_starting_date() should be an event`)
+
+	return state.event_begin_date_symd
 }
 
-export function get_starting_year(state: Immutable<State>): number | undefined {
-	if (!state.begin_date_symd) return undefined
+export function get_event_begin_year(state: Immutable<State>): number | undefined {
+	assert(state.type === Type.event, `${LIB} get_starting_year() should be an event`)
 
-	return Math.trunc(state.begin_date_symd / 10000)
+	if (!state.event_begin_date_symd) return undefined
+
+	return Math.trunc(state.event_begin_date_symd / 10000)
 }
 
 export function get_ideal_basename(state: Immutable<State>): Basename {
@@ -109,20 +129,44 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 	if (state.type !== Type.event)
 		return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(current_basename))
 
-	assert(state.begin_date_symd, 'get_ideal_basename() start date')
+	assert(state.event_begin_date_symd, 'get_ideal_basename() (event) should have a start date')
 
 	return NORMALIZERS.trim(
 		NORMALIZERS.normalize_unicode(
-			String(state.begin_date_symd + ' - ' + state.cached.nameㆍparsed.meaningful_part)
+			String(state.event_begin_date_symd + ' - ' + state.cached.nameㆍparsed.meaningful_part)
 		)
 	)
 }
 
 export function is_current_basename_intentful(state: Immutable<State>): boolean {
 	const current_basename = get_basename(state)
-	return current_basename.length > 11
+	return current_basename.length > 11 // must be big enough, just a year won't do
 		&& current_basename.slice(8, 11) === ' - '
 		&& is_compact_date(current_basename.slice(0, 8))
+}
+
+export function get_reliable_children_range(state: Immutable<State>): null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] {
+	const { children_begin_date_symd, children_end_date_symd } = state
+	if (!children_begin_date_symd || !children_end_date_symd) return null
+	return [ children_begin_date_symd, children_end_date_symd ]
+}
+
+export function are_children_fs_reliable(state: Immutable<State>): undefined | boolean {
+	assert(
+		state.children_count === 0
+		+ state.children_fs_reliability_count['undefined']
+		+ state.children_fs_reliability_count['false']
+		+ state.children_fs_reliability_count['true'],
+		`${LIB} are_children_fs_reliable() mismatching counts`
+	)
+
+	if (state.children_fs_reliability_count['false'] > 0)
+		return false
+
+	if (state.children_fs_reliability_count['true'] > 0)
+		return true
+
+	return undefined
 }
 
 ///////////////////// REDUCERS /////////////////////
@@ -140,8 +184,17 @@ export function create(id: RelativePath): Immutable<State> {
 	return {
 		id,
 		type,
-		begin_date_symd: date, // so far
-		end_date_symd: date, // so far
+		children_begin_date_symd: undefined, // so far
+		children_end_date_symd: undefined, // so far
+		event_begin_date_symd: type === Type.event ? date : undefined, // so far
+		event_end_date_symd: type === Type.event ? date : undefined, // so far
+
+		children_count: 0,
+		children_fs_reliability_count: {
+			'undefined': 0,
+			'true': 0,
+			'false': 0,
+		},
 
 		cached: {
 			pathㆍparsed,
@@ -153,94 +206,145 @@ export function create(id: RelativePath): Immutable<State> {
 export function on_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_found(…)`, { file_id: file_state.id })
 
-	// eventually not used, keeping it just in case
-
-	return state
+	return {
+		...state,
+		children_count: state.children_count + 1,
+	}
 }
 
 export function on_dated_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_dated_subfile_found(…)`, { file_id: file_state.id })
 
+	if (!File.is_confident_in_date(file_state)) {
+		// low confidence = don't act on that
+		return state
+	}
+
+	const file_date_symd = File.get_best_creation_date_compact(file_state)
+
+	//////////// 1. children
+	const { children_end_date_symd: previous_children_end_date } = state
+
+	const new_children_begin_date_symd = state.children_begin_date_symd
+		? Math.min(state.children_begin_date_symd, file_date_symd)
+		: file_date_symd
+	const new_children_end_date_symd = state.children_end_date_symd
+		? Math.max(state.children_end_date_symd, file_date_symd)
+		: file_date_symd
+
+	if (new_children_begin_date_symd === state.children_begin_date_symd && new_children_end_date_symd === state.children_end_date_symd) {
+		// no change
+		return state
+	}
+
+	logger.verbose(
+		`${LIB} updating folder’s children's date range`,
+		{
+			id: state.id,
+			file_date_symd,
+			new_children_begin_date_symd,
+			new_children_end_date_symd,
+		}
+	)
+
+	state = {
+		...state,
+		children_begin_date_symd: new_children_begin_date_symd,
+		children_end_date_symd: new_children_end_date_symd,
+	}
+
+
+	//////////// 2. event
 	if (state.type !== Type.event)
 		return state
 
-	if (!File.is_confident_in_date(file_state)) {
-		// low confidence = don't demote the folder for that
+	const { event_end_date_symd: previous_event_end_date } = state
+
+	const new_event_begin_date_symd = state.event_begin_date_symd
+		? is_current_basename_intentful(state)
+			? state.event_begin_date_symd // no change, the dir name is clear thus has precedence
+			: Math.min(state.event_begin_date_symd, file_date_symd)
+		: file_date_symd
+	let new_event_end_date_symd = state.event_end_date_symd
+		? Math.max(state.event_end_date_symd, file_date_symd)
+		: file_date_symd
+
+	const capped_end_date = add_days_to_simple_date(new_event_begin_date_symd, PARAMS.max_event_duration_in_days)
+	const is_range_too_big = new_event_end_date_symd > capped_end_date
+	new_event_end_date_symd = Math.min(new_event_end_date_symd, capped_end_date)
+
+	if (new_event_begin_date_symd === state.event_begin_date_symd && new_event_end_date_symd === state.event_end_date_symd) {
+		// no change
 		return state
 	}
 
-	const file_compact_date = File.get_best_creation_date_compact(file_state)
-	const { end_date_symd: previous_end_date } = state
-	const new_start_date = state.begin_date_symd
-		? is_current_basename_intentful(state)
-			? state.begin_date_symd // no change, the dir name is clear thus has precedence
-			: Math.min(state.begin_date_symd, file_compact_date)
-		: file_compact_date
-	let new_end_date = state.end_date_symd
-		? Math.max(state.end_date_symd, file_compact_date)
-		: file_compact_date
+	if (is_range_too_big) {
+		// unlikely to be an event
 
-	const capped_end_date = add_days_to_simple_date(new_start_date, PARAMS.max_event_duration_in_days)
-	if (new_end_date > capped_end_date) {
-		// range too big, unlikely to be an event
-		if (!is_current_basename_intentful(state)) {
+		if (is_current_basename_intentful(state)) {
 			logger.info(
-				`${LIB} demoting folder: most likely not an event (date range too big)`, {
+				`${LIB} folder: date range too big but basename is intentful: event end date will be capped at +${PARAMS.max_event_duration_in_days}d`, {
 					id: state.id,
 					file_id: file_state.id,
-					file_compact_date,
-					begin_date_symd: new_start_date,
-					end_date_symd: new_end_date,
+					file_date_symd,
+					new_event_begin_date_symd,
+					new_event_end_date_symd,
+					capped_end_date,
 				})
-			state = demote_to_unknown(state, `date range too big`)
 		}
 		else {
-			new_end_date = capped_end_date
 			logger.info(
-				`${LIB} folder: date range too big but intentful: capping end_date_symd at +${PARAMS.max_event_duration_in_days}d`, {
+				`${LIB} folder: date range too big, most likely not an event, demoting...`, {
 					id: state.id,
 					file_id: file_state.id,
-					file_compact_date,
-					begin_date_symd: new_start_date,
-					end_date_symd: new_end_date,
+					file_date_symd,
+					new_event_begin_date_symd,
+					new_event_end_date_symd,
+					capped_end_date,
 				})
-			if (new_end_date !== previous_end_date) {
-				state = {
-					...state,
-					begin_date_symd: new_start_date,
-					end_date_symd: new_end_date,
-				}
-			}
+			state = demote_to_unknown(state, `date range too big`)
+			return state
 		}
 	}
-	else {
-		logger.verbose(
-			`${LIB} updating folder’s date range`,
-			{
-				id: state.id,
-				file_compact_date,
-				begin_date_symd: new_start_date,
-				end_date_symd: new_end_date,
-			})
-		state = {
-			...state,
-			begin_date_symd: new_start_date,
-			end_date_symd: new_end_date,
+
+	state = {
+		...state,
+		event_begin_date_symd: new_event_begin_date_symd,
+		event_end_date_symd: new_event_end_date_symd,
+	}
+
+	return state
+}
+
+export function on_subfile_fs_reliability_assessed(state: Immutable<State>, fs_birthtime_reliability: undefined | boolean): Immutable<State> {
+	logger.trace(`${LIB} on_subfile_fs_reliability_assessed(…)`)
+
+	const key: keyof State['children_fs_reliability_count'] = String(fs_birthtime_reliability) as any
+	state = {
+		...state,
+		children_fs_reliability_count: {
+			...state.children_fs_reliability_count,
+			[key]: state.children_fs_reliability_count[key] + 1,
 		}
 	}
 
 	return state
 }
 
-export function on_overlap_clarified(state: Immutable<State>, end_date_symd: SimpleYYYYMMDD): Immutable<State> {
+export function on_overlap_clarified(state: Immutable<State>, end_date_symd: SimpleYYYYMMDD, PARAMS = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_overlap_clarified(…)`, {
-		prev_end_date: state.end_date_symd,
+		prev_end_date: state.event_end_date_symd,
 		new_end_date: end_date_symd,
 	})
 
+	assert(state.type === Type.event, `on_overlap_clarified() called on a non-event`)
+	assert(state.event_begin_date_symd, `on_overlap_clarified() called on a non-dated event`)
+	const capped_end_date_symd = add_days_to_simple_date(state.event_begin_date_symd, PARAMS.max_event_duration_in_days)
+	assert(end_date_symd <= capped_end_date_symd, `on_overlap_clarified() target event range too big`)
+
 	return {
 		...state,
-		end_date_symd,
+		event_end_date_symd: end_date_symd,
 	}
 }
 
@@ -263,6 +367,8 @@ export function demote_to_unknown(state: Immutable<State>, reason: string): Immu
 	return {
 		...state,
 		type: Type.unknown,
+		event_begin_date_symd: undefined,
+		event_end_date_symd: undefined,
 	}
 }
 
@@ -283,7 +389,7 @@ export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutab
 ///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Immutable<State>) {
-	const { id, type, begin_date_symd, end_date_symd } = state
+	const { id, type } = state
 
 	let str = `📓  [${String(type).padStart('cant_recognize'.length)}]`
 	switch(type) {
@@ -305,8 +411,10 @@ export function to_string(state: Immutable<State>) {
 
 	str += stylize_string.yellow.bold(` "${id}"`)
 
-	if (type === Type.event)
-		str += ` 📅 ${begin_date_symd} → ${end_date_symd}`
+	if (type === Type.event) {
+		const { event_begin_date_symd, event_end_date_symd } = state
+		str += ` 📅 ${event_begin_date_symd} → ${event_end_date_symd}`
+	}
 
 	return str
 }
