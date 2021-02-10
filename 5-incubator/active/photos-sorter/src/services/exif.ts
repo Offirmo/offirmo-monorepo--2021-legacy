@@ -47,6 +47,8 @@ const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	'DateTimeGenerated',
 	'MediaCreateDate',
 	//'GPSDateTime' No! seems to be UTC = makes it tricky to use correctly. NTH support this later if deemed useful
+	'TrackCreateDate', // seen on movies, usually == CreateDate
+	'CreationDate' as keyof Tags, // not documented in exiftool but seen in exif data and being more reliable than other fields (iphone IMG_0170.MOV)
 ]
 const FS_DATE_FIELDS: Array<keyof Tags> = [
 	'FileModifyDate',

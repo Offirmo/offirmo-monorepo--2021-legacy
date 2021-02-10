@@ -424,7 +424,14 @@ export function is_same_date_with_potential_tz_difference(tms1: TimestampUTCMs, 
 
 	const sub_hour_1 = tms1 % HOUR_IN_MILLIS
 	const sub_hour_2 = tms2 % HOUR_IN_MILLIS
-	return sub_hour_1 === sub_hour_2
+	if (sub_hour_1 === sub_hour_2)
+		return true
+
+	// allow a little bit of lag (seen FRWF9408.MP4)
+	if (Math.abs(tms1 - tms2) <= 5 * 1000)
+		return true
+
+	return false
 }
 
 export function get_debug_representation(date: Immutable<BetterDate>): Object {
