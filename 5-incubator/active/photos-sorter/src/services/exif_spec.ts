@@ -83,6 +83,9 @@ describe(`${LIB} - exif service`, function() {
 					)
 				).to.equal('2002-01-26_16h05m50')
 			})
+
+			// TODO test the horrible whatsapp video
+
 		})
 	})
 })

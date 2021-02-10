@@ -36,6 +36,8 @@ import {
 	get_timestamp_utc_ms_from,
 	create_better_date_from_simple,
 	assertㆍbetter_dateㆍdeepㆍequal,
+	is_within_24h,
+	DAY_IN_MILLIS,
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
 
@@ -350,7 +352,6 @@ export function is_current_fs_date_reliable__primary(state: Immutable<State>): b
 	return is_fs_matching_exif
 }
 // all together
-const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
 export type DateConfidence = 'primary' | 'secondary' | 'junk'
 interface BestDate {
 	candidate: BetterDate
@@ -409,7 +410,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_fs__original) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
+		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
 
 		if (date__from_basename__whatever_non_normalized) {
 			const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
@@ -418,7 +419,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 			if (auto_from_candidate.startsWith(auto_from_basename)) {
 				// perfect match + EXIF more precise
 			}
-			else if (Math.abs(get_timestamp_utc_ms_from(date__from_basename__whatever_non_normalized) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS) {
+			else if (is_within_24h(get_timestamp_utc_ms_from(date__from_basename__whatever_non_normalized), get_timestamp_utc_ms_from(result.candidate))) {
 				// good enough, keep EXIF
 				// TODO evaluate in case of timezone?
 			}
@@ -445,7 +446,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_basename__whatever_non_normalized
 		result.source = 'some_basename_nn'
 		result.confidence = 'primary'
-		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_fs__original) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
+		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(date__from_fs__original, 'tz:embedded')
@@ -488,7 +489,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_basename__whatever_normalized
 		result.source = 'some_basename_normalized'
 		result.confidence = 'primary'
-		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_fs__original) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
+		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
 
 		// normalized is already super precise, no need to refine with FS
 
@@ -504,7 +505,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_any_parent_folder
 		result.source = 'env_hints'
 		result.confidence = 'secondary'
-		result.is_fs_matching = Math.abs(get_timestamp_utc_ms_from(date__from_fs__original) - get_timestamp_utc_ms_from(result.candidate)) < DAY_IN_MILLIS
+		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
 
 		return result
 	}

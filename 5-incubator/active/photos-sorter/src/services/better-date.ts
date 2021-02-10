@@ -413,3 +413,16 @@ export function assertㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s
 	}
 }
 
+export const HOUR_IN_MILLIS = 60 * 60 * 1000
+export const DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS
+export function is_within_24h(tms1: TimestampUTCMs, tms2: TimestampUTCMs): boolean {
+	return Math.abs(tms1 - tms2) < DAY_IN_MILLIS
+}
+export function is_same_date_with_potential_tz_difference(tms1: TimestampUTCMs, tms2: TimestampUTCMs): boolean {
+	if (!is_within_24h(tms1, tms2))
+		return false
+
+	const sub_hour_1 = tms1 % HOUR_IN_MILLIS
+	const sub_hour_2 = tms2 % HOUR_IN_MILLIS
+	return sub_hour_1 === sub_hour_2
+}
