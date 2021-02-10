@@ -42,6 +42,7 @@ const _report = {
 	file_deletions: [] as FileId[],
 	file_renamings: {} as { [k: string]: Basename },
 	file_moves: {} as { [k: string]: FolderId },
+	folder_deletions: [] as FolderId[],
 	error_count: 0,
 }
 
@@ -378,15 +379,16 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			logger.warn(`Couldn't rename "${id}" to a proper normalized name "${target_id}" due to conflicts...`)
 		}
 		else {
+			if (File.get_current_basename(current_file_state) !== target_basename)
+				_report.file_renamings[id] = target_basename
+			if (File.get_current_parent_folder_id(current_file_state) !== target_folder)
+				_report.file_moves[id] = target_folder
+
 			if (PARAMS.dry_run) {
 				logger.info(`DRY RUN would have renamed/moved "${id}" to "${target_id}"`)
 			}
 			else {
 				console.log(`about to rename/move "${id}" to "${target_id}"…`)
-				if (File.get_current_basename(current_file_state) !== target_basename)
-					_report.file_renamings[id] = target_basename
-				if (File.get_current_parent_folder_id(current_file_state) !== target_folder)
-					_report.file_moves[id] = target_folder
 
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				const abs_path_target = DB.get_absolute_path(db, target_id)
@@ -458,14 +460,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const abs_path = DB.get_absolute_path(db, id)
 			const abs_path_target = DB.get_absolute_path(db, target_id)
 
-			if (PARAMS.dry_run) {
-				logger.info('DRY RUN would have moved' + abs_path + ' to ' + abs_path_target)
-			}
-			else {
-				const target_folder_id = DB.get_ideal_file_relative_folder(db, id)
+			const target_folder_id = DB.get_ideal_file_relative_folder(db, id)
+			if (!PARAMS.dry_run) {
 				await ensure_folder(target_folder_id)
-				_intelligently_normalize_file_basename_sync(id, target_folder_id)
 			}
+			_intelligently_normalize_file_basename_sync(id, target_folder_id)
 		}
 		catch (err) {
 			_on_error(TASK_ID, err, { id })
@@ -526,6 +525,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				...fs_extra.lsFilesSync(abs_path, { full_path: false }),
 			]
 			if (children.length === 0) {
+				_report.folder_deletions.push(id)
 				if (PARAMS.dry_run) {
 					logger.info('DRY RUN would have deleted empty folder ' + abs_path)
 				}

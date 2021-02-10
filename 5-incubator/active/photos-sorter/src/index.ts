@@ -16,7 +16,7 @@ logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
 
 
 async function sort_all_medias() {
-	const up_to = 'move' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move' | 'cleanup'
+	const up_to = 'cleanup' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move' | 'cleanup'
 
 	let db = DB.create(PARAMS.root)
 

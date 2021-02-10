@@ -138,6 +138,7 @@ function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_da
 
 export function get_ideal_file_relative_folder(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`get_ideal_file_relative_folder()`, { id })
+	const DEBUG = false
 
 	if (id === NOTES_BASENAME)
 		return ''
@@ -165,25 +166,41 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			const event_folder_base = Folder.get_ideal_basename(state.folders[current_parent_folder_id])
 			const year = String(Folder.get_event_begin_year(current_parent_folder_state))
 
+			DEBUG && console.log(`✴️ ${id} already in event`)
 			return path.join(year, event_folder_base)
 		}
 
 		case Folder.Type.overlapping_event: {
 			// if it was in an event folder
 			// we keep it into the corresponding event folder
-			// TODO keep in a duplicated event folder
-			const current_parent_folder_state = state.folders[current_parent_folder_id]
-			const current_parent_starting_compact_date = Folder.get_event_begin_date(current_parent_folder_state)
-			assert(current_parent_starting_compact_date, `get_ideal_file_relative_path() overlapping_event should have a start date`)
+			// UNLESS the file date doesn't match the current folder (happens with force-dated folders with big ranges = a 6month iphone import)
+			const date_for_finding_suitable_event: SimpleYYYYMMDD = (() => {
+				if (File.is_confident_in_date(file_state, 'secondary'))
+					return File.get_best_creation_date_compact(file_state)
+
+				const current_parent_folder_state = state.folders[current_parent_folder_id]
+				return Folder.get_event_begin_date(current_parent_folder_state)
+			})()
+
 			let compatible_event_folder_id = get_all_event_folder_ids(state)
-				.find(fid => _event_folder_matches(state.folders[fid], current_parent_starting_compact_date))
-			assert(compatible_event_folder_id, `get_ideal_file_relative_path() overlapping_event should have an overlapping folder`)
+				.find(fid => _event_folder_matches(state.folders[fid], date_for_finding_suitable_event))
+			if (!compatible_event_folder_id) {
+				// can happen if the folder is force-dated
+				// but the file date is reliable and don't match
+			}
+			else {
+				const event_folder_base = Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
 
-			const event_folder_base = Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
+				const year = String(Folder.get_event_begin_year(state.folders[compatible_event_folder_id]))
 
-			const year = String(Folder.get_event_begin_year(state.folders[compatible_event_folder_id]))
-
-			return path.join(year, event_folder_base)
+				DEBUG && console.log(`✴️ ${id} in overlapping`, {
+					confidence: File.is_confident_in_date(file_state, 'secondary'),
+					fdate: File.get_best_creation_date_compact(file_state),
+					date_for_finding_suitable_event,
+				})
+				return path.join(year, event_folder_base)
+			}
+			break
 		}
 
 		default:
@@ -196,19 +213,21 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
 			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
+		DEBUG && console.log(`✴️ ${id} can't sort`)
 		return path.join(current_parent_split_path.join(path.sep))
 	}
 
 	// file is a media
-	if (!File.is_confident_in_date(file_state)) {
+	if (!File.is_confident_in_date(file_state, 'secondary')) {
 		if (is_top_parent_special)
 			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 		else
 			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME)
+		DEBUG && console.log(`✴️ ${id} really not confident`)
 		return current_parent_split_path.join(path.sep)
 	}
 
-	// file is a media + we have confidence
+	// file is a media + we have reasonable confidence
 	const year = String(File.get_best_creation_year(file_state))
 	const event_folder_base = ((): string => {
 		const compact_date = File.get_best_creation_date_compact(file_state)
@@ -220,7 +239,6 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		// need to create a new event folder!
 		// We don't group too much, split day / wek-end
 		let folder_date = File.get_best_creation_date(file_state)
-
 		if (get_day_of_week_index(folder_date) === 0) {
 			// sunday is coalesced to sat = start of weekend
 			folder_date = add_days(folder_date, -1)
@@ -231,6 +249,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		return String(get_compact_date(folder_date, 'tz:embedded')) + ' - ' + (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life')
 	})()
 
+	DEBUG && console.log(`✴️ ${id} found event`)
 	return path.join(year, event_folder_base)
 }
 

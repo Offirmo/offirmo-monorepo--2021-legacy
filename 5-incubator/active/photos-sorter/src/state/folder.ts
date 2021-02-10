@@ -109,8 +109,9 @@ export function get_basename(state: Immutable<State>): Basename {
 	return state.cached.pathㆍparsed.base
 }
 
-export function get_event_begin_date(state: Immutable<State>): SimpleYYYYMMDD | undefined {
-	assert(state.type === Type.event, `${LIB} get_starting_date() should be an event`)
+export function get_event_begin_date(state: Immutable<State>): SimpleYYYYMMDD {
+	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_starting_date() should be an ~event`)
+	assert(state.event_begin_date_symd, `${LIB} get_starting_date() should have a start date`)
 
 	return state.event_begin_date_symd
 }
@@ -258,7 +259,7 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 	if (state.type !== Type.event)
 		return state
 
-	const { event_end_date_symd: previous_event_end_date } = state
+	//const { event_end_date_symd: previous_event_end_date } = state
 
 	const new_event_begin_date_symd = state.event_begin_date_symd
 		? is_current_basename_intentful(state)
@@ -349,7 +350,7 @@ export function on_overlap_clarified(state: Immutable<State>, end_date_symd: Sim
 }
 
 export function demote_to_overlapping(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} demote_to_overlapping(…)`, { })
+	logger.trace(`${LIB} demote_to_overlapping(…)`, { id: state.id })
 
 	assert(state.type === Type.event, 'demote_to_overlapping(): should be demote-able')
 
@@ -411,7 +412,7 @@ export function to_string(state: Immutable<State>) {
 
 	str += stylize_string.yellow.bold(` "${id}"`)
 
-	if (type === Type.event) {
+	if (type === Type.event || type === Type.overlapping_event) {
 		const { event_begin_date_symd, event_end_date_symd } = state
 		str += ` 📅 ${event_begin_date_symd} → ${event_end_date_symd}`
 	}

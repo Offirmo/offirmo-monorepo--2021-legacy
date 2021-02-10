@@ -517,8 +517,19 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
 
+	if (state.notes.original.is_fs_birthtime_assessed_reliable === undefined) {
+		// not that bad
+		// we won't rename the file, but good enough to move to a folder
+		result.candidate = date__from_fs__original
+		result.source = 'original_fs+original_env_hints'
+		result.confidence = 'secondary'
+		result.is_fs_matching = true
+		return result
+	}
+
 	const date__from_any_parent_folder = _get_creation_date_from_any_current_parent_folder(state)
 	if (date__from_any_parent_folder) {
+		// TODO review, if folder is force-dated ex. 6month phone bkp, this is junk
 		// weak source
 		result.candidate = date__from_any_parent_folder
 		result.source = 'env_hints'
@@ -557,22 +568,37 @@ export function get_best_creation_year(state: Immutable<State>): number {
 	return Math.trunc(get_best_creation_date_compact(state) / 10000)
 }
 
-export function is_confident_in_date(state: Immutable<State>): boolean {
+export function is_confident_in_date(state: Immutable<State>, up_to: DateConfidence = 'primary'): boolean {
 	const meta = get_best_creation_date_meta(state)
 	const { confidence } = meta
 
-	if (confidence !== 'primary') {
+	let is_confident = false
+	switch (confidence) {
+		case 'primary':
+			is_confident = true
+			break
+
+		case 'secondary':
+			is_confident = ( up_to === 'secondary')
+			break
+
+		case 'junk':
+			is_confident = false
+			break
+	}
+
+	if (!is_confident) {
 		logger.warn(`get_confidence_in_date() low confidence`, {
 			id: state.id,
+			up_to,
 			meta: {
 				...meta,
 				candidate: get_debug_representation(meta.candidate),
 			},
 		})
-		return false
 	}
 
-	return true
+	return is_confident
 }
 
 export function get_ideal_basename(state: Immutable<State>, {
