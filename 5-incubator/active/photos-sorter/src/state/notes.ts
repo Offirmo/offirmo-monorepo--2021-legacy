@@ -98,6 +98,9 @@ export function migrate_to_latest(prev: any): Immutable<State> {
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} on_previous_notes_found(…)`, { })
 
+	// TODO check if the file is a media
+	// we only store notes for medias
+
 	const { encountered_files: encountered_files_a } = state
 	const { encountered_files: encountered_files_b } = old_state
 	const encountered_files: { [oldest_hash: string]: Immutable<FileNotes> } = {}
@@ -137,50 +140,7 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 
 	return state
 }
-/*
-export function on_exploration_done_merge_new_and_recovered_notes(state: Immutable<State>, file_states: Immutable<FileState>[]): Immutable<State> {
-	logger.trace(`${LIB} on_exploration_done_merge_new_and_recovered_notes(…)`, { })
 
-	const encountered_files: { [oldest_hash: string]: Immutable<FileNotes> } = { ...state.encountered_files }
-
-	file_states.forEach(file_state => {
-		let hash = get_hash(file_state)
-		assert(hash, `on_exploration_done_merge_new_and_recovered_notes() file should be hashed: "${file_state.id}"`)
-
-		hash = get_oldest_hash(state, hash)
-		const old_notes = encountered_files[hash]
-		const fresh_notes = file_state.notes
-
-		if (!old_notes) {
-			if (get_params().is_perfect_state) {
-				assert(
-					!is_normalized_media_basename(fresh_notes.original.basename),
-					`PERFECT STATE new notes should never reference an already normalized original basename "${fresh_notes.original.basename}"! ${hash}`
-				)
-			}
-			encountered_files[hash] = fresh_notes
-		} else {
-			// merge with oldest having priority = at the beginning
-			encountered_files[hash] = merge_notes(old_notes, fresh_notes)
-		}
-
-		if (get_params().is_perfect_state) {
-			const original_basename = encountered_files[hash].original.basename
-			//console.error({ old_notes, fresh_notes, final_notes: encountered_files[hash] })
-
-			assert(
-				!is_normalized_media_basename(original_basename),
-				`PERFECT STATE notes should never end up having an already normalized original basename "${original_basename}"!`
-			)
-		}
-	})
-
-	return {
-		...state,
-		encountered_files,
-	}
-}
-*/
 export function on_file_notes_recovered(state: Immutable<State>, current_hash: FileHash): Immutable<State> {
 	let encountered_files = {
 		...state.encountered_files,
@@ -245,12 +205,17 @@ export function to_string(state: Immutable<State>): string {
 function notes_to_string(notes: Immutable<FileNotes>): string {
 	let str = ''
 
+	const fs_birthtime_reliability = notes.original.is_fs_birthtime_assessed_reliable === undefined
+		? '❓'
+		: notes.original.is_fs_birthtime_assessed_reliable
+			? '✅'
+			: '❌'
 	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(
 		[
 			notes.original.parent_path,
 			notes.original.basename,
 		].filter(e => !!e).join('/')
-	)}" 📅(fs)${notes.original.is_fs_birthtime_assessed_reliable ? '✅' : '❌'}${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.fs_birthtime_ms, 'tz:auto'), 'tz:embedded')}`
+	)}" 📅(fs)${fs_birthtime_reliability}${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.fs_birthtime_ms, 'tz:auto'), 'tz:embedded')}`
 
 	return str
 }

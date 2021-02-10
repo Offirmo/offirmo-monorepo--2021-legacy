@@ -33,7 +33,7 @@ async function sort_all_medias() {
 		db = DB.on_fs_exploration_done_consolidate_data_and_backup_originals(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		assert(DB.get_pending_actions(db).length === 0, 'eq 2')
-		logger.verbose('>>>>>>> CONSOLIDATION DONE >>>>>>>')
+		logger.verbose('>>>>>>> CONSOLIDATION DONE ✔️ >>>>>>>')
 		logger.groupEnd()
 		if (up_to === 'explore_and_take_notes') return
 

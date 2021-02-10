@@ -625,6 +625,7 @@ export function backup_notes(state: Immutable<State>): Immutable<State> {
 // some decisions need to wait for the entire exploration to be done
 function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id, has_data: !!recovered_notes })
+	//console.log(`${LIB} _on_file_notes_recovered(…)`, { file_id, has_data: !!recovered_notes })
 
 	let new_file_state = File.on_notes_recovered(
 		state.files[file_id],
@@ -645,8 +646,7 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 	logger.trace(`${LIB} _consolidate_notes_between_persisted_regenerated_and_duplicates()…`)
 
 	// merge notes recovered from notes bkp, notes (re)generated) from fs, across all duplicates if any
-	const all_files = get_all_files_except_notes(state)
-	const all_media_hashes = all_files.reduce((acc, file_state) => {
+	const all_media_hashes = get_all_media_files(state).reduce((acc, file_state) => {
 		const { id, current_hash } = file_state
 		assert(current_hash)
 		acc.add(current_hash)
@@ -693,15 +693,11 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 		}
 	})
 
-	/*state = {
-		...state,
-		extra_notes: Notes.on_exploration_done_merge_new_and_recovered_notes(state.extra_notes, all_files)
-	}*/
-
-	// finalize notes (re)generation from fs
-	/*all_files.forEach(file_state => {
-		// TODO hinted_date_from_neighbors
-	})*/
+	get_all_files_except_notes(state).forEach(file_state => {
+		if(!File.is_media_file(file_state)) {
+			state = _on_file_notes_recovered(state, file_state.id, null)
+		}
+	})
 
 	return {
 		...state,
@@ -763,8 +759,7 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 	})
 
 	get_all_folders(state).forEach(folder_state => {
-		logger.info(`Folder "${folder_state.id}" fs reliability has been estimated as`, {
-			reliability:Folder.are_children_fs_reliable(folder_state),
+		logger.info(`Folder "${folder_state.id}" fs reliability has been estimated as ${Folder.are_children_fs_reliable(folder_state)}`, {
 			stats: folder_state.children_fs_reliability_count,
 		})
 	})

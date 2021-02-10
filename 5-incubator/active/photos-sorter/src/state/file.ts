@@ -38,6 +38,7 @@ import {
 	assertㆍbetter_dateㆍdeepㆍequal,
 	is_same_date_with_potential_tz_difference,
 	DAY_IN_MILLIS,
+	get_debug_representation,
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
 
@@ -58,7 +59,7 @@ export interface OriginalData {
 	// from fs
 	// we should always store it in case it changes for some reason + we may overwrite it
 	fs_birthtime_ms: TimestampUTCMs
-	is_fs_birthtime_assessed_reliable: boolean // from neighbors at the time of the discovery
+	is_fs_birthtime_assessed_reliable: undefined | boolean // from various info incl. neighbors at the time of the discovery
 
 	// from exif
 	exif_orientation?: number
@@ -540,10 +541,10 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 export function get_best_creation_date(state: Immutable<State>): BetterDate {
 	const meta = get_best_creation_date_meta(state)
 
-	if (_get_creation_date_from_whatever_normalized_basename(state)) {
+	/*if (_get_creation_date_from_whatever_normalized_basename(state)) {
 		const date_from_whatever_normalized_basename = _get_creation_date_from_whatever_normalized_basename(state)!
 		assertㆍbetter_dateㆍdeepㆍequal(meta.candidate, date_from_whatever_normalized_basename)
-	}
+	}*/
 
 	return meta.candidate
 }
@@ -563,7 +564,10 @@ export function is_confident_in_date(state: Immutable<State>): boolean {
 	if (confidence !== 'primary') {
 		logger.warn(`get_confidence_in_date() low confidence`, {
 			id: state.id,
-			...meta,
+			meta: {
+				...meta,
+				candidate: get_debug_representation(meta.candidate),
+			},
 		})
 		return false
 	}
@@ -658,10 +662,12 @@ export function create(id: FileId): Immutable<State> {
 	function get_parsed_current_basename(state: Immutable<State>) {
 		const current_basename = get_current_basename(state)
 		if (get_params().is_perfect_state) {
-			assert(
-				!is_normalized_media_basename(current_basename),
-				`PERFECT STATE current basename should never be an already normalized basename "${current_basename}"!`
-			)
+			if(!has_all_infos_for_extracting_the_creation_date(state, { should_log: false })) {
+				assert(
+					!is_normalized_media_basename(current_basename),
+					`PERFECT STATE current basename should never be an already normalized basename "${current_basename}"!`
+				)
+			}
 		}
 
 		return memoized_parse_current_basename(current_basename)
@@ -686,7 +692,7 @@ export function create(id: FileId): Immutable<State> {
 				basename: parsed_path.base,
 				parent_path: parsed_path.dir,
 				fs_birthtime_ms: get_UTC_timestamp_ms(), // so far
-				is_fs_birthtime_assessed_reliable: false, // so far
+				is_fs_birthtime_assessed_reliable: undefined, // so far
 			},
 
 			deleted: undefined,
@@ -817,9 +823,10 @@ export function on_neighbors_hints_collected(
 	PARAMS = get_params(),
 ): Immutable<State> {
 	logger.trace(`${LIB} on_neighbors_hints_collected(…)`, { id: state.id, date_range_from_reliable_neighbors, are_reliable_neighbors_fs_correct })
+	if (is_notes(state)) return state
 
-	assert(!state.are_neighbors_hints_collected, `on_neighbors_hints_collected() should not be called several times`)
-	assert(state.are_notes_restored, `on_neighbors_hints_collected() should be called after notes restoration`)
+	assert(!state.are_neighbors_hints_collected, `on_neighbors_hints_collected() should not be called several times ${state.id}`)
+	assert(state.are_notes_restored, `on_neighbors_hints_collected() should be called after notes restoration ${state.id}`)
 
 	state = {
 		...state,
@@ -831,7 +838,7 @@ export function on_neighbors_hints_collected(
 		const date__from_fs__original = create_better_date_from_utc_tms(tms__from_fs__original, 'tz:auto')
 		assert(tms__from_fs__original === get_timestamp_utc_ms_from(date__from_fs__original), `original fs tms back and forth stability`)
 
-		const is_fs_birthtime_assessed_reliable: boolean = (() => {
+		const is_fs_birthtime_assessed_reliable: boolean | undefined = (() => {
 
 			const date__from_parent_folder__original = _get_creation_date_from_original_parent_folder(state)
 			if (date__from_parent_folder__original) {
@@ -864,7 +871,7 @@ export function on_neighbors_hints_collected(
 				}
 			}
 
-			return false
+			return undefined // equivalent to false
 		})()
 
 		logger.trace(`${LIB} on_neighbors_hints_collected(…) on first encounter, assessed the FS birthtime reliability`, {

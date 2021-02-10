@@ -427,6 +427,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function move_file_to_ideal_location(id: RelativePath): Promise<void> {
 		const target_id = DB.get_ideal_file_relative_path(db, id)
+		if (target_id === id) return
+
 		logger.trace(`- moving/renaming file "${id}" to its ideal location "${target_id}"…`)
 		const TASK_ID = 'move_file_to_ideal_location'
 		on_new_task(TASK_ID)
@@ -445,7 +447,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				logger.verbose(`- renaming file in-place from "${parsed.base}" to ideally "${parsed_target.base}"…`)
 			}
 
-			/*
+			/* TODO ?
 			if (get_params().is_perfect_state && File.is_media_file() && File.get_confidence_in_date()) {
 				assert(
 					is_normalized_media_basename(parsed.base),
@@ -635,5 +637,5 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 }
 
 export function get_report_to_string(): string {
-	return JSON.stringify(_report)
+	return JSON.stringify(_report, null, '\t');
 }

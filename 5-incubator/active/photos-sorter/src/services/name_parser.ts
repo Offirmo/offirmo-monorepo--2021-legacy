@@ -488,12 +488,12 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 		return result
 	}
 
-	if (PARAMS.is_perfect_state) {
+	/*if (PARAMS.is_perfect_state) {
 		assert(
 			!is_normalized_media_basename(result.original_name),
 			`PERFECT STATE Should never parse an already normalized basename "${result.original_name}"! The original name should be parsed!`
 		)
-	}
+	}*/
 
 	let no_infinite_loop_counter = 255
 	let should_exit = false
