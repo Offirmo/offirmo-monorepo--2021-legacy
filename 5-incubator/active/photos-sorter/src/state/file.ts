@@ -36,7 +36,7 @@ import {
 	get_timestamp_utc_ms_from,
 	create_better_date_from_simple,
 	assertㆍbetter_dateㆍdeepㆍequal,
-	is_within_24h,
+	is_same_date_with_potential_tz_difference,
 	DAY_IN_MILLIS,
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
@@ -315,6 +315,37 @@ function _get_creation_date_from_any_current_parent_folder(state: Immutable<Stat
 
 	return null
 }
+function _is_matching(d1: Immutable<BetterDate>, d2: Immutable<BetterDate>, debug_id?: string): boolean {
+	const tms1 = get_timestamp_utc_ms_from(d1)
+	const tms2 = get_timestamp_utc_ms_from(d2)
+
+	const auto1 = get_human_readable_timestamp_auto(d1, 'tz:embedded')
+	const auto2 = get_human_readable_timestamp_auto(d2, 'tz:embedded')
+
+	const is_tms_matching = is_same_date_with_potential_tz_difference(tms1, tms2)
+
+	const [ longest, shortest ] = auto1.length >= auto2.length
+		? [ auto1,        auto2 ]
+		: [ auto2, auto1 ]
+	const is_auto_matching = longest.startsWith(shortest)
+
+	if (!is_tms_matching && !is_auto_matching) {
+		if (debug_id) {
+			logger.warn(`XXX _is_matching() yielded FALSE`, {
+				id: debug_id,
+				auto_from_exif: auto1,
+				auto_from_fs__current: auto2,
+				tms_from_exif: tms1,
+				tms_from_fs__current: tms2,
+				is_tms_matching,
+				is_auto_matching,
+			})
+		}
+		return false
+	}
+
+	return true
+}
 // TODO should be original FS?
 export function is_current_fs_date_reliable__primary(state: Immutable<State>): boolean | undefined {
 	assert(state.current_exif_data !== undefined, `is_current_fs_date_reliable__primary() is_exif_available`)
@@ -331,25 +362,11 @@ export function is_current_fs_date_reliable__primary(state: Immutable<State>): b
 	const date__from_fs__current = create_better_date_from_utc_tms(_get_creation_date_from_current_fs_stats(state), 'tz:auto')
 	assert(_get_creation_date_from_current_fs_stats(state) === get_timestamp_utc_ms_from(date__from_fs__current), `current fs tms back and forth stability`)
 
-	const auto_from_exif = get_human_readable_timestamp_auto(date__from_exif, 'tz:embedded')
-	const auto_from_fs__current = get_human_readable_timestamp_auto(date__from_fs__current, 'tz:embedded')
-
-	//console.log(`is_current_fs_date_reliable__primary()`, { auto_from_fs__current, auto_from_exif })
-	const [ longest, shortest ] = auto_from_exif.length >= auto_from_fs__current.length
-		? [ auto_from_exif, auto_from_fs__current ]
-		: [ auto_from_fs__current, auto_from_exif ]
-
-	const is_fs_matching_exif = longest.startsWith(shortest)
-
-	if (!is_fs_matching_exif) {
-		logger.warn(`is_current_fs_date_reliable__primary() yielded false`, {
-			id: state.id,
-			auto_from_exif,
-			auto_from_fs__current,
-		})
-		console.log(state.current_exif_data)
+	const is_matching = _is_matching(date__from_exif, date__from_fs__current, state.id)
+	if (!is_matching) {
+		console.warn('exif data', state.current_exif_data)
 	}
-	return is_fs_matching_exif
+	return is_matching
 }
 // all together
 export type DateConfidence = 'primary' | 'secondary' | 'junk'
@@ -410,7 +427,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
+		result.is_fs_matching = _is_matching(date__from_fs__original, result.candidate)
 
 		if (date__from_basename__whatever_non_normalized) {
 			const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
@@ -419,7 +436,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 			if (auto_from_candidate.startsWith(auto_from_basename)) {
 				// perfect match + EXIF more precise
 			}
-			else if (is_within_24h(get_timestamp_utc_ms_from(date__from_basename__whatever_non_normalized), get_timestamp_utc_ms_from(result.candidate))) {
+			else if (_is_matching(date__from_basename__whatever_non_normalized, result.candidate)) {
 				// good enough, keep EXIF
 				// TODO evaluate in case of timezone?
 			}
@@ -446,7 +463,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_basename__whatever_non_normalized
 		result.source = 'some_basename_nn'
 		result.confidence = 'primary'
-		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
+		result.is_fs_matching = _is_matching(date__from_fs__original, result.candidate)
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(date__from_fs__original, 'tz:embedded')
@@ -489,7 +506,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_basename__whatever_normalized
 		result.source = 'some_basename_normalized'
 		result.confidence = 'primary'
-		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
+		result.is_fs_matching = _is_matching(date__from_fs__original, result.candidate)
 
 		// normalized is already super precise, no need to refine with FS
 
@@ -505,7 +522,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.candidate = date__from_any_parent_folder
 		result.source = 'env_hints'
 		result.confidence = 'secondary'
-		result.is_fs_matching = is_within_24h(get_timestamp_utc_ms_from(date__from_fs__original), get_timestamp_utc_ms_from(result.candidate))
+		result.is_fs_matching = _is_matching(date__from_fs__original, result.candidate)
 
 		return result
 	}
