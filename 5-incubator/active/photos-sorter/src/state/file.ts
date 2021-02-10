@@ -162,11 +162,11 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 		&& is_exif_available_if_needed
 		&& are_fs_stats_read
 		&& is_current_hash_computed
-		&& are_neighbors_hints_collected || !require_neighbors_hints
+		&& (are_neighbors_hints_collected || !require_neighbors_hints)
 
 	if (!has_all_infos && should_log) {
 		// TODO remove, valid check most of the time
-		logger.warn(`has_all_infos_for_extracting_the_creation_date()`, {
+		logger.warn(`has_all_infos_for_extracting_the_creation_date() !met`, {
 			are_notes_restored,
 			is_exif_available_if_needed,
 			are_fs_stats_read,
@@ -213,7 +213,8 @@ function _get_creation_date_from_exif__internal(state: Immutable<State>): ExifDa
 		return undefined
 	}
 
-	assert(current_exif_data, `${id}: exif data read`)
+	assert(current_exif_data !== undefined, `_get_creation_date_from_exif__internal(): ${id} exif data read`)
+	if (current_exif_data === null) return undefined
 
 	try {
 		return get_creation_date_from_exif(get_current_basename(state), current_exif_data)
@@ -230,7 +231,8 @@ function _get_creation_tz_from_exif(state: Immutable<State>): TimeZone | undefin
 		return undefined
 	}
 
-	assert(current_exif_data, `${id}: exif data read`)
+	assert(current_exif_data !== undefined, `_get_creation_date_from_exif__internal(): ${id} exif data read`)
+	if (current_exif_data === null) return undefined
 
 	try {
 		return get_creation_timezone_from_exif(current_exif_data)
@@ -247,7 +249,8 @@ function _get_creation_date_from_exif(state: Immutable<State>): BetterDate | und
 	}
 
 	const { id, current_exif_data } = state
-	assert(current_exif_data, `${id}: exif data read`)
+	assert(current_exif_data !== undefined, `_get_creation_date_from_exif__internal(): ${id} exif data read`)
+
 	const _from_exif__internal: ExifDateTime | undefined = _get_creation_date_from_exif__internal(state)
 	if (!_from_exif__internal) return undefined
 
@@ -312,26 +315,39 @@ function _get_creation_date_from_any_current_parent_folder(state: Immutable<Stat
 }
 // TODO should be original FS?
 export function is_current_fs_date_reliable__primary(state: Immutable<State>): boolean | undefined {
-	if (!is_exif_powered_media_file(state)) return undefined // don't know
+	assert(state.current_exif_data !== undefined, `is_current_fs_date_reliable__primary() is_exif_available`)
+
+	if (!is_exif_powered_media_file(state))
+		return undefined // don't know
 
 	// TODO when we start doing FS normalization, detect that and discard the info since non primary
 
-	const is_exif_available = state.current_exif_data !== undefined
-	assert(is_exif_available, `is_exif_available`)
 	const date__from_exif = _get_creation_date_from_exif(state)
 	if (!date__from_exif) return undefined
 
-	const are_fs_stats_read = state.current_fs_stats !== undefined
-	assert(are_fs_stats_read, `are_fs_stats_read`)
+	assert(state.current_fs_stats !== undefined, `are_fs_stats_read`)
 	const date__from_fs__current = create_better_date_from_utc_tms(_get_creation_date_from_current_fs_stats(state), 'tz:auto')
 	assert(_get_creation_date_from_current_fs_stats(state) === get_timestamp_utc_ms_from(date__from_fs__current), `current fs tms back and forth stability`)
 
 	const auto_from_exif = get_human_readable_timestamp_auto(date__from_exif, 'tz:embedded')
 	const auto_from_fs__current = get_human_readable_timestamp_auto(date__from_fs__current, 'tz:embedded')
 
-	assert(auto_from_fs__current.length >= auto_from_exif.length, `auto lengths`)
+	//console.log(`is_current_fs_date_reliable__primary()`, { auto_from_fs__current, auto_from_exif })
+	const [ longest, shortest ] = auto_from_exif.length >= auto_from_fs__current.length
+		? [ auto_from_exif, auto_from_fs__current ]
+		: [ auto_from_fs__current, auto_from_exif ]
 
-	return auto_from_fs__current.startsWith(auto_from_exif)
+	const is_fs_matching_exif = longest.startsWith(shortest)
+
+	if (!is_fs_matching_exif) {
+		logger.warn(`is_current_fs_date_reliable__primary() yielded false`, {
+			id: state.id,
+			auto_from_exif,
+			auto_from_fs__current,
+		})
+		console.log(state.current_exif_data)
+	}
+	return is_fs_matching_exif
 }
 // all together
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
@@ -356,7 +372,7 @@ interface BestDate {
 export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): BestDate {
 	logger.trace('get_best_creation_date_meta()', { id: state.id })
 
-	assert(has_all_infos_for_extracting_the_creation_date(state, {}), 'has_all_infos_for_extracting_the_creation_date()')
+	assert(has_all_infos_for_extracting_the_creation_date(state, { require_neighbors_hints: false }), 'has_all_infos_for_extracting_the_creation_date()')
 
 	const tms__from_fs__original = _get_creation_date_from_original_fs_stats(state)
 	const date__from_fs__original = create_better_date_from_utc_tms(tms__from_fs__original, 'tz:auto')

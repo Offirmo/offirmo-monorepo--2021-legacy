@@ -50,6 +50,7 @@ const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 ]
 
 // TODO should default_zone be dynamic? Most likely yes
+const _exif_warning: { [k: string]: boolean } = {}
 export function get_creation_date_from_exif(filename_for_debug: string, exif_data: Immutable<Tags>, default_zone?: string): ExifDateTime | undefined {
 	const now_legacy = new LegacyDate()
 	let min_date_legacy = now_legacy // for now
@@ -157,10 +158,12 @@ export function get_creation_date_from_exif(filename_for_debug: string, exif_dat
 	}, {} as ExifDateTimeHash)
 
 	if (Object.keys(candidate_exifdates).length === 0) {
-		// seen happening on edited jpg
+		// seen happening on edited jpg, also on WhatsApp saved images
 		// TODO add to file log
-		// TODO log
-		logger.warn('EXIF compatible file has no usable EXIF date', { filename_for_debug })
+		if (!_exif_warning[filename_for_debug]) {
+			logger.warn('EXIF compatible file has no usable EXIF date', { filename_for_debug })
+			_exif_warning[filename_for_debug] = true
+		}
 		return undefined
 	}
 	assert(min_date_exif, 'min_date_exif should exist since fields found')

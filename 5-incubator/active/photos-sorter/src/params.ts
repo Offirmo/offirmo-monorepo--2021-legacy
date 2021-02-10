@@ -89,7 +89,6 @@ export function get_params(): Params {
 			...EXIF_POWERED_FILE_EXTENSIONS,
 			'.avi', // old videos
 			'.gif',
-			'.mp4',
 			'.pdf',
 			'.png',
 			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format

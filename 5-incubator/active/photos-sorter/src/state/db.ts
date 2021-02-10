@@ -96,18 +96,22 @@ export function get_all_event_folder_ids(state: Immutable<State>): string[] {
 		//.sort((a, b) => state.folders[a].begin_date_symd! - state.folders[b].begin_date_symd!)
 }
 
+function get_all_files(state: Immutable<State>): Immutable<File.State>[] {
+	return Object.values(state.files)
+}
+
 export function get_all_file_ids(state: Immutable<State>): string[] {
 	return Object.keys(state.files)
 		.sort()
 }
 
 export function get_all_files_except_notes(state: Immutable<State>): Immutable<File.State>[] {
-	return Object.values(state.files)
+	return get_all_files(state)
 		.filter(state => !File.is_notes(state))
 }
 
 export function get_all_media_files(state: Immutable<State>): Immutable<File.State>[] {
-	return Object.values(state.files)
+	return get_all_files(state)
 		.filter(s => File.is_media_file(s))
 }
 
@@ -444,7 +448,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	return state
 }
 
-// TODO check if redundant with on_file_found()
+// called by Actions.create_action_load_notes initiated by on_file_found
 export function on_notes_found(state: Immutable<State>, raw_data: any): Immutable<State> {
 	logger.trace(`${LIB} on_notes_found(…)`, get_base_loose(raw_data))
 	logger.verbose(`${LIB} found previous notes about the files`)
@@ -460,7 +464,7 @@ export function on_notes_found(state: Immutable<State>, raw_data: any): Immutabl
 function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
 	const file_state = state.files[file_id]
 
-	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state, { require_neighbors_hints: false })) {
+	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state, { should_log: false, require_neighbors_hints: false })) {
 		// update folder date range
 		const folder_id = File.get_current_parent_folder_id(file_state)
 		const old_folder_state = state.folders[folder_id]
@@ -535,24 +539,6 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 	return _on_any_file_info_read(state, file_id)
 }
 
-function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id, has_data: !!recovered_notes })
-
-	let new_file_state = File.on_notes_recovered(
-		state.files[file_id],
-		recovered_notes,
-	)
-
-	state = {
-		...state,
-		files: {
-			...state.files,
-			[file_id]: new_file_state,
-		},
-	}
-
-	return _on_any_file_info_read(state, file_id)
-}
 
 export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} on_file_moved(…)`, { id, target_id })
@@ -637,6 +623,24 @@ export function backup_notes(state: Immutable<State>): Immutable<State> {
 }
 
 // some decisions need to wait for the entire exploration to be done
+function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id, has_data: !!recovered_notes })
+
+	let new_file_state = File.on_notes_recovered(
+		state.files[file_id],
+		recovered_notes,
+	)
+
+	state = {
+		...state,
+		files: {
+			...state.files,
+			[file_id]: new_file_state,
+		},
+	}
+
+	return _on_any_file_info_read(state, file_id)
+}
 function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_notes_between_persisted_regenerated_and_duplicates()…`)
 
@@ -737,8 +741,11 @@ function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutabl
 function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders()…`)
 
-	get_all_media_files(state).forEach((file_state) => {
+	get_all_files(state).forEach((file_state) => {
 		const is_fs_reliable = File.is_current_fs_date_reliable__primary(file_state)
+		if (is_fs_reliable === false) {
+			logger.warn(`File "${file_state.id}" fs reliability has been estimated as FALSE`)
+		}
 
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
 		let folder_state = state.folders[parent_folder_id]
@@ -755,7 +762,14 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 		}
 	})
 
-	get_all_media_files(state).forEach(file_state => {
+	get_all_folders(state).forEach(folder_state => {
+		logger.info(`Folder "${folder_state.id}" fs reliability has been estimated as`, {
+			reliability:Folder.are_children_fs_reliable(folder_state),
+			stats: folder_state.children_fs_reliability_count,
+		})
+	})
+
+	get_all_files(state).forEach(file_state => {
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
 		let folder_state = state.folders[parent_folder_id]
 		const parent_folder_fs_reliability = Folder.are_children_fs_reliable(folder_state)
