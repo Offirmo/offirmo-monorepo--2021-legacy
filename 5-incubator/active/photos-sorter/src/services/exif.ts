@@ -4,11 +4,17 @@ import { Immutable } from '@offirmo-private/ts-types'
 
 import { TimeZone } from '../types'
 import { get_default_timezone } from '../params'
-import { LegacyDate, is_same_date_with_potential_tz_difference } from './better-date'
+import {
+	LegacyDate,
+	is_same_date_with_potential_tz_difference,
+	get_human_readable_timestamp_auto,
+	create_better_date_from_ExifDateTime,
+} from './better-date'
 import logger from './logger'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 
+// TODO HashOf helper type
 type ExifDateTimeHash = { [k: string]: ExifDateTime }
 
 
@@ -32,7 +38,10 @@ type ExifDateTimeHash = { [k: string]: ExifDateTime }
 //DateTimeGenerated?: ExifDateTime;
 /** ☆☆☆☆ ✔ Example: 2017-02-12T10:28:20.000 */
 //MediaCreateDate?: ExifDateTime;
-const EXIF_DATE_FIELDS: Array<keyof Tags> = [
+
+const EXIF_DATE_FIELD__CREATION_DATE = 'CreationDate' as keyof Tags // not documented in exiftool but seen in exif data and being more reliable than other fields (ex. iphone IMG_0170.MOV)
+
+	const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	// https://github.com/photostructure/exiftool-vendored.js#dates
 	'SubSecCreateDate',
 	'SubSecDateTimeOriginal',
@@ -48,13 +57,71 @@ const EXIF_DATE_FIELDS: Array<keyof Tags> = [
 	'MediaCreateDate',
 	//'GPSDateTime' No! seems to be UTC = makes it tricky to use correctly. NTH support this later if deemed useful
 	'TrackCreateDate', // seen on movies, usually == CreateDate
-	'CreationDate' as keyof Tags, // not documented in exiftool but seen in exif data and being more reliable than other fields (iphone IMG_0170.MOV)
+	EXIF_DATE_FIELD__CREATION_DATE,
 ]
 const FS_DATE_FIELDS: Array<keyof Tags> = [
 	'FileModifyDate',
 	'FileAccessDate',
 	'FileInodeChangeDate',
 ]
+
+
+function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>, { DEBUG, filename_for_debug}: { DEBUG: boolean, filename_for_debug: string }): undefined | ExifDateTime {
+	let raw_exiftool_date: undefined | any = exif_data[field]
+	DEBUG && console.log(`_get_valid_exifdate_field("${field}"): raw = ${raw_exiftool_date}`, { filename_for_debug })
+	if (!raw_exiftool_date) return undefined
+
+	const now_legacy = new LegacyDate()
+	DEBUG && console.log(`_get_valid_exifdate_field("${field}"): FYI`, { filename_for_debug, exif_tz: exif_data.tz, now_legacy })
+
+	// https://github.com/photostructure/exiftool-vendored.js/issues/73
+	// "If date fields aren't parsable, the raw string from exiftool will be provided."
+	if (typeof raw_exiftool_date === 'string') {
+		// TODO log (add a onWarning param)
+		logger.warn(`un-parsable exif date`, { raw_exiftool_date, filename_for_debug })
+		return undefined
+	}
+
+	let exiftool_date: ExifDateTime = raw_exiftool_date
+	DEBUG && DEBUG && console.log(`_get_valid_exifdate_field("${field}"): seems we have an ExifDateTime (pending further validation):`, {
+		exiftool_date,
+		...(!!exiftool_date.toDate && {
+			toDate: exiftool_date.toDate(),
+		}),
+	})
+
+	if (exiftool_date.tzoffsetMinutes === undefined) {
+		DEBUG && console.warn(`_get_valid_exifdate_field("${field}"): missing tz…`)
+		// TODO find a real example of a tz fixable with this method
+		// we'd rather not botcher things without it.
+		/*
+		const auto_tz = exif_data.tz
+			? exif_data.tz
+			: undefined //get_default_timezone(get_timestamp_ms_from_exifdate(exiftool_date))
+		if (auto_tz) {
+			DEBUG && console.log(`  - #${index}: reparsing with better tz…`, { auto_tz })
+			assert(raw_exiftool_date.rawValue, 'exif date has raw value')
+			const reparsed_exiftool_date = ExifDateTime.fromEXIF(raw_exiftool_date.rawValue, auto_tz)
+			assert(reparsed_exiftool_date, 'reparsed date success')
+			exiftool_date = reparsed_exiftool_date
+		}*/
+	}
+
+	// further validate the date
+	try {
+		const date = exiftool_date.toDate()
+		assert(date && date.getFullYear, `_get_valid_exifdate_field("${field}") has correct shape (1)`)
+		assert(+date, `_get_valid_exifdate_field("${field}") has correct shape (2)`)
+		assert(+date < +now_legacy, `_get_valid_exifdate_field("${field}") value is ok compared to now`) // seen when recent photo and wrong default timezone => photo in the future
+	}
+	catch (err) {
+		logger.fatal('error reading EXIF date', { filename_for_debug, field, klass: exiftool_date.constructor.name, date_object: exiftool_date, err })
+		err.message = 'error reading EXIF date: ' + err.message
+		throw err
+	}
+
+	return exiftool_date
+}
 
 function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Array<keyof Tags>, exif_data: Immutable<Tags>, { DEBUG, filename_for_debug}: { DEBUG: boolean, filename_for_debug: string }): ExifDateTime | undefined {
 	DEBUG && console.log(`_get_earliest_defined_date_from_selected_fields_of_exif_data() starting on "${filename_for_debug}"…`)
@@ -63,58 +130,15 @@ function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Ar
 	DEBUG && console.log(`- FYI`, { fields, exif_tz: exif_data.tz, now_legacy })
 
 	DEBUG && console.log('- filtering defined candidates…')
+	// TODO we could also give priority to dates having a tz, however never seen a real case of mixing tz / non tz
+	// TODO we could also give priority to dates matching the fs
 	const candidate_exifdates: ExifDateTimeHash = fields.reduce((acc: ExifDateTimeHash, field, index) => {
-		let raw_exiftool_date: undefined | any = exif_data[field]
-		DEBUG && console.log(`  - #${index}: "${field}" raw = ${raw_exiftool_date}`)
-		if (!raw_exiftool_date) return acc
+		DEBUG && console.log(`  - #${index}: reading "${field}"…`)
 
-		// https://github.com/photostructure/exiftool-vendored.js/issues/73
-		// "If date fields aren't parsable, the raw string from exiftool will be provided."
-		if (typeof raw_exiftool_date === 'string') {
-			// TODO log (add a onWarning param)
-			logger.warn(`un-parsable exif date`, { raw_exiftool_date, filename_for_debug })
-			return acc
-		}
+		let exiftool_date: ExifDateTime | undefined = _get_valid_exifdate_field(field, exif_data, { DEBUG, filename_for_debug})
+		if (exiftool_date)
+			acc[field] = exiftool_date
 
-		let exiftool_date: ExifDateTime = raw_exiftool_date
-		DEBUG && DEBUG && console.log(`  - #${index}: seems we have an ExifDateTime (pending further validation):`, {
-			exiftool_date,
-			...(!!exiftool_date.toDate && {
-				toDate: exiftool_date.toDate(),
-			}),
-		})
-
-		if (exiftool_date.tzoffsetMinutes === undefined) {
-			DEBUG && console.warn(`  - #${index}: missing tz…`)
-			// TODO find a real example of a tz fixable with this method
-			// we'd rather not botcher things without it.
-			/*
-			const auto_tz = exif_data.tz
-				? exif_data.tz
-				: undefined //get_default_timezone(get_timestamp_ms_from_exifdate(exiftool_date))
-			if (auto_tz) {
-				DEBUG && console.log(`  - #${index}: reparsing with better tz…`, { auto_tz })
-				assert(raw_exiftool_date.rawValue, 'exif date has raw value')
-				const reparsed_exiftool_date = ExifDateTime.fromEXIF(raw_exiftool_date.rawValue, auto_tz)
-				assert(reparsed_exiftool_date, 'reparsed date success')
-				exiftool_date = reparsed_exiftool_date
-			}*/
-		}
-
-		// further validate the date
-		try {
-			const date = exiftool_date.toDate()
-			assert(date && date.getFullYear, 'exif date from exif field is ok')
-			assert(+date, 'exif date from field is ok (ts)')
-			assert(+date < +now_legacy, 'exif date value is ok compared to now') // seen when recent photo and wrong default timezone => photo in the future
-		}
-		catch (err) {
-			logger.fatal('error reading EXIF date', { field, klass: exiftool_date.constructor.name, date_object: exiftool_date, err })
-			err.message = 'error reading EXIF date: ' + err.message
-			throw err
-		}
-
-		acc[field] = exiftool_date
 		return acc
 	}, {} as ExifDateTimeHash)
 
@@ -176,19 +200,47 @@ function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Ar
 		tms: get_timestamp_ms_from_exifdate(min_date_exif),
 	})
 
-	assert(get_timestamp_ms_from_exifdate(min_date_exif) !== +now_legacy, 'coherent dates')
+	assert(get_timestamp_ms_from_exifdate(min_date_exif) !== +now_legacy, 'coherent dates') // TODO improve test by taking the date on exec start
 
 	return min_date_exif
 }
 
 
-// TODO should default_zone be dynamic? Most likely yes
 const _exif_warning: { [k: string]: boolean } = {}
-export function get_creation_date_from_exif(filename_for_debug: string, exif_data: Immutable<Tags>): ExifDateTime | undefined {
+export function get_creation_date_from_exif__nocache(filename_for_debug: string, exif_data: Immutable<Tags>): ExifDateTime | undefined {
 	const DEBUG = false
 	DEBUG && console.log(`get_creation_date_from_exif() starting on "${filename_for_debug}"…`)
 
-	let min_date_exif: ExifDateTime | undefined = _get_earliest_defined_date_from_selected_fields_of_exif_data(
+	// if only exif data was reliable…
+	// unfortunately we encountered several cases of the exif data being botched
+	// ex. WhatsApp seems to strip or to remove the timezone
+	// ex. iPhones seems to have different dates with erroneous ones
+	// In this method we try to intelligently figure out the real date.
+	//console.log(exif_data)
+
+	// unreliable in itself, but useful as a cross-validation
+	const earliest_date_from_fs𖾚exif: ExifDateTime | undefined = _get_earliest_defined_date_from_selected_fields_of_exif_data(
+		FS_DATE_FIELDS,
+		exif_data,
+		{
+			DEBUG,
+			filename_for_debug,
+		},
+	)
+
+	// this undocumented key has been seen as the most reliable in some iPhone photos,
+	// however we'll validate that
+	const date_from_CreationDate𖾚exif: ExifDateTime | undefined = _get_valid_exifdate_field(
+		EXIF_DATE_FIELD__CREATION_DATE,
+		exif_data,
+		{
+			DEBUG,
+			filename_for_debug,
+		},
+	)
+
+	// normal algorithm
+	let candidate_date𖾚exif: ExifDateTime | undefined = _get_earliest_defined_date_from_selected_fields_of_exif_data(
 		EXIF_DATE_FIELDS,
 		exif_data,
 		{
@@ -197,7 +249,8 @@ export function get_creation_date_from_exif(filename_for_debug: string, exif_dat
 		},
 	)
 
-	if (!min_date_exif) {
+	if (!candidate_date𖾚exif) {
+		// no date in EXIF Data.
 		// seen happening on
 		// - edited jpg
 		// - imaged received through WhatsApp then saved = exif dates are stripped
@@ -209,34 +262,54 @@ export function get_creation_date_from_exif(filename_for_debug: string, exif_dat
 		return undefined
 	}
 
-	if (min_date_exif.tzoffsetMinutes === undefined) {
-		DEBUG && console.warn('exif date has no tz, attempting improvement…')
+	// we have candidates, let's cross-check them
+	if (date_from_CreationDate𖾚exif) {
+		if (!is_same_date_with_potential_tz_difference(
+			get_timestamp_ms_from_exifdate(candidate_date𖾚exif),
+			get_timestamp_ms_from_exifdate(date_from_CreationDate𖾚exif),
+		)) {
+			logger.warn('EXIF compatible file has EXIF dates discrepancy!', {
+				candidate: _to_debug(candidate_date𖾚exif),
+				from_creation_date: _to_debug(date_from_CreationDate𖾚exif),
+				candidate_tms: get_timestamp_ms_from_exifdate(candidate_date𖾚exif),
+				from_creation_date_tms: get_timestamp_ms_from_exifdate(date_from_CreationDate𖾚exif),
+			})
+			// we have seen CreationDate to be more reliable
+			candidate_date𖾚exif = date_from_CreationDate𖾚exif
+		}
+	}
+
+	if (candidate_date𖾚exif.tzoffsetMinutes === undefined) {
+		DEBUG && console.warn('candidate exif date has no tz, attempting improvement…')
 		// seen in WhatsApp movies (.mov, .mp4)
 		// the exif date is propagated but the timezone is stripped, leading to a wrong date
 		// HOWEVER the file date happens to be correct. Attempt to fix the exif date that way...
-		const min_date_from_fs_exif: ExifDateTime | undefined = _get_earliest_defined_date_from_selected_fields_of_exif_data(
-			FS_DATE_FIELDS,
-			exif_data,
-			{
-				DEBUG,
-				filename_for_debug,
-			},
-		)
-		if (min_date_from_fs_exif && min_date_from_fs_exif.tzoffsetMinutes !== undefined) {
-			if (is_same_date_with_potential_tz_difference(get_timestamp_ms_from_exifdate(min_date_from_fs_exif), get_timestamp_ms_from_exifdate(min_date_exif))) {
+
+		if (earliest_date_from_fs𖾚exif && earliest_date_from_fs𖾚exif.tzoffsetMinutes !== undefined) {
+			if (is_same_date_with_potential_tz_difference(get_timestamp_ms_from_exifdate(earliest_date_from_fs𖾚exif), get_timestamp_ms_from_exifdate(candidate_date𖾚exif))) {
 				// perfect, the FS date is perfectly matching + has a tz
-				logger.info(`✔️✔️✔️ recovered missing TZ thanks to fs date.`, {
+				logger.info(`✔️️ recovered missing TZ thanks to fs date.`, {
 					filename_for_debug,
-					//tms1: get_timestamp_ms_from_exifdate(min_date_from_fs_exif),
-					//tms2: get_timestamp_ms_from_exifdate(min_date_exif),
+					//tms1: get_timestamp_ms_from_exifdate(earliest_date_from_fs𖾚exif),
+					//tms2: get_timestamp_ms_from_exifdate(candidate_date𖾚exif),
 				})
-				min_date_exif = min_date_from_fs_exif
+				candidate_date𖾚exif = earliest_date_from_fs𖾚exif
 			}
 		}
 	}
 
+	return candidate_date𖾚exif
+}
+// TODO review if we end up modifying the files (lossless rotation)
+const _cache: { [sf: string]: ExifDateTime | undefined } = {}
+export function get_creation_date_from_exif(filename_for_debug: string, exif_data: Immutable<Tags>): ExifDateTime | undefined {
+	const {SourceFile} = exif_data
+	assert(SourceFile)
 
-	return min_date_exif
+	if (!_cache[SourceFile])
+		_cache[SourceFile] = get_creation_date_from_exif__nocache(filename_for_debug, exif_data)
+
+	return _cache[SourceFile]
 }
 
 export function get_creation_timezone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
@@ -253,4 +326,13 @@ export function get_orientation_from_exif(exif_data: Immutable<Tags>): number | 
 export function get_timestamp_ms_from_exifdate(date_exif: Immutable<ExifDateTime>): TimestampUTCMs {
 	const date_legacy = date_exif.toDate()
 	return +date_legacy
+}
+
+function _to_debug(date_exif: Immutable<ExifDateTime>): string {
+	return get_human_readable_timestamp_auto(
+		create_better_date_from_ExifDateTime(
+			date_exif
+		),
+		'tz:embedded',
+	)
 }

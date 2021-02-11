@@ -144,10 +144,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		return ''
 
 	const file_state = state.files[id]
-	const current_parent_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
-	const current_parent_folder_id: FolderId = current_parent_split_path.join(path.sep)
-	assert(is_folder_existing(state, current_parent_folder_id), 'get_ideal_file_relative_folder() current parent folder exists')
-	const top_parent_id: FolderId = current_parent_split_path[0]
+	const current_parent_folder_id: FolderId = File.get_current_parent_folder_id(file_state)
+	assert(is_folder_existing(state, current_parent_folder_id), `get_ideal_file_relative_folder() current parent folder exists "${current_parent_folder_id}"`)
+	const top_parent_id: FolderId = File.get_current_top_parent_folder_id(file_state)
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
 
 	logger.trace(`get_ideal_file_relative_folder() processing…`, {
@@ -208,23 +207,24 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	}
 
 	if (!File.is_media_file(file_state)) {
-		// XXX immu
+		let target_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
-			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
+			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
-			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
+			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
 		DEBUG && console.log(`✴️ ${id} can't sort`)
-		return path.join(current_parent_split_path.join(path.sep))
+		return path.join(target_split_path.join(path.sep))
 	}
 
 	// file is a media
 	if (!File.is_confident_in_date(file_state, 'secondary')) {
+		let target_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
-			current_parent_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
+			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 		else
-			current_parent_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME)
+			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME)
 		DEBUG && console.log(`✴️ ${id} really not confident`)
-		return current_parent_split_path.join(path.sep)
+		return target_split_path.join(path.sep)
 	}
 
 	// file is a media + we have reasonable confidence

@@ -428,8 +428,16 @@ export function is_same_date_with_potential_tz_difference(tms1: TimestampUTCMs, 
 		return true
 
 	// allow a little bit of lag (seen FRWF9408.MP4)
-	if (Math.abs(tms1 - tms2) <= 5 * 1000)
+	if (Math.abs(sub_hour_1 - sub_hour_2) <= 5 * 1000)
 		return true
+
+	/*console.warn(`is_same_date_with_potential_tz_difference() yielding close FALSE`, {
+		tms1,
+		tms2,
+		sub_hour_1,
+		sub_hour_2,
+		diff: Math.abs(sub_hour_1 - sub_hour_2),
+	})*/
 
 	return false
 }

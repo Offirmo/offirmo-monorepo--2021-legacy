@@ -123,6 +123,10 @@ export function get_current_parent_folder_id(state: Immutable<State>): RelativeP
 	return get_parsed_path(state).dir || '.'
 }
 
+export function get_current_top_parent_folder_id(state: Immutable<State>): RelativePath {
+	return get_path(state).split(path.sep)[0] || '.'
+}
+
 export function get_current_basename(state: Immutable<State>): Basename {
 	return get_parsed_path(state).base
 }

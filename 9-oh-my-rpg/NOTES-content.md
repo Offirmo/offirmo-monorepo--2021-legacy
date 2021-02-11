@@ -756,3 +756,12 @@ https://worldbuilding.stackexchange.com/questions/193222/what-would-martial-arts
 https://www.motherearthgardener.com/plant-profiles/medicinal/medicinal-sassparilla-zm0z18uzsphe
 
 https://en.wikipedia.org/wiki/Underdog
+
+### Social structure
+In the Netherlands in the 17th century, social status was largely determined by income. The landed nobility had relatively little importance, since they mostly lived in the more underdeveloped inland provinces, and it was the urban merchant class that dominated Dutch society. The clergy did not have much worldly influence either: the Catholic Church had been more or less suppressed since the onset of the Eighty Years' War with Spain. The new Protestant movement was divided, although exercising social control in many areas to an even greater extent than under the Catholic Church.[11]
+
+That is not to say that aristocrats were without social status. On the contrary, wealthy merchants bought themselves into the nobility by becoming landowners and acquiring a coat of arms and a seal. Aristocrats also mixed with other classes for financial reasons: they married their daughters to wealthy merchants, became traders themselves or took up public or military office. Merchants also started to value public office as a means to greater economic power and prestige. Universities became career pathways to public office. Rich merchants and aristocrats sent their sons on a so-called Grand Tour through Europe. Often accompanied by a private tutor, preferably a scientist himself, these young people visited universities in several European countries. This intermixing of patricians and aristocrats was most prominent in the second half of the century.[12]
+
+After aristocrats and patricians came the affluent middle class, consisting of Protestant ministers, lawyers, physicians, small merchants, industrialists and clerks of large state institutions. Lower status was attributed to farmers, craft and tradesmen, shopkeepers, and government bureaucrats. Below that stood skilled laborers, maids, servants, sailors, and other persons employed in the service industry. At the bottom of the pyramid were "paupers": impoverished peasants, many of whom tried their luck in a city as a beggar or day laborer.
+
+Workers and laborers were generally paid better than in most of Europe, and enjoyed relatively high living standards, although they also paid higher than normal taxes. Farmers prospered from mainly cash crops needed to support the urban and seafaring population.
