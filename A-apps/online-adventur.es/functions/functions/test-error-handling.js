@@ -92,11 +92,11 @@
 "use strict";
 
 const ansiStyles = __webpack_require__(80);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(57);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(84);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(85);
+} = __webpack_require__(86);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(86);
+		template = __webpack_require__(87);
 	}
 
 	return template(chalk, parts.join(''));
@@ -352,7 +352,7 @@ module.exports = require("events");
 
 /***/ }),
 
-/***/ 105:
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -668,7 +668,7 @@ LRUMap.prototype.toString = function() {
 
 /***/ }),
 
-/***/ 106:
+/***/ 107:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -860,15 +860,16 @@ var string = __webpack_require__(17);
  *
  * @param source An object that contains a method to be wrapped.
  * @param name A name of method to be wrapped.
- * @param replacement A function that should be used to wrap a given method.
+ * @param replacementFactory A function that should be used to wrap a given method, returning the wrapped method which
+ * will be substituted in for `source[name]`.
  * @returns void
  */
-function fill(source, name, replacement) {
+function fill(source, name, replacementFactory) {
     if (!(name in source)) {
         return;
     }
     var original = source[name];
-    var wrapped = replacement(original);
+    var wrapped = replacementFactory(original);
     // Make sure it's a function first, as we need to attach an empty prototype for `defineProperties` to work
     // otherwise it'll throw "TypeError: Object.defineProperties called on non-object"
     if (typeof wrapped === 'function') {
@@ -900,10 +901,10 @@ function urlEncode(object) {
         .join('&');
 }
 /**
- * Transforms any object into an object literal with all it's attributes
+ * Transforms any object into an object literal with all its attributes
  * attached to it.
  *
- * @param value Initial source that we have to transform in order to be usable by the serializer
+ * @param value Initial source that we have to transform in order for it to be usable by the serializer
  */
 function getWalkSource(value) {
     if (Object(is["b" /* isError */])(value)) {
@@ -1181,6 +1182,174 @@ function dropUndefinedKeys(val) {
 /***/ }),
 
 /***/ 108:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const os = __webpack_require__(20);
+const hasFlag = __webpack_require__(145);
+
+const env = process.env;
+
+let forceColor;
+if (hasFlag('no-color') ||
+	hasFlag('no-colors') ||
+	hasFlag('color=false')) {
+	forceColor = false;
+} else if (hasFlag('color') ||
+	hasFlag('colors') ||
+	hasFlag('color=true') ||
+	hasFlag('color=always')) {
+	forceColor = true;
+}
+if ('FORCE_COLOR' in env) {
+	forceColor = env.FORCE_COLOR.length === 0 || parseInt(env.FORCE_COLOR, 10) !== 0;
+}
+
+function translateLevel(level) {
+	if (level === 0) {
+		return false;
+	}
+
+	return {
+		level,
+		hasBasic: true,
+		has256: level >= 2,
+		has16m: level >= 3
+	};
+}
+
+function supportsColor(stream) {
+	if (forceColor === false) {
+		return 0;
+	}
+
+	if (hasFlag('color=16m') ||
+		hasFlag('color=full') ||
+		hasFlag('color=truecolor')) {
+		return 3;
+	}
+
+	if (hasFlag('color=256')) {
+		return 2;
+	}
+
+	if (stream && !stream.isTTY && forceColor !== true) {
+		return 0;
+	}
+
+	const min = forceColor ? 1 : 0;
+
+	if (process.platform === 'win32') {
+		// Node.js 7.5.0 is the first version of Node.js to include a patch to
+		// libuv that enables 256 color output on Windows. Anything earlier and it
+		// won't work. However, here we target Node.js 8 at minimum as it is an LTS
+		// release, and Node.js 7 is not. Windows 10 build 10586 is the first Windows
+		// release that supports 256 colors. Windows 10 build 14931 is the first release
+		// that supports 16m/TrueColor.
+		const osRelease = os.release().split('.');
+		if (
+			Number(process.versions.node.split('.')[0]) >= 8 &&
+			Number(osRelease[0]) >= 10 &&
+			Number(osRelease[2]) >= 10586
+		) {
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
+		}
+
+		return 1;
+	}
+
+	if ('CI' in env) {
+		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+			return 1;
+		}
+
+		return min;
+	}
+
+	if ('TEAMCITY_VERSION' in env) {
+		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+	}
+
+	if (env.COLORTERM === 'truecolor') {
+		return 3;
+	}
+
+	if ('TERM_PROGRAM' in env) {
+		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				return version >= 3 ? 3 : 2;
+			case 'Apple_Terminal':
+				return 2;
+			// No default
+		}
+	}
+
+	if (/-256(color)?$/i.test(env.TERM)) {
+		return 2;
+	}
+
+	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+		return 1;
+	}
+
+	if ('COLORTERM' in env) {
+		return 1;
+	}
+
+	if (env.TERM === 'dumb') {
+		return min;
+	}
+
+	return min;
+}
+
+function getSupportLevel(stream) {
+	const level = supportsColor(stream);
+	return translateLevel(level);
+}
+
+module.exports = {
+	supportsColor: getSupportLevel,
+	stdout: getSupportLevel(process.stdout),
+	stderr: getSupportLevel(process.stderr)
+};
+
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
+const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message']);
+const QUASI_STANDARD_ERROR_FIELDS = new Set([// first inherit from previous
+// conv to array needed due to a babel bug 😢
+...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([// first inherit from previous
+// conv to array needed due to a babel bug 😢
+...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used:
+'statusCode', 'shouldRedirect', 'framesToPop']);
+const COMMON_ERROR_FIELDS_EXTENDED = new Set([// first inherit from previous
+// conv to array needed due to a babel bug 😢
+...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
+'_temp', 'details']);
+
+/***/ }),
+
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1265,11 +1434,11 @@ function get_ISO8601_simplified_day(now = new Date()) {
 
 /***/ }),
 
-/***/ 109:
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var cssKeywords = __webpack_require__(196);
+var cssKeywords = __webpack_require__(198);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -2140,36 +2309,7 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STRICT_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return QUASI_STANDARD_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return COMMON_ERROR_FIELDS_EXTENDED; });
-const STRICT_STANDARD_ERROR_FIELDS = new Set([// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message']);
-const QUASI_STANDARD_ERROR_FIELDS = new Set([// first inherit from previous
-// conv to array needed due to a babel bug 😢
-...Array.from(STRICT_STANDARD_ERROR_FIELDS), // quasi-standard: followed by all browsers + node
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack']);
-const COMMON_ERROR_FIELDS = new Set([// first inherit from previous
-// conv to array needed due to a babel bug 😢
-...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used:
-'statusCode', 'shouldRedirect', 'framesToPop']);
-const COMMON_ERROR_FIELDS_EXTENDED = new Set([// first inherit from previous
-// conv to array needed due to a babel bug 😢
-...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'_temp', 'details']);
-
-/***/ }),
-
-/***/ 110:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2382,15 +2522,16 @@ function _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hin
 
 /***/ }),
 
-/***/ 111:
+/***/ 113:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return enforce_immutability; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return get_mutable_copy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return complete_or_cancel_eager_mutation_propagating_possible_child_mutation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return are_ustate_revision_requirements_met; });
 /* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(141);
+/* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(77);
 /* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(icepick__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
@@ -2398,7 +2539,10 @@ function _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hin
 
 
 
-const enforce_immutability = state => icepick__WEBPACK_IMPORTED_MODULE_1___default.a.freeze(state); // Use this in case of reducing a child state while unsure whether this child state has changed or not.
+const enforce_immutability = state => icepick__WEBPACK_IMPORTED_MODULE_1___default.a.freeze(state);
+function get_mutable_copy(state) {
+  return icepick__WEBPACK_IMPORTED_MODULE_1___default.a.thaw(state);
+} // Use this in case of reducing a child state while unsure whether this child state has changed or not.
 // - the best case is to return 'previous' = no mutation
 // - if a child state's revision increased, increase ours and keep the mutation
 // - it's possible that an "update to now" was invoked, it's ok to ignore that if that's the only change
@@ -2504,7 +2648,14 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 139:
+/***/ 14:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 141:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2620,7 +2771,7 @@ var selectors = __webpack_require__(3);
 
 
 
-const jsondiffpatch = __webpack_require__(192);
+const jsondiffpatch = __webpack_require__(194);
 
 
  // tslint:disable-next-line: variable-name
@@ -2759,14 +2910,7 @@ function compare(a, b) {
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 140:
+/***/ 142:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3182,372 +3326,23 @@ module.exports = Emittery;
 
 /***/ }),
 
-/***/ 141:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/**
- * This allows you to work with object hierarchies that have been frozen
- * with Object.freeze().  "get" operations can use the normal JS syntax,
- * but operations that modify the data will have to return partial copies of
- * the structure. The portions of the structure that did not change will
- * === their previous values.
- *
- * Inspired by clojure/mori and Immutable.js
- */
 
-
-
-const i = exports
-
-const identity = coll => coll
-
-// we only care about objects or arrays for now
-const weCareAbout = val => val !== null &&
-    (Array.isArray(val) ||
-      // This will skip objects created with `new Foo()`
-      // and objects created with `Object.create(proto)`
-      // The benefit is ignoring DOM elements and event emitters,
-      // which are often circular.
-      isObjectLike(val))
-
-const isObjectLike = val => typeof val === 'object' &&
-    (val.constructor === Object ||
-      val.constructor == null) &&
-    (Object.getPrototypeOf(val) === Object.prototype ||
-      Object.getPrototypeOf(val) === null)
-
-const forKeys = (obj, iter) => {
-  let idx, keys
-  if (Array.isArray(obj)) {
-    idx = obj.length
-    while (idx--) {
-      iter(idx)
-    }
-    return
-  }
-  keys = Object.keys(obj)
-  idx = keys.length
-  while (idx--) {
-    iter(keys[idx])
-  }
-}
-
-const cloneObj = obj => {
-  const newObj = obj.constructor == null ? Object.create(null) : {}
-  const keys = Object.keys(obj)
-  let idx = keys.length
-  let key
-  while (idx--) {
-    key = keys[idx]
-    newObj[key] = obj[key]
-  }
-  return newObj
-}
-
-const clone = (coll) => {
-  if (Array.isArray(coll)) {
-    return coll.slice()
-  } else {
-    return cloneObj(coll)
-  }
-}
-
-const freezeIfNeeded =  true
-? identity
-: undefined
-
-const _freeze =  true
-? identity
-: undefined
-
-const prevNodes = []
-
-const baseFreeze = (coll) => {
-  if (prevNodes.some(val => val === coll)) {
-    throw new Error('object has a reference cycle')
-  }
-  prevNodes.push(coll)
-  forKeys(coll, key => {
-    const prop = coll[key]
-    if (weCareAbout(prop)) {
-      baseFreeze(prop)
-    }
-  })
-  prevNodes.pop()
-
-  Object.freeze(coll)
-  return coll
-}
-
-/**
- * recrursively freeze an object and all its child objects
- * @param  {Object|Array} coll
- * @return {Object|Array}
- */
-exports.freeze =  true
-? identity
-: undefined
-
-/**
- * recursively un-freeze an object, by cloning frozen collections
- * @param  {[type]} coll [description]
- * @return {[type]}      [description]
- */
-exports.thaw = function thaw (coll) {
-  if (!weCareAbout(coll) || !Object.isFrozen(coll)) return coll
-
-  const newColl = Array.isArray(coll)
-    ? new Array(coll.length)
-    : {}
-
-  forKeys(coll, key => {
-    newColl[key] = thaw(coll[key])
-  })
-  return newColl
-}
-
-/**
- * set a value on an object or array
- * @param  {Object|Array}  coll
- * @param  {String|Number} key   Key or index
- * @param  {Object}        value
- * @return {Object|Array}        new object hierarchy with modifications
- */
-exports.assoc = function assoc (coll, key, value) {
-  if (coll[key] === value) {
-    return _freeze(coll)
-  }
-
-  const newObj = clone(coll)
-
-  newObj[key] = freezeIfNeeded(value)
-
-  return _freeze(newObj)
-}
-exports.set = exports.assoc
-
-/**
- * un-set a value on an object or array
- * @param  {Object|Array}  coll
- * @param  {String|Number} key  Key or Index
- * @return {Object|Array}       New object or array
- */
-exports.dissoc = function dissoc (coll, key) {
-  const newObj = clone(coll)
-
-  delete newObj[key]
-
-  return _freeze(newObj)
-}
-exports.unset = exports.dissoc
-
-/**
- * set a value deep in a hierarchical structure
- * @param  {Object|Array} coll
- * @param  {Array}        path    A list of keys to traverse
- * @param  {Object}       value
- * @return {Object|Array}       new object hierarchy with modifications
- */
-exports.assocIn = function assocIn (coll, path, value) {
-  const key0 = path[0]
-  if (path.length === 1) {
-    // simplest case is a 1-element array.  Just a simple assoc.
-    return i.assoc(coll, key0, value)
-  } else {
-    // break the problem down.  Assoc this object with the first key
-    // and the result of assocIn with the rest of the keys
-    return i.assoc(coll, key0, assocIn(coll[key0] || {}, path.slice(1), value))
-  }
-}
-exports.setIn = exports.assocIn
-
-/**
- * un-set a value on an object or array
- * @param  {Object|Array}  coll
- * @param  {Array} path  A list of keys to traverse
- * @return {Object|Array}       New object or array
- */
-exports.dissocIn = function dissocIn (coll, path) {
-  const key0 = path[0]
-  if (!coll.hasOwnProperty(key0)) {
-    return coll
-  }
-  if (path.length === 1) {
-    // simplest case is a 1-element array.  Just a simple dissoc.
-    return i.dissoc(coll, key0)
-  } else {
-    // break the problem down.  Assoc this object with the first key
-    // and the result of dissocIn with the rest of the keys
-    return i.assoc(coll, key0, dissocIn(coll[key0], path.slice(1)))
-  }
-}
-exports.unsetIn = exports.dissocIn
-
-/**
- * get an object from a hierachy based on an array of keys
- * @param  {Object|Array} coll
- * @param  {Array}        path    list of keys
- * @return {Object}       value, or undefined
- */
-function baseGet (coll, path) {
-  return (path || []).reduce((curr, key) => {
-    if (!curr) { return }
-    return curr[key]
-  }, coll)
-}
-
-exports.getIn = baseGet
-
-/**
- * Update a value in a hierarchy
- * @param  {Object|Array}   coll
- * @param  {Array}          path     list of keys
- * @param  {Function} callback The existing value with be passed to this.
- *                             Return the new value to set
- * @return {Object|Array}      new object hierarchy with modifications
- */
-exports.updateIn = function updateIn (coll, path, callback) {
-  const existingVal = baseGet(coll, path)
-  return i.assocIn(coll, path, callback(existingVal))
+module.exports = (flag, argv) => {
+	argv = argv || process.argv;
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const pos = argv.indexOf(prefix + flag);
+	const terminatorPos = argv.indexOf('--');
+	return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
 };
-
-// generate wrappers for the mutative array methods
-['push', 'unshift', 'pop', 'shift', 'reverse', 'sort']
-.forEach((methodName) => {
-  exports[methodName] = function (arr, val) {
-    const newArr = [...arr]
-
-    newArr[methodName](freezeIfNeeded(val))
-
-    return _freeze(newArr)
-  }
-
-  exports[methodName].displayName = 'icepick.' + methodName
-})
-
-// splice is special because it is variadic
-exports.splice = function splice (arr, ..._args) {
-  const newArr = [...arr]
-  const args = _args.map(freezeIfNeeded)
-
-  newArr.splice.apply(newArr, args)
-
-  return _freeze(newArr)
-}
-
-// slice is non-mutative
-exports.slice = function slice (arr, arg1, arg2) {
-  const newArr = arr.slice(arg1, arg2)
-
-  return _freeze(newArr)
-};
-
-['map', 'filter'].forEach((methodName) => {
-  exports[methodName] = function (fn, arr) {
-    const newArr = arr[methodName](fn)
-
-    return _freeze(newArr)
-  }
-
-  exports[methodName].displayName = 'icepick.' + methodName
-})
-
-exports.extend =
-exports.assign = function assign (obj, ...objs) {
-  const newObj = objs.reduce(singleAssign, obj)
-
-  return _freeze(newObj)
-}
-
-function singleAssign (obj1, obj2) {
-  return Object.keys(obj2).reduce((obj, key) => {
-    return i.assoc(obj, key, obj2[key])
-  }, obj1)
-}
-
-exports.merge = merge
-function merge (target, source, resolver) {
-  if (target == null || source == null) {
-    return target
-  }
-  return Object.keys(source).reduce((obj, key) => {
-    const sourceVal = source[key]
-    const targetVal = obj[key]
-
-    const resolvedSourceVal =
-      resolver ? resolver(targetVal, sourceVal, key) : sourceVal
-
-    if (weCareAbout(sourceVal) && weCareAbout(targetVal)) {
-      // if they are both frozen and reference equal, assume they are deep equal
-      if (
-        resolvedSourceVal === targetVal &&
-        (
-           true ||
-          (
-            false
-          )
-        )
-      ) {
-        return obj
-      }
-      if (Array.isArray(sourceVal)) {
-        return i.assoc(obj, key, resolvedSourceVal)
-      }
-      // recursively merge pairs of objects
-      return assocIfDifferent(obj, key,
-        merge(targetVal, resolvedSourceVal, resolver))
-    }
-
-    // primitive values, stuff with prototypes
-    return assocIfDifferent(obj, key, resolvedSourceVal)
-  }, target)
-}
-
-function assocIfDifferent (target, key, value) {
-  if (target[key] === value) {
-    return target
-  }
-  return i.assoc(target, key, value)
-}
-
-const chainProto = {
-  value: function value () {
-    return this.val
-  },
-  thru: function thru (fn) {
-    this.val = freezeIfNeeded(fn(this.val))
-    return this
-  }
-}
-
-Object.keys(exports).forEach((methodName) => {
-  if (methodName.match(/^(map|filter)$/)) {
-    chainProto[methodName] = function (fn) {
-      this.val = exports[methodName](fn, this.val)
-      return this
-    }
-    return
-  }
-  chainProto[methodName] = function (...args) {
-    this.val = exports[methodName](this.val, ...args)
-    return this
-  }
-})
-
-exports.chain = function chain (val) {
-  const wrapped = Object.create(chainProto)
-  wrapped.val = val
-  return wrapped
-}
-
-// for testing
-if (false) {}
 
 
 /***/ }),
 
-/***/ 144:
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3559,7 +3354,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(181);
+const Sentry = __webpack_require__(183);
 
 const channel_1 = __webpack_require__(40); /////////////////////////////////////////////////
 
@@ -3606,7 +3401,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 145:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3624,13 +3419,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const net_1 = __importDefault(__webpack_require__(89));
-const tls_1 = __importDefault(__webpack_require__(90));
+const net_1 = __importDefault(__webpack_require__(90));
+const tls_1 = __importDefault(__webpack_require__(91));
 const url_1 = __importDefault(__webpack_require__(14));
 const assert_1 = __importDefault(__webpack_require__(41));
 const debug_1 = __importDefault(__webpack_require__(21));
-const agent_base_1 = __webpack_require__(149);
-const parse_proxy_response_1 = __importDefault(__webpack_require__(151));
+const agent_base_1 = __webpack_require__(151);
+const parse_proxy_response_1 = __importDefault(__webpack_require__(153));
 const debug = debug_1.default('https-proxy-agent:agent');
 /**
  * The `HttpsProxyAgent` implements an HTTP Agent subclass that connects to
@@ -3793,7 +3588,7 @@ function omit(obj, ...keys) {
 
 /***/ }),
 
-/***/ 146:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -4050,7 +3845,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(91)(exports);
+module.exports = __webpack_require__(92)(exports);
 
 const {formatters} = module.exports;
 
@@ -4069,7 +3864,7 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 147:
+/***/ 149:
 /***/ (function(module, exports) {
 
 /**
@@ -4235,486 +4030,6 @@ function plural(ms, msAbs, n, name) {
   return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
 }
 
-
-/***/ }),
-
-/***/ 148:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Module dependencies.
- */
-
-const tty = __webpack_require__(58);
-const util = __webpack_require__(7);
-
-/**
- * This is the Node.js implementation of `debug()`.
- */
-
-exports.init = init;
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.destroy = util.deprecate(
-	() => {},
-	'Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.'
-);
-
-/**
- * Colors.
- */
-
-exports.colors = [6, 2, 3, 4, 5, 1];
-
-try {
-	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
-	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(57);
-
-	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
-		exports.colors = [
-			20,
-			21,
-			26,
-			27,
-			32,
-			33,
-			38,
-			39,
-			40,
-			41,
-			42,
-			43,
-			44,
-			45,
-			56,
-			57,
-			62,
-			63,
-			68,
-			69,
-			74,
-			75,
-			76,
-			77,
-			78,
-			79,
-			80,
-			81,
-			92,
-			93,
-			98,
-			99,
-			112,
-			113,
-			128,
-			129,
-			134,
-			135,
-			148,
-			149,
-			160,
-			161,
-			162,
-			163,
-			164,
-			165,
-			166,
-			167,
-			168,
-			169,
-			170,
-			171,
-			172,
-			173,
-			178,
-			179,
-			184,
-			185,
-			196,
-			197,
-			198,
-			199,
-			200,
-			201,
-			202,
-			203,
-			204,
-			205,
-			206,
-			207,
-			208,
-			209,
-			214,
-			215,
-			220,
-			221
-		];
-	}
-} catch (error) {
-	// Swallow - we only care if `supports-color` is available; it doesn't have to be.
-}
-
-/**
- * Build up the default `inspectOpts` object from the environment variables.
- *
- *   $ DEBUG_COLORS=no DEBUG_DEPTH=10 DEBUG_SHOW_HIDDEN=enabled node script.js
- */
-
-exports.inspectOpts = Object.keys(process.env).filter(key => {
-	return /^debug_/i.test(key);
-}).reduce((obj, key) => {
-	// Camel-case
-	const prop = key
-		.substring(6)
-		.toLowerCase()
-		.replace(/_([a-z])/g, (_, k) => {
-			return k.toUpperCase();
-		});
-
-	// Coerce string value into JS value
-	let val = process.env[key];
-	if (/^(yes|on|true|enabled)$/i.test(val)) {
-		val = true;
-	} else if (/^(no|off|false|disabled)$/i.test(val)) {
-		val = false;
-	} else if (val === 'null') {
-		val = null;
-	} else {
-		val = Number(val);
-	}
-
-	obj[prop] = val;
-	return obj;
-}, {});
-
-/**
- * Is stdout a TTY? Colored output is enabled when `true`.
- */
-
-function useColors() {
-	return 'colors' in exports.inspectOpts ?
-		Boolean(exports.inspectOpts.colors) :
-		tty.isatty(process.stderr.fd);
-}
-
-/**
- * Adds ANSI color escape codes if enabled.
- *
- * @api public
- */
-
-function formatArgs(args) {
-	const {namespace: name, useColors} = this;
-
-	if (useColors) {
-		const c = this.color;
-		const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c);
-		const prefix = `  ${colorCode};1m${name} \u001B[0m`;
-
-		args[0] = prefix + args[0].split('\n').join('\n' + prefix);
-		args.push(colorCode + 'm+' + module.exports.humanize(this.diff) + '\u001B[0m');
-	} else {
-		args[0] = getDate() + name + ' ' + args[0];
-	}
-}
-
-function getDate() {
-	if (exports.inspectOpts.hideDate) {
-		return '';
-	}
-	return new Date().toISOString() + ' ';
-}
-
-/**
- * Invokes `util.format()` with the specified arguments and writes to stderr.
- */
-
-function log(...args) {
-	return process.stderr.write(util.format(...args) + '\n');
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-function save(namespaces) {
-	if (namespaces) {
-		process.env.DEBUG = namespaces;
-	} else {
-		// If you set a process.env field to null or undefined, it gets cast to the
-		// string 'null' or 'undefined'. Just delete instead.
-		delete process.env.DEBUG;
-	}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-	return process.env.DEBUG;
-}
-
-/**
- * Init logic for `debug` instances.
- *
- * Create a new `inspectOpts` object in case `useColors` is set
- * differently for a particular `debug` instance.
- */
-
-function init(debug) {
-	debug.inspectOpts = {};
-
-	const keys = Object.keys(exports.inspectOpts);
-	for (let i = 0; i < keys.length; i++) {
-		debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
-	}
-}
-
-module.exports = __webpack_require__(91)(exports);
-
-const {formatters} = module.exports;
-
-/**
- * Map %o to `util.inspect()`, all on a single line.
- */
-
-formatters.o = function (v) {
-	this.inspectOpts.colors = this.useColors;
-	return util.inspect(v, this.inspectOpts)
-		.split('\n')
-		.map(str => str.trim())
-		.join(' ');
-};
-
-/**
- * Map %O to `util.inspect()`, allowing multiple lines if needed.
- */
-
-formatters.O = function (v) {
-	this.inspectOpts.colors = this.useColors;
-	return util.inspect(v, this.inspectOpts);
-};
-
-
-/***/ }),
-
-/***/ 149:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-const events_1 = __webpack_require__(10);
-const debug_1 = __importDefault(__webpack_require__(21));
-const promisify_1 = __importDefault(__webpack_require__(150));
-const debug = debug_1.default('agent-base');
-function isAgent(v) {
-    return Boolean(v) && typeof v.addRequest === 'function';
-}
-function isSecureEndpoint() {
-    const { stack } = new Error();
-    if (typeof stack !== 'string')
-        return false;
-    return stack.split('\n').some(l => l.indexOf('(https.js:') !== -1 || l.indexOf('node:https:') !== -1);
-}
-function createAgent(callback, opts) {
-    return new createAgent.Agent(callback, opts);
-}
-(function (createAgent) {
-    /**
-     * Base `http.Agent` implementation.
-     * No pooling/keep-alive is implemented by default.
-     *
-     * @param {Function} callback
-     * @api public
-     */
-    class Agent extends events_1.EventEmitter {
-        constructor(callback, _opts) {
-            super();
-            let opts = _opts;
-            if (typeof callback === 'function') {
-                this.callback = callback;
-            }
-            else if (callback) {
-                opts = callback;
-            }
-            // Timeout for the socket to be returned from the callback
-            this.timeout = null;
-            if (opts && typeof opts.timeout === 'number') {
-                this.timeout = opts.timeout;
-            }
-            // These aren't actually used by `agent-base`, but are required
-            // for the TypeScript definition files in `@types/node` :/
-            this.maxFreeSockets = 1;
-            this.maxSockets = 1;
-            this.maxTotalSockets = Infinity;
-            this.sockets = {};
-            this.freeSockets = {};
-            this.requests = {};
-            this.options = {};
-        }
-        get defaultPort() {
-            if (typeof this.explicitDefaultPort === 'number') {
-                return this.explicitDefaultPort;
-            }
-            return isSecureEndpoint() ? 443 : 80;
-        }
-        set defaultPort(v) {
-            this.explicitDefaultPort = v;
-        }
-        get protocol() {
-            if (typeof this.explicitProtocol === 'string') {
-                return this.explicitProtocol;
-            }
-            return isSecureEndpoint() ? 'https:' : 'http:';
-        }
-        set protocol(v) {
-            this.explicitProtocol = v;
-        }
-        callback(req, opts, fn) {
-            throw new Error('"agent-base" has no default implementation, you must subclass and override `callback()`');
-        }
-        /**
-         * Called by node-core's "_http_client.js" module when creating
-         * a new HTTP request with this Agent instance.
-         *
-         * @api public
-         */
-        addRequest(req, _opts) {
-            const opts = Object.assign({}, _opts);
-            if (typeof opts.secureEndpoint !== 'boolean') {
-                opts.secureEndpoint = isSecureEndpoint();
-            }
-            if (opts.host == null) {
-                opts.host = 'localhost';
-            }
-            if (opts.port == null) {
-                opts.port = opts.secureEndpoint ? 443 : 80;
-            }
-            if (opts.protocol == null) {
-                opts.protocol = opts.secureEndpoint ? 'https:' : 'http:';
-            }
-            if (opts.host && opts.path) {
-                // If both a `host` and `path` are specified then it's most
-                // likely the result of a `url.parse()` call... we need to
-                // remove the `path` portion so that `net.connect()` doesn't
-                // attempt to open that as a unix socket file.
-                delete opts.path;
-            }
-            delete opts.agent;
-            delete opts.hostname;
-            delete opts._defaultAgent;
-            delete opts.defaultPort;
-            delete opts.createConnection;
-            // Hint to use "Connection: close"
-            // XXX: non-documented `http` module API :(
-            req._last = true;
-            req.shouldKeepAlive = false;
-            let timedOut = false;
-            let timeoutId = null;
-            const timeoutMs = opts.timeout || this.timeout;
-            const onerror = (err) => {
-                if (req._hadError)
-                    return;
-                req.emit('error', err);
-                // For Safety. Some additional errors might fire later on
-                // and we need to make sure we don't double-fire the error event.
-                req._hadError = true;
-            };
-            const ontimeout = () => {
-                timeoutId = null;
-                timedOut = true;
-                const err = new Error(`A "socket" was not created for HTTP request before ${timeoutMs}ms`);
-                err.code = 'ETIMEOUT';
-                onerror(err);
-            };
-            const callbackError = (err) => {
-                if (timedOut)
-                    return;
-                if (timeoutId !== null) {
-                    clearTimeout(timeoutId);
-                    timeoutId = null;
-                }
-                onerror(err);
-            };
-            const onsocket = (socket) => {
-                if (timedOut)
-                    return;
-                if (timeoutId != null) {
-                    clearTimeout(timeoutId);
-                    timeoutId = null;
-                }
-                if (isAgent(socket)) {
-                    // `socket` is actually an `http.Agent` instance, so
-                    // relinquish responsibility for this `req` to the Agent
-                    // from here on
-                    debug('Callback returned another Agent instance %o', socket.constructor.name);
-                    socket.addRequest(req, opts);
-                    return;
-                }
-                if (socket) {
-                    socket.once('free', () => {
-                        this.freeSocket(socket, opts);
-                    });
-                    req.onSocket(socket);
-                    return;
-                }
-                const err = new Error(`no Duplex stream was returned to agent-base for \`${req.method} ${req.path}\``);
-                onerror(err);
-            };
-            if (typeof this.callback !== 'function') {
-                onerror(new Error('`callback` is not defined'));
-                return;
-            }
-            if (!this.promisifiedCallback) {
-                if (this.callback.length >= 3) {
-                    debug('Converting legacy callback function to promise');
-                    this.promisifiedCallback = promisify_1.default(this.callback);
-                }
-                else {
-                    this.promisifiedCallback = this.callback;
-                }
-            }
-            if (typeof timeoutMs === 'number' && timeoutMs > 0) {
-                timeoutId = setTimeout(ontimeout, timeoutMs);
-            }
-            if ('port' in opts && typeof opts.port !== 'number') {
-                opts.port = Number(opts.port);
-            }
-            try {
-                debug('Resolving socket for %o request: %o', opts.protocol, `${req.method} ${req.path}`);
-                Promise.resolve(this.promisifiedCallback(req, opts)).then(onsocket, callbackError);
-            }
-            catch (err) {
-                Promise.reject(err).catch(callbackError);
-            }
-        }
-        freeSocket(socket, opts) {
-            debug('Freeing socket %o %o', socket.constructor.name, opts);
-            socket.destroy();
-        }
-        destroy() {
-            debug('Destroying agent %o', this.constructor.name);
-        }
-    }
-    createAgent.Agent = Agent;
-    // So that `instanceof` works correctly
-    createAgent.prototype = createAgent.Agent.prototype;
-})(createAgent || (createAgent = {}));
-module.exports = createAgent;
-//# sourceMappingURL=index.js.map
 
 /***/ }),
 
@@ -4981,6 +4296,486 @@ function stripUrlQueryAndFragment(urlPath) {
 /***/ 150:
 /***/ (function(module, exports, __webpack_require__) {
 
+/**
+ * Module dependencies.
+ */
+
+const tty = __webpack_require__(57);
+const util = __webpack_require__(7);
+
+/**
+ * This is the Node.js implementation of `debug()`.
+ */
+
+exports.init = init;
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.destroy = util.deprecate(
+	() => {},
+	'Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.'
+);
+
+/**
+ * Colors.
+ */
+
+exports.colors = [6, 2, 3, 4, 5, 1];
+
+try {
+	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
+	// eslint-disable-next-line import/no-extraneous-dependencies
+	const supportsColor = __webpack_require__(108);
+
+	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
+		exports.colors = [
+			20,
+			21,
+			26,
+			27,
+			32,
+			33,
+			38,
+			39,
+			40,
+			41,
+			42,
+			43,
+			44,
+			45,
+			56,
+			57,
+			62,
+			63,
+			68,
+			69,
+			74,
+			75,
+			76,
+			77,
+			78,
+			79,
+			80,
+			81,
+			92,
+			93,
+			98,
+			99,
+			112,
+			113,
+			128,
+			129,
+			134,
+			135,
+			148,
+			149,
+			160,
+			161,
+			162,
+			163,
+			164,
+			165,
+			166,
+			167,
+			168,
+			169,
+			170,
+			171,
+			172,
+			173,
+			178,
+			179,
+			184,
+			185,
+			196,
+			197,
+			198,
+			199,
+			200,
+			201,
+			202,
+			203,
+			204,
+			205,
+			206,
+			207,
+			208,
+			209,
+			214,
+			215,
+			220,
+			221
+		];
+	}
+} catch (error) {
+	// Swallow - we only care if `supports-color` is available; it doesn't have to be.
+}
+
+/**
+ * Build up the default `inspectOpts` object from the environment variables.
+ *
+ *   $ DEBUG_COLORS=no DEBUG_DEPTH=10 DEBUG_SHOW_HIDDEN=enabled node script.js
+ */
+
+exports.inspectOpts = Object.keys(process.env).filter(key => {
+	return /^debug_/i.test(key);
+}).reduce((obj, key) => {
+	// Camel-case
+	const prop = key
+		.substring(6)
+		.toLowerCase()
+		.replace(/_([a-z])/g, (_, k) => {
+			return k.toUpperCase();
+		});
+
+	// Coerce string value into JS value
+	let val = process.env[key];
+	if (/^(yes|on|true|enabled)$/i.test(val)) {
+		val = true;
+	} else if (/^(no|off|false|disabled)$/i.test(val)) {
+		val = false;
+	} else if (val === 'null') {
+		val = null;
+	} else {
+		val = Number(val);
+	}
+
+	obj[prop] = val;
+	return obj;
+}, {});
+
+/**
+ * Is stdout a TTY? Colored output is enabled when `true`.
+ */
+
+function useColors() {
+	return 'colors' in exports.inspectOpts ?
+		Boolean(exports.inspectOpts.colors) :
+		tty.isatty(process.stderr.fd);
+}
+
+/**
+ * Adds ANSI color escape codes if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+	const {namespace: name, useColors} = this;
+
+	if (useColors) {
+		const c = this.color;
+		const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c);
+		const prefix = `  ${colorCode};1m${name} \u001B[0m`;
+
+		args[0] = prefix + args[0].split('\n').join('\n' + prefix);
+		args.push(colorCode + 'm+' + module.exports.humanize(this.diff) + '\u001B[0m');
+	} else {
+		args[0] = getDate() + name + ' ' + args[0];
+	}
+}
+
+function getDate() {
+	if (exports.inspectOpts.hideDate) {
+		return '';
+	}
+	return new Date().toISOString() + ' ';
+}
+
+/**
+ * Invokes `util.format()` with the specified arguments and writes to stderr.
+ */
+
+function log(...args) {
+	return process.stderr.write(util.format(...args) + '\n');
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+function save(namespaces) {
+	if (namespaces) {
+		process.env.DEBUG = namespaces;
+	} else {
+		// If you set a process.env field to null or undefined, it gets cast to the
+		// string 'null' or 'undefined'. Just delete instead.
+		delete process.env.DEBUG;
+	}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+	return process.env.DEBUG;
+}
+
+/**
+ * Init logic for `debug` instances.
+ *
+ * Create a new `inspectOpts` object in case `useColors` is set
+ * differently for a particular `debug` instance.
+ */
+
+function init(debug) {
+	debug.inspectOpts = {};
+
+	const keys = Object.keys(exports.inspectOpts);
+	for (let i = 0; i < keys.length; i++) {
+		debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
+	}
+}
+
+module.exports = __webpack_require__(92)(exports);
+
+const {formatters} = module.exports;
+
+/**
+ * Map %o to `util.inspect()`, all on a single line.
+ */
+
+formatters.o = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts)
+		.split('\n')
+		.map(str => str.trim())
+		.join(' ');
+};
+
+/**
+ * Map %O to `util.inspect()`, allowing multiple lines if needed.
+ */
+
+formatters.O = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts);
+};
+
+
+/***/ }),
+
+/***/ 151:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+const events_1 = __webpack_require__(10);
+const debug_1 = __importDefault(__webpack_require__(21));
+const promisify_1 = __importDefault(__webpack_require__(152));
+const debug = debug_1.default('agent-base');
+function isAgent(v) {
+    return Boolean(v) && typeof v.addRequest === 'function';
+}
+function isSecureEndpoint() {
+    const { stack } = new Error();
+    if (typeof stack !== 'string')
+        return false;
+    return stack.split('\n').some(l => l.indexOf('(https.js:') !== -1 || l.indexOf('node:https:') !== -1);
+}
+function createAgent(callback, opts) {
+    return new createAgent.Agent(callback, opts);
+}
+(function (createAgent) {
+    /**
+     * Base `http.Agent` implementation.
+     * No pooling/keep-alive is implemented by default.
+     *
+     * @param {Function} callback
+     * @api public
+     */
+    class Agent extends events_1.EventEmitter {
+        constructor(callback, _opts) {
+            super();
+            let opts = _opts;
+            if (typeof callback === 'function') {
+                this.callback = callback;
+            }
+            else if (callback) {
+                opts = callback;
+            }
+            // Timeout for the socket to be returned from the callback
+            this.timeout = null;
+            if (opts && typeof opts.timeout === 'number') {
+                this.timeout = opts.timeout;
+            }
+            // These aren't actually used by `agent-base`, but are required
+            // for the TypeScript definition files in `@types/node` :/
+            this.maxFreeSockets = 1;
+            this.maxSockets = 1;
+            this.maxTotalSockets = Infinity;
+            this.sockets = {};
+            this.freeSockets = {};
+            this.requests = {};
+            this.options = {};
+        }
+        get defaultPort() {
+            if (typeof this.explicitDefaultPort === 'number') {
+                return this.explicitDefaultPort;
+            }
+            return isSecureEndpoint() ? 443 : 80;
+        }
+        set defaultPort(v) {
+            this.explicitDefaultPort = v;
+        }
+        get protocol() {
+            if (typeof this.explicitProtocol === 'string') {
+                return this.explicitProtocol;
+            }
+            return isSecureEndpoint() ? 'https:' : 'http:';
+        }
+        set protocol(v) {
+            this.explicitProtocol = v;
+        }
+        callback(req, opts, fn) {
+            throw new Error('"agent-base" has no default implementation, you must subclass and override `callback()`');
+        }
+        /**
+         * Called by node-core's "_http_client.js" module when creating
+         * a new HTTP request with this Agent instance.
+         *
+         * @api public
+         */
+        addRequest(req, _opts) {
+            const opts = Object.assign({}, _opts);
+            if (typeof opts.secureEndpoint !== 'boolean') {
+                opts.secureEndpoint = isSecureEndpoint();
+            }
+            if (opts.host == null) {
+                opts.host = 'localhost';
+            }
+            if (opts.port == null) {
+                opts.port = opts.secureEndpoint ? 443 : 80;
+            }
+            if (opts.protocol == null) {
+                opts.protocol = opts.secureEndpoint ? 'https:' : 'http:';
+            }
+            if (opts.host && opts.path) {
+                // If both a `host` and `path` are specified then it's most
+                // likely the result of a `url.parse()` call... we need to
+                // remove the `path` portion so that `net.connect()` doesn't
+                // attempt to open that as a unix socket file.
+                delete opts.path;
+            }
+            delete opts.agent;
+            delete opts.hostname;
+            delete opts._defaultAgent;
+            delete opts.defaultPort;
+            delete opts.createConnection;
+            // Hint to use "Connection: close"
+            // XXX: non-documented `http` module API :(
+            req._last = true;
+            req.shouldKeepAlive = false;
+            let timedOut = false;
+            let timeoutId = null;
+            const timeoutMs = opts.timeout || this.timeout;
+            const onerror = (err) => {
+                if (req._hadError)
+                    return;
+                req.emit('error', err);
+                // For Safety. Some additional errors might fire later on
+                // and we need to make sure we don't double-fire the error event.
+                req._hadError = true;
+            };
+            const ontimeout = () => {
+                timeoutId = null;
+                timedOut = true;
+                const err = new Error(`A "socket" was not created for HTTP request before ${timeoutMs}ms`);
+                err.code = 'ETIMEOUT';
+                onerror(err);
+            };
+            const callbackError = (err) => {
+                if (timedOut)
+                    return;
+                if (timeoutId !== null) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                onerror(err);
+            };
+            const onsocket = (socket) => {
+                if (timedOut)
+                    return;
+                if (timeoutId != null) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                if (isAgent(socket)) {
+                    // `socket` is actually an `http.Agent` instance, so
+                    // relinquish responsibility for this `req` to the Agent
+                    // from here on
+                    debug('Callback returned another Agent instance %o', socket.constructor.name);
+                    socket.addRequest(req, opts);
+                    return;
+                }
+                if (socket) {
+                    socket.once('free', () => {
+                        this.freeSocket(socket, opts);
+                    });
+                    req.onSocket(socket);
+                    return;
+                }
+                const err = new Error(`no Duplex stream was returned to agent-base for \`${req.method} ${req.path}\``);
+                onerror(err);
+            };
+            if (typeof this.callback !== 'function') {
+                onerror(new Error('`callback` is not defined'));
+                return;
+            }
+            if (!this.promisifiedCallback) {
+                if (this.callback.length >= 3) {
+                    debug('Converting legacy callback function to promise');
+                    this.promisifiedCallback = promisify_1.default(this.callback);
+                }
+                else {
+                    this.promisifiedCallback = this.callback;
+                }
+            }
+            if (typeof timeoutMs === 'number' && timeoutMs > 0) {
+                timeoutId = setTimeout(ontimeout, timeoutMs);
+            }
+            if ('port' in opts && typeof opts.port !== 'number') {
+                opts.port = Number(opts.port);
+            }
+            try {
+                debug('Resolving socket for %o request: %o', opts.protocol, `${req.method} ${req.path}`);
+                Promise.resolve(this.promisifiedCallback(req, opts)).then(onsocket, callbackError);
+            }
+            catch (err) {
+                Promise.reject(err).catch(callbackError);
+            }
+        }
+        freeSocket(socket, opts) {
+            debug('Freeing socket %o %o', socket.constructor.name, opts);
+            socket.destroy();
+        }
+        destroy() {
+            debug('Destroying agent %o', this.constructor.name);
+        }
+    }
+    createAgent.Agent = Agent;
+    // So that `instanceof` works correctly
+    createAgent.prototype = createAgent.Agent.prototype;
+})(createAgent || (createAgent = {}));
+module.exports = createAgent;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 152:
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -5003,7 +4798,7 @@ exports.default = promisify;
 
 /***/ }),
 
-/***/ 151:
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5076,7 +4871,7 @@ exports.default = parseProxyResponse;
 
 /***/ }),
 
-/***/ 152:
+/***/ 154:
 /***/ (function(module, exports) {
 
 module.exports = require("console");
@@ -5097,7 +4892,7 @@ module.exports = require("console");
  * Truncates given string to the maximum characters count
  *
  * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
+ * @param max Maximum number of characters in truncated string (0 = unlimited)
  * @returns string Encoded
  */
 function truncate(str, max) {
@@ -5190,7 +4985,7 @@ function isMatchingPattern(value, pattern) {
 
 /***/ }),
 
-/***/ 181:
+/***/ 183:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6732,7 +6527,7 @@ var SessionStatus;
 })(SessionStatus || (SessionStatus = {}));
 //# sourceMappingURL=session.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 3 modules
-var object = __webpack_require__(106);
+var object = __webpack_require__(107);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/session.js
 
@@ -7901,7 +7696,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(12);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(105);
+var lru = __webpack_require__(106);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -8703,7 +8498,7 @@ var external_url_ = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.29.2';
+var SDK_VERSION = '5.30.0';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -8825,7 +8620,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(88))(proxy)
+            ? new (__webpack_require__(89))(proxy)
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -8860,7 +8655,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(88))(proxy)
+            ? new (__webpack_require__(89))(proxy)
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -9464,7 +9259,7 @@ var baseclient_BaseClient = /** @class */ (function () {
         // 0.0 === 0% events are sent
         // Sampling for transaction happens somewhere else
         if (!isTransaction && typeof sampleRate === 'number' && Math.random() > sampleRate) {
-            return syncpromise_SyncPromise.reject(new error_SentryError('This event has been sampled, will not send event.'));
+            return syncpromise_SyncPromise.reject(new error_SentryError("Discarding event because it's not included in the random sample (sampling rate = " + sampleRate + ")"));
         }
         return this._prepareEvent(event, scope, hint)
             .then(function (prepared) {
@@ -9818,7 +9613,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(152);
+        var consoleModule = __webpack_require__(154);
         try {
             for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -10784,10 +10579,19 @@ var external_path_ = __webpack_require__(23);
 
 
 var moduleCache;
+/** Extract information about paths */
+function getPaths() {
+    try {
+        return __webpack_require__.c ? Object.keys(__webpack_require__.c) : [];
+    }
+    catch (e) {
+        return [];
+    }
+}
 /** Extract information about package.json modules */
 function collectModules() {
     var mainPaths = (__webpack_require__.c[__webpack_require__.s] && __webpack_require__.c[__webpack_require__.s].paths) || [];
-    var paths = __webpack_require__.c ? Object.keys(__webpack_require__.c) : [];
+    var paths = getPaths();
     var infos = {};
     var seen = {};
     paths.forEach(function (path) {
@@ -10946,6 +10750,12 @@ function init(options) {
     if (options.dsn === undefined && process.env.SENTRY_DSN) {
         options.dsn = process.env.SENTRY_DSN;
     }
+    if (options.tracesSampleRate === undefined && process.env.SENTRY_TRACES_SAMPLE_RATE) {
+        var tracesSampleRate = parseFloat(process.env.SENTRY_TRACES_SAMPLE_RATE);
+        if (isFinite(tracesSampleRate)) {
+            options.tracesSampleRate = tracesSampleRate;
+        }
+    }
     if (options.release === undefined) {
         var global_1 = Object(misc["f" /* getGlobalObject */])();
         // Prefer env var over global
@@ -11038,7 +10848,7 @@ if (esm_carrier.__SENTRY__) {
 
 /***/ }),
 
-/***/ 185:
+/***/ 187:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11049,9 +10859,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.use_middlewares_with_error_safety_net = exports.DEFAULT_RESPONSE_BODY = void 0;
 
-const tslib_1 = __webpack_require__(76);
+const tslib_1 = __webpack_require__(75);
 
-__webpack_require__(186);
+__webpack_require__(188);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(1));
 
@@ -11067,7 +10877,7 @@ const api_interface_1 = __webpack_require__(54);
 
 const async_utils_1 = __webpack_require__(202);
 
-const sentry_1 = __webpack_require__(144);
+const sentry_1 = __webpack_require__(146);
 
 const channel_1 = __webpack_require__(40);
 
@@ -11428,7 +11238,7 @@ async function _run_mw_chain({
 
 /***/ }),
 
-/***/ 186:
+/***/ 188:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11438,18 +11248,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const tslib_1 = __webpack_require__(76);
+const tslib_1 = __webpack_require__(75);
 
 const soft_execution_context_1 = __webpack_require__(26); //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 
-const soft_execution_context_node_1 = __webpack_require__(187);
+const soft_execution_context_node_1 = __webpack_require__(189);
 
 const consts_1 = __webpack_require__(27);
 
 const channel_1 = __webpack_require__(40);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(188)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(190)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -11502,7 +11312,7 @@ if (ENV !== "production") {
 
 /***/ }),
 
-/***/ 187:
+/***/ 189:
 /***/ (function(module, exports, __webpack_require__) {
 
 const os = __webpack_require__(20);
@@ -11582,7 +11392,7 @@ module.exports = { ...__webpack_require__(26),
 
 /***/ }),
 
-/***/ 188:
+/***/ 190:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11592,7 +11402,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const universal_debug_api_node_1 = __webpack_require__(64);
+const universal_debug_api_node_1 = __webpack_require__(63);
 
 const consts_1 = __webpack_require__(27);
 
@@ -11615,16 +11425,16 @@ exports.default = logger;
 
 /***/ }),
 
-/***/ 189:
+/***/ 191:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(190);
-exports.stringify = __webpack_require__(191);
+exports.parse = __webpack_require__(192);
+exports.stringify = __webpack_require__(193);
 
 
 /***/ }),
 
-/***/ 190:
+/***/ 192:
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -11904,7 +11714,7 @@ module.exports = function (source, reviver) {
 
 /***/ }),
 
-/***/ 191:
+/***/ 193:
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -12065,7 +11875,7 @@ module.exports = function (value, replacer, space) {
 
 /***/ }),
 
-/***/ 192:
+/***/ 194:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12082,7 +11892,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone$1; });
 /* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(55);
 /* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(diff_match_patch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(77);
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
 /* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -14809,7 +14619,7 @@ function clone$1() {
 
 /***/ }),
 
-/***/ 193:
+/***/ 195:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14828,12 +14638,12 @@ module.exports = function (str) {
 
 /***/ }),
 
-/***/ 194:
+/***/ 196:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {
-const colorConvert = __webpack_require__(195);
+const colorConvert = __webpack_require__(197);
 
 const wrapAnsi16 = (fn, offset) => function () {
 	const code = fn.apply(colorConvert, arguments);
@@ -15002,11 +14812,11 @@ Object.defineProperty(module, 'exports', {
 
 /***/ }),
 
-/***/ 195:
+/***/ 197:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(109);
-var route = __webpack_require__(197);
+var conversions = __webpack_require__(111);
+var route = __webpack_require__(199);
 
 var convert = {};
 
@@ -15087,7 +14897,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 196:
+/***/ 198:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15247,10 +15057,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 197:
+/***/ 199:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(109);
+var conversions = __webpack_require__(111);
 
 /*
 	this function routes a model to all other models.
@@ -15347,161 +15157,6 @@ module.exports = function (fromModel) {
 	return conversion;
 };
 
-
-
-/***/ }),
-
-/***/ 198:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const os = __webpack_require__(20);
-const hasFlag = __webpack_require__(199);
-
-const env = process.env;
-
-let forceColor;
-if (hasFlag('no-color') ||
-	hasFlag('no-colors') ||
-	hasFlag('color=false')) {
-	forceColor = false;
-} else if (hasFlag('color') ||
-	hasFlag('colors') ||
-	hasFlag('color=true') ||
-	hasFlag('color=always')) {
-	forceColor = true;
-}
-if ('FORCE_COLOR' in env) {
-	forceColor = env.FORCE_COLOR.length === 0 || parseInt(env.FORCE_COLOR, 10) !== 0;
-}
-
-function translateLevel(level) {
-	if (level === 0) {
-		return false;
-	}
-
-	return {
-		level,
-		hasBasic: true,
-		has256: level >= 2,
-		has16m: level >= 3
-	};
-}
-
-function supportsColor(stream) {
-	if (forceColor === false) {
-		return 0;
-	}
-
-	if (hasFlag('color=16m') ||
-		hasFlag('color=full') ||
-		hasFlag('color=truecolor')) {
-		return 3;
-	}
-
-	if (hasFlag('color=256')) {
-		return 2;
-	}
-
-	if (stream && !stream.isTTY && forceColor !== true) {
-		return 0;
-	}
-
-	const min = forceColor ? 1 : 0;
-
-	if (process.platform === 'win32') {
-		// Node.js 7.5.0 is the first version of Node.js to include a patch to
-		// libuv that enables 256 color output on Windows. Anything earlier and it
-		// won't work. However, here we target Node.js 8 at minimum as it is an LTS
-		// release, and Node.js 7 is not. Windows 10 build 10586 is the first Windows
-		// release that supports 256 colors. Windows 10 build 14931 is the first release
-		// that supports 16m/TrueColor.
-		const osRelease = os.release().split('.');
-		if (
-			Number(process.versions.node.split('.')[0]) >= 8 &&
-			Number(osRelease[0]) >= 10 &&
-			Number(osRelease[2]) >= 10586
-		) {
-			return Number(osRelease[2]) >= 14931 ? 3 : 2;
-		}
-
-		return 1;
-	}
-
-	if ('CI' in env) {
-		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
-			return 1;
-		}
-
-		return min;
-	}
-
-	if ('TEAMCITY_VERSION' in env) {
-		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
-	}
-
-	if (env.COLORTERM === 'truecolor') {
-		return 3;
-	}
-
-	if ('TERM_PROGRAM' in env) {
-		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
-
-		switch (env.TERM_PROGRAM) {
-			case 'iTerm.app':
-				return version >= 3 ? 3 : 2;
-			case 'Apple_Terminal':
-				return 2;
-			// No default
-		}
-	}
-
-	if (/-256(color)?$/i.test(env.TERM)) {
-		return 2;
-	}
-
-	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-		return 1;
-	}
-
-	if ('COLORTERM' in env) {
-		return 1;
-	}
-
-	if (env.TERM === 'dumb') {
-		return min;
-	}
-
-	return min;
-}
-
-function getSupportLevel(stream) {
-	const level = supportsColor(stream);
-	return translateLevel(level);
-}
-
-module.exports = {
-	supportsColor: getSupportLevel,
-	stdout: getSupportLevel(process.stdout),
-	stderr: getSupportLevel(process.stderr)
-};
-
-
-/***/ }),
-
-/***/ 199:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = (flag, argv) => {
-	argv = argv || process.argv;
-	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
-	const pos = argv.indexOf(prefix + flag);
-	const terminatorPos = argv.indexOf('--');
-	return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
-};
 
 
 /***/ }),
@@ -15934,9 +15589,9 @@ function dezalgo(callback) {
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(146);
-} else {
 	module.exports = __webpack_require__(148);
+} else {
+	module.exports = __webpack_require__(150);
 }
 
 
@@ -16256,7 +15911,7 @@ const LIB = 'soft-execution-context';
 const INTERNAL_PROP = '_SEC';
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(140);
+var emittery = __webpack_require__(142);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -16595,13 +16250,13 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(108);
+var generate = __webpack_require__(110);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--normalize.js
-var util_normalize = __webpack_require__(66);
+var util_normalize = __webpack_require__(65);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--create.js
-var util_create = __webpack_require__(65);
+var util_create = __webpack_require__(64);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -17068,7 +16723,7 @@ exports.HTTP_STATUS_CODE = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _comparators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(139);
+/* harmony import */ var _comparators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(141);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SemanticDifference", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "s_max", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["f"]; });
@@ -17081,7 +16736,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_deep_equal", function() { return _comparators__WEBPACK_IMPORTED_MODULE_0__["e"]; });
 
-/* harmony import */ var _migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
+/* harmony import */ var _migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(112);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "generic_migrate_to_latest", function() { return _migration__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
@@ -17122,8 +16777,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "is_RootState", function() { return _type_guards__WEBPACK_IMPORTED_MODULE_3__["c"]; });
 
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(111);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(113);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "enforce_immutability", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_mutable_copy", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "complete_or_cancel_eager_mutation_propagating_possible_child_mutation", function() { return _utils__WEBPACK_IMPORTED_MODULE_4__["b"]; });
 
@@ -17369,7 +17026,7 @@ var browserPerformanceTimeOrigin = (function () {
     return (performance.timing && performance.timing.navigationStart) || Date.now();
 })();
 //# sourceMappingURL=time.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(87)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(88)(module)))
 
 /***/ }),
 
@@ -17460,7 +17117,7 @@ const {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEST_TIMESTAMP_MS", function() { return TEST_TIMESTAMP_MS; });
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(108);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
@@ -17491,7 +17148,7 @@ const TEST_TIMESTAMP_MS = 1234567890; // useful for unit tests
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return dynamicRequire; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return extractNodeRequestData; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _object__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(106);
+/* harmony import */ var _object__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(107);
 
 
 /**
@@ -17597,7 +17254,7 @@ function extractNodeRequestData(req, keys) {
     return requestData;
 }
 //# sourceMappingURL=node.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(87)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(88)(module)))
 
 /***/ }),
 
@@ -17687,10 +17344,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS_EXTENDED", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["b"]; });
 
-/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(65);
+/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(64);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createError", function() { return _util_create__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
-/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(66);
+/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(65);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeError", function() { return _util_normalize__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
 
@@ -21234,9 +20891,9 @@ process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 
-__webpack_require__(64);
+__webpack_require__(63);
 
-const runner_1 = __webpack_require__(185);
+const runner_1 = __webpack_require__(187);
 
 const require_http_method_1 = __webpack_require__(201);
 
@@ -21267,7 +20924,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.test_failure = exports.FailureMode = void 0;
 
-const tslib_1 = __webpack_require__(76);
+const tslib_1 = __webpack_require__(75);
 
 const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(544));
 
@@ -21394,149 +21051,6 @@ exports.test_failure = test_failure;
 /***/ }),
 
 /***/ 57:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const os = __webpack_require__(20);
-const tty = __webpack_require__(58);
-const hasFlag = __webpack_require__(84);
-
-const {env} = process;
-
-let forceColor;
-if (hasFlag('no-color') ||
-	hasFlag('no-colors') ||
-	hasFlag('color=false') ||
-	hasFlag('color=never')) {
-	forceColor = 0;
-} else if (hasFlag('color') ||
-	hasFlag('colors') ||
-	hasFlag('color=true') ||
-	hasFlag('color=always')) {
-	forceColor = 1;
-}
-
-if ('FORCE_COLOR' in env) {
-	if (env.FORCE_COLOR === 'true') {
-		forceColor = 1;
-	} else if (env.FORCE_COLOR === 'false') {
-		forceColor = 0;
-	} else {
-		forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
-	}
-}
-
-function translateLevel(level) {
-	if (level === 0) {
-		return false;
-	}
-
-	return {
-		level,
-		hasBasic: true,
-		has256: level >= 2,
-		has16m: level >= 3
-	};
-}
-
-function supportsColor(haveStream, streamIsTTY) {
-	if (forceColor === 0) {
-		return 0;
-	}
-
-	if (hasFlag('color=16m') ||
-		hasFlag('color=full') ||
-		hasFlag('color=truecolor')) {
-		return 3;
-	}
-
-	if (hasFlag('color=256')) {
-		return 2;
-	}
-
-	if (haveStream && !streamIsTTY && forceColor === undefined) {
-		return 0;
-	}
-
-	const min = forceColor || 0;
-
-	if (env.TERM === 'dumb') {
-		return min;
-	}
-
-	if (process.platform === 'win32') {
-		// Windows 10 build 10586 is the first Windows release that supports 256 colors.
-		// Windows 10 build 14931 is the first release that supports 16m/TrueColor.
-		const osRelease = os.release().split('.');
-		if (
-			Number(osRelease[0]) >= 10 &&
-			Number(osRelease[2]) >= 10586
-		) {
-			return Number(osRelease[2]) >= 14931 ? 3 : 2;
-		}
-
-		return 1;
-	}
-
-	if ('CI' in env) {
-		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
-			return 1;
-		}
-
-		return min;
-	}
-
-	if ('TEAMCITY_VERSION' in env) {
-		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
-	}
-
-	if (env.COLORTERM === 'truecolor') {
-		return 3;
-	}
-
-	if ('TERM_PROGRAM' in env) {
-		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
-
-		switch (env.TERM_PROGRAM) {
-			case 'iTerm.app':
-				return version >= 3 ? 3 : 2;
-			case 'Apple_Terminal':
-				return 2;
-			// No default
-		}
-	}
-
-	if (/-256(color)?$/i.test(env.TERM)) {
-		return 2;
-	}
-
-	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-		return 1;
-	}
-
-	if ('COLORTERM' in env) {
-		return 1;
-	}
-
-	return min;
-}
-
-function getSupportLevel(stream) {
-	const level = supportsColor(stream, stream && stream.isTTY);
-	return translateLevel(level);
-}
-
-module.exports = {
-	supportsColor: getSupportLevel,
-	stdout: translateLevel(supportsColor(true, tty.isatty(1))),
-	stderr: translateLevel(supportsColor(true, tty.isatty(2)))
-};
-
-
-/***/ }),
-
-/***/ 58:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
@@ -21599,7 +21113,7 @@ exports.Enum = Enum;
 
 /***/ }),
 
-/***/ 64:
+/***/ 63:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22618,7 +22132,7 @@ const {
 
 /***/ }),
 
-/***/ 65:
+/***/ 64:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22660,7 +22174,7 @@ function createError(message, attributes = {}, ctor = Error) {
 
 /***/ }),
 
-/***/ 66:
+/***/ 65:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22701,7 +22215,7 @@ module.exports = require("util");
 
 /***/ }),
 
-/***/ 76:
+/***/ 75:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22720,6 +22234,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__read", function() { return __read; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spread", function() { return __spread; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spreadArrays", function() { return __spreadArrays; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spreadArray", function() { return __spreadArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__await", function() { return __await; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncGenerator", function() { return __asyncGenerator; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncDelegator", function() { return __asyncDelegator; });
@@ -22753,6 +22268,8 @@ var extendStatics = function(d, b) {
 };
 
 function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -22875,19 +22392,27 @@ function __read(o, n) {
     return ar;
 }
 
+/** @deprecated */
 function __spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(__read(arguments[i]));
     return ar;
 }
 
+/** @deprecated */
 function __spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
         for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
             r[k] = a[j];
     return r;
-};
+}
+
+function __spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+}
 
 function __await(v) {
     return this instanceof __await ? (this.v = v, this) : new __await(v);
@@ -22960,14 +22485,14 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 /***/ }),
 
-/***/ 77:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const escapeStringRegexp = __webpack_require__(193);
-const ansiStyles = __webpack_require__(194);
-const stdoutColor = __webpack_require__(198).stdout;
+const escapeStringRegexp = __webpack_require__(195);
+const ansiStyles = __webpack_require__(196);
+const stdoutColor = __webpack_require__(108).stdout;
 
 const template = __webpack_require__(200);
 
@@ -23196,10 +22721,375 @@ module.exports.default = module.exports; // For TypeScript
 
 /***/ }),
 
+/***/ 77:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * This allows you to work with object hierarchies that have been frozen
+ * with Object.freeze().  "get" operations can use the normal JS syntax,
+ * but operations that modify the data will have to return partial copies of
+ * the structure. The portions of the structure that did not change will
+ * === their previous values.
+ *
+ * Inspired by clojure/mori and Immutable.js
+ */
+
+
+
+const i = exports
+
+const identity = coll => coll
+
+// we only care about objects or arrays for now
+const weCareAbout = val => val !== null &&
+    (Array.isArray(val) ||
+      // This will skip objects created with `new Foo()`
+      // and objects created with `Object.create(proto)`
+      // The benefit is ignoring DOM elements and event emitters,
+      // which are often circular.
+      isObjectLike(val))
+
+const isObjectLike = val => typeof val === 'object' &&
+    (val.constructor === Object ||
+      val.constructor == null) &&
+    (Object.getPrototypeOf(val) === Object.prototype ||
+      Object.getPrototypeOf(val) === null)
+
+const forKeys = (obj, iter) => {
+  let idx, keys
+  if (Array.isArray(obj)) {
+    idx = obj.length
+    while (idx--) {
+      iter(idx)
+    }
+    return
+  }
+  keys = Object.keys(obj)
+  idx = keys.length
+  while (idx--) {
+    iter(keys[idx])
+  }
+}
+
+const cloneObj = obj => {
+  const newObj = obj.constructor == null ? Object.create(null) : {}
+  const keys = Object.keys(obj)
+  let idx = keys.length
+  let key
+  while (idx--) {
+    key = keys[idx]
+    newObj[key] = obj[key]
+  }
+  return newObj
+}
+
+const clone = (coll) => {
+  if (Array.isArray(coll)) {
+    return coll.slice()
+  } else {
+    return cloneObj(coll)
+  }
+}
+
+const freezeIfNeeded =  true
+? identity
+: undefined
+
+const _freeze =  true
+? identity
+: undefined
+
+const prevNodes = []
+
+const baseFreeze = (coll) => {
+  if (prevNodes.some(val => val === coll)) {
+    throw new Error('object has a reference cycle')
+  }
+  prevNodes.push(coll)
+  forKeys(coll, key => {
+    const prop = coll[key]
+    if (weCareAbout(prop)) {
+      baseFreeze(prop)
+    }
+  })
+  prevNodes.pop()
+
+  Object.freeze(coll)
+  return coll
+}
+
+/**
+ * recrursively freeze an object and all its child objects
+ * @param  {Object|Array} coll
+ * @return {Object|Array}
+ */
+exports.freeze =  true
+? identity
+: undefined
+
+/**
+ * recursively un-freeze an object, by cloning frozen collections
+ * @param  {[type]} coll [description]
+ * @return {[type]}      [description]
+ */
+exports.thaw = function thaw (coll) {
+  if (!weCareAbout(coll) || !Object.isFrozen(coll)) return coll
+
+  const newColl = Array.isArray(coll)
+    ? new Array(coll.length)
+    : {}
+
+  forKeys(coll, key => {
+    newColl[key] = thaw(coll[key])
+  })
+  return newColl
+}
+
+/**
+ * set a value on an object or array
+ * @param  {Object|Array}  coll
+ * @param  {String|Number} key   Key or index
+ * @param  {Object}        value
+ * @return {Object|Array}        new object hierarchy with modifications
+ */
+exports.assoc = function assoc (coll, key, value) {
+  if (coll[key] === value) {
+    return _freeze(coll)
+  }
+
+  const newObj = clone(coll)
+
+  newObj[key] = freezeIfNeeded(value)
+
+  return _freeze(newObj)
+}
+exports.set = exports.assoc
+
+/**
+ * un-set a value on an object or array
+ * @param  {Object|Array}  coll
+ * @param  {String|Number} key  Key or Index
+ * @return {Object|Array}       New object or array
+ */
+exports.dissoc = function dissoc (coll, key) {
+  const newObj = clone(coll)
+
+  delete newObj[key]
+
+  return _freeze(newObj)
+}
+exports.unset = exports.dissoc
+
+/**
+ * set a value deep in a hierarchical structure
+ * @param  {Object|Array} coll
+ * @param  {Array}        path    A list of keys to traverse
+ * @param  {Object}       value
+ * @return {Object|Array}       new object hierarchy with modifications
+ */
+exports.assocIn = function assocIn (coll, path, value) {
+  const key0 = path[0]
+  if (path.length === 1) {
+    // simplest case is a 1-element array.  Just a simple assoc.
+    return i.assoc(coll, key0, value)
+  } else {
+    // break the problem down.  Assoc this object with the first key
+    // and the result of assocIn with the rest of the keys
+    return i.assoc(coll, key0, assocIn(coll[key0] || {}, path.slice(1), value))
+  }
+}
+exports.setIn = exports.assocIn
+
+/**
+ * un-set a value on an object or array
+ * @param  {Object|Array}  coll
+ * @param  {Array} path  A list of keys to traverse
+ * @return {Object|Array}       New object or array
+ */
+exports.dissocIn = function dissocIn (coll, path) {
+  const key0 = path[0]
+  if (!coll.hasOwnProperty(key0)) {
+    return coll
+  }
+  if (path.length === 1) {
+    // simplest case is a 1-element array.  Just a simple dissoc.
+    return i.dissoc(coll, key0)
+  } else {
+    // break the problem down.  Assoc this object with the first key
+    // and the result of dissocIn with the rest of the keys
+    return i.assoc(coll, key0, dissocIn(coll[key0], path.slice(1)))
+  }
+}
+exports.unsetIn = exports.dissocIn
+
+/**
+ * get an object from a hierachy based on an array of keys
+ * @param  {Object|Array} coll
+ * @param  {Array}        path    list of keys
+ * @return {Object}       value, or undefined
+ */
+function baseGet (coll, path) {
+  return (path || []).reduce((curr, key) => {
+    if (!curr) { return }
+    return curr[key]
+  }, coll)
+}
+
+exports.getIn = baseGet
+
+/**
+ * Update a value in a hierarchy
+ * @param  {Object|Array}   coll
+ * @param  {Array}          path     list of keys
+ * @param  {Function} callback The existing value with be passed to this.
+ *                             Return the new value to set
+ * @return {Object|Array}      new object hierarchy with modifications
+ */
+exports.updateIn = function updateIn (coll, path, callback) {
+  const existingVal = baseGet(coll, path)
+  return i.assocIn(coll, path, callback(existingVal))
+};
+
+// generate wrappers for the mutative array methods
+['push', 'unshift', 'pop', 'shift', 'reverse', 'sort']
+.forEach((methodName) => {
+  exports[methodName] = function (arr, val) {
+    const newArr = [...arr]
+
+    newArr[methodName](freezeIfNeeded(val))
+
+    return _freeze(newArr)
+  }
+
+  exports[methodName].displayName = 'icepick.' + methodName
+})
+
+// splice is special because it is variadic
+exports.splice = function splice (arr, ..._args) {
+  const newArr = [...arr]
+  const args = _args.map(freezeIfNeeded)
+
+  newArr.splice.apply(newArr, args)
+
+  return _freeze(newArr)
+}
+
+// slice is non-mutative
+exports.slice = function slice (arr, arg1, arg2) {
+  const newArr = arr.slice(arg1, arg2)
+
+  return _freeze(newArr)
+};
+
+['map', 'filter'].forEach((methodName) => {
+  exports[methodName] = function (fn, arr) {
+    const newArr = arr[methodName](fn)
+
+    return _freeze(newArr)
+  }
+
+  exports[methodName].displayName = 'icepick.' + methodName
+})
+
+exports.extend =
+exports.assign = function assign (obj, ...objs) {
+  const newObj = objs.reduce(singleAssign, obj)
+
+  return _freeze(newObj)
+}
+
+function singleAssign (obj1, obj2) {
+  return Object.keys(obj2).reduce((obj, key) => {
+    return i.assoc(obj, key, obj2[key])
+  }, obj1)
+}
+
+exports.merge = merge
+function merge (target, source, resolver) {
+  if (target == null || source == null) {
+    return target
+  }
+  return Object.keys(source).reduce((obj, key) => {
+    const sourceVal = source[key]
+    const targetVal = obj[key]
+
+    const resolvedSourceVal =
+      resolver ? resolver(targetVal, sourceVal, key) : sourceVal
+
+    if (weCareAbout(sourceVal) && weCareAbout(targetVal)) {
+      // if they are both frozen and reference equal, assume they are deep equal
+      if (
+        resolvedSourceVal === targetVal &&
+        (
+           true ||
+          (
+            false
+          )
+        )
+      ) {
+        return obj
+      }
+      if (Array.isArray(sourceVal)) {
+        return i.assoc(obj, key, resolvedSourceVal)
+      }
+      // recursively merge pairs of objects
+      return assocIfDifferent(obj, key,
+        merge(targetVal, resolvedSourceVal, resolver))
+    }
+
+    // primitive values, stuff with prototypes
+    return assocIfDifferent(obj, key, resolvedSourceVal)
+  }, target)
+}
+
+function assocIfDifferent (target, key, value) {
+  if (target[key] === value) {
+    return target
+  }
+  return i.assoc(target, key, value)
+}
+
+const chainProto = {
+  value: function value () {
+    return this.val
+  },
+  thru: function thru (fn) {
+    this.val = freezeIfNeeded(fn(this.val))
+    return this
+  }
+}
+
+Object.keys(exports).forEach((methodName) => {
+  if (methodName.match(/^(map|filter)$/)) {
+    chainProto[methodName] = function (fn) {
+      this.val = exports[methodName](fn, this.val)
+      return this
+    }
+    return
+  }
+  chainProto[methodName] = function (...args) {
+    this.val = exports[methodName](this.val, ...args)
+    return this
+  }
+})
+
+exports.chain = function chain (val) {
+  const wrapped = Object.create(chainProto)
+  wrapped.val = val
+  return wrapped
+}
+
+// for testing
+if (false) {}
+
+
+/***/ }),
+
 /***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(189);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(191);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -23841,6 +23731,149 @@ module.exports = function (fromModel) {
 
 "use strict";
 
+const os = __webpack_require__(20);
+const tty = __webpack_require__(57);
+const hasFlag = __webpack_require__(85);
+
+const {env} = process;
+
+let forceColor;
+if (hasFlag('no-color') ||
+	hasFlag('no-colors') ||
+	hasFlag('color=false') ||
+	hasFlag('color=never')) {
+	forceColor = 0;
+} else if (hasFlag('color') ||
+	hasFlag('colors') ||
+	hasFlag('color=true') ||
+	hasFlag('color=always')) {
+	forceColor = 1;
+}
+
+if ('FORCE_COLOR' in env) {
+	if (env.FORCE_COLOR === 'true') {
+		forceColor = 1;
+	} else if (env.FORCE_COLOR === 'false') {
+		forceColor = 0;
+	} else {
+		forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
+	}
+}
+
+function translateLevel(level) {
+	if (level === 0) {
+		return false;
+	}
+
+	return {
+		level,
+		hasBasic: true,
+		has256: level >= 2,
+		has16m: level >= 3
+	};
+}
+
+function supportsColor(haveStream, streamIsTTY) {
+	if (forceColor === 0) {
+		return 0;
+	}
+
+	if (hasFlag('color=16m') ||
+		hasFlag('color=full') ||
+		hasFlag('color=truecolor')) {
+		return 3;
+	}
+
+	if (hasFlag('color=256')) {
+		return 2;
+	}
+
+	if (haveStream && !streamIsTTY && forceColor === undefined) {
+		return 0;
+	}
+
+	const min = forceColor || 0;
+
+	if (env.TERM === 'dumb') {
+		return min;
+	}
+
+	if (process.platform === 'win32') {
+		// Windows 10 build 10586 is the first Windows release that supports 256 colors.
+		// Windows 10 build 14931 is the first release that supports 16m/TrueColor.
+		const osRelease = os.release().split('.');
+		if (
+			Number(osRelease[0]) >= 10 &&
+			Number(osRelease[2]) >= 10586
+		) {
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
+		}
+
+		return 1;
+	}
+
+	if ('CI' in env) {
+		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+			return 1;
+		}
+
+		return min;
+	}
+
+	if ('TEAMCITY_VERSION' in env) {
+		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+	}
+
+	if (env.COLORTERM === 'truecolor') {
+		return 3;
+	}
+
+	if ('TERM_PROGRAM' in env) {
+		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				return version >= 3 ? 3 : 2;
+			case 'Apple_Terminal':
+				return 2;
+			// No default
+		}
+	}
+
+	if (/-256(color)?$/i.test(env.TERM)) {
+		return 2;
+	}
+
+	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+		return 1;
+	}
+
+	if ('COLORTERM' in env) {
+		return 1;
+	}
+
+	return min;
+}
+
+function getSupportLevel(stream) {
+	const level = supportsColor(stream, stream && stream.isTTY);
+	return translateLevel(level);
+}
+
+module.exports = {
+	supportsColor: getSupportLevel,
+	stdout: translateLevel(supportsColor(true, tty.isatty(1))),
+	stderr: translateLevel(supportsColor(true, tty.isatty(2)))
+};
+
+
+/***/ }),
+
+/***/ 85:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 module.exports = (flag, argv = process.argv) => {
 	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
@@ -23852,7 +23885,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 85:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23899,7 +23932,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 86:
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24041,7 +24074,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 87:
+/***/ 88:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -24072,7 +24105,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 88:
+/***/ 89:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24080,7 +24113,7 @@ module.exports = function(originalModule) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const agent_1 = __importDefault(__webpack_require__(145));
+const agent_1 = __importDefault(__webpack_require__(147));
 function createHttpsProxyAgent(opts) {
     return new agent_1.default(opts);
 }
@@ -24093,21 +24126,21 @@ module.exports = createHttpsProxyAgent;
 
 /***/ }),
 
-/***/ 89:
+/***/ 90:
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
 
-/***/ 90:
+/***/ 91:
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
 
-/***/ 91:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -24123,7 +24156,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(147);
+	createDebug.humanize = __webpack_require__(149);
 	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {
