@@ -148,21 +148,21 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	assert(is_folder_existing(state, current_parent_folder_id), `get_ideal_file_relative_folder() current parent folder exists "${current_parent_folder_id}"`)
 	const top_parent_id: FolderId = File.get_current_top_parent_folder_id(file_state)
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
+	const current_parent_folder_state = state.folders[current_parent_folder_id]
 
 	logger.trace(`get_ideal_file_relative_folder() processing…`, {
 		top_parent: top_parent_id,
 		is_top_parent_special,
-		parent_folder_type: state.folders[current_parent_folder_id].type,
+		parent_folder_type: current_parent_folder_state.type,
 		is_media_file: File.is_media_file(file_state),
 	})
 
 	// whatever the file, is it already in an event folder? (= already sorted)
-	switch(state.folders[current_parent_folder_id].type) {
+	switch(current_parent_folder_state.type) {
 		case Folder.Type.event: {
 			// if it's in an event folder
 			// we assume it's sorted already and keep it that way
-			const current_parent_folder_state = state.folders[current_parent_folder_id]
-			const event_folder_base = Folder.get_ideal_basename(state.folders[current_parent_folder_id])
+			const event_folder_base = Folder.get_ideal_basename(current_parent_folder_state)
 			const year = String(Folder.get_event_begin_year(current_parent_folder_state))
 
 			DEBUG && console.log(`✴️ ${id} already in event`)
@@ -177,7 +177,6 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 				if (File.is_confident_in_date(file_state, 'secondary'))
 					return File.get_best_creation_date_compact(file_state)
 
-				const current_parent_folder_state = state.folders[current_parent_folder_id]
 				return Folder.get_event_begin_date(current_parent_folder_state)
 			})()
 
@@ -212,6 +211,10 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
 			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
+		logger.warn(`Unfortunately can't manage to sort a file :-(`, {
+			id,
+			current_parent_folder_state,
+		})
 		DEBUG && console.log(`✴️ ${id} can't sort`)
 		return path.join(target_split_path.join(path.sep))
 	}
@@ -224,6 +227,10 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		else
 			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME)
 		DEBUG && console.log(`✴️ ${id} really not confident`)
+		logger.warn(`Unfortunately really not confident about the date of a file :-(`, {
+			id,
+			current_parent_folder_state,
+		})
 		return target_split_path.join(path.sep)
 	}
 

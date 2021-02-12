@@ -124,6 +124,10 @@ export function get_event_begin_year(state: Immutable<State>): number | undefine
 	return Math.trunc(state.event_begin_date_symd / 10000)
 }
 
+function is_digit(char: string): boolean {
+	return !!char && char === String(parseInt(char[0]))
+}
+
 export function get_ideal_basename(state: Immutable<State>): Basename {
 	const current_basename = get_basename(state)
 
@@ -132,9 +136,15 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 
 	assert(state.event_begin_date_symd, 'get_ideal_basename() (event) should have a start date')
 
+	let meaningful_part = state.cached.nameㆍparsed.meaningful_part
+	if (is_digit(meaningful_part[0])) {
+		// protection to prevent future executions to parse the meaningful part as DD/HH/MM/SS
+		meaningful_part = 'x' + meaningful_part
+	}
+
 	return NORMALIZERS.trim(
 		NORMALIZERS.normalize_unicode(
-			String(state.event_begin_date_symd + ' - ' + state.cached.nameㆍparsed.meaningful_part)
+			String(state.event_begin_date_symd + ' - ' + meaningful_part)
 		)
 	)
 }

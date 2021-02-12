@@ -74,7 +74,7 @@ async function sort_all_medias() {
 
 	logger.verbose('Sort up to: "' + up_to + '" done.')
 	logger.info('DB = ' + DB.to_string(db))
-	logger.info('\nactions done: ' + get_report_to_string())
+	console.log('\nactions done: ' + get_report_to_string())
 }
 
 ////////////////////////////////////

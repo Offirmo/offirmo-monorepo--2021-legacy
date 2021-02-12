@@ -369,7 +369,7 @@ export function is_current_fs_date_reliable__primary(state: Immutable<State>): b
 
 	const is_matching = _is_matching(date__from_exif, date__from_fs__current, state.id)
 	if (!is_matching) {
-		console.warn('exif data', state.current_exif_data)
+		logger.log('⚠️ is_current_fs_date_reliable__primary() yielding FALSE', state.current_exif_data!)
 	}
 	return is_matching
 }
