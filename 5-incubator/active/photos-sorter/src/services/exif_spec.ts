@@ -50,12 +50,12 @@ describe(`${LIB} - exif service`, function() {
 
 				expect(exif_data.tz).to.equal('Asia/Shanghai')
 				expect(get_creation_timezone_from_exif(exif_data)).to.equal('Asia/Shanghai')
-				expect(get_creation_date_from_exif(basename, exif_data)!.toISOString()).to.equal('2018-09-03T20:46:14.506+08:00')
+				expect(get_creation_date_from_exif(exif_data)!.toISOString()).to.equal('2018-09-03T20:46:14.506+08:00')
 				expect(
 					//get_human_readable_timestamp_millis(
 					get_human_readable_timestamp_auto(
 						create_better_date_from_ExifDateTime(
-							get_creation_date_from_exif(basename, exif_data)!,
+							get_creation_date_from_exif(exif_data)!,
 						),
 						'tz:embedded',
 					)
@@ -72,12 +72,12 @@ describe(`${LIB} - exif service`, function() {
 
 				expect(exif_data.tz).to.equal(undefined)
 				expect(get_creation_timezone_from_exif(exif_data)).to.equal(undefined)
-				expect(get_creation_date_from_exif(basename, exif_data)!.toISOString()).to.equal('2002-01-26T16:05:50.000')
+				expect(get_creation_date_from_exif(exif_data)!.toISOString()).to.equal('2002-01-26T16:05:50.000')
 				expect(
 					//get_human_readable_timestamp_millis(
 					get_human_readable_timestamp_auto(
 						create_better_date_from_ExifDateTime(
-							get_creation_date_from_exif(basename, exif_data)!,
+							get_creation_date_from_exif(exif_data)!,
 						),
 						'tz:embedded',
 					)

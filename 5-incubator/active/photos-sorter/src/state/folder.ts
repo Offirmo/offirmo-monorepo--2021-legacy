@@ -179,7 +179,7 @@ export function create(id: RelativePath): Immutable<State> {
 	const base = pathㆍparsed.base
 	const type = _infer_initial_folder_type(id, pathㆍparsed)
 	// TODO remove prema optim? Or skip if special folder?
-	const nameㆍparsed = parse_basename(base)
+	const nameㆍparsed = parse_basename(base, { type: 'folder' })
 	const date = _infer_start_date(nameㆍparsed)
 
 	return {

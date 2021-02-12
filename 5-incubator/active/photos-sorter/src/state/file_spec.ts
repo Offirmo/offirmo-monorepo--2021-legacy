@@ -66,7 +66,8 @@ describe(`${LIB} - file (state)`, function() {
 		})
 		if (is_exif_powered_media_file(state)) {
 			state = on_exif_read(state, {
-				'CreateDate': get_exif_datetime(time),
+				CreateDate: get_exif_datetime(time),
+				SourceFile: id,
 			} as Tags)
 		}
 		state = on_hash_computed(state, '1234')
@@ -167,7 +168,8 @@ describe(`${LIB} - file (state)`, function() {
 			hints_from_reliable_neighbors__current__fs_reliability = undefined
 		})
 		function create_test_file_state(): Immutable<State> {
-			let state = create(path.join(parent_folder_name__current, file_basename__current))
+			const id = path.join(parent_folder_name__current, file_basename__current)
+			let state = create(id)
 
 			state = on_fs_stats_read(state, {
 				birthtimeMs: date__fs_ms__current,
@@ -177,6 +179,7 @@ describe(`${LIB} - file (state)`, function() {
 			})
 			if (is_exif_powered_media_file(state)) {
 				state = on_exif_read(state, {
+					SourceFile: id,
 					...(date__exif && {
 						// may be exif powered without the info we need
 						'CreateDate':        date__exif,

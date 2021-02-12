@@ -388,9 +388,10 @@ let last_call: undefined | {
 	up_to: string
 	result: Immutable<ParseResult>
 } = undefined
-export function parse(name: string, { parse_up_to = 'full' }: {
+export function parse(name: string, { parse_up_to = 'full', type }: {
 	parse_up_to?: 'full' | 'copy_index',
-} = {}): Immutable<ParseResult> {
+	type: 'file' | 'folder', // important to know whether to extract an extension or not
+}): Immutable<ParseResult> {
 	logger.trace('» parsing basename…', { name, up_to: parse_up_to })
 	const result: ParseResult = {
 		original_name: name,
@@ -453,13 +454,15 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 
 	logger.silly('initial state', { state, result })
 
-	const name_lc = name.toLowerCase()
-	const split_by_dot = name_lc.split('.')
-	if (split_by_dot.length > 1) {
-		result.extension_lc = '.' + split_by_dot.slice(-1)[0]
-		//debug && console.log({ extension_lc: result.extension_lc })
-		state.buffer = name.slice(0, -result.extension_lc.length)
-		//debug && console.log({ buffer: state.buffer })
+	if (type === 'file') {
+		const name_lc = name.toLowerCase()
+		const split_by_dot = name_lc.split('.')
+		if (split_by_dot.length > 1) {
+			result.extension_lc = '.' + split_by_dot.slice(-1)[0]
+			//debug && console.log({ extension_lc: result.extension_lc })
+			state.buffer = name.slice(0, -result.extension_lc.length)
+			//debug && console.log({ buffer: state.buffer })
+		}
 	}
 
 	state.buffer = state.buffer.trim()
@@ -684,11 +687,11 @@ export function parse(name: string, { parse_up_to = 'full' }: {
 }
 
 export function get_copy_index(name: string): undefined | number {
-	const result = parse(name, { parse_up_to: 'copy_index' })
+	const result = parse(name, { parse_up_to: 'copy_index', type: 'file' })
 	return result.copy_index
 }
 export function get_without_copy_index(name: string): string {
-	const result = parse(name, { parse_up_to: 'copy_index' })
+	const result = parse(name, { parse_up_to: 'copy_index', type: 'file' })
 	return result.meaningful_part + result.extension_lc
 }
 

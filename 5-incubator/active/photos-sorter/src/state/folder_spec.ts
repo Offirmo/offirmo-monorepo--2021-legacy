@@ -12,10 +12,19 @@ import {
 	on_subfile_found,
 	on_dated_subfile_found,
 } from './folder'
+import * as File from './file'
 
 import {
 	get_MEDIA_DEMO_01
 } from '../__test_shared/real_files'
+import {
+	has_all_infos_for_extracting_the_creation_date,
+	on_exif_read,
+	on_fs_stats_read,
+	on_hash_computed, on_neighbors_hints_collected, on_notes_recovered,
+} from './file'
+import util from 'util'
+import fs from 'fs'
 
 /////////////////////
 
@@ -50,10 +59,29 @@ describe(`${LIB} - folder state`, function() {
 				expect(get_ideal_basename(state)).to.equal('20001231 - holidays')
 			})
 
-			it('should work -- manual test for bug', () => {
+			it('should work -- manual test for bug -- 01', () => {
 				let state: State = create('20011125 - 00- voyage à Paris - 2001')
 				//console.log(state)
 				expect(get_ideal_basename(state)).to.equal('20011125 - 00- voyage à Paris - 2001')
+			})
+
+			it('should work -- manual test for bug -- 02', () => {
+				let state: State = create('01- St. Nicolas')
+
+				let subfile_state = File.create('foo 20011206.png')
+				subfile_state = on_hash_computed(subfile_state, '1234')
+				subfile_state = on_fs_stats_read(subfile_state, {
+					birthtimeMs: 1234567890,
+					atimeMs:     1234567890,
+					mtimeMs:     1234567890,
+					ctimeMs:     1234567890,
+				})
+				subfile_state = on_notes_recovered(subfile_state, null)
+				subfile_state = on_neighbors_hints_collected(subfile_state, null, undefined)
+
+				state = on_dated_subfile_found(state, subfile_state)
+				//console.log(state)
+				expect(get_ideal_basename(state)).to.equal('20011206 - 01- St. Nicolas')
 			})
 		})
 

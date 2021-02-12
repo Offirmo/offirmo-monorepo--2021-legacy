@@ -388,7 +388,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				logger.info(`DRY RUN would have renamed/moved "${id}" to "${target_id}"`)
 			}
 			else {
-				console.log(`about to rename/move "${id}" to "${target_id}"…`)
+				logger.trace(`about to rename/move "${id}" to "${target_id}"…`)
 
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				const abs_path_target = DB.get_absolute_path(db, target_id)

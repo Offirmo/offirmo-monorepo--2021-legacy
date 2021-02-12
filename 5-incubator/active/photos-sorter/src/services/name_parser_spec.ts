@@ -160,24 +160,24 @@ describe(`${LIB} - (base)name parser`, function() {
 					const { _comment, extension_lc } = ALL_SAMPLES[filename]
 
 					expect(
-						parse(filename).extension_lc,
+						parse(filename, { type: 'file' }).extension_lc,
 						`${[_comment, `"${filename}"`].join(': ')}`
 					).to.equal(extension_lc)
 				})
 			})
 
 			it('should work on dotfiles', () => {
-				expect(parse('.test').extension_lc)
+				expect(parse('.test', { type: 'file' }).extension_lc)
 					.to.equal('.test')
 			})
 
 			it('should work on extension-less files', () => {
-				expect(parse('extensionless').extension_lc)
+				expect(parse('extensionless', { type: 'file' }).extension_lc)
 					.to.equal('')
 			})
 
 			it('should work on dot ending', () => {
-				expect(parse('dotending.').extension_lc)
+				expect(parse('dotending.', { type: 'file' }).extension_lc)
 					.to.equal('.')
 			})
 		})
@@ -194,7 +194,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					const { _comment } = expected
 
 					it(ꓺ('should correctly parse and find the date', _comment, `"${filename}"`), () => {
-						const result = _clean_parse_result(parse(filename))
+						const result = _clean_parse_result(parse(filename, { type: 'file' }))
 						expect(
 							result.date_digits,
 							`digits for ${[_comment, `"${filename}"`].join(': ')}`
@@ -222,7 +222,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = parse(filename)
+						const result = parse(filename, { type: 'file' })
 						expect(
 							result,
 							`result for ${[_comment, `"${filename}"`].join(': ')}`
@@ -246,7 +246,7 @@ describe(`${LIB} - (base)name parser`, function() {
 						return
 
 					it(ꓺ('should correctly extract or infer the TZ', _comment, `"${filename}"`), () => {
-						const result = _clean_parse_result(parse(filename))
+						const result = _clean_parse_result(parse(filename, { type: 'file' }))
 						//console.log(result.date)
 						expect(get_embedded_timezone(result.date!)).to.equal(expected_tz)
 					})
@@ -263,7 +263,7 @@ describe(`${LIB} - (base)name parser`, function() {
 				const { _comment } = expected
 
 				it(ꓺ('should correctly remove non meaningful parts', _comment, `"${filename}"`), () => {
-					const result = _clean_parse_result(parse(filename))
+					const result = _clean_parse_result(parse(filename, { type: 'file' }))
 					expect(
 						result.meaningful_part,
 						`meaningful part for ${[_comment, `"${filename}"`].join(': ')}`
@@ -291,7 +291,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = _clean_parse_result(parse(filename))
+						const result = _clean_parse_result(parse(filename, { type: 'file' }))
 						expect(
 							result,
 							`full result for ${[_comment, `"${filename}"`].join(': ')}`
@@ -301,7 +301,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 				it('should work -- manual bug case', () => {
 					const BASENAME_UT = '20011125 - 00- voyage à Paris - 2001'
-					const result = _clean_parse_result(parse(BASENAME_UT))
+					const result = _clean_parse_result(parse(BASENAME_UT, { type: 'folder' }))
 					expect(
 						result,
 					).to.deep.equal({
@@ -331,7 +331,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							...expected_result_part,
 						}
 
-						const result = _clean_parse_result(parse(filename))
+						const result = _clean_parse_result(parse(filename, { type: 'file' }))
 						expect(
 							result,
 							`full result for ${[_comment, `"${filename}"`].join(': ')}`

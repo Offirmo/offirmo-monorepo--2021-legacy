@@ -224,7 +224,7 @@ function _get_creation_date_from_exif__internal(state: Immutable<State>): ExifDa
 	if (current_exif_data === null) return undefined
 
 	try {
-		return get_creation_date_from_exif(get_current_basename(state), current_exif_data)
+		return get_creation_date_from_exif(current_exif_data)
 	}
 	catch (err) {
 		logger.fatal(`error extracting date from exif for "${id}"!`, { err })
@@ -298,7 +298,7 @@ function _get_creation_date_from_original_parent_folder(state: Immutable<State>)
 	let dir = state.notes.original.parent_path
 	while (dir) {
 		const parsed = path.parse(dir)
-		const parsed_basename = parse_basename(parsed.base)
+		const parsed_basename = parse_basename(parsed.base, { type: 'folder' })
 		if (parsed_basename.date) {
 			return parsed_basename.date
 		}
@@ -311,7 +311,7 @@ function _get_creation_date_from_any_current_parent_folder(state: Immutable<Stat
 	let dir = get_current_parent_folder_id(state)
 	while (dir) {
 		const parsed = path.parse(dir)
-		const parsed_basename = parse_basename(parsed.base)
+		const parsed_basename = parse_basename(parsed.base, { type: 'folder' })
 		if (parsed_basename.date) {
 			return parsed_basename.date
 		}
@@ -672,9 +672,10 @@ export function create(id: FileId): Immutable<State> {
 
 	// not a premature optim here,
 	// the goal is to avoid repeated logs
+	const parse_file_basename = (basename: string) => parse_basename(basename, { type: 'file' })
 	const memoized_parse_path = memoize_once(path.parse)
-	const memoized_parse_original_basename = memoize_once(parse_basename)
-	const memoized_parse_current_basename = memoize_once(parse_basename)
+	const memoized_parse_original_basename = memoize_once(parse_file_basename)
+	const memoized_parse_current_basename = memoize_once(parse_file_basename)
 	const memoized_normalize_extension = memoize_once(_get_normalized_extension)
 
 	function get_parsed_path(state: Immutable<State>) { return memoized_parse_path(state.id) }
