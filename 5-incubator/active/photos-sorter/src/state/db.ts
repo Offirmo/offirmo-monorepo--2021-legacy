@@ -211,9 +211,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
 			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
-		logger.warn(`Unfortunately can't manage to sort a file :-(`, {
+		logger.warn(`Unfortunately can't manage to recognize a file :-(`, {
 			id,
-			current_parent_folder_state,
+			//current_parent_folder_state,
 		})
 		DEBUG && console.log(`✴️ ${id} can't sort`)
 		return path.join(target_split_path.join(path.sep))
@@ -229,7 +229,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		DEBUG && console.log(`✴️ ${id} really not confident`)
 		logger.warn(`Unfortunately really not confident about the date of a file :-(`, {
 			id,
-			current_parent_folder_state,
+			//current_parent_folder_state,
 		})
 		return target_split_path.join(path.sep)
 	}
