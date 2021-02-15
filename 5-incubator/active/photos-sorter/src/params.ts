@@ -64,8 +64,8 @@ export function get_params(): Params {
 		date_upper_bound: DATE_UPPER_BOUND,
 		max_event_duration_in_days: MAX_EVENT_DURATION_IN_DAYS,
 
-		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 01`),
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- TEST photos sorter/- sorted`), // TEST don't commit
+		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 02`),
+		//root: path.normalize(`/Users/${process.env.USER}/work/tmp/- TEST photos sorter/- sorted`), // TEST don't commit
 
 		...(false // XXX true = local execution on Offirmo's machine, XXX don't commit "true"
 			? {

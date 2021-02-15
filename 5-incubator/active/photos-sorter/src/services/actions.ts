@@ -2,6 +2,7 @@ import path from 'path'
 import util from 'util'
 import fs from 'fs'
 import assert from 'tiny-invariant'
+import async from 'async'
 import json from '@offirmo/cli-toolbox/fs/json'
 import { Immutable } from '@offirmo-private/ts-types'
 import { exiftool } from 'exiftool-vendored'
@@ -49,6 +50,7 @@ const _report = {
 // TODO add an "enforce stable" mode
 
 export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>): Promise<Immutable<State>> {
+	console.log('executing actions…')
 
 	const PARAMS = get_params()
 	const display_progress = true // activating sort of turns off wrapping in iTerm = bad for debug
@@ -68,17 +70,20 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	const progress_bars: { [id: string]: { size: number, bar: any }} = {}
-	function on_new_task(id: string) {
+	const PROGRESS_ID__OVERALL = 'overall'
+	function on_new_tasks(id: string, count: number = 1) {
 		if (!display_progress) return
 
-		progress_bars[id] ??= {
-			size: 0,
-			bar: progress_multibar.create(0, 0),
+		if (!progress_bars[id]) {
+			progress_bars[id] = {
+				size: 0,
+				bar: progress_multibar.create(0, 0, {name: id.padEnd(14)}),
+			}
 		}
 
-		progress_bars[id].size++
+		progress_bars[id].size += count
 		progress_bars[id].bar.setTotal(progress_bars[id].size)
-		progress_bars[id].bar.update(0, {name: id.padEnd(14)})
+		//progress_bars[id].bar.update(/*0,*/ {name: id.padEnd(14)})
 	}
 	function on_task_finished(id: string) {
 		if (!display_progress) return
@@ -87,7 +92,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	////////////////////////////////////
-	const TASK_ID = 'other'
 
 	function _on_error(TASK_ID: string, err: Error, details: any): void {
 		_report.error_count++
@@ -97,8 +101,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	// read only
 	async function explore_folder(id: RelativePath): Promise<void> {
 		logger.trace(`initiating explore_folder "${id}"…`)
-		const TASK_ID = 'explore_folder'
-		on_new_task(TASK_ID)
 
 		try {
 			let pending_tasks: Promise<void>[] = []
@@ -146,17 +148,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			await Promise.all(pending_tasks)
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.explore_folder, err, { id })
 		}
 	}
 
 	async function query_fs_stats(id: RelativePath): Promise<void> {
 		logger.trace(`initiating fs stats query for "${id}"…`)
-		const TASK_ID = 'query_fs_stats'
-		on_new_task(TASK_ID)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -165,17 +162,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			db = DB.on_fs_stats_read(db, id, get_fs_stats_subset(stats))
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.query_fs_stats, err, { id })
 		}
 	}
 
 	async function query_exif(id: RelativePath): Promise<void> {
 		logger.trace(`initiating exif query for "${id}"…`)
-		const TASK_ID = 'query_exif'
-		on_new_task(TASK_ID)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -184,17 +176,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			db = DB.on_exif_read(db, id, exif_data)
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.query_exif, err, { id })
 		}
 	}
 
 	async function compute_hash(id: RelativePath): Promise<void> {
 		logger.trace(`computing hash for "${id}"…`)
-		const TASK_ID = 'hash'
-		on_new_task(TASK_ID)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -204,17 +191,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			db = DB.on_hash_computed(db, id, hash!)
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.hash, err, { id })
 		}
 	}
 
 	async function load_notes(path: RelativePath): Promise<void> {
 		logger.trace(`loading notes from "${path}"…`)
-		const TASK_ID = 'load_notes'
-		on_new_task(TASK_ID)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, path)
@@ -223,18 +205,13 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			db = DB.on_notes_found(db, data)
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { path })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.load_notes, err, { path })
 		}
 	}
 
 	// write
 	async function ensure_folder(id: RelativePath): Promise<void> {
 		logger.verbose(`- ensuring dir "${id}" exists…`)
-		const TASK_ID = 'ensure_folder'
-		on_new_task(TASK_ID)
 
 		try {
 			const is_existing_according_to_db = DB.is_folder_existing(db, id)
@@ -255,17 +232,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.ensure_folder, err, { id })
 		}
 	}
 
 	async function delete_file(id: RelativePath): Promise<void> {
 		logger.trace(`- deleting file "${id}"…`)
-		const TASK_ID = 'delete_file'
-		on_new_task(TASK_ID)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -281,18 +253,13 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.delete_file, err, { id })
 		}
 	}
 
 	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
 		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
 		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
-		const TASK_ID = 'persist_notes'
-		on_new_task(TASK_ID)
 
 		try {
 			try {
@@ -310,10 +277,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { folder_path })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.persist_notes, err, { folder_path })
 		}
 	}
 
@@ -432,8 +396,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		if (target_id === id) return
 
 		logger.trace(`- moving/renaming file "${id}" to its ideal location "${target_id}"…`)
-		const TASK_ID = 'move_file_to_ideal_location'
-		on_new_task(TASK_ID)
 
 		try {
 			const parsed = path.parse(id)
@@ -467,17 +429,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			_intelligently_normalize_file_basename_sync(id, target_folder_id)
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.move_file_to_ideal_location, err, { id })
 		}
 	}
 
 	async function normalize_file(id: RelativePath): Promise<void> {
 		logger.trace(`initiating file normalization for "${id}"…`)
-		const TASK_ID = 'normalize_file'
-		on_new_task(TASK_ID)
 
 		try {
 			const file_state = db.files[id]
@@ -505,17 +462,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			_intelligently_normalize_file_basename_sync(id)
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.normalize_file, err, { id })
 		}
 	}
 
 	async function delete_folder_if_empty(id: RelativePath): Promise<void> {
 		logger.trace(`- deleting folder if it's empty "${id}"…`)
-		const TASK_ID = 'delete_folder_if_empty'
-		on_new_task(TASK_ID)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -537,10 +489,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 		}
 		catch (err) {
-			_on_error(TASK_ID, err, { id })
-		}
-		finally {
-			on_task_finished(TASK_ID)
+			_on_error(ActionType.delete_folder_if_empty, err, { id })
 		}
 	}
 
@@ -607,23 +556,33 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		}
 	}
 
-	function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
-		const actions = DB.get_pending_actions(db)
-		db = DB.discard_all_pending_actions(db)
+	const action_queue = async.priorityQueue(async function worker(task: Immutable<Action>): Promise<void> {
+		dequeue_and_schedule_all_first_level_db_actions()
 
-		return actions.map(asyncjs_iteratee)
+		await asyncjs_iteratee(task)
+		on_task_finished(task.type)
+		on_task_finished(PROGRESS_ID__OVERALL)
+
+		dequeue_and_schedule_all_first_level_db_actions()
+	}, 20);
+
+	function dequeue_and_schedule_all_first_level_db_actions(): void {
+		const pending_actions = DB.get_pending_actions(db)
+		if (pending_actions.length) {
+			db = DB.discard_all_pending_actions(db)
+			pending_actions.forEach(action => {
+				action_queue.push(action, action.type === 'explore_folder' ? 0 : 1)
+				on_new_tasks(PROGRESS_ID__OVERALL)
+				on_new_tasks(action.type)
+			})
+			console.log('+' + pending_actions.length)
+		}
 	}
 
-	function run_and_wait_for_queued_actions(): Promise<void> {
-		// trivial recursive version, may not scale well TODO improve when scaling issues
-		const running_actions = dequeue_and_run_all_first_level_db_actions()
-			.map(running_action => running_action.then(run_and_wait_for_queued_actions))
-
-		return Promise.all(running_actions).then(() => {})
-	}
+	dequeue_and_schedule_all_first_level_db_actions()
 
 	try {
-		await run_and_wait_for_queued_actions()
+		await action_queue.drain()
 	}
 	catch (err) {
 		throw err
@@ -631,6 +590,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	finally {
 		// stop all bars
 		if (display_progress) progress_multibar.stop()
+		console.log('actions done')
 	}
 
 	return db

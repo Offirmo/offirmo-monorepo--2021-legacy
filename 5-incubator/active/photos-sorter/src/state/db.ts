@@ -70,8 +70,8 @@ export function get_first_pending_action(state: Immutable<State>): Action {
 	return state.queue[0]
 }
 
-export function get_pending_actions(state: Immutable<State>): Immutable<Action[]> {
-	return state.queue
+export function get_pending_actions(state: Immutable<State>): Immutable<Action>[] {
+	return [...state.queue]
 }
 
 function get_all_folders(state: Immutable<State>): Immutable<Folder.State>[] {
