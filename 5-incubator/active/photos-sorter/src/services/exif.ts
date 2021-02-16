@@ -167,7 +167,7 @@ function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Ar
 		const is_current_date_earlier = candidate_date_tms < min_date_tms
 		// in EXIF, some date fields are rounded to the second
 		// while alternative fields are more precise
-		// since 0 < xxx ms, we use a special detection to preserve the milis
+		// since 0 < xyz ms, we use a special detection to preserve the milis
 		const min_has_millis = !!(min_date_tms % 1000)
 		const current_has_millis = !!(candidate_date_tms % 1000)
 		const is_current_date_same_but_more_precise =

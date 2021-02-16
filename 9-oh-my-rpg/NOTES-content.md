@@ -765,3 +765,7 @@ That is not to say that aristocrats were without social status. On the contrary,
 After aristocrats and patricians came the affluent middle class, consisting of Protestant ministers, lawyers, physicians, small merchants, industrialists and clerks of large state institutions. Lower status was attributed to farmers, craft and tradesmen, shopkeepers, and government bureaucrats. Below that stood skilled laborers, maids, servants, sailors, and other persons employed in the service industry. At the bottom of the pyramid were "paupers": impoverished peasants, many of whom tried their luck in a city as a beggar or day laborer.
 
 Workers and laborers were generally paid better than in most of Europe, and enjoyed relatively high living standards, although they also paid higher than normal taxes. Farmers prospered from mainly cash crops needed to support the urban and seafaring population.
+
+
+https://www.history.com/news/who-were-the-sea-peoples
+

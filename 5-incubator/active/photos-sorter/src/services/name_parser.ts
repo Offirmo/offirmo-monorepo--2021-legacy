@@ -642,7 +642,7 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 	} while (!should_exit)
 
 	// left-trim the suffix
-	while(state.suffix && SEPARATORS.includes(state.suffix[0])) {
+	while (state.suffix && SEPARATORS.includes(state.suffix[0])) {
 		state.suffix = state.suffix.slice(1)
 	}
 

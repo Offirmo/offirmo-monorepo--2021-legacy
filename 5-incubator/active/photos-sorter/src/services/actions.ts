@@ -297,16 +297,20 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		// there will be a change, ensure there is no conflict:
 		const abs_path_current = DB.get_absolute_path(db, id)
 		let good_target_found = false
+		let safety = 15
 		do {
+			safety--
+			logger.trace('(still) looking for the ideal normalized basename…', { id, target_folder })
 			target_basename = File.get_ideal_basename(current_file_state, { copy_marker })
-			const id_target = path.join(target_folder, target_basename)
-			if (id === id_target) {
+			const target_id = path.join(target_folder, target_basename)
+			if (id === target_id) {
 				// perfect! Nothing to do!
 				return
 			}
-			const abs_path_target = DB.get_absolute_path(db, id_target)
 
-			if (!DB.is_file_existing(db, id_target) && !fs_extra.pathExistsSync(DB.get_absolute_path(db, id_target))) {
+			const abs_path_target = DB.get_absolute_path(db, target_id)
+
+			if (!DB.is_file_existing(db, target_id) && !fs_extra.pathExistsSync(DB.get_absolute_path(db, target_id))) {
 				// good, fs target emplacement is free
 				good_target_found = true
 				break
@@ -332,10 +336,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 					copy_marker = 1
 					break
 				default:
-					copy_marker = copy_marker++
+					copy_marker += 1
 					break
 			}
-		} while (!good_target_found && (typeof copy_marker !== 'number' || copy_marker <= 10))
+		} while (safety > 0 && !good_target_found && (typeof copy_marker !== 'number' || copy_marker <= 10))
+		assert(safety, 'no infinite loop')
 
 		const target_id = path.join(target_folder, target_basename)
 

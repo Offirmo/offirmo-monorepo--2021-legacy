@@ -71,8 +71,8 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		context('when possible', function () {
 			const filenames = Object.keys(DATED_NAMES_SAMPLES)
-				//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXX
-				//.slice(0, 2) // TEMP XXX
+				//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXDCU
+				//.slice(0, 2) // TEMP XXDCU
 
 			filenames.forEach(filename => {
 				const expected = DATED_NAMES_SAMPLES[filename]
@@ -117,7 +117,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		context('when not possible', function () {
 			const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
-			//.slice(1) // TEMP XXX
+			//.slice(1) // TEMP XXDCU
 
 			filenames.forEach(filename => {
 				const expected = UNDATED_NAMES_SAMPLES[filename]
@@ -152,7 +152,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		describe('extraction of the extension', function () {
 			const filenames = Object.keys(ALL_SAMPLES)
-				//.filter(name => name === 'IMG_20160327_102742 2.jpg')
+				//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXDCU
 
 			filenames.forEach(filename => {
 
@@ -186,8 +186,8 @@ describe(`${LIB} - (base)name parser`, function() {
 
 			context('when possible', function () {
 				const filenames = Object.keys(DATED_NAMES_SAMPLES)
-					//.filter(k => k === 'Capture d’écran 2019-07-31 à 21.00.15.png') // TEMP XXX
-					//.slice(1) // TEMP XXX
+					//.filter(k => k === 'Capture d’écran 2019-07-31 à 21.00.15.png') // TEMP XXDCU
+					//.slice(1) // TEMP XXDCU
 
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
@@ -210,7 +210,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			context('when not possible', function () {
 
 				const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
-				//.slice(1) // TEMP XXX
+				//.slice(1) // TEMP XXDCU
 
 				filenames.forEach(filename => {
 					const expected = UNDATED_NAMES_SAMPLES[filename]
@@ -236,8 +236,8 @@ describe(`${LIB} - (base)name parser`, function() {
 
 			context('when possible', function () {
 				const filenames = Object.keys(DATED_NAMES_SAMPLES)
-				//.filter(k => k === 'Capture d’écran 2019-07-31 à 21.00.15.png') // TEMP XXX
-				//.slice(1) // TEMP XXX
+				//.filter(k => k === 'Capture d’écran 2019-07-31 à 21.00.15.png') // TEMP XXDCU
+				//.slice(1) // TEMP XXDCU
 
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
@@ -256,7 +256,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		describe('removal of non meaningful parts', function () {
 			const filenames = Object.keys(NON_MEANINGFUL_NAMES_SAMPLES)
-			//.slice(1) // TEMP XXX
+			//.slice(1) // TEMP XXDCU
 
 			filenames.forEach(filename => {
 				const expected = NON_MEANINGFUL_NAMES_SAMPLES[filename]
@@ -277,8 +277,8 @@ describe(`${LIB} - (base)name parser`, function() {
 
 			context('when possible', function () {
 				const filenames = Object.keys(DATED_NAMES_SAMPLES)
-					//.filter(k => k === 'MM2019-07-31_21h00m15_screenshot.png') // TEMP XXX
-					//.slice(1) // TEMP XXX
+					//.filter(k => k === 'MM2019-07-31_21h00m15_screenshot.png') // TEMP XXDCU
+					//.slice(1) // TEMP XXDCU
 
 				filenames.forEach(filename => {
 					const expected = DATED_NAMES_SAMPLES[filename]
@@ -319,7 +319,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 			context('when not possible', function () {
 				const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
-				//.slice(1) // TEMP XXX
+				//.slice(1) // TEMP XXDCU
 
 				filenames.forEach(filename => {
 					const expected = UNDATED_NAMES_SAMPLES[filename]
@@ -344,8 +344,8 @@ describe(`${LIB} - (base)name parser`, function() {
 
 	describe('get_copy_index()', function () {
 		const filenames = Object.keys(ALL_SAMPLES)
-		//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXX
-		//.slice(0, 2) // TEMP XXX
+		//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXDCU
+		//.slice(0, 2) // TEMP XXDCU
 
 		filenames.forEach(filename => {
 			const expected = ALL_SAMPLES[filename]

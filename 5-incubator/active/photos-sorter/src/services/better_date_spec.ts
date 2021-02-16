@@ -4,7 +4,7 @@ import { DateTime as LuxonDateTime, IANAZone } from 'luxon'
 import {
 	get_params,
 	Params,
-	_xxx_get_system_timezone,
+	_unsafe_get_system_timezone,
 	get_default_timezone,
 } from '../params'
 import {
@@ -50,10 +50,10 @@ describe('Better Date', function() {
 
 	describe('utilities', function () {
 
-		describe('_xxx_get_system_timezone()', function() {
+		describe('_unsafe_get_system_timezone()', function() {
 
 			it('should work', () => {
-				const current_tz = _xxx_get_system_timezone()
+				const current_tz = _unsafe_get_system_timezone()
 				//console.log({ current_tz })
 				expect(current_tz).to.be.a('string')
 				expect(current_tz.length).to.be.at.least(5)
@@ -71,7 +71,7 @@ describe('Better Date', function() {
 			})
 
 			it('should work - empty array', () => {
-				const system_tz = _xxx_get_system_timezone()
+				const system_tz = _unsafe_get_system_timezone()
 				const default_tz = get_default_timezone(now_utc_ms, test_params)
 				//console.log({ test_params, system_tz, default_tz })
 				expect(default_tz).to.equal(system_tz)
@@ -98,7 +98,7 @@ describe('Better Date', function() {
 						new_default: 'Australia/Sydney',
 					},
 				].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
-				//const system_tz = _xxx_get_system_timezone()
+				//const system_tz = _unsafe_get_system_timezone()
 				//console.log({ test_params, dt: test_params.default_timezones, system_tz })
 
 				const default_tz_2001 = get_default_timezone(Number(Date.UTC(2001, 0)), test_params)
@@ -120,7 +120,7 @@ describe('Better Date', function() {
 			})
 
 			it('should warn - real case', () => {
-				const system_tz = _xxx_get_system_timezone()
+				const system_tz = _unsafe_get_system_timezone()
 				test_params.default_timezones = [
 					{
 						date_utc_ms: Number(Date.UTC(1826, 1)),

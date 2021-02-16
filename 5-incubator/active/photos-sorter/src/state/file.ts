@@ -336,7 +336,7 @@ function _is_matching(d1: Immutable<BetterDate>, d2: Immutable<BetterDate>, debu
 
 	if (!is_tms_matching && !is_auto_matching) {
 		if (debug_id) {
-			logger.warn(`XXX _is_matching() yielded FALSE`, {
+			logger.warn(`_is_matching() yielded FALSE`, {
 				id: debug_id,
 				auto_from_exif: auto1,
 				auto_from_fs__current: auto2,
@@ -392,6 +392,7 @@ interface BestDate {
 	confidence: DateConfidence // TODO redundant with source?
 	is_fs_matching: boolean // useful for deciding to fix FS or not
 }
+// TODO split original vs. current and cache the original?
 export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): BestDate {
 	logger.trace('get_best_creation_date_meta()', { id: state.id })
 
@@ -607,8 +608,8 @@ export function is_confident_in_date(state: Immutable<State>, up_to: DateConfide
 
 export function get_ideal_basename(state: Immutable<State>, {
 	PARAMS = get_params(),
-	requested_confidence = true,
 	copy_marker = 'none',
+	requested_confidence = true, // unit tests
 }: {
 	PARAMS?: Immutable<Params>
 	requested_confidence?: boolean

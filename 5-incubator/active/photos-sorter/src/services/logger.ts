@@ -5,8 +5,9 @@ const logger = getLogger({
 	//suggestedLevel: 'silly',
 	//suggestedLevel: 'trace',
 	//suggestedLevel: 'log',
-	//suggestedLevel: 'verbose',
-	suggestedLevel: 'warn',
+	suggestedLevel: 'verbose',
+	//suggestedLevel: 'warn',
+	//suggestedLevel: 'error',
 })
 
 export default logger

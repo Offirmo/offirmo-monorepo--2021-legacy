@@ -37,7 +37,7 @@ export function get_current_year(): number {
 }
 
 // should NOT be used in place of get_default_timezone()!
-export function _xxx_get_system_timezone(): TimeZone {
+export function _unsafe_get_system_timezone(): TimeZone {
 	// https://stackoverflow.com/a/44096051/587407
 	return Intl.DateTimeFormat().resolvedOptions().timeZone
 }
@@ -138,7 +138,7 @@ export function get_params(): Params {
 export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immutable<Params> = get_params()): TimeZone {
 	//console.log('get_default_timezone()', { date_utc_ms, PARAMS })
 
-	let res: TimeZone = _xxx_get_system_timezone()
+	let res: TimeZone = _unsafe_get_system_timezone()
 	const change_after = PARAMS.default_timezones.find(tz_change => {
 		//console.log('candidate', { tz_change })
 		if (date_utc_ms >= tz_change.date_utc_ms) {
@@ -150,10 +150,12 @@ export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immuta
 		return true
 	})
 
-	if (!change_after && res !== _xxx_get_system_timezone()) {
-		logger.warn(`Current default timezone from params "${res}" does not match current system timezone "${_xxx_get_system_timezone()}". Is that intended?`)
+	if (!change_after && res !== _unsafe_get_system_timezone()) {
+		logger.warn(`Current default timezone from params "${res}" does not match current system timezone "${_unsafe_get_system_timezone()}". Is that intended?`)
 	}
 
 	//console.log('final', { res })
 	return res
 }
+
+assert(get_default_timezone(+Date.now()), 'PARAMS should be correct 01')

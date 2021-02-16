@@ -12,10 +12,10 @@ const PARAMS = get_params()
 export const SEPARATORS = '-_+.:; \t'
 
 export function deep_trim(s: string): string {
-	while(s && SEPARATORS.includes(s.slice(-1))) {
+	while (s && SEPARATORS.includes(s.slice(-1))) {
 		s = s.slice(0, s.length - 1)
 	}
-	while(s && SEPARATORS.includes(s[0])) {
+	while (s && SEPARATORS.includes(s[0])) {
 		s = s.slice(1)
 	}
 	return s
