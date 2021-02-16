@@ -630,13 +630,21 @@ export function get_ideal_basename(state: Immutable<State>, {
 	if (is_media_file(state)) {
 		const bcd_meta = get_best_creation_date_meta(state)
 
-		if (requested_confidence && bcd_meta.confidence !== 'primary') {
-			// not confident enough in getting the date, can't add the date
-		}
-		else {
-			const bcd = bcd_meta.candidate
-			const prefix = 'MM' + get_human_readable_timestamp_auto(bcd, 'tz:embedded')
-			result = [ prefix, result ].filter(s => !!s).join('_') // take into account chance of result being empty so far
+		switch (bcd_meta.confidence) {
+			case 'junk':
+				break
+			// @ts-ignore
+			case 'secondary':
+				if (requested_confidence) {
+					// not confident enough in getting the date, can't add the date
+					break
+				}
+				/* fallthrough */
+			case 'primary':
+			default:
+				const bcd = bcd_meta.candidate
+				const prefix = 'MM' + get_human_readable_timestamp_auto(bcd, 'tz:embedded')
+				result = [ prefix, result ].filter(s => !!s).join('_') // take into account chance of result being empty so far
 		}
 	}
 

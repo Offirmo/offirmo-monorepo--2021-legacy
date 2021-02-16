@@ -580,7 +580,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				on_new_tasks(PROGRESS_ID__OVERALL)
 				on_new_tasks(action.type)
 			})
-			console.log('+' + pending_actions.length)
+			//console.log('+' + pending_actions.length)
 		}
 	}
 
