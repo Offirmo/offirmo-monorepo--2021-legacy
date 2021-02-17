@@ -964,10 +964,3 @@ export const ALL_SAMPLES: { [k: string]: NameDetails } = {
 }
 
 /////////////////////
-
-export const REAL_FILES = {
-	'exif_date_cn_exif_gps.jpg': _clean_debug(create_better_date('tz:auto', 2002, 1, 26, 16, 5, 50)),
-	'exif_date_fr_alt_no_tz_conflicting_fs.jpg': _clean_debug(create_better_date('tz:auto', 2002, 1, 26, 16, 5, 50)),
-	'exif_date_fr_no_tz_conflicting_fs.jpg': _clean_debug(create_better_date('tz:auto', 2001, 1)),
-	'no_exif_date_no_tz.jpg': _clean_debug(create_better_date('tz:auto', 2001, 1)),
-}

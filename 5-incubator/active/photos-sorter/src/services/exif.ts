@@ -9,6 +9,8 @@ import {
 	is_same_date_with_potential_tz_difference,
 	get_human_readable_timestamp_auto,
 	create_better_date_from_ExifDateTime,
+	create_better_date_from_utc_tms,
+	is_within_24h,
 } from './better-date'
 import logger from './logger'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
@@ -39,13 +41,17 @@ type ExifDateTimeHash = { [k: string]: ExifDateTime }
 /** ☆☆☆☆ ✔ Example: 2017-02-12T10:28:20.000 */
 //MediaCreateDate?: ExifDateTime;
 
-const EXIF_DATE_FIELD__CREATION_DATE = 'CreationDate' as keyof Tags // not documented in exiftool but seen in exif data and being more reliable than other fields (ex. iphone IMG_0170.MOV)
+const EXIF_DATE_FIELD__CREATION_DATE = 'CreationDate' as keyof Tags // undocumented in exiftool but seen in exif data and being more reliable than other fields (ex. iphone IMG_0170.MOV)
 
-	const EXIF_DATE_FIELDS: Array<keyof Tags> = [
+const EXIF_DATE_FIELD__CREATE_DATE = 'CreateDate' as keyof Tags // documented but seen it very wrong in a few imgs  ex. IMG_20170124_125515_bad_exif.jpg
+
+const EXIF_DATE_FIELDS: Array<keyof Tags> = [
+	EXIF_DATE_FIELD__CREATION_DATE,
+
 	// https://github.com/photostructure/exiftool-vendored.js#dates
 	'SubSecCreateDate',
 	'SubSecDateTimeOriginal',
-	'CreateDate',
+	EXIF_DATE_FIELD__CREATE_DATE,
 	//'ModifyDate',
 	'DateTimeOriginal',
 	//'GPSDateStamp',
@@ -55,9 +61,8 @@ const EXIF_DATE_FIELD__CREATION_DATE = 'CreationDate' as keyof Tags // not docum
 	//'DigitalCreationTime',
 	'DateTimeGenerated',
 	'MediaCreateDate',
-	//'GPSDateTime' No! seems to be UTC = makes it tricky to use correctly. NTH support this later if deemed useful
-	'TrackCreateDate', // seen on movies, usually == CreateDate
-	EXIF_DATE_FIELD__CREATION_DATE,
+	//'GPSDateTime', // seems to not be as precise TODO use it if no other valid field
+	'TrackCreateDate', // seen on movies, usually == CreateDate but sometimes yields a better date
 ]
 const FS_DATE_FIELDS: Array<keyof Tags> = [
 	'FileModifyDate',
@@ -90,6 +95,18 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 			toDate: exiftool_date.toDate(),
 		}),
 	})
+
+	if (field === 'GPSDateTime' && exiftool_date.tzoffsetMinutes === 0) {
+		// "GPSDateTime" seems to always be in UTC. If we inferred a TZ, try to enrich it
+		const tz = exif_data.tz
+		if (tz) {
+			DEBUG && console.log(`  - ${field}: reparsing with better tz…`, { tz })
+			assert(raw_exiftool_date.rawValue, 'exif date has raw value')
+			const reparsed_exiftool_date = ExifDateTime.fromEXIF(raw_exiftool_date.rawValue, tz)
+			assert(reparsed_exiftool_date, 'reparsed date success')
+			exiftool_date = reparsed_exiftool_date
+		}
+	}
 
 	if (exiftool_date.tzoffsetMinutes === undefined) {
 		DEBUG && console.warn(`_get_valid_exifdate_field("${field}"): missing tz…`, { SourceFile, field })
@@ -124,7 +141,7 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 	return exiftool_date
 }
 
-function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Array<keyof Tags>, exif_data: Immutable<Tags>, { DEBUG }: { DEBUG: boolean }): ExifDateTime | undefined {
+function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Array<keyof Tags>, exif_data: Immutable<Tags>, { DEBUG }: { DEBUG: boolean }): ExifDateTime | undefined {
 	const { SourceFile } = exif_data
 	DEBUG && console.log(`_get_earliest_defined_date_from_selected_fields_of_exif_data() starting…`, { SourceFile })
 
@@ -149,11 +166,14 @@ function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Ar
 	}
 
 	DEBUG && console.log('- selecting the best candidate…')
-	//let min_date_legacy = now_legacy // for now
+	let min_date_origin_field: string | null = null
+	let confirmation_count = 0
 	const min_date_exif: ExifDateTime = Object.keys(candidate_exifdates).reduce((min_date_exif: ExifDateTime, field) => {
 		const candidate_date_exif = candidate_exifdates[field]
+		const candidate_field = field // for logging
 
 		if (!min_date_exif) {
+			min_date_origin_field = field
 			return candidate_date_exif
 		}
 
@@ -161,37 +181,90 @@ function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Ar
 		const candidate_date_tms = get_timestamp_ms_from_exifdate(candidate_date_exif)
 		const min_date_tms = get_timestamp_ms_from_exifdate(min_date_exif)
 		if (candidate_date_tms === min_date_tms) {
+			// no change TODO switch the field if better
+			confirmation_count++
 			return min_date_exif
 		}
 
 		const is_current_date_earlier = candidate_date_tms < min_date_tms
 		// in EXIF, some date fields are rounded to the second
 		// while alternative fields are more precise
-		// since 0 < xyz ms, we use a special detection to preserve the milis
+		// since 0 < xyz ms, we use a special detection to preserve the millis
 		const min_has_millis = !!(min_date_tms % 1000)
-		const current_has_millis = !!(candidate_date_tms % 1000)
-		const is_current_date_same_but_more_precise =
+		const candidate_has_millis = !!(candidate_date_tms % 1000)
+		const is_candidate_date_same_but_more_precise =
 			Math.floor(candidate_date_tms/1000.) === Math.floor(min_date_tms/1000.)
 			&& !min_has_millis
-			&& current_has_millis
-		const is_current_date_earlier_but_less_precise =
+			&& candidate_has_millis
+		const is_candidate_same_but_less_precise =
 			Math.floor(candidate_date_tms/1000.) === Math.floor(min_date_tms/1000.)
 			&& min_has_millis
-			&& !current_has_millis
+			&& !candidate_has_millis
+		const are_within_24h = is_within_24h(candidate_date_tms, min_date_tms)
 		DEBUG && console.log(`  - comparing to acc:`, {
-			candidate_tms: candidate_date_tms,
+			candidate_date_tms,
 			min_date_tms,
 			is_current_date_earlier,
-			is_current_date_same_but_more_precise,
-			is_current_date_earlier_but_less_precise,
+			is_candidate_date_same_but_more_precise,
+			is_candidate_same_but_less_precise,
 		})
-		if (is_current_date_same_but_more_precise || (is_current_date_earlier && !is_current_date_earlier_but_less_precise)) {
+		if (!are_within_24h && !FS_DATE_FIELDS.includes(field as keyof Tags)) {
+			logger.warn('Internal EXIF discrepancy', {
+				SourceFile,
+				candidate_field,
+				min_date_origin_field,
+				candidate_date_tms,
+				min_date_tms,
+				candidate_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(candidate_date_tms, 'tz:auto'), 'tz:embedded'),
+				min_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(min_date_tms, 'tz:auto'), 'tz:embedded'),
+			})
+			if ([candidate_field, min_date_origin_field].includes(EXIF_DATE_FIELD__CREATE_DATE)) {
+				// experimentally seen EXIF_DATE_FIELD__CREATE_DATE to be unreliable
+				// we drop it under certain conditions
+				logger.warn(`discarding unreliable EXIF field "${EXIF_DATE_FIELD__CREATE_DATE}" on confirmed suspicion`, {
+					SourceFile,
+					candidate_field,
+					min_date_origin_field,
+					candidate_date_tms,
+					min_date_tms,
+					candidate_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(candidate_date_tms, 'tz:auto'), 'tz:embedded'),
+					min_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(min_date_tms, 'tz:auto'), 'tz:embedded'),
+				})
+				if (field === EXIF_DATE_FIELD__CREATE_DATE) {
+					return min_date_exif
+				}
+				else {
+					confirmation_count = 0
+					min_date_origin_field = field
+					return candidate_date_exif
+				}
+			}
+		}
+		if (is_candidate_date_same_but_more_precise || (is_current_date_earlier && !is_candidate_same_but_less_precise)) {
 			DEBUG && console.log(`  - switching`)
+			const previous_confirmation_count = confirmation_count
+			confirmation_count = are_within_24h
+				? confirmation_count + 1
+				: 0
+			if (previous_confirmation_count && !confirmation_count) {
+				logger.warn('Internal EXIF abandoning a cross-confirmed date. is it correct?', {
+					SourceFile,
+					candidate_field,
+					min_date_origin_field,
+					previous_confirmation_count,
+					candidate_date_tms,
+					min_date_tms,
+					candidate_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(candidate_date_tms, 'tz:auto'), 'tz:embedded'),
+					min_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(min_date_tms, 'tz:auto'), 'tz:embedded'),
+				})
+			}
+			min_date_origin_field = field
 			return candidate_date_exif
 		}
 
-		DEBUG && console.log({ date_tms: candidate_date_tms, min_date_tms })
-
+		confirmation_count = are_within_24h
+			? confirmation_count + 1
+			: 0
 		return min_date_exif
 	}, null as any as ExifDateTime)
 
@@ -200,6 +273,7 @@ function _get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Ar
 	DEBUG && console.log(`- final result`, {
 		exif_date: min_date_exif,
 		tms: get_timestamp_ms_from_exifdate(min_date_exif),
+		auto: get_human_readable_timestamp_auto(create_better_date_from_ExifDateTime(min_date_exif), 'tz:embedded'),
 	})
 
 	assert(get_timestamp_ms_from_exifdate(min_date_exif) !== +now_legacy, 'coherent dates') // TODO improve test by taking the date on exec start
@@ -212,15 +286,17 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 	const DEBUG = false
 	DEBUG && console.log(`get_creation_date_from_exif() starting…`, { SourceFile })
 
-	// if only exif data was reliable…
+	// if only exif data was reliable… 😭😭😭
 	// unfortunately we encountered several cases of the exif data being botched
 	// ex. WhatsApp seems to strip or to remove the timezone
 	// ex. iPhones seems to have different dates with erroneous ones
+	// ex. strange cameras mixing good dates with bad ones? (suspicion)
 	// In this method we try to intelligently figure out the real date.
+
 	//console.log(exif_data)
 
 	// unreliable in itself, but useful as a cross-validation
-	const earliest_date_from_fs𖾚exif: ExifDateTime | undefined = _get_earliest_defined_date_from_selected_fields_of_exif_data(
+	const earliest_date_from_fs𖾚exif: ExifDateTime | undefined = _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_data(
 		FS_DATE_FIELDS,
 		exif_data,
 		{
@@ -229,7 +305,7 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 	)
 
 	// this undocumented key has been seen as the most reliable in some iPhone photos,
-	// however we'll validate that
+	// however we'll cross-validate it before using it
 	const date_from_CreationDate𖾚exif: ExifDateTime | undefined = _get_valid_exifdate_field(
 		EXIF_DATE_FIELD__CREATION_DATE,
 		exif_data,
@@ -239,7 +315,7 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 	)
 
 	// normal algorithm
-	let candidate_date𖾚exif: ExifDateTime | undefined = _get_earliest_defined_date_from_selected_fields_of_exif_data(
+	let candidate_date𖾚exif: ExifDateTime | undefined = _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_data(
 		EXIF_DATE_FIELDS,
 		exif_data,
 		{

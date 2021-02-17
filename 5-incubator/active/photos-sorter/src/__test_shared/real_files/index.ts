@@ -3,21 +3,30 @@ import path from 'path'
 import memoize_once from 'memoize-one'
 import { expect } from 'chai'
 
-import { RelativePath } from '../types'
-import { load_real_media_file } from './utils'
+import { RelativePath } from '../../types'
+import { load_real_media_file } from '../utils'
 import {
 	get_best_creation_date,
 	get_best_creation_date_compact,
 	get_best_creation_year,
 	get_ideal_basename,
-} from '../state/file'
-import { get_embedded_timezone, get_human_readable_timestamp_auto } from '../services/better-date'
+} from '../../state/file'
+import { get_embedded_timezone, get_human_readable_timestamp_auto } from '../../services/better-date'
 
-const TEST_FILES_DIR: RelativePath = '../../../src/__test_shared'
+const TEST_FILES_DIR: RelativePath = '../../../../src/__test_shared/real_files'
 export const TEST_FILES_DIR_ABS = path.join(__dirname, TEST_FILES_DIR)
 
+// TODO add all files
+// TODO export in better format
+/*
+-
+-export const REAL_FILES = {
+-	'exif_date_fr_no_tz_conflicting_fs.jpg': _clean_debug(create_better_date('tz:auto', 2001, 1)),
+-	'no_exif_date_no_tz.jpg': _clean_debug(create_better_date('tz:auto', 2001, 1)),
+-}
+ */
 export const MEDIA_DEMO_01_basename = 'exif_date_cn_exif_gps.jpg'
-const MEDIA_DEMO_01_abs_path = path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01_basename)
+export const MEDIA_DEMO_01_abs_path = path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01_basename)
 
 export const get_MEDIA_DEMO_01 = memoize_once(() => {
 	const ↆstate = load_real_media_file(MEDIA_DEMO_01_abs_path)
@@ -34,7 +43,7 @@ export const get_MEDIA_DEMO_01 = memoize_once(() => {
 })
 
 export const MEDIA_DEMO_02_basename = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
-const MEDIA_DEMO_02_abs_path = path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02_basename)
+export const MEDIA_DEMO_02_abs_path = path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02_basename)
 
 export const get_MEDIA_DEMO_02 = memoize_once(() => {
 	const ↆstate = load_real_media_file(MEDIA_DEMO_02_abs_path)
@@ -49,3 +58,6 @@ export const get_MEDIA_DEMO_02 = memoize_once(() => {
 	})
 	return ↆstate
 })
+
+export const MEDIA_DEMO_03_basename = 'IMG_20170124_125515_bad_exif.jpg'
+export const MEDIA_DEMO_03_abs_path = path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_03_basename)

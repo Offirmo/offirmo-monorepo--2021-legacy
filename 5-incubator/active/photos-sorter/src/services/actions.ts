@@ -345,7 +345,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		const target_id = path.join(target_folder, target_basename)
 
 		if (!good_target_found) {
-			logger.warn(`Couldn't rename "${id}" to a proper normalized name "${target_id}" due to conflicts...`)
+			logger.error(`Couldn't rename "${id}" to a proper normalized name "${target_id}" due to conflicts...`)
+			assert(good_target_found, 'should be able to normalize files. Could there be a bug?') // seen, was a bug
 		}
 		else {
 			if (File.get_current_basename(current_file_state) !== target_basename)
