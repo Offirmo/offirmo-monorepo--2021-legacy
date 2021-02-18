@@ -1077,6 +1077,21 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		}
 
 		// still equal so far, try to discriminate with another criteria
+		const selected__current_fs_creation_date_tms = _get_creation_date_from_current_fs_stats(selected_state)
+		const candidate__current_fs_creation_date_tms = _get_creation_date_from_current_fs_stats(candidate_state)
+		if (selected__current_fs_creation_date_tms !== candidate__current_fs_creation_date_tms) {
+			reasons.add('current_fs_creation_date')
+			//console.log('different best_creation_date', selected__best_creation_date_tms, candidate__best_creation_date_tms)
+			// earliest file wins
+
+			if (selected__current_fs_creation_date_tms <= candidate__current_fs_creation_date_tms)
+				return // current is better
+
+			selected_state = candidate_state
+			return
+		}
+
+		// still equal so far, try to discriminate with another criteria
 		if (get_current_basename(selected_state).length !== get_current_basename(candidate_state).length) {
 			reasons.add('current_basename.length')
 

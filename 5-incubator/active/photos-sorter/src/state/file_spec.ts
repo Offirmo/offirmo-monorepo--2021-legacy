@@ -865,7 +865,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					expect(get_best_creation_date_compact(state)).to.equal(MEDIA_DEMO.DATE__COMPACT)
 					expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal(MEDIA_DEMO.FINAL_TZ)
 					expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal(MEDIA_DEMO.DATE__HUMAN_AUTO)
-					expect(get_ideal_basename(state)).to.equal(`MM${ MEDIA_DEMO.DATE__HUMAN_AUTO }_${ MEDIA_DEMO.BASENAME }`)
+					expect(get_ideal_basename(state)).to.equal(MEDIA_DEMO.IDEAL_BASENAME)
 				})
 			})
 		})

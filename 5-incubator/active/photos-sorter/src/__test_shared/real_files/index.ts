@@ -35,6 +35,7 @@ interface MediaDemo {
 	DATE__COMPACT: SimpleYYYYMMDD
 	DATE__ISO_STRING: ISODateString
 	DATE__HUMAN_AUTO: string
+	IDEAL_BASENAME: string
 }
 
 const MEDIA_DEMO_01_basename = 'exif_date_cn_exif_gps.jpg'
@@ -48,6 +49,7 @@ export const MEDIA_DEMO_01: MediaDemo = {
 	DATE__COMPACT: 20180903,
 	DATE__ISO_STRING: '2018-09-03T20:46:14.506+08:00',
 	DATE__HUMAN_AUTO: '2018-09-03_20h46m14s506',
+	IDEAL_BASENAME: 'MM2018-09-03_20h46m14s506_exif_date_cn_exif_gps.jpg',
 }
 export const get_MEDIA_DEMO_01 = memoize_once(() => {
 	const MEDIA = MEDIA_DEMO_01
@@ -73,6 +75,7 @@ export const MEDIA_DEMO_02: MediaDemo = {
 	DATE__COMPACT: 20020126,
 	DATE__ISO_STRING: '2002-01-26T16:05:50.000',
 	DATE__HUMAN_AUTO: '2002-01-26_16h05m50',
+	IDEAL_BASENAME: 'MM2002-01-26_16h05m50_exif_date_fr_alt_no_tz_conflicting_fs.jpg',
 }
 export const get_MEDIA_DEMO_02 = memoize_once(() => {
 	const MEDIA = MEDIA_DEMO_02
@@ -97,6 +100,7 @@ export const MEDIA_DEMO_03: MediaDemo = {
 	DATE__COMPACT: 20170124,
 	DATE__ISO_STRING: '2017-01-24T12:55:17.000+07:00',
 	DATE__HUMAN_AUTO: '2017-01-24_12h55m17',
+	IDEAL_BASENAME: 'MM2017-01-24_12h55m17_IMG_bad_exif.jpg', // TODO clean IMG?
 }
 export const get_MEDIA_DEMO_03 = memoize_once(() => {
 	const MEDIA = MEDIA_DEMO_03
