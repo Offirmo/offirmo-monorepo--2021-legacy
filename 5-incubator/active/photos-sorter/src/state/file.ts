@@ -1,6 +1,7 @@
 import path from 'path'
 
 import memoize_once from 'memoize-one'
+import micro_memoize from "micro-memoize"
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
@@ -394,8 +395,8 @@ interface BestDate {
 	is_fs_matching: boolean // useful for deciding to fix FS or not
 }
 // TODO split original vs. current and cache the original?
-export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): BestDate {
-	logger.trace('get_best_creation_date_meta()', { id: state.id })
+export const get_best_creation_date_meta = micro_memoize(function get_best_creation_date_meta(state: Immutable<State>): BestDate {
+	logger.trace(`get_best_creation_date_meta()`, { id: state.id })
 
 	assert(has_all_infos_for_extracting_the_creation_date(state, { require_neighbors_hints: false }), 'has_all_infos_for_extracting_the_creation_date()')
 
@@ -461,6 +462,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 			}
 		}
 
+		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -492,6 +494,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
+		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -502,6 +505,8 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.source = 'original_fs+original_env_hints'
 		result.confidence = 'primary'
 		result.is_fs_matching = true
+
+		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -509,6 +514,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 	// since we only normalize on primary source of trust,
 	// we trust our past self which may have had more info at the time
 	const date__from_basename__whatever_normalized = _get_creation_date_from_whatever_normalized_basename(state)
+	logger.trace('get_best_creation_date_meta() trying whatever NN…', { has_candidate: !!date__from_basename__whatever_normalized })
 	if (date__from_basename__whatever_normalized) {
 		result.candidate = date__from_basename__whatever_normalized
 		result.source = 'some_basename_normalized'
@@ -517,6 +523,7 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 
 		// normalized is already super precise, no need to refine with FS
 
+		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -533,6 +540,8 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 		result.source = 'original_fs+original_env_hints'
 		result.confidence = 'secondary'
 		result.is_fs_matching = true
+
+		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -555,8 +564,14 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 	assert(result.confidence === 'junk')
 	result.is_fs_matching = true // obviously
 
+	logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
 	return result
-}
+}, {
+	maxSize: 10, // we need at least 1 but no need fo a bigger one. The >1 is for having less noise during unit tests across a few files
+	onCacheHit() {
+		logger.trace(`get_best_creation_date_meta()… [memoized hit]`)
+	}
+})
 
 export function get_best_creation_date(state: Immutable<State>): BetterDate {
 	const meta = get_best_creation_date_meta(state)

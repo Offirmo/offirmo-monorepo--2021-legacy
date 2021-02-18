@@ -98,6 +98,7 @@
 		"massive": "^6",
 		"memoize-one": "^5",
 		"meow": "^8",
+		"micro-memoize": "^4",
 		"moment": "^2",
 		"moment-business": "^3",
 		"moment-parseformat": "^3",

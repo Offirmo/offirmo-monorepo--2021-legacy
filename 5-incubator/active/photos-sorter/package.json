@@ -23,6 +23,7 @@
 		"lodash": "^4",
 		"luxon": "^1",
 		"memoize-one": "^5",
+		"micro-memoize": "^4",
 		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},

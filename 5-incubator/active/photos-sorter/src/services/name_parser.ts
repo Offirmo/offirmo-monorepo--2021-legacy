@@ -3,6 +3,7 @@ import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { Immutable } from '@offirmo-private/ts-types'
 import { enforce_immutability } from '@offirmo-private/state-utils'
+import micro_memoize from "micro-memoize"
 
 import { get_params } from '../params'
 import {
@@ -56,6 +57,7 @@ export function _get_y2k_year_from_fragment(s: string, separator = 70): number |
 
 const DIGITS = '0123456789'
 const PARAMS = get_params()
+const DEBUG = false
 
 export interface DigitsParseResult {
 	summary: 'no_match' | 'need_more' | 'ok' | 'perfect' | 'too_much' | 'error'
@@ -172,7 +174,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		return result
 	}
 
-	logger.silly('PDB after improved splitting:', {
+	DEBUG && logger.silly('PDB after improved splitting:', {
 		before: blocks_previous,
 		after: blocks,
 	})
@@ -180,7 +182,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	// improve padding
 	blocks = blocks.map(b => (b.length < 2) ? b.padStart(2, '0') : b)
-	logger.silly('PDB after improved padding:', {
+	DEBUG && logger.silly('PDB after improved padding:', {
 		before: blocks_previous,
 		after: blocks,
 	})
@@ -282,7 +284,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 			throw new Error('Impossible!')
 	}
 
-	logger.silly('PDB still parsing…', {
+	DEBUG && logger.silly('PDB still parsing…', {
 		blocks,
 		date_pattern,
 		date_creation_args
@@ -326,7 +328,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (error) {
 		result.summary = 'no_match'
-		logger.silly('PDB no match parsing digit blocks…', {
+		DEBUG  && logger.silly('PDB no match parsing digit blocks…', {
 			blocks,
 			reason: result.reason,
 			date_creation_args,
@@ -346,7 +348,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (blocks.length === 7) {
 		result.summary = 'perfect'
-		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
+		DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
 		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
 		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
@@ -357,7 +359,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		|| blocks.length === 5
 		|| blocks.length === 6) {
 		result.summary = 'ok'
-		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
+		DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
 		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
 		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
@@ -382,16 +384,14 @@ export interface ParseResult {
 
 	copy_index: undefined | number
 }
-let last_call: undefined | {
+/*let last_call: undefined | {
 	// small memoize-once
 	name: string
 	up_to: string
 	result: Immutable<ParseResult>
-} = undefined
-export function parse(name: string, { parse_up_to = 'full', type }: {
-	parse_up_to?: 'full' | 'copy_index',
-	type: 'file' | 'folder', // important to know whether to extract an extension or not
-}): Immutable<ParseResult> {
+} = undefined*/
+const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file' | 'folder', parse_up_to: 'full' | 'copy_index' = 'full'): Immutable<ParseResult> {
+
 	logger.trace('» parsing basename…', { name, up_to: parse_up_to })
 	const result: ParseResult = {
 		original_name: name,
@@ -405,16 +405,17 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 	}
 	// small optim for readability in unit tests
 	if (name === '.') {
+		logger.trace('« parse basename final result = trivial')
 		return result
 	}
 	// small memoize-once
-	if (last_call && last_call.name === name && last_call.up_to === parse_up_to) {
+	/*if (last_call && last_call.name === name && last_call.up_to === parse_up_to) {
 		logger.trace('« parse basename final result = memoized from last call', last_call.result)
 		return last_call.result
-	}
+	}*/
 
 	name = NORMALIZERS.normalize_unicode(name)
-	logger.silly(`parsing basename "${name}"...\n\n\n\n----------------------------------------`)
+	DEBUG  && logger.silly(`parsing basename "${name}"...\n\n\n\n----------------------------------------`)
 
 	let state = {
 		buffer: name,
@@ -439,7 +440,7 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 		result.date = dpr.date
 		result.is_date_ambiguous = dpr.is_ambiguous
 
-		logger.silly(`found date in basename`, {
+		DEBUG  && logger.silly(`found date in basename`, {
 			name,
 			state,
 			dpr,
@@ -452,7 +453,7 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 		}
 	}
 
-	logger.silly('initial state', { state, result })
+	DEBUG  && logger.silly('initial state', { state, result })
 
 	if (type === 'file') {
 		const name_lc = name.toLowerCase()
@@ -484,10 +485,12 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 	}, state.buffer)
 	state.buffer = state.buffer.trim()
 
-	logger.silly('after buffer cleanup', { state, result })
+	DEBUG  && logger.silly('after buffer cleanup', { state, result })
 
 	if (parse_up_to === 'copy_index') {
 		result.meaningful_part = state.buffer
+
+		logger.trace('« parse basename final result =', result)
 		return result
 	}
 
@@ -539,12 +542,12 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 		}
 		_derive(state)
 
-		logger.silly(`"${state.buffer}"[i=${state.index}] = "${c}" = ${
+		DEBUG  && logger.silly(`"${state.buffer}"[i=${state.index}] = "${c}" = ${
 			is_separator
 				? 'separator'
 				: is_digit
-					? 'digit'
-					: 'other'
+				? 'digit'
+				: 'other'
 		}`)
 
 		if (state.is_date_found) {
@@ -583,7 +586,7 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 				// we just stopped getting digits.
 				//console.log('hdb-io', c)
 				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
-				logger.silly('is no longer digit:', {
+				DEBUG  && logger.silly('is no longer digit:', {
 					state,
 					dpr,
 				})
@@ -635,7 +638,7 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 		if (no_infinite_loop_counter <= 0)
 			should_exit = true
 
-		logger.silly('end of loop', {
+		DEBUG  && logger.silly('end of loop', {
 			state,
 			should_exit,
 		})
@@ -659,7 +662,7 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 	}
 
 	let meaningful_part = deep_trim(state.prefix + state.suffix)
-	logger.silly(`Starting meaningful part last normalization: "${meaningful_part}"…`)
+	DEBUG  && logger.silly(`Starting meaningful part last normalization: "${meaningful_part}"…`)
 
 	// normalize the meaningful part
 	if (meaningful_part.startsWith('MM') && result.digits_pattern?.startsWith('xxxx-xx-xx')) {
@@ -677,13 +680,24 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 		result,
 		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, 'tz:embedded') : null
 	})
-	last_call = {
+	/*last_call = {
 		name,
 		up_to: parse_up_to,
 		result,
 		//result: enforce_immutability(result), TEMP for tests
-	}
+	}*/
 	return result
+}, {
+	maxSize: 10, // no need for a big value
+	onCacheHit() {
+		logger.trace(`parsing basename… [memoized hit]`)
+	}
+})
+export function parse(name: string, { parse_up_to = 'full', type }: {
+	parse_up_to?: 'full' | 'copy_index',
+	type: 'file' | 'folder', // important to know whether to extract an extension or not
+}): Immutable<ParseResult> {
+	return _parse_memoized(name, type, parse_up_to)
 }
 
 export function get_copy_index(name: string): undefined | number {
