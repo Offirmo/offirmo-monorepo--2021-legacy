@@ -1,8 +1,16 @@
+import assert from 'tiny-invariant'
 import { expect } from 'chai'
 
 import { get_current_year, get_params, Params } from './params'
 
 describe('Params', function() {
+
+	describe('get_params()', function() {
+		assert(!get_params().is_perfect_state, 'code should not be in debug mode')
+
+		it('should work')
+	})
+
 
 	describe('utilities', function () {
 

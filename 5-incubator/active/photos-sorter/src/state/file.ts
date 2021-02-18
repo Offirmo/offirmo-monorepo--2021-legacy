@@ -338,12 +338,13 @@ function _is_matching(d1: Immutable<BetterDate>, d2: Immutable<BetterDate>, debu
 		if (debug_id) {
 			logger.warn(`_is_matching() yielded FALSE`, {
 				id: debug_id,
-				auto_from_exif: auto1,
-				auto_from_fs__current: auto2,
-				tms_from_exif: tms1,
-				tms_from_fs__current: tms2,
+				auto1,
+				auto2,
+				tms1,
+				tms2,
 				is_tms_matching,
 				is_auto_matching,
+				diff_s: Math.abs(tms2 - tms1) / 1000.,
 			})
 		}
 		return false
@@ -522,6 +523,9 @@ export function get_best_creation_date_meta(state: Immutable<State>, PARAMS: Imm
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
 
+	logger.trace('get_best_creation_date_meta() trying FS if reliability unknown…', {
+		is_fs_birthtime_assessed_reliability_unknown: state.notes.original.is_fs_birthtime_assessed_reliable === undefined,
+	})
 	if (state.notes.original.is_fs_birthtime_assessed_reliable === undefined) {
 		// not that bad
 		// we won't rename the file, but good enough to move to a folder
