@@ -100,7 +100,7 @@ export const MEDIA_DEMO_03: MediaDemo = {
 	DATE__COMPACT: 20170124,
 	DATE__ISO_STRING: '2017-01-24T12:55:17.000+07:00',
 	DATE__HUMAN_AUTO: '2017-01-24_12h55m17',
-	IDEAL_BASENAME: 'MM2017-01-24_12h55m17_IMG_bad_exif.jpg', // TODO clean IMG?
+	IDEAL_BASENAME: 'MM2017-01-24_12h55m17_bad_exif.jpg',
 }
 export const get_MEDIA_DEMO_03 = memoize_once(() => {
 	const MEDIA = MEDIA_DEMO_03

@@ -11,6 +11,10 @@ const PARAMS = get_params()
 
 export const SEPARATORS = '-_+.:; \t'
 
+export function is_digit(char: string): boolean {
+	return !!char && char === String(parseInt(char[0]))
+}
+
 export function deep_trim(s: string): string {
 	while (s && SEPARATORS.includes(s.slice(-1))) {
 		s = s.slice(0, s.length - 1)

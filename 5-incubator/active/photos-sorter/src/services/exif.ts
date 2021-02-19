@@ -329,7 +329,7 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 		// - edited jpg
 		// - imaged received through WhatsApp then saved = exif dates are stripped
 		// TODO add to file log
-		logger.warn('EXIF compatible file has no usable EXIF date', { SourceFile })
+		//logger.warn('EXIF compatible file has no usable EXIF date', { SourceFile })
 		return undefined
 	}
 

@@ -229,7 +229,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: '20160202',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
-		meaningful_part: 'IMG-WA0001',
+		meaningful_part: 'WA0001',
 		copy_index: undefined,
 
 		// for test
@@ -246,7 +246,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: '20170721',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
-		meaningful_part: 'IMG-WA0000',
+		meaningful_part: 'WA0000',
 		copy_index: undefined,
 
 		// for test
@@ -428,7 +428,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: '20151110',
 		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
-		meaningful_part: 'IMG-WA0000',
+		meaningful_part: 'WA0000',
 		copy_index: undefined,
 
 		// for test
@@ -693,7 +693,7 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		digits_pattern: undefined,
 		is_date_ambiguous: undefined,
-		meaningful_part: 'IMG_3211',
+		meaningful_part: '3211',
 		copy_index: undefined,
 
 		// for test

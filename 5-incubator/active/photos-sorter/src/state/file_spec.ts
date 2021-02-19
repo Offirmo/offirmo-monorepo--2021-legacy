@@ -539,7 +539,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 			const TEST_CASES: TCIdeal = {
 				// no date in basename
 				'P1000010.JPG': 'MM2018-11-21_06h00m45s627_P1000010.jpg',
-				'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_IMG_3211.jpg',
+				'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_x3211.jpg',
 				'TR81801414546EGJ.jpg': 'MM2018-11-21_06h00m45s627_TR81801414546EGJ.jpg', // lot of digits but not a date
 				// basename has date, takes precedence
 				'IMG_20130525.JPG': 'MM2013-05-25.jpg',

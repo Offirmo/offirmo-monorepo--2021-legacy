@@ -673,6 +673,10 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		meaningful_part = 'screenshot'
 	if (NON_MEANINGFUL_FULL.includes(meaningful_part.toUpperCase()))
 		meaningful_part = ''
+	NON_MEANINGFUL_FULL.forEach(non_meaningful_str => {
+		if (meaningful_part.startsWith(non_meaningful_str))
+			meaningful_part = deep_trim(meaningful_part.slice(non_meaningful_str.length))
+	})
 
 	result.meaningful_part = meaningful_part
 

@@ -12,3 +12,6 @@ export const EXIF_POWERED_FILE_EXTENSIONS = [
 ]
 
 export const NOTES_BASENAME = `.${LIB}_notes.json`
+
+// should NOT be a common separator
+export const DIGIT_PROTECTION_SEPARATOR = 'x'

@@ -9,7 +9,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME } from '../consts'
+import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME, DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
@@ -42,6 +42,7 @@ import {
 	get_debug_representation,
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
+import { is_digit } from '../services/matchers'
 
 // Data that we'll destroy/modify but is worth keeping
 export interface OriginalData {
@@ -663,6 +664,10 @@ export function get_ideal_basename(state: Immutable<State>, {
 			default:
 				const bcd = bcd_meta.candidate
 				const prefix = 'MM' + get_human_readable_timestamp_auto(bcd, 'tz:embedded')
+				if (is_digit(result[0])) {
+					// protection to prevent future executions to parse the meaningful part as DD/HH/MM/SS
+					result = DIGIT_PROTECTION_SEPARATOR + result
+				}
 				result = [ prefix, result ].filter(s => !!s).join('_') // take into account chance of result being empty so far
 		}
 	}

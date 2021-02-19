@@ -5,9 +5,10 @@ import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
+import { DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import { get_params, Params } from '../params'
-import { is_year, is_compact_date } from '../services/matchers'
+import { is_year, is_compact_date, is_digit } from '../services/matchers'
 import { parse as parse_basename, ParseResult } from '../services/name_parser'
 import logger from '../services/logger'
 import { get_compact_date, add_days_to_simple_date } from '../services/better-date'
@@ -124,10 +125,6 @@ export function get_event_begin_year(state: Immutable<State>): number | undefine
 	return Math.trunc(state.event_begin_date_symd / 10000)
 }
 
-function is_digit(char: string): boolean {
-	return !!char && char === String(parseInt(char[0]))
-}
-
 export function get_ideal_basename(state: Immutable<State>): Basename {
 	const current_basename = get_basename(state)
 
@@ -139,7 +136,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 	let meaningful_part = state.cached.nameㆍparsed.meaningful_part
 	if (is_digit(meaningful_part[0])) {
 		// protection to prevent future executions to parse the meaningful part as DD/HH/MM/SS
-		meaningful_part = 'x' + meaningful_part
+		meaningful_part = DIGIT_PROTECTION_SEPARATOR + meaningful_part
 	}
 
 	return NORMALIZERS.trim(
