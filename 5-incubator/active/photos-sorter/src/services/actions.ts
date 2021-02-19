@@ -210,6 +210,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	// write
+
+	// because of unicode normalization, we have to check the OS for the existence of the folder :-(
+	// since we never delete until the end TODO memoize
 	async function ensure_folder(id: RelativePath): Promise<void> {
 		logger.verbose(`- ensuring dir "${id}" exists…`)
 
@@ -218,17 +221,24 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			//logger.log('so far:', { is_existing_according_to_db })
 			if (is_existing_according_to_db) return
 
+			const abs_path = DB.get_absolute_path(db, id)
+			const is_existing_according_to_fs = fs.existsSync(abs_path)
+			if (is_existing_according_to_fs) {
+				// The path exists but we don't have it in DB
+				// 2 possible cases:
+				// - the folder was created concurrently to our code running (ugly)
+				// - the OS sneakily did unicode normalization :-(
+				// TODO one day: normalize the folders unicode (do it during explore, simpler)
+				return
+			}
+
 			if (PARAMS.dry_run) {
 				logger.verbose('DRY RUN would have created folder: ' + id)
 			}
 			else {
-				const abs_path = DB.get_absolute_path(db, id)
 				await util.promisify(fs_extra.mkdirp)(abs_path)
-				if (!DB.is_folder_existing(db, id)) { // re-check in case of race conditions
-					// Note: can still fail due to case/unicode normalization
-					// no big deal
-					db = DB.on_folder_found(db, '.', id)
-				}
+				assert(!DB.is_folder_existing(db, id)) // can we have race conditions?
+				db = DB.on_folder_found(db, '.', id)
 			}
 		}
 		catch (err) {
@@ -349,16 +359,20 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			assert(good_target_found, 'should be able to normalize files. Could there be a bug?') // seen, was a bug
 		}
 		else {
-			if (File.get_current_basename(current_file_state) !== target_basename)
+			if (File.get_current_basename(current_file_state) !== target_basename) {
 				_report.file_renamings[id] = target_basename
-			if (File.get_current_parent_folder_id(current_file_state) !== target_folder)
+				logger.info(`renaming "${id}" to "${target_id}"…`)
+			}
+			if (File.get_current_parent_folder_id(current_file_state) !== target_folder) {
 				_report.file_moves[id] = target_folder
+				logger.info(`moving "${id}" to "${target_id}"…`)
+			}
 
 			if (PARAMS.dry_run) {
 				logger.info(`DRY RUN would have renamed/moved "${id}" to "${target_id}"`)
 			}
 			else {
-				logger.trace(`about to rename/move "${id}" to "${target_id}"…`)
+				//logger.trace(`about to rename/move "${id}" to "${target_id}"…`)
 
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				const abs_path_target = DB.get_absolute_path(db, target_id)
@@ -455,7 +469,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 						logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
 					}
 					else {
-						logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
+						//logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
 						// TODO one day NOTE will need hash chaining
 					}
 				}

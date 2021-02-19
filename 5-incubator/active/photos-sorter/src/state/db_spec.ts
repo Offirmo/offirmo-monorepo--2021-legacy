@@ -15,7 +15,7 @@ import {
 	get_ideal_file_relative_path,
 	get_past_and_present_notes,
 	get_pending_actions,
-	normalize_medias_in_place,
+	normalize_files_in_place,
 	on_exif_read,
 	on_file_deleted,
 	on_file_found,
@@ -353,7 +353,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(file_basename) // THIS TEST
 						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
 
-						state = normalize_medias_in_place(state)
+						state = normalize_files_in_place(state)
 						const expected_next_id = path.join(file_parent__year, file_parent__event, File.get_ideal_basename(state.files[file_id]))
 						state = on_file_moved(state, file_id, expected_next_id)
 						file_id = expected_next_id
@@ -364,6 +364,49 @@ describe(`${LIB} - DB (root) state`, function() {
 							'2017',
 							'20171020 - foo',
 							'MM2017-10-20_05h01m44s625.png',
+						))
+					})
+
+					it('should stay stable except for the basename -- bug 2021/01/19', () => {
+						// TODO force PARAMS "ideal state"
+						let file_basename = '20121007_06h14+06-JJ_2012_Montage_Terre_Sainte.xyz' // date in name = source of confidence, not a recognized media
+						let file_parent__year = '2012'
+						let file_parent__event = '20121006 - weekend'
+						let file_id = path.join(file_parent__year, file_parent__event, file_basename)
+
+						let state = create('root')
+
+						state = on_folder_found(state, '', '.')
+						state = on_folder_found(state, '', file_parent__year)
+						state = on_folder_found(state, file_parent__year, file_parent__event)
+						state = on_file_found(state, '.', file_id)
+						state = on_hash_computed(state, file_id, 'hash01')
+						state = on_fs_stats_read(state, file_id, {
+							birthtimeMs: CREATION_DATE_MS,
+							atimeMs:     CREATION_DATE_MS,
+							mtimeMs:     CREATION_DATE_MS,
+							ctimeMs:     CREATION_DATE_MS,
+						})
+						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
+
+						// normalization in-place is a prerequisite
+						expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(file_basename) // THIS TEST
+						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
+
+						state = discard_all_pending_actions(state)
+						state = normalize_files_in_place(state)
+						//console.log(state.queue)
+						expect(state.queue).to.have.lengthOf(1)
+						const expected_next_id = path.join(file_parent__year, file_parent__event, File.get_ideal_basename(state.files[file_id]))
+						state = on_file_moved(state, file_id, expected_next_id)
+						file_id = expected_next_id
+						file_basename = File.get_ideal_basename(state.files[file_id])
+						state = discard_all_pending_actions(state)
+
+						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
+							'2012',
+							'20121006 - weekend',
+							'JJ_2012_Montage_Terre_Sainte.xyz',
 						))
 					})
 				})
@@ -435,7 +478,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						// normalization in-place = prerequisite
 						expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(file_basename) // THIS TEST
 						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
-						state = normalize_medias_in_place(state)
+						state = normalize_files_in_place(state)
 						const expected_next_id = path.join(file_parent__1, file_parent__2, File.get_ideal_basename(state.files[file_id]))
 						state = on_file_moved(state, file_id, expected_next_id)
 						file_id = expected_next_id
@@ -725,7 +768,7 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 			persisted_notes = get_past_and_present_notes(state)
 			state = discard_all_pending_actions(state)
 
-			state = normalize_medias_in_place(state)
+			state = normalize_files_in_place(state)
 			expect(get_pending_actions(state)).to.have.lengthOf(1)
 			let next_id = File.get_ideal_basename(state.files[file_ut_basename])
 			//console.log(next_id, state.files)

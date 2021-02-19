@@ -427,8 +427,8 @@ export function is_same_date_with_potential_tz_difference(tms1: TimestampUTCMs, 
 	if (sub_hour_1 === sub_hour_2)
 		return true
 
-	// allow a little bit of lag (seen FRWF9408.MP4)
-	if (Math.abs(sub_hour_1 - sub_hour_2) <= 5 * 1000)
+	// allow a little bit of lag (seen 5s FRWF9408.MP4 and 7s on IMAG0430.jpg)
+	if (Math.abs(sub_hour_1 - sub_hour_2) <= 10 * 1000)
 		return true
 
 	/*console.warn(`is_same_date_with_potential_tz_difference() yielding close FALSE`, {

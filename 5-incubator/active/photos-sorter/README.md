@@ -62,6 +62,8 @@ When renaming/moving a file, the underlying action will automatically add a dupl
 ### TODO
 
 - ~~infinite loop~~
+- TODO unstable sorting -> normalizing more files on second run
+- TODO non-renamed files being overly cleaned
 - TODO badly sorted description.txt
 - TODO lossless rotation + hashes chaining in notes
 - TODO allow several event folders the same day, ex. morning and arvo

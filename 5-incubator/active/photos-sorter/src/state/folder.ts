@@ -48,6 +48,7 @@ export type FolderId = RelativePath
 export interface State {
 	id: FolderId
 	type: Type
+	reason_for_demotion_from_event: null | string
 
 	// range of the RELIABLE media files currently in this folder
 	// TODO review, it's redundant
@@ -192,6 +193,7 @@ export function create(id: RelativePath): Immutable<State> {
 	return {
 		id,
 		type,
+		reason_for_demotion_from_event: null,
 		children_begin_date_symd: undefined, // so far
 		children_end_date_symd: undefined, // so far
 		event_begin_date_symd: type === Type.event ? date : undefined, // so far
@@ -375,6 +377,7 @@ export function demote_to_unknown(state: Immutable<State>, reason: string): Immu
 	return {
 		...state,
 		type: Type.unknown,
+		reason_for_demotion_from_event: reason,
 		event_begin_date_symd: undefined,
 		event_end_date_symd: undefined,
 	}
@@ -422,6 +425,9 @@ export function to_string(state: Immutable<State>) {
 	if (type === Type.event || type === Type.overlapping_event) {
 		const { event_begin_date_symd, event_end_date_symd } = state
 		str += ` 📅 ${event_begin_date_symd} → ${event_end_date_symd}`
+	}
+	else if (state.reason_for_demotion_from_event) {
+		str += ` (demoted due to ${state.reason_for_demotion_from_event})`
 	}
 
 	return str

@@ -858,6 +858,10 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
 
+	if (state.are_notes_restored) {
+		// seen in very rare case (junk copy/paste for test) where a media and a non-media files have the same hash
+		console.error(state)
+	}
 	assert(!state.are_notes_restored, `on_notes_recovered() should not be called several times`)
 	assert(state.current_hash, 'on_notes_recovered() should be called based on the hash') // obvious but just in case…
 	assert(state.current_exif_data !== undefined, 'on_notes_recovered() should be called after exif') // obvious but just in case…

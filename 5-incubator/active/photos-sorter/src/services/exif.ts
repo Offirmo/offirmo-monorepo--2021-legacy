@@ -11,6 +11,7 @@ import {
 	create_better_date_from_ExifDateTime,
 	create_better_date_from_utc_tms,
 	is_within_24h,
+	get_embedded_timezone,
 } from './better-date'
 import logger from './logger'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
@@ -359,12 +360,15 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 		if (earliest_date_from_fs𖾚exif && earliest_date_from_fs𖾚exif.tzoffsetMinutes !== undefined
 			&& is_same_date_with_potential_tz_difference(get_timestamp_ms_from_exifdate(earliest_date_from_fs𖾚exif), get_timestamp_ms_from_exifdate(candidate_date𖾚exif))) {
 			// perfect, the FS date is perfectly matching + has a tz
+			candidate_date𖾚exif = earliest_date_from_fs𖾚exif
+			const bd = create_better_date_from_ExifDateTime(candidate_date𖾚exif)
 			logger.info(`✔️️ recovered missing TZ thanks to fs date.`, {
 				SourceFile,
 				//tms1: get_timestamp_ms_from_exifdate(earliest_date_from_fs𖾚exif),
 				//tms2: get_timestamp_ms_from_exifdate(candidate_date𖾚exif),
+				tz: get_embedded_timezone(bd),
+				local: get_human_readable_timestamp_auto(bd, 'tz:embedded'),
 			})
-			candidate_date𖾚exif = earliest_date_from_fs𖾚exif
 		}
 		else {
 			DEBUG && console.warn('candidate exif date has no tz…', { SourceFile })

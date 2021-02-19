@@ -38,6 +38,7 @@ async function sort_all_medias() {
 		if (up_to === 'explore_and_take_notes') return
 
 		////////// WRITE ////////////
+		logger.info('DB = ' + DB.to_string(db)) // for debug
 
 		logger.group('******* STARTING DE-DUPLICATION PHASE *******')
 		db = DB.clean_up_duplicates(db)
@@ -47,7 +48,7 @@ async function sort_all_medias() {
 		if (up_to === 'deduplicate') return
 
 		logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
-		db = DB.normalize_medias_in_place(db)
+		db = DB.normalize_files_in_place(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)
 		db = DB.backup_notes(db)
 		db = await exec_pending_actions_recursively_until_no_more(db)

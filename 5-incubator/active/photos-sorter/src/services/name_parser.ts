@@ -750,10 +750,15 @@ export function is_normalized_media_basename(base: Basename): boolean {
 	const dp = get_digit_pattern(base)
 	//console.log('is_normalized_media_basename()', { base, dp })
 
-	if (!dp.startsWith('MMxxxx-xx-xx_xxhxx'))
-		return false
+	if (dp.startsWith('MMxxxx-xx-xx_xxhxx'))
+		return true
 
-	return true
+	if (dp.startsWith('xxxxxxxx_xxhxx+xx.xxx')) {
+		// old normalization format during earlier versions
+		// TODO handle?
+	}
+
+	return false
 }
 
 export function is_normalized_event_folder(relpath: RelativePath): boolean {

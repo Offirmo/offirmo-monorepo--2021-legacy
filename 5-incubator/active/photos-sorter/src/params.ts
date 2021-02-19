@@ -94,6 +94,7 @@ export function get_params(): Params {
 			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
 			'.tga', // WoW
 			'.bmp',
+			'.wmv',
 
 			// NO: while they are memories, they usually are
 			// - not "automatically created" from a camera app with an auto name

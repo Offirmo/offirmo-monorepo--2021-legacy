@@ -124,6 +124,7 @@ export function is_file_existing(state: Immutable<State>, id: FileId): boolean {
 	return state.files.hasOwnProperty(id)
 }
 
+// beware of unknown OS path normalization!
 export function is_folder_existing(state: Immutable<State>, id: FolderId): boolean {
 	return state.folders.hasOwnProperty(id)
 }
@@ -138,7 +139,7 @@ function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_da
 
 export function get_ideal_file_relative_folder(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`get_ideal_file_relative_folder()`, { id })
-	const DEBUG = false
+	const DEBUG = true
 
 	if (id === NOTES_BASENAME)
 		return ''
@@ -172,7 +173,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		case Folder.Type.overlapping_event: {
 			// if it was in an event folder
 			// we keep it into the corresponding event folder
-			// UNLESS the file date doesn't match the current folder (happens with force-dated folders with big ranges = a 6month iphone import)
+			// UNLESS the file date doesn't match the current folder (happens with force-dated folders with big ranges = ex. a 6 month iphone import)
 			const date_for_finding_suitable_event: SimpleYYYYMMDD = (() => {
 				if (File.is_confident_in_date(file_state, 'secondary'))
 					return File.get_best_creation_date_compact(file_state)
@@ -185,6 +186,11 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			if (!compatible_event_folder_id) {
 				// can happen if the folder is force-dated
 				// but the file date is reliable and don't match
+				logger.warn(`File was in an overlapped event but couldn't find a matching event`, {
+					id,
+					parent_folder_type: current_parent_folder_state.type,
+					date_for_finding_suitable_event,
+				})
 			}
 			else {
 				const event_folder_base = Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
@@ -193,7 +199,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 				DEBUG && console.log(`✴️ ${id} in overlapping`, {
 					confidence: File.is_confident_in_date(file_state, 'secondary'),
-					fdate: File.get_best_creation_date_compact(file_state),
+					file_date: File.get_best_creation_date_compact(file_state),
 					date_for_finding_suitable_event,
 				})
 				return path.join(year, event_folder_base)
@@ -213,6 +219,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
 		logger.warn(`Unfortunately can't manage to recognize a file :-(`, {
 			id,
+			parent_folder_type: current_parent_folder_state.type,
 			//current_parent_folder_state,
 		})
 		DEBUG && console.log(`✴️ ${id} can't sort`)
@@ -229,7 +236,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		DEBUG && console.log(`✴️ ${id} really not confident`)
 		logger.warn(`Unfortunately really not confident about the date of a file :-(`, {
 			id,
-			//current_parent_folder_state,
+			parent_folder_type: current_parent_folder_state.type,
 		})
 		return target_split_path.join(path.sep)
 	}
@@ -272,7 +279,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	if (!get_params().dry_run) {
 		const current_basename = File.get_current_basename(file_state)
 		const current_basename_cleaned = get_without_copy_index(current_basename)
-		assert(current_basename_cleaned === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! "${ideal_basename}" vs "${current_basename_cleaned}" ~ "${current_basename}"`)
+		assert(current_basename_cleaned === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! ideal="${ideal_basename}" vs current(no copy index)="${current_basename_cleaned}" from "${current_basename}"`)
 	}
 
 	return path.join(get_ideal_file_relative_folder(state, id), ideal_basename)
@@ -936,21 +943,21 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 	return state
 }
 
-export function normalize_medias_in_place(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} normalize_medias_in_place()…`)
-	logger.verbose(`${LIB} Normalizing media files in-place…`)
+// we even normalize non-media files, cleaning spaces and extension is still good
+// TODO review? If change, review the assertion "should be already normalized"
+export function normalize_files_in_place(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} normalize_files_in_place()…`)
+	logger.verbose(`${LIB} Normalizing files in-place…`)
 
-	const all_file_ids = get_all_media_file_ids(state)
-	all_file_ids.forEach(id => {
-		state = _enqueue_action(state, Actions.create_action_normalize_file(id))
+	const all_files = get_all_files_except_notes(state)
+	all_files.forEach(file_state => {
+		state = _enqueue_action(state, Actions.create_action_normalize_file(file_state.id))
 	})
 
-	// NO! Too early, should happen once all the normalizations are done
-	//const folder_path = undefined
-	//state = _enqueue_action(state, Actions.create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
-	// TODO find a way to mark this as TODO
-
-	return state
+	return {
+		...state,
+		notes_save_required: true,
+	}
 }
 
 export function ensure_structural_dirs_are_present(state: Immutable<State>): Immutable<State> {
