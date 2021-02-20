@@ -359,6 +359,14 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			assert(good_target_found, 'should be able to normalize files. Could there be a bug?') // seen, was a bug
 		}
 		else {
+			const abs_path_target = DB.get_absolute_path(db, target_id)
+			const source_norm = NORMALIZERS.normalize_unicode(abs_path_current)
+			const target_norm = NORMALIZERS.normalize_unicode(abs_path_target)
+			if (source_norm === target_norm) {
+				// TODO one day normalize the folders
+				return
+			}
+
 			if (File.get_current_basename(current_file_state) !== target_basename) {
 				_report.file_renamings[id] = target_basename
 				logger.info(`renaming "${id}" to "${target_id}"…`)
@@ -375,7 +383,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				//logger.trace(`about to rename/move "${id}" to "${target_id}"…`)
 
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
-				const abs_path_target = DB.get_absolute_path(db, target_id)
 				try {
 					fs_extra.moveSync(abs_path_current, abs_path_target)
 					db = DB.on_file_moved(db, id, target_id)
@@ -421,8 +428,19 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const parsed = path.parse(id)
 			const parsed_target = path.parse(target_id)
 			const is_renaming = parsed.base !== parsed_target.base
-			const is_moving = id.split('/').slice(0, -1).join('/') !== target_id.split('/').slice(0, -1).join('/')
+			const folder_source = id.split(path.sep).slice(0, -1).join(path.sep)
+			const folder_target = target_id.split(path.sep).slice(0, -1).join(path.sep)
+			const is_moving = folder_source !== folder_target
 			assert(is_moving || is_renaming, `move_file_to_ideal_location() should do sth`)
+
+			if (is_moving && !is_renaming) {
+				const folder_source_norm = NORMALIZERS.normalize_unicode(folder_source)
+				const folder_target_norm = NORMALIZERS.normalize_unicode(folder_target)
+				if (folder_source_norm === folder_target_norm) {
+					// TODO one day normalize the folders
+					return
+				}
+			}
 
 			if (is_moving) {
 				logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
@@ -438,9 +456,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 					`PERFECT STATE when moving to ideal location, file "${parsed.base}" is expected to be already normalized to "${parsed_target.base}"`
 				)
 			}*/
-
-			const abs_path = DB.get_absolute_path(db, id)
-			const abs_path_target = DB.get_absolute_path(db, target_id)
 
 			const target_folder_id = DB.get_ideal_file_relative_folder(db, id)
 			if (!PARAMS.dry_run) {
@@ -617,5 +632,16 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 }
 
 export function get_report_to_string(): string {
-	return JSON.stringify(_report, null, '\t');
+
+	const raw_report = JSON.stringify(_report, null, '\t');
+
+	const counts = JSON.stringify({
+		file_deletions_count: _report.file_deletions.length,
+		file_renamings_count: Object.keys(_report.file_renamings).length,
+		file_moves_count: Object.keys(_report.file_moves).length,
+		folder_deletions_count: _report.file_deletions.length,
+		error_count: _report.error_count,
+	}, null, '\t');
+
+	return raw_report + '\n' + counts
 }

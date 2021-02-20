@@ -733,7 +733,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 			})
 		})
 
-		context('when some of them are recognized as copies', function() {
+		context('when some of them are recognized as copies (have a copy index)', function() {
 
 			context('when one of them is not recognized as a copy', function() {
 
@@ -805,17 +805,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 			it('should pick one with a meaningful parent folder', () => {
 				const s1 = create_demo()
-				const _s2 = create_demo('2007/20070102 - foo/bar.jpg')
-				const s2 = enforce_immutability<State>({
-					..._s2,
-					/*notes: {
-						..._s2.notes,
-						original: {
-							..._s2.notes.original,
-							parent_path: '2007/20070102 - foo',
-						}
-					}*/
-				} as any)
+				const s2 = create_demo('2007/20070102 - foo/bar.jpg')
 				const s3 = create_demo()
 
 				const s = merge_duplicates(s1, s2, s3)

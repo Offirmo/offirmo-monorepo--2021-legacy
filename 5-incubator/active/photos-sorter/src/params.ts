@@ -88,12 +88,13 @@ export function get_params(): Params {
 		media_files_extensions: [
 			...EXIF_POWERED_FILE_EXTENSIONS,
 			'.avi', // old videos
+			'.bmp',
+			'.bmp',
 			'.gif',
 			'.pdf',
 			'.png',
 			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
 			'.tga', // WoW
-			'.bmp',
 			'.wmv',
 
 			// NO: while they are memories, they usually are

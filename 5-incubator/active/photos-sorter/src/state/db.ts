@@ -792,7 +792,13 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 	})
 
 	get_all_folders(state).forEach(folder_state => {
-		logger.info(`Folder "${folder_state.id}" fs reliability has been estimated as ${Folder.are_children_fs_reliable(folder_state)}`, {
+		const reliability = Folder.are_children_fs_reliable(folder_state)
+		const log_func = (reliability === false)
+			? logger.error
+			: (reliability === undefined)
+				? logger.warn
+				: logger.info
+		log_func(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
 			stats: folder_state.children_fs_reliability_count,
 		})
 	})
@@ -916,13 +922,12 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 		assert(file_ids.length > 0, 'clean_up_duplicates() sanity check 1')
 		if (file_ids.length === 1) return // no duplicates
 
+		logger.verbose(`Detected ${file_ids.length} copies for ${files[file_ids[0]].current_hash}`)
+
 		const final_file_state = File.merge_duplicates(...file_ids.map(file_id => files[file_id]))
 		assert(file_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'clean_up_duplicates() sanity check 2')
 		files[final_file_state.id] = final_file_state
-
-		logger.verbose(`Detected ${file_ids.length} copies for ${final_file_state.current_hash}`, {
-			...file_ids
-		})
+		logger.verbose(` ↳ Selected "${final_file_state.id}" as the best to keep`)
 
 		file_ids.forEach(file_id => {
 			if (file_id === final_file_state.id) return

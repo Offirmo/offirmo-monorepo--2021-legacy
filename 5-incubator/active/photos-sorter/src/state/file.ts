@@ -1112,6 +1112,18 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 			return
 		}
 
+		// still equal so far, try to discriminate with another criteria
+		if (selected_state.id.length !== candidate_state.id.length) {
+			reasons.add('current_id.length')
+
+			// shorter name wins!
+			if (selected_state.id.length < candidate_state.id.length)
+				return // current is better
+
+			selected_state = candidate_state
+			return
+		}
+
 		// still equal
 		// no more criteria, 1st encountered wins
 		reasons.add('order')

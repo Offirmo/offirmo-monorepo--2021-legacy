@@ -392,6 +392,8 @@ describe(`${LIB} - (base)name parser`, function() {
 			'2007/01012007 - foo': false,
 			'foo': false,
 			'2007': false,
+			'2002/46- après-midi Victor/vaisselle': false,
+			'2002/47- st. Nicolas 2002': false,
 		}
 
 		Object.keys(T).forEach(relpath => {

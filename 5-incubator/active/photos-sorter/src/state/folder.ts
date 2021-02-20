@@ -427,7 +427,7 @@ export function to_string(state: Immutable<State>) {
 		str += ` 📅 ${event_begin_date_symd} → ${event_end_date_symd}`
 	}
 	else if (state.reason_for_demotion_from_event) {
-		str += ` (demoted due to ${state.reason_for_demotion_from_event})`
+		str += ` (demoted due to: ${state.reason_for_demotion_from_event})`
 	}
 
 	return str
