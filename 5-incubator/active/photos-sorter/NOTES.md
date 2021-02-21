@@ -16,6 +16,39 @@ total 211GB
 https://www.epochconverter.com/
 
 
+2021/02/21
+{
+"file_count": 10238,
+"folder_count": 561,
+"file_deletions_count": 3808,
+"file_renamings_count": 4575,
+"file_moves_count": 3562,
+"folder_deletions_count": 3808,
+"error_count": 9
+}
+INFO   ›  All done, my pleasure!
+✨  Done in 806.96s.
+real	13m27.177s
+user	12m37.073s
+sys	1m8.240s
+
+{
+"file_count": 12484,
+"folder_count": 152,
+"file_deletions_count": 10,
+"file_renamings_count": 7315,
+"file_moves_count": 6118,
+"folder_deletions_count": 10,
+"error_count": 31
+}
+INFO   ›  All done, my pleasure!
+✨  Done in 1211.04s.
+
+real	20m11.264s
+user	22m20.197s
+sys	2m1.779s
+
+
 
 not working / use moment? https://github.com/TooTallNate/node-time#readme
 unreliable on all OSes? https://github.com/capaj/set-tz

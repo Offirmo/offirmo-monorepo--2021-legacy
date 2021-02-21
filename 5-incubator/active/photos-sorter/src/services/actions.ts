@@ -40,6 +40,8 @@ function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boo
 }
 
 const _report = {
+	file_count: 0,
+	folder_count: 0,
 	file_deletions: [] as FileId[],
 	file_renamings: {} as { [k: string]: Basename },
 	file_moves: {} as { [k: string]: FolderId },
@@ -113,6 +115,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				const sub_dirs = fs_extra.lsDirsSync(abs_path, { full_path: false })
 				sub_dirs
 					.forEach((sub_id: RelativePath) => {
+						_report.folder_count++
 						db = DB.on_folder_found(db, id, sub_id)
 					})
 
@@ -135,6 +138,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 							return
 						}
 
+						_report.file_count++
 						db = DB.on_file_found(db, id, basename)
 					})
 			}
@@ -636,6 +640,8 @@ export function get_report_to_string(): string {
 	const raw_report = JSON.stringify(_report, null, '\t');
 
 	const counts = JSON.stringify({
+		file_count: _report.file_count,
+		folder_count: _report.folder_count,
 		file_deletions_count: _report.file_deletions.length,
 		file_renamings_count: Object.keys(_report.file_renamings).length,
 		file_moves_count: Object.keys(_report.file_moves).length,

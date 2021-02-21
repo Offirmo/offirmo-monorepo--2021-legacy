@@ -17,7 +17,6 @@ const TEST_FILES_DIR: RelativePath = '../../../../src/__test_shared/real_files'
 export const TEST_FILES_DIR_ABS = path.join(__dirname, TEST_FILES_DIR)
 
 // TODO add all files
-// TODO export in better format
 /*
 -
 -export const REAL_FILES = {

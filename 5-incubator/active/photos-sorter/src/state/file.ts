@@ -646,6 +646,9 @@ export function get_ideal_basename(state: Immutable<State>, {
 	})
 
 	let result = meaningful_part // so far
+	if (meaningful_part.endsWith(')')) {
+		logger.warn('TODO check meaningful_part.endsWith copy index??', { current_id: state.id, parsed_original_basename })
+	}
 
 	if (is_media_file(state)) {
 		const bcd_meta = get_best_creation_date_meta(state)

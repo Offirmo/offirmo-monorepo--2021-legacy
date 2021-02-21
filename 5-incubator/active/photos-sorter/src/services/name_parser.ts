@@ -65,7 +65,6 @@ export interface DigitsParseResult {
 	date: undefined | BetterDate
 	is_ambiguous: boolean
 }
-// TODO memoize up to 2
 export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): Immutable<DigitsParseResult> {
 	let blocks: string[] = digit_blocks
 		.split('-')
@@ -673,10 +672,13 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		meaningful_part = 'screenshot'
 	if (NON_MEANINGFUL_FULL.includes(meaningful_part.toUpperCase()))
 		meaningful_part = ''
-	NON_MEANINGFUL_FULL.forEach(non_meaningful_str => {
-		if (meaningful_part.startsWith(non_meaningful_str))
+
+	// TODO review? removes IMG_ which may be considered useful?
+	// if leaving this loop, should remove lines above
+	/*NON_MEANINGFUL_FULL.forEach(non_meaningful_str => {
+		if (meaningful_part.toUpperCase().startsWith(non_meaningful_str.toUpperCase()))
 			meaningful_part = deep_trim(meaningful_part.slice(non_meaningful_str.length))
-	})
+	})*/
 
 	result.meaningful_part = meaningful_part
 

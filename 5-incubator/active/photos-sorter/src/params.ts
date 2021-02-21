@@ -91,17 +91,18 @@ export function get_params(): Params {
 			'.bmp',
 			'.bmp',
 			'.gif',
-			'.pdf',
+			'.m4a',
+			'.mp3',
 			'.png',
 			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
 			'.tga', // WoW
+			'.wav',
 			'.wmv',
 
-			// NO: while they are memories, they usually are
-			// - not "automatically created" from a camera app with an auto name
-			// - not have easy way to determine the date (like exif)
-			//'.txt', // used to take notes
-			//'.doc', '.ppt', // often hold memories as well
+			// TODO see if we can scavenge a creation date
+			'.pdf',
+			'.txt', // used to take notes
+			'.doc', '.ppt', '.pptx', // often hold memories as well
 		].map(s => s.toLowerCase()),
 
 		extensions_to_delete: [

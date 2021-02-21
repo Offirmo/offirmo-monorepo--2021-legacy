@@ -299,7 +299,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					})
 				})
 
-				it('should work -- manual bug case', () => {
+				it('should work -- manual bug case 01', () => {
 					const BASENAME_UT = '20011125 - 00- voyage à Paris - 2001'
 					const result = _clean_parse_result(parse(BASENAME_UT, { type: 'folder' }))
 					expect(

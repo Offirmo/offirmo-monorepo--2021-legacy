@@ -113,8 +113,8 @@ export const NON_MEANINGFUL_ENDINGS_RE: { [k:string]: RegExp } = {
 	trailing_copy_fr: /( -)? copie( (?<copy_index>\d+))?$/,
 	leading_copy_fr: /^copie (\((?<copy_index>\d+)\) )?(de )?(secours de )?/,
 
-	trailing_copy_counter: /( \((?<copy_index>\d+)\))?$/,
-	trailing_copy_counter_catalina: /( (?<copy_index>\d{1,2}))?$/,
+	trailing_copy_counter:          /(\((?<copy_index>\d+)\))?$/, // between ()
+	trailing_copy_counter_catalina: /( (?<copy_index>\d{1,2}))?$/, // no (), just space + trailing number
 }
 
 ////////////////////////////////////

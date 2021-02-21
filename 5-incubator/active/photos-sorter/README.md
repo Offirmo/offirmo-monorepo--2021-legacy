@@ -63,6 +63,8 @@ When renaming/moving a file, the underlying action will automatically add a dupl
 
 - ~~infinite loop~~
 - TODO unstable sorting -> normalizing more files on second run
+- TODO support numbered notes (for merging)
+- TODO folder dates are ~wrong -> use "better dates" instead
 - TODO non-renamed files being overly cleaned
 - TODO badly sorted description.txt
 - TODO lossless rotation + hashes chaining in notes
