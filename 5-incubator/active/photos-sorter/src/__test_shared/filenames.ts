@@ -485,6 +485,23 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		human_ts_current_tz_for_tests: '2019-03-07',
 	},
 
+	'WhatsApp Image 2019-06-23 at 01.30.52(1).jpeg': {
+		_comment: 'copy index with no space before ()',
+
+		// ParseResult
+		extension_lc: ".jpeg",
+		date: _clean_debug(create_better_date('tz:auto', 2019, 6, 23, 1, 30, 52)),
+		date_digits: "20190623013052",
+		digits_pattern: "xxxx-xx-xx at xx.xx.xx",
+		is_date_ambiguous: false,
+		meaningful_part: 'WhatsApp Image',
+		copy_index: 1,
+
+		// for test
+		digit_blocks: '2019-06-23-01-30-52',
+		human_ts_current_tz_for_tests: '2019-06-23_01h30m52',
+	},
+
 	// seen but maybe manual?
 	'20180603_taronga_vivd.gif': {
 

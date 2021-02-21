@@ -95,9 +95,9 @@ describe(`${LIB} - (base)name parser`, function() {
 					else {
 						expected_result.summary = 'ok'
 						if (result.summary !== expected_result.summary) {
-							console.error({ result })
+							console.error('unexpected summary:', { filename, expected_result, result })
 						}
-						expect(result.summary).to.equal(expected_result.summary)
+						expect(result.summary, 'summary').to.equal(expected_result.summary)
 					}
 
 					expect(
@@ -313,6 +313,23 @@ describe(`${LIB} - (base)name parser`, function() {
 						extension_lc: "",
 						is_date_ambiguous: false,
 						meaningful_part: '00- voyage à Paris - 2001',
+					})
+				})
+
+				it('should work -- manual bug case 02', () => {
+					const BASENAME_UT = 'WhatsApp Image 2019-06-23 at 01.30.52(1).jpeg'
+					const result = _clean_parse_result(parse(BASENAME_UT, { type: 'file' }))
+					expect(
+						result,
+					).to.deep.equal({
+						original_name: BASENAME_UT,
+						copy_index: 1,
+						date: _clean_debug(create_better_date('tz:auto', 2019, 6, 23, 1, 30, 52)),
+						date_digits: "20190623013052",
+						digits_pattern: "xxxx-xx-xx at xx.xx.xx",
+						extension_lc: ".jpeg",
+						is_date_ambiguous: false,
+						meaningful_part: 'WhatsApp Image',
 					})
 				})
 			})
