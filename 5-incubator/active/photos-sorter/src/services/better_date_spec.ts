@@ -15,16 +15,16 @@ import {
 	get_human_readable_timestamp_millis,
 	get_human_readable_timestamp_auto,
 	get_timestamp_utc_ms_from,
-	get_exif_datetime,
+	_get_exif_datetime,
 
 	create_better_date,
 	create_better_date_from_ExifDateTime,
 	change_tz,
 	create_better_date_from_utc_tms,
-	create_better_date_from_simple,
+	create_better_date_from_symd,
 	create_better_date_obj,
 
-	assertㆍbetter_dateㆍdeepㆍequal,
+	assertㆍBetterDateㆍdeepㆍequal,
 } from './better-date'
 
 describe('Better Date', function() {
@@ -243,23 +243,23 @@ describe('Better Date', function() {
 			})*/
 		})
 
-		describe('get_exif_datetime', function () {
+		describe('_get_exif_datetime', function () {
 
 			it('should behave as expected', () => {
 				const date = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
-				const exif_datetime = get_exif_datetime(date)
+				const exif_datetime = _get_exif_datetime(date)
 				const date2 = create_better_date_from_ExifDateTime(exif_datetime)
-				assertㆍbetter_dateㆍdeepㆍequal(date, date2)
+				assertㆍBetterDateㆍdeepㆍequal(date, date2)
 			})
 		})
 	})
 
 	describe('factories', function() {
 
-		describe('create_better_date_from_simple()', function () {
+		describe('create_better_date_from_symd()', function () {
 
 			it('should work', () => {
-				const bd1 = create_better_date_from_simple(20000101, 'tz:auto')
+				const bd1 = create_better_date_from_symd(20000101, 'tz:auto')
 				expect(get_human_readable_timestamp_auto(bd1, 'tz:embedded')).to.equal('2000-01-01')
 			})
 		})

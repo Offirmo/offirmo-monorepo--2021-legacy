@@ -124,8 +124,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 					.forEach((basename: RelativePath) => {
 						//const normalized_extension TODO
 						const basename_lc = basename.toLowerCase()
-						const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename_lc.endsWith(ext))
-							|| PARAMS.worthless_files.includes(basename_lc)
+						const should_delete_asap = !!PARAMS.extensions_to_delete‿lc.find(ext => basename_lc.endsWith(ext))
+							|| PARAMS.worthless_file_basenames‿lc.includes(basename_lc)
 						if (should_delete_asap) {
 							const abs_path_target = DB.get_absolute_path(db, path.join(id, basename))
 							if (PARAMS.dry_run) {
@@ -229,9 +229,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const is_existing_according_to_fs = fs.existsSync(abs_path)
 			if (is_existing_according_to_fs) {
 				// The path exists but we don't have it in DB
-				// 2 possible cases:
+				// possible cases:
+				// - race condition in mkdirp below TODO improve
 				// - the folder was created concurrently to our code running (ugly)
-				// - the OS sneakily did unicode normalization :-(
+				// - the OS sneakily did unicode normalization :-( TODO fix by normalizing
 				// TODO one day: normalize the folders unicode (do it during explore, simpler)
 				return
 			}
@@ -241,8 +242,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 			else {
 				await util.promisify(fs_extra.mkdirp)(abs_path)
-				assert(!DB.is_folder_existing(db, id)) // can we have race conditions?
-				db = DB.on_folder_found(db, '.', id)
+				if (DB.is_folder_existing(db, id)) {
+					// race condition while await-ing mkdirp, can happen
+				}
+				else {
+					db = DB.on_folder_found(db, '.', id)
+				}
 			}
 		}
 		catch (err) {
@@ -454,7 +459,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 
 			/* TODO ?
-			if (get_params().is_perfect_state && File.is_media_file() && File.get_confidence_in_date()) {
+			if (get_params().expect_perfect_state && File.is_media_file() && File.get_confidence_in_date()) {
 				assert(
 					is_normalized_media_basename(parsed.base),
 					`PERFECT STATE when moving to ideal location, file "${parsed.base}" is expected to be already normalized to "${parsed_target.base}"`

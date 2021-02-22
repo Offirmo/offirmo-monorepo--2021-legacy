@@ -35,8 +35,8 @@ import {
 	create_better_date_from_utc_tms,
 	create_better_date_from_ExifDateTime,
 	get_timestamp_utc_ms_from,
-	create_better_date_from_simple,
-	assertㆍbetter_dateㆍdeepㆍequal,
+	create_better_date_from_symd,
+	assertㆍBetterDateㆍdeepㆍequal,
 	is_same_date_with_potential_tz_difference,
 	DAY_IN_MILLIS,
 	get_debug_representation,
@@ -147,7 +147,7 @@ export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params>
 	if (parsed_path.base.startsWith('.')) return false
 
 	let normalized_extension = state.memoized.get_normalized_extension(state)
-	return PARAMS.media_files_extensions.includes(normalized_extension)
+	return PARAMS.extensions_of_media_files‿lc.includes(normalized_extension)
 }
 
 export function is_exif_powered_media_file(state: Immutable<State>): boolean {
@@ -579,7 +579,7 @@ export function get_best_creation_date(state: Immutable<State>): BetterDate {
 
 	/*if (_get_creation_date_from_whatever_normalized_basename(state)) {
 		const date_from_whatever_normalized_basename = _get_creation_date_from_whatever_normalized_basename(state)!
-		assertㆍbetter_dateㆍdeepㆍequal(meta.candidate, date_from_whatever_normalized_basename)
+		assertㆍBetterDateㆍdeepㆍequal(meta.candidate, date_from_whatever_normalized_basename)
 	}*/
 
 	return meta.candidate
@@ -638,7 +638,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
 	const meaningful_part = parsed_original_basename.meaningful_part
 	let extension = parsed_original_basename.extension_lc
-	extension = PARAMS.extensions_to_normalize[extension] || extension
+	extension = PARAMS.extensions_to_normalize‿lc[extension] || extension
 
 	logger.trace(`get_ideal_basename()`, {
 		is_media_file: is_media_file(state),
@@ -717,7 +717,7 @@ export function create(id: FileId): Immutable<State> {
 	function get_parsed_path(state: Immutable<State>) { return memoized_parse_path(state.id) }
 	function get_parsed_original_basename(state: Immutable<State>) {
 		const original_basename = state.notes.original.basename
-		if (get_params().is_perfect_state) {
+		if (get_params().expect_perfect_state) {
 			assert(
 				!is_normalized_media_basename(original_basename),
 				`PERFECT STATE original basename should never be an already normalized basename "${original_basename}"!`
@@ -728,7 +728,7 @@ export function create(id: FileId): Immutable<State> {
 	}
 	function get_parsed_current_basename(state: Immutable<State>) {
 		const current_basename = get_current_basename(state)
-		if (get_params().is_perfect_state) {
+		if (get_params().expect_perfect_state) {
 			if(!has_all_infos_for_extracting_the_creation_date(state, { should_log: false })) {
 				assert(
 					!is_normalized_media_basename(current_basename),
@@ -916,7 +916,7 @@ export function on_neighbors_hints_collected(
 				const tms___from_parent_folder__original = get_timestamp_utc_ms_from(date__from_parent_folder__original)
 
 				if (tms__from_fs__original >= tms___from_parent_folder__original
-					&& tms__from_fs__original < (tms___from_parent_folder__original + PARAMS.max_event_duration_in_days * DAY_IN_MILLIS)) {
+					&& tms__from_fs__original < (tms___from_parent_folder__original + PARAMS.max_event_durationⳇₓday * DAY_IN_MILLIS)) {
 					return true
 				}
 			}
@@ -926,7 +926,7 @@ export function on_neighbors_hints_collected(
 
 			if (date_range_from_reliable_neighbors) {
 				const symd_range = date_range_from_reliable_neighbors
-				const date_range__from_reliable_neighbors__original: [ BetterDate, BetterDate ] = symd_range.map(symd => create_better_date_from_simple(symd, 'tz:auto')) as any
+				const date_range__from_reliable_neighbors__original: [ BetterDate, BetterDate ] = symd_range.map(symd => create_better_date_from_symd(symd, 'tz:auto')) as any
 
 				const tms__from_original_reliable_neighbors__begin = get_timestamp_utc_ms_from(
 						date_range__from_reliable_neighbors__original[0],

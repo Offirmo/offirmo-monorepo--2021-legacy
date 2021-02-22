@@ -29,7 +29,7 @@ export function is_year(s: string): boolean {
 	const n = Math.trunc(Number(s))
 	if (n.toString().padStart(4, '0') !== s) return false
 
-	return n >= PARAMS.YYYY_lower_bound && n <= PARAMS.YYYY_upper_bound
+	return n >= PARAMS.date_lower_boundⳇₓyear && n <= PARAMS.date_upper_boundⳇₓyear
 }
 
 export function is_month_fragment(s: string): boolean {

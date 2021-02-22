@@ -3,14 +3,14 @@ import assert from 'tiny-invariant'
 import { exiftool } from 'exiftool-vendored'
 
 import { LIB } from './consts'
+import { get_params } from './params'
 import * as DB from './state/db'
-
 import logger from './services/logger'
 import { exec_pending_actions_recursively_until_no_more, get_report_to_string } from './services/actions'
-import { get_params } from './params'
 
 const PARAMS = get_params()
-logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
+logger.verbose(`******* ${LIB.toUpperCase()} *******`)
+console.log({ PARAMS })
 
 ////////////////////////////////////
 

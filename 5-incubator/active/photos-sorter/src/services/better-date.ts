@@ -6,17 +6,18 @@
  * - TC39 Temporal https://tc39.es/proposal-temporal/docs/cookbook.html
  */
 
+const { deepStrictEqual: assert_deepStrictEqual } = require('assert').strict
+
 import assert from 'tiny-invariant'
+import { ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
-import { ExifDateTime } from 'exiftool-vendored'
-const { deepStrictEqual: assert_deepStrictEqual } = require('assert').strict
 import { get_json_difference } from '@offirmo-private/state-utils'
 
 ///////
-//import moment, { Moment } from 'moment'
-//import 'moment-timezone'
-///////
+// Note: we defaulted on Luxon bc
+// 1. it's very good and suitable
+// 2. ExifDateTime also uses it internally = easy to convert from
 import { DateTime as LuxonDateTime, IANAZone } from 'luxon'
 ///////
 
@@ -29,7 +30,6 @@ import logger from './logger'
 // Note: Where Date is called as a constructor with more than one argument,
 // the specified arguments represent local time.
 // If UTC is desired, use new Date(Date.UTC(...)) with the same arguments.
-
 export type LegacyDate = Date
 export const LegacyDate = Date
 
@@ -37,14 +37,12 @@ export type PhotoSorterTimestampDays = string
 export type PhotoSorterTimestampMinutes = string
 export type PhotoSorterTimestampSeconds = string
 export type PhotoSorterTimestampMillis = string
+export type PhotoSorterTimestampAuto = string
 
 export interface BetterDate {
 	_debug: any
 
-	// Note: we defaulted on Luxon bc
-	// 1. it's very good and suitable
-	// 2. ExifDateTime also uses it internally = easy to convert from
-	_lx: LuxonDateTime
+	_lx: LuxonDateTime // hidden underlying implementation, abstracted to allow replacement
 }
 
 ////////////////////////////////////
@@ -52,11 +50,9 @@ export interface BetterDate {
 
 export function get_timestamp_utc_ms_from(date: Immutable<BetterDate>): TimestampUTCMs {
 	return date._lx.toMillis()
-	/*console.warn('get_timestamp_utc_ms_from() ! check the tz')
-	return Number(date._ld)*/
 }
 
-// luxon
+// luxon formatting
 const DATE_FORMAT_YEARS = 'yyyy'
 const DATE_FORMAT_MONTHS = 'LL'
 const DATE_FORMAT_DAYS = 'dd'
@@ -92,7 +88,7 @@ export function get_human_readable_timestamp_millis(date: Immutable<BetterDate>,
 }
 
 // same as the above without trailing 0s
-export function get_human_readable_timestamp_auto(date: Immutable<BetterDate>, tz: /*TimeZone |*/ 'tz:embedded'): PhotoSorterTimestampMillis {
+export function get_human_readable_timestamp_auto(date: Immutable<BetterDate>, tz: /*TimeZone |*/ 'tz:embedded'): PhotoSorterTimestampAuto {
 	//console.log(date)
 	assert(date && date._lx, 'get_human_readable_timestamp_auto() bad date')
 	//const date = new Date(timestamp)
@@ -113,11 +109,6 @@ export function get_human_readable_timestamp_auto(date: Immutable<BetterDate>, t
 	return get_human_readable_timestamp_millis(date, tz)
 }
 
-export function is_auto_precise_to_second(hrts: PhotoSorterTimestampMillis): boolean {
-	// ex. 2017-10-20_05h01m44s625
-	return hrts.length >= 16
-}
-
 export function get_embedded_timezone(date: Immutable<BetterDate>): TimeZone {
 	return date._lx.zone.name
 }
@@ -128,7 +119,7 @@ export function get_day_of_week_index(date: Immutable<BetterDate>): number {
 }
 
 // used in unit tests only
-export function get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
+export function _get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
 	return new ExifDateTime(
 		date._lx.year,
 		date._lx.month,
@@ -142,12 +133,6 @@ export function get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
 
 ////////////////////////////////////
 
-/*
-export function create_better_date_from_legacy(legacy_date: Immutable<Date>): BetterDate {
-
-}
-*/
-
 // needed to create from file times
 export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:auto'): BetterDate {
 	assert(!!tms, 'create_better_date_from_utc_tms correct input: ' + tms)
@@ -155,7 +140,7 @@ export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:aut
 
 	const _tz = get_default_timezone(tms)
 
-	const _ld = new Date(tms)
+	const _ld = new LegacyDate(tms)
 
 	const zone = new IANAZone(_tz)
 	const _lx = LuxonDateTime.fromJSDate(_ld, { zone })
@@ -229,7 +214,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 	}
 }
 
-export function create_better_date_from_simple(simple_date: SimpleYYYYMMDD, tz: 'tz:auto'): BetterDate {
+export function create_better_date_from_symd(simple_date: SimpleYYYYMMDD, tz: 'tz:auto'): BetterDate {
 	let day = simple_date % 100
 	let month = Math.trunc(simple_date / 100) % 100
 	let year = Math.trunc(simple_date / 10000)
@@ -383,23 +368,12 @@ export function add_days_to_simple_date(date: SimpleYYYYMMDD, inc_days: number):
 	let days = date % 100 + inc_days
 	let months = Math.trunc(date / 100) % 100
 	let years = Math.trunc(date / 10000)
-	let _ld = new Date(years, months - 1, days)
+	let _ld = new LegacyDate(years, months - 1, days)
 
 	return _ld.getDate() + (_ld.getMonth() + 1) * 100 + _ld.getFullYear() * 10000
 }
 
-/*export function diff_simple_dates(a: SimpleYYYYMMDD, b: SimpleYYYYMMDD): number {
-
-}*/
-
-export function _clean_debug(date: Immutable<BetterDate>): Immutable<BetterDate> {
-	return {
-		...date,
-		_debug: null,
-	}
-}
-
-export function assertㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {
+export function assertㆍBetterDateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {
 	const s1_alt = _clean_debug(s1)
 	const s2_alt = _clean_debug(s2)
 
@@ -408,7 +382,7 @@ export function assertㆍbetter_dateㆍdeepㆍequal(s1: Immutable<BetterDate>, s
 	}
 	catch (err) {
 		if (should_log)
-			console.error('assertㆍbetter_dateㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
+			console.error('assertㆍBetterDateㆍdeepㆍequal() FALSE', get_json_difference(s1_alt, s2_alt))
 		throw err
 	}
 }
@@ -440,6 +414,13 @@ export function is_same_date_with_potential_tz_difference(tms1: TimestampUTCMs, 
 	})*/
 
 	return false
+}
+
+export function _clean_debug(date: Immutable<BetterDate>): Immutable<BetterDate> {
+	return {
+		...date,
+		_debug: null,
+	}
 }
 
 export function get_debug_representation(date: Immutable<BetterDate>): Object {

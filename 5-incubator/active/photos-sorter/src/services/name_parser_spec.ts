@@ -56,8 +56,8 @@ describe(`${LIB} - (base)name parser`, function() {
 			expect(_get_y2k_year_from_fragment('01')).to.equal(2001)
 			expect(_get_y2k_year_from_fragment('19')).to.equal(2019)
 
-			const YYYY_UPPER_BOUND = get_current_year() + 1
-			if (YYYY_UPPER_BOUND >= 2069) {
+			const date_upper_boundⳇₓyear = get_current_year() + 1
+			if (date_upper_boundⳇₓyear >= 2069) {
 				expect(_get_y2k_year_from_fragment('69')).to.equal(2069)
 			}
 			else {

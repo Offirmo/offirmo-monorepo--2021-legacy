@@ -37,7 +37,7 @@ describe(`${LIB} - exif service`, function() {
 	})
 
 	describe('integration', function() {
-		this.timeout(5000) // in parallel, seen bigger delays
+		this.timeout(5000) // actual file loading and parsing
 
 		describe('real files', function() {
 

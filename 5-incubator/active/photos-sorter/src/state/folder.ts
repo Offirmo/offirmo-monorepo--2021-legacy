@@ -279,7 +279,7 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 		? Math.max(state.event_end_date_symd, file_date_symd)
 		: file_date_symd
 
-	const capped_end_date = add_days_to_simple_date(new_event_begin_date_symd, PARAMS.max_event_duration_in_days)
+	const capped_end_date = add_days_to_simple_date(new_event_begin_date_symd, PARAMS.max_event_durationⳇₓday)
 	const is_range_too_big = new_event_end_date_symd > capped_end_date
 	new_event_end_date_symd = Math.min(new_event_end_date_symd, capped_end_date)
 
@@ -293,7 +293,7 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 
 		if (is_current_basename_intentful(state)) {
 			logger.info(
-				`${LIB} folder: date range too big but basename is intentful: event end date will be capped at +${PARAMS.max_event_duration_in_days}d`, {
+				`${LIB} folder: date range too big but basename is intentful: event end date will be capped at +${PARAMS.max_event_durationⳇₓday}d`, {
 					id: state.id,
 					file_id: file_state.id,
 					file_date_symd,
@@ -349,7 +349,7 @@ export function on_overlap_clarified(state: Immutable<State>, end_date_symd: Sim
 
 	assert(state.type === Type.event, `on_overlap_clarified() called on a non-event`)
 	assert(state.event_begin_date_symd, `on_overlap_clarified() called on a non-dated event`)
-	const capped_end_date_symd = add_days_to_simple_date(state.event_begin_date_symd, PARAMS.max_event_duration_in_days)
+	const capped_end_date_symd = add_days_to_simple_date(state.event_begin_date_symd, PARAMS.max_event_durationⳇₓday)
 	assert(end_date_symd <= capped_end_date_symd, `on_overlap_clarified() target event range too big`)
 
 	return {

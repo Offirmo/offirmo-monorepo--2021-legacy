@@ -27,7 +27,7 @@ import {
 	on_notes_found,
 	to_string,
 } from './db'
-import { create_better_date, get_exif_datetime, get_timestamp_utc_ms_from } from '../services/better-date'
+import { create_better_date, _get_exif_datetime, get_timestamp_utc_ms_from } from '../services/better-date'
 import * as File from './file'
 import * as Folder from './folder'
 
@@ -471,7 +471,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						})
 						state = on_exif_read(state, file_id, { // src of confidence
 							'SourceFile': file_id,
-							'CreateDate': get_exif_datetime(CREATION_DATE)
+							'CreateDate': _get_exif_datetime(CREATION_DATE)
 						})
 						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 
@@ -629,15 +629,15 @@ describe(`${LIB} - DB (root) state`, function() {
 
 			state = on_exif_read(state, 'foo.jpg', {
 				'SourceFile': 'foo.jpg',
-				'CreateDate': get_exif_datetime(CREATION_DATE),
+				'CreateDate': _get_exif_datetime(CREATION_DATE),
 			})
 			state = on_exif_read(state, 'bar.jpg', {
 				'SourceFile': 'bar.jpg',
-				'CreateDate': get_exif_datetime(CREATION_DATE),
+				'CreateDate': _get_exif_datetime(CREATION_DATE),
 			})
 			state = on_exif_read(state, 'baz.jpg', {
 				'SourceFile': 'baz.jpg',
-				'CreateDate': get_exif_datetime(CREATION_DATE),
+				'CreateDate': _get_exif_datetime(CREATION_DATE),
 			})
 
 			state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)

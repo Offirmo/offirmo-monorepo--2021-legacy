@@ -19,24 +19,24 @@ export interface DefaultTzChange {
 export interface Params {
 	root: AbsolutePath
 	dry_run: boolean
-	YYYY_lower_bound: number
-	YYYY_upper_bound: number
-	date_lower_bound: SimpleYYYYMMDD
-	date_upper_bound: SimpleYYYYMMDD
-	max_event_duration_in_days: number
-	extensions_to_normalize: { [k: string]: string } // todo runtime check LCase
-	media_files_extensions: string[] // todo runtime check normalized
-	extensions_to_delete: string[] // todo runtime check normalized
-	worthless_files: string[]
+	date_lower_boundⳇₓyear: number
+	date_upper_boundⳇₓyear: number
+	date_lower_boundⳇsymd: SimpleYYYYMMDD
+	date_upper_boundⳇsymd: SimpleYYYYMMDD
+	max_event_durationⳇₓday: number
+	extensions_to_normalize‿lc: { [k: string]: string } // todo runtime check LCase
+	extensions_of_media_files‿lc: string[] // todo runtime check normalized
+	extensions_to_delete‿lc: string[] // todo runtime check normalized
+	worthless_file_basenames‿lc: string[]
 	default_timezones: DefaultTzChange[]
-	is_perfect_state: boolean // For me (author) debug purpose.
+	expect_perfect_state: boolean // For me (author) debug purpose.
 }
 
 export function get_current_year(): number {
 	return (new Date()).getFullYear()
 }
 
-// should NOT be used in place of get_default_timezone()!
+// UNSAFE bc should not be used in place of get_default_timezone()!
 export function _unsafe_get_system_timezone(): TimeZone {
 	// https://stackoverflow.com/a/44096051/587407
 	return Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -45,47 +45,50 @@ export function _unsafe_get_system_timezone(): TimeZone {
 
 // the earliest known photo was taken in 1826
 // https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras
-const YYYY_LOWER_BOUND = 1826
-assert(YYYY_LOWER_BOUND >= 1826, 'earliest known')
+const date_lower_boundⳇₓyear = 1826
+assert(date_lower_boundⳇₓyear >= 1826, 'earliest known')
 
-const YYYY_UPPER_BOUND = get_current_year() + 1 // +1 to handle taking pictures during new year eve
-assert(YYYY_UPPER_BOUND >= YYYY_LOWER_BOUND, 'higher > lower')
+const date_upper_boundⳇₓyear = get_current_year() + 1 // +1 to handle taking pictures during new year eve
+assert(date_upper_boundⳇₓyear >= date_lower_boundⳇₓyear, 'higher >= lower 1')
 
-const DATE_LOWER_BOUND: SimpleYYYYMMDD = (YYYY_LOWER_BOUND * 10000) + 101
-const DATE_UPPER_BOUND: SimpleYYYYMMDD = (YYYY_UPPER_BOUND * 10000) + 102 // photos taken "next" year can only happen during new year eve
+const date_lower_boundⳇsymd: SimpleYYYYMMDD = (date_lower_boundⳇₓyear * 10000) + 101
+const date_upper_boundⳇsymd: SimpleYYYYMMDD = (date_upper_boundⳇₓyear * 10000) + 101 // photos taken "next" year can only happen during new year eve
+assert(date_upper_boundⳇsymd >= date_lower_boundⳇsymd, 'higher >= lower 2')
 
-const MAX_EVENT_DURATION_IN_DAYS = 28
+const max_event_durationⳇₓday = 28
 
 export function get_params(): Params {
 	return {
-		YYYY_lower_bound: YYYY_LOWER_BOUND,
-		YYYY_upper_bound: YYYY_UPPER_BOUND,
-		date_lower_bound: DATE_LOWER_BOUND,
-		date_upper_bound: DATE_UPPER_BOUND,
-		max_event_duration_in_days: MAX_EVENT_DURATION_IN_DAYS,
+		date_lower_boundⳇₓyear: date_lower_boundⳇₓyear,
+		date_upper_boundⳇₓyear: date_upper_boundⳇₓyear,
+		date_lower_boundⳇsymd: date_lower_boundⳇsymd,
+		date_upper_boundⳇsymd: date_upper_boundⳇsymd,
+		max_event_durationⳇₓday: max_event_durationⳇₓday,
 
-		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 02`),
-		//root: path.normalize(`/Users/${process.env.USER}/work/tmp/- TEST photos sorter/- sorted`), // TEST don't commit
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 13`),
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- 2020`),
+		root: path.normalize(`/Users/${process.env.USER}/work/tmp/- TEST photos sorter/- sorted`), // TEST don't commit
 
 		...(false // XXX true = local execution on Offirmo's machine, XXX don't commit "true"
 			? {
-					//dry_run: true,
-					dry_run: false,
-					is_perfect_state: true,
+					dry_run: true,
+					//dry_run: false,
+					//expect_perfect_state: true,
+					expect_perfect_state: false,
 				}
 			: {
 					// nominal case for prod and unit tests
 					dry_run: false,
-					is_perfect_state: false,
+					expect_perfect_state: false,
 				}
 		),
 
-		extensions_to_normalize: {
+		extensions_to_normalize‿lc: {
 			'.jpeg': '.jpg',
 			'.tiff': '.tif',
 		},
 
-		media_files_extensions: [
+		extensions_of_media_files‿lc: [
 			...EXIF_POWERED_FILE_EXTENSIONS,
 			'.avi', // old videos
 			'.bmp',
@@ -95,21 +98,21 @@ export function get_params(): Params {
 			'.mp3',
 			'.png',
 			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
-			'.tga', // WoW
+			'.tga', // WoW screens
 			'.wav',
 			'.wmv',
 
-			// TODO see if we can scavenge a creation date
+			// TODO see if we can scavenge a creation date from advance formats
 			'.pdf',
 			'.txt', // used to take notes
 			'.doc', '.ppt', '.pptx', // often hold memories as well
 		].map(s => s.toLowerCase()),
 
-		extensions_to_delete: [
+		extensions_to_delete‿lc: [
 			'.AAE',
 		].map(s => s.toLowerCase()),
 
-		worthless_files: [
+		worthless_file_basenames‿lc: [
 			'.DS_Store',
 			'.picasa.ini',
 			'pspbrwse.jbf', // paint shop pro
@@ -119,7 +122,7 @@ export function get_params(): Params {
 			// if no time zone, infer it according to this timetable
 			// Expected to be in order
 			{
-				date_utc_ms: Number(Date.UTC(YYYY_LOWER_BOUND, 0)),
+				date_utc_ms: Number(Date.UTC(date_lower_boundⳇₓyear, 0)),
 				new_default: TZONE_FR,
 			},
 			{
@@ -161,4 +164,5 @@ export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immuta
 	return res
 }
 
-assert(get_default_timezone(+Date.now()), 'PARAMS should be correct 01')
+assert(get_default_timezone(+Date.now()), 'PARAMS should be correct 01a')
+assert(get_default_timezone(+Date.now()) === _unsafe_get_system_timezone(), 'PARAMS should be correct 01b')

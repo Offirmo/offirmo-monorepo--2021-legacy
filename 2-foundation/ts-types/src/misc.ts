@@ -17,3 +17,9 @@ export interface I18nMessages {
 }
 
 /////////////////////
+
+export interface HashOf<T> {
+	[k: string]: T
+}
+
+/////////////////////

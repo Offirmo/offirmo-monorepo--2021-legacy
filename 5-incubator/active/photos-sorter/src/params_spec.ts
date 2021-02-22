@@ -6,7 +6,7 @@ import { get_current_year, get_params, Params } from './params'
 describe('Params', function() {
 
 	describe('get_params()', function() {
-		assert(!get_params().is_perfect_state, 'code should not be in debug mode')
+		assert(!get_params().expect_perfect_state, 'code should not be in debug mode')
 
 		it('should work')
 	})

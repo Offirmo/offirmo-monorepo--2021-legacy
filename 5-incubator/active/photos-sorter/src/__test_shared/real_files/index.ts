@@ -89,20 +89,73 @@ export const get_MEDIA_DEMO_02 = memoize_once(() => {
 	return ↆstate
 })
 
-const MEDIA_DEMO_03_basename = 'IMG_20170124_125515_bad_exif.jpg'
+const MEDIA_DEMO_03_basename = 'exif_date_fr_no_tz_conflicting_fs.jpg'
 export const MEDIA_DEMO_03: MediaDemo = {
+	// expected: 2008-11-14 evening in Europe
 	BASENAME: MEDIA_DEMO_03_basename,
 	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_03_basename),
+	EMBEDDED_TZ: undefined,
+	FINAL_TZ: 'Europe/Paris',
+	YEAR: 2008,
+	DATE__COMPACT: 20081114,
+	DATE__ISO_STRING: '2008-11-14T21:28:32.000',
+	DATE__HUMAN_AUTO: '2008-11-14_21h28m32',
+	IDEAL_BASENAME: 'MM2008-11-14_21h28m32_exif_date_fr_no_tz_conflicting_fs.jpg',
+}
+export const get_MEDIA_DEMO_03 = memoize_once(() => {
+	const MEDIA = MEDIA_DEMO_03
+	const ↆstate = load_real_media_file(MEDIA.ABS_PATH)
+	ↆstate.then(state => {
+		expect(get_best_creation_year(state)).to.equal(MEDIA.YEAR)
+		expect(get_best_creation_date_compact(state)).to.equal(MEDIA.DATE__COMPACT)
+		expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal(MEDIA.FINAL_TZ)
+		expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal(MEDIA.DATE__HUMAN_AUTO)
+		expect(get_ideal_basename(state)).to.equal(`MM${MEDIA.DATE__HUMAN_AUTO}_${MEDIA.BASENAME}`)
+	})
+	return ↆstate
+})
+
+const MEDIA_DEMO_04_basename = 'IMG_7477.heic'
+export const MEDIA_DEMO_04: MediaDemo = {
+	// expected: 2020 07 28 lunch in Australia
+	BASENAME: MEDIA_DEMO_04_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_04_basename),
+	EMBEDDED_TZ: 'UTC+10',
+	FINAL_TZ: 'UTC+10', // TODO recover 'Australia/Sydney' from GPS??
+	YEAR: 2020,
+	DATE__COMPACT: 20200728,
+	DATE__ISO_STRING: '2020-07-28T12:18:21.817+10:00',
+	DATE__HUMAN_AUTO: '2020-07-28_12h18m21s817',
+	IDEAL_BASENAME: 'MM2020-07-28_12h18m21s817_IMG_7477.heic',
+}
+export const get_MEDIA_DEMO_04 = memoize_once(() => {
+	const MEDIA = MEDIA_DEMO_04
+	const ↆstate = load_real_media_file(MEDIA.ABS_PATH)
+	ↆstate.then(state => {
+		expect(get_best_creation_year(state)).to.equal(MEDIA.YEAR)
+		expect(get_best_creation_date_compact(state)).to.equal(MEDIA.DATE__COMPACT)
+		expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal(MEDIA.FINAL_TZ)
+		expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal(MEDIA.DATE__HUMAN_AUTO)
+		expect(get_ideal_basename(state)).to.equal(`MM${MEDIA.DATE__HUMAN_AUTO}_${MEDIA.BASENAME}`)
+	})
+	return ↆstate
+})
+
+const MEDIA_DEMO_05_basename = 'IMG_20170124_125515_bad_exif.jpg'
+export const MEDIA_DEMO_05: MediaDemo = {
+	// example of a bad "CreateDate" EXIF field but we're able to recover from it
+	BASENAME: MEDIA_DEMO_05_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_05_basename),
 	EMBEDDED_TZ: 'Asia/Bangkok',
 	FINAL_TZ: 'Asia/Bangkok',
 	YEAR: 2017,
 	DATE__COMPACT: 20170124,
 	DATE__ISO_STRING: '2017-01-24T12:55:17.000+07:00',
 	DATE__HUMAN_AUTO: '2017-01-24_12h55m17',
-	IDEAL_BASENAME: 'MM2017-01-24_12h55m17_bad_exif.jpg',
+	IDEAL_BASENAME: 'MM2017-01-24_12h55m17_IMG_bad_exif.jpg',
 }
-export const get_MEDIA_DEMO_03 = memoize_once(() => {
-	const MEDIA = MEDIA_DEMO_03
+export const get_MEDIA_DEMO_05 = memoize_once(() => {
+	const MEDIA = MEDIA_DEMO_05
 	const ↆstate = load_real_media_file(MEDIA.ABS_PATH)
 	ↆstate.then(state => {
 		expect(get_best_creation_year(state)).to.equal(MEDIA.YEAR)
@@ -128,5 +181,13 @@ export const ALL_MEDIA_DEMOS: Array<{ data: MediaDemo, get_state: () => ReturnTy
 	{
 		data: MEDIA_DEMO_03,
 		get_state: get_MEDIA_DEMO_03,
+	},
+	{
+		data: MEDIA_DEMO_04,
+		get_state: get_MEDIA_DEMO_04,
+	},
+	{
+		data: MEDIA_DEMO_05,
+		get_state: get_MEDIA_DEMO_05,
 	},
 ]

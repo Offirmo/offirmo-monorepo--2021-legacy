@@ -37,8 +37,8 @@ import {
 	get_compact_date,
 	get_human_readable_timestamp_auto,
 	get_embedded_timezone,
-	create_better_date, get_exif_datetime,
-	assertㆍbetter_dateㆍdeepㆍequal,
+	create_better_date, _get_exif_datetime,
+	assertㆍBetterDateㆍdeepㆍequal,
 } from '../services/better-date'
 import { ALL_MEDIA_DEMOS } from '../__test_shared/real_files'
 import { SimpleYYYYMMDD } from '../types'
@@ -61,7 +61,7 @@ describe(`${LIB} - file (state)`, function() {
 		if (is_exif_powered_media_file(state)) {
 			state = on_exif_read(state, {
 				SourceFile: id,
-				CreateDate: get_exif_datetime(time),
+				CreateDate: _get_exif_datetime(time),
 			} as Tags)
 		}
 		state = on_hash_computed(state, '1234')
@@ -126,7 +126,7 @@ describe(`${LIB} - file (state)`, function() {
 		const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
 		const REAL_CREATION_DATE_MS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
 		const REAL_CREATION_DATE_LEGACY = new Date(REAL_CREATION_DATE_MS)
-		const REAL_CREATION_DATE_EXIF = get_exif_datetime(REAL_CREATION_DATE)
+		const REAL_CREATION_DATE_EXIF = _get_exif_datetime(REAL_CREATION_DATE)
 		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
 		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test precond')
 
@@ -134,7 +134,7 @@ describe(`${LIB} - file (state)`, function() {
 		const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2016, 11, 21, 9, 8, 7, 654)
 		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms_from(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_LEGACY = new Date(BAD_CREATION_DATE_CANDIDATE_MS)
-		const BAD_CREATION_DATE_CANDIDATE_EXIF = get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
+		const BAD_CREATION_DATE_CANDIDATE_EXIF = _get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_RdTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
@@ -842,10 +842,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 	describe('integration', function() {
 
 		describe('real files', function() {
-			//this.timeout(5000)
+			this.timeout(5000) // actual file loading and parsing
 
 			ALL_MEDIA_DEMOS.forEach(({ data: MEDIA_DEMO, get_state }, index) => {
-				it(`should work - #${index}: "${MEDIA_DEMO.BASENAME}"`, async () => {
+				it(`should work - #${index+1}: "${MEDIA_DEMO.BASENAME}"`, async () => {
 					let state = await get_state()
 
 					expect(get_current_basename(state)).to.equal(MEDIA_DEMO.BASENAME)

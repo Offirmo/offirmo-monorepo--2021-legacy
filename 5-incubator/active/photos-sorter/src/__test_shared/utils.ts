@@ -1,11 +1,12 @@
+import util from 'util'
+import path from 'path'
+import fs from 'fs'
+
 import { Immutable } from '@offirmo-private/ts-types'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 import { expect } from 'chai'
 import assert from 'tiny-invariant'
-import { Tags, exiftool } from 'exiftool-vendored'
-import util from 'util'
-import path from 'path'
-import fs from 'fs'
+import {  exiftool } from 'exiftool-vendored'
 import hasha from 'hasha'
 
 import {

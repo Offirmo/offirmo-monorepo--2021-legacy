@@ -38,7 +38,7 @@ export function get_normalized_extension(extension: string): string {
 
 	assert(extension[0] === '.', `normalize_extension() param starts with dot "${extension}"`)
 	let normalized_extension = NORMALIZERS.normalize_unicode(extension.toLowerCase())
-	normalized_extension = PARAMS.extensions_to_normalize[normalized_extension] || normalized_extension
+	normalized_extension = PARAMS.extensions_to_normalize‿lc[normalized_extension] || normalized_extension
 
 	return normalized_extension
 }
@@ -49,7 +49,7 @@ export function _get_y2k_year_from_fragment(s: string, separator = 70): number |
 
 	const y = (n >= separator ? 1900 : 2000) + n
 
-	if (y >= PARAMS.YYYY_lower_bound && y <= PARAMS.YYYY_upper_bound)
+	if (y >= PARAMS.date_lower_boundⳇₓyear && y <= PARAMS.date_upper_boundⳇₓyear)
 		return y
 
 	return null
@@ -493,7 +493,7 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		return result
 	}
 
-	/*if (PARAMS.is_perfect_state) {
+	/*if (PARAMS.expect_perfect_state) {
 		assert(
 			!is_normalized_media_basename(result.original_name),
 			`PERFECT STATE Should never parse an already normalized basename "${result.original_name}"! The original name should be parsed!`
