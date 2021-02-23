@@ -9,7 +9,7 @@ import { exiftool } from 'exiftool-vendored'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { Basename, RelativePath } from '../types'
-import { NOTES_BASENAME } from '../consts'
+import { NOTES_BASENAME_SUFFIX } from '../consts'
 import { get_params } from '../params'
 
 import * as File from '../state/file'
@@ -109,7 +109,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 				const sub_file_basenames = fs_extra.lsFilesSync(abs_path, { full_path: false })
 				sub_file_basenames
-					.forEach((basename: RelativePath) => {
+					.forEach((basename: Basename) => {
 						//const normalized_extension TODO
 						const basename_lc = basename.toLowerCase()
 						const should_delete_asap = !!PARAMS.extensions_to_delete‿lc.find(ext => basename_lc.endsWith(ext))
@@ -265,7 +265,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
-		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME)
+		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME_SUFFIX)
 		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
 
 		try {

@@ -7,13 +7,13 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { prettify_json } from '@offirmo-private/prettify-any'
 import { get_base_loose, enforce_immutability } from '@offirmo-private/state-utils'
 
-import { NOTES_BASENAME,  LIB as APP } from '../consts'
+import { NOTES_BASENAME_SUFFIX, LIB as APP } from '../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import { Action } from './actions'
 import * as Actions from './actions'
 import { FileHash } from '../services/hash'
 import { FsStatsSubset } from '../services/fs_stats'
-import { get_without_copy_index } from '../services/name_parser'
+import { get_file_basename_without_copy_index } from '../services/name_parser'
 import {
 	get_compact_date,
 	get_day_of_week_index,
@@ -141,8 +141,8 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	logger.trace(`get_ideal_file_relative_folder()`, { id })
 	const DEBUG = true
 
-	if (id === NOTES_BASENAME)
-		return ''
+	if (id === NOTES_BASENAME_SUFFIX) // todo use selector
+		return '' // TODO improve. Should this even be called?
 
 	const file_state = state.files[id]
 	const current_parent_folder_id: FolderId = File.get_current_parent_folder_id(file_state)
@@ -212,7 +212,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	}
 
 	if (!File.is_media_file(file_state)) {
-		let target_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
+		let target_split_path = File.get_current_relative_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
 			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
@@ -228,7 +228,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 	// file is a media
 	if (!File.is_confident_in_date(file_state, 'secondary')) {
-		let target_split_path = File.get_path(file_state).split(path.sep).slice(0, -1)
+		let target_split_path = File.get_current_relative_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
 			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 		else
@@ -270,15 +270,15 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`get_ideal_file_relative_path()`, { id })
 
-	if (id === NOTES_BASENAME)
-		return id
+	if (id === NOTES_BASENAME_SUFFIX) // todo use selector
+		return id // todo should this even be called?
 
 	const file_state = state.files[id]
 
 	let ideal_basename = File.get_ideal_basename(file_state)
 	if (!get_params().dry_run) {
 		const current_basename = File.get_current_basename(file_state)
-		const current_basename_cleaned = get_without_copy_index(current_basename)
+		const current_basename_cleaned = get_file_basename_without_copy_index(current_basename)
 		assert(current_basename_cleaned === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! ideal="${ideal_basename}" vs current(no copy index)="${current_basename_cleaned}" from "${current_basename}"`)
 	}
 
@@ -453,7 +453,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 		},
 	}
 
-	const is_notes = sub_id === NOTES_BASENAME
+	const is_notes = sub_id === NOTES_BASENAME_SUFFIX // todo use selector
 	const is_media_file = File.is_media_file(file_state)
 
 	if (is_notes) {

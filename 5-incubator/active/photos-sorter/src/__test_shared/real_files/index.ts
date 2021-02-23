@@ -34,7 +34,7 @@ interface MediaDemo {
 	DATE__COMPACT: SimpleYYYYMMDD
 	DATE__ISO_STRING: ISODateString
 	DATE__HUMAN_AUTO: string
-	IDEAL_BASENAME: string
+	IDEAL_BASENAME: Basename
 }
 
 const MEDIA_DEMO_01_basename = 'exif_date_cn_exif_gps.jpg'

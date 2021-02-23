@@ -3,7 +3,7 @@ import path from 'path'
 
 import { Immutable } from '@offirmo-private/ts-types'
 
-import { LIB, NOTES_BASENAME } from '../consts'
+import { LIB, NOTES_BASENAME_SUFFIX } from '../consts'
 import * as Notes from './notes'
 import {
 	clean_up_duplicates,
@@ -790,7 +790,7 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 			// simulate exploration
 			state = on_folder_found(state, '', '.')
 			state = on_file_found(state, '.', file_ut_basename)
-			state = on_file_found(state, '.', NOTES_BASENAME)
+			state = on_file_found(state, '.', NOTES_BASENAME_SUFFIX)
 
 			//console.log(state.queue)
 			expect(get_pending_actions(state)).to.have.lengthOf(4)

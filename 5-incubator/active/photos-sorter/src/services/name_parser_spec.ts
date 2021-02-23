@@ -16,7 +16,7 @@ import {
 	DigitsParseResult,
 	parse,
 	ParseResult,
-	get_copy_index,
+	get_file_basename_copy_index,
 	get_digit_pattern,
 	get_media_basename_normalisation_version, is_processed_media_basename, is_normalized_media_basename,
 	get_folder_basename_normalisation_version, is_processed_event_folder, is_normalized_event_folder,
@@ -36,7 +36,7 @@ function ꓺ(...t: Array<string | undefined>): string {
 	return t.filter(s => !!s).join(': ')
 }
 
-describe.only(`${LIB} - (base)name parser`, function() {
+describe(`${LIB} - (base)name parser`, function() {
 	function _clean_parse_result<T extends { date: undefined | BetterDate }>(result: Immutable<T>): Immutable<T> {
 		if (result.date) {
 			result = {
@@ -359,7 +359,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 		})
 	})
 
-	describe('get_copy_index()', function () {
+	describe('get_file_basename_copy_index()', function () {
 		const filenames = Object.keys(ALL_SAMPLES)
 		//.filter(name => name === 'IMG_20160327_102742 2.jpg') // TEMP XXDCU
 		//.slice(0, 2) // TEMP XXDCU
@@ -369,7 +369,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 			const { _comment, copy_index } = expected
 
 			it(ꓺ(`should correctly extract the copy index #${copy_index} from`, `"${filename}"`, _comment), () => {
-				const copy_index = get_copy_index(filename)
+				const copy_index = get_file_basename_copy_index(filename)
 
 				expect( copy_index ).to.equal(expected.copy_index)
 			})

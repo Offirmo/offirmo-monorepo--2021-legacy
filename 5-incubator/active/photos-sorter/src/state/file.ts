@@ -1,7 +1,7 @@
 import path from 'path'
 
 import memoize_once from 'memoize-one'
-import micro_memoize from "micro-memoize"
+import micro_memoize from 'micro-memoize'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
@@ -9,7 +9,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME, DIGIT_PROTECTION_SEPARATOR } from '../consts'
+import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME_SUFFIX, DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
@@ -20,14 +20,14 @@ import {
 	get_orientation_from_exif,
 } from '../services/exif'
 import {
-	parse as parse_basename,
 	ParseResult,
-	get_normalized_extension as _get_normalized_extension,
-	get_copy_index,
-	get_without_copy_index,
-	is_normalized_media_basename,
-	is_processed_media_basename,
+	get_file_basename_copy_index,
+	get_file_basename_extension‿normalized,
+	get_file_basename_without_copy_index,
 	is_normalized_event_folder,
+	is_processed_media_basename,
+	parse_file_basename,
+	parse_folder_basename,
 } from '../services/name_parser'
 import {
 	BetterDate,
@@ -44,27 +44,29 @@ import {
 import { FileHash } from '../services/hash'
 import { is_digit } from '../services/matchers'
 
+/////////////////////////////////////////////////
+
 // Data that we'll destroy/modify but is worth keeping
 export interface OriginalData {
 	// TODO should we store the date of first encounter? would that add any information?
 
-	/////// Data that we'll likely destroy but is precious
-	// either
+	/////// Data that we'll likely destroy but is precious:
 	// - in itself
 	// - to recompute the date with stability on subsequent runs
 	// - to recompute the date properly in case of a bug or an improvement of our algo
 
 	// from path
 	basename: Basename // can contain the date + we "clean" it, maybe with bugs
-	parent_path: RelativePath // useful to manually re-sort in multi-level folder cases
+	parent_path: RelativePath // can contain the event description + useful to manually re-sort in multi-level folder cases
 
 	// from fs
 	// we should always store it in case it changes for some reason + we may overwrite it
 	fs_birthtime_ms: TimestampUTCMs
-	is_fs_birthtime_assessed_reliable: undefined | boolean // from various info incl. neighbors at the time of the discovery
+	is_fs_birthtime_assessed_reliable: undefined | boolean // aggregated from various info incl. neighbors at the time of the discovery
 
-	// from exif
+	// from exif bc. we'll change it in the future
 	exif_orientation?: number
+	//trailing_zeroed_bytes_cleaned: number // TODO fix macOs bug
 }
 
 // notes contain infos that can't be preserved inside the file itself
@@ -78,7 +80,7 @@ export interface PersistedNotes {
 	starred: undefined | boolean // TODO
 	manual_date: undefined // TODO
 
-	// debug
+	// for debug
 	currently_known_as: Basename | null // not strictly useful, intended at humans reading the notes manually
 	renaming_source: undefined | string
 }
@@ -94,17 +96,10 @@ export interface State {
 	current_fs_stats: undefined | FsStatsSubset // can't be null, is always a file
 	current_hash: undefined | FileHash // can't be null, always a file
 
-	are_notes_restored: boolean
+	are_notes_restored: boolean // need to know to stop propagating current data to notes TODO remember if there were notes restored?
 	notes: PersistedNotes
 
 	are_neighbors_hints_collected: boolean
-
-	memoized: {
-		get_parsed_path: (state: Immutable<State>) => path.ParsedPath
-		get_parsed_original_basename: (state: Immutable<State>) => ParseResult
-		get_parsed_current_basename: (state: Immutable<State>) => ParseResult
-		get_normalized_extension: (state: Immutable<State>) => string
-	}
 }
 
 ////////////////////////////////////
@@ -113,47 +108,64 @@ const LIB = '🖼 ' // iTerm has the wrong width 2020/12/15
 
 ///////////////////// ACCESSORS /////////////////////
 
-export function get_path(state: Immutable<State>): RelativePath {
+export function get_current_relative_path(state: Immutable<State>): RelativePath {
 	return state.id
 }
 
-export function get_parsed_path(state: Immutable<State>): Immutable<path.ParsedPath> {
-	return state.memoized.get_parsed_path(state)
-}
-
-export function get_current_parent_folder_id(state: Immutable<State>): RelativePath {
-	return get_parsed_path(state).dir || '.'
-}
-
-export function get_current_top_parent_folder_id(state: Immutable<State>): RelativePath {
-	return get_path(state).split(path.sep)[0] || '.'
+const _path_parse_memoized = micro_memoize(path.parse, {
+	// note: maybe premature
+	maxSize: (1 + 1 + 5 + 5) * 10, // current base, original base, current path segments, original path segments...
+})
+export function get_current_path‿pathparsed(state: Immutable<State>): Immutable<path.ParsedPath> {
+	return _path_parse_memoized(state.id)
 }
 
 export function get_current_basename(state: Immutable<State>): Basename {
-	return get_parsed_path(state).base
+	return get_current_path‿pathparsed(state).base
 }
 
-export function get_oldest_basename(state: Immutable<State>): Basename {
-	return state.notes.original.basename || get_current_basename(state)
+export function get_original_basename(state: Immutable<State>): Basename {
+	return state.notes.original.basename
+}
+
+export function get_current_basename‿parsed(state: Immutable<State>): Immutable<ParseResult> {
+	return parse_file_basename(get_current_basename(state))
+}
+
+export function get_original_basename‿parsed(state: Immutable<State>): Immutable<ParseResult> {
+	return parse_file_basename(get_original_basename(state))
+}
+
+export function get_current_extension‿normalized(state: Immutable<State>): string {
+	return get_file_basename_extension‿normalized(get_current_basename(state))
+}
+
+export function get_current_parent_folder_id(state: Immutable<State>): RelativePath {
+	return get_current_path‿pathparsed(state).dir || '.'
+}
+
+export function get_current_top_parent_folder_id(state: Immutable<State>): RelativePath {
+	return get_current_relative_path(state).split(path.sep)[0] || '.'
 }
 
 export function is_notes(state: Immutable<State>): boolean {
-	return get_current_basename(state) === NOTES_BASENAME
+	return get_current_basename(state).endsWith(NOTES_BASENAME_SUFFIX)
 }
 
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
-	const parsed_path = get_parsed_path(state)
+	const path_parsed = get_current_path‿pathparsed(state)
 
-	if (parsed_path.base.startsWith('.')) return false
+	const is_invisible_file = path_parsed.base.startsWith('.')
+	if (is_invisible_file) return false
 
-	let normalized_extension = state.memoized.get_normalized_extension(state)
+	let normalized_extension = get_current_extension‿normalized(state)
 	return PARAMS.extensions_of_media_files‿lc.includes(normalized_extension)
 }
 
 export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 	if (!is_media_file(state)) return false
 
-	let normalized_extension = state.memoized.get_normalized_extension(state)
+	let normalized_extension = get_current_extension‿normalized(state)
 
 	return EXIF_POWERED_FILE_EXTENSIONS.includes(normalized_extension)
 }
@@ -276,49 +288,49 @@ function _get_creation_date_from_current_fs_stats(state: Immutable<State>): Time
 	return get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date_from_whatever_non_processed_basename(state: Immutable<State>): BetterDate | null {
-	if (!is_processed_media_basename(get_oldest_basename(state)))
-		if (state.memoized.get_parsed_original_basename(state).date)
-			return state.memoized.get_parsed_original_basename(state).date!
+	if (!is_processed_media_basename(get_original_basename(state)))
+		if (get_original_basename‿parsed(state).date)
+			return get_original_basename‿parsed(state).date!
 
 	if (!is_processed_media_basename(get_current_basename(state)))
-		if (state.memoized.get_parsed_current_basename(state).date)
-			return state.memoized.get_parsed_current_basename(state).date!
+		if (get_current_basename‿parsed(state).date)
+			return get_current_basename‿parsed(state).date!
 
 	return null
 }
 // TODO unclear
 function _get_creation_date_from_whatever_normalized_basename(state: Immutable<State>): BetterDate | null {
-	if (is_processed_media_basename(get_oldest_basename(state)))
-		return state.memoized.get_parsed_original_basename(state).date!
+	if (is_processed_media_basename(get_original_basename(state)))
+		return get_original_basename‿parsed(state).date!
 
 	if (is_processed_media_basename(get_current_basename(state)))
-		return state.memoized.get_parsed_current_basename(state).date!
+		return get_current_basename‿parsed(state).date!
 
 	return null
 }
 // secondary
 function _get_creation_date_from_original_parent_folder(state: Immutable<State>): BetterDate | null {
-	let dir = state.notes.original.parent_path
-	while (dir) {
-		const parsed = path.parse(dir)
-		const parsed_basename = parse_basename(parsed.base, { type: 'folder' })
+	let rel_folder_path = state.notes.original.parent_path
+	while (rel_folder_path) {
+		const path_parsed = _path_parse_memoized(rel_folder_path)
+		const parsed_basename = parse_folder_basename(path_parsed.base)
 		if (parsed_basename.date) {
 			return parsed_basename.date
 		}
-		dir = parsed.dir
+		rel_folder_path = path_parsed.dir
 	}
 
 	return null
 }
 function _get_creation_date_from_any_current_parent_folder(state: Immutable<State>): BetterDate | null {
-	let dir = get_current_parent_folder_id(state)
-	while (dir) {
-		const parsed = path.parse(dir)
-		const parsed_basename = parse_basename(parsed.base, { type: 'folder' })
+	let rel_folder_path = get_current_parent_folder_id(state)
+	while (rel_folder_path) {
+		const path_parsed = _path_parse_memoized(rel_folder_path)
+		const parsed_basename = parse_folder_basename(path_parsed.base)
 		if (parsed_basename.date) {
 			return parsed_basename.date
 		}
-		dir = parsed.dir
+		rel_folder_path = path_parsed.dir
 	}
 
 	return null
@@ -453,7 +465,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 			else {
 				// this is suspicious, report it
 				logger.warn(`get_best_creation_date_meta() EXIF/nn-basename discrepancy`, {
-					basename: get_oldest_basename(state),
+					basename: get_original_basename(state),
 					diff: Math.abs(get_timestamp_utc_ms_from(date__from_exif) - get_timestamp_utc_ms_from(date__from_basename__whatever_non_normalized)),
 					id: state.id,
 					//date__from_basename__whatever_non_normalized,
@@ -636,7 +648,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 	requested_confidence?: boolean
 	copy_marker?: 'none' | 'preserve' | 'temp' | number
 } = {}): Basename {
-	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
+	const parsed_original_basename = get_original_basename‿parsed(state)
 	const meaningful_part = parsed_original_basename.meaningful_part
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize‿lc[extension] || extension
@@ -707,45 +719,7 @@ export function get_hash(state: Immutable<State>): FileHash | undefined {
 export function create(id: FileId): Immutable<State> {
 	logger.trace(`${LIB} create(…)`, { id })
 
-	// not a premature optim here,
-	// the goal is to avoid repeated logs
-	const parse_file_basename = (basename: string) => parse_basename(basename, { type: 'file' })
-	const memoized_parse_path = memoize_once(path.parse)
-	const memoized_parse_original_basename = memoize_once(parse_file_basename)
-	const memoized_parse_current_basename = memoize_once(parse_file_basename)
-	const memoized_normalize_extension = memoize_once(_get_normalized_extension)
-
-	function get_parsed_path(state: Immutable<State>) { return memoized_parse_path(state.id) }
-	function get_parsed_original_basename(state: Immutable<State>) {
-		const original_basename = state.notes.original.basename
-		if (get_params().expect_perfect_state) {
-			assert(
-				!is_processed_media_basename(original_basename),
-				`PERFECT STATE original basename should never be an already processed basename "${original_basename}"!`
-			)
-		}
-
-		return memoized_parse_original_basename(original_basename)
-	}
-	function get_parsed_current_basename(state: Immutable<State>) {
-		const current_basename = get_current_basename(state)
-		if (get_params().expect_perfect_state) {
-			if(!has_all_infos_for_extracting_the_creation_date(state, { should_log: false })) {
-				assert(
-					!is_processed_media_basename(current_basename),
-					`PERFECT STATE current basename should never be an already processed basename "${current_basename}"!`
-				)
-			}
-		}
-
-		return memoized_parse_current_basename(current_basename)
-	}
-	function get_normalized_extension(state: Immutable<State>) {
-		const parsed_path = get_parsed_path(state)
-		return memoized_normalize_extension(parsed_path.ext)
-	}
-
-	const parsed_path = memoized_parse_path(id)
+	const parsed_path = _path_parse_memoized(id)
 
 	const state: State = {
 		id,
@@ -772,17 +746,17 @@ export function create(id: FileId): Immutable<State> {
 		},
 
 		are_neighbors_hints_collected: false,
-
-		memoized: {
-			get_parsed_path,
-			get_parsed_original_basename,
-			get_parsed_current_basename,
-			get_normalized_extension,
-		},
 	}
 
 	if (!is_exif_powered_media_file(state))
 		state.current_exif_data = null
+
+	if (get_params().expect_perfect_state) {
+		assert(
+			!is_processed_media_basename(get_current_basename(state)),
+			`PERFECT STATE current basename should never be an already processed basename "${get_current_basename(state)}"!`
+		)
+	}
 
 	return state
 }
@@ -871,18 +845,31 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 	assert(state.current_exif_data !== undefined, 'on_notes_recovered() should be called after exif') // obvious but just in case…
 	assert(state.current_fs_stats, 'on_notes_recovered() should be called after FS') // obvious but just in case…
 
+	if (recovered_notes) {
+		const current_ext‿norm = get_current_extension‿normalized(state)
+		const original_ext‿norm = get_file_basename_extension‿normalized(recovered_notes.original.basename)
+		assert(current_ext‿norm === original_ext‿norm, 'recovered notes should refer to the same file type!')
+	}
+
 	state = {
 		...state,
 		are_notes_restored: true,
 		notes: {
 			...state.notes,
 			...recovered_notes,
-			currently_known_as: get_parsed_path(state).base, // force keep this one
+			currently_known_as: get_current_basename(state), // force keep this one
 			original: {
 				...state.notes.original,
 				...recovered_notes?.original,
 			},
 		},
+	}
+
+	if (get_params().expect_perfect_state) {
+		assert(
+			!is_processed_media_basename(get_original_basename(state)),
+			`PERFECT STATE original basename should never be an already processed basename "${get_original_basename(state)}"!`
+		)
 	}
 
 	return state
@@ -967,9 +954,10 @@ export function on_neighbors_hints_collected(
 }
 
 export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<State> {
-	logger.trace(`${LIB} on_moved(…)`, { new_id })
+	logger.trace(`${LIB} on_moved(…)`, { previous_id: state.id, new_id })
+	assert(new_id !== state.id, `on_moved() should be a real move`)
 
-	const previous_base = get_parsed_path(state).base
+	const previous_basename = get_current_basename(state)
 	const ideal_basename = get_ideal_basename(state)
 	const meta = get_best_creation_date_meta(state)
 
@@ -977,22 +965,29 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 		...state,
 		id: new_id,
 	}
-	const parsed = get_parsed_path(state)
 
+	const new_basename = get_current_basename(state)
 	state = {
 		...state,
 		notes: {
 			...state.notes,
-			currently_known_as: parsed.base,
+			currently_known_as: new_basename,
 		}
 	}
 
-	if (parsed.base !== previous_base && parsed.base === ideal_basename) {
-		state = {
-			...state,
-			notes: {
-				...state.notes,
-				renaming_source: meta.source,
+	if (new_basename !== previous_basename) {
+		const new_basename_without_copy_index = get_file_basename_without_copy_index(new_basename)
+		if(new_basename_without_copy_index !== ideal_basename) {
+			// can that happen?
+			assert(new_basename_without_copy_index === ideal_basename, `file renaming should only be a normalization! ~"${new_basename_without_copy_index}"`)
+		}
+		else {
+			state = {
+				...state,
+				notes: {
+					...state.notes,
+					renaming_source: meta.source,
+				}
 			}
 		}
 	}
@@ -1033,8 +1028,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		//min_fs_birthtime_ms = Math.min(min_fs_birthtime_ms, get_most_reliable_birthtime_from_fs_stats(candidate_state.current_fs_stats!))
 
 		// equal so far, try to discriminate with a criteria
-		const selected__has_normalized_basename = get_without_copy_index(get_current_basename(selected_state)) === get_ideal_basename(selected_state)
-		const candidate__has_normalized_basename = get_without_copy_index(get_current_basename(candidate_state)) === get_ideal_basename(candidate_state)
+		const selected__has_normalized_basename = get_file_basename_without_copy_index(get_current_basename(selected_state)) === get_ideal_basename(selected_state)
+		const candidate__has_normalized_basename = get_file_basename_without_copy_index(get_current_basename(candidate_state)) === get_ideal_basename(candidate_state)
 		if (selected__has_normalized_basename !== candidate__has_normalized_basename) {
 			reasons.add('normalized_basename')
 
@@ -1049,6 +1044,7 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		const selected__has_normalized_parent_folder = is_normalized_event_folder(get_current_parent_folder_id(selected_state))
 		const candidate__has_normalized_parent_folder = is_normalized_event_folder(get_current_parent_folder_id(candidate_state))
 		if (selected__has_normalized_parent_folder !== candidate__has_normalized_parent_folder) {
+			// we try to keep the already normalized one
 			reasons.add('normalized_parent_folder')
 
 			if (selected__has_normalized_parent_folder)
@@ -1059,8 +1055,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		}
 
 		// still equal so far, try to discriminate with another criteria
-		let selected__current_copy_index = get_copy_index(get_current_basename(selected_state))
-		let candidate__current_copy_index = get_copy_index(get_current_basename(candidate_state))
+		let selected__current_copy_index = get_file_basename_copy_index(get_current_basename(selected_state))
+		let candidate__current_copy_index = get_file_basename_copy_index(get_current_basename(candidate_state))
 		if (selected__current_copy_index !== candidate__current_copy_index) {
 			reasons.add('copy_index')
 
@@ -1251,8 +1247,8 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 export function to_string(state: Immutable<State>) {
 	const { id } = state
 	const is_eligible = is_media_file(state)
-	const parsed_path = get_parsed_path(state)
-	const { dir, base } = parsed_path
+	const path_parsed = get_current_path‿pathparsed(state)
+	const { dir, base } = path_parsed
 
 	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
 

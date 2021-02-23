@@ -24,6 +24,7 @@ export interface Params {
 	date_lower_boundⳇsymd: SimpleYYYYMMDD
 	date_upper_boundⳇsymd: SimpleYYYYMMDD
 	max_event_durationⳇₓday: number
+	// todo _lc should be _normalized?
 	extensions_to_normalize‿lc: { [k: string]: string } // todo runtime check LCase
 	extensions_of_media_files‿lc: string[] // todo runtime check normalized
 	extensions_to_delete‿lc: string[] // todo runtime check normalized

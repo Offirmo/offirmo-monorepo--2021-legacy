@@ -9,7 +9,7 @@ import { DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import { get_params, Params } from '../params'
 import { is_year, is_compact_date, is_digit } from '../services/matchers'
-import { parse as parse_basename, ParseResult } from '../services/name_parser'
+import { parse_folder_basename, ParseResult } from '../services/name_parser'
 import logger from '../services/logger'
 import { get_compact_date, add_days_to_simple_date } from '../services/better-date'
 import * as File from './file'
@@ -187,7 +187,7 @@ export function create(id: RelativePath): Immutable<State> {
 	const base = pathㆍparsed.base
 	const type = _infer_initial_folder_type(id, pathㆍparsed)
 	// TODO remove prema optim? Or skip if special folder?
-	const nameㆍparsed = parse_basename(base, { type: 'folder' })
+	const nameㆍparsed = parse_folder_basename(base)
 	const date = _infer_start_date(nameㆍparsed)
 
 	return {

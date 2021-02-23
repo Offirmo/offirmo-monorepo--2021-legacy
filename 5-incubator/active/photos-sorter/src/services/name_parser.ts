@@ -1,4 +1,4 @@
-import { sep as PATH_SEPARATOR } from 'path'
+import path from 'path'
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { Immutable } from '@offirmo-private/ts-types'
@@ -33,16 +33,26 @@ import { Basename, RelativePath } from '../types'
 
 type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
 
-const DIGITS = '0123456789'
 const PARAMS = get_params()
 const DEBUG = false
+const DIGITS = '0123456789'
+const SCREENSHOT_ALIASES_LC = [
+	'screenshot',
+	'screen shot',
+	'snapshot',
+	'screen',
+	NORMALIZERS.normalize_unicode('capture d\'écran'),
+	NORMALIZERS.normalize_unicode('capture d’écran'),
+	NORMALIZERS.normalize_unicode('capture plein écran'),
+	'capture',
+]
 
 ////////////////////////////////////
 
-export function get_normalized_extension(extension: string): string {
+export const normalize_extension = micro_memoize(function get_normalized_extension(extension: string): string {
 	if (extension === '') return '' // special case of no extension at all
 
-	assert(extension[0] === '.', `normalize_extension() param should starts with dot "${extension}"`)
+	assert(extension[0] === '.', `get_normalized_extension('${extension}') param should starts with dot`)
 
 	let normalized_extension = extension
 	normalized_extension = NORMALIZERS.normalize_unicode(normalized_extension) // useful?
@@ -50,6 +60,20 @@ export function get_normalized_extension(extension: string): string {
 	normalized_extension = PARAMS.extensions_to_normalize‿lc[normalized_extension] || normalized_extension
 
 	return normalized_extension
+}, {
+	maxSize: 100, // very unlikely we'll get that far
+})
+
+// return '.xyz' or '' if no extension
+export function get_file_basename_extension(basename: Basename): string {
+	const split_by_dot = basename.split('.')
+
+	return split_by_dot.length <= 1
+		? ''
+		: ('.' + split_by_dot.slice(-1)[0])
+}
+export function get_file_basename_extension‿normalized(basename: Basename): string {
+	return normalize_extension(get_file_basename_extension(basename))
 }
 
 export function _get_y2k_year_from_fragment(s: string, separator = 70): number | null {
@@ -64,7 +88,18 @@ export function _get_y2k_year_from_fragment(s: string, separator = 70): number |
 	return null
 }
 
+export function get_digit_pattern(s: string): string {
+	return s.split('')
+		.map(c => {
+			if (DIGITS.includes(c)) {
+				return 'x'
+			}
+			return c
+		})
+		.join('')
+}
 
+////////////////////////////////////
 
 export interface DigitsParseResult {
 	summary: 'no_match' | 'need_more' | 'ok' | 'perfect' | 'too_much' | 'error'
@@ -379,9 +414,9 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 }
 
 export interface ParseResult {
-	original_name: string
+	original_name: Basename
 
-	extension_lc: string
+	extension_lc: string // TODO norm
 	date_digits: undefined | string // in order of discovery, not in order of rank!
 	digits_pattern: undefined | string // useful to recognise ourselves ;)
 	date: undefined | BetterDate
@@ -391,11 +426,11 @@ export interface ParseResult {
 	copy_index: undefined | number
 }
 
-const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file' | 'folder', parse_up_to: 'full' | 'copy_index' = 'full'): Immutable<ParseResult> {
+const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 'file' | 'folder', parse_up_to: 'full' | 'copy_index' = 'full'): Immutable<ParseResult> {
 
-	logger.trace('» parsing basename…', { name, up_to: parse_up_to })
+	logger.trace('» parsing basename…', { name: basename, up_to: parse_up_to })
 	const result: ParseResult = {
-		original_name: name,
+		original_name: basename,
 		extension_lc: '',
 		date_digits: undefined,
 		digits_pattern: undefined,
@@ -405,16 +440,16 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		copy_index: undefined,
 	}
 	// small optim for readability in unit tests
-	if (name === '.') {
+	if (basename === '.') {
 		logger.trace('« parse basename final result = trivial')
 		return result
 	}
 
-	name = NORMALIZERS.normalize_unicode(name)
-	DEBUG  && logger.silly(`parsing basename "${name}"...\n\n\n\n----------------------------------------`)
+	basename = NORMALIZERS.normalize_unicode(basename)
+	DEBUG  && logger.silly(`parsing basename "${basename}"...\n\n\n\n----------------------------------------`)
 
 	let state = {
-		buffer: name,
+		buffer: basename,
 		index: 0,
 		prefix: '',
 		suffix: '',
@@ -437,7 +472,7 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		result.is_date_ambiguous = dpr.is_ambiguous
 
 		DEBUG  && logger.silly(`found date in basename`, {
-			name,
+			name: basename,
 			state,
 			dpr,
 			result,
@@ -452,12 +487,12 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 	DEBUG  && logger.silly('initial state', { state, result })
 
 	if (type === 'file') {
-		const name_lc = name.toLowerCase()
+		const name_lc = basename.toLowerCase()
 		const split_by_dot = name_lc.split('.')
 		if (split_by_dot.length > 1) {
 			result.extension_lc = '.' + split_by_dot.slice(-1)[0]
 			//debug && console.log({ extension_lc: result.extension_lc })
-			state.buffer = name.slice(0, -result.extension_lc.length)
+			state.buffer = basename.slice(0, -result.extension_lc.length)
 			//debug && console.log({ buffer: state.buffer })
 		}
 	}
@@ -489,13 +524,6 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		logger.trace('« parse basename final result =', result)
 		return result
 	}
-
-	/*if (PARAMS.expect_perfect_state) {
-		assert(
-			!is_normalized_media_basename(result.original_name),
-			`PERFECT STATE Should never parse an already normalized basename "${result.original_name}"! The original name should be parsed!`
-		)
-	}*/
 
 	let no_infinite_loop_counter = 255
 	let should_exit = false
@@ -683,12 +711,7 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		result,
 		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, 'tz:embedded') : null
 	})
-	/*last_call = {
-		name,
-		up_to: parse_up_to,
-		result,
-		//result: enforce_immutability(result), TEMP for tests
-	}*/
+
 	return result
 }, {
 	maxSize: 10, // no need for a big value
@@ -696,6 +719,7 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		logger.trace(`parsing basename… [memoized hit]`)
 	}
 })
+// TODO remove this un-needed wrapper
 export function parse(name: string, { parse_up_to = 'full', type }: {
 	parse_up_to?: 'full' | 'copy_index',
 	type: 'file' | 'folder', // important to know whether to extract an extension or not
@@ -703,52 +727,38 @@ export function parse(name: string, { parse_up_to = 'full', type }: {
 	return _parse_memoized(name, type, parse_up_to)
 }
 
-export function get_copy_index(name: string): undefined | number {
-	const result = parse(name, { parse_up_to: 'copy_index', type: 'file' })
+
+export function parse_file_basename(basename: Basename): Immutable<ParseResult> {
+	return parse(basename, { parse_up_to: 'full', type: 'file' })
+}
+
+export function get_file_basename_copy_index(basename: Basename): undefined | number {
+	const result = parse(basename, { parse_up_to: 'copy_index', type: 'file' })
 	return result.copy_index
 }
-export function get_without_copy_index(name: string): string {
-	const result = parse(name, { parse_up_to: 'copy_index', type: 'file' })
+
+export function get_file_basename_without_copy_index(basename: Basename): string {
+	const result = parse(basename, { parse_up_to: 'copy_index', type: 'file' })
 	return result.meaningful_part + result.extension_lc
 }
 
-
-const SCREENSHOT_ALIASES_LC = [
-	'screenshot',
-	'screen shot',
-	'snapshot',
-	'screen',
-	NORMALIZERS.normalize_unicode('capture d\'écran'),
-	NORMALIZERS.normalize_unicode('capture d’écran'),
-	NORMALIZERS.normalize_unicode('capture plein écran'),
-	'capture',
-]
-
-
-export function get_digit_pattern(s: string): string {
-	return s.split('')
-		.map(c => {
-			if (DIGITS.includes(c)) {
-				return 'x'
-			}
-			return c
-		})
-		.join('')
+export function parse_folder_basename(basename: Basename): Immutable<ParseResult> {
+	return parse(basename, { parse_up_to: 'full', type: 'folder' })
 }
 
 ////////////
 
-export function get_media_basename_normalisation_version(base: Basename): number | undefined {
-	const split = base.split('.')
-	if (split.length <= 1)
+export function get_media_basename_normalisation_version(basename: Basename): number | undefined {
+	const splitted_by_dot = basename.split('.')
+	if (splitted_by_dot.length <= 1)
 		return undefined
 
-	const ext = '.' + split.slice(-1)[0]
+	const ext = splitted_by_dot.slice(-1)[0]
 	if (ext.length <= 2)
 		return undefined
 
-	const dp = get_digit_pattern(base)
-	//console.log('is_normalized_media_basename()', { base, dp })
+	const dp = get_digit_pattern(basename)
+	//console.log('is_normalized_media_basename()', { basename, dp })
 
 	// v1
 	/*if (dp.startsWith('MMxxxx-xx-xx_xxhxxmxxsxxx'))
@@ -769,18 +779,18 @@ export function get_media_basename_normalisation_version(base: Basename): number
 	return undefined
 }
 
-export function is_normalized_media_basename(base: Basename): boolean {
-	return get_media_basename_normalisation_version(base) === RELATIVE_PATH_NORMALIZATION_VERSION
+export function is_normalized_media_basename(basename: Basename): boolean {
+	return get_media_basename_normalisation_version(basename) === RELATIVE_PATH_NORMALIZATION_VERSION
 }
 
-export function is_processed_media_basename(base: Basename): boolean {
-	return get_media_basename_normalisation_version(base) !== undefined
+export function is_processed_media_basename(basename: Basename): boolean {
+	return get_media_basename_normalisation_version(basename) !== undefined
 }
 
 ////////////
 
 export function get_folder_basename_normalisation_version(relpath: RelativePath): number | undefined {
-	const splitted = relpath.split(PATH_SEPARATOR)
+	const splitted = relpath.split(path.sep) // TODO use path.parse ?
 
 	const last_segment = splitted.slice(-1)[0]
 	const dp_last_segment = get_digit_pattern(last_segment)
