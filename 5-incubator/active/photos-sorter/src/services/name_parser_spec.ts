@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { LIB } from '../consts'
+import { LIB, RELATIVE_PATH_NORMALIZATION_VERSION } from '../consts'
 import {
 	get_current_year,
 } from '../params'
@@ -18,8 +18,8 @@ import {
 	ParseResult,
 	get_copy_index,
 	get_digit_pattern,
-	is_normalized_media_basename,
-	is_normalized_event_folder,
+	get_media_basename_normalisation_version, is_processed_media_basename, is_normalized_media_basename,
+	get_folder_basename_normalisation_version, is_processed_event_folder, is_normalized_event_folder,
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
@@ -36,7 +36,7 @@ function ꓺ(...t: Array<string | undefined>): string {
 	return t.filter(s => !!s).join(': ')
 }
 
-describe(`${LIB} - (base)name parser`, function() {
+describe.only(`${LIB} - (base)name parser`, function() {
 	function _clean_parse_result<T extends { date: undefined | BetterDate }>(result: Immutable<T>): Immutable<T> {
 		if (result.date) {
 			result = {
@@ -384,39 +384,55 @@ describe(`${LIB} - (base)name parser`, function() {
 		})
 	})
 
-	describe('is_normalized_media_basename()', function() {
-		const T: { [k: string]: boolean } = {
-			'MM2019-07-31_21h00m15_screenshot.mp3': true,
-			'IMG-20151110-WA0000.jpg': false,
-			'MM2019-07-31_21h00m15_screenshot': false,
-			'MM2019-07-31_21h00m15_screenshot.': false,
-			'MMs.mp3': false,
-			'MM2000.mp3': false,
+	describe('get_media_basename_normalisation_version(), is_normalized_media_basename(), is_processed_media_basename()', function() {
+		const T: { [k: string]: number | undefined } = {
+			// v1
+			'MM2019-07-31_21h00m15_screenshot.mp3': 1,
+			'MM2019-07-31_21h00m15_screenshot'    : undefined,
+			'MM2019-07-31_21h00m15_screenshot.'   : undefined,
+			'MMs.mp3'                             : undefined,
+			'MM2000.mp3'                          : undefined,
+			// v0
+			'20190126_08h45+49-i7-IMG_2633.JPG'   : 0,
+			'20190418_09h09+29-XKNR5335.JPG'      : 0,
+			// none
+			'IMG-20151110-WA0000.jpg'             : undefined,
 		}
 
 		Object.keys(T).forEach(basename => {
 			it(`should work for "${basename}"`, () => {
-				expect(is_normalized_media_basename(basename))
+				expect(get_media_basename_normalisation_version(basename))
 					.to.equal(T[basename])
+				expect(is_normalized_media_basename(basename))
+					.to.equal(T[basename] === RELATIVE_PATH_NORMALIZATION_VERSION)
+				expect(is_processed_media_basename(basename))
+					.to.equal(T[basename] !== undefined)
 			})
 		})
 	})
 
-	describe('is_normalized_event_folder()', function() {
-		const T: { [k: string]: boolean } = {
-			'2007/20070101 - foo': true,
-			'2007/20070101 - 00- voyage à Paris': true,
-			'2007/01012007 - foo': false,
-			'foo': false,
-			'2007': false,
-			'2002/46- après-midi Victor/vaisselle': false,
-			'2002/47- st. Nicolas 2002': false,
+	describe('get_folder_basename_normalisation_version(), is_processed_event_folder(), is_normalized_event_folder()', function() {
+		const T: { [k: string]: undefined | number } = {
+			// v1
+			'2007/20070101 - foo'                : 1,
+			'2007/20070101 - 00- voyage à Paris' : 1,
+			'2007/20070101 - x00- voyage à Paris': 1,
+			'2007/01012007 - foo': undefined,
+			// none
+			'foo'                                 : undefined,
+			'2007'                                : undefined,
+			'2002/46- après-midi Victor/vaisselle': undefined,
+			'2002/47- st. Nicolas 2002'           : undefined,
 		}
 
 		Object.keys(T).forEach(relpath => {
 			it(`should work for "${relpath}"`, () => {
-				expect(is_normalized_event_folder(relpath))
+				expect(get_folder_basename_normalisation_version(relpath))
 					.to.equal(T[relpath])
+				expect(is_normalized_event_folder(relpath))
+					.to.equal(T[relpath] === RELATIVE_PATH_NORMALIZATION_VERSION)
+				expect(is_processed_event_folder(relpath))
+					.to.equal(T[relpath] !== undefined)
 			})
 		})
 	})

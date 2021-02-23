@@ -7,9 +7,8 @@ import json from '@offirmo/cli-toolbox/fs/json'
 import { Immutable } from '@offirmo-private/ts-types'
 import { exiftool } from 'exiftool-vendored'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
-import { checkPathsSync as throw_if_identical_sync } from 'fs-extra/lib/util/stat.js'
 
-import { AbsolutePath, Basename, RelativePath } from '../types'
+import { Basename, RelativePath } from '../types'
 import { NOTES_BASENAME } from '../consts'
 import { get_params } from '../params'
 
@@ -20,24 +19,13 @@ import { State } from '../state/db'
 import { Action, ActionType } from '../state/actions'
 
 import logger from './logger'
-import fs_extra from './fs-extra'
-import { get_fs_stats_subset } from './fs'
+import fs_extra, { _is_same_inode } from './fs-extra'
+import { get_relevant_fs_stats_subset } from './fs_stats'
 import get_file_hash from './hash'
 import { FolderId } from '../state/folder'
 import { FileId } from '../state/file'
 
-function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boolean {
-	// abusing an internal non-documented function of fs-extra
-	try {
-		throw_if_identical_sync(abs_path_a, abs_path_b)
-		return false
-	}
-	catch (err) {
-		if (err.message.includes('Source and destination must not be the same'))
-			return true
-	}
-	return false
-}
+////////////////////////////////////
 
 const _report = {
 	file_count: 0,
@@ -163,7 +151,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const abs_path = DB.get_absolute_path(db, id)
 			const stats = await util.promisify(fs.stat)(abs_path)
 			logger.trace(`- got fs stats data for "${id}"…`)
-			db = DB.on_fs_stats_read(db, id, get_fs_stats_subset(stats))
+			db = DB.on_fs_stats_read(db, id, get_relevant_fs_stats_subset(stats))
 		}
 		catch (err) {
 			_on_error(ActionType.query_fs_stats, err, { id })
@@ -639,6 +627,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	return db
 }
+
+////////////////////////////////////
 
 export function get_report_to_string(): string {
 

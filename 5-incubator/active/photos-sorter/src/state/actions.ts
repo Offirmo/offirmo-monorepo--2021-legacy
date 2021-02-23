@@ -1,11 +1,11 @@
 
 import { Enum } from 'typescript-string-enums'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { RelativePath } from '../types'
 import { FolderId } from './folder'
 import { FileId } from './file'
 import { State as NotesState } from './notes'
-import { Immutable } from '@offirmo-private/ts-types'
 
 /////////////////////
 
@@ -57,7 +57,7 @@ export interface ActionLoadNotes extends BaseAction {
 export interface ActionPersistNotes extends BaseAction {
 	type: typeof ActionType.persist_notes
 	data: Immutable<NotesState>
-	folder_path?: RelativePath
+	folder_path?: RelativePath // default to root
 }
 
 export interface ActionEnsureFolder extends BaseAction {
@@ -73,7 +73,7 @@ export interface ActionNormalizeFile extends BaseAction {
 export interface ActionMoveFileToIdealLocation extends BaseAction {
 	type: typeof ActionType.move_file_to_ideal_location
 	id: FileId
-	// all info is contained in the id
+	// all info is accessible through the id
 }
 
 export interface ActionDeleteFile extends BaseAction {
@@ -82,9 +82,9 @@ export interface ActionDeleteFile extends BaseAction {
 }
 
 export interface ActionDeleteFolderIfEmpty extends BaseAction {
+	// note that obviously for empty folders cleaning to work, those actions must be ordered = deepest folders first
 	type: typeof ActionType.delete_folder_if_empty
 	id: FolderId
-	//depth: number // needed to order the actions
 }
 
 export type Action =

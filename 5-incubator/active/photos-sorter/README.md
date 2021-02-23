@@ -62,6 +62,9 @@ When renaming/moving a file, the underlying action will automatically add a dupl
 ### TODO
 
 - ~~infinite loop~~
+- TODO folder unicode normalization
+- TODO optim
+- TODO hash collision detection (not same ext & size)
 - TODO unstable sorting -> normalizing more files on second run
 - TODO support numbered notes (for merging)
 - TODO folder dates are ~wrong -> use "better dates" instead

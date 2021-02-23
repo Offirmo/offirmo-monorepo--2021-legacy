@@ -13,7 +13,7 @@ import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME, DIGIT_PROTECTION_SEPARATO
 import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
-import { FsStatsSubset, get_most_reliable_birthtime_from_fs_stats } from '../services/fs'
+import { FsStatsSubset, get_most_reliable_birthtime_from_fs_stats } from '../services/fs_stats'
 import {
 	get_creation_date_from_exif,
 	get_creation_timezone_from_exif,
@@ -26,6 +26,7 @@ import {
 	get_copy_index,
 	get_without_copy_index,
 	is_normalized_media_basename,
+	is_processed_media_basename,
 	is_normalized_event_folder,
 } from '../services/name_parser'
 import {
@@ -36,7 +37,6 @@ import {
 	create_better_date_from_ExifDateTime,
 	get_timestamp_utc_ms_from,
 	create_better_date_from_symd,
-	assertㆍBetterDateㆍdeepㆍequal,
 	is_same_date_with_potential_tz_difference,
 	DAY_IN_MILLIS,
 	get_debug_representation,
@@ -275,22 +275,23 @@ function _get_creation_date_from_current_fs_stats(state: Immutable<State>): Time
 	assert(state.current_fs_stats, 'fs stats collected')
 	return get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
-function _get_creation_date_from_whatever_non_normalized_basename(state: Immutable<State>): BetterDate | null {
-	if (!is_normalized_media_basename(get_oldest_basename(state)))
+function _get_creation_date_from_whatever_non_processed_basename(state: Immutable<State>): BetterDate | null {
+	if (!is_processed_media_basename(get_oldest_basename(state)))
 		if (state.memoized.get_parsed_original_basename(state).date)
 			return state.memoized.get_parsed_original_basename(state).date!
 
-	if (!is_normalized_media_basename(get_current_basename(state)))
+	if (!is_processed_media_basename(get_current_basename(state)))
 		if (state.memoized.get_parsed_current_basename(state).date)
 			return state.memoized.get_parsed_current_basename(state).date!
 
 	return null
 }
+// TODO unclear
 function _get_creation_date_from_whatever_normalized_basename(state: Immutable<State>): BetterDate | null {
-	if (is_normalized_media_basename(get_oldest_basename(state)))
+	if (is_processed_media_basename(get_oldest_basename(state)))
 		return state.memoized.get_parsed_original_basename(state).date!
 
-	if (is_normalized_media_basename(get_current_basename(state)))
+	if (is_processed_media_basename(get_current_basename(state)))
 		return state.memoized.get_parsed_current_basename(state).date!
 
 	return null
@@ -426,7 +427,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	// some good cameras put the date in the file name
 	// however it's usually only precise up to the day,
 	// so we'll try to get a more precise one from EXIF or FS if matching
-	const date__from_basename__whatever_non_normalized: BetterDate | null = _get_creation_date_from_whatever_non_normalized_basename(state)
+	const date__from_basename__whatever_non_normalized: BetterDate | null = _get_creation_date_from_whatever_non_processed_basename(state)
 
 	// strongest source after "manual"
 	const date__from_exif = _get_creation_date_from_exif(state)
@@ -647,7 +648,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 
 	let result = meaningful_part // so far
 	if (meaningful_part.endsWith(')')) {
-		logger.warn('TODO check meaningful_part.endsWith copy index??', { current_id: state.id, parsed_original_basename })
+		logger.warn('⚠️⚠️⚠️ TODO check meaningful_part.endsWith copy index??', { current_id: state.id, parsed_original_basename })
 	}
 
 	if (is_media_file(state)) {
@@ -719,8 +720,8 @@ export function create(id: FileId): Immutable<State> {
 		const original_basename = state.notes.original.basename
 		if (get_params().expect_perfect_state) {
 			assert(
-				!is_normalized_media_basename(original_basename),
-				`PERFECT STATE original basename should never be an already normalized basename "${original_basename}"!`
+				!is_processed_media_basename(original_basename),
+				`PERFECT STATE original basename should never be an already processed basename "${original_basename}"!`
 			)
 		}
 
@@ -731,8 +732,8 @@ export function create(id: FileId): Immutable<State> {
 		if (get_params().expect_perfect_state) {
 			if(!has_all_infos_for_extracting_the_creation_date(state, { should_log: false })) {
 				assert(
-					!is_normalized_media_basename(current_basename),
-					`PERFECT STATE current basename should never be an already normalized basename "${current_basename}"!`
+					!is_processed_media_basename(current_basename),
+					`PERFECT STATE current basename should never be an already processed basename "${current_basename}"!`
 				)
 			}
 		}
@@ -1170,7 +1171,7 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	assert(notes.length > 1, 'merge_notes(…) should be given several notes to merge')
 
 	// get hints at earliest
-	const index__non_normalized_basename = notes.findIndex(n => !is_normalized_media_basename(n.original.basename))
+	const index__non_processed_basename = notes.findIndex(n => !is_processed_media_basename(n.original.basename))
 	const index__earliest_birthtime = notes.reduce((acc, val, index) => {
 		// birthtimes tend to be botched to a *later* date by the FS
 		if (val.original.fs_birthtime_ms < acc[1]) {
@@ -1181,7 +1182,7 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	}, [-1, Number.POSITIVE_INFINITY])[0]
 	const index__shortest_non_normalized_basename = notes.reduce((acc, val, index) => {
 		const candidate = val.original.basename
-		if (candidate.length < acc[1] && !is_normalized_media_basename(candidate)) {
+		if (candidate.length < acc[1] && !is_processed_media_basename(candidate)) {
 			acc[0] = index
 			acc[1] = candidate.length
 		}
@@ -1190,8 +1191,8 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 
 	let index__best_starting_candidate = index__shortest_non_normalized_basename >= 0
 		? index__shortest_non_normalized_basename
-		: index__non_normalized_basename >= 0
-			? index__non_normalized_basename
+		: index__non_processed_basename >= 0
+			? index__non_processed_basename
 			:  index__earliest_birthtime >= 0 // fs time really unreliable
 				? index__earliest_birthtime
 				: 0
@@ -1201,7 +1202,7 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	logger.silly(`merge_notes(…)`, {
 		index__best_starting_candidate,
 		index__shortest_non_normalized_basename,
-		index__non_normalized_basename,
+		index__non_normalized_basename: index__non_processed_basename,
 		index__earliest_birthtime,
 	})
 
@@ -1238,8 +1239,8 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	if (merged_notes.original.basename !== shortest_original_basename) {
 		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is not the shortest: "${shortest_original_basename}"`)
 	}*/
-	if (is_normalized_media_basename(merged_notes.original.basename)) {
-		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is already normalized`)
+	if (is_processed_media_basename(merged_notes.original.basename)) {
+		logger.warn(`merge_notes(): ?? final original basename "${merged_notes.original.basename}" is already processed`)
 	}
 
 	return merged_notes

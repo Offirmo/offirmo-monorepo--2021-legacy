@@ -1,8 +1,5 @@
-import path from 'path'
-
 ////////////////////////////////////
 
-import { Basename } from '../types'
 import { get_params } from '../params'
 
 const PARAMS = get_params()
@@ -93,6 +90,7 @@ export function is_DDMMYYYY(s: string): boolean {
 		&& is_year(s.slice(4, 8))
 }
 
+// TODO clarify case
 export const NON_MEANINGFUL_FULL: string[] = [
 	// greedier first
 	'PHOTO',

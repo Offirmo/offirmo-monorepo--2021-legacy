@@ -8,15 +8,16 @@ import * as DB from './state/db'
 import logger from './services/logger'
 import { exec_pending_actions_recursively_until_no_more, get_report_to_string } from './services/actions'
 
-const PARAMS = get_params()
 logger.verbose(`******* ${LIB.toUpperCase()} *******`)
-console.log({ PARAMS })
 
 ////////////////////////////////////
 
 
 async function sort_all_medias() {
 	const up_to = 'cleanup' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move' | 'cleanup'
+
+	const PARAMS = get_params()
+	console.log({ PARAMS })
 
 	let db = DB.create(PARAMS.root)
 

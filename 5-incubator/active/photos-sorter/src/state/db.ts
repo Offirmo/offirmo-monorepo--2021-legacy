@@ -12,7 +12,7 @@ import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import { Action } from './actions'
 import * as Actions from './actions'
 import { FileHash } from '../services/hash'
-import { FsStatsSubset } from '../services/fs'
+import { FsStatsSubset } from '../services/fs_stats'
 import { get_without_copy_index } from '../services/name_parser'
 import {
 	get_compact_date,

@@ -73,6 +73,8 @@ const FS_DATE_FIELDS: Array<keyof Tags> = [
 
 ////////////////////////////////////
 
+// TODO memory optim get_relevant_exif_subset
+
 function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>, { DEBUG }: { DEBUG: boolean }): undefined | ExifDateTime {
 	const { SourceFile } = exif_data
 	let raw_exiftool_date: undefined | any = exif_data[field]

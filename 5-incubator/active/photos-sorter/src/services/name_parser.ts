@@ -2,9 +2,9 @@ import { sep as PATH_SEPARATOR } from 'path'
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { Immutable } from '@offirmo-private/ts-types'
-import { enforce_immutability } from '@offirmo-private/state-utils'
 import micro_memoize from "micro-memoize"
 
+import { RELATIVE_PATH_NORMALIZATION_VERSION } from '../consts'
 import { get_params } from '../params'
 import {
 	SEPARATORS,
@@ -29,15 +29,24 @@ import {
 import logger from './logger'
 import { Basename, RelativePath } from '../types'
 
+////////////////////////////////////
 
-export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
+type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
 
+const DIGITS = '0123456789'
+const PARAMS = get_params()
+const DEBUG = false
+
+////////////////////////////////////
 
 export function get_normalized_extension(extension: string): string {
-	if (extension === '') return ''
+	if (extension === '') return '' // special case of no extension at all
 
-	assert(extension[0] === '.', `normalize_extension() param starts with dot "${extension}"`)
-	let normalized_extension = NORMALIZERS.normalize_unicode(extension.toLowerCase())
+	assert(extension[0] === '.', `normalize_extension() param should starts with dot "${extension}"`)
+
+	let normalized_extension = extension
+	normalized_extension = NORMALIZERS.normalize_unicode(normalized_extension) // useful?
+	normalized_extension = normalized_extension.toLowerCase()
 	normalized_extension = PARAMS.extensions_to_normalize‿lc[normalized_extension] || normalized_extension
 
 	return normalized_extension
@@ -55,9 +64,7 @@ export function _get_y2k_year_from_fragment(s: string, separator = 70): number |
 	return null
 }
 
-const DIGITS = '0123456789'
-const PARAMS = get_params()
-const DEBUG = false
+
 
 export interface DigitsParseResult {
 	summary: 'no_match' | 'need_more' | 'ok' | 'perfect' | 'too_much' | 'error'
@@ -383,12 +390,7 @@ export interface ParseResult {
 
 	copy_index: undefined | number
 }
-/*let last_call: undefined | {
-	// small memoize-once
-	name: string
-	up_to: string
-	result: Immutable<ParseResult>
-} = undefined*/
+
 const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file' | 'folder', parse_up_to: 'full' | 'copy_index' = 'full'): Immutable<ParseResult> {
 
 	logger.trace('» parsing basename…', { name, up_to: parse_up_to })
@@ -407,11 +409,6 @@ const _parse_memoized = micro_memoize(function _parse(name: string, type: 'file'
 		logger.trace('« parse basename final result = trivial')
 		return result
 	}
-	// small memoize-once
-	/*if (last_call && last_call.name === name && last_call.up_to === parse_up_to) {
-		logger.trace('« parse basename final result = memoized from last call', last_call.result)
-		return last_call.result
-	}*/
 
 	name = NORMALIZERS.normalize_unicode(name)
 	DEBUG  && logger.silly(`parsing basename "${name}"...\n\n\n\n----------------------------------------`)
@@ -739,42 +736,68 @@ export function get_digit_pattern(s: string): string {
 		.join('')
 }
 
+////////////
 
-export function is_normalized_media_basename(base: Basename): boolean {
+export function get_media_basename_normalisation_version(base: Basename): number | undefined {
 	const split = base.split('.')
 	if (split.length <= 1)
-		return false
+		return undefined
 
 	const ext = '.' + split.slice(-1)[0]
-	if (ext.length <= 2 || ext !== get_normalized_extension(ext))
-		return false
+	if (ext.length <= 2)
+		return undefined
 
 	const dp = get_digit_pattern(base)
 	//console.log('is_normalized_media_basename()', { base, dp })
 
+	// v1
+	/*if (dp.startsWith('MMxxxx-xx-xx_xxhxxmxxsxxx'))
+		return 1
+	if (dp.startsWith('MMxxxx-xx-xx_xxhxxmxx'))
+		return 1*/
 	if (dp.startsWith('MMxxxx-xx-xx_xxhxx'))
-		return true
+		return 1
 
-	if (dp.startsWith('xxxxxxxx_xxhxx+xx.xxx')) {
-		// old normalization format during earlier versions
-		// TODO handle?
-	}
+	// v0 never published but used on my files
+	/*if (dp.startsWith('xxxxxxxx_xxhxx+xx.xxx'))
+		return 0
+	if (dp.startsWith('xxxxxxxx_xxhxx+xx'))
+		return 0*/
+	if (dp.startsWith('xxxxxxxx_xxhxx'))
+		return 0
 
-	return false
+	return undefined
+}
+
+export function is_normalized_media_basename(base: Basename): boolean {
+	return get_media_basename_normalisation_version(base) === RELATIVE_PATH_NORMALIZATION_VERSION
+}
+
+export function is_processed_media_basename(base: Basename): boolean {
+	return get_media_basename_normalisation_version(base) !== undefined
+}
+
+////////////
+
+export function get_folder_basename_normalisation_version(relpath: RelativePath): number | undefined {
+	const splitted = relpath.split(PATH_SEPARATOR)
+
+	const last_segment = splitted.slice(-1)[0]
+	const dp_last_segment = get_digit_pattern(last_segment)
+
+	if (splitted.length === 2
+		&& is_year(splitted[0])
+		&& dp_last_segment.startsWith('xxxxxxxx - ')
+		&& is_YYYYMMDD(last_segment.slice(0, 8)))
+		return 1
+
+	return undefined
 }
 
 export function is_normalized_event_folder(relpath: RelativePath): boolean {
-	const splitted = relpath.split(PATH_SEPARATOR)
-	if (splitted.length !== 2) return false
+	return get_folder_basename_normalisation_version(relpath) === RELATIVE_PATH_NORMALIZATION_VERSION
+}
 
-	if (!is_year(splitted[0])) return false
-
-	const dp = get_digit_pattern(splitted[1])
-	if (!dp.startsWith('xxxxxxxx - '))
-		return false
-
-	if (!is_YYYYMMDD(splitted[1].slice(0, 8)))
-		return false
-
-	return true
+export function is_processed_event_folder(relpath: RelativePath): boolean {
+	return get_folder_basename_normalisation_version(relpath) !== undefined
 }

@@ -1,9 +1,8 @@
-import hasha from 'hasha'
 import assert from 'tiny-invariant'
+import hasha from 'hasha'
 
 import { AbsolutePath } from '../types'
 import logger from './logger'
-
 
 export type FileHash = string
 

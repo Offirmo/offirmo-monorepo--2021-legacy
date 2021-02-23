@@ -1,7 +1,10 @@
-
+import assert from 'tiny-invariant'
+import { RELATIVE_PATH_NORMALIZATION_VERSION } from '../consts'
+import { TimeZone } from '../types'
 import { create_better_date, _clean_debug } from '../services/better-date'
 import { ParseResult } from '../services/name_parser'
-import { TimeZone } from '../types'
+
+assert(RELATIVE_PATH_NORMALIZATION_VERSION === 1, 'test filenames should contain test cases for all RELATIVE_PATH_NORMALIZATION_VERSION')
 
 /////////////////////
 
@@ -534,9 +537,23 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		human_ts_current_tz_for_tests: '2019-04-29_15h49m07',
 },
 
-	// already formatted by us, don't touch
-	// TODO update with successive versions
-	// v0.1
+	// already formatted by us
+	// v1
+	'MM2019-07-31_21h00m15s123_screenshot.png': {
+
+		// ParseResult
+		extension_lc: '.png',
+		date: _clean_debug(create_better_date('tz:auto', 2019, 7, 31, 21, 0, 15, 123)),
+		date_digits: '20190731210015123',
+		digits_pattern: 'xxxx-xx-xx_xxhxxmxxsxxx',
+		is_date_ambiguous: false,
+		meaningful_part: 'screenshot',
+		copy_index: undefined,
+
+		// for test
+		digit_blocks: '2019-07-31-21-00-15-123',
+		human_ts_current_tz_for_tests: '2019-07-31_21h00m15s123',
+	},
 	'MM2019-07-31_21h00m15_screenshot.png': {
 
 		// ParseResult
@@ -567,7 +584,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		// for test
 		digit_blocks: '20170303-12-00-45-632',
 		human_ts_current_tz_for_tests: '2017-03-03_12h00m45s632',
-},
+	},
 	'20190311_20h24+06-i6-IMG_7794.JPG': {
 
 		// ParseResult
