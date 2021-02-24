@@ -15,10 +15,10 @@ import {
 	has_all_infos_for_extracting_the_creation_date,
 	is_exif_powered_media_file,
 	is_media_file,
-	on_exif_read,
-	on_fs_stats_read,
-	on_hash_computed,
-	on_neighbors_hints_collected,
+	on_info_read__exif,
+	on_info_read__fs_stats,
+	on_info_read__hash,
+	on_info_read__current_neighbors_hints,
 	PersistedNotes,
 	State as FileState,
 } from '../state/file'
@@ -33,22 +33,22 @@ export async function load_real_media_file(abs_path: string, state: Immutable<Fi
 			.then(hash => {
 				expect(has_all_infos_for_extracting_the_creation_date(state, {}), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 1').to.be.false
 				assert(hash, 'should have hash')
-				state = on_hash_computed(state, hash)
+				state = on_info_read__hash(state, hash)
 			}),
 		util.promisify(fs.stat)(abs_path)
 			.then(stats => {
 				expect(has_all_infos_for_extracting_the_creation_date(state, {}), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 2').to.be.false
-				state = on_fs_stats_read(state, stats)
+				state = on_info_read__fs_stats(state, stats)
 			}),
 		exiftool.read(abs_path)
 			.then(exif_data => {
 				expect(has_all_infos_for_extracting_the_creation_date(state, {}), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 3').to.be.false
-				state = on_exif_read(state, exif_data)
+				state = on_info_read__exif(state, exif_data)
 			})
 	])
 
 	state = on_notes_recovered(state, recovered_notes)
-	state = on_neighbors_hints_collected(state, null, undefined)
+	state = on_info_read__current_neighbors_hints(state, null, undefined)
 
 	expect(has_all_infos_for_extracting_the_creation_date(state, {})).to.be.true
 

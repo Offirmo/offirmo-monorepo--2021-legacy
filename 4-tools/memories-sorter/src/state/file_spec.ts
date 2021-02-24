@@ -23,12 +23,12 @@ import {
 	get_best_creation_date_compact,
 	merge_duplicates,
 
-	on_fs_stats_read,
-	on_exif_read,
-	on_hash_computed,
+	on_info_read__fs_stats,
+	on_info_read__exif,
+	on_info_read__hash,
 	on_notes_recovered,
 	get_best_creation_year,
-	on_neighbors_hints_collected,
+	on_info_read__current_neighbors_hints,
 	FileId,
 	PersistedNotes,
 } from './file'
@@ -52,19 +52,19 @@ describe(`${LIB} - file (state)`, function() {
 	function create_demo(id: FileId = 'foo/bar.jpg', time = CREATION_DATE): Immutable<State> {
 		let state = create(id)
 
-		state = on_fs_stats_read(state, {
+		state = on_info_read__fs_stats(state, {
 			birthtimeMs: get_timestamp_utc_ms_from(time),
 			atimeMs:     get_timestamp_utc_ms_from(time),
 			mtimeMs:     get_timestamp_utc_ms_from(time),
 			ctimeMs:     get_timestamp_utc_ms_from(time),
 		})
 		if (is_exif_powered_media_file(state)) {
-			state = on_exif_read(state, {
+			state = on_info_read__exif(state, {
 				SourceFile: id,
 				CreateDate: _get_exif_datetime(time),
 			} as Tags)
 		}
-		state = on_hash_computed(state, '1234')
+		state = on_info_read__hash(state, '1234')
 
 		// yes, real case = since having the same hash,
 		// all the files will have the same notes.
@@ -83,7 +83,7 @@ describe(`${LIB} - file (state)`, function() {
 				is_fs_birthtime_assessed_reliable: false,
 			}
 		})
-		state = on_neighbors_hints_collected(state, null, undefined)
+		state = on_info_read__current_neighbors_hints(state, null, undefined)
 
 		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
 
@@ -177,14 +177,14 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 			const id = path.join(parent_folder_name__current, file_basename__current)
 			let state = create(id)
 
-			state = on_fs_stats_read(state, {
+			state = on_info_read__fs_stats(state, {
 				birthtimeMs: date__fs_ms__current,
 				atimeMs:     date__fs_ms__current + 10000,
 				mtimeMs:     date__fs_ms__current + 10000,
 				ctimeMs:     date__fs_ms__current + 10000,
 			})
 			if (is_exif_powered_media_file(state)) {
-				state = on_exif_read(state, {
+				state = on_info_read__exif(state, {
 					SourceFile: id,
 					...(date__exif && {
 						// may be exif powered without the info we need
@@ -195,7 +195,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					})
 				} as Partial<Tags> as any)
 			}
-			state = on_hash_computed(state, '1234')
+			state = on_info_read__hash(state, '1234')
 			if (notes === 'auto') {
 				notes = {
 					currently_known_as: file_basename__current,
@@ -215,7 +215,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 			}
 
 			state = on_notes_recovered(state, notes)
-			state = on_neighbors_hints_collected(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
+			state = on_info_read__current_neighbors_hints(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
 
 			return state
 		}
@@ -553,17 +553,17 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					let state = create(tc_key)
 					const creation_date_ms = get_timestamp_utc_ms_from(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
 
-					state = on_fs_stats_read(state, {
+					state = on_info_read__fs_stats(state, {
 						birthtimeMs: creation_date_ms,
 						atimeMs: creation_date_ms + 10000,
 						mtimeMs: creation_date_ms + 10000,
 						ctimeMs: creation_date_ms + 10000,
 					})
 					if (is_exif_powered_media_file(state))
-						state = on_exif_read(state, { SourceFile: tc_key } as any)
-					state = on_hash_computed(state, '1234')
+						state = on_info_read__exif(state, { SourceFile: tc_key } as any)
+					state = on_info_read__hash(state, '1234')
 					state = on_notes_recovered(state, null)
-					state = on_neighbors_hints_collected(state, null, undefined)
+					state = on_info_read__current_neighbors_hints(state, null, undefined)
 
 					//console.log(get_best_creation_date_meta(state))
 					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
@@ -578,15 +578,15 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 			it(`should be stable = no change, even without authoritative EXIF`, () => {
 				let state = create(CURRENT_BASENAME)
 				const creation_date_ms = 1564542022000
-				state = on_fs_stats_read(state, {
+				state = on_info_read__fs_stats(state, {
 					birthtimeMs: creation_date_ms,
 					atimeMs: creation_date_ms + 10000, // TODO test with random
 					mtimeMs: creation_date_ms + 10000,
 					ctimeMs: creation_date_ms + 10000,
 				})
 				if (is_exif_powered_media_file(state))
-						state = on_exif_read(state, {} as any)
-				state = on_hash_computed(state, '1234')
+					state = on_info_read__exif(state, {} as any)
+				state = on_info_read__hash(state, '1234')
 				state = on_notes_recovered(state, {
 					currently_known_as: CURRENT_BASENAME,
 					renaming_source: undefined,
@@ -602,7 +602,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						is_fs_birthtime_assessed_reliable: false,
 					}
 				})
-				state = on_neighbors_hints_collected(state, null, undefined)
+				state = on_info_read__current_neighbors_hints(state, null, undefined)
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
@@ -612,17 +612,17 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 				const CURRENT_BASENAME = 'foo - copie 3.png'
 				let state = create(CURRENT_BASENAME)
 				const creation_date_ms = 1564542022000
-				state = on_fs_stats_read(state, {
+				state = on_info_read__fs_stats(state, {
 					birthtimeMs: creation_date_ms,
 					atimeMs: creation_date_ms + 10000,
 					mtimeMs: creation_date_ms + 10000,
 					ctimeMs: creation_date_ms + 10000,
 				})
 				if (is_exif_powered_media_file(state))
-						state = on_exif_read(state, {} as any)
-				state = on_hash_computed(state, '1234')
+					state = on_info_read__exif(state, {} as any)
+				state = on_info_read__hash(state, '1234')
 				state = on_notes_recovered(state, null)
-				state = on_neighbors_hints_collected(state, null, undefined)
+				state = on_info_read__current_neighbors_hints(state, null, undefined)
 				return state
 			}
 

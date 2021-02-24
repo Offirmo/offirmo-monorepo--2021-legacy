@@ -1,6 +1,5 @@
 import path from 'path'
 
-import memoize_once from 'memoize-one'
 import micro_memoize from 'micro-memoize'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
@@ -761,7 +760,8 @@ export function create(id: FileId): Immutable<State> {
 	return state
 }
 
-export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immutable<FsStatsSubset>): Immutable<State> {
+// Those "on_info_read..." happen early
+export function on_info_read__fs_stats(state: Immutable<State>, fs_stats_subset: Immutable<FsStatsSubset>): Immutable<State> {
 	logger.trace(`${LIB} on_fs_stats_read(…)`, { })
 
 	assert(fs_stats_subset, `on_fs_stats_read() params`)
@@ -785,11 +785,11 @@ export function on_fs_stats_read(state: Immutable<State>, fs_stats_subset: Immut
 	return state
 }
 
-export function on_exif_read(state: Immutable<State>, exif_data: Immutable<EXIFTags>): Immutable<State> {
+export function on_info_read__exif(state: Immutable<State>, exif_data: Immutable<EXIFTags>): Immutable<State> {
 	logger.trace(`${LIB} on_exif_read(…)`, { })
 
 	assert(is_exif_powered_media_file(state), `on_exif_read() should expect EXIF`)
-	assert(exif_data, 'on_exif_read() params')
+	assert(exif_data, 'on_info_read__exif() params')
 	assert(state.current_exif_data === undefined, `on_exif_read() should not be called several times`)
 	assert(!state.are_notes_restored, `on_exif_read() notes`)
 
@@ -819,10 +819,10 @@ export function on_exif_read(state: Immutable<State>, exif_data: Immutable<EXIFT
 	return state
 }
 
-export function on_hash_computed(state: Immutable<State>, hash: string): Immutable<State> {
+export function on_info_read__hash(state: Immutable<State>, hash: string): Immutable<State> {
 	logger.trace(`${LIB} on_hash_computed(…)`, { })
 
-	assert(hash, 'on_hash_computed() ok')
+	assert(hash, 'on_info_read__hash() ok')
 	assert(state.current_hash === undefined, `on_hash_computed() should not be called several times`)
 
 	state = {
@@ -833,55 +833,15 @@ export function on_hash_computed(state: Immutable<State>, hash: string): Immutab
 	return state
 }
 
-export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
-	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
-
-	if (state.are_notes_restored) {
-		// seen in very rare case (junk copy/paste for test) where a media and a non-media files have the same hash
-		console.error(state)
-	}
-	assert(!state.are_notes_restored, `on_notes_recovered() should not be called several times`)
-	assert(state.current_hash, 'on_notes_recovered() should be called based on the hash') // obvious but just in case…
-	assert(state.current_exif_data !== undefined, 'on_notes_recovered() should be called after exif') // obvious but just in case…
-	assert(state.current_fs_stats, 'on_notes_recovered() should be called after FS') // obvious but just in case…
-
-	if (recovered_notes) {
-		const current_ext‿norm = get_current_extension‿normalized(state)
-		const original_ext‿norm = get_file_basename_extension‿normalized(recovered_notes.original.basename)
-		assert(current_ext‿norm === original_ext‿norm, 'recovered notes should refer to the same file type!')
-	}
-
-	state = {
-		...state,
-		are_notes_restored: true,
-		notes: {
-			...state.notes,
-			...recovered_notes,
-			currently_known_as: get_current_basename(state), // force keep this one
-			original: {
-				...state.notes.original,
-				...recovered_notes?.original,
-			},
-		},
-	}
-
-	if (get_params().expect_perfect_state) {
-		assert(
-			!is_processed_media_basename(get_original_basename(state)),
-			`PERFECT STATE original basename should never be an already processed basename "${get_original_basename(state)}"!`
-		)
-	}
-
-	return state
-}
-
-export function on_neighbors_hints_collected(
+// TODO clarify!
+export function on_info_read__current_neighbors_hints(
 	state: Immutable<State>,
 	date_range_from_reliable_neighbors: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ],
 	are_reliable_neighbors_fs_correct: undefined | boolean,
 	PARAMS = get_params(),
 ): Immutable<State> {
 	logger.trace(`${LIB} on_neighbors_hints_collected(…)`, { id: state.id, date_range_from_reliable_neighbors, are_reliable_neighbors_fs_correct })
+
 	if (is_notes(state)) return state
 
 	assert(!state.are_neighbors_hints_collected, `on_neighbors_hints_collected() should not be called several times ${state.id}`)
@@ -952,6 +912,53 @@ export function on_neighbors_hints_collected(
 
 	return state
 }
+
+// happens AFTER on_info_read...
+
+export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
+	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
+
+	if (state.are_notes_restored) {
+		// FOR DEBUG
+		// seen in very rare case (junk copy/paste for test) where a media and a non-media files have the same hash
+		console.error('PENDING ERROR BELOW', state)
+	}
+	assert(!state.are_notes_restored, `on_notes_recovered() should not be called several times`)
+
+	assert(state.current_hash, 'on_notes_recovered() should be called based on the hash') // obvious but just in case…
+	assert(state.current_exif_data !== undefined, 'on_notes_recovered() should be called after exif') // obvious but just in case…
+	assert(state.current_fs_stats, 'on_notes_recovered() should be called after FS') // obvious but just in case…
+
+	if (recovered_notes) {
+		const current_ext‿norm = get_current_extension‿normalized(state)
+		const original_ext‿norm = get_file_basename_extension‿normalized(recovered_notes.original.basename)
+		assert(current_ext‿norm === original_ext‿norm, 'recovered notes should refer to the same file type!')
+	}
+
+	state = {
+		...state,
+		are_notes_restored: true,
+		notes: {
+			...state.notes,
+			...recovered_notes,
+			currently_known_as: get_current_basename(state), // force keep this one
+			original: {
+				...state.notes.original,
+				...recovered_notes?.original,
+			},
+		},
+	}
+
+	if (get_params().expect_perfect_state) {
+		assert(
+			!is_processed_media_basename(get_original_basename(state)),
+			`PERFECT STATE original basename should never be an already processed basename "${get_original_basename(state)}"!`
+		)
+	}
+
+	return state
+}
+
 
 export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<State> {
 	logger.trace(`${LIB} on_moved(…)`, { previous_id: state.id, new_id })

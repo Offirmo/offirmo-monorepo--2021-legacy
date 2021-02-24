@@ -61,17 +61,22 @@ When renaming/moving a file, the underlying action will automatically add a dupl
 
 ### TODO
 
+bugs
 - ~~infinite loop~~
-- TODO folder unicode normalization
-- TODO optim
-- TODO hash collision detection (not same ext & size)
+
+Features:
 - TODO unstable sorting -> normalizing more files on second run
+- TODO folder unicode normalization
+- TODO spread the notes across their folders
+- TODO hash collision detection (same ext & size)
 - TODO support numbered notes (for merging)
 - TODO folder dates are ~wrong -> use "better dates" instead
 - TODO non-renamed files being overly cleaned
 - TODO badly sorted description.txt
 - TODO lossless rotation + hashes chaining in notes
-- TODO allow several event folders the same day, ex. morning and arvo
-- TODO migration of notes
+- TODO ~~allow several event folders the same day, ex. morning and arvo~~ too complicated, not worth it
 - TODO fs stats fixing
-- TODO spread the notes across their folders
+
+For open sourcing:
+- TODO optim
+- TODO migration of notes

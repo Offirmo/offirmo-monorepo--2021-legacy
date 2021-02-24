@@ -14,14 +14,12 @@ import {
 } from './folder'
 import * as File from './file'
 
-import {
-	get_MEDIA_DEMO_01
-} from '../__test_shared/real_files'
+import { ALL_MEDIA_DEMOS } from '../__test_shared/real_files'
 import {
 	has_all_infos_for_extracting_the_creation_date,
-	on_exif_read,
-	on_fs_stats_read,
-	on_hash_computed, on_neighbors_hints_collected, on_notes_recovered,
+	on_info_read__exif,
+	on_info_read__fs_stats,
+	on_info_read__hash, on_info_read__current_neighbors_hints, on_notes_recovered,
 } from './file'
 import util from 'util'
 import fs from 'fs'
@@ -69,15 +67,15 @@ describe(`${LIB} - folder state`, function() {
 				let state: State = create('01- St. Nicolas')
 
 				let subfile_state = File.create('foo 20011206.png')
-				subfile_state = on_hash_computed(subfile_state, '1234')
-				subfile_state = on_fs_stats_read(subfile_state, {
+				subfile_state = on_info_read__hash(subfile_state, '1234')
+				subfile_state = on_info_read__fs_stats(subfile_state, {
 					birthtimeMs: 1234567890,
 					atimeMs:     1234567890,
 					mtimeMs:     1234567890,
 					ctimeMs:     1234567890,
 				})
 				subfile_state = on_notes_recovered(subfile_state, null)
-				subfile_state = on_neighbors_hints_collected(subfile_state, null, undefined)
+				subfile_state = on_info_read__current_neighbors_hints(subfile_state, null, undefined)
 
 				state = on_dated_subfile_found(state, subfile_state)
 				//console.log(state)
@@ -117,14 +115,14 @@ describe(`${LIB} - folder state`, function() {
 		})
 
 		describe('on_dated_subfile_found()', function () {
-			before(() => get_MEDIA_DEMO_01())
+			//before(() => ALL_MEDIA_DEMOS[0].get_state())
 
 			context('when no event range', function() {
 
 				it('should set the date range', async () => {
 					let state = create('foo')
 
-					let file_state = await get_MEDIA_DEMO_01()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
 					state = on_dated_subfile_found(state, file_state)
 
@@ -143,7 +141,7 @@ describe(`${LIB} - folder state`, function() {
 					expect(state.event_begin_date_symd, 'inferred event begin').to.equal(20180904)
 					expect(state.event_end_date_symd, 'inferred event end').to.equal(20180904)
 
-					let file_state = await get_MEDIA_DEMO_01()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
 					state = on_dated_subfile_found(state, file_state)
 
@@ -160,7 +158,7 @@ describe(`${LIB} - folder state`, function() {
 					expect(state.event_end_date_symd).to.equal(20180904)
 					expect(is_current_basename_intentful(state)).to.be.true
 
-					let file_state = await get_MEDIA_DEMO_01()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
 					state = on_dated_subfile_found(state, file_state)
 
@@ -174,7 +172,7 @@ describe(`${LIB} - folder state`, function() {
 					expect(state.event_begin_date_symd).to.equal(20180902)
 					expect(state.event_end_date_symd).to.equal(20180902)
 
-					let file_state = await get_MEDIA_DEMO_01()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
 					state = on_dated_subfile_found(state, file_state)
 
@@ -191,7 +189,7 @@ describe(`${LIB} - folder state`, function() {
 					it('should demote', async () => {
 						let state = create('holiday 20180704')
 
-						let file_state = await get_MEDIA_DEMO_01()
+						let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 						state = on_subfile_found(state, file_state)
 						state = on_dated_subfile_found(state, file_state)
 
@@ -208,7 +206,7 @@ describe(`${LIB} - folder state`, function() {
 					it('should not demote but cap the range', async () => {
 						let state = create('20180704 - holiday')
 
-						let file_state = await get_MEDIA_DEMO_01()
+						let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 						state = on_subfile_found(state, file_state)
 						state = on_dated_subfile_found(state, file_state)
 

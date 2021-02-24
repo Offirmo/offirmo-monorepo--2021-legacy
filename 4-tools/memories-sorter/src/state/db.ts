@@ -518,7 +518,7 @@ function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immut
 export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats: Immutable<FsStatsSubset>): Immutable<State> {
 	logger.trace(`${LIB} on_fs_stats_read(…)`, { file_id })
 
-	const new_file_state = File.on_fs_stats_read(state.files[file_id], stats)
+	const new_file_state = File.on_info_read__fs_stats(state.files[file_id], stats)
 
 	state = {
 		...state,
@@ -534,7 +534,7 @@ export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats
 export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data: Immutable<Tags>): Immutable<State> {
 	logger.trace(`${LIB} on_exif_read(…)`, { file_id })
 
-	const new_file_state = File.on_exif_read(state.files[file_id], exif_data)
+	const new_file_state = File.on_info_read__exif(state.files[file_id], exif_data)
 
 	state = {
 		...state,
@@ -550,7 +550,7 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash: FileHash): Immutable<State> {
 	logger.trace(`${LIB} on_hash_computed(…)`, { file_id })
 
-	let new_file_state = File.on_hash_computed(state.files[file_id], hash)
+	let new_file_state = File.on_info_read__hash(state.files[file_id], hash)
 
 	if (File.is_media_file(new_file_state)) {
 		// since we now have the hash, we can recover notes if any
@@ -807,7 +807,7 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
 		let folder_state = state.folders[parent_folder_id]
 		const parent_folder_fs_reliability = Folder.are_children_fs_reliable(folder_state)
-		file_state = File.on_neighbors_hints_collected(
+		file_state = File.on_info_read__current_neighbors_hints(
 				file_state,
 				Folder.get_reliable_children_range(folder_state),
 				Folder.are_children_fs_reliable(folder_state),

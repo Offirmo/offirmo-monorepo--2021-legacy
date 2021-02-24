@@ -1,7 +1,7 @@
 {
-	"name": "@offirmo-private/photos-sorter",
+	"name": "@offirmo-private/memories-sorter",
 	"version": "0.0.1",
-	"description": "An automated photo sorter",
+	"description": "An automated photo/media sorter",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
@@ -29,10 +29,10 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../../0-scripts/clean.js …dist",
+		"clean": "node ../../0-scripts/clean.js …dist",
 
-		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../../0-scripts/build-typescript.js",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
