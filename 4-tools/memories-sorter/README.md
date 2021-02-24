@@ -70,12 +70,12 @@ Features:
 - TODO spread the notes across their folders
 - TODO hash collision detection (same ext & size)
 - TODO support numbered notes (for merging)
-- TODO folder dates are ~wrong -> use "better dates" instead
+- TODO folder dates are ~wrong -> use "better dates" instead?
 - TODO non-renamed files being overly cleaned
 - TODO badly sorted description.txt
 - TODO lossless rotation + hashes chaining in notes
 - TODO ~~allow several event folders the same day, ex. morning and arvo~~ too complicated, not worth it
-- TODO fs stats fixing
+- TODO ~~fs stats fixing~~ would complicate the algo too much, not worth it
 
 For open sourcing:
 - TODO optim

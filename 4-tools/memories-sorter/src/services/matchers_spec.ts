@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { LIB } from '../consts'
-import { get_current_year } from '../params'
+import { CURRENT_YEAR } from '../params'
 import {
 	is_day_fragment,
 	is_month_fragment,
@@ -41,8 +41,8 @@ describe(`${LIB} - matchers`, function() {
 		})
 
 		it('should have an upper limit', () => {
-			expect(is_year(String(get_current_year() + 1))).to.be.true
-			expect(is_year(String(get_current_year() + 2))).to.be.false
+			expect(is_year(String(CURRENT_YEAR + 1))).to.be.true
+			expect(is_year(String(CURRENT_YEAR + 2))).to.be.false
 			expect(is_year('2100')).to.be.false
 		})
 
@@ -50,8 +50,8 @@ describe(`${LIB} - matchers`, function() {
 			expect(is_year('1890')).to.be.true
 			expect(is_year('1999')).to.be.true
 			expect(is_year('2020')).to.be.true
-			expect(is_year(String(get_current_year()))).to.be.true
-			expect(is_year(String(get_current_year() + 1))).to.be.true
+			expect(is_year(String(CURRENT_YEAR))).to.be.true
+			expect(is_year(String(CURRENT_YEAR + 1))).to.be.true
 		})
 	})
 

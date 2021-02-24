@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import { LIB, RELATIVE_PATH_NORMALIZATION_VERSION } from '../consts'
 import {
-	get_current_year,
+	CURRENT_YEAR,
 } from '../params'
 import {
 	DATED_NAMES_SAMPLES,
@@ -56,7 +56,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			expect(_get_y2k_year_from_fragment('01')).to.equal(2001)
 			expect(_get_y2k_year_from_fragment('19')).to.equal(2019)
 
-			const date_upper_boundⳇₓyear = get_current_year() + 1
+			const date_upper_boundⳇₓyear = CURRENT_YEAR + 1
 			if (date_upper_boundⳇₓyear >= 2069) {
 				expect(_get_y2k_year_from_fragment('69')).to.equal(2069)
 			}

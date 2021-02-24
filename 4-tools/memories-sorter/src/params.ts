@@ -1,6 +1,7 @@
 import path from 'path'
 
 import assert from 'tiny-invariant'
+import memoize_once from 'memoize-one'
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
@@ -33,15 +34,12 @@ export interface Params {
 	expect_perfect_state: boolean // For me (author) debug purpose.
 }
 
-export function get_current_year(): number {
-	return (new Date()).getFullYear()
-}
+export const CURRENT_YEAR: number = (new Date()).getFullYear()
 
 // UNSAFE bc should not be used in place of get_default_timezone()!
-export function _unsafe_get_system_timezone(): TimeZone {
+export const _UNSAFE_CURRENT_SYSTEM_TIMEZONE: TimeZone =
 	// https://stackoverflow.com/a/44096051/587407
-	return Intl.DateTimeFormat().resolvedOptions().timeZone
-}
+	Intl.DateTimeFormat().resolvedOptions().timeZone
 
 
 // the earliest known photo was taken in 1826
@@ -49,7 +47,7 @@ export function _unsafe_get_system_timezone(): TimeZone {
 const date_lower_boundⳇₓyear = 1826
 assert(date_lower_boundⳇₓyear >= 1826, 'earliest known')
 
-const date_upper_boundⳇₓyear = get_current_year() + 1 // +1 to handle taking pictures during new year eve
+const date_upper_boundⳇₓyear = CURRENT_YEAR + 1 // +1 to handle taking pictures during new year eve
 assert(date_upper_boundⳇₓyear >= date_lower_boundⳇₓyear, 'higher >= lower 1')
 
 const date_lower_boundⳇsymd: SimpleYYYYMMDD = (date_lower_boundⳇₓyear * 10000) + 101
@@ -58,7 +56,7 @@ assert(date_upper_boundⳇsymd >= date_lower_boundⳇsymd, 'higher >= lower 2')
 
 const max_event_durationⳇₓday = 28
 
-export function get_params(): Params {
+export const get_params = memoize_once(function get_params(): Params {
 	return {
 		date_lower_boundⳇₓyear: date_lower_boundⳇₓyear,
 		date_upper_boundⳇₓyear: date_upper_boundⳇₓyear,
@@ -140,12 +138,12 @@ export function get_params(): Params {
 			},
 		].sort((a, b) => a.date_utc_ms - b.date_utc_ms),
 	}
-}
+})
 
 export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immutable<Params> = get_params()): TimeZone {
 	//console.log('get_default_timezone()', { date_utc_ms, PARAMS })
 
-	let res: TimeZone = _unsafe_get_system_timezone()
+	let res: TimeZone = _UNSAFE_CURRENT_SYSTEM_TIMEZONE
 	const change_after = PARAMS.default_timezones.find(tz_change => {
 		//console.log('candidate', { tz_change })
 		if (date_utc_ms >= tz_change.date_utc_ms) {
@@ -157,8 +155,8 @@ export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immuta
 		return true
 	})
 
-	if (!change_after && res !== _unsafe_get_system_timezone()) {
-		logger.warn(`Current default timezone from params "${res}" does not match current system timezone "${_unsafe_get_system_timezone()}". Is that intended?`)
+	if (!change_after && res !== _UNSAFE_CURRENT_SYSTEM_TIMEZONE) {
+		logger.warn(`Current default timezone from params "${res}" does not match current system timezone "${_UNSAFE_CURRENT_SYSTEM_TIMEZONE}". Is that intended?`)
 	}
 
 	//console.log('final', { res })
@@ -166,4 +164,4 @@ export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immuta
 }
 
 assert(get_default_timezone(+Date.now()), 'PARAMS should be correct 01a')
-assert(get_default_timezone(+Date.now()) === _unsafe_get_system_timezone(), 'PARAMS should be correct 01b')
+assert(get_default_timezone(+Date.now()) === _UNSAFE_CURRENT_SYSTEM_TIMEZONE, 'PARAMS should be correct 01b')

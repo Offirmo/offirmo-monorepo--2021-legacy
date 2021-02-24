@@ -4,7 +4,7 @@ import path from 'path'
 
 import { LIB } from '../consts'
 import {
-	get_creation_date_from_exif,
+	get_best_creation_date_from_exif,
 	get_creation_timezone_from_exif,
 } from './exif'
 import {
@@ -49,11 +49,11 @@ describe(`${LIB} - exif service`, function() {
 
 					expect(exif_data.tz).to.equal(MEDIA_DEMO.EMBEDDED_TZ)
 					expect(get_creation_timezone_from_exif(exif_data)).to.equal(MEDIA_DEMO.EMBEDDED_TZ)
-					expect(get_creation_date_from_exif(exif_data)!.toISOString()).to.equal(MEDIA_DEMO.DATE__ISO_STRING)
+					expect(get_best_creation_date_from_exif(exif_data)!.toISOString()).to.equal(MEDIA_DEMO.DATE__ISO_STRING)
 					expect(
 						get_human_readable_timestamp_auto(
 							create_better_date_from_ExifDateTime(
-								get_creation_date_from_exif(exif_data)!,
+								get_best_creation_date_from_exif(exif_data)!,
 							),
 							'tz:embedded',
 						)
