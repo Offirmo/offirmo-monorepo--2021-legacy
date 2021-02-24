@@ -771,7 +771,7 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 	logger.trace(`${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders()…`)
 
 	get_all_files(state).forEach((file_state) => {
-		const is_fs_reliable = File.is_current_fs_date_reliable__primary(file_state)
+		const is_fs_reliable = File.is_current_fs_date_confirmed_by_trustable_other_current_date_sources(file_state)
 		if (is_fs_reliable === false) {
 			logger.warn(`File "${file_state.id}" fs reliability has been estimated as FALSE`)
 		}

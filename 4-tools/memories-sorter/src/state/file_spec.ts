@@ -77,7 +77,7 @@ describe(`${LIB} - file (state)`, function() {
 			manual_date: undefined,
 
 			original: {
-				basename: 'original.jpg',
+				basename: 'original' + path.parse(id).ext, // extensions should match
 				parent_path: 'foo',
 				fs_birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 				is_fs_birthtime_assessed_reliable: false,
@@ -237,6 +237,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					expect(bcdm.source, 'source').to.equal('exif')
 					expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 					expect(bcdm.confidence, 'confidence').to.equal('primary')
+					expect(bcdm.from_original, 'origin').to.equal(true)
 					expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 					// final as integration
@@ -251,7 +252,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 				context('when having a date in the basename', function() {
 
-					context('when this basename is NOT normalized', function() {
+					context('when this basename is NOT already processed', function() {
 						beforeEach(() => {
 							file_basename__current = 'IMG_20171020_0501.jpg'
 						})
@@ -265,9 +266,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								let state = create_test_file_state()
 
 								const bcdm = get_best_creation_date_meta(state)
-								expect(bcdm.source, 'source').to.equal('some_basename_nn+fs')
+								expect(bcdm.source, 'source').to.equal('original_basename_np+fs')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.from_original, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -284,9 +286,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								let state = create_test_file_state()
 
 								const bcdm = get_best_creation_date_meta(state)
-								expect(bcdm.source, 'source').to.equal('some_basename_nn')
+								expect(bcdm.source, 'source').to.equal('original_basename_np')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.from_original, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 								// final as integration
@@ -295,7 +298,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						})
 					})
 
-					context('when this basename is normalized', function() {
+					context('when this basename is already processed', function() {
 						beforeEach(() => {
 							file_basename__current = `MM${REAL_CREATION_DATE_RdTS}_hello.jpg`
 						})
@@ -309,9 +312,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								let state = create_test_file_state()
 
 								const bcdm = get_best_creation_date_meta(state)
-								expect(bcdm.source, 'source').to.equal('some_basename_normalized')
+								expect(bcdm.source, 'source').to.equal('some_basename_p')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.from_original, 'origin').to.equal(false) // bc not original
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 								// final as integration
@@ -328,9 +332,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								let state = create_test_file_state()
 
 								const bcdm = get_best_creation_date_meta(state)
-								expect(bcdm.source, 'source').to.equal('some_basename_normalized')
+								expect(bcdm.source, 'source').to.equal('some_basename_p')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.from_original, 'origin').to.equal(false)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -340,7 +345,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					})
 				})
 
-				// TODO fix unit tests
+				// TODO fix unit tests after hints clarification
 				context.skip('when NOT having a date in the basename', function () {
 
 					context('when having hints -- from parent folder only', function() {
@@ -360,6 +365,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.from_original, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -379,6 +385,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('env_hints')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-10')
 								expect(bcdm.confidence, 'confidence').to.equal('secondary')
+								expect(bcdm.from_original, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 								// final as integration
@@ -405,6 +412,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
+								expect(bcdm.from_original, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -424,6 +432,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_fs')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
 								expect(bcdm.confidence, 'confidence').to.equal('junk')
+								expect(bcdm.from_original, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -441,6 +450,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 							expect(bcdm.source, 'source').to.equal('original_fs')
 							expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
 							expect(bcdm.confidence, 'confidence').to.equal('junk')
+							expect(bcdm.from_original, 'origin').to.equal(true)
 							expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 							// final as integration
@@ -474,7 +484,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						date__exif = null
 					})
 
-					context('when having a date in the ORIGINAL basename -- NON normalized', function() {
+					context('when having a date in the ORIGINAL basename -- NON processed', function() {
 
 						context('when having a date in the CURRENT basename', function() {
 
@@ -482,7 +492,9 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 								context(' real bug encountered 2020/12/16', function() {
 									beforeEach(() => {
-										date__fs_ms__original = 1564542022000 // close but not exact match
+										// = GMT: Wednesday, 31 July 2019 3:00:22 AM
+										// not exact match but within acceptable range of a tz difference
+										date__fs_ms__original = 1564542022000
 										date__fs_ms__current = date__fs_ms__original // TODO test with random
 										file_basename__original = 'Capture d’écran 2019-07-31 à 21.00.15.png'
 										file_basename__current = 'MM2019-07-31_21h00m15_screenshot.png' // perfectly matching
@@ -495,7 +507,8 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 										expect(bcdm.source, 'source').not.to.equal('some_basename_normalized') // data was restored identical from original data
 										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2019-07-31_21h00m15')
 										expect(bcdm.confidence, 'confidence').to.equal('primary')
-										expect(bcdm.is_fs_matching, 'fs matching').to.be.false
+										expect(bcdm.from_original, 'origin').to.equal(true)
+										expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 										// final as integration
 										expect(get_ideal_basename(state), 'ideal basename').to.equal(file_basename__current)
@@ -512,7 +525,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						})
 					})
 
-					context('when having a date in the ORIGINAL basename -- NORMALIZED', function() {
+					context('when having a date in the ORIGINAL basename -- ALREADY processed', function() {
 
 						context('when having a date in the CURRENT basename', function() {
 
@@ -539,7 +552,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 			const TEST_CASES: TCIdeal = {
 				// no date in basename
 				'P1000010.JPG': 'MM2018-11-21_06h00m45s627_P1000010.jpg',
-				'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_x3211.jpg',
+				'IMG_3211.JPG': 'MM2018-11-21_06h00m45s627_IMG_3211.jpg',
 				'TR81801414546EGJ.jpg': 'MM2018-11-21_06h00m45s627_TR81801414546EGJ.jpg', // lot of digits but not a date
 				// basename has date, takes precedence
 				'IMG_20130525.JPG': 'MM2013-05-25.jpg',
