@@ -9,7 +9,7 @@ import { exiftool } from 'exiftool-vendored'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { Basename, RelativePath } from '../types'
-import { NOTES_BASENAME_SUFFIX } from '../consts'
+import { NOTES_BASENAME_SUFFIX_LC } from '../consts'
 import { get_params } from '../params'
 
 import * as File from '../state/file'
@@ -265,7 +265,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
-		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME_SUFFIX)
+		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME_SUFFIX_LC)
 		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
 
 		try {

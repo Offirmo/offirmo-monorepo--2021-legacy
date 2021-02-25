@@ -87,7 +87,7 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 	// https://github.com/photostructure/exiftool-vendored.js/issues/73
 	// "If date fields aren't parsable, the raw string from exiftool will be provided."
 	if (typeof raw_exiftool_date === 'string') {
-		// TODO log (add a onWarning param)
+		// TODO log & attach to file
 		logger.warn(`un-parsable exif date`, { SourceFile, field, raw_exiftool_date })
 		return undefined
 	}

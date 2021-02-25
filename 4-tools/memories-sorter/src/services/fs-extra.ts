@@ -10,6 +10,7 @@ import { AbsolutePath } from '../types'
 
 export function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boolean {
 	// abusing an internal non-documented function of fs-extra
+	// TODO re-code properly using fs.stat
 	try {
 		throw_if_identical_sync(abs_path_a, abs_path_b)
 		return false

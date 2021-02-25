@@ -7,7 +7,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { prettify_json } from '@offirmo-private/prettify-any'
 import { get_base_loose, enforce_immutability } from '@offirmo-private/state-utils'
 
-import { NOTES_BASENAME_SUFFIX, LIB as APP } from '../consts'
+import { NOTES_BASENAME_SUFFIX_LC, LIB as APP } from '../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import { Action } from './actions'
 import * as Actions from './actions'
@@ -141,7 +141,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	logger.trace(`get_ideal_file_relative_folder()`, { id })
 	const DEBUG = true
 
-	if (id === NOTES_BASENAME_SUFFIX) // todo use selector
+	if (id === NOTES_BASENAME_SUFFIX_LC) // todo use selector
 		return '' // TODO improve. Should this even be called?
 
 	const file_state = state.files[id]
@@ -270,7 +270,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`get_ideal_file_relative_path()`, { id })
 
-	if (id === NOTES_BASENAME_SUFFIX) // todo use selector
+	if (id === NOTES_BASENAME_SUFFIX_LC) // todo use selector
 		return id // todo should this even be called?
 
 	const file_state = state.files[id]
@@ -453,7 +453,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 		},
 	}
 
-	const is_notes = sub_id === NOTES_BASENAME_SUFFIX // todo use selector
+	const is_notes = sub_id === NOTES_BASENAME_SUFFIX_LC // todo use selector
 	const is_media_file = File.is_media_file(file_state)
 
 	if (is_notes) {

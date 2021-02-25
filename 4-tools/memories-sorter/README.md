@@ -65,11 +65,11 @@ bugs
 - ~~infinite loop~~
 
 Features:
-- TODO unstable sorting -> normalizing more files on second run
+- TODO unstable sorting -> normalizing more files on second run :/
 - TODO folder unicode normalization
 - TODO spread the notes across their folders
+- TODO support numbered notes (for merging) and clean them?
 - TODO hash collision detection (same ext & size)
-- TODO support numbered notes (for merging)
 - TODO folder dates are ~wrong -> use "better dates" instead?
 - TODO non-renamed files being overly cleaned
 - TODO badly sorted description.txt
@@ -80,3 +80,5 @@ Features:
 For open sourcing:
 - TODO optim
 - TODO migration of notes
+
+https://www.mtu.edu/umc/services/websites/writing/characters-avoid/

@@ -9,28 +9,27 @@ import { get_json_difference, enforce_immutability } from '@offirmo-private/stat
 
 import { LIB } from '../consts'
 import {
-	State,
-	create,
-
-	get_ideal_basename,
-	get_best_creation_date,
-	get_current_parent_folder_id,
-	get_current_basename,
-	get_best_creation_date_meta,
-	is_media_file,
-	is_exif_powered_media_file,
-	has_all_infos_for_extracting_the_creation_date,
-	get_best_creation_date_compact,
-	merge_duplicates,
-
-	on_info_read__fs_stats,
-	on_info_read__exif,
-	on_info_read__hash,
-	on_notes_recovered,
-	get_best_creation_year,
-	on_info_read__current_neighbors_hints,
 	FileId,
 	PersistedNotes,
+	State,
+	create,
+	get_best_creation_date,
+	get_best_creation_date_compact,
+	get_best_creation_date_meta,
+	get_best_creation_year,
+	get_current_basename,
+	get_current_parent_folder_id,
+	get_ideal_basename,
+	has_all_infos_for_extracting_the_creation_date,
+	is_confident_in_date,
+	is_exif_powered_media_file,
+	is_media_file,
+	merge_duplicates,
+	on_info_read__current_neighbors_hints,
+	on_info_read__exif,
+	on_info_read__fs_stats,
+	on_info_read__hash,
+	on_notes_recovered,
 } from './file'
 import {
 	get_timestamp_utc_ms_from,
@@ -864,10 +863,15 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					expect(get_current_basename(state)).to.equal(MEDIA_DEMO.BASENAME)
 					expect(get_current_parent_folder_id(state)).to.equal('.')
 
+					expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal(MEDIA_DEMO.DATE__HUMAN_AUTO)
+
 					expect(get_best_creation_year(state)).to.equal(MEDIA_DEMO.YEAR)
 					expect(get_best_creation_date_compact(state)).to.equal(MEDIA_DEMO.DATE__COMPACT)
 					expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal(MEDIA_DEMO.FINAL_TZ)
-					expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal(MEDIA_DEMO.DATE__HUMAN_AUTO)
+
+					expect(get_best_creation_date_meta(state).confidence).to.equal(MEDIA_DEMO.CONFIDENCE)
+					expect(is_confident_in_date(state)).to.equal(MEDIA_DEMO.CONFIDENCE === 'primary')
+
 					expect(get_ideal_basename(state)).to.equal(MEDIA_DEMO.IDEAL_BASENAME)
 				})
 			})

@@ -1,6 +1,5 @@
 import { expect } from 'chai'
 import { exiftool, ExifDateTime } from 'exiftool-vendored'
-import path from 'path'
 
 import { LIB } from '../consts'
 import {
@@ -47,17 +46,32 @@ describe(`${LIB} - exif service`, function() {
 					const exif_data = await exiftool.read(MEDIA_DEMO.ABS_PATH)
 					//console.log('exif data', exif_data)
 
-					expect(exif_data.tz).to.equal(MEDIA_DEMO.EMBEDDED_TZ)
-					expect(get_creation_timezone_from_exif(exif_data)).to.equal(MEDIA_DEMO.EMBEDDED_TZ)
-					expect(get_best_creation_date_from_exif(exif_data)!.toISOString()).to.equal(MEDIA_DEMO.DATE__ISO_STRING)
-					expect(
-						get_human_readable_timestamp_auto(
-							create_better_date_from_ExifDateTime(
-								get_best_creation_date_from_exif(exif_data)!,
-							),
-							'tz:embedded',
-						)
-					).to.equal(MEDIA_DEMO.DATE__HUMAN_AUTO)
+					const bcd_edt = get_best_creation_date_from_exif(exif_data)
+					if (!MEDIA_DEMO.EXIF_DATA) {
+						expect(bcd_edt).to.be.undefined
+					}
+					else {
+						if (!bcd_edt) {
+							// we have EXIF data but not containing any date
+							expect(MEDIA_DEMO.EXIF_DATA.EMBEDDED_TZ).to.be.undefined
+							expect(MEDIA_DEMO.EXIF_DATA.FINAL_TZ).to.be.undefined
+							expect(MEDIA_DEMO.EXIF_DATA.YEAR).to.be.undefined
+							expect(MEDIA_DEMO.EXIF_DATA.DATE__COMPACT).to.be.undefined
+							expect(MEDIA_DEMO.EXIF_DATA.DATE__ISO_STRING).to.be.undefined
+							expect(MEDIA_DEMO.EXIF_DATA.DATE__HUMAN_AUTO).to.be.undefined
+						}
+						else {
+							expect(exif_data.tz).to.equal(MEDIA_DEMO.EXIF_DATA.EMBEDDED_TZ)
+							expect(get_creation_timezone_from_exif(exif_data)).to.equal(MEDIA_DEMO.EXIF_DATA.EMBEDDED_TZ)
+							expect(bcd_edt!.toISOString()).to.equal(MEDIA_DEMO.EXIF_DATA.DATE__ISO_STRING)
+							expect(
+								get_human_readable_timestamp_auto(
+									create_better_date_from_ExifDateTime(bcd_edt!),
+									'tz:embedded',
+								)
+							).to.equal(MEDIA_DEMO.EXIF_DATA.DATE__HUMAN_AUTO)
+						}
+					}
 				})
 			})
 		})

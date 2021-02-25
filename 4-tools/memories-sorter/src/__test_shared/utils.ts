@@ -31,18 +31,18 @@ export async function load_real_media_file(abs_path: string, state: Immutable<Fi
 	await Promise.all([
 		hasha.fromFile(abs_path, {algorithm: 'sha256'})
 			.then(hash => {
-				expect(has_all_infos_for_extracting_the_creation_date(state, {}), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 1').to.be.false
+				expect(has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 1').to.be.false
 				assert(hash, 'should have hash')
 				state = on_info_read__hash(state, hash)
 			}),
 		util.promisify(fs.stat)(abs_path)
 			.then(stats => {
-				expect(has_all_infos_for_extracting_the_creation_date(state, {}), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 2').to.be.false
+				expect(has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 2').to.be.false
 				state = on_info_read__fs_stats(state, stats)
 			}),
 		exiftool.read(abs_path)
 			.then(exif_data => {
-				expect(has_all_infos_for_extracting_the_creation_date(state, {}), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 3').to.be.false
+				expect(has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 3').to.be.false
 				state = on_info_read__exif(state, exif_data)
 			})
 	])

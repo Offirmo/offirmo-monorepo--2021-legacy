@@ -5,9 +5,11 @@ import memoize_once from 'memoize-one'
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
-import { EXIF_POWERED_FILE_EXTENSIONS } from './consts'
+import { EXIF_POWERED_FILE_EXTENSIONS_LC } from './consts'
 import { SimpleYYYYMMDD, AbsolutePath, TimeZone } from './types'
 import logger from './services/logger'
+
+/////////////////////////////////////////////////
 
 const TZONE_FR: TimeZone = 'Europe/Paris'
 const TZONE_AU: TimeZone = 'Australia/Sydney'
@@ -25,10 +27,9 @@ export interface Params {
 	date_lower_boundⳇsymd: SimpleYYYYMMDD
 	date_upper_boundⳇsymd: SimpleYYYYMMDD
 	max_event_durationⳇₓday: number
-	// todo _lc should be _normalized?
-	extensions_to_normalize‿lc: { [k: string]: string } // todo runtime check LCase
-	extensions_of_media_files‿lc: string[] // todo runtime check normalized
-	extensions_to_delete‿lc: string[] // todo runtime check normalized
+	extensions_to_normalize‿lc: { [k: string]: string }
+	extensions_of_media_files‿lc: string[]
+	extensions_to_delete‿lc: string[]
 	worthless_file_basenames‿lc: string[]
 	default_timezones: DefaultTzChange[]
 	expect_perfect_state: boolean // For me (author) debug purpose.
@@ -40,7 +41,6 @@ export const CURRENT_YEAR: number = (new Date()).getFullYear()
 export const _UNSAFE_CURRENT_SYSTEM_TIMEZONE: TimeZone =
 	// https://stackoverflow.com/a/44096051/587407
 	Intl.DateTimeFormat().resolvedOptions().timeZone
-
 
 // the earliest known photo was taken in 1826
 // https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras
@@ -85,10 +85,10 @@ export const get_params = memoize_once(function get_params(): Params {
 		extensions_to_normalize‿lc: {
 			'.jpeg': '.jpg',
 			'.tiff': '.tif',
-		},
+		}, // TODO force lc
 
 		extensions_of_media_files‿lc: [
-			...EXIF_POWERED_FILE_EXTENSIONS,
+			...EXIF_POWERED_FILE_EXTENSIONS_LC,
 			'.avi', // old videos
 			'.bmp',
 			'.bmp',
@@ -101,8 +101,8 @@ export const get_params = memoize_once(function get_params(): Params {
 			'.wav',
 			'.wmv',
 
-			// TODO see if we can scavenge a creation date from advance formats
-			'.pdf',
+			// TODO one day see if we can scavenge a creation date from advance formats?
+			'.pdf', // often hold memories as well
 			'.txt', // used to take notes
 			'.doc', '.ppt', '.pptx', // often hold memories as well
 		].map(s => s.toLowerCase()),
@@ -139,6 +139,8 @@ export const get_params = memoize_once(function get_params(): Params {
 		].sort((a, b) => a.date_utc_ms - b.date_utc_ms),
 	}
 })
+
+/////////////////////////////////////////////////
 
 export function get_default_timezone(date_utc_ms: TimestampUTCMs, PARAMS: Immutable<Params> = get_params()): TimeZone {
 	//console.log('get_default_timezone()', { date_utc_ms, PARAMS })

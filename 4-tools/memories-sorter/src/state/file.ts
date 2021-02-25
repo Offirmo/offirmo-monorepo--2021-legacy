@@ -8,7 +8,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import { EXIF_POWERED_FILE_EXTENSIONS, NOTES_BASENAME_SUFFIX, DIGIT_PROTECTION_SEPARATOR } from '../consts'
+import { EXIF_POWERED_FILE_EXTENSIONS_LC, NOTES_BASENAME_SUFFIX_LC, DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
 import { get_params, Params } from '../params'
 import logger from '../services/logger'
@@ -149,7 +149,7 @@ export function get_current_top_parent_folder_id(state: Immutable<State>): Relat
 }
 
 export function is_notes(state: Immutable<State>): boolean {
-	return get_current_basename(state).endsWith(NOTES_BASENAME_SUFFIX)
+	return get_current_basename(state).endsWith(NOTES_BASENAME_SUFFIX_LC)
 }
 
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
@@ -167,7 +167,7 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 
 	let normalized_extension = get_current_extension‿normalized(state)
 
-	return EXIF_POWERED_FILE_EXTENSIONS.includes(normalized_extension)
+	return EXIF_POWERED_FILE_EXTENSIONS_LC.includes(normalized_extension)
 }
 
 export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>, { should_log = true as boolean, require_neighbors_hints = true as boolean}): boolean {
@@ -200,7 +200,7 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 	return has_all_infos
 }
 
-// TODO improve with tracking
+// TODO improve with tracking? Should we even need this?
 export function is_first_file_encounter(state: Immutable<State>): boolean | undefined {
 	if (!state.are_notes_restored)
 		return undefined // don't know yet
@@ -361,7 +361,7 @@ function _get_creation_date_from_any_parent_folder(state: Immutable<State>): Bet
 	return undefined
 }
 // misc
-function _are_dates_matching(d1: Immutable<BetterDate>, d2: Immutable<BetterDate>, debug_id?: string): boolean {
+function _are_dates_matching_while_disregarding_tz_and_precision(d1: Immutable<BetterDate>, d2: Immutable<BetterDate>, debug_id?: string): boolean {
 	const tms1 = get_timestamp_utc_ms_from(d1)
 	const tms2 = get_timestamp_utc_ms_from(d2)
 
@@ -371,11 +371,11 @@ function _are_dates_matching(d1: Immutable<BetterDate>, d2: Immutable<BetterDate
 	const is_tms_matching = is_same_date_with_potential_tz_difference(tms1, tms2)
 
 	const [ longest, shortest ] = auto1.length >= auto2.length
-		? [ auto1,        auto2 ]
+		? [ auto1, auto2 ]
 		: [ auto2, auto1 ]
-	const is_auto_matching = longest.startsWith(shortest)
+	const is_matching_with_different_precisions = longest.startsWith(shortest)
 
-	if (!is_tms_matching && !is_auto_matching) {
+	if (!is_tms_matching && !is_matching_with_different_precisions) {
 		if (debug_id) {
 			logger.warn(`_is_matching() yielded FALSE`, {
 				id: debug_id,
@@ -384,7 +384,7 @@ function _are_dates_matching(d1: Immutable<BetterDate>, d2: Immutable<BetterDate
 				tms1,
 				tms2,
 				is_tms_matching,
-				is_auto_matching,
+				is_matching_with_different_precisions,
 				diff_s: Math.abs(tms2 - tms1) / 1000.,
 			})
 		}
@@ -395,6 +395,8 @@ function _are_dates_matching(d1: Immutable<BetterDate>, d2: Immutable<BetterDate
 }
 export function is_current_fs_date_confirmed_by_trustable_other_current_date_sources(state: Immutable<State>): boolean | undefined {
 	assert(state.current_exif_data !== undefined, `is_current_fs_date_confirmed_by_trustable_other_current_date_sources() is_exif_available`)
+
+	// TODO use the name??
 
 	if (!is_exif_powered_media_file(state))
 		return undefined // no way to know
@@ -408,7 +410,7 @@ export function is_current_fs_date_confirmed_by_trustable_other_current_date_sou
 	const date__from_fs__current = create_better_date_from_utc_tms(_get_creation_date_from_current_fs_stats(state), 'tz:auto')
 	assert(_get_creation_date_from_current_fs_stats(state) === get_timestamp_utc_ms_from(date__from_fs__current), `current fs tms back and forth stability`)
 
-	const is_matching = _are_dates_matching(date__from_exif, date__from_fs__current, state.id)
+	const is_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_exif, date__from_fs__current, state.id)
 	if (!is_matching) {
 		logger.log('⚠️ is_current_fs_date_confirmed_by_trustable_other_current_date_sources() yielding FALSE', state.current_exif_data!)
 	}
@@ -479,7 +481,7 @@ export function _get_best_creation_date_meta__from_original_data(state: Immutabl
 		result.candidate = date__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching(date__from_fs__original, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_fs__original, result.candidate)
 
 		if (date__from_basename__original) {
 			// cross check
@@ -489,7 +491,7 @@ export function _get_best_creation_date_meta__from_original_data(state: Immutabl
 			if (auto_from_candidate.startsWith(auto_from_basename)) {
 				// perfect match + EXIF more precise
 			}
-			else if (_are_dates_matching(date__from_basename__original, result.candidate)) {
+			else if (_are_dates_matching_while_disregarding_tz_and_precision(date__from_basename__original, result.candidate)) {
 				// good enough, keep EXIF
 				// TODO evaluate in case of timezone?
 			}
@@ -515,7 +517,7 @@ export function _get_best_creation_date_meta__from_original_data(state: Immutabl
 		result.candidate = date__from_basename__original
 		result.source = 'original_basename_np'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching(date__from_fs__original, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_fs__original, result.candidate)
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(date__from_fs__original, 'tz:embedded')
@@ -592,7 +594,7 @@ export function _get_best_creation_date_meta__from_original_data(state: Immutabl
 		result.candidate = date__from_parent_folder__original
 		result.source = 'env_hints'
 		result.confidence = looks_like_event_date ? 'secondary' : 'junk'
-		result.is_fs_matching = _are_dates_matching(date__from_fs__original, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_fs__original, result.candidate)
 
 		logger.trace(`_get_best_creation_date_meta__from_original_data() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
@@ -657,7 +659,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.candidate = date__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching(date__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_fs__oldest_known, result.candidate)
 
 		if (date__from_basename__whatever_non_processed) {
 			const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
@@ -666,7 +668,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 			if (auto_from_candidate.startsWith(auto_from_np_basename)) {
 				// perfect match + EXIF more precise
 			}
-			else if (_are_dates_matching(date__from_basename__whatever_non_processed, result.candidate)) {
+			else if (_are_dates_matching_while_disregarding_tz_and_precision(date__from_basename__whatever_non_processed, result.candidate)) {
 				// good enough, keep EXIF
 				// TODO evaluate in case of timezone?
 			}
@@ -693,7 +695,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.candidate = date__from_basename__whatever_non_processed
 		result.source = 'some_basename_np'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching(date__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_fs__oldest_known, result.candidate)
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(date__from_fs__oldest_known, 'tz:embedded')
@@ -731,7 +733,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.candidate = date__from_basename__whatever_processed
 		result.source = 'some_basename_p'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching(date__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_fs__oldest_known, result.candidate)
 
 		// normalized is already super precise, no need to refine with FS
 		// TODO review what if algo improvement?
@@ -763,7 +765,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.candidate = date__from_parent_folder__any
 		result.source = 'env_hints'
 		result.confidence = looks_like_event_date ? 'secondary' : 'junk'
-		result.is_fs_matching = _are_dates_matching(date__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(date__from_fs__oldest_known, result.candidate)
 
 		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result

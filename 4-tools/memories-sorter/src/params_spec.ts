@@ -99,11 +99,10 @@ describe('Params', function() {
 			})
 
 			it('should warn - real case', () => {
-				const system_tz = _UNSAFE_CURRENT_SYSTEM_TIMEZONE
 				test_params.default_timezones = [
 					{
 						date_utc_ms: Number(Date.UTC(1826, 1)),
-						new_default: system_tz === 'Europe/Paris' ? 'Asia/Bangkok' : 'Europe/Paris',
+						new_default: _UNSAFE_CURRENT_SYSTEM_TIMEZONE === 'Europe/Paris' ? 'Asia/Bangkok' : 'Europe/Paris',
 					},
 				].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
 				//console.log({ test_params, dt: test_params.default_timezones, system_tz })
