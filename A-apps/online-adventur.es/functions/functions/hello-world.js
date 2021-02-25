@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 556);
+/******/ 	return __webpack_require__(__webpack_require__.s = 558);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(80);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(84);
+const ansiStyles = __webpack_require__(79);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(83);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(86);
+} = __webpack_require__(85);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(87);
+		template = __webpack_require__(86);
 	}
 
 	return template(chalk, parts.join(''));
@@ -323,7 +323,7 @@ module.exports = chalk;
 
 /***/ }),
 
-/***/ 11:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -344,11 +344,16 @@ const COMMON_ERROR_FIELDS = new Set([// first inherit from previous
 ...Array.from(QUASI_STANDARD_ERROR_FIELDS), // standard in node only:
 'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
 // non standard but widely used:
-'statusCode', 'shouldRedirect', 'framesToPop']);
+'statusCode', 'shouldRedirect', 'framesToPop' // see facebook https://github.com/facebook/flux/blob/2.0.2/src/invariant.js
+]);
 const COMMON_ERROR_FIELDS_EXTENDED = new Set([// first inherit from previous
 // conv to array needed due to a babel bug 😢
 ...Array.from(COMMON_ERROR_FIELDS), // My (Offirmo) extensions:
-'_temp', 'details']);
+'_temp', 'details' // hash to store any other property not defined in this set
+// To evaluate if need arises:
+// TODO triage field?
+// TODO timestamp?
+]);
 
 /***/ }),
 
@@ -359,7 +364,7 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 311:
+/***/ 310:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -373,11 +378,11 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20210212_21h04';
+exports.BUILD_DATE = '20210225_22h30';
 
 /***/ }),
 
-/***/ 39:
+/***/ 38:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -406,12 +411,12 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 44:
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(82);
+const cssKeywords = __webpack_require__(81);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -1252,7 +1257,7 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 556:
+/***/ 558:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1270,9 +1275,9 @@ process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 
-__webpack_require__(63);
+__webpack_require__(62);
 
-const build_1 = __webpack_require__(311); ////////////////////////////////////
+const build_1 = __webpack_require__(310); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -1292,14 +1297,14 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 57:
+/***/ 56:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
 
-/***/ 63:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1914,7 +1919,7 @@ function is_pure_json(js) {
   return false;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/fields.js
-var fields = __webpack_require__(11);
+var fields = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -2096,7 +2101,8 @@ function v1_create() {
 
   const _ownLogger = createLogger({
     name: OWN_LOGGER_NAME,
-    suggestedLevel: 'fatal'
+    suggestedLevel: 'fatal' // level adjustable, see below
+
   });
 
   function _getOverrideRequestedSJson(ovKey) {
@@ -2312,38 +2318,13 @@ const {
   overrideHook: src_es2019_overrideHook,
   addDebugCommand: src_es2019_addDebugCommand
 } = instance;
- // types
 
-
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
+// types
 
 
 /***/ }),
 
-/***/ 80:
+/***/ 79:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2389,7 +2370,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(81);
+		colorConvert = __webpack_require__(80);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -2511,15 +2492,40 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(39)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(38)(module)))
 
 /***/ }),
 
-/***/ 81:
+/***/ 8:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
+
+  if (typeof global !== 'undefined') return global; // @ts-ignore
+
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
+
+
+/***/ }),
+
+/***/ 80:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(44);
-const route = __webpack_require__(83);
+const conversions = __webpack_require__(43);
+const route = __webpack_require__(82);
 
 const convert = {};
 
@@ -2603,7 +2609,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 82:
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2763,10 +2769,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 83:
+/***/ 82:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(44);
+const conversions = __webpack_require__(43);
 
 /*
 	This function routes a model to all other models.
@@ -2867,14 +2873,14 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 84:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const os = __webpack_require__(20);
-const tty = __webpack_require__(57);
-const hasFlag = __webpack_require__(85);
+const tty = __webpack_require__(56);
+const hasFlag = __webpack_require__(84);
 
 const {env} = process;
 
@@ -3010,7 +3016,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 85:
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3026,7 +3032,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 86:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3073,7 +3079,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 87:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

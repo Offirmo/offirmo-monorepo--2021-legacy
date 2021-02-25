@@ -149,8 +149,7 @@
 	</body>
 
 	<script>
-		user_settings = {}
-
+		window.user_settings = {}
 		/* OT⋄CUSTOM BEGIN early code */
 
 		// I absolutely don't understand this bug but nevermind, easy to fix
@@ -186,6 +185,7 @@
 			try {
 				return window._debug.v1.getLogger({name: LIB})
 			} catch {}
+
 			if (!!window.localStorage.getItem(`🛠UDA.override.logger.${LIB}.logLevel`))
 				return console
 
@@ -196,7 +196,8 @@
 				error() {},
 			}
 		})()
-		logger.log('[IL] starting…', { user_settings, location })
+		const user_settings = window.user_settings || {}
+		logger.log('[IL] starting…', { location, user_settings })
 
 		/////////////////////
 
@@ -214,7 +215,8 @@
 				legend: undefined,
 				expected_rsrc_count: 1,
 				...user_settings,
-				app_url: user_settings.app_url // normalize
+				// TODO XXX what if no trailing / ?
+				app_url: user_settings.app_url // TODO normalize?
 					? user_settings.app_url.split('?')[0]
 					: './index-2.html',
 			},
@@ -252,7 +254,7 @@
 		// REDUCERS
 
 		function on_error(state, error) {
-			logger.error('[IL] on error', { error })
+			logger.error('[IL] on error', { error, state })
 			state = {
 				...state,
 				error,
@@ -402,7 +404,8 @@
 				elt_iframe.onload = (args) => logger.log(`[IL] iframe loaded`, { args })
 				elt_iframe.onerror = (args) => logger.warn(`[IL] iframe something wrong happened`, { args }) // TODO error on this one?
 
-				// cordova support BUT up to the user to load the cordova script if needed!
+				// cordova support
+				// BUT up to the user to load the cordova script if needed!
 				// https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html
 				document.addEventListener('deviceready', () => {
 					if ('splashscreen' in navigator) {
@@ -413,6 +416,8 @@
 						}, 10) // to avoid FOUC
 					}
 				}, false)
+
+				logger.log(`[IL] Now waiting for the iframe to load "${elt_iframe.src}"`)
 			}
 
 			if (state.settings.legend) {
@@ -432,6 +437,8 @@
 			try { sub_frame_title = sub_frame_window.document.title } catch {}
 			window.document.title = sub_frame_title || state.settings.legend || ''
 		}
+
+		// trigger initial render
 
 		try {
 			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
