@@ -49,6 +49,14 @@ const SCREENSHOT_ALIASES_LC = [
 
 ////////////////////////////////////
 
+// PREMATURE, I didn't benchmark it
+// however it's really used everywhere, repeatedly, on repeated data
+export const pathㆍparse_memoized = micro_memoize(path.parse, {
+	maxSize: Number.MAX_SAFE_INTEGER,
+})
+
+////////////////////////////////////
+
 export const normalize_extension = micro_memoize(function get_normalized_extension(extension: string): string {
 	if (extension === '') return '' // special case of no extension at all
 
@@ -790,7 +798,7 @@ export function is_processed_media_basename(basename: Basename): boolean {
 ////////////
 
 export function get_folder_basename_normalisation_version(relpath: RelativePath): number | undefined {
-	const splitted = relpath.split(path.sep) // TODO use path.parse ?
+	const splitted = relpath.split(path.sep)
 
 	const last_segment = splitted.slice(-1)[0]
 	const dp_last_segment = get_digit_pattern(last_segment)

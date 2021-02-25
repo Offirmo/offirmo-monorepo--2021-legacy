@@ -27,6 +27,7 @@ import {
 	is_processed_media_basename,
 	parse_file_basename,
 	parse_folder_basename,
+	pathㆍparse_memoized,
 } from '../services/name_parser'
 import {
 	BetterDate,
@@ -111,12 +112,8 @@ export function get_current_relative_path(state: Immutable<State>): RelativePath
 	return state.id
 }
 
-const _path_parse_memoized = micro_memoize(path.parse, {
-	// note: maybe premature
-	maxSize: (1 + 1 + 5 + 5) * 10, // current base, original base, current path segments, original path segments...
-})
 export function get_current_path‿pathparsed(state: Immutable<State>): Immutable<path.ParsedPath> {
-	return _path_parse_memoized(state.id)
+	return pathㆍparse_memoized(state.id)
 }
 
 export function get_current_basename(state: Immutable<State>): Basename {
@@ -334,7 +331,7 @@ function _get_creation_date_from_original_parent_folder(state: Immutable<State>)
 
 	let rel_folder_path = state.notes.original.parent_path
 	while (rel_folder_path) {
-		const path_parsed = _path_parse_memoized(rel_folder_path)
+		const path_parsed = pathㆍparse_memoized(rel_folder_path)
 		const parsed_basename = parse_folder_basename(path_parsed.base)
 		if (parsed_basename.date) {
 			return parsed_basename.date
@@ -350,7 +347,7 @@ function _get_creation_date_from_any_parent_folder(state: Immutable<State>): Bet
 
 	let rel_folder_path = get_current_parent_folder_id(state)
 	while (rel_folder_path) {
-		const path_parsed = _path_parse_memoized(rel_folder_path)
+		const path_parsed = pathㆍparse_memoized(rel_folder_path)
 		const parsed_basename = parse_folder_basename(path_parsed.base)
 		if (parsed_basename.date) {
 			return parsed_basename.date
@@ -912,7 +909,7 @@ export function get_hash(state: Immutable<State>): FileHash | undefined {
 export function create(id: FileId): Immutable<State> {
 	logger.trace(`${LIB} create(…)`, { id })
 
-	const parsed_path = _path_parse_memoized(id)
+	const parsed_path = pathㆍparse_memoized(id)
 
 	const state: State = {
 		id,

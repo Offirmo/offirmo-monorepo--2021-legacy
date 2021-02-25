@@ -9,7 +9,7 @@ import { DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import { get_params, Params } from '../params'
 import { is_year, is_compact_date, is_digit } from '../services/matchers'
-import { parse_folder_basename, ParseResult } from '../services/name_parser'
+import { parse_folder_basename, ParseResult, pathㆍparse_memoized } from '../services/name_parser'
 import logger from '../services/logger'
 import { get_compact_date, add_days_to_simple_date } from '../services/better-date'
 import * as File from './file'
@@ -183,7 +183,7 @@ export function are_children_fs_reliable(state: Immutable<State>): undefined | b
 export function create(id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} create(…)`, { id })
 
-	const pathㆍparsed = path.parse(id)
+	const pathㆍparsed = pathㆍparse_memoized(id)
 	const base = pathㆍparsed.base
 	const type = _infer_initial_folder_type(id, pathㆍparsed)
 	// TODO remove prema optim? Or skip if special folder?

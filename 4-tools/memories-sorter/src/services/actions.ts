@@ -22,6 +22,7 @@ import logger from './logger'
 import fs_extra, { _is_same_inode } from './fs-extra'
 import { get_relevant_fs_stats_subset } from './fs_stats'
 import get_file_hash from './hash'
+import { pathㆍparse_memoized } from './name_parser'
 import { FolderId } from '../state/folder'
 import { FileId } from '../state/file'
 
@@ -422,8 +423,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		logger.trace(`- moving/renaming file "${id}" to its ideal location "${target_id}"…`)
 
 		try {
-			const parsed = path.parse(id)
-			const parsed_target = path.parse(target_id)
+			const parsed = pathㆍparse_memoized(id)
+			const parsed_target = pathㆍparse_memoized(target_id)
 			const is_renaming = parsed.base !== parsed_target.base
 			const folder_source = id.split(path.sep).slice(0, -1).join(path.sep)
 			const folder_target = target_id.split(path.sep).slice(0, -1).join(path.sep)
