@@ -18,7 +18,7 @@
 		"caught": "^0.1",
 		"is-promise": "^4",
 		"p-finally": "^2",
-		"p-progress": "^0.4"
+		"p-progress": "^0.5"
 	},
 
 	"devDependencies": {

@@ -10,13 +10,13 @@
 		"demo": "run-s clean start:parcel",
 
 		"build:copy": "mkdir -p dist && cpx 'src/**/*.woff2' dist --verbose",
-		"build:cleancss:main": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-reset+utils.css src/style.css",
+		"build:cleancss:main": "mkdir -p dist && cleancss --output dist/offirmo-reset+utils.css src/style.css",
 		"build": "npm-run-all --parallel build:copy build:cleancss:main"
 	},
 	"dependencies": {
 	},
 	"devDependencies": {
-		"clean-css-cli": "^4",
+		"clean-css-cli": "^5",
 		"cpx": "^1",
 		"normalize.css": "^8",
 		"npm-run-all": "^4"

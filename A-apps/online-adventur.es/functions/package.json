@@ -48,7 +48,7 @@
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
 		"@online-adventur.es/api-interface": "^0",
-		"@sentry/node": "^5",
+		"@sentry/node": "^6",
 		"@tbrpg/state": "^0",
 		"json-stable-stringify": "^1",
 		"memoize-one": "^5",

@@ -22,7 +22,7 @@
 		"linewrap": "^0.2",
 		"ora": "^5",
 		"p-finally": "^2",
-		"p-progress": "^0.4",
+		"p-progress": "^0.5",
 		"strip-ansi": "^6",
 		"term-size": "^2"
 	},

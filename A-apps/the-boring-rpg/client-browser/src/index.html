@@ -34,6 +34,7 @@
 		<meta name="google-site-verification" content="wf2jOlvKH7eHC1UKByJfrzR55dvhIQI74uzskmYg5MY" />
 		<script>
 			console.log('I1', { location, isSecureContext: self.isSecureContext })
+			// TODO check that! need top frame or not??
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
 			// (modified)
 			/*try { window.ga = window.parent.ga } catch {}
@@ -476,6 +477,7 @@
 
 	<!-- OT⋄CUSTOM BEGIN low priority scripts & misc -->
 	<script>
+		// TODO review this section.
 		window.addEventListener('message', ({data, origin, source}) => {
 			if (!data.xoff) return
 
