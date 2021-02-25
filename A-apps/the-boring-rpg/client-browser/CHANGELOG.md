@@ -12,6 +12,10 @@
 - 😷 chore: bump dependencies
 
 
+## v0.65.15
+- 😷 chore: Google Analytics 4
+- 😷 chore: bump dependencies
+
 ## v0.65.14
 - 😷 chore: facilities for internal monitoring
 - 😷 chore: bump dependencies

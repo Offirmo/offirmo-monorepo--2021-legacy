@@ -12,6 +12,7 @@ import { setTextEncoder } from '@tbrpg/flux'
 import { CHANNEL } from './services/channel'
 import { BUILD_DATE } from './build.json'
 import init_analytics from './services/analytics'
+import init_analytics_ga4 from './services/analytics-ga4'
 import init_cordova from './services/cordova'
 import init_SEC from './services/sec'
 import init_netlify from './services/user_account'
@@ -40,6 +41,7 @@ get_loader().configure({
 setTextEncoder(TextEncoder)
 init_cordova()
 init_analytics()
+init_analytics_ga4()
 init_netlify()
 
 set_xoff_flag('debug_render', overrideHook('should_trace_renders', false))
