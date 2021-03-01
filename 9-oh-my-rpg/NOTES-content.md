@@ -769,3 +769,21 @@ Workers and laborers were generally paid better than in most of Europe, and enjo
 
 https://www.history.com/news/who-were-the-sea-peoples
 
+https://en.wikipedia.org/wiki/Pygmalion_effect
+
+https://en.wikipedia.org/wiki/The_Tipping_Point
+Connectors, Mavens, Salesmen
+
+"can become everything" with the right level of confidence and capability (and childcare) (Caroline Strachan)
+"develop beyond my own belief"
+confidence persona
+- mouse under-confident, aware of ut (self sabotage)
+- swan lack confidence below surface but can fake it
+- peacock confidence but lacks self awareness
+- cat confidence + self awareness
+
+soft skills https://www.linkedin.com/business/learning/blog/top-skills-and-courses/the-skills-companies-need-most-in-2019-and-how-to-learn-them
+
+A problem shared is a problem halved
+
+lost city https://en.wikipedia.org/wiki/Kitezh
