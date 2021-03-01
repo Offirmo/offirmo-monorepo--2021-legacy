@@ -143,7 +143,7 @@ export const MEDIA_DEMO_04: MediaDemo = {
 		DATE__HUMAN_AUTO: '2020-07-28_12h18m21s817',
 	},
 
-	FINAL_TZ: 'UTC+10', // TODO recover 'Australia/Sydney' from GPS??
+	FINAL_TZ: 'UTC+10',
 	YEAR: 2020,
 	DATE__COMPACT: 20200728,
 	DATE__HUMAN_AUTO: '2020-07-28_12h18m21s817',

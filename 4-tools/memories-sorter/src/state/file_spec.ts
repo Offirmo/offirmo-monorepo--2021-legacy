@@ -25,7 +25,7 @@ import {
 	is_exif_powered_media_file,
 	is_media_file,
 	merge_duplicates,
-	on_info_read__current_neighbors_hints,
+	on_info_read__current_neighbors_primary_hints,
 	on_info_read__exif,
 	on_info_read__fs_stats,
 	on_info_read__hash,
@@ -75,6 +75,8 @@ describe(`${LIB} - file (state)`, function() {
 			deleted: undefined,
 			manual_date: undefined,
 
+			best_date_afawk_symd: get_compact_date(CREATION_DATE, 'tz:embedded'),
+
 			original: {
 				basename: 'original' + path.parse(id).ext, // extensions should match
 				parent_path: 'foo',
@@ -82,7 +84,7 @@ describe(`${LIB} - file (state)`, function() {
 				is_fs_birthtime_assessed_reliable: false,
 			}
 		})
-		state = on_info_read__current_neighbors_hints(state, null, undefined)
+		state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
 
 		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
 
@@ -123,39 +125,39 @@ describe(`${LIB} - file (state)`, function() {
 
 	describe('get_best_creation_date()', function() {
 		const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
-		const REAL_CREATION_DATE_MS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
-		const REAL_CREATION_DATE_LEGACY = new Date(REAL_CREATION_DATE_MS)
-		const REAL_CREATION_DATE_EXIF = _get_exif_datetime(REAL_CREATION_DATE)
-		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
-		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test precond')
+		const REAL_CREATION_DATE‿TMS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
+		const REAL_CREATION_DATE‿LEGACY = new Date(REAL_CREATION_DATE‿TMS)
+		const REAL_CREATION_DATE‿EXIF = _get_exif_datetime(REAL_CREATION_DATE)
+		const REAL_CREATION_DATE‿HRTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
+		assert(REAL_CREATION_DATE‿HRTS.startsWith('2017-10-20'), 'test precond')
 
 		// must be OLDER yet we won't pick it
 		const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2016, 11, 21, 9, 8, 7, 654)
-		const BAD_CREATION_DATE_CANDIDATE_MS = get_timestamp_utc_ms_from(BAD_CREATION_DATE_CANDIDATE)
-		const BAD_CREATION_DATE_CANDIDATE_LEGACY = new Date(BAD_CREATION_DATE_CANDIDATE_MS)
-		const BAD_CREATION_DATE_CANDIDATE_EXIF = _get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
-		const BAD_CREATION_DATE_CANDIDATE_RdTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
-		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
+		const BAD_CREATION_DATE_CANDIDATE‿TMS = get_timestamp_utc_ms_from(BAD_CREATION_DATE_CANDIDATE)
+		const BAD_CREATION_DATE_CANDIDATE‿LEGACY = new Date(BAD_CREATION_DATE_CANDIDATE‿TMS)
+		const BAD_CREATION_DATE_CANDIDATE‿EXIF = _get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
+		const BAD_CREATION_DATE_CANDIDATE‿HRTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
+		const BAD_CREATION_DATE_CANDIDATE‿SYMD = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
 		// everything bad / undated by default, so that the tests must override those
 		let parent_folder_name__current = 'foo'
 		let file_basename__current = 'bar.jpg'
-		let date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS // always exist
+		let date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS // always exist
 		let parent_folder_name__original = parent_folder_name__current
 		let file_basename__original = file_basename__current
 		let date__fs_ms__original = date__fs_ms__current // always exist
-		let date__exif: null | typeof REAL_CREATION_DATE_EXIF = BAD_CREATION_DATE_CANDIDATE_EXIF
+		let date__exif: null | typeof REAL_CREATION_DATE‿EXIF = BAD_CREATION_DATE_CANDIDATE‿EXIF
 		let notes: null | 'auto' | Immutable<PersistedNotes> = null
 		let hints_from_reliable_neighbors__current__range: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
 		let hints_from_reliable_neighbors__current__fs_reliability: undefined | boolean = undefined
 		beforeEach(() => {
 			parent_folder_name__current = 'foo'
 			file_basename__current = 'bar.jpg'
-			date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+			date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS
 			parent_folder_name__original = parent_folder_name__current
 			file_basename__original = file_basename__current
 			date__fs_ms__original = date__fs_ms__current // always exist
-			date__exif = BAD_CREATION_DATE_CANDIDATE_EXIF
+			date__exif = BAD_CREATION_DATE_CANDIDATE‿EXIF
 			notes = null
 			hints_from_reliable_neighbors__current__range = null
 			hints_from_reliable_neighbors__current__fs_reliability = undefined
@@ -204,6 +206,8 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					starred: false,
 					manual_date: undefined,
 
+					best_date_afawk_symd: undefined, // TODO?
+
 					original: {
 						basename: file_basename__original,
 						parent_path: parent_folder_name__original,
@@ -214,7 +218,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 			}
 
 			state = on_notes_recovered(state, notes)
-			state = on_info_read__current_neighbors_hints(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
+			state = on_info_read__current_neighbors_primary_hints(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
 
 			return state
 		}
@@ -226,7 +230,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 			context('when having an EXIF date', function() {
 				beforeEach(() => {
-					date__exif = REAL_CREATION_DATE_EXIF
+					date__exif = REAL_CREATION_DATE‿EXIF
 				})
 
 				it('should be prioritized as a primary source', () => {
@@ -258,7 +262,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 						context('when having a matching FS date', function() {
 							beforeEach(() => {
-								date__fs_ms__current = REAL_CREATION_DATE_MS
+								date__fs_ms__current = REAL_CREATION_DATE‿TMS
 							})
 
 							it('should use the basename and enrich it with fs, as primary', () => {
@@ -278,7 +282,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 						context('when NOT having a matching FS date', function() {
 							beforeEach(() => {
-								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS
 							})
 
 							it('should use the basename only as primary WITHOUT using fs', () => {
@@ -299,12 +303,12 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					context('when this basename is already processed', function() {
 						beforeEach(() => {
-							file_basename__current = `MM${REAL_CREATION_DATE_RdTS}_hello.jpg`
+							file_basename__current = `MM${REAL_CREATION_DATE‿HRTS}_hello.jpg`
 						})
 
 						context('when NOT having a matching FS date', function() {
 							beforeEach(() => {
-								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS
 							})
 
 							it('should trust the previous run as primary and ignore FS', () => {
@@ -324,7 +328,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 						context('when having a matching FS date', function() {
 							beforeEach(() => {
-								date__fs_ms__current = REAL_CREATION_DATE_MS
+								date__fs_ms__current = REAL_CREATION_DATE‿TMS
 							})
 
 							it('should trust the previous run as primary and ignore FS which cannot give us anything more', () => {
@@ -354,7 +358,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 						context('when FS is matching (date range)', function () {
 							beforeEach(() => {
-								date__fs_ms__current = REAL_CREATION_DATE_MS
+								date__fs_ms__current = REAL_CREATION_DATE‿TMS
 							})
 
 							it('should use FS as primary', () => {
@@ -374,7 +378,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 						context('when FS is NOT matching', function () {
 							beforeEach(() => {
-								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS
 							})
 
 							it('should use parent folder but NOT great confidence', () => {
@@ -401,7 +405,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 						context('when FS is matching (date range)', function () {
 							beforeEach(() => {
-								date__fs_ms__current = REAL_CREATION_DATE_MS
+								date__fs_ms__current = REAL_CREATION_DATE‿TMS
 							})
 
 							it('should use FS as primary', () => {
@@ -421,7 +425,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 						context('when FS is NOT matching', function () {
 							beforeEach(() => {
-								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE_MS
+								date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS
 							})
 
 							it('should default to original FS with lowest confidence', () => {
@@ -575,7 +579,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						state = on_info_read__exif(state, { SourceFile: tc_key } as any)
 					state = on_info_read__hash(state, '1234')
 					state = on_notes_recovered(state, null)
-					state = on_info_read__current_neighbors_hints(state, null, undefined)
+					state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
 
 					//console.log(get_best_creation_date_meta(state))
 					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
@@ -607,6 +611,8 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					starred: false,
 					manual_date: undefined,
 
+					best_date_afawk_symd: undefined, // TODO test?
+
 					original: {
 						basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
 						parent_path: 'foo',
@@ -614,7 +620,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						is_fs_birthtime_assessed_reliable: false,
 					}
 				})
-				state = on_info_read__current_neighbors_hints(state, null, undefined)
+				state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
@@ -634,7 +640,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					state = on_info_read__exif(state, {} as any)
 				state = on_info_read__hash(state, '1234')
 				state = on_notes_recovered(state, null)
-				state = on_info_read__current_neighbors_hints(state, null, undefined)
+				state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
 				return state
 			}
 

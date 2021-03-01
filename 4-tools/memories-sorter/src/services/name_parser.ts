@@ -539,8 +539,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 		function _is_separator(state: State): boolean {
 			const c = state.buffer[state.index]
 			if (!SEPARATORS.includes(c)) {
-				// requalify some special letters if inside digits
-				// TODO check for position if letter?
+				// re-qualify some special letters if inside digits
 				if (state.digit_blocks && (c === 'T' || c === 'h' || c === 'm' || c === 's') && DIGITS.includes(state.buffer[state.index + 1])) {
 					return true
 				}

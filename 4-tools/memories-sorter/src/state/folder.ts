@@ -13,6 +13,7 @@ import { parse_folder_basename, ParseResult, pathㆍparse_memoized } from '../se
 import logger from '../services/logger'
 import { get_compact_date, add_days_to_simple_date } from '../services/better-date'
 import * as File from './file'
+import { FsReliability } from './file'
 
 ////////////////////////////////////
 
@@ -62,12 +63,13 @@ export interface State {
 
 	children_count: number,
 	children_fs_reliability_count: {
-		'undefined': number,
-		'true': number,
-		'false': number,
+		'unknown': number,
+		'unreliable': number,
+		'reliable': number,
 	}
 
 	cached: {
+		// TODO remove
 		pathㆍparsed: path.ParsedPath,
 		nameㆍparsed: ParseResult,
 	}
@@ -160,22 +162,22 @@ export function get_reliable_children_range(state: Immutable<State>): null | [ S
 	return [ children_begin_date_symd, children_end_date_symd ]
 }
 
-export function are_children_fs_reliable(state: Immutable<State>): undefined | boolean {
+export function get_children_fs_reliability(state: Immutable<State>): FsReliability {
 	assert(
 		state.children_count === 0
-		+ state.children_fs_reliability_count['undefined']
-		+ state.children_fs_reliability_count['false']
-		+ state.children_fs_reliability_count['true'],
+		+ state.children_fs_reliability_count['unknown']
+		+ state.children_fs_reliability_count['unreliable']
+		+ state.children_fs_reliability_count['reliable'],
 		`${LIB} are_children_fs_reliable() mismatching counts`
 	)
 
-	if (state.children_fs_reliability_count['false'] > 0)
-		return false
+	if (state.children_fs_reliability_count['unreliable'] > 0)
+		return 'unreliable'
 
-	if (state.children_fs_reliability_count['true'] > 0)
-		return true
+	if (state.children_fs_reliability_count['reliable'] > 0)
+		return 'reliable'
 
-	return undefined
+	return 'unknown'
 }
 
 ///////////////////// REDUCERS /////////////////////
@@ -201,9 +203,9 @@ export function create(id: RelativePath): Immutable<State> {
 
 		children_count: 0,
 		children_fs_reliability_count: {
-			'undefined': 0,
-			'true': 0,
-			'false': 0,
+			'unknown': 0,
+			'unreliable': 0,
+			'reliable': 0,
 		},
 
 		cached: {
@@ -326,10 +328,10 @@ export function on_dated_subfile_found(state: Immutable<State>, file_state: Immu
 	return state
 }
 
-export function on_subfile_fs_reliability_assessed(state: Immutable<State>, fs_birthtime_reliability: undefined | boolean): Immutable<State> {
+export function on_subfile_fs_reliability_assessed(state: Immutable<State>, fs_bcd_reliability: FsReliability): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_fs_reliability_assessed(…)`)
 
-	const key: keyof State['children_fs_reliability_count'] = String(fs_birthtime_reliability) as any
+	const key: keyof State['children_fs_reliability_count'] = String(fs_bcd_reliability) as any
 	state = {
 		...state,
 		children_fs_reliability_count: {

@@ -82,10 +82,10 @@ export const get_params = memoize_once(function get_params(): Params {
 				}
 		),
 
-		extensions_to_normalize‿lc: {
+		extensions_to_normalize‿lc: Object.fromEntries(Object.entries({
 			'.jpeg': '.jpg',
 			'.tiff': '.tif',
-		}, // TODO force lc
+		}).map(([ from, to ]) => [ from.toLowerCase(), to.toLowerCase() ])),
 
 		extensions_of_media_files‿lc: [
 			...EXIF_POWERED_FILE_EXTENSIONS_LC,

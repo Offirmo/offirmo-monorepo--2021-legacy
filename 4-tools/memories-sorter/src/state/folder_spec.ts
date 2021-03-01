@@ -19,7 +19,7 @@ import {
 	has_all_infos_for_extracting_the_creation_date,
 	on_info_read__exif,
 	on_info_read__fs_stats,
-	on_info_read__hash, on_info_read__current_neighbors_hints, on_notes_recovered,
+	on_info_read__hash, on_info_read__current_neighbors_primary_hints, on_notes_recovered,
 } from './file'
 import util from 'util'
 import fs from 'fs'
@@ -75,7 +75,7 @@ describe(`${LIB} - folder state`, function() {
 					ctimeMs:     1234567890,
 				})
 				subfile_state = on_notes_recovered(subfile_state, null)
-				subfile_state = on_info_read__current_neighbors_hints(subfile_state, null, undefined)
+				subfile_state = on_info_read__current_neighbors_primary_hints(subfile_state, null, undefined)
 
 				state = on_dated_subfile_found(state, subfile_state)
 				//console.log(state)

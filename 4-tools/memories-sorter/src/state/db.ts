@@ -771,16 +771,16 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 	logger.trace(`${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders()…`)
 
 	get_all_files(state).forEach((file_state) => {
-		const is_fs_reliable = File.is_current_fs_date_confirmed_by_trustable_other_current_date_sources(file_state)
-		if (is_fs_reliable === false) {
-			logger.warn(`File "${file_state.id}" fs reliability has been estimated as FALSE`)
+		const fs_reliability = File.get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(file_state)
+		if (fs_reliability === 'unreliable') {
+			logger.warn(`File "${file_state.id}" fs reliability has been estimated as UNRELIABLE`)
 		}
 
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
 		let folder_state = state.folders[parent_folder_id]
 		assert(folder_state, `${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders() should have folder state`)
 
-		folder_state = Folder.on_subfile_fs_reliability_assessed(folder_state, is_fs_reliable)
+		folder_state = Folder.on_subfile_fs_reliability_assessed(folder_state, fs_reliability)
 
 		state = {
 			...state,
@@ -792,10 +792,10 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 	})
 
 	get_all_folders(state).forEach(folder_state => {
-		const reliability = Folder.are_children_fs_reliable(folder_state)
-		const log_func = (reliability === false)
+		const reliability = Folder.get_children_fs_reliability(folder_state)
+		const log_func = (reliability === 'unreliable')
 			? logger.error
-			: (reliability === undefined)
+			: (reliability === 'unknown')
 				? logger.warn
 				: logger.info
 		log_func(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
@@ -806,11 +806,11 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 	get_all_files(state).forEach(file_state => {
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
 		let folder_state = state.folders[parent_folder_id]
-		const parent_folder_fs_reliability = Folder.are_children_fs_reliable(folder_state)
-		file_state = File.on_info_read__current_neighbors_hints(
+		const parent_folder_fs_reliability = Folder.get_children_fs_reliability(folder_state)
+		file_state = File.on_info_read__current_neighbors_primary_hints(
 				file_state,
 				Folder.get_reliable_children_range(folder_state),
-				Folder.are_children_fs_reliable(folder_state),
+				Folder.get_children_fs_reliability(folder_state),
 			)
 		state = {
 			...state,

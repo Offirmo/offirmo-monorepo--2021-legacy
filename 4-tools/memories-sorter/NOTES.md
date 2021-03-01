@@ -1,6 +1,4 @@
 
-TODO BUGS
-about to rename/move "2002/20020101 - 05- La crèche & le sapin/CLIP0001.avi" to "2002/20020101 - 05- La crèche & le sapin/MM2002-01-01_04h35m36_CLIP0001.avi"…
 
 
 20201219
@@ -10,8 +8,8 @@ about to rename/move "2002/20020101 - 05- La crèche & le sapin/CLIP0001.avi" to
 04 - 51.45GB
 05 - 886MB
 total 211GB
-
 2021/01/16 230.51s for 2368x2 photos
+
 
 https://www.epochconverter.com/
 
@@ -79,12 +77,6 @@ jpg rotation https://photo.stackexchange.com/questions/104337/how-i-can-lossless
 https://github.com/johansatge/jpeg-autorotate
 
 https://github.com/photostructure/exiftool-vendored.js#dates
-
-https://momentjs.com/timezone/
-https://momentjs.com/docs/#/displaying/format/
-https://momentjs.com/docs/#/plugins/parseformat/
-https://momentjs.com/docs/#/manipulating/utc-offset/
-https://momentjs.com/guides/#/parsing/local-utc-zone/
 
 https://sharp.pixelplumbing.com
 https://github.com/hMatoba/piexifjs

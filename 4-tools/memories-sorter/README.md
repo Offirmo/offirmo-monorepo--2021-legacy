@@ -65,6 +65,7 @@ bugs
 - ~~infinite loop~~
 
 Features:
+- TODO clarify unknown vs. undefined
 - TODO unstable sorting -> normalizing more files on second run :/
 - TODO folder unicode normalization
 - TODO spread the notes across their folders
