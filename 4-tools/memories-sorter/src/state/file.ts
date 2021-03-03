@@ -125,12 +125,12 @@ export function get_current_relative_path(state: Immutable<State>): RelativePath
 	return state.id
 }
 
-export function get_current_path‿pathparsed(state: Immutable<State>): Immutable<path.ParsedPath> {
+export function get_current_path‿pparsed(state: Immutable<State>): Immutable<path.ParsedPath> {
 	return pathㆍparse_memoized(get_current_relative_path(state))
 }
 
 export function get_current_basename(state: Immutable<State>): Basename {
-	return get_current_path‿pathparsed(state).base
+	return get_current_path‿pparsed(state).base
 }
 
 export function get_oldest_known_basename(state: Immutable<State>): Basename {
@@ -151,7 +151,7 @@ export function get_current_extension‿normalized(state: Immutable<State>): str
 }
 
 export function get_current_parent_folder_id(state: Immutable<State>): RelativePath {
-	return get_current_path‿pathparsed(state).dir || '.'
+	return get_current_path‿pparsed(state).dir || '.'
 }
 
 export function get_current_top_parent_folder_id(state: Immutable<State>): RelativePath {
@@ -163,7 +163,7 @@ export function is_notes(state: Immutable<State>): boolean {
 }
 
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
-	const path_parsed = get_current_path‿pathparsed(state)
+	const path_parsed = get_current_path‿pparsed(state)
 
 	const is_invisible_file = path_parsed.base.startsWith('.')
 	if (is_invisible_file) return false
@@ -213,6 +213,7 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 
 	return has_all_infos
 }
+
 /*
 // TODO REVIEW improve with tracking? Should we even need this?
 export function is_first_file_encounter(state: Immutable<State>): boolean | undefined {
@@ -235,6 +236,7 @@ export function is_first_file_encounter(state: Immutable<State>): boolean | unde
 	return true
 }
 */
+
 // primary, in order
 function _get_creation_date__from_manual(state: Immutable<State>): BetterDate | undefined {
 	if (state.notes.manual_date === undefined)
@@ -255,7 +257,7 @@ function _get_creation_date__from_exif‿edt(state: Immutable<State>): ExifDateT
 		throw err
 	}
 }
-function _get_creation_tz__from_exif(state: Immutable<State>): TimeZone | undefined {
+function   _get_creation_tz__from_exif(state: Immutable<State>): TimeZone | undefined {
 	const { id, current_exif_data } = state
 
 	assert(!!current_exif_data, `_get_creation_tz_from_exif(): ${id} exif data available`)
@@ -375,8 +377,8 @@ function _get_creation_date__from_parent_folder__current(state: Immutable<State>
 	return undefined
 }
 function _get_creation_date__from_parent_folder__any(state: Immutable<State>): BetterDate | undefined {
-	const from_original = _get_creation_date__from_parent_folder__original(state)
-	if (from_original) return from_original
+	const from_historical = _get_creation_date__from_parent_folder__original(state)
+	if (from_historical) return from_historical
 
 	return _get_creation_date__from_parent_folder__current(state)
 }
@@ -435,7 +437,7 @@ interface BestDate {
 		// junk
 		| 'original_fs'
 	confidence: DateConfidence // redundant with 'source' but makes it easier to code / consume
-	from_original: boolean // redundant with 'source' but makes it easier to code / consume
+	from_historical: boolean // redundant with 'source' but makes it easier to code / consume
 	is_fs_matching: boolean // useful for deciding to fix FS or not TODO use
 }
 
@@ -451,15 +453,15 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 	)
 
 	// TODO when implementing FS normalization, may not be original and should be discarded
-	const bcd__from_fs__original‿tms = _get_creation_date__from_fs_stats__oldest_known‿tms(state)
-	const bcd__from_fs__original = create_better_date_from_utc_tms(bcd__from_fs__original‿tms, 'tz:auto')
-	assert(bcd__from_fs__original‿tms === get_timestamp_utc_ms_from(bcd__from_fs__original), `historical fs tms back and forth stability`)
+	const bcd__from_fs__oldest_known‿tms = _get_creation_date__from_fs_stats__oldest_known‿tms(state)
+	const bcd__from_fs__oldest_known = create_better_date_from_utc_tms(bcd__from_fs__oldest_known‿tms, 'tz:auto')
+	assert(bcd__from_fs__oldest_known‿tms === get_timestamp_utc_ms_from(bcd__from_fs__oldest_known), `oldest fs tms back and forth stability`)
 
 	const result: BestDate = {
-		candidate: bcd__from_fs__original,
+		candidate: bcd__from_fs__oldest_known,
 		source: 'original_fs',
 		confidence: 'junk',
-		from_original: true,
+		from_historical: true,
 		is_fs_matching: false, // init value
 	}
 
@@ -478,7 +480,7 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 		result.candidate = bcd__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__original, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		if (bcd__from_basename__original) {
 			// cross check
@@ -514,14 +516,14 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 		result.candidate = bcd__from_basename__original
 		result.source = 'original_basename_np'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__original, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
-		const auto_from_fs = get_human_readable_timestamp_auto(bcd__from_fs__original, 'tz:embedded')
+		const auto_from_fs = get_human_readable_timestamp_auto(bcd__from_fs__oldest_known, 'tz:embedded')
 		if (auto_from_fs.startsWith(auto_from_candidate)) {
 			// perfect match, switch to FS more precise
 			result.source = 'original_basename_np+fs'
-			result.candidate = bcd__from_fs__original
+			result.candidate = bcd__from_fs__oldest_known
 		}
 		else if (result.is_fs_matching) {
 			// good enough, switch to FS more precise
@@ -529,7 +531,7 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 			/* TZ is an issue, we only accept perfect matches (case above)
 			TODO try to investigate this FS issue
 			result.source = 'some_basename_np+fs'
-			result.candidate = bcd__from_fs__original
+			result.candidate = bcd__from_fs__oldest_known
 			 */
 		}
 		else {
@@ -545,7 +547,7 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 		fs_bcd_assessed_reliability: state.notes.historical.fs_bcd_assessed_reliability,
 	})
 	if (state.notes.historical.fs_bcd_assessed_reliability === 'reliable') {
-		result.candidate = bcd__from_fs__original
+		result.candidate = bcd__from_fs__oldest_known
 		result.source = 'original_fs+original_env_hints'
 		result.confidence = 'primary'
 		result.is_fs_matching = true
@@ -553,6 +555,8 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
+
+	// Note: date from parent folder should NEVER make it above secondary
 
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
@@ -563,7 +567,7 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 	if (state.notes.historical.fs_bcd_assessed_reliability === 'unknown') {
 		// not that bad
 		// we won't rename the file, but good enough to match to an event
-		result.candidate = bcd__from_fs__original
+		result.candidate = bcd__from_fs__oldest_known
 		result.source = 'original_fs+original_env_hints'
 		result.confidence = 'secondary'
 		result.is_fs_matching = true
@@ -585,14 +589,14 @@ export function _get_best_creation_date_meta__from_historical_data(state: Immuta
 		result.candidate = bcd__from_parent_folder__original
 		result.source = 'env_hints'
 		result.confidence = 'junk'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__original, result.candidate)
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
 	// still the starting default
-	assert(result.candidate === bcd__from_fs__original)
+	assert(result.candidate === bcd__from_fs__oldest_known)
 	assert(result.confidence === 'junk')
 	result.is_fs_matching = true // obviously
 
@@ -616,7 +620,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		candidate: bcd__from_fs__oldest_known,
 		source: 'original_fs',
 		confidence: 'junk',
-		from_original: false,
+		from_historical: false,
 		is_fs_matching: false, // init value
 	}
 
@@ -713,6 +717,8 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	}
 
 	// FS is handled by the "_historical()" selector
+
+	// Note: date from parent folder should NEVER make it above secondary
 
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
@@ -868,7 +874,7 @@ export function get_current_fs_date_reliability_according_to_other_trustable_cur
 /*
 export function is_date_from_original_data(state: Immutable<State>): boolean {
 	const meta = get_best_creation_date_meta(state)
-	return meta.from_original
+	return meta.from_historical
 }
 */
 export function get_ideal_basename(state: Immutable<State>, {
@@ -1078,13 +1084,13 @@ export function on_info_read__hash(state: Immutable<State>, hash: string): Immut
 export function on_info_read__current_neighbors_primary_hints(
 	state: Immutable<State>,
 	date_range_from_reliable_neighbors‿tms: null | [ TimestampUTCMs, TimestampUTCMs ],
-	are_reliable_neighbors_fs_correct: FsReliability,
+	neighbors_fs_reliability: FsReliability,
 	PARAMS = get_params(),
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
 		date_range_from_reliable_neighbors‿tms,
-		are_reliable_neighbors_fs_correct,
+		are_reliable_neighbors_fs_correct: neighbors_fs_reliability,
 	})
 
 	assert(!state.current_fs_bcd_assessed_reliability, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
@@ -1120,7 +1126,7 @@ export function on_info_read__current_neighbors_primary_hints(
 		// still unknown
 
 		/* NO! Don't allow a single bad file to pollute an entire folder
-		if (are_reliable_neighbors_fs_correct === 'unreliable')
+		if (neighbors_fs_reliability === 'unreliable')
 			return 'unreliable'
 		 */
 
@@ -1251,7 +1257,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 export function to_string(state: Immutable<State>) {
 	const { id } = state
 	const is_eligible = is_media_file(state)
-	const path_parsed = get_current_path‿pathparsed(state)
+	const path_parsed = get_current_path‿pparsed(state)
 	const { dir, base } = path_parsed
 
 	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`

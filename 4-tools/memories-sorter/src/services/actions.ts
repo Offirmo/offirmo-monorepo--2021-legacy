@@ -25,6 +25,7 @@ import get_file_hash from './hash'
 import { pathㆍparse_memoized } from './name_parser'
 import { FolderId } from '../state/folder'
 import { FileId } from '../state/file'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 ////////////////////////////////////
 
@@ -36,12 +37,16 @@ const _report = {
 	file_moves: {} as { [k: string]: FolderId },
 	folder_deletions: [] as FolderId[],
 	error_count: 0,
+
+	phases_duration_ms: {} as { [k: string]: number },
 }
 
 // TODO add an "enforce stable" mode
 
-export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>): Promise<Immutable<State>> {
-	console.log('executing actions…')
+export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>, debug_id: string): Promise<Immutable<State>> {
+	console.log(`executing actions "${debug_id}"…`)
+
+	const start_date_ms = get_UTC_timestamp_ms()
 
 	const PARAMS = get_params()
 	const display_progress = true // activating sort of turns off wrapping in iTerm = bad for debug
@@ -623,7 +628,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	finally {
 		// stop all bars
 		if (display_progress) progress_multibar.stop()
-		console.log('actions done')
+
+		const end_date_ms = get_UTC_timestamp_ms()
+		const exec_duration_ms = end_date_ms - start_date_ms
+		_report.phases_duration_ms[debug_id] = exec_duration_ms
+
+		console.log(`DONE executing actions "${debug_id}", elapsed: ${exec_duration_ms/1000.}s`)
 	}
 
 	return db
@@ -635,15 +645,25 @@ export function get_report_to_string(): string {
 
 	const raw_report = JSON.stringify(_report, null, '\t');
 
-	const counts = JSON.stringify({
-		file_count: _report.file_count,
-		folder_count: _report.folder_count,
-		file_deletions_count: _report.file_deletions.length,
-		file_renamings_count: Object.keys(_report.file_renamings).length,
-		file_moves_count: Object.keys(_report.file_moves).length,
-		folder_deletions_count: _report.file_deletions.length,
-		error_count: _report.error_count,
-	}, null, '\t');
+	const counts = JSON.stringify(
+		Object.fromEntries(
+			Object.entries(
+				_report
+			).map(([k, v]) => {
+				if (Array.isArray(v)) {
+					return [ k + '_count', v.length ]
+				}
+				else if (typeof v === 'object') {
+					return [ k + '_count', Object.keys(v).length ]
+				}
+				else {
+					return [ k, v ]
+				}
+			})
+		),
+		null,
+		'\t'
+	)
 
 	return raw_report + '\n' + counts
 }

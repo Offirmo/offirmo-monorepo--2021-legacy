@@ -45,6 +45,7 @@ image resizer https://waifu2x.booru.pics/
 
 ### soundscapes
 https://www.ambient-mixer.com/
+https://mynoise.net/noiseMachines.php
 
 ### sounds
 * https://opengameart.org/content/inventory-sound-effects

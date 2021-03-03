@@ -205,17 +205,17 @@ export function to_string(state: Immutable<State>): string {
 function notes_to_string(notes: Immutable<FileNotes>): string {
 	let str = ''
 
-	const fs_birthtime_reliability = notes.original.is_fs_birthtime_assessed_reliable === undefined
+	const fs_birthtime_reliability = notes.historical.fs_bcd_assessed_reliability === 'unknown'
 		? '❓'
-		: notes.original.is_fs_birthtime_assessed_reliable
+		: notes.historical.fs_bcd_assessed_reliability === 'reliable'
 			? '✅'
 			: '❌'
 	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(
 		[
-			notes.original.parent_path,
-			notes.original.basename,
+			notes.historical.parent_path,
+			notes.historical.basename,
 		].filter(e => !!e).join('/')
-	)}" 📅(fs)${fs_birthtime_reliability}${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.original.fs_birthtime_ms, 'tz:auto'), 'tz:embedded')}`
+	)}" 📅(fs)${fs_birthtime_reliability}${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.historical.fs_bcd_tms, 'tz:auto'), 'tz:embedded')}`
 
 	return str
 }

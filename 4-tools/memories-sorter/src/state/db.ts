@@ -105,7 +105,7 @@ export function get_all_file_ids(state: Immutable<State>): string[] {
 		.sort()
 }
 
-export function get_all_files_except_notes(state: Immutable<State>): Immutable<File.State>[] {
+export function get_all_files_except_meta(state: Immutable<State>): Immutable<File.State>[] {
 	return get_all_files(state)
 		.filter(state => !File.is_notes(state))
 }
@@ -502,7 +502,7 @@ function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immut
 		const folder_id = File.get_current_parent_folder_id(file_state)
 		const old_folder_state = state.folders[folder_id]
 		assert(old_folder_state, `folder state for "${folder_id}" - "${file_id}"!`)
-		const new_folder_state = Folder.on_dated_subfile_found(old_folder_state, file_state)
+		const new_folder_state = Folder.on_subfile_primary_infos_gathered(old_folder_state, file_state)
 		state = {
 			...state,
 			folders: {
@@ -656,6 +656,63 @@ export function backup_notes(state: Immutable<State>): Immutable<State> {
 }
 
 // some decisions need to wait for the entire exploration to be done
+function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders()…`)
+
+	// iterate over ALL files as it's the last primary "info"
+	get_all_files(state).forEach((file_state) => {
+		const fs_reliability = File.get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(file_state)
+		if (fs_reliability === 'unreliable') {
+			logger.warn(`⚠️ File "${file_state.id}" fs reliability has been estimated as UNRELIABLE`)
+		}
+
+		const parent_folder_id = File.get_current_parent_folder_id(file_state)
+		let folder_state = state.folders[parent_folder_id]
+		assert(folder_state, `${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders() should have folder state`)
+
+		folder_state = Folder.on_subfile_current_fs_reliability_assessed(folder_state, fs_reliability)
+
+		state = {
+			...state,
+			folders: {
+				...state.folders,
+				[parent_folder_id]: folder_state,
+			}
+		}
+	})
+
+	get_all_folders(state).forEach(folder_state => {
+		const reliability = Folder.get_children_fs_reliability(folder_state)
+		const log_func = (reliability === 'unreliable')
+			? logger.error
+			: (reliability === 'unknown')
+				? logger.warn
+				: logger.info
+		log_func(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
+			stats: folder_state.children_fs_reliability_count,
+		})
+	})
+
+	get_all_files(state).forEach(file_state => {
+		const parent_folder_id = File.get_current_parent_folder_id(file_state)
+		let folder_state = state.folders[parent_folder_id]
+		const parent_folder_fs_reliability = Folder.get_children_fs_reliability(folder_state)
+		file_state = File.on_info_read__current_neighbors_primary_hints(
+			file_state,
+			Folder.get_reliable_children_range(folder_state),
+			Folder.get_children_fs_reliability(folder_state),
+		)
+		state = {
+			...state,
+			files: {
+				...state.files,
+				[file_state.id]: file_state,
+			}
+		}
+	})
+
+	return state
+}
 function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`${LIB} _on_file_notes_recovered(…)`, { file_id, has_data: !!recovered_notes })
 	//console.log(`${LIB} _on_file_notes_recovered(…)`, { file_id, has_data: !!recovered_notes })
@@ -726,7 +783,7 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 		}
 	})
 
-	get_all_files_except_notes(state).forEach(file_state => {
+	get_all_files_except_meta(state).forEach(file_state => {
 		if(!File.is_media_file(file_state)) {
 			state = _on_file_notes_recovered(state, file_state.id, null)
 		}
@@ -767,62 +824,6 @@ function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutabl
 	}
 }
 */
-function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders()…`)
-
-	get_all_files(state).forEach((file_state) => {
-		const fs_reliability = File.get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(file_state)
-		if (fs_reliability === 'unreliable') {
-			logger.warn(`File "${file_state.id}" fs reliability has been estimated as UNRELIABLE`)
-		}
-
-		const parent_folder_id = File.get_current_parent_folder_id(file_state)
-		let folder_state = state.folders[parent_folder_id]
-		assert(folder_state, `${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders() should have folder state`)
-
-		folder_state = Folder.on_subfile_fs_reliability_assessed(folder_state, fs_reliability)
-
-		state = {
-			...state,
-			folders: {
-				...state.folders,
-				[parent_folder_id]: folder_state,
-			}
-		}
-	})
-
-	get_all_folders(state).forEach(folder_state => {
-		const reliability = Folder.get_children_fs_reliability(folder_state)
-		const log_func = (reliability === 'unreliable')
-			? logger.error
-			: (reliability === 'unknown')
-				? logger.warn
-				: logger.info
-		log_func(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
-			stats: folder_state.children_fs_reliability_count,
-		})
-	})
-
-	get_all_files(state).forEach(file_state => {
-		const parent_folder_id = File.get_current_parent_folder_id(file_state)
-		let folder_state = state.folders[parent_folder_id]
-		const parent_folder_fs_reliability = Folder.get_children_fs_reliability(folder_state)
-		file_state = File.on_info_read__current_neighbors_primary_hints(
-				file_state,
-				Folder.get_reliable_children_range(folder_state),
-				Folder.get_children_fs_reliability(folder_state),
-			)
-		state = {
-			...state,
-			files: {
-				...state.files,
-				[file_state.id]: file_state,
-			}
-		}
-	})
-
-	return state
-}
 function _consolidate_folders_by_demoting_and_de_overlapping(_state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_folders_by_demoting_and_de_overlapping()…`)
 
@@ -900,8 +901,8 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 	logger.verbose(`${LIB} Exploration of the file system done, now processing this data with handcrafted AI…`)
 
 	// order is important
-	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
 	state = _evaluate_and_propagate_reliability_of_fs_by_folders(state)
+	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
 	state = backup_notes(state)
 
@@ -954,7 +955,7 @@ export function normalize_files_in_place(state: Immutable<State>): Immutable<Sta
 	logger.trace(`${LIB} normalize_files_in_place()…`)
 	logger.verbose(`${LIB} Normalizing files in-place…`)
 
-	const all_files = get_all_files_except_notes(state)
+	const all_files = get_all_files_except_meta(state)
 	all_files.forEach(file_state => {
 		state = _enqueue_action(state, Actions.create_action_normalize_file(file_state.id))
 	})

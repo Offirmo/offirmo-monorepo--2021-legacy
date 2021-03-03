@@ -10,6 +10,7 @@ import { get_json_difference, enforce_immutability } from '@offirmo-private/stat
 import { LIB } from '../consts'
 import {
 	FileId,
+	FsReliability,
 	PersistedNotes,
 	State,
 	create,
@@ -64,6 +65,7 @@ describe(`${LIB} - file (state)`, function() {
 			} as Tags)
 		}
 		state = on_info_read__hash(state, '1234')
+		state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
 
 		// yes, real case = since having the same hash,
 		// all the files will have the same notes.
@@ -77,14 +79,13 @@ describe(`${LIB} - file (state)`, function() {
 
 			best_date_afawk_symd: get_compact_date(CREATION_DATE, 'tz:embedded'),
 
-			original: {
+			historical: {
 				basename: 'original' + path.parse(id).ext, // extensions should match
 				parent_path: 'foo',
-				fs_birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-				is_fs_birthtime_assessed_reliable: false,
+				fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+				fs_bcd_assessed_reliability: 'unknown',
 			}
 		})
-		state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
 
 		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
 
@@ -94,11 +95,11 @@ describe(`${LIB} - file (state)`, function() {
 	function expectㆍfileㆍstatesㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>, should_log = true): void {
 		const s1_alt = {
 			...s1,
-			memoized: null
+			//memoized: null
 		}
 		const s2_alt = {
 			...s2,
-			memoized: null
+			//memoized: null
 		}
 
 		try {
@@ -149,7 +150,7 @@ describe(`${LIB} - file (state)`, function() {
 		let date__exif: null | typeof REAL_CREATION_DATE‿EXIF = BAD_CREATION_DATE_CANDIDATE‿EXIF
 		let notes: null | 'auto' | Immutable<PersistedNotes> = null
 		let hints_from_reliable_neighbors__current__range: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
-		let hints_from_reliable_neighbors__current__fs_reliability: undefined | boolean = undefined
+		let hints_from_reliable_neighbors__current__fs_reliability: FsReliability = 'unknown'
 		beforeEach(() => {
 			parent_folder_name__current = 'foo'
 			file_basename__current = 'bar.jpg'
@@ -160,7 +161,7 @@ describe(`${LIB} - file (state)`, function() {
 			date__exif = BAD_CREATION_DATE_CANDIDATE‿EXIF
 			notes = null
 			hints_from_reliable_neighbors__current__range = null
-			hints_from_reliable_neighbors__current__fs_reliability = undefined
+			hints_from_reliable_neighbors__current__fs_reliability = 'unknown'
 		})
 		function create_test_file_state(): Immutable<State> {
 			/*console.log({
@@ -197,6 +198,8 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 				} as Partial<Tags> as any)
 			}
 			state = on_info_read__hash(state, '1234')
+			state = on_info_read__current_neighbors_primary_hints(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
+
 			if (notes === 'auto') {
 				notes = {
 					currently_known_as: file_basename__current,
@@ -208,22 +211,21 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					best_date_afawk_symd: undefined, // TODO?
 
-					original: {
+					historical: {
 						basename: file_basename__original,
 						parent_path: parent_folder_name__original,
-						fs_birthtime_ms: date__fs_ms__original,
-						is_fs_birthtime_assessed_reliable: false,
+						fs_bcd_tms: date__fs_ms__original,
+						fs_bcd_assessed_reliability: 'unknown',
 					},
 				}
 			}
 
 			state = on_notes_recovered(state, notes)
-			state = on_info_read__current_neighbors_primary_hints(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
 
 			return state
 		}
 
-		context('when encountering the file for the 1st time == NOT having notes incl. original data', function() {
+		context('when encountering the file for the 1st time == NOT having notes incl. historical data', function() {
 
 			// not possible, stupid
 			//describe('when having a manual date'
@@ -240,7 +242,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					expect(bcdm.source, 'source').to.equal('exif')
 					expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 					expect(bcdm.confidence, 'confidence').to.equal('primary')
-					expect(bcdm.from_original, 'origin').to.equal(true)
+					expect(bcdm.from_historical, 'origin').to.equal(true)
 					expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 					// final as integration
@@ -272,7 +274,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_basename_np+fs')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
-								expect(bcdm.from_original, 'origin').to.equal(true)
+								expect(bcdm.from_historical, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -292,7 +294,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_basename_np')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
-								expect(bcdm.from_original, 'origin').to.equal(true)
+								expect(bcdm.from_historical, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 								// final as integration
@@ -318,7 +320,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('some_basename_p')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
-								expect(bcdm.from_original, 'origin').to.equal(false) // bc not original
+								expect(bcdm.from_historical, 'origin').to.equal(false) // bc not original
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 								// final as integration
@@ -338,7 +340,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('some_basename_p')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
-								expect(bcdm.from_original, 'origin').to.equal(false)
+								expect(bcdm.from_historical, 'origin').to.equal(false)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -368,7 +370,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
-								expect(bcdm.from_original, 'origin').to.equal(true)
+								expect(bcdm.from_historical, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -388,7 +390,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('env_hints')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-10')
 								expect(bcdm.confidence, 'confidence').to.equal('secondary')
-								expect(bcdm.from_original, 'origin').to.equal(true)
+								expect(bcdm.from_historical, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 								// final as integration
@@ -399,8 +401,8 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					context('when having hints -- from reliable neighbors only', function() {
 						beforeEach(() => {
-							hints_from_reliable_neighbors__current__range = [ 20171010, 20171022 ]
-							hints_from_reliable_neighbors__current__fs_reliability = true
+							hints_from_reliable_neighbors__current__range = [ 20171010, 20171022 ] // XXX
+							hints_from_reliable_neighbors__current__fs_reliability = 'reliable'
 						})
 
 						context('when FS is matching (date range)', function () {
@@ -415,7 +417,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
-								expect(bcdm.from_original, 'origin').to.equal(true)
+								expect(bcdm.from_historical, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -435,7 +437,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 								expect(bcdm.source, 'source').to.equal('original_fs')
 								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
 								expect(bcdm.confidence, 'confidence').to.equal('junk')
-								expect(bcdm.from_original, 'origin').to.equal(true)
+								expect(bcdm.from_historical, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
@@ -453,7 +455,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 							expect(bcdm.source, 'source').to.equal('original_fs')
 							expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
 							expect(bcdm.confidence, 'confidence').to.equal('junk')
-							expect(bcdm.from_original, 'origin').to.equal(true)
+							expect(bcdm.from_historical, 'origin').to.equal(true)
 							expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 							// final as integration
@@ -510,7 +512,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 										expect(bcdm.source, 'source').not.to.equal('some_basename_normalized') // data was restored identical from original data
 										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2019-07-31_21h00m15')
 										expect(bcdm.confidence, 'confidence').to.equal('primary')
-										expect(bcdm.from_original, 'origin').to.equal(true)
+										expect(bcdm.from_historical, 'origin').to.equal(true)
 										expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 										// final as integration
@@ -578,8 +580,9 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					if (is_exif_powered_media_file(state))
 						state = on_info_read__exif(state, { SourceFile: tc_key } as any)
 					state = on_info_read__hash(state, '1234')
+					state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+
 					state = on_notes_recovered(state, null)
-					state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
 
 					//console.log(get_best_creation_date_meta(state))
 					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
@@ -603,6 +606,8 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 				if (is_exif_powered_media_file(state))
 					state = on_info_read__exif(state, {} as any)
 				state = on_info_read__hash(state, '1234')
+				state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+
 				state = on_notes_recovered(state, {
 					currently_known_as: CURRENT_BASENAME,
 					renaming_source: undefined,
@@ -613,14 +618,13 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					best_date_afawk_symd: undefined, // TODO test?
 
-					original: {
+					historical: {
 						basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
 						parent_path: 'foo',
-						fs_birthtime_ms: creation_date_ms,
-						is_fs_birthtime_assessed_reliable: false,
+						fs_bcd_tms: creation_date_ms,
+						fs_bcd_assessed_reliability: 'unknown',
 					}
 				})
-				state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
 			})
 		})
@@ -639,8 +643,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 				if (is_exif_powered_media_file(state))
 					state = on_info_read__exif(state, {} as any)
 				state = on_info_read__hash(state, '1234')
+				state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+
 				state = on_notes_recovered(state, null)
-				state = on_info_read__current_neighbors_primary_hints(state, null, undefined)
+
 				return state
 			}
 
@@ -692,8 +698,8 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					..._s2,
 					notes: {
 						..._s2.notes,
-						original: {
-							..._s2.notes.original,
+						historical: {
+							..._s2.notes.historical,
 							parent_path: '2007/20070102 - foo', // imagine was manually sorted
 						}
 					}
@@ -707,11 +713,11 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					deleted: undefined,
 					starred: true, // correctly preserved
 					manual_date: undefined,
-					original: {
+					historical: {
 						basename: 'original.jpg',
 						parent_path: 'foo',
-						fs_birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-						is_fs_birthtime_assessed_reliable: false,
+						fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+						fs_bcd_assessed_reliability: 'unknown',
 						exif_orientation: undefined,
 					},
 				})
@@ -723,11 +729,11 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					deleted: undefined,
 					starred: true,
 					manual_date: undefined,
-					original: {
+					historical: {
 						basename: 'original.jpg',
 						parent_path: 'foo',
-						fs_birthtime_ms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-						is_fs_birthtime_assessed_reliable: false,
+						fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+						fs_bcd_assessed_reliability: 'unknown',
 						exif_orientation: undefined,
 					},
 				})
