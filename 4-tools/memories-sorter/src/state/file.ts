@@ -106,10 +106,10 @@ export interface State {
 	id: FileId
 
 	// those fields need I/O to be completed, they start undefined
-	current_fs_stats:                    undefined | FsStatsSubset // can't be null, is always a file
-	current_hash:                        undefined | FileHash // can't be null, always a file
-	current_exif_data:                   undefined | EXIFTags | null // can be null if no EXIF for this format
 	current_fs_bcd_assessed_reliability: undefined | FsReliability
+	current_fs_stats: undefined | FsStatsSubset // can't be null, is always a file
+	current_hash: undefined | FileHash // can't be null, always a file
+	current_exif_data: undefined | EXIFTags | null // can be null if no EXIF for this format
 
 	are_notes_restored: boolean // needed to check if restoration happened
 	notes: PersistedNotes

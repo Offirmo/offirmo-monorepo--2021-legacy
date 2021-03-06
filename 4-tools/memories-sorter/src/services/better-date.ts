@@ -131,6 +131,48 @@ export function _get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
 	)
 }
 
+/////////// Comparisons / operators
+
+export function compare_utc(date_a: Immutable<BetterDate>, date_b: Immutable<BetterDate>): number {
+	const tms_a = get_timestamp_utc_ms_from(date_a)
+	const tms_b = get_timestamp_utc_ms_from(date_b)
+
+	return tms_a - tms_b
+}
+
+export function is_equal_moment(date_a: Immutable<BetterDate>, date_b: Immutable<BetterDate>): boolean {
+	return compare_utc(date_a, date_b) === 0
+}
+
+// undefined handled for convenience
+export function is_deep_equal(date_a: Immutable<BetterDate> | undefined, date_b: Immutable<BetterDate> | undefined): boolean {
+	const is_a_undefined = date_a === undefined
+	const is_b_undefined = date_b === undefined
+
+	if (is_a_undefined && is_b_undefined)
+		return true
+
+	if (is_a_undefined !== is_b_undefined)
+		return false
+
+	if (!is_equal_moment(date_a!, date_b!))
+		return false
+
+	return get_embedded_timezone(date_a!) === get_embedded_timezone(date_b!)
+}
+
+export function min(date_a: Immutable<BetterDate>, date_b: Immutable<BetterDate>): Immutable<BetterDate> {
+	const cmp = compare_utc(date_a, date_b)
+
+	return cmp <= 0 ? date_a : date_b
+}
+
+export function max(date_a: Immutable<BetterDate>, date_b: Immutable<BetterDate>): Immutable<BetterDate> {
+	const cmp = compare_utc(date_a, date_b)
+
+	return cmp <= 0 ? date_b : date_a
+}
+
 ////////////////////////////////////
 
 // needed to create from file times

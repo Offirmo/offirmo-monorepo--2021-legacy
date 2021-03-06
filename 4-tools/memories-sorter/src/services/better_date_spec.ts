@@ -11,6 +11,11 @@ import {
 	get_timestamp_utc_ms_from,
 	_get_exif_datetime,
 
+	compare_utc,
+	is_deep_equal,
+	is_equal_moment,
+	min, max,
+
 	create_better_date,
 	create_better_date_from_ExifDateTime,
 	change_tz,
@@ -161,6 +166,172 @@ describe('Better Date', function() {
 		})
 	})
 
+	describe('operators', function() {
+		const TEST_DATE_1 = create_better_date_obj({
+			year: 2003,
+			month: 4,
+			day: 5,
+			hour: 6,
+			minute: 7,
+			second: 8,
+			milli: 9,
+			tz: 'UTC+10',
+		})
+		const TEST_DATE_1_copy = create_better_date_obj({
+			year: 2003,
+			month: 4,
+			day: 5,
+			hour: 6,
+			minute: 7,
+			second: 8,
+			milli: 9,
+			tz: 'UTC+10',
+		})
+		const TEST_DATE_1_alt_tz = create_better_date_obj({
+			year: 2003,
+			month: 4,
+			day: 5,
+			hour: 8, // +2
+			minute: 7,
+			second: 8,
+			milli: 9,
+			tz: 'UTC+12', // +2
+		})
+		const TEST_DATE_2_nearly_1 = create_better_date_obj({
+			year: 2003,
+			month: 4,
+			day: 5,
+			hour: 6,
+			minute: 7,
+			second: 8,
+			milli: 9,
+			tz: 'UTC+11', // XXX not same tz = different date!
+		})
+		const TEST_DATE_3 = create_better_date_obj({
+			year: 2013,
+			month: 4,
+			day: 5,
+			hour: 6,
+			minute: 7,
+			second: 8,
+			milli: 9,
+			tz: 'UTC+10',
+		})
+
+		describe('compare_utc()', function() {
+
+			it('should work', () => {
+				// identity
+				expect(compare_utc(TEST_DATE_1, TEST_DATE_1)).to.equal(0)
+				expect(compare_utc(TEST_DATE_3, TEST_DATE_3)).to.equal(0)
+
+				// deep equality
+				expect(compare_utc(TEST_DATE_1,      TEST_DATE_1_copy)).to.equal(0)
+				expect(compare_utc(TEST_DATE_1_copy, TEST_DATE_1     )).to.equal(0)
+
+				// moment equality while different tz
+				expect(compare_utc(TEST_DATE_1,        TEST_DATE_1_alt_tz)).to.equal(0)
+				expect(compare_utc(TEST_DATE_1_alt_tz, TEST_DATE_1       )).to.equal(0)
+
+				// equality of everything but TZ
+				expect(compare_utc(TEST_DATE_1,          TEST_DATE_2_nearly_1)).to.equal(1)
+				expect(compare_utc(TEST_DATE_2_nearly_1, TEST_DATE_1         )).to.equal(-1)
+
+				// not equal
+				expect(compare_utc(TEST_DATE_1, TEST_DATE_3)).to.equal(1)
+				expect(compare_utc(TEST_DATE_3, TEST_DATE_1)).to.equal(-1)
+			})
+		})
+
+		describe('is_deep_equal()', function() {
+
+			it('should work', () => {
+				// identity
+				expect(is_deep_equal(TEST_DATE_1, TEST_DATE_1)).to.be.true
+				expect(is_deep_equal(TEST_DATE_3, TEST_DATE_3)).to.be.true
+
+				// deep equality
+				expect(is_deep_equal(TEST_DATE_1,      TEST_DATE_1_copy)).to.be.true
+				expect(is_deep_equal(TEST_DATE_1_copy, TEST_DATE_1     )).to.be.true
+
+				// moment equality while different tz
+				expect(is_deep_equal(TEST_DATE_1,        TEST_DATE_1_alt_tz)).to.be.false
+				expect(is_deep_equal(TEST_DATE_1_alt_tz, TEST_DATE_1       )).to.be.false
+
+				// equality of everything but TZ
+				expect(is_deep_equal(TEST_DATE_1,          TEST_DATE_2_nearly_1)).to.be.false
+				expect(is_deep_equal(TEST_DATE_2_nearly_1, TEST_DATE_1         )).to.be.false
+
+				// not equal
+				expect(is_deep_equal(TEST_DATE_1, TEST_DATE_3)).to.be.false
+				expect(is_deep_equal(TEST_DATE_3, TEST_DATE_1)).to.be.false
+			})
+		})
+
+		describe('min', function() {
+
+			it('should work', () => {
+				// identity
+				;(() => {
+					const _min = min(TEST_DATE_1, TEST_DATE_1)
+					expect(is_deep_equal(_min, TEST_DATE_1)).to.be.true
+				})()
+				;(() => {
+					const _min = min(TEST_DATE_3, TEST_DATE_3)
+					expect(is_deep_equal(_min, TEST_DATE_3)).to.be.true
+				})()
+
+				// deep equality, careful of the order
+				;(() => {
+					const _min = min(TEST_DATE_1, TEST_DATE_1_copy)
+					expect(is_deep_equal(_min, TEST_DATE_1)).to.be.true
+				})()
+				;(() => {
+					const _min = min(TEST_DATE_1_copy, TEST_DATE_1)
+					expect(is_deep_equal(_min, TEST_DATE_1_copy)).to.be.true
+				})()
+
+				// moment equality while different tz, careful of the order
+				;(() => {
+					const _min = min(TEST_DATE_1, TEST_DATE_1_alt_tz)
+					expect(is_deep_equal(_min, TEST_DATE_1)).to.be.true
+				})()
+				;(() => {
+					const _min = min(TEST_DATE_1_alt_tz, TEST_DATE_1)
+					expect(is_deep_equal(_min, TEST_DATE_1_alt_tz)).to.be.true
+				})()
+
+				// equality of everything but TZ
+				;(() => {
+					const _min = min(TEST_DATE_1, TEST_DATE_2_nearly_1)
+					expect(is_deep_equal(_min, TEST_DATE_1)).to.be.true
+				})()
+				;(() => {
+					const _min = min(TEST_DATE_2_nearly_1, TEST_DATE_1)
+					expect(is_deep_equal(_min, TEST_DATE_1_alt_tz)).to.be.true
+				})()
+
+				// not equal
+				;(() => {
+					const _min = min(TEST_DATE_1, TEST_DATE_3)
+					expect(is_deep_equal(_min, TEST_DATE_1)).to.be.true
+				})()
+				;(() => {
+					const _min = min(TEST_DATE_3, TEST_DATE_1)
+					expect(is_deep_equal(_min, TEST_DATE_1)).to.be.true
+				})()
+			})
+		})
+
+		describe('max', function() {
+
+			it('should work', () => {
+				// sanity check, it's a minor variant of min
+				const _max = max(TEST_DATE_1, TEST_DATE_3)
+				expect(is_deep_equal(_max, TEST_DATE_3)).to.be.true
+			})
+		})
+	})
 	describe('factories', function() {
 
 		describe('create_better_date_from_symd()', function () {

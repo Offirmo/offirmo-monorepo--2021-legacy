@@ -787,3 +787,6 @@ soft skills https://www.linkedin.com/business/learning/blog/top-skills-and-cours
 A problem shared is a problem halved
 
 lost city https://en.wikipedia.org/wiki/Kitezh
+
+https://en.wikipedia.org/wiki/Grand_Tour
+

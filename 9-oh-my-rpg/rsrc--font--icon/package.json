@@ -1,0 +1,24 @@
+{
+	"name": "@oh-my-rpg/rsrc--font--icon",
+	"description": "RPG icon rsrcs as a font",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"main": "dist/style.css",
+	"sideEffects": false,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+
+		"dev": "TODO"
+	},
+	"devDependencies": {
+	}
+}
