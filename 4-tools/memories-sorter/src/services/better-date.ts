@@ -118,6 +118,10 @@ export function get_day_of_week_index(date: Immutable<BetterDate>): number {
 	return date._lx.weekday % 7
 }
 
+export function get_year(date: Immutable<BetterDate>): number {
+	return date._lx.year
+}
+
 // used in unit tests only
 export function _get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
 	return new ExifDateTime(

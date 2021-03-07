@@ -3,14 +3,12 @@ import { expect } from 'chai'
 import { LIB } from '../consts'
 import {
 	State,
-
-	is_current_basename_intentful,
+	is_current_basename_intentful_of_event_start,
 	get_ideal_basename,
 	get_depth,
-
 	create,
 	on_subfile_found,
-	on_dated_subfile_found,
+	on_subfile_primary_infos_gathered,
 } from './folder'
 import * as File from './file'
 
@@ -21,13 +19,11 @@ import {
 	on_info_read__fs_stats,
 	on_info_read__hash, on_info_read__current_neighbors_primary_hints, on_notes_recovered,
 } from './file'
-import util from 'util'
-import fs from 'fs'
 
 /////////////////////
 
 describe(`${LIB} - folder state`, function() {
-
+/*
 	describe('selectors', function() {
 
 		describe('get_ideal_basename', function () {
@@ -74,10 +70,11 @@ describe(`${LIB} - folder state`, function() {
 					mtimeMs:     1234567890,
 					ctimeMs:     1234567890,
 				})
-				subfile_state = on_notes_recovered(subfile_state, null)
-				subfile_state = on_info_read__current_neighbors_primary_hints(subfile_state, null, undefined)
+				subfile_state = on_info_read__current_neighbors_primary_hints(subfile_state, null, 'unknown')
 
-				state = on_dated_subfile_found(state, subfile_state)
+				subfile_state = on_notes_recovered(subfile_state, null)
+
+				state = on_subfile_primary_infos_gathered(state, subfile_state)
 				//console.log(state)
 				expect(get_ideal_basename(state)).to.equal('20011206 - x01- St. Nicolas')
 			})
@@ -114,7 +111,7 @@ describe(`${LIB} - folder state`, function() {
 			})
 		})
 
-		describe('on_dated_subfile_found()', function () {
+		describe('on_subfile_primary_infos_gathered()', function () {
 			//before(() => ALL_MEDIA_DEMOS[0].get_state())
 
 			context('when no event range', function() {
@@ -124,7 +121,7 @@ describe(`${LIB} - folder state`, function() {
 
 					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
-					state = on_dated_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.children_begin_date_symd, 'inferred children begin').to.equal(20180903)
@@ -143,7 +140,7 @@ describe(`${LIB} - folder state`, function() {
 
 					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
-					state = on_dated_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.children_begin_date_symd, 'children begin').to.equal(20180903)
@@ -156,11 +153,11 @@ describe(`${LIB} - folder state`, function() {
 					let state = create('20180904 - holiday')
 					expect(state.event_begin_date_symd).to.equal(20180904)
 					expect(state.event_end_date_symd).to.equal(20180904)
-					expect(is_current_basename_intentful(state)).to.be.true
+					expect(is_current_basename_intentful_of_event_start(state)).to.be.true
 
 					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
-					state = on_dated_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.event_begin_date_symd).to.equal(20180904)
@@ -174,7 +171,7 @@ describe(`${LIB} - folder state`, function() {
 
 					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 					state = on_subfile_found(state, file_state)
-					state = on_dated_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
 
 					expect(state.type).to.equal('event')
 					expect(state.event_begin_date_symd).to.equal(20180902)
@@ -191,7 +188,7 @@ describe(`${LIB} - folder state`, function() {
 
 						let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 						state = on_subfile_found(state, file_state)
-						state = on_dated_subfile_found(state, file_state)
+						state = on_subfile_primary_infos_gathered(state, file_state)
 
 						expect(state.type).to.equal('unknown') // demoted
 						expect(state.children_begin_date_symd, 'children begin').to.equal(20180903)
@@ -208,7 +205,7 @@ describe(`${LIB} - folder state`, function() {
 
 						let file_state = await ALL_MEDIA_DEMOS[0].get_state()
 						state = on_subfile_found(state, file_state)
-						state = on_dated_subfile_found(state, file_state)
+						state = on_subfile_primary_infos_gathered(state, file_state)
 
 						expect(state.type).to.equal('event')
 						expect(state.event_begin_date_symd).to.equal(20180704)
@@ -217,5 +214,5 @@ describe(`${LIB} - folder state`, function() {
 				})
 			})
 		})
-	})
+	})*/
 })

@@ -129,14 +129,6 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 	return state.folders.hasOwnProperty(id)
 }
 
-function _event_folder_matches(folder_state: Immutable<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
-	return true
-		&& !!folder_state.event_begin_date_symd
-		&& !!folder_state.event_end_date_symd
-		&& compact_date >= folder_state.event_begin_date_symd
-		&& compact_date <= folder_state.event_end_date_symd
-}
-
 export function get_ideal_file_relative_folder(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`get_ideal_file_relative_folder()`, { id })
 	const DEBUG = true
@@ -178,11 +170,11 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 				if (File.is_confident_in_date(file_state, 'secondary'))
 					return File.get_best_creation_date_compact(file_state)
 
-				return Folder.get_event_begin_date(current_parent_folder_state)
+				return Folder.get_event_begin_date‿symd(current_parent_folder_state)
 			})()
 
 			let compatible_event_folder_id = get_all_event_folder_ids(state)
-				.find(fid => _event_folder_matches(state.folders[fid], date_for_finding_suitable_event))
+				.find(fid => Folder.is_matching_event‿symd(state.folders[fid], date_for_finding_suitable_event))
 			if (!compatible_event_folder_id) {
 				// can happen if the folder is force-dated
 				// but the file date is reliable and don't match
@@ -246,7 +238,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	const event_folder_base = ((): string => {
 		const compact_date = File.get_best_creation_date_compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
-		let compatible_event_folder_id = all_events_folder_ids.find(fid => _event_folder_matches(state.folders[fid], compact_date))
+		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_matching_event‿symd(state.folders[fid], compact_date))
 		if (compatible_event_folder_id)
 			return Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
 
@@ -494,27 +486,6 @@ export function on_notes_found(state: Immutable<State>, raw_data: any): Immutabl
 	}
 }
 
-function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
-	const file_state = state.files[file_id]
-
-	if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state, { should_log: false, require_neighbors_hints: false })) {
-		// update folder date range
-		const folder_id = File.get_current_parent_folder_id(file_state)
-		const old_folder_state = state.folders[folder_id]
-		assert(old_folder_state, `folder state for "${folder_id}" - "${file_id}"!`)
-		const new_folder_state = Folder.on_subfile_primary_infos_gathered(old_folder_state, file_state)
-		state = {
-			...state,
-			folders: {
-				...state.folders,
-				[folder_id]: new_folder_state,
-			},
-		}
-	}
-
-	return state
-}
-
 export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats: Immutable<FsStatsSubset>): Immutable<State> {
 	logger.trace(`${LIB} on_fs_stats_read(…)`, { file_id })
 
@@ -528,7 +499,7 @@ export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats
 		},
 	}
 
-	return _on_any_file_info_read(state, file_id)
+	return state
 }
 
 export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data: Immutable<Tags>): Immutable<State> {
@@ -544,7 +515,7 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 		},
 	}
 
-	return _on_any_file_info_read(state, file_id)
+	return state
 }
 
 export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash: FileHash): Immutable<State> {
@@ -569,7 +540,7 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 		},
 	}
 
-	return _on_any_file_info_read(state, file_id)
+	return state
 }
 
 
@@ -656,33 +627,26 @@ export function backup_notes(state: Immutable<State>): Immutable<State> {
 }
 
 // some decisions need to wait for the entire exploration to be done
-function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders()…`)
+function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _consolidate_and_propagate_neighbor_hints()…`)
 
-	// iterate over ALL files as it's the last primary "info"
+	// iterate over ALL files to consolidate their immediate data into their parent folders
+	let folders = { ...state.folders }
 	get_all_files(state).forEach((file_state) => {
-		const fs_reliability = File.get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(file_state)
-		if (fs_reliability === 'unreliable') {
-			logger.warn(`⚠️ File "${file_state.id}" fs reliability has been estimated as UNRELIABLE`)
-		}
-
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
-		let folder_state = state.folders[parent_folder_id]
-		assert(folder_state, `${LIB} _evaluate_and_propagate_reliability_of_fs_by_folders() should have folder state`)
+		assert(folders[parent_folder_id], `${LIB} _consolidate_and_propagate_neighbor_hints() should have folder state`)
 
-		folder_state = Folder.on_subfile_current_fs_reliability_assessed(folder_state, fs_reliability)
-
-		state = {
-			...state,
-			folders: {
-				...state.folders,
-				[parent_folder_id]: folder_state,
-			}
-		}
+		folders[parent_folder_id] = Folder.on_subfile_primary_infos_gathered(folders[parent_folder_id], file_state)
 	})
+	state = { ...state, folders }
 
+	// folders now have consolidated hints
+	// debug
 	get_all_folders(state).forEach(folder_state => {
-		const reliability = Folder.get_children_fs_reliability(folder_state)
+		const consolidated_neighbor_hints = Folder.get_neighbor_primary_hints(folder_state)
+		logger.info(`Folder "${folder_state.id}" neighbor hints have been consolidated`, consolidated_neighbor_hints)
+
+		const reliability = consolidated_neighbor_hints.fs_bcd_assessed_reliability
 		const log_func = (reliability === 'unreliable')
 			? logger.error
 			: (reliability === 'unknown')
@@ -693,23 +657,17 @@ function _evaluate_and_propagate_reliability_of_fs_by_folders(state: Immutable<S
 		})
 	})
 
+	// flow the hints back to every files
+	let files = { ...state.files }
 	get_all_files(state).forEach(file_state => {
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
-		let folder_state = state.folders[parent_folder_id]
-		const parent_folder_fs_reliability = Folder.get_children_fs_reliability(folder_state)
-		file_state = File.on_info_read__current_neighbors_primary_hints(
+
+		files[file_state.id] = File.on_info_read__current_neighbors_primary_hints(
 			file_state,
-			Folder.get_reliable_children_range(folder_state),
-			Folder.get_children_fs_reliability(folder_state),
+			Folder.get_neighbor_primary_hints(folders[parent_folder_id]),
 		)
-		state = {
-			...state,
-			files: {
-				...state.files,
-				[file_state.id]: file_state,
-			}
-		}
 	})
+	state = { ...state, files }
 
 	return state
 }
@@ -730,7 +688,7 @@ function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, reco
 		},
 	}
 
-	return _on_any_file_info_read(state, file_id)
+	return state
 }
 function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_notes_between_persisted_regenerated_and_duplicates()…`)
@@ -901,7 +859,7 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 	logger.verbose(`${LIB} Exploration of the file system done, now processing this data with handcrafted AI…`)
 
 	// order is important
-	state = _evaluate_and_propagate_reliability_of_fs_by_folders(state)
+	state = _consolidate_and_propagate_neighbor_hints(state)
 	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
 	state = backup_notes(state)

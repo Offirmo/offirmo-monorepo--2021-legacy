@@ -9,11 +9,12 @@ import { DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import { get_params, Params } from '../params'
 import { is_year, is_compact_date, is_digit } from '../services/matchers'
-import { parse_folder_basename, ParseResult, pathㆍparse_memoized } from '../services/name_parser'
+import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder } from '../services/name_parser'
 import logger from '../services/logger'
-import { get_compact_date, add_days_to_simple_date } from '../services/better-date'
+import * as BetterDateLib from '../services/better-date'
+import { add_days_to_simple_date, BetterDate } from '../services/better-date'
 import * as File from './file'
-import { FsReliability } from './file'
+import { FsReliability, NeighborHints } from './file'
 
 ////////////////////////////////////
 
@@ -67,29 +68,40 @@ export interface State {
 		'unreliable': number,
 		'reliable': number,
 	}
-
-	cached: {
-		// TODO remove
-		pathㆍparsed: path.ParsedPath,
-		nameㆍparsed: ParseResult,
-	}
 }
 
 ///////////////////// ACCESSORS /////////////////////
 
+export function get_current_relative_path(state: Immutable<State>): RelativePath {
+	return state.id
+}
+
+export function get_current_path‿pparsed(state: Immutable<State>): Immutable<path.ParsedPath> {
+	return pathㆍparse_memoized(get_current_relative_path(state))
+}
+
+export function get_basename(state: Immutable<State>): Basename {
+	return get_current_path‿pparsed(state).base
+}
+
 export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): number {
+	//console.log({data})
 	const pathㆍparsed = (data as any).base
 		? (data as Immutable<path.ParsedPath>)
-		: (data as Immutable<State>).cached.pathㆍparsed
-	//console.log({data})
+		: get_current_path‿pparsed(data as Immutable<State>)
 	//console.log({pathㆍparsed})
+
 	return pathㆍparsed.dir
 		? pathㆍparsed.dir.split(path.sep).length
 		: 0
 }
 
-function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
-	assert(id, '_infer_initial_folder_type() id')
+export function get_current_basename‿parsed(state: Immutable<State>): Immutable<ParseResult> {
+	return parse_folder_basename(get_basename(state))
+}
+
+function _get_starting_folder_type_from_path(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
+	assert(id, '_get_starting_folder_type_from_path() id')
 
 	if (id === '.') return Type.root
 
@@ -101,16 +113,6 @@ function _infer_initial_folder_type(id: FolderId, pathㆍparsed: path.ParsedPath
 	if (depth === 0 && is_year(pathㆍparsed.base)) return Type.year
 
 	return Type.event // so far
-}
-
-function _infer_start_date(parsed: ParseResult): undefined | SimpleYYYYMMDD {
-	return parsed.date
-		? get_compact_date(parsed.date, 'tz:embedded')
-		: undefined
-}
-
-export function get_basename(state: Immutable<State>): Basename {
-	return state.cached.pathㆍparsed.base
 }
 
 export function get_event_begin_date(state: Immutable<State>): SimpleYYYYMMDD {
@@ -136,7 +138,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 
 	assert(state.event_begin_date_symd, 'get_ideal_basename() (event) should have a start date')
 
-	let meaningful_part = state.cached.nameㆍparsed.meaningful_part
+	let meaningful_part = get_current_basename‿parsed(state).meaningful_part
 	if (is_digit(meaningful_part[0])) {
 		// protection to prevent future executions to parse the meaningful part as DD/HH/MM/SS
 		meaningful_part = DIGIT_PROTECTION_SEPARATOR + meaningful_part
@@ -186,20 +188,21 @@ export function create(id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} create(…)`, { id })
 
 	const pathㆍparsed = pathㆍparse_memoized(id)
-	const base = pathㆍparsed.base
-	const type = _infer_initial_folder_type(id, pathㆍparsed)
-	// TODO remove prema optim? Or skip if special folder?
-	const nameㆍparsed = parse_folder_basename(base)
-	const date = _infer_start_date(nameㆍparsed)
+	const basename = pathㆍparsed.base
+	const type = _get_starting_folder_type_from_path(id, pathㆍparsed)
+	const basenameㆍparsed = parse_folder_basename(basename)
+	const date = basenameㆍparsed.date
 
 	return {
 		id,
 		type,
 		reason_for_demotion_from_event: null,
-		children_begin_date_symd: undefined, // so far
-		children_end_date_symd: undefined, // so far
-		event_begin_date_symd: type === Type.event ? date : undefined, // so far
-		event_end_date_symd: type === Type.event ? date : undefined, // so far
+
+		children_begin_date__early: undefined, // so far
+		children_end_date__early: undefined, // so far
+
+		event_begin_date: type === Type.event ? date : undefined, // so far
+		event_end_date: type === Type.event ? date : undefined, // so far
 
 		children_count: 0,
 		children_fs_reliability_count: {
@@ -207,16 +210,13 @@ export function create(id: RelativePath): Immutable<State> {
 			'unreliable': 0,
 			'reliable': 0,
 		},
-
-		cached: {
-			pathㆍparsed,
-			nameㆍparsed,
-		},
 	}
 }
 
 export function on_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_found(…)`, { file_id: file_state.id })
+
+	// TODO evaluate if needed
 
 	return {
 		...state,

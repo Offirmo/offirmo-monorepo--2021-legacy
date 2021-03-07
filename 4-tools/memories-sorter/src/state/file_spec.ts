@@ -21,10 +21,8 @@ import {
 	get_current_basename,
 	get_current_parent_folder_id,
 	get_ideal_basename,
-	has_all_infos_for_extracting_the_creation_date,
 	is_confident_in_date,
 	is_exif_powered_media_file,
-	is_media_file,
 	merge_duplicates,
 	on_info_read__current_neighbors_primary_hints,
 	on_info_read__exif,
@@ -65,7 +63,10 @@ describe(`${LIB} - file (state)`, function() {
 			} as Tags)
 		}
 		state = on_info_read__hash(state, '1234')
-		state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+		state = on_info_read__current_neighbors_primary_hints(state, {
+			parent_folder_bcd: null,
+			fs_bcd_assessed_reliability: 'unknown',
+		})
 
 		// yes, real case = since having the same hash,
 		// all the files will have the same notes.
@@ -149,8 +150,9 @@ describe(`${LIB} - file (state)`, function() {
 		let date__fs_ms__original = date__fs_ms__current // always exist
 		let date__exif: null | typeof REAL_CREATION_DATE‿EXIF = BAD_CREATION_DATE_CANDIDATE‿EXIF
 		let notes: null | 'auto' | Immutable<PersistedNotes> = null
-		let hints_from_reliable_neighbors__current__range: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
 		let hints_from_reliable_neighbors__current__fs_reliability: FsReliability = 'unknown'
+		//let hints_from_reliable_neighbors__current__range: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
+
 		beforeEach(() => {
 			parent_folder_name__current = 'foo'
 			file_basename__current = 'bar.jpg'
@@ -160,7 +162,7 @@ describe(`${LIB} - file (state)`, function() {
 			date__fs_ms__original = date__fs_ms__current // always exist
 			date__exif = BAD_CREATION_DATE_CANDIDATE‿EXIF
 			notes = null
-			hints_from_reliable_neighbors__current__range = null
+			//hints_from_reliable_neighbors__current__range = null
 			hints_from_reliable_neighbors__current__fs_reliability = 'unknown'
 		})
 		function create_test_file_state(): Immutable<State> {
@@ -198,7 +200,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 				} as Partial<Tags> as any)
 			}
 			state = on_info_read__hash(state, '1234')
-			state = on_info_read__current_neighbors_primary_hints(state, hints_from_reliable_neighbors__current__range, hints_from_reliable_neighbors__current__fs_reliability)
+			state = on_info_read__current_neighbors_primary_hints(state, {
+				parent_folder_bcd: null,
+				fs_bcd_assessed_reliability: hints_from_reliable_neighbors__current__fs_reliability,
+			})
 
 			if (notes === 'auto') {
 				notes = {
@@ -401,7 +406,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					context('when having hints -- from reliable neighbors only', function() {
 						beforeEach(() => {
-							hints_from_reliable_neighbors__current__range = [ 20171010, 20171022 ] // XXX
+							//hints_from_reliable_neighbors__current__range = [ 20171010, 20171022 ] // XXX
 							hints_from_reliable_neighbors__current__fs_reliability = 'reliable'
 						})
 
@@ -580,7 +585,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					if (is_exif_powered_media_file(state))
 						state = on_info_read__exif(state, { SourceFile: tc_key } as any)
 					state = on_info_read__hash(state, '1234')
-					state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+					state = on_info_read__current_neighbors_primary_hints(state, {
+						parent_folder_bcd: null,
+						fs_bcd_assessed_reliability: 'unknown',
+					})
 
 					state = on_notes_recovered(state, null)
 
@@ -606,7 +614,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 				if (is_exif_powered_media_file(state))
 					state = on_info_read__exif(state, {} as any)
 				state = on_info_read__hash(state, '1234')
-				state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+				state = on_info_read__current_neighbors_primary_hints(state, {
+					parent_folder_bcd: null,
+					fs_bcd_assessed_reliability: 'unknown',
+				})
 
 				state = on_notes_recovered(state, {
 					currently_known_as: CURRENT_BASENAME,
@@ -643,7 +654,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 				if (is_exif_powered_media_file(state))
 					state = on_info_read__exif(state, {} as any)
 				state = on_info_read__hash(state, '1234')
-				state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+				state = on_info_read__current_neighbors_primary_hints(state, {
+					parent_folder_bcd: null,
+					fs_bcd_assessed_reliability: 'unknown',
+				})
 
 				state = on_notes_recovered(state, null)
 

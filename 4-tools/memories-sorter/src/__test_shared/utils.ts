@@ -48,7 +48,10 @@ export async function load_real_media_file(abs_path: string, state: Immutable<Fi
 	])
 
 	state = on_notes_recovered(state, recovered_notes)
-	state = on_info_read__current_neighbors_primary_hints(state, null, 'unknown')
+	state = on_info_read__current_neighbors_primary_hints(state, {
+		parent_folder_bcd: null,
+		fs_bcd_assessed_reliability: 'unknown',
+	})
 
 	expect(has_all_infos_for_extracting_the_creation_date(state, {})).to.be.true
 
