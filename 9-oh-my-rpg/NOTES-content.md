@@ -790,3 +790,6 @@ lost city https://en.wikipedia.org/wiki/Kitezh
 
 https://en.wikipedia.org/wiki/Grand_Tour
 
+https://en.wikipedia.org/wiki/Scout_(sport)
+
+laws of the seven R's "It was always, always do the right thing for the right reason at the right time with the right people. [And] you will have no regrets for the rest of your life."
