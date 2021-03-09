@@ -23224,7 +23224,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.2.0';
+var SDK_VERSION = '6.2.1';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
@@ -25302,7 +25302,20 @@ var client_NodeClient = /** @class */ (function (_super) {
      * @param options Configuration options for this SDK.
      */
     function NodeClient(options) {
-        return _super.call(this, backend_NodeBackend, options) || this;
+        var _this = this;
+        options._metadata = options._metadata || {};
+        options._metadata.sdk = options._metadata.sdk || {
+            name: 'sentry.javascript.node',
+            packages: [
+                {
+                    name: 'npm:@sentry/node',
+                    version: SDK_VERSION,
+                },
+            ],
+            version: SDK_VERSION,
+        };
+        _this = _super.call(this, backend_NodeBackend, options) || this;
+        return _this;
     }
     /**
      * @inheritDoc
@@ -26811,17 +26824,6 @@ function init(options) {
     if (options.environment === undefined && process.env.SENTRY_ENVIRONMENT) {
         options.environment = process.env.SENTRY_ENVIRONMENT;
     }
-    options._metadata = options._metadata || {};
-    options._metadata.sdk = {
-        name: 'sentry.javascript.node',
-        packages: [
-            {
-                name: 'npm:@sentry/node',
-                version: SDK_VERSION,
-            },
-        ],
-        version: SDK_VERSION,
-    };
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     if (external_domain_["active"]) {
         setHubOnCarrier(getMainCarrier(), hub_getCurrentHub());
@@ -59130,10 +59132,10 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/build.js
 // THIS FILE IS AUTO GENERATED!
-const VERSION = '0.65.15';
-const NUMERIC_VERSION = 0.6515; // for easy comparisons
+const VERSION = '0.65.16';
+const NUMERIC_VERSION = 0.6516; // for easy comparisons
 
-const BUILD_DATE = '20210225_22h30';
+const BUILD_DATE = '20210309_00h18';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
