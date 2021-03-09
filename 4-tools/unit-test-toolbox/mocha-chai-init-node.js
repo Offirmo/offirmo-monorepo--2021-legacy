@@ -5,7 +5,7 @@ try {
 } catch {
 	// private monorepo case where this module is not available / broken / not built yet
 	if (process.env['OFFIRMO_IS_HERE'])
-		console.warn('(@offirmo/universal-debug-api-node install skipped, require() error)')
+		console.warn('(@offirmo/universal-debug-api-node install skipped, require() failure)')
 }
 
 // NON-CONTRIBUTORS: ignore this try/catch if just using "unit-test-toolbox', won't affect your env
@@ -36,7 +36,7 @@ try {
 } catch (err) {
 	// monorepo case where this module is not available / broken / not built yet
 	if (process.env['OFFIRMO_IS_HERE'])
-		console.warn('(@offirmo-private/soft-execution-context-node init skipped, require() error)')
+		console.warn('(@offirmo-private/soft-execution-context-node init skipped, require() failure)')
 }
 
 const path = require('path')

@@ -47,6 +47,9 @@
 			"B-minisites/*"
 		]
 	},
+	"resolutions": {
+		"@babel/preset-env": "7.13.8"
+	},
 	"dependencies": {
 		"@atlaskit/form": "^7",
 		"@atlaskit/range": "^3",
@@ -97,7 +100,7 @@
 		"luxon": "^1",
 		"massive": "^6",
 		"memoize-one": "^5",
-		"meow": "^8",
+		"meow": "^9",
 		"micro-memoize": "^4",
 		"moment": "^2",
 		"moment-business": "^3",

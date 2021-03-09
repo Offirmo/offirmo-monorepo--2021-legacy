@@ -83,10 +83,10 @@ bolt --only-fs "5-incubator/**/*" ws run build
 bolt --only-fs "5-incubator/**/*" ws run test
 bolt --only-fs "9-oh-my-rpg/**/*" ws run build
 bolt --only-fs "9-oh-my-rpg/**/*" ws run test
-bolt --only-fs "A-apps/online-adventur.es/**/*" ws run build
-bolt --only-fs "A-apps/online-adventur.es/**/*" ws run test
 bolt --only-fs "A-apps/the-boring-rpg/**/*" ws run build
 bolt --only-fs "A-apps/the-boring-rpg/**/*" ws run test
+bolt --only-fs "A-apps/online-adventur.es/**/*" ws run build
+bolt --only-fs "A-apps/online-adventur.es/**/*" ws run test
 bolt --only-fs "B-minisites/*" ws run build
 
 ## Alt:
