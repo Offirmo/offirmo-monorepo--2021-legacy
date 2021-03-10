@@ -232,7 +232,7 @@ export function is_first_file_encounter(state: Immutable<State>): boolean | unde
 	if (historical.basename !== get_current_basename(state)) return false
 	if (historical.parent_path !== get_current_parent_folder_id(state)) return false
 	assert(state.current_fs_stats, `is_first_file_encounter() should have fs stats`)
-	if (historical.fs_bcd_tms !== _get_creation_date__from_fs_stats__current‿tms(state)) return false
+	if (historical.fs_bcd_tms !== get_creation_date__from_fs_stats__current‿tms(state)) return false
 	assert(state.current_exif_data !== undefined, `is_first_file_encounter() should have EXIF data`)
 	if (is_exif_powered_media_file(state)
 		&& historical.exif_orientation !== (state.current_exif_data
@@ -300,8 +300,8 @@ function _get_creation_date__from_fs_stats__oldest_known‿tms(state: Immutable<
 	// TODO one day ignore if we implement FS normalization & historical basename is processed
 	return state.notes.historical.fs_bcd_tms
 }
-function _get_creation_date__from_fs_stats__current‿tms(state: Immutable<State>): TimestampUTCMs {
-	assert(state.current_fs_stats, '_get_creation_date__from_fs_stats__current‿tms() fs stats collected')
+export function get_creation_date__from_fs_stats__current‿tms(state: Immutable<State>): TimestampUTCMs {
+	assert(state.current_fs_stats, 'get_creation_date__from_fs_stats__current‿tms() fs stats collected')
 	return get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date__from_basename__original(state: Immutable<State>): BetterDate | undefined {
@@ -629,7 +629,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 		'get_best_creation_date_meta__from_current_data() has_all_infos_for_extracting_the_creation_date()'
 	)
 
-	const bcd__from_fs__current‿tms = _get_creation_date__from_fs_stats__current‿tms(state)
+	const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
 	const bcd__from_fs__current = create_better_date_from_utc_tms(bcd__from_fs__current‿tms, 'tz:auto')
 	assert(bcd__from_fs__current‿tms === get_timestamp_utc_ms_from(bcd__from_fs__current), `current fs tms back and forth stability`)
 
@@ -976,7 +976,7 @@ export function is_confident_in_date(state: Immutable<State>, up_to: DateConfide
 }
 
 export function get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(state: Immutable<State>): FsReliability {
-	const bcd__from_fs__current‿tms = _get_creation_date__from_fs_stats__current‿tms(state)
+	const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
 	const bcd__from_fs__current = create_better_date_from_utc_tms(bcd__from_fs__current‿tms, 'tz:auto')
 
 	// TODO when we start doing FS normalization, detect that and return undefined
@@ -1248,7 +1248,7 @@ export function on_info_read__current_neighbors_primary_hints(
 
 		// unknown reliability so far, let's try to infer one from our neighbors
 
-		const bcd__from_fs__current‿tms = _get_creation_date__from_fs_stats__current‿tms(state)
+		const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
 
 		const bcd__from_parent_folder__current = _get_creation_date__from_parent_folder__current(state)
 		if (bcd__from_parent_folder__current) {
@@ -1512,8 +1512,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		}
 
 		// still equal so far, try to discriminate with another criteria
-		const selected__current_fs_creation_date_tms = _get_creation_date__from_fs_stats__current‿tms(selected_state)
-		const candidate__current_fs_creation_date_tms = _get_creation_date__from_fs_stats__current‿tms(candidate_state)
+		const selected__current_fs_creation_date_tms = get_creation_date__from_fs_stats__current‿tms(selected_state)
+		const candidate__current_fs_creation_date_tms = get_creation_date__from_fs_stats__current‿tms(candidate_state)
 		if (selected__current_fs_creation_date_tms !== candidate__current_fs_creation_date_tms) {
 			reasons.add('current_fs_creation_date')
 			//console.log('different best_creation_date', selected__best_creation_date_tms, candidate__best_creation_date_tms)

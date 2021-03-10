@@ -18,6 +18,7 @@ export interface I18nMessages {
 
 /////////////////////
 
+// TODO review Record!
 export interface HashOf<T> {
 	[k: string]: T
 }
