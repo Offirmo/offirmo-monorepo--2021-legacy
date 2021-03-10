@@ -2,14 +2,15 @@ import { expect } from 'chai'
 import { DateTime as LuxonDateTime } from 'luxon'
 
 import {
-	get_compact_date,
-	get_human_readable_timestamp_days,
-	get_human_readable_timestamp_seconds,
-	get_human_readable_timestamp_minutes,
-	get_human_readable_timestamp_millis,
-	get_human_readable_timestamp_auto,
-	get_timestamp_utc_ms_from,
 	_get_exif_datetime,
+	get_compact_date,
+	get_human_readable_timestamp_auto,
+	get_human_readable_timestamp_days,
+	get_human_readable_timestamp_millis,
+	get_human_readable_timestamp_minutes,
+	get_human_readable_timestamp_seconds,
+	get_members,
+	get_timestamp_utc_ms_from,
 
 	compare_utc,
 	is_deep_equal,
@@ -162,6 +163,15 @@ describe('Better Date', function() {
 				const exif_datetime = _get_exif_datetime(date)
 				const date2 = create_better_date_from_ExifDateTime(exif_datetime)
 				assertㆍBetterDateㆍdeepㆍequal(date, date2)
+			})
+		})
+
+		describe('get_members()', function() {
+
+			it('should work', () => {
+				const members = get_members(TEST_DATE)
+				const reconstructed = create_better_date_obj(members)
+				assertㆍBetterDateㆍdeepㆍequal(TEST_DATE, reconstructed)
 			})
 		})
 	})

@@ -36,10 +36,8 @@ import {
 	get_human_readable_timestamp_auto,
 	get_embedded_timezone,
 	create_better_date, _get_exif_datetime,
-	assertㆍBetterDateㆍdeepㆍequal,
 } from '../services/better-date'
 import { ALL_MEDIA_DEMOS } from '../__test_shared/real_files'
-import { SimpleYYYYMMDD } from '../types'
 
 /////////////////////
 
@@ -84,7 +82,10 @@ describe(`${LIB} - file (state)`, function() {
 				basename: 'original' + path.parse(id).ext, // extensions should match
 				parent_path: 'foo',
 				fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-				fs_bcd_assessed_reliability: 'unknown',
+				neighbor_hints: {
+					parent_folder_bcd: undefined,
+					fs_bcd_assessed_reliability: 'unknown',
+				},
 			}
 		})
 
@@ -220,7 +221,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						basename: file_basename__original,
 						parent_path: parent_folder_name__original,
 						fs_bcd_tms: date__fs_ms__original,
-						fs_bcd_assessed_reliability: 'unknown',
+						neighbor_hints: {
+							parent_folder_bcd: undefined,
+							fs_bcd_assessed_reliability: 'unknown',
+						},
 					},
 				}
 			}
@@ -633,7 +637,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 						basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
 						parent_path: 'foo',
 						fs_bcd_tms: creation_date_ms,
-						fs_bcd_assessed_reliability: 'unknown',
+						neighbor_hints: {
+							parent_folder_bcd: undefined,
+							fs_bcd_assessed_reliability: 'unknown',
+						},
 					}
 				})
 				expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)

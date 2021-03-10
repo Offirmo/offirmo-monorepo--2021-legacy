@@ -39,6 +39,17 @@ export type PhotoSorterTimestampSeconds = string
 export type PhotoSorterTimestampMillis = string
 export type PhotoSorterTimestampAuto = string
 
+export interface BetterDateMembers {
+	year?: number,
+	month?: number,
+	day?: number,
+	hour?: number,
+	minute?: number,
+	second?: number,
+	milli?: number,
+	tz: TimeZone | 'tz:auto'
+}
+
 export interface BetterDate {
 	_debug: any
 
@@ -120,6 +131,20 @@ export function get_day_of_week_index(date: Immutable<BetterDate>): number {
 
 export function get_year(date: Immutable<BetterDate>): number {
 	return date._lx.year
+}
+
+// serializable version
+export function get_members(date: Immutable<BetterDate>): BetterDateMembers {
+	return {
+		year: date._lx.year,
+		month: date._lx.month,
+		day: date._lx.day,
+		hour: date._lx.hour,
+		minute: date._lx.minute,
+		second: date._lx.second,
+		milli: date._lx.millisecond,
+		tz: date._lx.zone.name, // TODO improve, rembmer if was created with auto
+	}
 }
 
 // used in unit tests only
@@ -327,16 +352,7 @@ export function create_better_date_obj({
 	second,
 	milli,
 	tz = 'tz:auto',
-}: {
-	year?: number,
-	month?: number,
-	day?: number,
-	hour?: number,
-	minute?: number,
-	second?: number,
-	milli?: number,
-	tz: TimeZone | 'tz:auto'
-}): BetterDate {
+}: Immutable<BetterDateMembers>): BetterDate {
 
 	let _lx = LuxonDateTime.fromObject({
 		year,

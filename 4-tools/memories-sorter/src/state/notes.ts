@@ -205,9 +205,9 @@ export function to_string(state: Immutable<State>): string {
 function notes_to_string(notes: Immutable<FileNotes>): string {
 	let str = ''
 
-	const fs_birthtime_reliability = notes.historical.fs_bcd_assessed_reliability === 'unknown'
+	const fs_birthtime_reliability = notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'unknown'
 		? '❓'
-		: notes.historical.fs_bcd_assessed_reliability === 'reliable'
+		: notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'reliable'
 			? '✅'
 			: '❌'
 	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(
