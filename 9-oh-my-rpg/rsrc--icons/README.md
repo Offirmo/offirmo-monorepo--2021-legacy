@@ -2,31 +2,41 @@
 
 https://icomoon.io/app/
 
+
 ## Credits
 
-https://game-icons.net/1x1/lorc/battle-gear.html
+### icons
 
-From https://icomoon.io/
-* ...
+* https://game-icons.net
+* https://fontawesome.com
+* https://thenounproject.com/search/
+* http://www.languageicon.org
+* https://icomoon.io
 
-From https://game-icons.net/
-* Locked chest https://game-icons.net/1x1/lorc/locked-chest.html
-* https://game-icons.net/1x1/lorc/breastplate.html
-* https://game-icons.net/1x1/lorc/enlightenment.html
-* https://game-icons.net/1x1/lorc/cash.html
-* https://game-icons.net/1x1/lorc/treasure-map.html
+
+* https://game-icons.net/1x1/lorc/locked-chest.html
 * https://game-icons.net/1x1/delapouite/biceps.html
 * https://game-icons.net/1x1/delapouite/tavern-sign.html
-* https://game-icons.net/1x1/lorc/laurel-crown.html
-* https://game-icons.net/1x1/lorc/death-note.html
 * https://game-icons.net/1x1/delapouite/unicorn.html
-* https://game-icons.net/1x1/lorc/eagle-emblem.html
 * https://game-icons.net/1x1/lorc/battle-gear.html
+* https://game-icons.net/1x1/lorc/breastplate.html
+* https://game-icons.net/1x1/lorc/cash.html
+* https://game-icons.net/1x1/lorc/death-note.html
+* https://game-icons.net/1x1/lorc/eagle-emblem.html
+* https://game-icons.net/1x1/lorc/enlightenment.html
+* https://game-icons.net/1x1/lorc/laurel-crown.html
+* https://game-icons.net/1x1/lorc/treasure-map.html
 
 
 UNUSED
 - https://thenounproject.com/term/translation/24074
 - https://thenounproject.com/term/fantasy-tag/2409234/
+
+
+### Tools
+
+* https://www.online-convert.com/ used to convert the language icon to SVG
+
 
 ## TOSORT
 

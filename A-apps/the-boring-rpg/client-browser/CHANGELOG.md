@@ -13,7 +13,7 @@
 
 
 ## v0.65.15
-2020/03/10
+2020/03/11
 - 😷 chore: Google Analytics 4
 - 😷 chore: bump dependencies
 

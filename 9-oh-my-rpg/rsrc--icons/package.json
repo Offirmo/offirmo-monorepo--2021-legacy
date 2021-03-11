@@ -1,6 +1,6 @@
 {
-	"name": "@oh-my-rpg/rsrc--font--icon",
-	"description": "RPG icon rsrcs as a font",
+	"name": "@oh-my-rpg/rsrc--icons",
+	"description": "RPG icon rsrcs",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",

@@ -19,7 +19,8 @@ import {
 	get_file_basename_copy_index,
 	get_digit_pattern,
 	get_media_basename_normalisation_version, is_processed_media_basename, is_normalized_media_basename,
-	get_folder_basename_normalisation_version, is_processed_event_folder, is_normalized_event_folder,
+	get_folder_relpath_normalisation_version, is_normalized_event_folder_relpath,
+	get_folder_basename_normalisation_version, is_processed_event_folder_basename,
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
@@ -411,29 +412,57 @@ describe(`${LIB} - (base)name parser`, function() {
 		})
 	})
 
-	describe('get_folder_basename_normalisation_version(), is_processed_event_folder(), is_normalized_event_folder()', function() {
+	describe('get_folder_relpath_normalisation_version(), is_normalized_event_folder_relpath()', function() {
 		const T: { [k: string]: undefined | number } = {
 			// v1
 			'2007/20070101 - foo'                : 1,
 			'2007/20070101 - 00- voyage à Paris' : 1,
 			'2007/20070101 - x00- voyage à Paris': 1,
-			'2007/01012007 - foo': undefined,
 			// none
+			'2007/01012007 - foo'                 : undefined, // wrong date format
 			'foo'                                 : undefined,
 			'2007'                                : undefined,
 			'2002/46- après-midi Victor/vaisselle': undefined,
 			'2002/47- st. Nicolas 2002'           : undefined,
+			'1234567890'                          : undefined,
+			// v1 basename but wrong path
+			'20171020 - foo'                      : undefined,
+			'foo/bar/20171020 - foo'              : undefined,
 		}
 
 		Object.keys(T).forEach(relpath => {
 			it(`should work for "${relpath}"`, () => {
-				expect(get_folder_basename_normalisation_version(relpath))
+				expect(get_folder_relpath_normalisation_version(relpath))
 					.to.equal(T[relpath])
-				expect(is_normalized_event_folder(relpath))
+				expect(is_normalized_event_folder_relpath(relpath))
 					.to.equal(T[relpath] === RELATIVE_PATH_NORMALIZATION_VERSION)
-				expect(is_processed_event_folder(relpath))
-					.to.equal(T[relpath] !== undefined)
+			})
+		})
+
+	})
+
+	describe('get_folder_basename_normalisation_version(), is_processed_event_folder_basename()', function() {
+		const T: { [k: string]: undefined | number } = {
+			// v1
+			'20070101 - foo'                 : 1,
+			'20070101 - 00- voyage à Paris'  : 1,
+			'20070101 - x00- voyage à Paris' : 1,
+			// none
+			'foo'                            : undefined,
+			'2007'                           : undefined,
+			'46- après-midi Victor'          : undefined,
+			'47- st. Nicolas 2002'           : undefined,
+			'1234567890'                     : undefined,
+		}
+
+		Object.keys(T).forEach(basename => {
+			it(`should work for "${basename}"`, () => {
+				expect(get_folder_basename_normalisation_version(basename))
+					.to.equal(T[basename])
+				expect(is_processed_event_folder_basename(basename))
+					.to.equal(T[basename] !== undefined)
 			})
 		})
 	})
 })
+

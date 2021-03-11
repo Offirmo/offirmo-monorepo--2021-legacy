@@ -19,11 +19,23 @@ import { enforce_immutability } from '@offirmo-private/state-utils'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import { EXIF_POWERED_FILE_EXTENSIONS_LC, NOTES_BASENAME_SUFFIX_LC, DIGIT_PROTECTION_SEPARATOR } from '../consts'
-import { Basename, RelativePath, SimpleYYYYMMDD, TimeZone } from '../types'
-import { get_params, Params } from '../params'
+import {
+	EXIF_POWERED_FILE_EXTENSIONS_LC,
+	NOTES_BASENAME_SUFFIX_LC,
+	DIGIT_PROTECTION_SEPARATOR,
+} from '../consts'
+import {
+	Basename,
+	RelativePath,
+	SimpleYYYYMMDD,
+	TimeZone,
+} from '../types'
+import { Params, get_params } from '../params'
 import logger from '../services/logger'
-import { FsStatsSubset, get_most_reliable_birthtime_from_fs_stats } from '../services/fs_stats'
+import {
+	FsStatsSubset,
+	get_most_reliable_birthtime_from_fs_stats,
+} from '../services/fs_stats'
 import {
 	get_best_creation_date_from_exif,
 	get_creation_timezone_from_exif,
@@ -34,7 +46,7 @@ import {
 	get_file_basename_copy_index,
 	get_file_basename_extension‿normalized,
 	get_file_basename_without_copy_index,
-	is_normalized_event_folder,
+	is_normalized_event_folder_relpath,
 	is_processed_media_basename,
 	parse_file_basename,
 	pathㆍparse_memoized,
@@ -49,7 +61,8 @@ import {
 	get_timestamp_utc_ms_from,
 	is_same_date_with_potential_tz_difference,
 	get_debug_representation,
-	create_better_date_obj,
+	create_better_date_obj, get_members,
+	DAY_IN_MILLIS,
 } from '../services/better-date'
 import { FileHash } from '../services/hash'
 import { is_digit } from '../services/matchers'
@@ -121,7 +134,7 @@ export interface State {
 	current_fs_stats: undefined | FsStatsSubset // can't be null, is always a file
 	current_hash: undefined | FileHash // can't be null, always a file
 	current_exif_data: undefined | EXIFTags | null // can be null if no EXIF for this format
-	current_neighbour_hints: undefined | NeighborHints
+	current_neighbor_hints: undefined | NeighborHints
 
 	are_notes_restored: boolean // needed to check if restoration happened
 	notes: PersistedNotes
@@ -202,7 +215,7 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 	const is_exif_available_if_needed   = state.current_exif_data       !== undefined
 	const are_fs_stats_read             = state.current_fs_stats        !== undefined
 	const is_current_hash_computed      = state.current_hash            !== undefined
-	const are_neighbors_hints_collected = state.current_neighbour_hints !== undefined
+	const are_neighbors_hints_collected = state.current_neighbor_hints !== undefined
 	const { are_notes_restored } = state
 
 	const has_all_infos = true
@@ -371,10 +384,10 @@ function _get_creation_date__from_parent_folder__original(state: Immutable<State
 	return create_better_date_obj(state.notes.historical.neighbor_hints.parent_folder_bcd)
 }
 function _get_creation_date__from_parent_folder__current(state: Immutable<State>): BetterDate | undefined {
-	assert(state.current_neighbour_hints, `_get_creation_date__from_parent_folder__current() needs neighbor hints`)
+	assert(state.current_neighbor_hints, `_get_creation_date__from_parent_folder__current() needs neighbor hints`)
 
-	if(state.current_neighbour_hints.parent_folder_bcd)
-		return state.current_neighbour_hints.parent_folder_bcd
+	if(state.current_neighbor_hints.parent_folder_bcd)
+		return state.current_neighbor_hints.parent_folder_bcd
 
 	return undefined
 }
@@ -711,9 +724,9 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 	/////// SECONDARY SOURCES ///////
 
 	logger.trace('get_best_creation_date_meta__from_current_data() trying FS + env hints…', {
-		current_neighbour_hints: state.current_neighbour_hints
+		current_neighbor_hints: state.current_neighbor_hints
 	})
-	if (state.current_neighbour_hints) {
+	if (state.current_neighbor_hints) {
 		throw new Error('get_best_creation_date_meta__from_current_data() NIMP')
 	}
 
@@ -721,9 +734,9 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 
 	// borderline secondary/junk
 	logger.trace('get_best_creation_date_meta__from_current_data() trying env hints…', {
-		current_neighbour_hints: state.current_neighbour_hints
+		current_neighbor_hints: state.current_neighbor_hints
 	})
-	if (state.current_neighbour_hints) {
+	if (state.current_neighbor_hints) {
 		const date__from_parent_folder__current = _get_creation_date__from_parent_folder__current(state)
 		if (date__from_parent_folder__current) {
 			result.candidate = date__from_parent_folder__current
@@ -869,10 +882,10 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 
 	// the user may have manually sorted the file
 	logger.trace('get_best_creation_date_meta() trying FS + original hints…', {
-		current_neighbour_hints: state.current_neighbour_hints
+		current_neighbor_hints: state.current_neighbor_hints
 	})
-	assert(state.current_neighbour_hints)
-	if (state.current_neighbour_hints.fs_bcd_assessed_reliability === 'reliable') {
+	assert(state.current_neighbor_hints)
+	if (state.current_neighbor_hints.fs_bcd_assessed_reliability === 'reliable') {
 		result.candidate = bcd__from_fs__oldest_known
 		result.source = 'original_fs+env_hints'
 		result.confidence = 'secondary'
@@ -1100,7 +1113,7 @@ export function create(id: FileId): Immutable<State> {
 		current_exif_data: undefined,
 		current_fs_stats: undefined,
 		current_hash: undefined,
-		current_neighbour_hints: undefined,
+		current_neighbor_hints: undefined,
 
 		are_notes_restored: false,
 		notes: {
@@ -1223,34 +1236,28 @@ export function on_info_read__hash(state: Immutable<State>, hash: string): Immut
 // this extra "on_info_read..." happens on consolidation, requires ALL files to have all the above loaded
 export function on_info_read__current_neighbors_primary_hints(
 	state: Immutable<State>,
-	neighbors_primary_hints: Immutable<NeighborHints>,
+	neighbor_hints: Immutable<NeighborHints>,
+	PARAMS = get_params(),
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
-		neighbors_primary_hints,
+		neighbor_hints,
 	})
 
-	assert(!state.current_neighbour_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
+	assert(!state.current_neighbor_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
 	assert(!state.are_notes_restored, `on_info_read__current_neighbors_primary_hints() should be called BEFORE notes restoration ${state.id}`)
 
-	if (is_notes(state)) return state // TODO needed?
-
-	////////////////////////////////////
-
-	throw new Error('NIMP on_info_read__current_neighbors_primary_hints')
-	/*const current_fs_bcd_assessed_reliability: FsReliability = (() => {
+	const our_current_fs_bcd_assessed_reliability: FsReliability = (() => {
 
 		// first look at ourself
-
 		const self_assessed_reliability = get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(state)
 		if (self_assessed_reliability !== 'unknown')
 			return self_assessed_reliability
 
 		// unknown reliability so far, let's try to infer one from our neighbors
-
 		const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
 
-		const bcd__from_parent_folder__current = _get_creation_date__from_parent_folder__current(state)
+		const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
 		if (bcd__from_parent_folder__current) {
 			const bcd__from_parent_folder__current‿tms = get_timestamp_utc_ms_from(bcd__from_parent_folder__current)
 
@@ -1262,10 +1269,13 @@ export function on_info_read__current_neighbors_primary_hints(
 		}
 
 		// still unknown
+		const folder_fs_bcd_assessed_reliability = neighbor_hints.fs_bcd_assessed_reliability
 
 		// NO! Don't allow a single bad file to pollute an entire folder
-		//if (neighbors_fs_reliability === 'unreliable') return 'unreliable'
+		//if (folder_fs_bcd_assessed_reliability === 'unreliable') return 'unreliable'
 
+		// TODO evaluate if needed?
+		/*
 		if (date_range_from_reliable_neighbors‿tms) {
 			const tms__from_original_reliable_neighbors__begin = date_range_from_reliable_neighbors‿tms[0]
 			const tms__from_original_reliable_neighbors__end = date_range_from_reliable_neighbors‿tms[1]
@@ -1275,26 +1285,29 @@ export function on_info_read__current_neighbors_primary_hints(
 				&& bcd__from_fs__current‿tms <= tms__from_original_reliable_neighbors__end) {
 				return 'reliable'
 			}
-		}
+		}*/
 
 		return 'unknown'
 	})()
 
-	////////////////////////////////////
-
 	state = {
 		...state,
-		current_fs_bcd_assessed_reliability,
+		current_neighbor_hints: neighbor_hints,
 		notes: {
 			...state.notes,
 			historical: {
 				...state.notes.historical,
-				fs_bcd_assessed_reliability: current_fs_bcd_assessed_reliability,
-			}
-		}
+				neighbor_hints: {
+					parent_folder_bcd: neighbor_hints.parent_folder_bcd
+						? get_members(neighbor_hints.parent_folder_bcd)
+						: undefined,
+					fs_bcd_assessed_reliability: our_current_fs_bcd_assessed_reliability,
+				}
+			},
+		},
 	}
 
-	return state*/
+	return state
 }
 
 // happens AFTER ALL on_info_read...
@@ -1467,8 +1480,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		}
 
 		// still equal so far, try to discriminate with another criteria
-		const selected__has_normalized_parent_folder = is_normalized_event_folder(get_current_parent_folder_id(selected_state))
-		const candidate__has_normalized_parent_folder = is_normalized_event_folder(get_current_parent_folder_id(candidate_state))
+		const selected__has_normalized_parent_folder = is_normalized_event_folder_relpath(get_current_parent_folder_id(selected_state))
+		const candidate__has_normalized_parent_folder = is_normalized_event_folder_relpath(get_current_parent_folder_id(candidate_state))
 		if (selected__has_normalized_parent_folder !== candidate__has_normalized_parent_folder) {
 			// we try to keep the already normalized one
 			reasons.add('normalized_parent_folder')

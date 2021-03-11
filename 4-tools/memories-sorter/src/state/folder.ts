@@ -9,10 +9,10 @@ import { DIGIT_PROTECTION_SEPARATOR } from '../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import { get_params, Params } from '../params'
 import { is_year, is_compact_date, is_digit } from '../services/matchers'
-import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder } from '../services/name_parser'
+import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder_basename } from '../services/name_parser'
 import logger from '../services/logger'
 import * as BetterDateLib from '../services/better-date'
-import { add_days_to_simple_date, BetterDate } from '../services/better-date'
+import { add_days_to_simple_date, BetterDate, get_compact_date } from '../services/better-date'
 import * as File from './file'
 import { FsReliability, NeighborHints } from './file'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
@@ -218,7 +218,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 
 	return NORMALIZERS.trim(
 		NORMALIZERS.normalize_unicode(
-			BetterDateLib.get_human_readable_timestamp_days(state.event_range.begin, 'tz:embedded')
+			String(get_compact_date(state.event_range.begin, 'tz:embedded'))
 			+ ' - '
 			+ meaningful_part
 		)
@@ -247,8 +247,7 @@ export function get_event_start_from_basename(state: Immutable<State>): null | I
 	// attempt to cross check with the children date range
 	assert(is_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
 	const { begin, end } = (() => {
-		if (state.children_date_ranges.from_primary_final.begin) {
-			assert(is_pass_2_done(state), `get_event_start_from_basename() pass 2 should be complete, not partial`)
+		if (state.children_date_ranges.from_primary_final.begin && is_pass_2_done(state)) {
 			return state.children_date_ranges.from_primary_final
 		}
 
@@ -275,7 +274,7 @@ export function get_event_start_from_basename(state: Immutable<State>): null | I
 		}
 	}
 
-	if (is_processed_event_folder(current_basename)) {
+	if (is_processed_event_folder_basename(current_basename)) {
 		// this looks very very much like an event
 		// TODO check parent is year as well?
 		return parsed.date

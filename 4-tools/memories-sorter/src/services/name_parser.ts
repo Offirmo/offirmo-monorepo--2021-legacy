@@ -796,25 +796,35 @@ export function is_processed_media_basename(basename: Basename): boolean {
 
 ////////////
 
-export function get_folder_basename_normalisation_version(relpath: RelativePath): number | undefined {
-	const splitted = relpath.split(path.sep)
+export function get_folder_basename_normalisation_version(basename: Basename): number | undefined {
+	assert(basename.split(path.sep).length === 1, `get_folder_basename_normalisation_version() should be given a basename`)
 
-	const last_segment = splitted.slice(-1)[0]
-	const dp_last_segment = get_digit_pattern(last_segment)
+	const dp_basename = get_digit_pattern(basename)
 
-	if (splitted.length === 2
-		&& is_year(splitted[0])
-		&& dp_last_segment.startsWith('xxxxxxxx - ')
-		&& is_YYYYMMDD(last_segment.slice(0, 8)))
+	if (dp_basename.startsWith('xxxxxxxx - ')
+		&& is_YYYYMMDD(basename.slice(0, 8)))
 		return 1
 
 	return undefined
 }
 
-export function is_normalized_event_folder(relpath: RelativePath): boolean {
-	return get_folder_basename_normalisation_version(relpath) === RELATIVE_PATH_NORMALIZATION_VERSION
+export function get_folder_relpath_normalisation_version(relpath: RelativePath): number | undefined {
+	const splitted = relpath.split(path.sep)
+
+	const basename = splitted.slice(-1)[0]
+
+	if (splitted.length === 2
+		&& is_year(splitted[0])
+		&& get_folder_basename_normalisation_version(basename) === 1)
+		return 1
+
+	return undefined
 }
 
-export function is_processed_event_folder(relpath: RelativePath): boolean {
-	return get_folder_basename_normalisation_version(relpath) !== undefined
+export function is_normalized_event_folder_relpath(relpath: RelativePath): boolean {
+	return get_folder_relpath_normalisation_version(relpath) === RELATIVE_PATH_NORMALIZATION_VERSION
+}
+
+export function is_processed_event_folder_basename(basename: Basename): boolean {
+	return get_folder_basename_normalisation_version(basename) !== undefined
 }
