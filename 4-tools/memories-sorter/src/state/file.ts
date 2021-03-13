@@ -123,7 +123,6 @@ export interface PersistedNotes {
 }
 
 
-
 // Id = path relative to root so far
 export type FileId = RelativePath
 
@@ -212,9 +211,9 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 }): boolean {
 	// TODO optim if name = canonical?
 
-	const is_exif_available_if_needed   = state.current_exif_data       !== undefined
-	const are_fs_stats_read             = state.current_fs_stats        !== undefined
-	const is_current_hash_computed      = state.current_hash            !== undefined
+	const is_exif_available_if_needed   = state.current_exif_data      !== undefined
+	const are_fs_stats_read             = state.current_fs_stats       !== undefined
+	const is_current_hash_computed      = state.current_hash           !== undefined
 	const are_neighbors_hints_collected = state.current_neighbor_hints !== undefined
 	const { are_notes_restored } = state
 
@@ -331,7 +330,7 @@ function _get_creation_date__from_basename__original(state: Immutable<State>): B
 
 	if (is_processed_media_basename(oldest_known_basename)) {
 		// this is not the original basename, we lost the info...
-		logger.warn(`_get_creation_date_from_original_basename() lost the original basename`, {
+		logger.warn(`_get_creation_date_from_original_basename() reporting loss of the original basename`, {
 			id: state.id,
 			oldest_known_basename,
 		})
@@ -440,18 +439,23 @@ interface BestDate {
 	source:
 		// primary
 		| 'manual'
-		// primary -- original
+
+		// primary
 		| 'exif'
+
+		// primary -- original
 		| 'original_basename_np' | 'original_basename_np+fs'
 		| 'original_fs+original_env_hints'
 
+		// primary -- current
 		| 'current_basename_np'
 		| 'some_basename_np' | 'some_basename_np+fs'
-		| 'some_basename_p'
+		| 'current_fs+current_env_hints'
 
 		// secondary
-		| 'original_fs+env_hints'
-		| 'env_hints'
+		| 'some_basename_p'
+		| 'original_env_hints'
+		| 'current_env_hints'
 
 		// junk
 		| 'original_fs'
@@ -461,7 +465,8 @@ interface BestDate {
 	is_fs_matching: boolean // useful for deciding to fix FS or not TODO use
 }
 
-// for stability, we try to rely on the oldest known data first and foremost
+// for stability, we try to rely on the oldest known data first and foremost.
+// Note that historical !== original
 // (ideally this func should NOT rely on anything else than TRULY ORIGINAL data)
 // TODO UT
 export function get_best_creation_date_meta__from_historical_data(state: Immutable<State>, PARAMS = get_params()): BestDate {
@@ -526,7 +531,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 			}
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_historical_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -558,11 +563,11 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_historical_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
-	// FS is ok if confirmed by some primary hints
+	// FS is ok as PRIMARY if confirmed by some primary hints
 	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS + original hints…', {
 		fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
 	})
@@ -572,7 +577,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 		result.confidence = 'primary'
 		result.is_fs_matching = true
 
-		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_historical_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -592,36 +597,41 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 		result.confidence = 'secondary'
 		result.is_fs_matching = true
 
-		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_historical_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
-	/////// JUNK SOURCES ///////
-
+	// worst secondary choice
 	const bcd__from_parent_folder__original = _get_creation_date__from_parent_folder__original(state)
 	logger.trace('get_best_creation_date_meta__from_historical_data() trying parent folder…', {
 		date__from_parent_folder__original: bcd__from_parent_folder__original,
 	})
 	if (bcd__from_parent_folder__original) {
+		// while the parent's date is likely to be several days off
+		// it's still useful for sorting into an event
 		result.candidate = bcd__from_parent_folder__original
-		result.source = 'env_hints'
-		result.confidence = 'junk'
+		result.source = 'original_env_hints'
+		result.confidence = 'secondary'
 		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
-		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_historical_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
+
+	/////// JUNK SOURCES ///////
 
 	// still the starting default
 	assert(result.candidate === bcd__from_fs__oldest_known)
 	assert(result.confidence === 'junk')
 	result.is_fs_matching = true // obviously
 
-	logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+	logger.trace(`_get_best_creation_date_meta__from_historical_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 	return result
 }
 
-// used on 1st stage consolidation
+// TODO on a first encounter, __from_historical_data and __from_current_data should return the same!!!
+
+// used on 1st stage consolidation => it should be able to work without hints and notes
 // info may be overriden by notes later
 // useful for files we encounter for the first time
 export function get_best_creation_date_meta__from_current_data(state: Immutable<State>, PARAMS = get_params()): BestDate {
@@ -631,6 +641,8 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 		has_all_infos_for_extracting_the_creation_date(state, { require_notes: false, require_neighbors_hints: false }),
 		'get_best_creation_date_meta__from_current_data() has_all_infos_for_extracting_the_creation_date()'
 	)
+
+	assert(!state.current_neighbor_hints, `get_best_creation_date_meta__from_current_data() ???`)
 
 	const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
 	const bcd__from_fs__current = create_better_date_from_utc_tms(bcd__from_fs__current‿tms, 'tz:auto')
@@ -644,7 +656,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 		is_fs_matching: false, // init value
 	}
 
-	/////// EARLY PRIMARY SOURCES ///////
+	/////// PRIMARY SOURCES ///////
 
 	// some good cameras put the date in the file name
 	// however it's usually only precise up to the day,
@@ -685,7 +697,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			}
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_current_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -717,37 +729,73 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_current_data() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
-	/////// SECONDARY SOURCES ///////
-
-	logger.trace('get_best_creation_date_meta__from_current_data() trying FS + env hints…', {
-		current_neighbor_hints: state.current_neighbor_hints
-	})
+	// FS is ok as PRIMARY if confirmed by some primary hints XXX hints are socendary TODO review
 	if (state.current_neighbor_hints) {
-		throw new Error('get_best_creation_date_meta__from_current_data() NIMP')
+		// TODO review is that still primary if hints are secondary??
+		// TODO review is that even useful??
+		const current_fs_reliability = _get_current_fs_assessed_reliability(state)
+		logger.trace('get_best_creation_date_meta__from_current_data() trying FS + current hints 1…', {
+			current_neighbor_hints: state.current_neighbor_hints,
+			current_fs_reliability,
+			expected: 'reliable'
+		})
+		if (current_fs_reliability === 'reliable') {
+			result.candidate = bcd__from_fs__current
+			result.source = 'current_fs+current_env_hints'
+			result.confidence = 'primary'
+			result.is_fs_matching = true
+
+			logger.trace(`get_best_creation_date_meta__from_current_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
+			return result
+		}
 	}
 
-	/////// JUNK SOURCE ///////
+	// Note: date from parent folder should NEVER make it above secondary
+
+	/////// SECONDARY SOURCES ///////
+
+	if (state.current_neighbor_hints) {
+		// TODO review is that even useful??
+		const current_fs_reliability = _get_current_fs_assessed_reliability(state)
+		logger.trace('get_best_creation_date_meta__from_current_data() trying FS + current hints 2…', {
+			current_neighbor_hints: state.current_neighbor_hints,
+			current_fs_reliability,
+			expected: 'unknown'
+		})
+		if (current_fs_reliability === 'unknown') {
+			result.candidate = bcd__from_fs__current
+			result.source = 'current_fs+current_env_hints'
+			result.confidence = 'secondary'
+			result.is_fs_matching = true
+
+			logger.trace(`get_best_creation_date_meta__from_current_data() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
+			return result
+		}
+	}
 
 	// borderline secondary/junk
 	logger.trace('get_best_creation_date_meta__from_current_data() trying env hints…', {
 		current_neighbor_hints: state.current_neighbor_hints
 	})
 	if (state.current_neighbor_hints) {
+		// TODO review is that even useful??
 		const date__from_parent_folder__current = _get_creation_date__from_parent_folder__current(state)
 		if (date__from_parent_folder__current) {
 			result.candidate = date__from_parent_folder__current
-			result.source = 'env_hints'
-			result.confidence = 'junk'
+			result.source = 'current_env_hints'
+			result.confidence = 'secondary'
 			result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
 
-			logger.trace(`get_best_creation_date_meta__from_current_data() used ${ result.source } with confidence = ${ result.confidence } ✔`)
+			logger.trace(`get_best_creation_date_meta__from_current_data() resolved from ${ result.source } with confidence = ${ result.confidence } ✔`)
 			return result
 		}
 	}
+
+	/////// JUNK SOURCE ///////
 
 	// default to fs
 	assert(result.source === 'current_fs')
@@ -756,6 +804,8 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 	return result
 }
 
+// Best creation date overall
+// mixes the best info from historical and current + takes into account "manual"
 export const get_best_creation_date_meta = micro_memoize(function get_best_creation_date_meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
 	logger.trace(`get_best_creation_date_meta()`, { id: state.id })
 
@@ -789,7 +839,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	logger.trace('get_best_creation_date_meta() trying original data…')
 	const meta__from_historical = get_best_creation_date_meta__from_historical_data(state, PARAMS)
 	if (meta__from_historical.confidence === 'primary') {
-		logger.trace(`get_best_creation_date_meta() used historical data result ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved from historical data result ✔ (primary)`)
 		return meta__from_historical
 	}
 
@@ -799,6 +849,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	const bcd__from_basename__whatever_non_processed: BetterDate | undefined = _get_creation_date__from_basename__whatever_non_processed(state)
 
 	// strongest source after "manual"
+	// TODO review = redundant with historical??
 	const bcd__from_exif = _get_creation_date__from_exif(state)
 	logger.trace('get_best_creation_date_meta() trying EXIF…')
 	if (bcd__from_exif) {
@@ -832,7 +883,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 			}
 		}
 
-		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -864,35 +915,21 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
 	// FS is handled by the "_historical()" selector
+	// if not triggered, means current FS is not original hence not primary
 
 	// Note: date from parent folder should NEVER make it above secondary
 
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
 
-	if (meta__from_historical.confidence === 'secondary') {
-		logger.trace(`get_best_creation_date_meta() used original data result ✔`)
+	if (meta__from_historical.confidence === 'secondary' && meta__from_historical.source !== 'original_env_hints') {
+		logger.trace(`get_best_creation_date_meta() resolved from historical data result ✔ (secondary)`)
 		return meta__from_historical
-	}
-
-	// the user may have manually sorted the file
-	logger.trace('get_best_creation_date_meta() trying FS + original hints…', {
-		current_neighbor_hints: state.current_neighbor_hints
-	})
-	assert(state.current_neighbor_hints)
-	if (state.current_neighbor_hints.fs_bcd_assessed_reliability === 'reliable') {
-		result.candidate = bcd__from_fs__oldest_known
-		result.source = 'original_fs+env_hints'
-		result.confidence = 'secondary'
-		result.is_fs_matching = true
-
-		logger.trace(`_get_best_creation_date_meta__from_historical_data() used ${result.source} with confidence = ${result.confidence} ✔`)
-		return result
 	}
 
 	// if historical or current basename is already normalized,
@@ -904,32 +941,33 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	if (date__from_basename__whatever_processed) {
 		result.candidate = date__from_basename__whatever_processed
 		result.source = 'some_basename_p'
-		result.confidence = 'primary'
+		result.confidence = 'secondary' // since we can't guarantee that it's truely from original
 		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		// normalized is already super precise, no need to refine with FS
 		// TODO review what if algo improvement?
 
-		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
+		return result
+	}
+
+	// borderline secondary/junk
+	// the user may have manually sorted the file into the right folder
+	const date__from_parent_folder__any = _get_creation_date__from_parent_folder__current(state)
+	if (date__from_parent_folder__any) {
+		result.candidate = date__from_parent_folder__any
+		result.source = 'current_env_hints'
+		result.confidence = 'secondary'
+		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+
+		logger.trace(`get_best_creation_date_meta() resolved from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
 	/////// JUNK SOURCE ///////
 
-	// borderline secondary/junk
-	/*const date__from_parent_folder__any = _get_creation_date__from_parent_folder__any(state)
-	if (date__from_parent_folder__any) {
-		result.candidate = date__from_parent_folder__any
-		result.source = 'env_hints'
-		result.confidence = 'junk'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
-
-		logger.trace(`get_best_creation_date_meta() used ${result.source} with confidence = ${result.confidence} ✔`)
-		return result
-	}*/
-
 	// at this level, historical is still better
-	logger.trace(`get_best_creation_date_meta() used historical data result ✔`)
+	logger.trace(`get_best_creation_date_meta() resolved from historical data result ✔ (junk)`)
 	return meta__from_historical
 }, {
 	maxSize: 10, // we need 1 or millions. The >1 is for having less noise during unit tests across a few files
@@ -1018,6 +1056,54 @@ export function get_current_fs_date_reliability_according_to_other_trustable_cur
 	return 'unreliable'
 }
 
+function _get_current_fs_assessed_reliability(
+	state: Immutable<State>,
+	PARAMS = get_params(),
+	neighbor_hints: Immutable<NeighborHints> = state.current_neighbor_hints!,
+): FsReliability {
+	assert(neighbor_hints, `_get_current_fs_assessed_reliability() should be called with neighbor hints`)
+
+	// first look at ourself
+	const self_assessed_reliability = get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(state)
+	if (self_assessed_reliability !== 'unknown')
+		return self_assessed_reliability
+
+	// unknown reliability so far, let's try to infer one from our neighbors
+	const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
+
+	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
+	if (bcd__from_parent_folder__current) {
+		const bcd__from_parent_folder__current‿tms = get_timestamp_utc_ms_from(bcd__from_parent_folder__current)
+
+		if (bcd__from_fs__current‿tms >= bcd__from_parent_folder__current‿tms
+			&& bcd__from_fs__current‿tms < (bcd__from_parent_folder__current‿tms + PARAMS.max_event_durationⳇₓday * DAY_IN_MILLIS)) {
+			// ok, looks like an event folder configuration
+			return 'reliable'
+		}
+	}
+
+	// still unknown
+	const folder_fs_bcd_assessed_reliability = neighbor_hints.fs_bcd_assessed_reliability
+
+	// NO! Don't allow a single bad file to pollute an entire folder
+	//if (folder_fs_bcd_assessed_reliability === 'unreliable') return 'unreliable'
+
+	// TODO evaluate if needed?
+	/*
+	if (date_range_from_reliable_neighbors‿tms) {
+		const tms__from_original_reliable_neighbors__begin = date_range_from_reliable_neighbors‿tms[0]
+		const tms__from_original_reliable_neighbors__end = date_range_from_reliable_neighbors‿tms[1]
+
+		// TODO allow a little bit of margin?
+		if (bcd__from_fs__current‿tms >= tms__from_original_reliable_neighbors__begin
+			&& bcd__from_fs__current‿tms <= tms__from_original_reliable_neighbors__end) {
+			return 'reliable'
+		}
+	}*/
+
+	return 'unknown'
+}
+
 // TODO export function should_normalize(...) if older norm etc. Or should be in ideal basename?
 /*
 export function is_date_from_original_data(state: Immutable<State>): boolean {
@@ -1057,12 +1143,13 @@ export function get_ideal_basename(state: Immutable<State>, {
 				break
 			// @ts-ignore
 			case 'secondary':
-				if (requested_confidence) {
+				if (requested_confidence && !is_processed_media_basename(get_current_basename(state))) {
 					// not confident enough in getting the date, can't add the date
 					break
 				}
 				/* fallthrough */
 			case 'primary':
+				/* fallthrough */
 			default:
 				const bcd = bcd_meta.candidate
 				const prefix = 'MM' + get_human_readable_timestamp_auto(bcd, 'tz:embedded')
@@ -1157,7 +1244,7 @@ export function create(id: FileId): Immutable<State> {
 	return enforce_immutability(state)
 }
 
-// Those "on_info_read..." happens first and have no inter-dependencies
+// Those PRIMARY "on_info_read..." happens first and have no inter-dependencies
 
 export function on_info_read__fs_stats(state: Immutable<State>, fs_stats_subset: Immutable<FsStatsSubset>): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__fs_stats(…)`, { })
@@ -1233,7 +1320,7 @@ export function on_info_read__hash(state: Immutable<State>, hash: string): Immut
 	return state
 }
 
-// this extra "on_info_read..." happens on consolidation, requires ALL files to have all the above loaded
+// this extra SECONDARY "on_info_read..." happens on consolidation, requires ALL files to have all the PRIMARY loaded
 export function on_info_read__current_neighbors_primary_hints(
 	state: Immutable<State>,
 	neighbor_hints: Immutable<NeighborHints>,
@@ -1247,48 +1334,7 @@ export function on_info_read__current_neighbors_primary_hints(
 	assert(!state.current_neighbor_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
 	assert(!state.are_notes_restored, `on_info_read__current_neighbors_primary_hints() should be called BEFORE notes restoration ${state.id}`)
 
-	const our_current_fs_bcd_assessed_reliability: FsReliability = (() => {
-
-		// first look at ourself
-		const self_assessed_reliability = get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(state)
-		if (self_assessed_reliability !== 'unknown')
-			return self_assessed_reliability
-
-		// unknown reliability so far, let's try to infer one from our neighbors
-		const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
-
-		const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
-		if (bcd__from_parent_folder__current) {
-			const bcd__from_parent_folder__current‿tms = get_timestamp_utc_ms_from(bcd__from_parent_folder__current)
-
-			if (bcd__from_fs__current‿tms >= bcd__from_parent_folder__current‿tms
-				&& bcd__from_fs__current‿tms < (bcd__from_parent_folder__current‿tms + PARAMS.max_event_durationⳇₓday * DAY_IN_MILLIS)) {
-				// ok, looks like an event folder configuration
-				return 'reliable'
-			}
-		}
-
-		// still unknown
-		const folder_fs_bcd_assessed_reliability = neighbor_hints.fs_bcd_assessed_reliability
-
-		// NO! Don't allow a single bad file to pollute an entire folder
-		//if (folder_fs_bcd_assessed_reliability === 'unreliable') return 'unreliable'
-
-		// TODO evaluate if needed?
-		/*
-		if (date_range_from_reliable_neighbors‿tms) {
-			const tms__from_original_reliable_neighbors__begin = date_range_from_reliable_neighbors‿tms[0]
-			const tms__from_original_reliable_neighbors__end = date_range_from_reliable_neighbors‿tms[1]
-
-			// TODO allow a little bit of margin?
-			if (bcd__from_fs__current‿tms >= tms__from_original_reliable_neighbors__begin
-				&& bcd__from_fs__current‿tms <= tms__from_original_reliable_neighbors__end) {
-				return 'reliable'
-			}
-		}*/
-
-		return 'unknown'
-	})()
+	const our_current_fs_bcd_assessed_reliability: FsReliability = _get_current_fs_assessed_reliability(state, PARAMS, neighbor_hints)
 
 	state = {
 		...state,
@@ -1311,7 +1357,6 @@ export function on_info_read__current_neighbors_primary_hints(
 }
 
 // happens AFTER ALL on_info_read...
-
 export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
 

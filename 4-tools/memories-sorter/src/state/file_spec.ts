@@ -143,24 +143,24 @@ describe(`${LIB} - file (state)`, function() {
 		const BAD_CREATION_DATE_CANDIDATE‿SYMD = get_compact_date(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 
 		// everything bad / undated by default, so that the tests must override those
-		let parent_folder_name__current = 'foo'
-		let file_basename__current = 'bar.jpg'
+		let parent_basename__current = 'foo'
+		let basename__current = 'bar.jpg'
 		let date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS // always exist
-		let parent_folder_name__original = parent_folder_name__current
-		let file_basename__original = file_basename__current
-		let date__fs_ms__original = date__fs_ms__current // always exist
+		let parent_basename__historical = parent_basename__current
+		let basename__original = basename__current
+		let date__fs_ms__historical = date__fs_ms__current // always exist
 		let date__exif: null | typeof REAL_CREATION_DATE‿EXIF = BAD_CREATION_DATE_CANDIDATE‿EXIF
 		let notes: null | 'auto' | Immutable<PersistedNotes> = null
 		let hints_from_reliable_neighbors__current__fs_reliability: FsReliability = 'unknown'
 		//let hints_from_reliable_neighbors__current__range: null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] = null
 
 		beforeEach(() => {
-			parent_folder_name__current = 'foo'
-			file_basename__current = 'bar.jpg'
+			parent_basename__current = 'foo'
+			basename__current = 'bar.jpg'
 			date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS
-			parent_folder_name__original = parent_folder_name__current
-			file_basename__original = file_basename__current
-			date__fs_ms__original = date__fs_ms__current // always exist
+			parent_basename__historical = parent_basename__current
+			basename__original = basename__current
+			date__fs_ms__historical = date__fs_ms__current // always exist
 			date__exif = BAD_CREATION_DATE_CANDIDATE‿EXIF
 			notes = null
 			//hints_from_reliable_neighbors__current__range = null
@@ -168,18 +168,18 @@ describe(`${LIB} - file (state)`, function() {
 		})
 		function create_test_file_state(): Immutable<State> {
 			/*console.log({
-parent_folder_name__original,
-parent_folder_name__current,
-file_basename__original,
-file_basename__current,
-date__fs_ms__original,
+parent_basename__historical,
+parent_basename__current,
+basename__original,
+basename__current,
+date__fs_ms__historical,
 date__fs_ms__current,
 date__exif,
 notes,
 hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__range,
 })*/
 
-			const id = path.join(parent_folder_name__current, file_basename__current)
+			const id = path.join(parent_basename__current, basename__current)
 			let state = create(id)
 
 			state = on_info_read__fs_stats(state, {
@@ -208,7 +208,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 			if (notes === 'auto') {
 				notes = {
-					currently_known_as: file_basename__current,
+					currently_known_as: basename__current,
 					renaming_source: undefined,
 
 					deleted: false,
@@ -218,9 +218,9 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 					best_date_afawk_symd: undefined, // TODO?
 
 					historical: {
-						basename: file_basename__original,
-						parent_path: parent_folder_name__original,
-						fs_bcd_tms: date__fs_ms__original,
+						basename: basename__original,
+						parent_path: parent_basename__historical,
+						fs_bcd_tms: date__fs_ms__historical,
 						neighbor_hints: {
 							parent_folder_bcd: undefined,
 							fs_bcd_assessed_reliability: 'unknown',
@@ -268,7 +268,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					context('when this basename is NOT already processed', function() {
 						beforeEach(() => {
-							file_basename__current = 'IMG_20171020_0501.jpg'
+							basename__current = 'IMG_20171020_0501.jpg'
 						})
 
 						context('when having a matching FS date', function() {
@@ -314,7 +314,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					context('when this basename is already processed', function() {
 						beforeEach(() => {
-							file_basename__current = `MM${REAL_CREATION_DATE‿HRTS}_hello.jpg`
+							basename__current = `MM${REAL_CREATION_DATE‿HRTS}_hello.jpg`
 						})
 
 						context('when NOT having a matching FS date', function() {
@@ -364,7 +364,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 
 					context('when having hints -- from parent folder only', function() {
 						beforeEach(() => {
-							parent_folder_name__current = '20171010 - holiday at the beach'
+							parent_basename__current = '20171010 - holiday at the beach'
 						})
 
 						context('when FS is matching (date range)', function () {
@@ -508,10 +508,10 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 									beforeEach(() => {
 										// = GMT: Wednesday, 31 July 2019 3:00:22 AM
 										// not exact match but within acceptable range of a tz difference
-										date__fs_ms__original = 1564542022000
-										date__fs_ms__current = date__fs_ms__original // TODO test with random
-										file_basename__original = 'Capture d’écran 2019-07-31 à 21.00.15.png'
-										file_basename__current = 'MM2019-07-31_21h00m15_screenshot.png' // perfectly matching
+										date__fs_ms__historical = 1564542022000
+										date__fs_ms__current = date__fs_ms__historical // TODO test with random
+										basename__original = 'Capture d’écran 2019-07-31 à 21.00.15.png'
+										basename__current = 'MM2019-07-31_21h00m15_screenshot.png' // perfectly matching
 									})
 
 									it(`should be stable = no change`, () => {
@@ -525,7 +525,7 @@ hints_from_reliable_neighbors__current: hints_from_reliable_neighbors__current__
 										expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 										// final as integration
-										expect(get_ideal_basename(state), 'ideal basename').to.equal(file_basename__current)
+										expect(get_ideal_basename(state), 'ideal basename').to.equal(basename__current)
 									})
 								})
 							})

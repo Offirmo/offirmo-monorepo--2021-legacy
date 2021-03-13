@@ -9,7 +9,7 @@ import { get_base_loose, enforce_immutability } from '@offirmo-private/state-uti
 
 import { NOTES_BASENAME_SUFFIX_LC, LIB as APP } from '../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
-import { Action } from './actions'
+import { Action, ActionType } from './actions'
 import * as Actions from './actions'
 import { FileHash } from '../services/hash'
 import { FsStatsSubset } from '../services/fs_stats'
@@ -369,7 +369,7 @@ export function create(root: AbsolutePath): Immutable<State> {
 }
 
 function _enqueue_action(state: Immutable<State>, action: Action): Immutable<State> {
-	logger.trace(`${LIB} _enqueue_action(…)`, action)
+	logger.trace(`${LIB} _enqueue_action(…)`, action.type === ActionType.persist_notes ? { type: ActionType.persist_notes } : action)
 
 	return {
 		...state,
