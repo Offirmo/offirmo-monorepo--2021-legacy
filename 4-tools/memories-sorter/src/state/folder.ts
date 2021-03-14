@@ -286,6 +286,11 @@ export function get_event_start_from_basename(state: Immutable<State>): null | I
 	}
 
 	// can't really tell...
+	console.error({
+		current_basename,
+		ip: is_processed_event_folder_basename(current_basename),
+		pmp: parsed.meaningful_part,
+	})
 	throw new Error('get_event_start_from_basename() NIMP2')
 }
 
@@ -362,6 +367,11 @@ export function create(id: RelativePath): Immutable<State> {
 export function on_subfile_found(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_found(…)`, { file_id: file_state.id })
 
+	if (File.is_notes(file_state)) {
+		// skip those meta files
+		return state
+	}
+
 	return {
 		...state,
 		children_count: state.children_count + 1,
@@ -370,6 +380,11 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 
 export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_primary_infos_gathered(…)`, { file_id: file_state.id })
+
+	if (File.is_notes(file_state)) {
+		// skip those meta files
+		return state
+	}
 
 	//////////// consolidate: reliability
 	const fs_bcd_reliability = File.get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(file_state)
@@ -492,6 +507,11 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 
 export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_all_infos_gathered(…)`, { file_id: file_state.id })
+
+	if (File.is_notes(file_state)) {
+		// skip those meta files
+		return state
+	}
 
 	//////////// consolidate: date range -- primary final
 	const file_meta_bcd = File.get_best_creation_date_meta(file_state)

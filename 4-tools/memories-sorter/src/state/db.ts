@@ -452,7 +452,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 		},
 	}
 
-	const is_notes = sub_id === NOTES_BASENAME_SUFFIX_LC // todo use selector
+	const is_notes = File.is_notes(file_state)
 	const is_media_file = File.is_media_file(file_state)
 
 	if (is_notes) {
@@ -460,7 +460,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 		logger.verbose(`${ LIB } found notes from a previous sorting`, {id})
 	}
 	else {
-		// always, for dedupe (fs used to identify the earliest copy)
+		// always, for dedupe
 		state = _enqueue_action(state, Actions.create_action_hash(id))
 		state = _enqueue_action(state, Actions.create_action_query_fs_stats(id))
 
@@ -638,7 +638,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 
 	// iterate over ALL files to consolidate their immediate data into their parent folders
 	let folders = { ...state.folders }
-	get_all_files(state).forEach((file_state) => {
+	get_all_files_except_meta(state).forEach((file_state) => {
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
 		assert(folders[parent_folder_id], `${LIB} _consolidate_and_propagate_neighbor_hints() should have folder state`)
 
@@ -665,7 +665,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 
 	// flow the hints back to every files
 	let files = { ...state.files }
-	get_all_files(state).forEach(file_state => {
+	get_all_files_except_meta(state).forEach(file_state => {
 		const parent_folder_id = File.get_current_parent_folder_id(file_state)
 
 		files[file_state.id] = File.on_info_read__current_neighbors_primary_hints(

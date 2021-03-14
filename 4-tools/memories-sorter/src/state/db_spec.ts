@@ -362,7 +362,7 @@ describe(`${LIB} - DB (root) state`, function() {
 				})
 			})
 
-			context.only('when confident in the date up to PRIMARY', function() {
+			context('when confident in the date up to PRIMARY', function() {
 				const EXPECTED_IDEAL_BASENAME = 'MM2016-11-21_09h08m07s654_foo.jpg'
 				beforeEach(() => {
 					stategen.inputs.file.basename__current = 'foo.jpg' // confidence will come from EXIF
@@ -463,7 +463,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 							'2012',
 							'20121006 - weekend',
-							'JJ_2012_Montage_Terre_Sainte.xyz',
+							'JJ_2012_Montage_Terre_Sainte.xyz', // the unreliable processed date got cleaned
 						))
 					})
 				})
@@ -807,7 +807,7 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 			state = on_file_found(state, '.', file_ut_basename)
 			// no notes found
 
-			expect(get_pending_actions(state)).to.have.lengthOf(3)
+			expect(get_pending_actions(state), 'after exploration').to.have.lengthOf(3)
 			state = on_hash_computed(state, file_ut_basename, 'hash01')
 			state = on_fs_stats_read(state, file_ut_basename, {
 				birthtimeMs: CREATION_DATE_MS,
@@ -816,30 +816,31 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 				ctimeMs:     CREATION_DATE_MS,
 			})
 			// load notes: none
-			expect(get_pending_actions(state)).to.have.lengthOf(3)
+			expect(get_pending_actions(state), 'after primary infos 1').to.have.lengthOf(3)
 			state = discard_all_pending_actions(state)
 
 			state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 			DEBUG && console.log('exploration done.')
-			expect(get_pending_actions(state)).to.have.lengthOf(1)
+			expect(get_pending_actions(state), 'after consolidation 1').to.have.lengthOf(1)
 			persisted_notes = get_past_and_present_notes(state)
 			state = discard_all_pending_actions(state)
 
 			state = clean_up_duplicates(state)
-			expect(get_pending_actions(state)).to.have.lengthOf(1)
+			expect(get_pending_actions(state), 'after clean up duplicate 1').to.have.lengthOf(1)
 			persisted_notes = get_past_and_present_notes(state)
 			state = discard_all_pending_actions(state)
 
 			state = normalize_files_in_place(state)
-			expect(get_pending_actions(state)).to.have.lengthOf(1)
+			expect(get_pending_actions(state), 'after normalize 1').to.have.lengthOf(1)
 			let next_id = File.get_ideal_basename(state.files[file_ut_basename])
+			expect(next_id).to.equal('MM2019-07-31_21h00m15_screenshot.png')
 			//console.log(next_id, state.files)
 			state = on_file_moved(state, file_ut_basename, next_id)
 			file_ut_basename = next_id
 			persisted_notes = get_past_and_present_notes(state)
 			state = discard_all_pending_actions(state)
 
-			DEBUG && console.log('EO 1st round')
+			DEBUG && console.log('........EO 1st round.......')
 			expect(Object.keys(state.files)).to.deep.equal(['MM2019-07-31_21h00m15_screenshot.png'])
 			DEBUG && console.log(to_string(state))
 			DEBUG && console.log(Notes.to_string(persisted_notes))
@@ -852,21 +853,28 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 			// simulate exploration
 			state = on_folder_found(state, '', '.')
 			state = on_file_found(state, '.', file_ut_basename)
+			// notes found this time!
 			state = on_file_found(state, '.', NOTES_BASENAME_SUFFIX_LC)
 
-			//console.log(state.queue)
-			expect(get_pending_actions(state)).to.have.lengthOf(4)
-			state = on_hash_computed(state, file_ut_basename, 'hash01')
-			state = on_fs_stats_read(state, file_ut_basename, {
+			console.log(state.queue)
+			expect(get_pending_actions(state), 'after explore 2').to.have.lengthOf(4)
+			state = discard_all_pending_actions(state)
+			// explore done = #1
+			state = on_hash_computed(state, file_ut_basename, 'hash01') // #2
+			state = on_fs_stats_read(state, file_ut_basename, { // #3
 				birthtimeMs: CREATION_DATE_MS,
 				atimeMs:     CREATION_DATE_MS,
 				mtimeMs:     CREATION_DATE_MS,
 				ctimeMs:     CREATION_DATE_MS,
 			})
-			// notes found this time!
-			state = on_notes_found(state, persisted_notes)
-			expect(get_pending_actions(state)).to.have.lengthOf(4)
-			state = discard_all_pending_actions(state)
+			/*state = on_fs_stats_read(state, NOTES_BASENAME_SUFFIX_LC, { // #4
+				birthtimeMs: +Date.now(),
+				atimeMs:     +Date.now(),
+				mtimeMs:     +Date.now(),
+				ctimeMs:     +Date.now(),
+			})*/
+			state = on_notes_found(state, persisted_notes) // #5
+			expect(get_pending_actions(state), 'after load data 2').to.have.lengthOf(0)
 
 			state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 			expect(get_pending_actions(state)).to.have.lengthOf(1)

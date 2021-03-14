@@ -211,29 +211,48 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 }): boolean {
 	// TODO optim if name = canonical?
 
+	const is_note = is_notes(state)
+
 	const is_exif_available_if_needed   = state.current_exif_data      !== undefined
 	const are_fs_stats_read             = state.current_fs_stats       !== undefined
 	const is_current_hash_computed      = state.current_hash           !== undefined
 	const are_neighbors_hints_collected = state.current_neighbor_hints !== undefined
 	const { are_notes_restored } = state
 
-	const has_all_infos = true
-		&& is_exif_available_if_needed
-		&& are_fs_stats_read
-		&& is_current_hash_computed
-		&& (are_neighbors_hints_collected || !require_neighbors_hints)
-		&& (are_notes_restored || !require_notes)
+	const is_exif_requirement_met = is_exif_available_if_needed
+	const is_fs_stats_requirement_met = are_fs_stats_read
+	const is_neighbor_hints_requirement_met = are_neighbors_hints_collected || !require_neighbors_hints
+	const is_current_hash_requirement_met = is_current_hash_computed || !require_notes || is_note
+	const is_notes_requirement_met = are_notes_restored || !require_notes || is_note
+
+	const has_all_infos = is_exif_requirement_met
+		&& is_fs_stats_requirement_met
+		&& is_neighbor_hints_requirement_met
+		&& is_current_hash_requirement_met
+		&& is_notes_requirement_met
 
 	if (!has_all_infos && should_log) {
 		// TODO remove, valid check most of the time
 		logger.warn(`has_all_infos_for_extracting_the_creation_date() !met`, {
-			is_exif_available_if_needed,
-			are_fs_stats_read,
-			is_current_hash_computed,
-			are_neighbors_hints_collected,
-			require_neighbors_hints,
-			are_notes_restored,
-			require_notes,
+			requirements: {
+				require_neighbors_hints,
+				require_notes,
+			},
+			data: {
+				is_note,
+				is_exif_available_if_needed,
+				are_fs_stats_read,
+				is_current_hash_computed,
+				are_neighbors_hints_collected,
+				are_notes_restored,
+			},
+			requirements_met: {
+				is_exif_requirement_met,
+				is_fs_stats_requirement_met,
+				is_neighbor_hints_requirement_met,
+				is_current_hash_requirement_met,
+			is_notes_requirement_met,
+			},
 		})
 	}
 
@@ -283,7 +302,7 @@ function _get_creation_date__from_exif‿edt(state: Immutable<State>): ExifDateT
 		throw err
 	}
 }
-function   _get_creation_tz__from_exif(state: Immutable<State>): TimeZone | undefined {
+function _get_creation_tz__from_exif(state: Immutable<State>): TimeZone | undefined {
 	const { id, current_exif_data } = state
 
 	assert(!!current_exif_data, `_get_creation_tz_from_exif(): ${id} exif data available`)
@@ -638,7 +657,11 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 	logger.trace(`_get_best_creation_date_meta__from_current_data()`, { id: state.id })
 
 	assert(
-		has_all_infos_for_extracting_the_creation_date(state, { require_notes: false, require_neighbors_hints: false }),
+		has_all_infos_for_extracting_the_creation_date(state, {
+			should_log: true,
+			require_notes: false,
+			require_neighbors_hints: false,
+		}),
 		'get_best_creation_date_meta__from_current_data() has_all_infos_for_extracting_the_creation_date()'
 	)
 
