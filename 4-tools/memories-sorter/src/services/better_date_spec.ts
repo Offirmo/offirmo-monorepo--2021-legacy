@@ -11,6 +11,7 @@ import {
 	get_human_readable_timestamp_seconds,
 	get_members,
 	get_timestamp_utc_ms_from,
+	get_embedded_timezone,
 
 	compare_utc,
 	is_deep_equal,
@@ -26,6 +27,7 @@ import {
 
 	assertㆍBetterDateㆍdeepㆍequal,
 } from './better-date'
+import { get_params } from '../params'
 
 describe('Better Date', function() {
 
@@ -357,6 +359,55 @@ describe('Better Date', function() {
 			it('should work', () => {
 				const bd1 = create_better_date_from_symd(20000101, 'tz:auto')
 				expect(get_human_readable_timestamp_auto(bd1, 'tz:embedded')).to.equal('2000-01-01')
+			})
+		})
+
+		describe('create_better_date()', function () {
+
+			describe(`with tz === 'tz:auto'`, function() {
+				const PARAMS = {
+					...get_params(),
+					default_timezones: [
+						// if no time zone, infer it according to this timetable
+						// Expected to be in order
+						{
+							date_utc_ms: Number(Date.UTC(get_params().date_lower_boundⳇₓyear, 0)),
+							new_default: 'Indian/Kerguelen',
+						},
+					],
+				}
+
+				it('should work and pick the default tz', () => {
+					const date = create_better_date('tz:auto', 2016, 11, 21, 9, 8, 7, 654, PARAMS)
+					//console.log(date)
+					const tz = get_embedded_timezone(date)
+					expect(tz).to.equal('Indian/Kerguelen')
+				})
+
+				it('should be reversible', () => {
+					const date1 = create_better_date('tz:auto', 2016, 11, 21, 9, 8, 7, 654, PARAMS)
+					//console.log(date1)
+					const tms1 = get_timestamp_utc_ms_from(date1)
+					const date2 = create_better_date_from_utc_tms(tms1, 'tz:auto', PARAMS)
+					const tms2 = get_timestamp_utc_ms_from(date2)
+					expect(tms2).to.equal(tms1)
+
+					const tz1 = get_embedded_timezone(date1)
+					const tz2 = get_embedded_timezone(date2)
+					expect(tz1).to.equal('Indian/Kerguelen')
+					expect(tz2).to.equal('Indian/Kerguelen')
+
+					assertㆍBetterDateㆍdeepㆍequal(date1, date2)
+				})
+			})
+
+			describe(`with tz === explicit`, function() {
+
+				it('should work and use the given tz', () => {
+					const date = create_better_date('Indian/Kerguelen', 2016, 11, 21, 9, 8, 7, 654)
+					const tz = get_embedded_timezone(date)
+					expect(tz).to.equal('Indian/Kerguelen')
+				})
 			})
 		})
 	})

@@ -17,7 +17,6 @@ describe('Params', function() {
 		it('should work')
 	})
 
-
 	describe('utilities', function () {
 
 		describe('get_current_year()', function () {
@@ -79,6 +78,10 @@ describe('Params', function() {
 					},
 				].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
 				//console.log({ test_params, dt: test_params.default_timezones, _UNSAFE_CURRENT_SYSTEM_TIMEZONE })
+
+				// before 1970 = negative timestamp
+				const default_tz_1900 = get_default_timezone(Number(Date.UTC(1900, 0)), test_params)
+				expect(default_tz_1900, '1900').to.equal('Europe/Paris')
 
 				const default_tz_2001 = get_default_timezone(Number(Date.UTC(2001, 0)), test_params)
 				expect(default_tz_2001, '2001').to.equal('Europe/Paris')

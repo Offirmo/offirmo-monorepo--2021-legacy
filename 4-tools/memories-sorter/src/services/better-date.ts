@@ -22,7 +22,7 @@ import { DateTime as LuxonDateTime, IANAZone } from 'luxon'
 ///////
 
 import { SimpleYYYYMMDD, TimeZone } from '../types'
-import { get_default_timezone } from '../params'
+import { get_default_timezone, get_params, Params } from '../params'
 import logger from './logger'
 
 ////////////////////////////////////
@@ -205,11 +205,11 @@ export function max(date_a: Immutable<BetterDate>, date_b: Immutable<BetterDate>
 ////////////////////////////////////
 
 // needed to create from file times
-export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:auto'): BetterDate {
+export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:auto', PARAMS: Immutable<Params> = get_params()): BetterDate {
 	assert(!!tms, 'create_better_date_from_utc_tms correct input: ' + tms)
 	assert(Number.isSafeInteger(tms), `create_better_date_from_utc_tms correct input: isSafeInteger(${tms})`)
 
-	const _tz = get_default_timezone(tms)
+	const _tz = get_default_timezone(tms, PARAMS)
 
 	const _ld = new LegacyDate(tms)
 
@@ -240,12 +240,13 @@ export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:aut
 // may have the tz as a numeric shift
 // while an explicit locale may be in the other TZ field, cf. unit test
 // if better_tz supplied, expecting a similar shift
-export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, better_tz?: TimeZone): BetterDate {
+export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, better_tz?: TimeZone, PARAMS: Immutable<Params> = get_params()): BetterDate {
 	let _lx: LuxonDateTime = exif_date.toDateTime()
+	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_from_ExifDateTime()--01: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
 
 	if (!exif_date.hasZone) {
 		assert(!better_tz, 'create_better_date_from_ExifDateTime() tz suggested with no tz embedded = ???')
-		let tz: TimeZone = get_default_timezone(_lx.toMillis())
+		let tz: TimeZone = get_default_timezone(_lx.toMillis(), PARAMS)
 		_lx = LuxonDateTime.fromObject({
 			year: exif_date.year,
 			month: exif_date.month,
@@ -272,8 +273,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 			})
 		}
 	}
-
-	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_from_ExifDateTime(): ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
+	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_from_ExifDateTime()--02: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
 
 	return {
 		_lx,
@@ -285,7 +285,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 	}
 }
 
-export function create_better_date_from_symd(simple_date: SimpleYYYYMMDD, tz: 'tz:auto'): BetterDate {
+export function create_better_date_from_symd(simple_date: SimpleYYYYMMDD, tz: 'tz:auto', PARAMS: Immutable<Params> = get_params()): BetterDate {
 	let day = simple_date % 100
 	let month = Math.trunc(simple_date / 100) % 100
 	let year = Math.trunc(simple_date / 10000)
@@ -295,7 +295,7 @@ export function create_better_date_from_symd(simple_date: SimpleYYYYMMDD, tz: 't
 		month,
 		day,
 		tz,
-	})
+	}, PARAMS)
 	date._debug = {
 		'create_better_date_from_simple': {
 			simple_date,
@@ -317,6 +317,7 @@ export function create_better_date(
 	minute?: number,
 	second?: number,
 	milli?: number,
+	PARAMS: Immutable<Params> = get_params(),
 ): BetterDate {
 	const date = create_better_date_obj({
 		year,
@@ -327,7 +328,7 @@ export function create_better_date(
 		second,
 		milli,
 		tz,
-	})
+	}, PARAMS)
 	date._debug = {
 		'create_better_date': {
 			year,
@@ -352,7 +353,8 @@ export function create_better_date_obj({
 	second,
 	milli,
 	tz = 'tz:auto',
-}: Immutable<BetterDateMembers>): BetterDate {
+}: Immutable<BetterDateMembers>, PARAMS: Immutable<Params> = get_params()): BetterDate {
+	//console.log(PARAMS)
 
 	let _lx = LuxonDateTime.fromObject({
 		year,
@@ -362,10 +364,14 @@ export function create_better_date_obj({
 		minute,
 		second,
 		millisecond: milli,
-		zone: tz,
+		...(tz !== 'tz:auto' && { zone: tz }),
 	})
+	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_obj()--1: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
+	//console.log('initial _lx', _lx)
 
 	if (tz === 'tz:auto') {
+		const zone = get_default_timezone(_lx.toMillis(), PARAMS)
+		//console.log('tz:auto defaulting to', zone)
 		_lx = LuxonDateTime.fromObject({
 			year,
 			month,
@@ -374,11 +380,10 @@ export function create_better_date_obj({
 			minute,
 			second,
 			millisecond: milli,
-			zone: get_default_timezone(_lx.toMillis()),
+			zone,
 		})
+		assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_obj()--2: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
 	}
-
-	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_obj(): ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
 
 	return {
 		_lx,

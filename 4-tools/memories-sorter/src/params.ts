@@ -47,7 +47,7 @@ export const _UNSAFE_CURRENT_SYSTEM_TIMEZONE: TimeZone =
 const date_lower_boundⳇₓyear = 1826
 assert(date_lower_boundⳇₓyear >= 1826, 'earliest known')
 
-const date_upper_boundⳇₓyear = CURRENT_YEAR + 1 // +1 to handle taking pictures during new year eve
+const date_upper_boundⳇₓyear = CURRENT_YEAR + 1 // TODO review +1 to handle taking pictures during new year eve
 assert(date_upper_boundⳇₓyear >= date_lower_boundⳇₓyear, 'higher >= lower 1')
 
 const date_lower_boundⳇsymd: SimpleYYYYMMDD = (date_lower_boundⳇₓyear * 10000) + 101

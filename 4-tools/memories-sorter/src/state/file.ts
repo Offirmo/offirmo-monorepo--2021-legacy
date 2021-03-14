@@ -72,7 +72,7 @@ import { is_digit } from '../services/matchers'
 export type FsReliability = 'reliable' | 'unreliable' | 'unknown'
 
 export interface NeighborHints {
-	parent_folder_bcd: null | Immutable<BetterDate> // we can't interpret it ourselves, can't discriminate between an event date and a backup date
+	parent_folder_bcd: null | BetterDate // we can't interpret it ourselves, can't discriminate between an event date and a backup date
 	fs_bcd_assessed_reliability: FsReliability
 }
 
