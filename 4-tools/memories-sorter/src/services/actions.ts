@@ -493,7 +493,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				}
 			}
 
-			if (File.is_media_file(file_state) && File.is_confident_in_date(file_state)) {
+			if (File.is_media_file(file_state) && File.is_confident_in_date_enough_to__fix_fs(file_state)) {
 				// TODO fix birthtime if wrong
 			}
 

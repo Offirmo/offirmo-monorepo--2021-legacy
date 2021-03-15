@@ -5,12 +5,11 @@ import { Immutable, HashOf } from '@offirmo-private/ts-types'
 import { TimeZone } from '../types'
 import {
 	LegacyDate,
-	is_same_date_with_potential_tz_difference,
-	get_human_readable_timestamp_auto,
 	create_better_date_from_ExifDateTime,
-	create_better_date_from_utc_tms,
-	is_within_24h,
+	get_debug_representation,
 	get_embedded_timezone,
+	is_same_date_with_potential_tz_difference,
+	is_within_24h,
 } from './better-date'
 import logger from './logger'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
@@ -217,10 +216,8 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 				SourceFile,
 				candidate_field,
 				min_date_origin_field,
-				candidate_date_tms: candidate_dateⳇtms,
-				min_date_tms: min_dateⳇtms,
-				candidate_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(candidate_dateⳇtms, 'tz:auto'), 'tz:embedded'),
-				min_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(min_dateⳇtms, 'tz:auto'), 'tz:embedded'),
+				candidate: get_debug_representation(candidate_dateⳇtms),
+				min: get_debug_representation(min_dateⳇtms),
 			})
 			if ([candidate_field, min_date_origin_field].includes(EXIF_DATE_FIELD__CREATE_DATE)) {
 				// experimentally seen EXIF_DATE_FIELD__CREATE_DATE to be unreliable
@@ -229,10 +226,8 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 					SourceFile,
 					candidate_field,
 					min_date_origin_field,
-					candidate_date_tms: candidate_dateⳇtms,
-					min_date_tms: min_dateⳇtms,
-					candidate_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(candidate_dateⳇtms, 'tz:auto'), 'tz:embedded'),
-					min_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(min_dateⳇtms, 'tz:auto'), 'tz:embedded'),
+					candidate: get_debug_representation(candidate_dateⳇtms),
+					min: get_debug_representation(min_dateⳇtms),
 				})
 				if (field === EXIF_DATE_FIELD__CREATE_DATE) {
 					return min_dateⳇexif
@@ -256,10 +251,8 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 					candidate_field,
 					min_date_origin_field,
 					previous_confirmation_count,
-					candidate_date_tms: candidate_dateⳇtms,
-					min_date_tms: min_dateⳇtms,
-					candidate_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(candidate_dateⳇtms, 'tz:auto'), 'tz:embedded'),
-					min_auto: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(min_dateⳇtms, 'tz:auto'), 'tz:embedded'),
+					candidate: get_debug_representation(candidate_dateⳇtms),
+					min: get_debug_representation(min_dateⳇtms),
 				})
 			}
 			min_date_origin_field = field
@@ -277,7 +270,7 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 	DEBUG && console.log(`- final result`, {
 		min_dateⳇexif,
 		tms: get_timestamp_ms_from_ExifDateTime(min_dateⳇexif),
-		auto: get_human_readable_timestamp_auto(create_better_date_from_ExifDateTime(min_dateⳇexif), 'tz:embedded'),
+		min: get_debug_representation(create_better_date_from_ExifDateTime(min_dateⳇexif)),
 	})
 
 	assert(get_timestamp_ms_from_ExifDateTime(min_dateⳇexif) !== +now_legacy, 'coherent dates') // TODO improve test by taking the date on exec start
@@ -370,7 +363,7 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 				//tms1: get_timestamp_ms_from_ExifDateTime(earliest_date_from_fs𖾚exif),
 				//tms2: get_timestamp_ms_from_ExifDateTime(candidate_date𖾚exif),
 				tz: get_embedded_timezone(bd),
-				local: get_human_readable_timestamp_auto(bd, 'tz:embedded'),
+				local: get_debug_representation(bd),
 			})
 		}
 		else {
@@ -414,10 +407,9 @@ export function get_timestamp_ms_from_ExifDateTime(date_exif: Immutable<ExifDate
 }
 
 function _to_debug(date_exif: Immutable<ExifDateTime>): string {
-	return get_human_readable_timestamp_auto(
+	return get_debug_representation(
 		create_better_date_from_ExifDateTime(
 			date_exif
-		),
-		'tz:embedded',
+		)
 	)
 }

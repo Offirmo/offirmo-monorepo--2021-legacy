@@ -213,7 +213,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						const file_id = stategen.get_file_id()
 
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
-						expect(File.is_confident_in_date(state.files[file_id])).to.be.false // THIS TEST
+						expect(File.is_confident_in_date_enough_to__sort(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 							'2017',
@@ -264,7 +264,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal(file_basename) // THIS TEST
-						expect(File.is_confident_in_date(state.files[file_id])).to.be.false // THIS TEST
+						expect(File.is_confident_in_date_enough_to__sort(state.files[file_id])).to.be.false // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 							Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
@@ -448,7 +448,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// normalization in-place is a prerequisite
 						expect(File.get_ideal_basename(state.files[file_id]), 'pr1').not.to.equal(file_basename) // THIS TEST
-						expect(File.is_confident_in_date(state.files[file_id], 'secondary'), 'pr2').to.be.true // THIS TEST
+						expect(File.is_confident_in_date_enough_to__sort(state.files[file_id]), 'pr2').to.be.true // THIS TEST
 
 						state = discard_all_pending_actions(state)
 						state = normalize_files_in_place(state)
@@ -498,7 +498,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// normalization in-place
 						expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(file_basename) // THIS TEST
-						expect(File.is_confident_in_date(state.files[file_id]), 'pr2').to.be.true // THIS TEST
+						expect(File.is_confident_in_date_enough_to__sort(state.files[file_id]), 'pr2').to.be.true // THIS TEST
 						state = discard_all_pending_actions(state)
 
 						// stable
@@ -539,7 +539,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// normalization in-place = prerequisite
 						expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(file_basename) // THIS TEST
-						expect(File.is_confident_in_date(state.files[file_id])).to.be.true // THIS TEST
+						expect(File.is_confident_in_date_enough_to__sort(state.files[file_id])).to.be.true // THIS TEST
+
 						state = normalize_files_in_place(state)
 						const expected_next_id = path.join(file_parent__1, file_parent__2, File.get_ideal_basename(state.files[file_id]))
 						state = on_file_moved(state, file_id, expected_next_id)

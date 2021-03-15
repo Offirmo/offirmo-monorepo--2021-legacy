@@ -235,8 +235,8 @@ export function get_test_single_file_DB_state_generator() {
 		const parent_splitted = inputs.file.parent_relpath__current.split('/')
 		for (let i = 0; i < parent_splitted.length; ++i) {
 			const parent_subpath = path.join(...parent_splitted.slice(0, i))
-			const subpath = path.join(...parent_splitted.slice(0, i+1))
-			state = DB.on_folder_found(state, parent_subpath, subpath)
+			const basename = path.join(...parent_splitted.slice(i, i+1))
+			state = DB.on_folder_found(state, parent_subpath, basename)
 		}
 
 		state = DB.on_file_found(state, '.', file_id)

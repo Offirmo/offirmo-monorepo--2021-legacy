@@ -490,6 +490,15 @@ export function _clean_debug(date: Immutable<BetterDate>): Immutable<BetterDate>
 	}
 }
 
-export function get_debug_representation(date: Immutable<BetterDate>): Object {
-	return `<BetterDate>(${get_human_readable_timestamp_auto(date, 'tz:embedded')})`
+export function get_debug_representation(date: Immutable<BetterDate> | TimestampUTCMs | undefined | null): string {
+	if (date === undefined)
+		return '[undefined date]'
+
+	if (date === null)
+		return '[null date]'
+
+	if (typeof date === 'number')
+		return `<TimestampUTCMs>(${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(date, 'tz:auto'), 'tz:embedded')}/${date})`
+
+	return `<BetterDate>(${get_human_readable_timestamp_auto(date, 'tz:embedded')}/${get_timestamp_utc_ms_from(date)})`
 }

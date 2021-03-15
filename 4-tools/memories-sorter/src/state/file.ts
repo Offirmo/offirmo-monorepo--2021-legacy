@@ -336,7 +336,7 @@ function _get_creation_date__from_exif(state: Immutable<State>): BetterDate | un
 		//current_exif_data,
 		//edt: _from_exif‿edt.toISOString(),
 		_from_exif__tz,
-		bcd: get_human_readable_timestamp_auto(bcd, 'tz:embedded'),
+		bcd: get_debug_representation(bcd),
 	})
 	return bcd
 }
@@ -560,7 +560,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 			}
 		}
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -592,7 +592,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -606,7 +606,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 		result.confidence = 'primary'
 		result.is_fs_matching = true
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -615,7 +615,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
 
-	/*logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as secondary (reliability unknown)…', {
+	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as secondary (reliability unknown)…', {
 		fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
 	})
 	if (state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'unknown') {
@@ -626,10 +626,11 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 		result.confidence = 'secondary'
 		result.is_fs_matching = true
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
+	/* TODO review needed? partially redundant with the above
 	// worst secondary choice
 	const bcd__from_parent_folder__original = _get_creation_date__from_parent_folder__original(state)
 	logger.trace('get_best_creation_date_meta__from_historical_data() trying parent folder…', {
@@ -643,7 +644,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 		result.confidence = 'secondary'
 		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}*/
 
@@ -654,7 +655,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	assert(result.confidence === 'junk')
 	result.is_fs_matching = true // obviously
 
-	logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+	logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 	return result
 }
 
@@ -730,7 +731,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			}
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -762,11 +763,11 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
-	// FS is ok as PRIMARY if confirmed by some primary hints XXX hints are socendary TODO review
+	// FS is ok as PRIMARY if confirmed by some primary hints XXX hints are secondary TODO review
 	if (state.current_neighbor_hints) {
 		// TODO review is that still primary if hints are secondary??
 		// TODO review is that even useful??
@@ -782,7 +783,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			result.confidence = 'primary'
 			result.is_fs_matching = true
 
-			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 			return result
 		}
 	}
@@ -805,7 +806,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			result.confidence = 'secondary'
 			result.is_fs_matching = true
 
-			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 			return result
 		}
 	}
@@ -823,7 +824,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			result.confidence = 'secondary'
 			result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
 
-			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${ result.source } with confidence = ${ result.confidence } ✔`)
+			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
 			return result
 		}
 	}
@@ -872,7 +873,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	logger.trace('get_best_creation_date_meta() trying historical data…')
 	const meta__from_historical = get_best_creation_date_meta__from_historical_data(state, PARAMS)
 	if (meta__from_historical.confidence === 'primary') {
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(meta__from_historical.candidate, 'tz:embedded')} from historical data result ✔ (primary)`)
+		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_historical.candidate)} from historical data result ✔ (primary)`)
 		return meta__from_historical
 	}
 
@@ -916,7 +917,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 			}
 		}
 
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -948,7 +949,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -961,7 +962,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	// TODO review is that even useful?
 
 	if (meta__from_historical.confidence === 'secondary' && meta__from_historical.source !== 'original_env_hints') {
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(meta__from_historical.candidate, 'tz:embedded')} from historical data result ✔ (secondary)`)
+		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_historical.candidate)} from historical data result ✔ (secondary)`)
 		return meta__from_historical
 	}
 
@@ -980,7 +981,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		// normalized is already super precise, no need to refine with FS
 		// TODO review what if algo improvement?
 
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -993,19 +994,19 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.confidence = 'secondary'
 		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
 	if (meta__from_historical.confidence === 'secondary') {
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(meta__from_historical.candidate, 'tz:embedded')} from historical data result ✔ (secondary)`)
+		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_historical.candidate)} from historical data result ✔ (secondary)`)
 		return meta__from_historical
 	}
 
 	/////// JUNK SOURCE ///////
 
 	// at this level, historical is still better
-	logger.trace(`get_best_creation_date_meta() resolved to ${get_human_readable_timestamp_auto(meta__from_historical.candidate, 'tz:embedded')} from historical data result ✔ (junk)`)
+	logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_historical.candidate)} from historical data result ✔ (junk)`)
 	return meta__from_historical
 }, {
 	maxSize: 10, // we need 1 or millions. The >1 is for having less noise during unit tests across a few files
@@ -1027,7 +1028,7 @@ export function get_best_creation_year(state: Immutable<State>): number {
 	return Math.trunc(get_best_creation_date_compact(state) / 10000)
 }
 
-export function is_confident_in_date(state: Immutable<State>, up_to: DateConfidence = 'primary'): boolean {
+function _is_confident_in_date(state: Immutable<State>, up_to: DateConfidence): boolean {
 	const meta = get_best_creation_date_meta(state)
 	const { confidence } = meta
 
@@ -1038,7 +1039,7 @@ export function is_confident_in_date(state: Immutable<State>, up_to: DateConfide
 			break
 
 		case 'secondary':
-			is_confident = ( up_to === 'secondary')
+			is_confident = (up_to === 'secondary')
 			break
 
 		case 'junk':
@@ -1058,6 +1059,12 @@ export function is_confident_in_date(state: Immutable<State>, up_to: DateConfide
 	}
 
 	return is_confident
+}
+export function is_confident_in_date_enough_to__fix_fs(state: Immutable<State>): boolean {
+	return _is_confident_in_date(state, 'primary')
+}
+export function is_confident_in_date_enough_to__sort(state: Immutable<State>): boolean {
+	return _is_confident_in_date(state, 'secondary')
 }
 
 export function get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(state: Immutable<State>): FsReliability {
@@ -1084,10 +1091,9 @@ export function get_current_fs_date_reliability_according_to_other_trustable_cur
 
 	logger.log('⚠️ get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources() yielding FALSE', {
 		id: state.id,
-		...(bcd__from_fs__current‿tms && { bcd__from_fs__current‿tms: get_human_readable_timestamp_auto(create_better_date_from_utc_tms(bcd__from_fs__current‿tms, 'tz:auto'), 'tz:embedded')}),
-		bcd__from_fs__current: get_human_readable_timestamp_auto(bcd__from_fs__current, 'tz:embedded'),
-		...(bcd__from_exif && { bcd__from_exif: get_human_readable_timestamp_auto(bcd__from_exif, 'tz:embedded')}),
-		...(bcd__from_basename__current_non_processed && { bcd__from_exif: get_human_readable_timestamp_auto(bcd__from_basename__current_non_processed, 'tz:embedded')}),
+		bcd__from_fs__current: get_debug_representation(bcd__from_fs__current‿tms),
+		bcd__from_exif: get_debug_representation(bcd__from_exif),
+		bcd__from_basename__current_non_processed: get_debug_representation(bcd__from_basename__current_non_processed),
 		//current_exif_data: state.current_exif_data,
 	})
 

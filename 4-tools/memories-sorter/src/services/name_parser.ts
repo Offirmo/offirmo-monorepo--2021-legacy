@@ -23,8 +23,8 @@ import {
 } from './matchers'
 import {
 	BetterDate,
-	get_human_readable_timestamp_auto,
 	create_better_date,
+	get_debug_representation,
 } from './better-date'
 import logger from './logger'
 import { Basename, RelativePath } from '../types'
@@ -716,7 +716,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 
 	logger.trace('« parse basename final result =', {
 		result,
-		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, 'tz:embedded') : null
+		date: get_debug_representation(result.date),
 	})
 
 	return result

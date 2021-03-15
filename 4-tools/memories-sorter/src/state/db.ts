@@ -170,7 +170,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			// we keep it into the corresponding event folder
 			// UNLESS the file date doesn't match the current folder (happens with force-dated folders with big ranges = ex. a 6 month iphone import)
 			const date_for_matching_an_event: SimpleYYYYMMDD = (() => {
-				if (File.is_confident_in_date(file_state, 'secondary'))
+				if (File.is_confident_in_date_enough_to__sort(file_state))
 					return File.get_best_creation_date_compact(file_state)
 
 				return Folder.get_event_begin_date‿symd(current_parent_folder_state)
@@ -194,7 +194,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 				const year = String(Folder.get_event_begin_year(state.folders[compatible_event_folder_id]))
 
 				DEBUG && console.log(`✴️ ${id} in overlapping`, {
-					confidence: File.is_confident_in_date(file_state, 'secondary'),
+					confidence_to_sort: File.is_confident_in_date_enough_to__sort(file_state),
 					file_date: File.get_best_creation_date_compact(file_state),
 					date_for_finding_suitable_event: date_for_matching_an_event,
 				})
@@ -224,7 +224,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	}
 
 	// file is a media
-	if (!File.is_confident_in_date(file_state, 'secondary')) {
+	if (!File.is_confident_in_date_enough_to__sort(file_state)) {
+		// the file is in need of sorting since it's not already in an event folder
+
 		let target_split_path = File.get_current_relative_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
 			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
@@ -439,6 +441,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	const file_state = File.create(id)
 	const folder_id = File.get_current_parent_folder_id(file_state)
 	const old_folder_state = state.folders[folder_id]
+	assert(old_folder_state, `on_file_found() should have folder state for "${folder_id}"`)
 	const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)
 
 	state = {

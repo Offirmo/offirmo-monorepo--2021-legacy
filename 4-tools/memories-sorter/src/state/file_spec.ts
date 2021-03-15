@@ -17,14 +17,13 @@ import {
 	get_current_basename,
 	get_current_parent_folder_id,
 	get_ideal_basename,
-	is_confident_in_date,
 	is_exif_powered_media_file,
 	merge_duplicates,
 	on_info_read__current_neighbors_primary_hints,
 	on_info_read__exif,
 	on_info_read__fs_stats,
 	on_info_read__hash,
-	on_notes_recovered,
+	on_notes_recovered, is_confident_in_date_enough_to__fix_fs, is_confident_in_date_enough_to__sort,
 } from './file'
 import {
 	_get_exif_datetime,
@@ -820,7 +819,8 @@ describe(`${LIB} - file (state)`, function() {
 					expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal(MEDIA_DEMO.FINAL_TZ)
 
 					expect(get_best_creation_date_meta(state).confidence).to.equal(MEDIA_DEMO.CONFIDENCE)
-					expect(is_confident_in_date(state)).to.equal(MEDIA_DEMO.CONFIDENCE === 'primary')
+					expect(is_confident_in_date_enough_to__fix_fs(state)).to.equal(MEDIA_DEMO.CONFIDENCE === 'primary')
+					expect(is_confident_in_date_enough_to__sort(state)).to.equal(MEDIA_DEMO.CONFIDENCE !== 'junk')
 
 					expect(get_ideal_basename(state)).to.equal(MEDIA_DEMO.IDEAL_BASENAME)
 				})
