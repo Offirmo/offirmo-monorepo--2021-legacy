@@ -196,7 +196,7 @@ export const MEDIA_DEMO_06: MediaDemo = {
 	YEAR: 2020,
 	DATE__COMPACT: 20200321,
 	DATE__HUMAN_AUTO: '2020-03-21_11h37m40',
-	CONFIDENCE: 'secondary', // undefined reliability = we ~trust fs but not enough for a rename
+	CONFIDENCE: 'junk', // undefined reliability = we ~trust fs but not enough for a rename
 
 	IDEAL_BASENAME: MEDIA_DEMO_06_basename, // no change bc no reliable data
 }

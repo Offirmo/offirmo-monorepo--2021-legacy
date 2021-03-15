@@ -381,7 +381,10 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 	return candidate_date𖾚exif
 }
 // TODO review this caching if we end up modifying the files (lossless rotation)
-const _cache: { [sf: string]: ExifDateTime | undefined } = {}
+let _cache: { [sf: string]: ExifDateTime | undefined } = {}
+beforeEach(() => { // yes I know 😅
+	_cache = {}
+})
 export function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): ExifDateTime | undefined {
 	const { SourceFile } = exif_data
 	assert(SourceFile, `get_creation_date_from_exif() exif data should have SourceFile`)
@@ -391,6 +394,7 @@ export function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): Ex
 
 	return _cache[SourceFile]
 }
+
 
 export function get_creation_timezone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
 	// TODO extract a better tz from GPS?

@@ -429,6 +429,7 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 	return state
 }
 
+// TODO review splitted file id
 export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_file_found(…)`, { parent_id, sub_id, id })

@@ -185,7 +185,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when already well placed -- in cantsort', function () {
 					beforeEach(() => {
-						stategen.inputs.file.parent_basename__current = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
+						stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 					})
 
 					it('should stay stable', () => {
@@ -204,8 +204,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when already well placed -- in an event folder', function () {
 					beforeEach(() => {
-						stategen.inputs.extra_parent = '2017'
-						stategen.inputs.file.parent_basename__current = '20171020 - something'
+						//stategen.inputs.extra_parent = '2017'
+						stategen.inputs.file.parent_relpath__current = '2017/20171020 - something'
 					})
 
 					it('should stay stable', () => {
@@ -225,7 +225,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when NOT already well placed -- in a special folder', function () {
 					beforeEach(() => {
-						stategen.inputs.file.parent_basename__current = '- inbox'
+						stategen.inputs.file.parent_relpath__current = '- inbox'
 					})
 
 					it('should swap the special folder to "cantsort" while preserving the base and path', () => {
@@ -282,8 +282,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when already well placed -- in an event folder', function () {
 					beforeEach(() => {
-						stategen.inputs.extra_parent = '2017'
-						stategen.inputs.file.parent_basename__current = '20171020 - something'
+						//stategen.inputs.extra_parent = '2017'
+						stategen.inputs.file.parent_relpath__current = '2017/20171020 - something'
 					})
 
 					it('should stay stable', () => {
@@ -303,7 +303,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when NOT already well placed -- in cantsort', function () {
 					beforeEach(() => {
-						stategen.inputs.file.parent_basename__current = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
+						stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
 					})
 
 					it('should move to an event folder', () => {
@@ -323,7 +323,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when NOT already well placed -- in a special folder', function () {
 					beforeEach(() => {
-						stategen.inputs.file.parent_basename__current = '- inbox'
+						stategen.inputs.file.parent_relpath__current = '- inbox'
 					})
 
 					it('should move to an event folder', () => {
@@ -343,7 +343,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when NOT already well placed -- in a random other folder', function () {
 					beforeEach(() => {
-						stategen.inputs.file.parent_basename__current = 'hello'
+						stategen.inputs.file.parent_relpath__current = 'hello'
 					})
 
 					it('should move to an event folder', () => {
@@ -370,8 +370,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when already well placed -- normalized', function () {
 					beforeEach(() => {
-						stategen.inputs.extra_parent = '2016'
-						stategen.inputs.file.parent_basename__current = '20161119 - nice weekend'
+						//stategen.inputs.extra_parent = '2016'
+						stategen.inputs.file.parent_relpath__current = '2016/20161119 - nice weekend'
 						stategen.inputs.file.basename__current = EXPECTED_IDEAL_BASENAME
 					})
 
@@ -393,8 +393,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when already well placed -- not normalized', function () {
 					beforeEach(() => {
-						stategen.inputs.extra_parent = '2016'
-						stategen.inputs.file.parent_basename__current = '20161119 - nice weekend'
+						//stategen.inputs.extra_parent = '2016'
+						stategen.inputs.file.parent_relpath__current = '2016/20161119 - nice weekend'
 					})
 
 					it('should stay stable except for the basename', () => {
@@ -407,8 +407,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						state = normalize_files_in_place(state)
 						const expected_next_id = path.join(
-							stategen.inputs.extra_parent!,
-							stategen.inputs.file.parent_basename__current,
+							//stategen.inputs.extra_parent!,
+							stategen.inputs.file.parent_relpath__current,
 							EXPECTED_IDEAL_BASENAME,
 						)
 						state = on_file_moved(state, file_id, expected_next_id)

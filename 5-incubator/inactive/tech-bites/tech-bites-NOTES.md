@@ -85,6 +85,12 @@ https://news.slashdot.org/story/19/12/14/1614214/do-you-remember-the-y2k-bug
 executive
 vaporware
 
+rate-limiting
+cost based rate limiting
+
+magic number
+
+https://en.wikipedia.org/wiki/Reference_class_forecasting
 
 anomaly detection
 

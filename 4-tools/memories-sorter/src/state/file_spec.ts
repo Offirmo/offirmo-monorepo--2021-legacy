@@ -1,8 +1,5 @@
-import path from 'path'
 const { deepStrictEqual: assert_deepStrictEqual } = require('assert').strict
 import { expect } from 'chai'
-import assert from 'tiny-invariant'
-import { Tags } from 'exiftool-vendored'
 
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_json_difference, enforce_immutability } from '@offirmo-private/state-utils'
@@ -10,7 +7,6 @@ import { get_json_difference, enforce_immutability } from '@offirmo-private/stat
 import { LIB } from '../consts'
 import {
 	FileId,
-	FsReliability,
 	PersistedNotes,
 	State,
 	create,
@@ -31,11 +27,12 @@ import {
 	on_notes_recovered,
 } from './file'
 import {
-	get_timestamp_utc_ms_from,
-	get_compact_date,
-	get_human_readable_timestamp_auto,
+	_get_exif_datetime,
+	create_better_date,
+	create_better_date_obj,
 	get_embedded_timezone,
-	create_better_date, _get_exif_datetime, create_better_date_obj,
+	get_human_readable_timestamp_auto,
+	get_timestamp_utc_ms_from,
 } from '../services/better-date'
 import {
 	is_normalized_media_basename
@@ -47,65 +44,11 @@ import {
 	REAL_CREATION_DATE‿TMS,
 	REAL_CREATION_DATE‿HRTS,
 	BAD_CREATION_DATE_CANDIDATE‿TMS,
-	BAD_CREATION_DATE_CANDIDATE‿HRTS,
 } from '../__test_shared/utils'
 
 /////////////////////
 
 describe(`${LIB} - file (state)`, function() {
-	const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
-	const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
-
-	// TODO refactor
-	function create_demo(id: FileId = 'foo/bar.jpg', time = CREATION_DATE): Immutable<State> {
-		let state = create(id)
-
-		state = on_info_read__fs_stats(state, {
-			birthtimeMs: get_timestamp_utc_ms_from(time),
-			atimeMs:     get_timestamp_utc_ms_from(time),
-			mtimeMs:     get_timestamp_utc_ms_from(time),
-			ctimeMs:     get_timestamp_utc_ms_from(time),
-		})
-		if (is_exif_powered_media_file(state)) {
-			state = on_info_read__exif(state, {
-				SourceFile: id,
-				CreateDate: _get_exif_datetime(time),
-			} as Tags)
-		}
-		state = on_info_read__hash(state, '1234')
-		state = on_info_read__current_neighbors_primary_hints(state, {
-			parent_folder_bcd: null,
-			fs_bcd_assessed_reliability: 'unknown',
-		})
-
-		// yes, real case = since having the same hash,
-		// all the files will have the same notes.
-		state = on_notes_recovered(state, {
-			currently_known_as: 'whatever, will be replaced.jpg',
-			renaming_source: undefined,
-
-			starred: undefined,
-			deleted: undefined,
-			manual_date: undefined,
-
-			best_date_afawk_symd: get_compact_date(CREATION_DATE, 'tz:embedded'),
-
-			historical: {
-				basename: 'original' + path.parse(id).ext, // extensions should match
-				parent_path: 'foo',
-				fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-				neighbor_hints: {
-					parent_folder_bcd: undefined,
-					fs_bcd_assessed_reliability: 'unknown',
-				},
-			}
-		})
-
-		expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)
-
-		return enforce_immutability(state)
-	}
-
 	function expectㆍfileㆍstatesㆍdeepㆍequal(s1: Immutable<State>, s2: Immutable<State>, should_log = true): void {
 		const s1_alt = {
 			...s1,
@@ -317,9 +260,9 @@ describe(`${LIB} - file (state)`, function() {
 
 				context('when NOT having a date in the basename', function () {
 
-					context('when having hints -- from parent folder basename', function() {
+					context('when having STRONG hints -- from parent folder basename', function() {
 						beforeEach(() => {
-							stategen.inputs.parent_basename__current = '2017/20171010 - holiday at the beach'
+							stategen.inputs.parent_relpath__current = '2017/20171010 - holiday at the beach'
 							stategen.inputs.hints_from_reliable_neighbors__current__parent_folder_bcd = create_better_date_obj({
 								year: 2017,
 								month: 10,
@@ -354,13 +297,17 @@ describe(`${LIB} - file (state)`, function() {
 							})
 
 							it('should use parent folder but NOT great confidence', () => {
+								// justification: if the parent folder has a date, means it strongly looks like an event
+								// = implies that the PRIMARY children is matching
+								// hence the file must have been manually sorted = must stay here
+								// however it's a secondary
 								let state = stategen.create_state()
 
 								const bcdm = get_best_creation_date_meta(state)
-								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
-								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(BAD_CREATION_DATE_CANDIDATE‿HRTS)
+								expect(bcdm.source, 'source').to.equal('current_env_hints')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-10')
 								expect(bcdm.confidence, 'confidence').to.equal('secondary')
-								expect(bcdm.from_historical, 'origin').to.equal(true)
+								//expect(bcdm.from_historical, 'origin').to.equal(true) // TODO review
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 								// final as integration
@@ -369,61 +316,36 @@ describe(`${LIB} - file (state)`, function() {
 						})
 					})
 
-					context('when having hints -- from reliable neighbors only', function() {
+					context('when having STRONG hints -- from reliable neighbors only', function() {
 						beforeEach(() => {
+							stategen.inputs.date__fs_ms__current = REAL_CREATION_DATE‿TMS
 							//hints_from_reliable_neighbors__current__range = [ 20171010, 20171022 ] // XXX
 							stategen.inputs.hints_from_reliable_neighbors__current__fs_reliability = 'reliable'
 						})
 
-						context('when FS is matching (date range)', function () {
-							beforeEach(() => {
-								stategen.inputs.date__fs_ms__current = REAL_CREATION_DATE‿TMS
-							})
+						it('should use FS as primary', () => {
+							let state = stategen.create_state()
 
-							it('should use FS as primary', () => {
-								let state = stategen.create_state()
+							const bcdm = get_best_creation_date_meta(state)
+							expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
+							expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+							expect(bcdm.confidence, 'confidence').to.equal('primary')
+							expect(bcdm.from_historical, 'origin').to.equal(true)
+							expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
-								const bcdm = get_best_creation_date_meta(state)
-								expect(bcdm.source, 'source').to.equal('original_fs+original_env_hints')
-								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
-								expect(bcdm.confidence, 'confidence').to.equal('primary')
-								expect(bcdm.from_historical, 'origin').to.equal(true)
-								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
-
-								// final as integration
-								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
-							})
-						})
-
-						context('when FS is NOT matching', function () {
-							beforeEach(() => {
-								stategen.inputs.date__fs_ms__current = BAD_CREATION_DATE_CANDIDATE‿TMS
-							})
-
-							it('should default to original FS with lowest confidence', () => {
-								let state = stategen.create_state()
-
-								const bcdm = get_best_creation_date_meta(state)
-								expect(bcdm.source, 'source').to.equal('original_fs')
-								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
-								expect(bcdm.confidence, 'confidence').to.equal('junk')
-								expect(bcdm.from_historical, 'origin').to.equal(true)
-								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
-
-								// final as integration
-								expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no confidence
-							})
+							// final as integration
+							expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
 						})
 					})
 
-					context('when having NO hints from environment', function() {
+					context('when having WEAK hints from environment', function() {
 
 						it('should default to original FS with lowest confidence', () => {
 							let state = stategen.create_state()
 
 							const bcdm = get_best_creation_date_meta(state)
 							expect(bcdm.source, 'source').to.equal('original_fs')
-							expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-20_23h08m07s654')
+							expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2016-11-21_09h08m07s654')
 							expect(bcdm.confidence, 'confidence').to.equal('junk')
 							expect(bcdm.from_historical, 'origin').to.equal(true)
 							expect(bcdm.is_fs_matching, 'fs matching').to.be.true
@@ -469,9 +391,9 @@ describe(`${LIB} - file (state)`, function() {
 									beforeEach(() => {
 										// = GMT: Wednesday, 31 July 2019 3:00:22 AM
 										// not exact match but within acceptable range of a tz difference
-										stategen.inputs.date__fs_ms__historical = 1564542022000
-										stategen.inputs.date__fs_ms__current = stategen.inputs.date__fs_ms__historical // TODO test with random
-										stategen.inputs.basename__original = 'Capture d’écran 2019-07-31 à 21.00.15.png'
+										stategen.inputs.autoǃdate__fs_ms__historical = 1564542022000
+										stategen.inputs.date__fs_ms__current = stategen.inputs.autoǃdate__fs_ms__historical // TODO test with random
+										stategen.inputs.autoǃbasename__historical = 'Capture d’écran 2019-07-31 à 21.00.15.png'
 										stategen.inputs.basename__current = 'MM2019-07-31_21h00m15_screenshot.png' // perfectly matching
 									})
 
@@ -521,8 +443,12 @@ describe(`${LIB} - file (state)`, function() {
 	})
 
 	describe('get_ideal_basename()', function () {
+		const stategen = get_test_single_file_state_generator()
+		beforeEach(() => stategen.reset())
 
 		context('when encountering the file for the first time', function () {
+			const BCD = create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627)
+
 			type TCIdeal = { [k: string]: string }
 			const TEST_CASES: TCIdeal = {
 				// no date in basename
@@ -534,31 +460,24 @@ describe(`${LIB} - file (state)`, function() {
 				'IMG_20181121.PNG': 'MM2018-11-21_06h00m45s627.png', // fs increases precision since compatible with file date
 				'20180603_taronga_vivd.gif': 'MM2018-06-03_taronga_vivd.gif',
 				// already normalized but no notes about it
-				'MM2017-10-20_05h01m44s625.jpg': 'MM2017-10-20_05h01m44s625.jpg'
+				'MM2017-10-20_05h01m44s625.jpg': 'MM2018-11-21_06h00m45s627.jpg', // normalized name is lower as a source than primary hints
 			}
 			Object.keys(TEST_CASES).forEach(tc_key => {
 				it(`should work = concatenate the date and meaningful part -- "${ tc_key }"`, () => {
-					let state = create(tc_key)
-					const creation_date_ms = get_timestamp_utc_ms_from(create_better_date('tz:auto', 2018, 11, 21, 6, 0, 45, 627))
+					stategen.inputs.basename__current = tc_key
+					// build confidence
+					stategen.inputs.date__exif = null //_get_exif_datetime(BCD)
+					stategen.inputs.hints_from_reliable_neighbors__current__fs_reliability = 'reliable'
+					stategen.inputs.date__fs_ms__current = get_timestamp_utc_ms_from(BCD)
 
-					state = on_info_read__fs_stats(state, {
-						birthtimeMs: creation_date_ms,
-						atimeMs: creation_date_ms + 10000,
-						mtimeMs: creation_date_ms + 10000,
-						ctimeMs: creation_date_ms + 10000,
-					})
-					if (is_exif_powered_media_file(state))
-						state = on_info_read__exif(state, { SourceFile: tc_key } as any)
-					state = on_info_read__hash(state, '1234')
-					state = on_info_read__current_neighbors_primary_hints(state, {
-						parent_folder_bcd: null,
-						fs_bcd_assessed_reliability: 'unknown',
-					})
+					let state = stategen.create_state()
 
-					state = on_notes_recovered(state, null)
-
-					//console.log(get_best_creation_date_meta(state))
-					expect(get_ideal_basename(state, { requested_confidence: false }), tc_key).to.equal(TEST_CASES[tc_key])
+					const bcd_meta = get_best_creation_date_meta(state)
+					expect(bcd_meta.confidence).not.to.equal('junk')
+					expect(
+						get_ideal_basename(state, { requested_confidence: false }),
+						'ideal basename'
+					).to.equal(TEST_CASES[tc_key])
 				})
 			})
 		})
@@ -652,6 +571,51 @@ describe(`${LIB} - file (state)`, function() {
 	})
 
 	describe('merge_duplicates()', function() {
+		const CREATION_DATE         = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
+		const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
+
+		function create_demo(id: FileId = 'foo/bar.jpg', time = CREATION_DATE): Immutable<State> {
+			const splitted = id.split('/')
+			const basename = splitted.pop() as string
+			const parent_relpath = splitted.join('/')
+
+			const stategen = get_test_single_file_state_generator()
+			stategen.inputs.basename__current = basename
+			stategen.inputs.parent_relpath__current = parent_relpath ?? stategen.inputs.parent_relpath__current
+			stategen.inputs.date__fs_ms__current = get_timestamp_utc_ms_from(time)
+			stategen.inputs.date__exif = _get_exif_datetime(time)
+			stategen.inputs.notes = 'auto'
+			stategen.inputs.autoǃdate__fs_ms__historical = get_timestamp_utc_ms_from(EARLIER_CREATION_DATE)
+
+			let state = stategen.create_state()
+			expect(state.id, 'create_demo internal').to.equal(id)
+
+			// yes, real case = since having the same hash,
+			// all the files will have the same notes.
+			/*state = on_notes_recovered(state, {
+				currently_known_as: 'whatever, will be replaced.jpg',
+				renaming_source: undefined,
+
+				starred: undefined,
+				deleted: undefined,
+				manual_date: undefined,
+
+				best_date_afawk_symd: get_compact_date(CREATION_DATE, 'tz:embedded'),
+
+				historical: {
+					basename: 'original' + path.parse(id).ext, // extensions should match
+					parent_path: 'foo',
+					fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+					neighbor_hints: {
+						parent_folder_bcd: undefined,
+						fs_bcd_assessed_reliability: 'unknown',
+					},
+				}
+			})
+			expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)*/
+
+			return enforce_immutability(state)
+		}
 
 		describe('assumptions', function() {
 
@@ -688,37 +652,29 @@ describe(`${LIB} - file (state)`, function() {
 				} as any)
 				const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // should not impact
 
-				const s_order1 = merge_duplicates(s1, s2, s3)
-				expect(s_order1.notes, 'order1').to.deep.equal({
+				const EXPECTED_MERGED_NOTES: PersistedNotes = {
 					currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
 					renaming_source: undefined,
+					best_date_afawk_symd: undefined,
 					deleted: undefined,
 					starred: true, // correctly preserved
 					manual_date: undefined,
 					historical: {
 						basename: 'original.jpg',
-						parent_path: 'foo',
+						parent_path: 'original_parent_path',
 						fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-						fs_bcd_assessed_reliability: 'unknown',
+						neighbor_hints: {
+							fs_bcd_assessed_reliability: 'unknown',
+							parent_folder_bcd: undefined,
+						},
 						exif_orientation: undefined,
+						trailing_extra_bytes_cleaned: undefined,
 					},
-				})
+				}
+				const s_order1 = merge_duplicates(s1, s2, s3)
+				expect(s_order1.notes, 'order1').to.deep.equal(EXPECTED_MERGED_NOTES)
 				const s_order2 = merge_duplicates(s3, s2, s1)
-				expect(s_order2.notes, 'order2').to.deep.equal({
-					// same as previous
-					currently_known_as: 'bar.jpg',
-					renaming_source: undefined,
-					deleted: undefined,
-					starred: true,
-					manual_date: undefined,
-					historical: {
-						basename: 'original.jpg',
-						parent_path: 'foo',
-						fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-						fs_bcd_assessed_reliability: 'unknown',
-						exif_orientation: undefined,
-					},
-				})
+				expect(s_order2.notes, 'order2').to.deep.equal(EXPECTED_MERGED_NOTES)
 			})
 		})
 

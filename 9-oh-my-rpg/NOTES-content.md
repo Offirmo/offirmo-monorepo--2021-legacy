@@ -793,3 +793,14 @@ https://en.wikipedia.org/wiki/Grand_Tour
 https://en.wikipedia.org/wiki/Scout_(sport)
 
 laws of the seven R's "It was always, always do the right thing for the right reason at the right time with the right people. [And] you will have no regrets for the rest of your life."
+
+Come a little bit closer
+You're my kind of man
+So big and so strong
+Come a little bit closer
+I'm all alone and the night is so long
+
+
+newspaper
+
+receiving felicitations letter from NPC!

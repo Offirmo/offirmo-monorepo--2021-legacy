@@ -2,7 +2,7 @@ import path from 'path'
 import assert from 'tiny-invariant'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { Immutable } from '@offirmo-private/ts-types'
-import micro_memoize from "micro-memoize"
+import micro_memoize from 'micro-memoize'
 
 import { RELATIVE_PATH_NORMALIZATION_VERSION } from '../consts'
 import { get_params } from '../params'
