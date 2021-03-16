@@ -170,7 +170,7 @@ export function get_test_single_file_state_generator() {
 	}
 
 	function create_test_file_state(): Immutable<File.State> {
-		console.log('create_test_file_state()', inputs)
+		//console.log('create_test_file_state()', inputs)
 		const id = _get_file_id(inputs)
 		let state = File.create(id)
 

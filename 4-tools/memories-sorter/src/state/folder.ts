@@ -12,7 +12,12 @@ import { is_year, is_compact_date, is_digit } from '../services/matchers'
 import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder_basename } from '../services/name_parser'
 import logger from '../services/logger'
 import * as BetterDateLib from '../services/better-date'
-import { add_days_to_simple_date, BetterDate, get_compact_date } from '../services/better-date'
+import {
+	add_days_to_simple_date,
+	BetterDate,
+	get_compact_date,
+	get_debug_representation,
+} from '../services/better-date'
 import * as File from './file'
 import { FsReliability, NeighborHints } from './file'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
@@ -536,9 +541,9 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 				`${ LIB } updating folder’s children's "primary final" date range`,
 				{
 					id: state.id,
-					file_bcd__primary_final,
-					new_children_begin_date__primary_final,
-					new_children_end_date__primary_final,
+					file_bcd__primary_final: get_debug_representation(file_bcd__primary_final),
+					new_children_begin_date__primary_final: get_debug_representation(new_children_begin_date__primary_final),
+					new_children_end_date__primary_final: get_debug_representation(new_children_end_date__primary_final),
 				}
 			)
 
@@ -586,10 +591,10 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 						`${LIB} folder: date range too big, most likely not an event, demoting...`, {
 							id: state.id,
 							file_id: file_state.id,
-							file_bcd,
-							new_event_begin_date,
-							new_event_end_date,
-							capped_end_date,
+							file_bcd: get_debug_representation(file_bcd),
+							new_event_begin_date: get_debug_representation(new_event_begin_date),
+							new_event_end_date: get_debug_representation(new_event_end_date),
+							capped_end_date: get_debug_representation(capped_end_date),
 						})
 					state = demote_to_unknown(state, `date range too big`)
 				} else {
@@ -598,10 +603,10 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 							`${LIB} folder: date range too big but basename is intentful: event end date was capped at +${ PARAMS.max_event_durationⳇₓday }d`, {
 								id: state.id,
 								file_id: file_state.id,
-								file_bcd,
-								new_event_begin_date,
-								new_event_end_date,
-								capped_end_date,
+								file_bcd: get_debug_representation(file_bcd),
+								new_event_begin_date: get_debug_representation(new_event_begin_date),
+								new_event_end_date: get_debug_representation(new_event_end_date),
+								capped_end_date: get_debug_representation(capped_end_date),
 							})
 					}
 					else {
@@ -609,9 +614,9 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 							`${LIB} updating folder’s event date range`,
 							{
 								id: state.id,
-								file_bcd: file_bcd,
-								new_event_begin_date,
-								new_event_end_date,
+								file_bcd: get_debug_representation(file_bcd),
+								new_event_begin_date: get_debug_representation(new_event_begin_date),
+								new_event_end_date: get_debug_representation(new_event_end_date),
 								was_capped: is_range_too_big,
 							}
 						)

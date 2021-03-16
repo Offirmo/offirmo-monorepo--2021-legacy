@@ -115,6 +115,15 @@ export interface DigitsParseResult {
 	date: undefined | BetterDate
 	is_ambiguous: boolean
 }
+
+function _get_DigitsParseResult_debug_representation(dpresult: Immutable<DigitsParseResult>): Object {
+	const { date, ...rest } = dpresult
+	return {
+		...rest,
+		date: get_debug_representation(date),
+	}
+}
+
 export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): Immutable<DigitsParseResult> {
 	let blocks: string[] = digit_blocks
 		.split('-')
@@ -139,21 +148,21 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	if (digits.length < 8) {
 		result.summary = 'need_more'
 		result.reason = 'too few digits'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
 	if (separator === 'none') {
 		result.summary = 'need_more'
 		result.reason = 'not on sep'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
 	if (blocks[0].length > 4 && blocks[0].length !== 8) {
 		result.summary = 'no_match'
 		result.reason = '1st block mismatch - length'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
@@ -214,12 +223,12 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 				digits_after: blocks.join(''),
 			})
 			result.reason = 'internal error while improving the splitting'
-			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 			return result
 		}
 	}
 	catch (e) {
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
@@ -260,7 +269,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	if (date_pattern === 'unknown') {
 		result.summary = 'no_match'
 		result.reason = 'unknown date pattern'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
@@ -278,14 +287,14 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 			if (error) {
 				result.summary = 'no_match'
 				result.reason = 'Y-M-D mismatch'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 				return result
 			}
 
 			if (blocks.length < 3) {
 				result.summary = 'need_more'
 				result.reason = 'Y-M-D needs more blocks'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 				return result
 			}
 
@@ -309,14 +318,14 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 			if (error) {
 				result.summary = 'no_match'
 				result.reason = 'D-M-Y mismatch'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 				return result
 			}
 
 			if (blocks.length < 3) {
 				result.summary = 'need_more'
 				result.reason = 'D-M-Y needs more blocks'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 				return result
 			}
 
@@ -382,13 +391,13 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 			reason: result.reason,
 			date_creation_args,
 		})
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
 	if (blocks.length > 7) {
 		result.summary = 'too_much'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
@@ -400,7 +409,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
 		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
@@ -411,13 +420,13 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
 		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
 		//console.log(result.date!.toISOString())
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
 
 	result.summary = 'need_more'
 	result.reason = 'end'
-	logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, result)
+	logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 	return result
 }
 
@@ -432,6 +441,13 @@ export interface ParseResult {
 	meaningful_part: string
 
 	copy_index: undefined | number
+}
+function _get_ParseResult_debug_representation(presult: Immutable<ParseResult>): Object {
+	const { date, ...rest } = presult
+	return {
+		...rest,
+		date: get_debug_representation(date),
+	}
 }
 
 const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 'file' | 'folder', parse_up_to: 'full' | 'copy_index' = 'full'): Immutable<ParseResult> {
@@ -483,7 +499,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 			name: basename,
 			state,
 			dpr,
-			result,
+			result: _get_ParseResult_debug_representation(result),
 		})
 	}
 	function on_successful_non_optimal_dpr(dpr: DigitsParseResult) {
@@ -492,7 +508,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 		}
 	}
 
-	DEBUG  && logger.silly('initial state', { state, result })
+	DEBUG  && logger.silly('initial state', { state, result: _get_ParseResult_debug_representation(result) })
 
 	if (type === 'file') {
 		const name_lc = basename.toLowerCase()
@@ -524,12 +540,12 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 	}, state.buffer)
 	state.buffer = state.buffer.trim()
 
-	DEBUG  && logger.silly('after buffer cleanup', { state, result })
+	DEBUG  && logger.silly('after buffer cleanup', { state, result: _get_ParseResult_debug_representation(result) })
 
 	if (parse_up_to === 'copy_index') {
 		result.meaningful_part = state.buffer
 
-		logger.trace('« parse basename final result =', result)
+		logger.trace('« parse basename final result =', _get_ParseResult_debug_representation(result))
 		return result
 	}
 
@@ -714,10 +730,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 
 	result.meaningful_part = meaningful_part
 
-	logger.trace('« parse basename final result =', {
-		result,
-		date: get_debug_representation(result.date),
-	})
+	logger.trace('« parse basename final result =', _get_ParseResult_debug_representation(result))
 
 	return result
 }, {

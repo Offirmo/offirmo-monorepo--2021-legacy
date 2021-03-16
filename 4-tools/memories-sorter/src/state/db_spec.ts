@@ -40,6 +40,7 @@ describe(`${LIB} - DB (root) state`, function() {
 	//console.log(state.queue)
 	//console.log(to_string(state))
 
+	// TODO use the common test utils
 	function _create_demo_state(file_basename = 'bar.xyz') {
 		let file_parent = 'foo'
 		let file_id = path.join(file_parent, file_basename)
@@ -88,8 +89,15 @@ describe(`${LIB} - DB (root) state`, function() {
 	})
 
 	describe('get_ideal_file_relative_path()', function() {
+		// intentionally pick a SUNDAY to showcase the auto-weekend
+		const CREATION_DATE = create_better_date('tz:auto', 2016, 11, 20, 12, 12, 0, 12)
+		const CREATION_DATE_MS = get_timestamp_utc_ms_from(CREATION_DATE)
+
 		const stategen = get_test_single_file_DB_state_generator()
-		beforeEach(() => stategen.reset())
+		beforeEach(() => {
+			stategen.reset()
+			stategen.inputs.file.date__fs_ms__current = CREATION_DATE_MS
+		})
 
 		describe('copy markers handling', function() {
 
@@ -160,15 +168,15 @@ describe(`${LIB} - DB (root) state`, function() {
 					expect(get_ideal_file_relative_path(state, file_id_a)).to.equal(path.join(
 						//Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME, // due to not dated, not event
 						//'foo',
-						'2017',
-						'20171020 - life',
+						'2016',
+						'20161119 - weekend',
 						'bar.png',
 					))
 					expect(get_ideal_file_relative_path(state, file_id_b)).to.equal(path.join(
 						//Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME, // due to not dated, not event
 						//'foo',
-						'2017',
-						'20171020 - life',
+						'2016',
+						'20161119 - weekend',
 						'bar.png',
 					))
 				})
@@ -277,25 +285,29 @@ describe(`${LIB} - DB (root) state`, function() {
 
 			context('when confident in the date up to SECONDARY', function() {
 				beforeEach(() => {
+					stategen.inputs.file.date__exif = null
 					stategen.inputs.file.basename__current = 'foo.png' // png = without EXIF = not confident
 				})
 
-				context('when already well placed -- in an event folder', function () {
+				context('when already well placed -- in an event folder (manually sorted) REDUNDANT', function () {
 					beforeEach(() => {
-						//stategen.inputs.extra_parent = '2017'
-						stategen.inputs.file.parent_relpath__current = '2017/20171020 - something'
+						// TODO review deletion of this UT
+						stategen.inputs.file.parent_relpath__current = '2016/20161119 - something'
+						stategen.inputs.file.date__fs_ms__current = 1234 // to downgrade confidence
 					})
 
 					it('should stay stable', () => {
+						// if already in a canonical event folder, assume it was manually sorted
 						let state = stategen.create_state()
 						const file_id = stategen.get_file_id()
 
+						//
 						expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 						expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-							'2017',
-							'20171020 - something',
+							'2016',
+							'20161119 - something',
 							'foo.png'
 						))
 					})
@@ -341,6 +353,27 @@ describe(`${LIB} - DB (root) state`, function() {
 					})
 				})
 
+				context('when NOT already well placed -- in an OTHER event folder than the bcd (manually sorted)', function () {
+					beforeEach(() => {
+						//stategen.inputs.extra_parent = '2017'
+						stategen.inputs.file.parent_relpath__current = '2017/20171020 - something'
+					})
+
+					it('should stay stable', () => {
+						let state = stategen.create_state()
+						const file_id = stategen.get_file_id()
+
+						expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
+						expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
+
+						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
+							'2017',
+							'20171020 - something',
+							'foo.png'
+						))
+					})
+				})
+
 				context('when NOT already well placed -- in a random other folder', function () {
 					beforeEach(() => {
 						stategen.inputs.file.parent_relpath__current = 'hello'
@@ -360,17 +393,18 @@ describe(`${LIB} - DB (root) state`, function() {
 						))
 					})
 				})
+
 			})
 
 			context('when confident in the date up to PRIMARY', function() {
-				const EXPECTED_IDEAL_BASENAME = 'MM2016-11-21_09h08m07s654_foo.jpg'
+				const EXPECTED_IDEAL_BASENAME = 'MM2016-11-20_12h12m00s012_hi.jpg'
 				beforeEach(() => {
-					stategen.inputs.file.basename__current = 'foo.jpg' // confidence will come from EXIF
+					stategen.inputs.file.basename__current = 'hi.jpg' // jpg = confidence will come from EXIF
+					stategen.inputs.file.date__exif = _get_exif_datetime(CREATION_DATE)
 				})
 
 				context('when already well placed -- normalized', function () {
 					beforeEach(() => {
-						//stategen.inputs.extra_parent = '2016'
 						stategen.inputs.file.parent_relpath__current = '2016/20161119 - nice weekend'
 						stategen.inputs.file.basename__current = EXPECTED_IDEAL_BASENAME
 					})
@@ -393,7 +427,6 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when already well placed -- not normalized', function () {
 					beforeEach(() => {
-						//stategen.inputs.extra_parent = '2016'
 						stategen.inputs.file.parent_relpath__current = '2016/20161119 - nice weekend'
 					})
 
@@ -468,90 +501,59 @@ describe(`${LIB} - DB (root) state`, function() {
 					})
 				})
 
-				context('when NOT already well placed -- normalized', function () {
+				context('when NOT already well placed -- WRONGLY normalized', function () {
+					beforeEach(() => {
+						stategen.inputs.file.parent_relpath__current = '2017/20171020 - unrelated event'
+						stategen.inputs.file.basename__current = 'MM2017-10-20_05h01m44s625_hi.jpg'
+					})
 
-					it('should be moved to the correct location', () => {
-						let file_basename = 'MM2017-10-20_05h01m44s625_hi.jpg'
-						let file_parent__year = '2018'
-						let file_parent__event = 'foo'
-						let file_id = path.join(file_parent__year, file_parent__event, file_basename)
+					it('should be moved to the correct location and renormalized', () => {
+						// justification: must be a bug from a previous pass
+						let state = stategen.create_state()
+						let file_id = stategen.get_file_id()
 
-						let state = create('root')
-
-						state = on_folder_found(state, '', '.')
-						state = on_folder_found(state, '', file_parent__year)
-						state = on_folder_found(state, file_parent__year, file_parent__event)
-						state = on_file_found(state, '.', file_id)
-
-						state = on_hash_computed(state, file_id, 'hash01')
-						state = on_fs_stats_read(state, file_id, {
-							birthtimeMs: CREATION_DATE_MS,
-							atimeMs:     CREATION_DATE_MS,
-							mtimeMs:     CREATION_DATE_MS,
-							ctimeMs:     CREATION_DATE_MS,
-						})
-						state = on_exif_read(state, file_id, { // source of confidence
-							'SourceFile': file_id,
-							'CreateDate': _get_exif_datetime(CREATION_DATE),
-						})
-						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
-
-						// normalization in-place
-						expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(file_basename) // THIS TEST
+						// normalization in-place = prerequisite
+						expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(EXPECTED_IDEAL_BASENAME) // THIS TEST
 						expect(File.is_confident_in_date_enough_to__sort(state.files[file_id]), 'pr2').to.be.true // THIS TEST
-						state = discard_all_pending_actions(state)
+
+						// normalization in place
+						state = normalize_files_in_place(state)
+						const target_id = '2017/20171020 - unrelated event' + '/' + EXPECTED_IDEAL_BASENAME
+						state = on_file_moved(state, file_id, target_id)
+						file_id = target_id
 
 						// stable
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-							'2017',
-							'20171020 - foo',
-							'MM2017-10-20_05h01m44s625_hi.jpg',
+							'2016',
+							'20161120 - unrelated event', // folder got requalified
+							EXPECTED_IDEAL_BASENAME,
 						))
 					})
 				})
 
 				context('when NOT already well placed -- not normalized', function () {
+					beforeEach(() => {
+						stategen.inputs.file.parent_relpath__current = '2017/20171020 - unrelated event'
+					})
 
-					it('should be moved to the correct location', () => {
-						let file_basename = 'foo.jpg'
-						let file_parent__1 = 'bar'
-						let file_parent__2 = 'baz'
-						let file_id = path.join(file_parent__1, file_parent__2, file_basename)
-
-						let state = create('root')
-
-						state = on_folder_found(state, '', '.')
-						state = on_folder_found(state, '', file_parent__1)
-						state = on_folder_found(state, file_parent__1, file_parent__2)
-						state = on_file_found(state, '.', file_id)
-						state = on_hash_computed(state, file_id, 'hash01')
-						state = on_fs_stats_read(state, file_id, {
-							birthtimeMs: CREATION_DATE_MS,
-							atimeMs:     CREATION_DATE_MS,
-							mtimeMs:     CREATION_DATE_MS,
-							ctimeMs:     CREATION_DATE_MS,
-						})
-						state = on_exif_read(state, file_id, { // src of confidence
-							'SourceFile': file_id,
-							'CreateDate': _get_exif_datetime(CREATION_DATE)
-						})
-						state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
+					it('should be moved to the correct location and normalized', () => {
+						let state = stategen.create_state()
+						let file_id = stategen.get_file_id()
 
 						// normalization in-place = prerequisite
-						expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(file_basename) // THIS TEST
+						expect(File.get_ideal_basename(state.files[file_id])).to.equal(EXPECTED_IDEAL_BASENAME) // THIS TEST
 						expect(File.is_confident_in_date_enough_to__sort(state.files[file_id])).to.be.true // THIS TEST
 
+						// normalization in place
 						state = normalize_files_in_place(state)
-						const expected_next_id = path.join(file_parent__1, file_parent__2, File.get_ideal_basename(state.files[file_id]))
-						state = on_file_moved(state, file_id, expected_next_id)
-						file_id = expected_next_id
-						file_basename = File.get_ideal_basename(state.files[file_id])
-						state = discard_all_pending_actions(state)
+						const target_id = '2017/20171020 - unrelated event' + '/' + EXPECTED_IDEAL_BASENAME
+						state = on_file_moved(state, file_id, target_id)
+						file_id = target_id
 
 						expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-							'2017',
-							'20171020 - baz',
-							'MM2017-10-20_05h01m44s625_foo.jpg',
+							'2016',
+							'20161120 - unrelated event', // folder got requalified
+							EXPECTED_IDEAL_BASENAME,
 						))
 					})
 				})
@@ -857,7 +859,7 @@ VERBOSE›  - moving file from "MM2019-08-01_00h40m33_screenshot.png" to "MM2019
 			// notes found this time!
 			state = on_file_found(state, '.', NOTES_BASENAME_SUFFIX_LC)
 
-			console.log(state.queue)
+			//console.log(state.queue)
 			expect(get_pending_actions(state), 'after explore 2').to.have.lengthOf(4)
 			state = discard_all_pending_actions(state)
 			// explore done = #1

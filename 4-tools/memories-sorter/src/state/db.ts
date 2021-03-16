@@ -7,7 +7,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { prettify_json } from '@offirmo-private/prettify-any'
 import { get_base_loose, enforce_immutability } from '@offirmo-private/state-utils'
 
-import { NOTES_BASENAME_SUFFIX_LC, LIB as APP } from '../consts'
+import { LIB as APP } from '../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import { Action, ActionType } from './actions'
 import * as Actions from './actions'
@@ -18,6 +18,7 @@ import {
 	get_compact_date,
 	get_day_of_week_index,
 	add_days,
+	get_debug_representation,
 } from '../services/better-date'
 import logger from '../services/logger'
 
@@ -131,8 +132,8 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 }
 
 export function get_ideal_file_relative_folder(state: Immutable<State>, id: FileId): RelativePath {
-	logger.trace(`get_ideal_file_relative_folder()`, { id })
-	const DEBUG = true
+	logger.trace(`✴️ get_ideal_file_relative_folder()`, { id })
+	const DEBUG = false
 
 	const file_state = state.files[id]
 
@@ -146,11 +147,12 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
 	const current_parent_folder_state = state.folders[current_parent_folder_id]
 
-	logger.trace(`get_ideal_file_relative_folder() processing…`, {
-		top_parent: top_parent_id,
+	logger.trace(`✴️ get_ideal_file_relative_folder() processing…`, {
+		top_parent_id,
 		is_top_parent_special,
 		parent_folder_type: current_parent_folder_state.type,
 		is_media_file: File.is_media_file(file_state),
+		'current_parent_folder_state.type': current_parent_folder_state.type,
 	})
 
 	// whatever the file, is it already in an event folder? (= already sorted)
@@ -181,6 +183,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			if (!compatible_event_folder_id) {
 				// can happen if the folder is force-dated
 				// but the file date is reliable and don't match
+				// Let's investigate if that happens:
 				logger.warn(`File was in an overlapped event but couldn't find a matching event`, {
 					id,
 					parent_folder_type: current_parent_folder_state.type,
@@ -214,7 +217,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
 		else
 			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
-		logger.warn(`Unfortunately can't manage to recognize a file :-(`, {
+		logger.warn(`✴️ !media = Unfortunately can't manage to recognize a file :-(`, {
 			id,
 			parent_folder_type: current_parent_folder_state.type,
 			//current_parent_folder_state,
@@ -233,7 +236,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		else
 			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME)
 		DEBUG && console.log(`✴️ ${id} really not confident`)
-		logger.warn(`Unfortunately really not confident about the date of a file :-(`, {
+		logger.warn(`✴️ !confident = Unfortunately really not confident about sorting the file :-(`, {
 			id,
 			parent_folder_type: current_parent_folder_state.type,
 		})
@@ -246,12 +249,15 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		const compact_date = File.get_best_creation_date_compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
 		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_matching_event‿symd(state.folders[fid], compact_date))
-		if (compatible_event_folder_id)
+		if (compatible_event_folder_id) {
+			DEBUG && console.log(`✴️ ${id} found existing compatible event folder:`, compatible_event_folder_id)
 			return Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
+		}
 
 		// need to create a new event folder!
 		// We don't group too much, split day / wek-end
 		let folder_date = File.get_best_creation_date(file_state)
+		DEBUG && console.log(`✴️ ${id} !found compatible event folder = creating one`, get_debug_representation(folder_date))
 		if (get_day_of_week_index(folder_date) === 0) {
 			// sunday is coalesced to sat = start of weekend
 			folder_date = add_days(folder_date, -1)
@@ -259,10 +265,16 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 		// TODO use the existing parent folder as a base hint anyway
 
-		return String(get_compact_date(folder_date, 'tz:embedded')) + ' - ' + (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life')
+		const new_event_folder_basename = String(get_compact_date(folder_date, 'tz:embedded')) + ' - ' + (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life')
+		DEBUG && console.log(`✴️ ${id} !found compatible event folder = created one`, {
+			adjusted_date: get_debug_representation(folder_date),
+			new_event_folder_basename,
+		})
+
+		return new_event_folder_basename
 	})()
 
-	DEBUG && console.log(`✴️ ${id} found event`)
+	DEBUG && console.log(`✴️ "${id}" found target folder to sort in:`, { year, event_folder_base })
 	return path.join(year, event_folder_base)
 }
 
@@ -270,6 +282,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	logger.trace(`get_ideal_file_relative_path()`, { id })
 
 	const file_state = state.files[id]
+	assert(file_state, `get_ideal_file_relative_path() should refer to a state! "${id}"`)
 
 	if (File.is_notes(file_state)) {
 		return id // TODO improve. Handle notes files consolidation. Should this even be called?
@@ -441,6 +454,9 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	const file_state = File.create(id)
 	const folder_id = File.get_current_parent_folder_id(file_state)
 	const old_folder_state = state.folders[folder_id]
+	if (!old_folder_state) {
+		console.log(state)
+	}
 	assert(old_folder_state, `on_file_found() should have folder state for "${folder_id}"`)
 	const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)
 

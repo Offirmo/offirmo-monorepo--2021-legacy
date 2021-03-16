@@ -597,8 +597,12 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	}
 
 	// FS is ok as PRIMARY if confirmed by some primary hints
-	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as primary (reliable)…', {
-		neighbor_hints: state.notes.historical.neighbor_hints,
+	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as primary (if reliable)…', {
+		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
+		neighbor_hints: {
+			fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
+			parent_folder_bcd: get_debug_representation(state.notes.historical.neighbor_hints.parent_folder_bcd && create_better_date_obj(state.notes.historical.neighbor_hints.parent_folder_bcd)),
+		},
 	})
 	if (state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'reliable') {
 		result.candidate = bcd__from_fs__oldest_known
@@ -615,7 +619,8 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
 
-	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as secondary (reliability unknown)…', {
+	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as secondary (if reliability unknown)…', {
+		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
 		fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
 	})
 	if (state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'unknown') {
@@ -772,8 +777,9 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 		// TODO review is that still primary if hints are secondary??
 		// TODO review is that even useful??
 		const current_fs_reliability = _get_current_fs_assessed_reliability(state)
-		logger.trace('get_best_creation_date_meta__from_current_data() trying FS + current hints 1…', {
-			current_neighbor_hints: state.current_neighbor_hints,
+		logger.trace('get_best_creation_date_meta__from_current_data() trying FS as primary (if reliable)…', {
+			bcd__from_fs__current: get_debug_representation(bcd__from_fs__current),
+			//current_neighbor_hints: state.current_neighbor_hints,
 			current_fs_reliability,
 			expected: 'reliable'
 		})
@@ -795,8 +801,9 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 	if (state.current_neighbor_hints) {
 		// TODO review is that even useful??
 		const current_fs_reliability = _get_current_fs_assessed_reliability(state)
-		logger.trace('get_best_creation_date_meta__from_current_data() trying FS + current hints 2…', {
-			current_neighbor_hints: state.current_neighbor_hints,
+		logger.trace('get_best_creation_date_meta__from_current_data() trying FS as secondary (if reliability unknown)…', {
+			bcd__from_fs__current: get_debug_representation(bcd__from_fs__current),
+			//current_neighbor_hints: state.current_neighbor_hints,
 			current_fs_reliability,
 			expected: 'unknown'
 		})
@@ -1184,7 +1191,13 @@ export function get_ideal_basename(state: Immutable<State>, {
 
 	logger.trace(`get_ideal_basename()`, {
 		is_media_file: is_media_file(state),
-		parsed_oldest_known_basename,
+		parsed_oldest_known_basename: (() => {
+			const { date, ...rest } = parsed_oldest_known_basename
+			return {
+				...rest,
+				date: get_debug_representation(date),
+			}
+		})(),
 	})
 
 	let result = meaningful_part // so far
@@ -1385,7 +1398,10 @@ export function on_info_read__current_neighbors_primary_hints(
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
-		neighbor_hints,
+		neighbor_hints: {
+			parent_folder_bcd: get_debug_representation(neighbor_hints.parent_folder_bcd),
+			fs_bcd_assessed_reliability: neighbor_hints.fs_bcd_assessed_reliability,
+		},
 	})
 
 	assert(!state.current_neighbor_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
