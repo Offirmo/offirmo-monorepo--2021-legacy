@@ -166,3 +166,6 @@ U+22C4 DIAMOND OPERATOR '⋄'
 
 
 TODO evaluate https://hihayk.github.io/shaper/#system-ui,%20sans-serif/1.21/1.01/2.48/0.31/1.65/0.45/296/73/65/13/0.45/3/false
+TODO https://glassmorphism.com/
+TODO https://piccalil.li/tutorial/fluid-typography-with-css-clamp
+TODO https://uxdesign.cc/uniwidth-typefaces-for-interface-design-b6e8078dc0f7

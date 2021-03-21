@@ -47,6 +47,9 @@ user	22m20.197s
 sys	2m1.779s
 
 
+Future cloud?
+https://dev.to/nerychucuy/unzip-large-files-in-aws-using-lambda-and-node-js-cpp
+
 
 not working / use moment? https://github.com/TooTallNate/node-time#readme
 unreliable on all OSes? https://github.com/capaj/set-tz

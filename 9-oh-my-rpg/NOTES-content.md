@@ -804,3 +804,9 @@ I'm all alone and the night is so long
 newspaper
 
 receiving felicitations letter from NPC!
+
+https://en.wikipedia.org/wiki/Core_self-evaluations
+
+https://fr.wikipedia.org/wiki/Ma%C3%AEtre_de_poste
+
+https://en.wikipedia.org/wiki/Trap_Door_Spiders

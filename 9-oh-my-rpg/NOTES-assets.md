@@ -1,23 +1,35 @@
 
 
 ## Common
+
+Free
 * https://opengameart.org/
-* https://www.kenney.nl/assets
 * https://www.reddit.com/r/gameassets/
-* https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2019/R1/Gallery/Objects,_shells_and_miscellaneous
+* https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2019/Results/All
 * https://commons.wikimedia.org/wiki/File:USDA_Mineral_Quartz_Crystal_93c3951.jpg
+
+Stores
+* https://assetstore.unity.com/
+* https://itch.io/game-assets/
+* https://www.gamedevmarket.net/
+
+Personal stores
+* https://www.kenney.nl/assets
+* commissions https://yessys.carrd.co/
+* http://ansimuz.com/site/skill-type/fantasy/
+
+Stock
 * https://pixabay.com/
 * https://www.pexels.com/
+
+Misc
+* https://www.forgeandfortune.com/about
 
 
 ## Graphic
 
-commisions: https://yessys.carrd.co/
-* https://www.forgeandfortune.com/about
-
 ### backgrounds
 Sources
-* https://www.deviantart.com/falleynangel/favourites/63370615/Scenery
 
 Abstrait
 * https://trianglify.io/
@@ -30,8 +42,10 @@ free items/icons (+ links to others) https://www.deviantart.com/7soul1/art/420-P
 ### fonts
 https://fonts.google.com/specimen/Varela+Round
 
+
 ### icons
 https://game-icons.net/
+
 
 ### tosort
 homme préhisto https://www.instagram.com/tombjorklundart/
@@ -84,12 +98,14 @@ Médiévale
   * let's finish https://www.youtube.com/watch?v=HoHAm48v83I
 * https://www.youtube.com/watch?v=HWkvX2JNqiA
 
+
+
 ## tosort
 * https://opengameart.org/content/cave-theme
 * https://opengameart.org/content/loopable-dungeon-ambience
 * https://opengameart.org/content/dark-ambiences
 * https://opengameart.org/content/80-cc0-rpg-sfx
 * https://rissole.github.io/alexandhorachio/game/
-* https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2019/R1/Gallery
+* y
 * https://www.si.edu/search/collection-images?edan_q=Primary%20Gem&edan_fq%5B0%5D=topic%3A%22Mineralogy%22%20OR%20object_type%3A%22Photographs%22&edan_fq%5B1%5D=metadata_usage%3A%22CC0%22%20AND%20media_usage%3A%22CC0%22
 https://www.si.edu/object/nmnhmineralsciences_1175789

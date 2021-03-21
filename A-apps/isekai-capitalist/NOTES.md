@@ -70,3 +70,5 @@ Reflexions on
 competitors
 
 Able to select a single "love" occupation = bonus
+
+https://entertainment.slashdot.org/story/21/03/10/2233247/lou-ottens-inventor-of-the-cassette-tape-has-died

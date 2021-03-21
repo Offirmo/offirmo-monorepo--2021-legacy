@@ -17,14 +17,11 @@ In alphabetical order:
 * `@atlaskit/*` requires work to upgrade
 * `@types/node` we rightfully target the oldest active LTS, should be ignored
 * `parcel-bundler` should be upgraded to v2 according to https://github.com/parcel-bundler/parcel/issues/5943#issuecomment-789080294
-* `pg` there is a breaking change that we can't overcome yet through our ORM (knex) TODO https://github.com/brianc/node-postgres/blob/master/CHANGELOG.md#pg810
+* `pg` there is a breaking change that we can't overcome yet through our ORM (knex) TODO https://github.com/brianc/node-postgres/blob/master/CHANGELOG.md#pg810   https://github.com/knex/knex/blob/master/UPGRADING.md
 * `styled-components` old version required by @atlaskit
-
-### Pending upgrade
-
 * parcel 2 when stable https://medium.com/@devongovett/parcel-2-beta-1-improved-stability-tree-shaking-source-map-performance-and-more-78179779e8b7
-* pg ^8 with https://github.com/brianc/node-postgres/blob/master/CHANGELOG.md#pg810
 * Atlaskit: replace with formix?
+
 
 ## prod vs dev
 

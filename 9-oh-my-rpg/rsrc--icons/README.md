@@ -1,5 +1,7 @@
 
 
+TODO use https://github.com/svg/svgo
+
 https://icomoon.io/app/
 
 https://www.irigoyen.dev/blog/2021/02/17/stop-using-icon-fonts/
