@@ -1,4 +1,7 @@
 
+* +++ plenty of libs to use https://github.com/dphilipson
+
+
 https://github.com/munrocket/parallax-effect
 
 - interactive maps https://github.com/dphilipson/graphs-and-paths
@@ -6,7 +9,7 @@ https://github.com/munrocket/parallax-effect
 - tree view https://github.com/elbywan/bosket
 - pathfinding https://github.com/anvaka/ngraph.path
 
-inventory http://augmented-ui.com/
+inventory items http://augmented-ui.com/
 
 backdrop-filter
 

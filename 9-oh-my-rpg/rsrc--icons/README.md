@@ -11,10 +11,13 @@ https://www.irigoyen.dev/blog/2021/02/17/stop-using-icon-fonts/
 ### icons
 
 * https://game-icons.net
+  * https://game-icons.net/search.html?q=&idx=icons&p=0
 * https://fontawesome.com
+  * https://fontawesome.com/icons?d=gallery&p=2&m=free
 * https://thenounproject.com/search/
 * http://www.languageicon.org
 * https://icomoon.io
+* https://fonts.google.com/icons
 
 
 * https://game-icons.net/1x1/lorc/locked-chest.html

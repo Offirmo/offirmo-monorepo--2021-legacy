@@ -41,6 +41,7 @@ free items/icons (+ links to others) https://www.deviantart.com/7soul1/art/420-P
 
 ### fonts
 https://fonts.google.com/specimen/Varela+Round
+* exotique https://www.behance.net/gallery/53874837/Carre-Typeface
 
 
 ### icons
@@ -109,3 +110,4 @@ Médiévale
 * y
 * https://www.si.edu/search/collection-images?edan_q=Primary%20Gem&edan_fq%5B0%5D=topic%3A%22Mineralogy%22%20OR%20object_type%3A%22Photographs%22&edan_fq%5B1%5D=metadata_usage%3A%22CC0%22%20AND%20media_usage%3A%22CC0%22
 https://www.si.edu/object/nmnhmineralsciences_1175789
+* Fantasy interface http://homebrewery.naturalcrit.com/

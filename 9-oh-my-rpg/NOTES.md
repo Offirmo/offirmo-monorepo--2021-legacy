@@ -5,38 +5,7 @@ https://knowyourmeme.com/memes/thelegend27
 
 https://elijahmanor.com/blog/format-js-numbers
 
-[ ] Ftl-like fantasy comme douluo dalu
-[ ] Halos
-[ ] Sculpture
-[ ] Combats / arènes
-[ ] Cite des nuages
-[ ] World tree
-[ ] Haricot magique
-[ ] (Contes européens)
-[ ] Prairie infinie (Russie)
-[ ] Désert
-[ ] Pôle Nord
-[ ] Montagnes
-[ ] Lande
-[ ] Forêt de plage
-[ ] Dune du pila
-[ ] Auvergne
-[ ] Cote rocheuse
-[ ] Volcan
-[ ] Ville d’is
-[ ] Cités perdues
-[ ] Loups
-[ ] Ours
-[ ] Tigre à dents de sabre
-[ ] Animaux éteints bison mammouth
-[ ] Survival level
-[ ] Forest of illusions
-[ ] Toxic forest
-[ ] Old forest
-[ ] Ents
-[ ] Cristaux = spell slots, better = stronger
-[ ] Cores
-[ ]
+
 
 +++++ Éléments de RPG classique:
 https://www.pcgamer.com/wow-classic-guide-tips/
@@ -101,11 +70,9 @@ power
 
 scrying spell to find lost people
 
-Fantasy interface http://homebrewery.naturalcrit.com/
 animal speech https://pets.stackexchange.com/questions/18822/what-is-this-street-cat-trying-to-ask-me-for
 
 https://www.ftc.gov/tips-advice/business-center/privacy-and-security/children's-privacy
-
 
 
 
@@ -121,7 +88,6 @@ Algorithms
 
 
 Polices
-* https://www.behance.net/gallery/53874837/Carre-Typeface
 *
 
 Inventaire
@@ -167,11 +133,8 @@ http://www.steven-obrien.net/
 
 
 TOSORT
-plenty https://github.com/dphilipson
 
 typing https://github.com/akZhy/typebot
-https://github.com/lipka/piecon
-https://github.com/sindresorhus/is-online
 https://hub.openshift.com/quickstarts/128-node-js-0-12
 better manifest http://www.slideshare.net/brucelawson/bruce-lawson-progressive-web-apps-the-future-of-apps
 http://spin.js.org/
