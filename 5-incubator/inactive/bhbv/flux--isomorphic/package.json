@@ -1,0 +1,56 @@
+{
+	"name": "@bhbv/flux--isomorphic",
+	"description": "The app’s flux wiring",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
+		"tslib": "^2"
+	},
+	"dependencies": {
+		"@bhbv/state--isomorphic": "^0",
+		"@offirmo-private/async-utils": "^0",
+		"@offirmo-private/state-utils": "^0",
+		"@offirmo-private/timestamps": "^0",
+		"@offirmo-private/ts-types": "^0",
+		"@offirmo-private/uuid": "^0",
+		"@offirmo/deferred": "^4",
+		"@offirmo/globalthis-ponyfill": "^3",
+		"@offirmo/tiny-singleton": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
+		"dequal": "^2",
+		"fetch-ponyfill": "^7",
+		"json-stable-stringify": "^1",
+		"lodash": "^4",
+		"tiny-invariant": "^1",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js …dist",
+
+		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --mode=ts --inputDir=../state--isomorphic",
+		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../../0-scripts/build-typescript.js",
+		"dev": "run-s clean build:dev:watch",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+
+		"build": "run-s refresh-build-variables build:prod"
+	},
+	"devDependencies": {
+		"@offirmo-private/state-migration-tester": "^0",
+		"@offirmo/unit-test-toolbox": "^7",
+		"icepick": "^2",
+		"npm-run-all": "^4"
+	}
+}

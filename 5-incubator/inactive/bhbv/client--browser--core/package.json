@@ -1,0 +1,53 @@
+{
+	"name": "@bhbv/client--browser--core",
+	"description": "The app’s core experience",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+		"@babel/core": "^7",
+		"@bhbv/flux--isomorphic": "^0",
+		"@offirmo-private/async-utils": "^0",
+		"@offirmo-private/ensure-device-uuid-browser": "^0",
+		"@offirmo-private/features-detection-browser": "^0",
+		"@offirmo-private/iframe-loading": "^0",
+		"@offirmo-private/poll-window-variable": "^0",
+		"@offirmo-private/react-error-boundary": "^0",
+		"@offirmo-private/soft-execution-context": "^0",
+		"@offirmo-private/soft-execution-context-browser": "^0",
+		"@offirmo-private/timestamps": "^0",
+		"@offirmo-private/xoff": "^0",
+		"@offirmo/deferred": "^4",
+		"@offirmo/tiny-singleton": "^0",
+		"@offirmo/universal-debug-api-browser": "^1",
+		"@online-adventur.es/api-client": "^0",
+		"classnames": "^2",
+		"prop-types": "^15",
+		"raven-js": "^3",
+		"react": "^17",
+		"react-dom": "^17",
+		"tiny-invariant": "^1",
+		"tslib": "^2",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js …dist …cache",
+
+		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --inputDir=../state--isomorphic",
+		"build:parcel": "parcel build src/*.html --public-url ./",
+		"copy-extra": "cp -f src/*.json src/google*.html dist",
+
+		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
+		"copy-extra--dev": "mkdir -p .parcel && cp -f src/index.html .parcel && cp -f src/build.json .parcel",
+		"dev": "npm-run-all clean refresh-build-variables refresh-loading-template --parallel start:parcel copy-extra--dev",
+
+		"build": "npm-run-all clean refresh-build-variables build:parcel"
+	},
+	"devDependencies": {
+		"@offirmo-private/simple-upgradable-template": "^0",
+		"npm-run-all": "^4"
+	}
+}

@@ -1,0 +1,36 @@
+{
+	"name": "@oh-my-rpg/ui",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.jsx",
+	"module": "src/index.jsx",
+	"source": "src/index.jsx",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
+		"react": "^17"
+	},
+	"dependencies": {
+		"@offirmo-private/react-error-boundary": "^0",
+		"classnames": "^2",
+		"react-burger-menu": "^2",
+		"react-notification-system": "^0.4",
+		"react-swipeable-views": "^0.13",
+		"tiny-invariant": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js …dist …cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+		"demo": "run-s clean start:parcel"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo-private/xoff": "^0",
+		"parcel-bundler": "^1"
+	}
+}

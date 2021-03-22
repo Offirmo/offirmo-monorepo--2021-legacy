@@ -1,0 +1,16 @@
+{
+	"plugins": [
+		"@babel/plugin-proposal-export-default-from"
+	],
+	"presets": [
+		"@babel/react",
+		[
+			"@babel/preset-env",
+			{
+				"targets": {
+					"browsers": [ "extends @offirmo/browserslist-config" ]
+				}
+			}
+		]
+	]
+}
