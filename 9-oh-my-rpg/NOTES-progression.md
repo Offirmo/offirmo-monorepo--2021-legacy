@@ -27,3 +27,27 @@ Base
 
 Combat
 opening move
+
+
+Age (~chapters of Elvenar)
+- H 16y  Heroine 14y
+- +1y  etc.
+
+
+Innovative mechanics!
+
+
+Sentient weapons
+
+
+Slimes
+
+
+
+Holocrons
+-> study them and unlock more
+
+
+World buildings
+-> gene forge
+-> teleporters
