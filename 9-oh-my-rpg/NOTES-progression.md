@@ -51,3 +51,18 @@ Holocrons
 World buildings
 -> gene forge
 -> teleporters
+
+
+relationship progression
+- aquaintance
+- friend
+- good friend
+- true friend
+- best friend
+- dating
+- serious
+- engaged
+- married
+
+intimacy
+- 1st base -> 2nd -> 3rd

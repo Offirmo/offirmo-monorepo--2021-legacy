@@ -3,12 +3,11 @@
 
 ## Prod
 
-Netlify deploy status
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b2bbd92c-ab3d-43c5-ba8f-44bb0dbcd8cb/deploy-status)](https://app.netlify.com/sites/online-adventures/deploys) |
-[Sentry backend](https://sentry.io/organizations/offirmo/issues/?project=1772719) |
+* Deploy: Netlify [![Netlify Status](https://api.netlify.com/api/v1/badges/b2bbd92c-ab3d-43c5-ba8f-44bb0dbcd8cb/deploy-status)](https://app.netlify.com/sites/online-adventures/deploys) |
+* Monitor: [Sentry backend](https://sentry.io/organizations/offirmo/issues/?project=1772719) |
 [Sentry TBRPG frontend](https://sentry.io/organizations/offirmo/issues/?project=1235383) |
-[Analytics](https://analytics.google.com/analytics/web/#/report/content-event-overview/a103238291w176401989p175259321/_u.date00=20210101&_u.date01=20210131&_u.date10=20201201&_u.date11=20201231)
-
+[Analytics](https://analytics.google.com/analytics/web/#/report/content-event-overview/a103238291w176401989p175259321/_u.date00=20210101&_u.date01=20210131&_u.date10=20201201&_u.date11=20201231) |
+* [Tag Manager](https://tagmanager.google.com/)
 
 | web surface | status |
 | --- | --- |

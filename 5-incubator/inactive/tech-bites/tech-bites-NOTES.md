@@ -90,6 +90,8 @@ cost based rate limiting
 
 magic number
 
+https://en.wikipedia.org/wiki/Not_invented_here
+
 https://en.wikipedia.org/wiki/Reference_class_forecasting
 
 anomaly detection
@@ -196,3 +198,5 @@ Privacy:
 - right to erasure
 
 https://en.wikipedia.org/wiki/Dependency_hell
+
+https://martinfowler.com/articles/feature-toggles.html

@@ -223,6 +223,7 @@
 		"sinon": "^9",
 		"sinon-chai": "^3",
 		"size-limit": "^4",
+		"snowpack": "^3",
 		"sum-up": "^3",
 		"ts-node": "^9",
 		"typescript": "^4",
