@@ -70,6 +70,8 @@ import {
 	_lose_coins,
 	_receive_tokens,
 	_receive_item,
+	_enhance_an_armor,
+	_enhance_a_weapon,
 } from '../internal'
 
 /////////////////////
@@ -313,20 +315,12 @@ function _play_adventure(state: Immutable<State>, aa: Immutable<AdventureArchety
 
 	if (gained.improvementⵧweapon) {
 		gain_count++
-		const weapon_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.weapon) as Weapon
-		if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_WEAPON_ENHANCEMENT_LEVEL)
-			enhance_weapon(weapon_to_enhance)
-		// TODO immutable instead of in-place
-		// TODO enhance another weapon as fallback
+		state = _enhance_a_weapon(state)
 	}
 
 	if (gained.improvementⵧarmor) {
 		gain_count++
-		const armor_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.armor) as Armor
-		if (armor_to_enhance && armor_to_enhance.enhancement_level < MAX_ARMOR_ENHANCEMENT_LEVEL)
-			enhance_armor(armor_to_enhance)
-		// TODO immutable instead of in-place
-		// TODO enhance another armor as fallback
+		state = _enhance_an_armor(state)
 	}
 
 	if (aa.good && !gain_count) {

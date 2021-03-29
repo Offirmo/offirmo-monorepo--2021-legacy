@@ -4,6 +4,7 @@ import icepick from 'icepick'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import { ALL_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
 import {
+	InventorySlot,
 	get_unequipped_item_count,
 	get_equipped_item_count,
 } from '@oh-my-rpg/state-inventory'
@@ -128,7 +129,9 @@ describe(`${LIB} - reducer - play`, function() {
 					})
 
 					it('should sometime be a token gain')
+
 					it('should sometime be a stat gain')
+
 					it('should sometime be an item gain', () => {
 						let state = create()
 						state = play(state, undefined, 'rare_goods_seller')
@@ -140,7 +143,26 @@ describe(`${LIB} - reducer - play`, function() {
 						// it's a weapon !
 						expect(state.u_state.inventory.unslotted[0]).to.have.property('slot', 'armor')
 					})
-					it('should sometime be an item improvement')
+
+					it('should sometime be an item improvement', () => {
+						let state = create()
+
+						// items are not enhanced
+						expect(state.u_state.inventory.slotted[InventorySlot.armor]).to.have.deep.property('enhancement_level', 0)
+						expect(state.u_state.inventory.slotted[InventorySlot.weapon]).to.have.deep.property('enhancement_level', 0)
+
+						state = play(state, undefined, 'princess')
+
+						//console.log(state.u_state.inventory.slotted)
+						expect(state.u_state.inventory.slotted[InventorySlot.armor]).to.have.deep.property('enhancement_level', 1)
+						expect(state.u_state.inventory.slotted[InventorySlot.weapon]).to.have.deep.property('enhancement_level', 0)
+
+						state = play(state, undefined, 'exile_GIFTS')
+
+						//console.log(state.u_state.inventory.slotted)
+						expect(state.u_state.inventory.slotted[InventorySlot.armor]).to.have.deep.property('enhancement_level', 1)
+						expect(state.u_state.inventory.slotted[InventorySlot.weapon]).to.have.deep.property('enhancement_level', 1)
+					})
 				})
 			})
 

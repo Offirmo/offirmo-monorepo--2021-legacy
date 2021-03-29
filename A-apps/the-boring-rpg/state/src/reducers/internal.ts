@@ -8,8 +8,10 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 import { InventorySlot, Item, ItemQuality } from '@oh-my-rpg/definitions'
 
-import { Weapon, matches as matches_weapon } from '@oh-my-rpg/logic-weapons'
-import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
+import { Weapon } from '@oh-my-rpg/logic-weapons'
+import * as WeaponLib from '@oh-my-rpg/logic-weapons'
+import { Armor } from '@oh-my-rpg/logic-armors'
+import * as ArmorLib from '@oh-my-rpg/logic-armors'
 import { appraise_power_normalized } from '@oh-my-rpg/logic-shop'
 import {
 	CharacterAttribute,
@@ -180,11 +182,11 @@ function _auto_make_room(state: Immutable<State>, options: { DEBUG?: boolean } =
 			.filter((e: Immutable<Item>) => {
 				switch (e.slot) {
 					case InventorySlot.armor:
-						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))
+						if (ArmorLib.matches(e as Armor, STARTING_ARMOR_SPEC))
 							return false
 						break
 					case InventorySlot.weapon:
-						if (matches_weapon(e as Weapon, STARTING_WEAPON_SPEC))
+						if (WeaponLib.matches(e as Weapon, STARTING_WEAPON_SPEC))
 							return false
 						break
 					default:
@@ -198,11 +200,11 @@ function _auto_make_room(state: Immutable<State>, options: { DEBUG?: boolean } =
 				//console.log(e.quality, e.slot, appraise_power_normalized(e))
 				switch(e.slot) {
 					case InventorySlot.armor:
-						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))
+						if (ArmorLib.matches(e as Armor, STARTING_ARMOR_SPEC))
 							return
 						break
 					case InventorySlot.weapon:
-						if (matches_weapon(e as Weapon, STARTING_WEAPON_SPEC))
+						if (WeaponLib.matches(e as Weapon, STARTING_WEAPON_SPEC))
 							return
 						break
 					default:
@@ -226,6 +228,53 @@ function _auto_make_room(state: Immutable<State>, options: { DEBUG?: boolean } =
 	return state
 }
 
+
+function _enhance_an_armor(state: Immutable<State>): Immutable<State> {
+	const slotted = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.armor) as Armor
+
+	if (ArmorLib.is_at_max_enhancement(slotted)) {
+		// TODO try to enhance another armor
+		return state
+	}
+
+	return {
+		...state,
+		u_state: {
+			...state.u_state,
+			inventory: {
+				...state.u_state.inventory,
+				slotted: {
+					...state.u_state.inventory.slotted,
+					[InventorySlot.armor]: ArmorLib.enhance(slotted),
+				}
+			}
+		},
+	}
+}
+function _enhance_a_weapon(state: Immutable<State>): Immutable<State> {
+	const slotted = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.weapon) as Weapon
+
+	if (WeaponLib.is_at_max_enhancement(slotted)) {
+		// TODO try to enhance another weapon
+		return state
+	}
+
+	return {
+		...state,
+		u_state: {
+			...state.u_state,
+			inventory: {
+				...state.u_state.inventory,
+				slotted: {
+					...state.u_state.inventory.slotted,
+					[InventorySlot.weapon]: WeaponLib.enhance(slotted),
+				}
+			}
+		},
+	}
+}
+
+
 /////////////////////
 
 export {
@@ -242,4 +291,7 @@ export {
 
 	_ack_all_engagements,
 	_auto_make_room,
+
+	_enhance_an_armor,
+	_enhance_a_weapon,
 }
