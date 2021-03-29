@@ -3187,8 +3187,7 @@ module.exports = isArrayLike;
 
 /***/ }),
 /* 36 */,
-/* 37 */,
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -3216,7 +3215,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3244,6 +3243,7 @@ exports.CHANNEL = (() => {
 })();
 
 /***/ }),
+/* 39 */,
 /* 40 */
 /***/ (function(module, exports) {
 
@@ -8489,7 +8489,7 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(37)(module)))
 
 /***/ }),
 /* 67 */
@@ -10763,7 +10763,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(37)(module)))
 
 /***/ }),
 /* 80 */
@@ -17334,7 +17334,7 @@ exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.i
 
 const Sentry = __webpack_require__(182);
 
-const channel_1 = __webpack_require__(39); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(38); /////////////////////////////////////////////////
 
 
 Sentry.init({
@@ -18756,7 +18756,7 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(37)(module)))
 
 /***/ }),
 /* 157 */
@@ -23224,7 +23224,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.2.1';
+var SDK_VERSION = '6.2.3';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
@@ -26935,7 +26935,7 @@ const async_utils_1 = __webpack_require__(201);
 
 const sentry_1 = __webpack_require__(144);
 
-const channel_1 = __webpack_require__(39);
+const channel_1 = __webpack_require__(38);
 
 const utils_1 = __webpack_require__(52); ////////////////////////////////////
 // note: deducted from the overall running budget
@@ -27312,7 +27312,7 @@ const soft_execution_context_node_1 = __webpack_require__(188);
 
 const consts_1 = __webpack_require__(26);
 
-const channel_1 = __webpack_require__(39);
+const channel_1 = __webpack_require__(38);
 
 const logger_1 = tslib_1.__importDefault(__webpack_require__(189)); /////////////////////
 
@@ -27460,7 +27460,7 @@ const universal_debug_api_node_1 = __webpack_require__(62);
 
 const consts_1 = __webpack_require__(26);
 
-const channel_1 = __webpack_require__(39); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(38); /////////////////////////////////////////////////
 
 
 const logger = universal_debug_api_node_1.getLogger({
@@ -30856,7 +30856,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(37)(module)))
 
 /***/ }),
 /* 196 */
@@ -31576,7 +31576,7 @@ exports.get_netlify_user_data = exports.DEV_MOCK_NETLIFY_USER = void 0;
 
 const consts_1 = __webpack_require__(26);
 
-const channel_1 = __webpack_require__(39); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(38); /////////////////////////////////////////////////
 
 
 function _ensure_netlify_logged_in(context) {
@@ -32690,7 +32690,7 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(37)(module)))
 
 /***/ }),
 /* 235 */
@@ -59132,10 +59132,10 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/build.js
 // THIS FILE IS AUTO GENERATED!
-const VERSION = '0.65.15';
-const NUMERIC_VERSION = 0.6515; // for easy comparisons
+const VERSION = '0.66.1';
+const NUMERIC_VERSION = 0.6601; // for easy comparisons
 
-const BUILD_DATE = '20210310_04h50';
+const BUILD_DATE = '20210329_21h55';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
@@ -60134,7 +60134,7 @@ let customRandom = (alphabet, size, getRandom) => {
     let id = ''
     while (true) {
       let bytes = getRandom(step)
-      // A compact alternative for `for (var i = 0; i < step; i++)`.
+      // A compact alternative for `for (let i = 0; i < step; i++)`.
       let i = step
       while (i--) {
         // Adding `|| ''` refuses a random byte that exceeds the alphabet size.
@@ -60150,7 +60150,7 @@ let customAlphabet = (alphabet, size) => customRandom(alphabet, size, nanoid_ran
 let nanoid = (size = 21) => {
   let bytes = nanoid_random(size)
   let id = ''
-  // A compact alternative for `for (var i = 0; i < step; i++)`.
+  // A compact alternative for `for (let i = 0; i < size; i++)`.
   while (size--) {
     // It is incorrect to use bytes exceeding the alphabet size.
     // The following mask reduces the random byte in the 0-255 value
@@ -64242,13 +64242,6 @@ const src_es2019_data_ENTRIES = [{
 }, {
   good: true,
   type: story,
-  hid: 'exile_GIFTS',
-  outcome: {
-    improvementⵧweapon: true
-  }
-}, {
-  good: true,
-  type: story,
   hid: 'visual_effect',
   outcome: {
     improvementⵧarmor_or_weapon: true
@@ -66631,6 +66624,44 @@ function _auto_make_room(state, options = {}) {
   }
 
   return state;
+}
+
+function _enhance_an_armor(state) {
+  const slotted = get_item_in_slot(state.u_state.inventory, InventorySlot.armor);
+
+  if (selectors_is_at_max_enhancement(slotted)) {
+    // TODO try to enhance another armor
+    return state;
+  }
+
+  return { ...state,
+    u_state: { ...state.u_state,
+      inventory: { ...state.u_state.inventory,
+        slotted: { ...state.u_state.inventory.slotted,
+          [InventorySlot.armor]: state_enhance(slotted)
+        }
+      }
+    }
+  };
+}
+
+function _enhance_a_weapon(state) {
+  const slotted = get_item_in_slot(state.u_state.inventory, InventorySlot.weapon);
+
+  if (is_at_max_enhancement(slotted)) {
+    // TODO try to enhance another weapon
+    return state;
+  }
+
+  return { ...state,
+    u_state: { ...state.u_state,
+      inventory: { ...state.u_state.inventory,
+        slotted: { ...state.u_state.inventory.slotted,
+          [InventorySlot.weapon]: enhance(slotted)
+        }
+      }
+    }
+  };
 } /////////////////////
 
 
@@ -67791,7 +67822,6 @@ function logger_get_logger() {
 
 
 
-
 const ALL_ATTRIBUTES_X_LVL = ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
 const WARRIOR_LIKE_PRIMARY_ATTRIBUTES = ['strength'];
 const ROGUE_LIKE_PRIMARY_ATTRIBUTES = ['agility'];
@@ -68011,16 +68041,12 @@ function _play_adventure(state, aa) {
 
   if (gained.improvementⵧweapon) {
     gain_count++;
-    const weapon_to_enhance = get_item_in_slot(state.u_state.inventory, InventorySlot.weapon);
-    if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_ENHANCEMENT_LEVEL) enhance(weapon_to_enhance); // TODO immutable instead of in-place
-    // TODO enhance another weapon as fallback
+    state = _enhance_a_weapon(state);
   }
 
   if (gained.improvementⵧarmor) {
     gain_count++;
-    const armor_to_enhance = get_item_in_slot(state.u_state.inventory, InventorySlot.armor);
-    if (armor_to_enhance && armor_to_enhance.enhancement_level < consts_MAX_ENHANCEMENT_LEVEL) state_enhance(armor_to_enhance); // TODO immutable instead of in-place
-    // TODO enhance another armor as fallback
+    state = _enhance_an_armor(state);
   }
 
   if (aa.good && !gain_count) {
