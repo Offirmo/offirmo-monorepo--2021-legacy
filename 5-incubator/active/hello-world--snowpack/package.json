@@ -16,10 +16,10 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist",
+		"clean": "node ../../../0-scripts/clean.js …dist",
 
-		"dev": "snowpack dev",
-		"build": "snowpack build"
+		"xdev": "snowpack dev",
+		"xbuild": "snowpack build"
 	},
 	"devDependencies": {
 	}

@@ -7,6 +7,9 @@ Free
 * https://www.reddit.com/r/gameassets/
 * https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2019/Results/All
 * https://commons.wikimedia.org/wiki/File:USDA_Mineral_Quartz_Crystal_93c3951.jpg
+* https://www.gamedevmarket.net/my-lists/view-a-list/?wlid=601175129&preview=true
+* artbreeder
+* +++ https://www.freepik.com/upklyak
 
 Stores
 * https://assetstore.unity.com/

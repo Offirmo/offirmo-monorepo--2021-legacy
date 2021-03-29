@@ -1,23 +1,25 @@
 {
-	"name": "@oh-my-rpg/rsrc--icons",
-	"description": "RPG icon rsrcs",
+	"name": "@offirmo/hello-world--snowpack",
+	"description": "Test of snowpack",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
 
-	"main": "dist/style.css",
+	"main": "dist/index.html",
 	"sideEffects": false,
 
 	"peerDependencies": {
 	},
 	"dependencies": {
+		"snowpack": "^3"
 	},
 
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist",
 
-		"dev": "TODO"
+		"dev": "snowpack dev",
+		"build": "snowpack build"
 	},
 	"devDependencies": {
 	}

@@ -135,8 +135,6 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'wise_wisewood_tree',           outcome: { wisdom:true }},
 	{ good: true, type: story, hid: 'murderer',                     outcome: { luck:true }},
 
-	{ good: true, type: story, hid: 'exile_GIFTS',                  outcome: { improvementⵧweapon:true }},
-
 	{ good: true, type: story, hid: 'visual_effect',                outcome: { improvementⵧarmor_or_weapon:true }},
 	{ good: true, type: story, hid: 'weapon_damage_type',           outcome: { improvementⵧweapon:true }},
 	{ good: true, type: story, hid: 'give_a_shield',                outcome: { armor:true }},
