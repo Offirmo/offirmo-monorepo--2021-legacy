@@ -31,6 +31,10 @@ https://twitter.com/Atlassian
 https://twitter.com/Jira
 https://elisegal.medium.com/5-tips-for-a-better-agile-board-in-jira-c4ba1296e38c
 
+JIRA issue search (not perfect, but definitely better than alternatives), the simplicity of logging time, JIRA ticket layout/configuration, ticket update notifications (the visual representation of diffs, but also others).
+
+Join Atlassian community https://click.e.atlassian.com/?qs=983f158187f660f35c48a224a55c5a389ec072d3b9f6784984d535edbca2abcec165318d4a3a58f9aea10f587f8db44a25a2096795d2bf05f3030d5e9a0f91a2
+
  */
 
 const TIPS__JSW_USAGE: TipsMapping = {

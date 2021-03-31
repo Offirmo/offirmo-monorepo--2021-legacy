@@ -60,6 +60,7 @@ image resizer https://waifu2x.booru.pics/
 
 ## Audio
 * http://soundimage.org/
+* https://deepintheoceansoundtrack.abrams.link/
 
 ### soundscapes
 https://www.ambient-mixer.com/

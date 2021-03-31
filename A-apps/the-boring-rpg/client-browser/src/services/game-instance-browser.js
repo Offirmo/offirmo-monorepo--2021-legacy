@@ -83,7 +83,11 @@ const get = tiny_singleton(() => getRootSEC().xTry('creating game instance', ({S
 		}
 	})
 
-	const is_web_diversity_supporter = bowser.name === 'Firefox'
+	const is_web_diversity_supporter = bowser.name.toLowerCase().includes('firefox')
+	console.log({
+		is_web_diversity_supporter,
+		bowser,
+	})
 	game_instance.commands.on_start_session(is_web_diversity_supporter)
 
 	window.ga && window.ga('send', 'event', {

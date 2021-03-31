@@ -58,7 +58,7 @@ const handler: NetlifyHandler = async (
 
 		default: {
 			body.label = String(key)
-			body.message = 'error'
+			body.message = `wrong badge key "${key}" != (time, version)`
 			body.isError = true
 		}
 	}

@@ -11,12 +11,16 @@
 - 😷 chore: some internal refactors
 - 😷 chore: bump dependencies
 
-
-## v0.66.0
-- 😅 fix: correction of impossibility to load the game in case of some URL variant
+## TODO
 - 😅 TODO fix: the chat
-- 😅 TODO fix: correction of the weapon/armor improvement bug (thanks [u/Nateinthe90s
-  ](https://www.reddit.com/r/boringrpg/comments/m4zc2o/weapon_enhancements_not_working/))
+- 😅 TODO fix: recognize Firefox ESR as diversity
+- 😅 TODO
+
+## v0.66.1
+2020/03/30
+- 😅 fix: correction of impossibility to load the game in case of some URL variant
+- 😅 TODO fix: correction of the weapon/armor improvement bug (thanks [u/Nateinthe90s](https://www.reddit.com/r/boringrpg/comments/m4zc2o/weapon_enhancements_not_working/))
+  - most likely introduced in v0.65.12 😭
 - 😷 chore: bump dependencies
 
 ## v0.65.15

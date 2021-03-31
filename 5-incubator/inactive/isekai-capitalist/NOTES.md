@@ -1,4 +1,32 @@
 
+
+Collect
+
+Private dungeon
+Banking
+Handling the king
+Helping the country
+Training other capitalists
+Good relations with business partners
+
+Double entry
+Other reborn person
+
+Long distance transportation
+Long distance communication
+Post prepaid + stamp
+Books, biography, self help, religion
+Sécurité
+
+Franchise
+Sales, perpetual sales
+Loyalty cards
+Fixed prices
+
+Ennemies: bad capitalists
+Other countries
+
+
 reduce adventuring risk!
 
 rsrc gathering
