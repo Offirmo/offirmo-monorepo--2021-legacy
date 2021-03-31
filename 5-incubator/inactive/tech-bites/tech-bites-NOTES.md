@@ -199,4 +199,6 @@ Privacy:
 
 https://en.wikipedia.org/wiki/Dependency_hell
 
+shell vs terminal
+
 https://martinfowler.com/articles/feature-toggles.html

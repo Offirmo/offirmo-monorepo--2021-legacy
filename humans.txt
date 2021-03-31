@@ -1,2 +1,11 @@
 Hi, I'm Offirmo, a software engineer, open-source developer & creator.
+
+
+## website https://www.offirmo.net/offirmo-monorepo/
+
 This site is a personal test area, I don't think you should be here. Nothing interesting.
+
+
+## repository https://github.com/Offirmo/offirmo-monorepo/
+
+Open source

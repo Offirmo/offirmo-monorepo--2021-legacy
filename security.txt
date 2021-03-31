@@ -1,3 +1,27 @@
-This site is publicly accessible but not advertised.
-Just tell me if there is anything that could be a risk for the community.
-offirmo.net at gmail.com
+This file refers to several containers.
+
+In general, please report any security issue or harm to the community either to:
+- https://github.com/Offirmo/offirmo-monorepo/issues
+- offirmo.net at gmail.com
+
+
+
+## website https://www.offirmo.net/offirmo-monorepo/
+
+This site is not advertised but publicly accessible for testing reasons.
+
+Just tell me if there is anything that could be a risk for the community:
+
+
+## Source code
+
+This repo contains the code for:
+- public npm modules
+- public webextensions
+- public webapps
+
+All code is open source.
+
+Please report any security issues to the endpoints listed on top!
+
+Thanks for your contribution.

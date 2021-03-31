@@ -35,6 +35,8 @@ JIRA issue search (not perfect, but definitely better than alternatives), the si
 
 Join Atlassian community https://click.e.atlassian.com/?qs=983f158187f660f35c48a224a55c5a389ec072d3b9f6784984d535edbca2abcec165318d4a3a58f9aea10f587f8db44a25a2096795d2bf05f3030d5e9a0f91a2
 
+https://my.atlassian.com/
+
  */
 
 const TIPS__JSW_USAGE: TipsMapping = {
