@@ -83,16 +83,22 @@ bolt --only-fs "5-incubator/**/*" ws run build
 bolt --only-fs "5-incubator/**/*" ws run test
 bolt --only-fs "9-oh-my-rpg/**/*" ws run build
 bolt --only-fs "9-oh-my-rpg/**/*" ws run test
-bolt --only-fs "A-apps/the-boring-rpg/**/*" ws run build
-bolt --only-fs "A-apps/the-boring-rpg/**/*" ws run test
-bolt --only-fs "A-apps/online-adventur.es/**/*" ws run build
-bolt --only-fs "A-apps/online-adventur.es/**/*" ws run test
-bolt --only-fs "B-minisites/*" ws run build
+bolt --only-fs "A-apps--core/the-boring-rpg/**/*" ws run build
+bolt --only-fs "A-apps--core/the-boring-rpg/**/*" ws run test
+bolt --only-fs "B-apps--support/online-adventur.es/**/*" ws run build
+bolt --only-fs "B-apps--support/online-adventur.es/**/*" ws run test
+bolt --only-fs "C-apps--clients/the-boring-rpg/**/*" ws run build
+bolt --only-fs "C-apps--clients/the-boring-rpg/**/*" ws run test
+bolt --only-fs "D-minisites/*" ws run build
 
 ## Alt:
 bolt --only @oh-my-rpg/* ws run test
-bolt --only-fs "A-apps/**/*" ws run build
-bolt --only-fs "A-apps/**/*" ws run test
+bolt --only-fs "A-apps--core/**/*" ws run build
+bolt --only-fs "A-apps--core/**/*" ws run test
+bolt --only-fs "B-apps--support/**/*" ws run build
+bolt --only-fs "B-apps--support/**/*" ws run test
+bolt --only-fs "C-apps--clients/**/*" ws run build
+bolt --only-fs "C-apps--clients/**/*" ws run test
 bolt w @oh-my-rpg/definitions run build
 bolt ws run build --only @offirmo-private/*
 bolt ws run test  --only @offirmo-private/*

@@ -19,7 +19,7 @@
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",
 		"build": "bolt ws run build",
-		"eslint:packages": "eslint '{1-stdlib,2-foundation,3-advanced--browser,3-advanced--isomorphic,3-advanced--multi,3-advanced--node,4-tools,5-incubator,9-oh-my-rpg,A-apps}/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
+		"eslint:packages": "eslint '{1-stdlib,2-foundation,3-advanced--browser,3-advanced--isomorphic,3-advanced--multi,3-advanced--node,4-tools,5-incubator,9-oh-my-rpg,A-apps--core,B-apps--support,C-apps--clients,D-minisites}/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
 		"eslint:config": "eslint '**/{\\.eslintrc.js,\\.prettierrc.js,webpack.config.ts,*.json}'",
 		"eslint:misc": "eslint '{0-meta,0-scripts,0-typings-custom}/**/*.{ts,tsx,js,jsx,json}'",
 		"eslintxx": "eslint '5-incubator/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
@@ -41,9 +41,10 @@
 			"4-tools/*",
 			"5-incubator/active/*",
 			"9-oh-my-rpg/*",
-			"A-apps/online-adventur.es/*",
-			"A-apps/the-boring-rpg/*",
-			"B-minisites/*"
+			"A-apps--core/the-boring-rpg/*",
+			"B-apps--support/online-adventur.es/*",
+			"C-apps--clients/the-boring-rpg/*",
+			"D-minisites/*"
 		]
 	},
 	"resolutions": {

@@ -22,12 +22,12 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist",
+		"clean": "node ../../../0-scripts/clean.js …dist",
 
 		"dev": "run-s clean build:dev:watch",
 
-		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../../0-scripts/build-typescript.js",
 
 		"build": "run-s build:prod"
 	},

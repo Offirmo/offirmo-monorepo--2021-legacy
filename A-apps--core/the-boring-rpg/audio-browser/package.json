@@ -24,9 +24,9 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist",
-		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"clean": "node ../../../0-scripts/clean.js …dist",
+		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../../0-scripts/build-typescript.js",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 
 		"build": "run-s build:prod",

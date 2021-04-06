@@ -5,7 +5,6 @@ const URL_TERMS_OF_SERVICE = 'TODO'
 
 //////////// Me ////////////
 
-// TODO https://icongr.am/simple
 
 const MAKER_OFFIRMO = {
 	name: 'Offirmo',
@@ -26,7 +25,7 @@ const ONLINE_ADVENTURES = {
 	cta: 'explore',
 	repo_url: 'https://github.com/online-adventures/online-adventures.github.io',
 }
-
+/*
 const THE_NPM_RPG = {
 	name: 'The npm RPG',
 	maker: MAKER_OFFIRMO,
@@ -38,7 +37,7 @@ const THE_NPM_RPG = {
 	social_urls: {
 		product_hunt: 'https://www.producthunt.com/upcoming/the-npm-rpg',
 	},
-}
+}*/
 
 const THE_BORING_RPG = {
 	name: 'The Boring RPG reborn',
@@ -47,7 +46,7 @@ const THE_BORING_RPG = {
 	cta: 'play',
 	homepage_url: 'https://www.online-adventur.es/the-boring-rpg',
 	changelog: 'https://www.reddit.com/r/boringrpg/',
-	repo_url: 'https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps/the-boring-rpg',
+	repo_url: 'https://github.com/Offirmo/offirmo-monorepo/tree/master/C-apps--clients/the-boring-rpg',
 	issues_url: 'https://github.com/Offirmo/offirmo-monorepo/issues',
 	aggregated_links_url: 'https://linktr.ee/theboringrpg',
 	social_urls: {
@@ -86,7 +85,7 @@ const MAKERS = {
 
 const APPS = {
 	'the_boring_rpg': THE_BORING_RPG,
-	'the_npm_rpg': THE_NPM_RPG,
+	//'the_npm_rpg': THE_NPM_RPG,
 }
 
 ////////////////////////////////////
@@ -95,7 +94,7 @@ export {
 	MAKER_OFFIRMO,
 
 	ONLINE_ADVENTURES,
-	THE_NPM_RPG,
+	//THE_NPM_RPG,
 	THE_BORING_RPG,
 
 	MAKERS,

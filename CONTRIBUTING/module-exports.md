@@ -24,8 +24,8 @@ Notes:
   * `"@types/node"`
   * `tsconfig.json`: `"lib":`
   * replace in `package.json`: `src.es202x`
-  * `A-apps/online-adventur.es/heroku/.babelrc`
-  * `A-apps/online-adventur.es/functions/.babelrc`
+  * `B-apps--support/online-adventur.es/heroku/.babelrc`
+  * `B-apps--support/online-adventur.es/functions/.babelrc`
   * Netlify:
     * ensure AWS_LAMBDA_JS_RUNTIME = "nodejsXX.x" is valid in `netlify.toml`
     * in admin change AWS_LAMBDA_JS_RUNTIME = nodeXX.x or sth

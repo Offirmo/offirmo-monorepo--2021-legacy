@@ -8,7 +8,7 @@
 [build]
 	## Directory with the serverless Lambda functions to deploy to AWS.
 	## https://www.netlify.com/docs/functions/#tools-for-building-javascript-functions
-	functions = "./A-apps/online-adventur.es/functions/functions"
+	functions = "./B-apps--support/online-adventur.es/functions/functions"
 	command = "echo $TEST_ENV_VAR"
 	[build.processing]
 		skip_processing = true
@@ -50,8 +50,8 @@
 ## Redirects from what the browser requests to what we serve
 ## https://www.netlify.com/docs/redirects/
 [[redirects]]
-	from = "/A-apps/the-boring-rpg/client-browser/dist/*"
-	to = "/A-apps/the-boring-rpg/client-browser/dist/"
+	from = "/C-apps--clients/the-boring-rpg/client-browser/dist/*"
+	to = "/C-apps--clients/the-boring-rpg/client-browser/dist/"
 	# The default HTTP status code is 301, but you can define a different one.
 	status = 200
 

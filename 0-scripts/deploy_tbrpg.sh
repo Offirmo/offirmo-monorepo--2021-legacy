@@ -8,14 +8,14 @@ pushd $PARENT_DIR > /dev/null
 
 #pwd
 
-FE_SRC_DIR="./A-apps/the-boring-rpg/client-browser/dist"
-FN_SRC_DIR="./A-apps/online-adventur.es/functions/functions"
+FE_SRC_DIR="./C-apps--clients/the-boring-rpg/client-browser/dist"
+FN_SRC_DIR="./B-apps--support/online-adventur.es/functions/functions"
 
 FE_TARGET_DIR="../../oa/online-adventures.github.io/apps/the-boring-rpg-preprod"
-FN_TARGET_DIR="../../oa/online-adventures.github.io/functions"
+FN_TARGET_DIR="../../oa/online-adventures.github.io/netlify/functions"
 
 FE_BKP_DIR="../../oa/online-adventures.github.io/apps/legacy/tbrpg-$DATE"
-FN_BKP_DIR="../../oa/online-adventures.github.io/apps/legacy/tbrpg-fn-$DATE"
+FN_BKP_DIR="../../oa/online-adventures.github.io/apps/legacy/functions-$DATE"
 
 rm -rf $FE_BKP_DIR
 mkdir -p $FE_BKP_DIR
