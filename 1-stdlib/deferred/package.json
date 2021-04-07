@@ -28,12 +28,6 @@
 	"dependencies": {
 	},
 
-	"devDependencies": {
-		"@size-limit/preset-small-lib": "^4",
-		"np": "^7",
-		"npm-run-all": "^4",
-		"size-limit": "^4"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
 
@@ -46,6 +40,12 @@
 
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+	"devDependencies": {
+		"@size-limit/preset-small-lib": "^4",
+		"np": "^7",
+		"npm-run-all": "^4",
+		"size-limit": "^4"
 	},
 
 	"files": [

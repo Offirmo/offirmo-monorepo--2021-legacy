@@ -13,14 +13,10 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"tslib": "^2"
 	},
 	"dependencies": {
 	},
 
-	"devDependencies": {
-		"npm-run-all": "^4"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
 
@@ -30,5 +26,8 @@
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 		"demo": "node doc/demo.js"
+	},
+	"devDependencies": {
+		"npm-run-all": "^4"
 	}
 }
