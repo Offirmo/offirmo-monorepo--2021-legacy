@@ -1,7 +1,7 @@
 # Oh My RPG ⚔ 👑
 
 **If you're looking for:**
-- **the boring rpg** → go here: [the-boring-rpg/README.md](../C-apps--clients/the-boring-rpg/client-browser/README.md)
+- **the boring rpg** → go here: [the-boring-rpg/README.md](../C-apps--clients/the-boring-rpg/client--browser/README.md)
 
 
 ## Intro

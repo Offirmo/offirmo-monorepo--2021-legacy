@@ -8,7 +8,7 @@ pushd $PARENT_DIR > /dev/null
 
 #pwd
 
-FE_SRC_DIR="./C-apps--clients/the-boring-rpg/client-browser/dist"
+FE_SRC_DIR="./C-apps--clients/the-boring-rpg/client--browser/dist"
 FN_SRC_DIR="./B-apps--support/online-adventur.es/functions/functions"
 
 FE_TARGET_DIR="../../oa/online-adventures.github.io/apps/the-boring-rpg-preprod"

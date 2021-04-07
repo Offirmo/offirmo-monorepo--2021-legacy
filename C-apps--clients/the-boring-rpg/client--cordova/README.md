@@ -5,8 +5,8 @@ https://github.com/Offirmo-team/wiki/wiki/Apache-Cordova
 ```bash
 npm info cordova version && cordova -v
 
-cordova create client-cordova-gen com.OffirmoOnlineAdventures.TheBoringRPG TheBoringRPG
-cd client-cordova-gen
+cordova create client--cordova--gen com.OffirmoOnlineAdventures.TheBoringRPG TheBoringRPG
+cd client--cordova--gen
 FIX THE CONFIG HERE
 cordova prepare
 

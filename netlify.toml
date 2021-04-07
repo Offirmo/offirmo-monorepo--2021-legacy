@@ -50,8 +50,8 @@
 ## Redirects from what the browser requests to what we serve
 ## https://www.netlify.com/docs/redirects/
 [[redirects]]
-	from = "/C-apps--clients/the-boring-rpg/client-browser/dist/*"
-	to = "/C-apps--clients/the-boring-rpg/client-browser/dist/"
+	from = "/C-apps--clients/the-boring-rpg/client--browser/dist/*"
+	to = "/C-apps--clients/the-boring-rpg/client--browser/dist/"
 	# The default HTTP status code is 301, but you can define a different one.
 	status = 200
 

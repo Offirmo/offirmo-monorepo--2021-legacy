@@ -9,8 +9,8 @@ export function get_base_route() {
 	//console.log(`computing BASE_ROUTE from pathname = "${pathname}"…`)
 	// stable point, everything after is likely to be a route
 	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = (() => {
-		if (pathname.includes('/the-boring-rpg/client-browser'))
-			return '/the-boring-rpg/client-browser' // when served by GitHub = "dev+" setup + netlify
+		if (pathname.includes('/the-boring-rpg/client--browser'))
+			return '/the-boring-rpg/client--browser' // when served by GitHub = "dev+" setup + netlify
 
 		if (pathname.includes('/the-boring-rpg-preprod'))
 			return '/the-boring-rpg-preprod'
