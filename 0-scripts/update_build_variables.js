@@ -110,16 +110,22 @@ module.exports = { VERSION, NUMERIC_VERSION, BUILD_DATE }
 // intended usage: https://shields.io/endpoint
 let target_path = path.resolve(cli.flags.outputDir || process.cwd(), './build_badge_version.json')
 write_json_file(target_path, {
+	"__comment": 'This payload is for making a custom badge https://shields.io/endpoint',
+	// required:
 	"schemaVersion": 1,
 	"label": "version",
 	"message": VERSION,
+	// optional:
 })
 console.log('🧙️  wrote:', target_path)
 
 target_path = path.resolve(cli.flags.outputDir || process.cwd(), './build_badge_time.json')
 write_json_file(target_path, {
+	"__comment": 'This payload is for making a custom badge https://shields.io/endpoint',
+	// required:
 	"schemaVersion": 1,
 	"label": "build date",
-	"message": BUILD_DATE
+	"message": BUILD_DATE,
+	// optional:
 })
 console.log('🧙️  wrote:', target_path)
