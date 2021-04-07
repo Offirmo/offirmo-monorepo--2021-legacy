@@ -24,7 +24,7 @@ Monitoring:
 | webapp -- TBRPG | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_time.json)
 | webapp -- TBRPG preprod | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_time.json)
 | API | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
-| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | TODO | TODO
+| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Ftime)
 
 No-code
 * [Tag Manager](https://tagmanager.google.com/)
@@ -49,7 +49,7 @@ Pipelines:
 | ------ | ------- | ---------- |
 | webapp -- TBRPG | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_time.json)
 | API | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
-| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | TODO | TODO
+| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fonline-adventures-staging.herokuapp.com%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fonline-adventures-staging.herokuapp.com%2Fbadges%2Ftime)
 
 
 
