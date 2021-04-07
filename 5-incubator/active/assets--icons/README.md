@@ -4,6 +4,9 @@ TODO use https://github.com/svg/svgo
 
 https://www.irigoyen.dev/blog/2021/02/17/stop-using-icon-fonts/
 
+https://icongr.am/simple
+
+
 TODO
 * mail
 * settings

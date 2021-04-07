@@ -14,11 +14,6 @@
 		"tslib": "^2"
 	},
 
-	"devDependencies": {
-		"np": "^7",
-		"npm-run-all": "^4",
-		"parcel-bundler": "^1"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist …cache",
 
@@ -28,5 +23,10 @@
 
 		"dev": "run-s start:parcel",
 		"build": "run-s build:parcel"
+	},
+	"devDependencies": {
+		"np": "^7",
+		"npm-run-all": "^4",
+		"parcel-bundler": "^1"
 	}
 }
