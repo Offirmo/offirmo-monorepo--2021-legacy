@@ -10,14 +10,14 @@ This app exists only for the sake of getting the free db addons!
 ## https://medium.com/inato/how-to-setup-heroku-with-yarn-workspaces-d8eac0db0256
 heroku apps
 
+## STAGING
 heroku buildpacks:add --app online-adventures-staging heroku/nodejs
 heroku buildpacks:add --app online-adventures-staging https://github.com/heroku/heroku-buildpack-multi-procfile
+heroku config:set     --app online-adventures-staging PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
 
-heroku config:set --app online-adventures-staging PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
-
+## PROD
 heroku buildpacks:add --app online-adventures-prod https://github.com/heroku/heroku-buildpack-multi-procfile
-heroku config:set --app online-adventures-prod PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
-
+heroku config:set     --app online-adventures-prod PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
 ```
 
 ### PostGres
