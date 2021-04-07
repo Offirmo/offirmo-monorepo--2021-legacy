@@ -16,6 +16,7 @@ heroku buildpacks:add --app online-adventures-staging https://github.com/heroku/
 heroku config:set     --app online-adventures-staging PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
 
 ## PROD
+## no buildpack heroku/nodejs for PROD (reason?)
 heroku buildpacks:add --app online-adventures-prod https://github.com/heroku/heroku-buildpack-multi-procfile
 heroku config:set     --app online-adventures-prod PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
 ```
