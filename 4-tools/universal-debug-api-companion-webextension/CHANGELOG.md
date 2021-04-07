@@ -3,18 +3,23 @@
 
 ## PENDING
 * TODO v1
-* TODO make the extension public on Chrome Web Store
 * TODO release to FF
 * TODO [fix] edition fields
 * TODO [fix] stale overrides handling (last_reported: -1)
 * TODO [fix] ugly styling
 * TODO bump dependencies (major)
 * [test] TODO unit tests!
-* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)
-* [chore] explicitly declares tslib as dependency (no change, just cleaner)
-* [feat] added "all frames" https://developer.chrome.com/extensions/content_scripts#frames
 * ...
+
+## v0.2.0
+Submitted 2021/04/07
+* [feat] extension is public on Chrome Web Store
+* [feat] added option "all frames" https://developer.chrome.com/extensions/content_scripts#frames so that the extension can work with iframes
+* [feat] removed unused permission "activeTabs" per Chrome Web Store request
+* [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
+* [chore] explicitly declares tslib as dependency (no change, just cleaner)
+* [chore] bumped dependencies (minor)
 
 ## v0.1.0
 2020/07/03
