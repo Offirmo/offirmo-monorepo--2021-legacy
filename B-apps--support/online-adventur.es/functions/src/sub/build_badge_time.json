@@ -1,6 +1,5 @@
 {
-	"__comment": "This payload is for making a custom badge https://shields.io/endpoint",
 	"schemaVersion": 1,
 	"label": "build date",
-	"message": "20210407_03h45"
+	"message": "20210407_06h05"
 }

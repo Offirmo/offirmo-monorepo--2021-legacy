@@ -1,5 +1,4 @@
 {
-	"__comment": "This payload is for making a custom badge https://shields.io/endpoint",
 	"schemaVersion": 1,
 	"label": "version",
 	"message": "0.0.1"
