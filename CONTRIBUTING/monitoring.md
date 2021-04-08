@@ -5,7 +5,7 @@
 
 Pipelines:
 * Netlify: [![Netlify Status](https://api.netlify.com/api/v1/badges/b2bbd92c-ab3d-43c5-ba8f-44bb0dbcd8cb/deploy-status)](https://app.netlify.com/sites/online-adventures/deploys)
-* Heroku: [Activity](https://dashboard.heroku.com/apps/online-adventures-prod/activity) | [Logs](https://dashboard.heroku.com/apps/online-adventures-prod/logs)
+* Heroku: [pipeline](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | [Activity](https://dashboard.heroku.com/apps/online-adventures-prod/activity) | [Logs](https://dashboard.heroku.com/apps/online-adventures-prod/logs)
 
 Monitoring:
 * Sentry: [Backend](https://sentry.io/organizations/offirmo/issues/?project=1772719) | [Frontend -- TBRPG](https://sentry.io/organizations/offirmo/issues/?project=1235383)
@@ -23,8 +23,8 @@ Monitoring:
 | ------ | ------- | ---------- |
 | webapp -- TBRPG | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_time.json)
 | webapp -- TBRPG preprod | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_time.json)
-| API | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
-| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Ftime)
+| support -- API ([functions](https://app.netlify.com/sites/online-adventures/functions)) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
+| support -- DB ([heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98)) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Ftime)
 
 No-code
 * [Tag Manager](https://tagmanager.google.com/)
@@ -36,7 +36,7 @@ No-code
 
 Pipelines:
 * Netlify: [![Netlify Status](https://api.netlify.com/api/v1/badges/25734112-d205-4789-ad2f-bfcdf8d65252/deploy-status)](https://app.netlify.com/sites/offirmo-monorepo/deploys)
-* Heroku: [Activity](https://dashboard.heroku.com/apps/online-adventures-staging/activity) | [Logs](https://dashboard.heroku.com/apps/online-adventures-staging/logs)
+* Heroku: [pipeline](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | [Activity](https://dashboard.heroku.com/apps/online-adventures-staging/activity) | [Logs](https://dashboard.heroku.com/apps/online-adventures-staging/logs)
 
 | web surface | status |
 | ----------- | ------ |
@@ -48,8 +48,8 @@ Pipelines:
 | module | version | build time |
 | ------ | ------- | ---------- |
 | webapp -- TBRPG | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_time.json)
-| API | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
-| [heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fonline-adventures-staging.herokuapp.com%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fonline-adventures-staging.herokuapp.com%2Fbadges%2Ftime)
+| support -- API ([functions](https://app.netlify.com/sites/offirmo-monorepo/functions)) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Foffirmo-monorepo.netlify.app%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
+| support -- DB ([heroku](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98)) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fonline-adventures-staging.herokuapp.com%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fonline-adventures-staging.herokuapp.com%2Fbadges%2Ftime)
 
 
 
@@ -59,7 +59,8 @@ Pipelines:
 | ----------- | ------ |
 | `https://www.offirmo.net`**`/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net.svg)](https://www.offirmo.net/)
 | `https://www.offirmo.net`**`/blog/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/blog.svg)](https://www.offirmo.net/blog)
-| `https://www.offirmo.net`**`/C-apps--clients/the-boring-rpg/client--browser/dist/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/C-apps--clients/the-boring-rpg/client--browser/dist/.svg)](https://www.offirmo.net/offirmo-monorepo/C-apps--clients/the-boring-rpg/client--browser/dist/)
+| `https://www.offirmo.net`**`/offirmo-monorepo/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/offirmo-monorepo/.svg)](https://www.offirmo.net/offirmo-monorepo/)
+| `https://www.offirmo.net`**`/offirmo-monorepo/C-apps--clients/the-boring-rpg/client--browser/dist/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/offirmo-monorepo/C-apps--clients/the-boring-rpg/client--browser/dist/.svg)](https://www.offirmo.net/offirmo-monorepo/C-apps--clients/the-boring-rpg/client--browser/dist/)
 
 Versions
 * TBRPG client ![Custom badge](https://img.shields.io/endpoint?color=orange&url=https%3A%2F%2Fraw.githubusercontent.com%2FOffirmo%2Foffirmo-monorepo%2Fmaster%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_version.json) ![Custom badge](https://img.shields.io/endpoint?color=orange&url=https%3A%2F%2Fraw.githubusercontent.com%2FOffirmo%2Foffirmo-monorepo%2Fmaster%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_time.json)
