@@ -5,7 +5,7 @@ import { TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes } from '@of
 
 /////////////////////
 
-import * as Character from '@oh-my-rpg/state-character'
+import * as Character from '@tbrpg/state--character'
 import * as Inventory from '@oh-my-rpg/state-inventory'
 import * as Wallet from '@oh-my-rpg/state-wallet'
 import * as PRNG from '@oh-my-rpg/state-prng'

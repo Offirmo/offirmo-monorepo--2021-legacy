@@ -1,6 +1,6 @@
 import { Immutable } from '@offirmo-private/ts-types'
 import * as RichText from '@offirmo-private/rich-text-format'
-import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTED } from '@oh-my-rpg/state-character'
+import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTED } from '@tbrpg/state--character'
 
 function render_avatar(state: Immutable<CharacterState>): RichText.Document {
 	const $doc_name = RichText.inline_fragment().addClass('avatar__name').pushText(state.name).done()

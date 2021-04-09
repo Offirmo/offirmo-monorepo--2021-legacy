@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { DEMO_STATE } from '@oh-my-rpg/state-character'
+import { DEMO_STATE } from '@tbrpg/state--character'
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 
 

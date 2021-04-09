@@ -24,7 +24,7 @@
 		"@oh-my-rpg/logic-monsters": "^0",
 		"@oh-my-rpg/logic-shop": "^0",
 		"@oh-my-rpg/logic-weapons": "^0",
-		"@oh-my-rpg/state-character": "^0",
+		"@tbrpg/state--character": "^0",
 		"@oh-my-rpg/state-inventory": "^0",
 		"@oh-my-rpg/state-meta": "^0",
 		"@oh-my-rpg/state-progress": "^0",

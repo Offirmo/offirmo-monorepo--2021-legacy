@@ -12,7 +12,7 @@ import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import { Monster } from '@oh-my-rpg/logic-monsters'
 
-import { State as CharacterState } from '@oh-my-rpg/state-character'
+import { State as CharacterState } from '@tbrpg/state--character'
 import { State as InventoryState } from '@oh-my-rpg/state-inventory'
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
 import { State as PRNGState } from '@oh-my-rpg/state-prng'

@@ -8,7 +8,7 @@ import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { ItemQuality } from '@oh-my-rpg/definitions'
 
-import * as CharacterState from '@oh-my-rpg/state-character'
+import * as CharacterState from '@tbrpg/state--character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as EnergyState from '@oh-my-rpg/state-energy'

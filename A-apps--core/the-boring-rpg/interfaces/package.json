@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/uuid": "^0",
-		"@oh-my-rpg/state-character": "^0",
+		"@tbrpg/state--character": "^0",
 		"@tbrpg/state": "^0",
 		"typescript-string-enums": "^1"
 	},

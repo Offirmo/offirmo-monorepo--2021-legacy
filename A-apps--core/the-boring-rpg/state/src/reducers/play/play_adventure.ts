@@ -13,7 +13,7 @@ import {
 	CHARACTER_ATTRIBUTES,
 	CharacterClass,
 	State as CharacterState,
-} from '@oh-my-rpg/state-character'
+} from '@tbrpg/state--character'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as WalletState from '@oh-my-rpg/state-wallet'

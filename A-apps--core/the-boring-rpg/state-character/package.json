@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/state-character",
+	"name": "@tbrpg/state--character",
 	"description": "evolving character attributes state and reducer",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

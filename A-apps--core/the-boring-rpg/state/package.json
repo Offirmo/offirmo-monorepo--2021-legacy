@@ -32,7 +32,7 @@
 		"@oh-my-rpg/logic-monsters": "^0",
 		"@oh-my-rpg/logic-shop": "^0",
 		"@oh-my-rpg/logic-weapons": "^0",
-		"@oh-my-rpg/state-character": "^0",
+		"@tbrpg/state--character": "^0",
 		"@oh-my-rpg/state-codes": "^0",
 		"@oh-my-rpg/state-energy": "^0",
 		"@oh-my-rpg/state-engagement": "^0",

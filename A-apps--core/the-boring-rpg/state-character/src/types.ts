@@ -5,15 +5,24 @@ import { BaseUState } from '@offirmo-private/state-utils'
 /////////////////////
 
 const CharacterAttribute = Enum(
-	// TODO improve
-	'agility',
-	'health',
-	'level',
-	'luck',
-	'mana',
-	'strength',
-	'charisma',
-	'wisdom',
+	// We replicate the attributes from the original game
+	// However it's hard to map those to power consistently...
+	// To improve in a future game!
+
+	// trying to map to: might / mind / moxie (from https://www.forgeandfortune.com/)
+
+	'level',      // any
+
+	'strength',   // might
+	'health',     // might + any
+
+	'wisdom',     // mind
+	'mana',       // mind + any
+
+	'luck',       // moxie + any
+	'charisma',   // moxie
+
+	'agility',    // ??? any
 )
 type CharacterAttribute = Enum<typeof CharacterAttribute> // eslint-disable-line no-redeclare
 
@@ -81,11 +90,11 @@ interface CharacterAttributes {
 	[CharacterAttribute.health]: number
 	[CharacterAttribute.mana]: number
 
-	[CharacterAttribute.strength]: number
 	[CharacterAttribute.agility]: number
 	[CharacterAttribute.charisma]: number
-	[CharacterAttribute.wisdom]: number
 	[CharacterAttribute.luck]: number
+	[CharacterAttribute.strength]: number
+	[CharacterAttribute.wisdom]: number
 }
 
 interface State extends BaseUState {

@@ -1,7 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 import { Immutable} from '@offirmo-private/ts-types'
 
-import { CharacterClass } from '@oh-my-rpg/state-character'
+import { CharacterClass } from '@tbrpg/state--character'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 /////////////////////

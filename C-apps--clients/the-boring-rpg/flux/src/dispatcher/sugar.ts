@@ -1,7 +1,7 @@
 import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { UUID } from '@offirmo-private/uuid'
-import { CharacterClass } from '@oh-my-rpg/state-character'
+import { CharacterClass } from '@tbrpg/state--character'
 import { State } from '@tbrpg/state'
 import {
 	get_action_types,

@@ -16,7 +16,7 @@ import { appraise_power_normalized } from '@oh-my-rpg/logic-shop'
 import {
 	CharacterAttribute,
 	increase_stat,
-} from '@oh-my-rpg/state-character'
+} from '@tbrpg/state--character'
 import { Currency } from '@oh-my-rpg/state-wallet'
 
 import * as EnergyState from '@oh-my-rpg/state-energy'

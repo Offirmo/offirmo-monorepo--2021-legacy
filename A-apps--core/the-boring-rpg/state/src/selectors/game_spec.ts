@@ -10,7 +10,7 @@ import {
 	get_available_classes,
 	will_next_play_be_good_at,
 } from './game'
-import { CharacterClass } from '@oh-my-rpg/state-character'
+import { CharacterClass } from '@tbrpg/state--character'
 import {
 	_lose_all_energy,
 } from '../reducers/internal'

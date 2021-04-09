@@ -4,7 +4,7 @@ import { JSONObject } from '@offirmo-private/ts-types'
 import { itㆍshouldㆍmigrateㆍcorrectly } from '@offirmo-private/state-migration-tester'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 
-import * as CharacterState from '@oh-my-rpg/state-character'
+import * as CharacterState from '@tbrpg/state--character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as PRNGState from '@oh-my-rpg/state-prng'

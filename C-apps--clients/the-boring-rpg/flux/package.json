@@ -30,7 +30,7 @@
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
-		"@oh-my-rpg/state-character": "^0",
+		"@tbrpg/state--character": "^0",
 		"@oh-my-rpg/state-engagement": "^0",
 		"@oh-my-rpg/state-inventory": "^0",
 		"@oh-my-rpg/state-prng": "^0",

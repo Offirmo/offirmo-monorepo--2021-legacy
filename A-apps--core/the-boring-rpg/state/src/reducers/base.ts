@@ -14,7 +14,7 @@ import {
 	increase_stat,
 	rename,
 	switch_class,
-} from '@oh-my-rpg/state-character'
+} from '@tbrpg/state--character'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
