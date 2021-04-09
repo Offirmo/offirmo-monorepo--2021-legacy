@@ -810,3 +810,80 @@ https://en.wikipedia.org/wiki/Core_self-evaluations
 https://fr.wikipedia.org/wiki/Ma%C3%AEtre_de_poste
 
 https://en.wikipedia.org/wiki/Trap_Door_Spiders
+
+https://fr.aleteia.org/2017/10/26/pourquoi-les-exorcistes-insistent-ils-pour-que-le-demon-devoile-leurs-noms/
+
+TODO extract from oh-my-rpg
+
+https://en.wikipedia.org/wiki/Old_One_in_fiction
+
+Bamonte et Amorth
+Truqui
+
+* https://worldbuilding.stackexchange.com/questions/94950/a-fruit-that-electrically-shocks-you
+
+personalité
+http://www.personalityresearch.org/bigfive.html
+
+Stories
+- réanimation de travailleurs
+
+"Whip it" sentences, don't worry / be happy
+
+https://ifcomp.org/comp/2017
+
+free adventures
+http://www.dungeonmastering.com/campaigns-adventures/83-free-dd-adventures
+
+collect famous precious stones:
+-
+-
+-
+
+http://conan.wikia.com/wiki/Eye_of_the_Serpent
+the mountain of power
+the jeweled crown of Aquilonia
+the atlantean sword http://conan.wikia.com/wiki/Atlantean_Sword
+
+
+fight ancient ones
+- Mammoth
+- Lion
+- Elk
+- Snake
+- ...
+
+fight/meet monsters
+
+Walpurgis
+
+Your master makes you imit (animal) you gain ...
+
+places:
+- colossal cave
+- huge tower
+- toxic forest
+- green moutains
+
+ancient beasts
+- sabertooth tiger
+- cavern lion
+- cavern bear
+- cavern leopard
+- bison
+- wapiti
+
+rare plants:
+-
+
+dragons
+-
+-
+
+Sages caches
+-
+-
+-
+
+Alfonz
+

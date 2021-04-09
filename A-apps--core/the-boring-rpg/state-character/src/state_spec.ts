@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { SCHEMA_VERSION } from './consts'
+import { SCHEMA_VERSION, LIB } from './consts'
 import {
 	CharacterAttribute,
 	CharacterClass,
@@ -11,7 +11,7 @@ import {
 } from '.'
 import { get_lib_SEC } from './sec'
 
-describe('@oh-my-rpg/state-character - reducer', function() {
+describe(`${LIB} - reducer`, function() {
 
 	describe('🆕  initial state', function() {
 

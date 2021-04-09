@@ -30,6 +30,9 @@ node_modules
 .netlify
 
 
+## Temp files
+## LibreOffice
+.~lock.*
 ## caches
 .cache
 .parcel
