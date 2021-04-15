@@ -887,3 +887,6 @@ Sages caches
 
 Alfonz
 
+
+https://en.wikipedia.org/wiki/History_of_books
+https://en.wikipedia.org/wiki/Scientific_Revolution
