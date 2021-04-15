@@ -1,6 +1,8 @@
 
 * +++ plenty of libs to use https://github.com/dphilipson
 
+* maps https://mapeffects.co/
+
 
 https://github.com/munrocket/parallax-effect
 
@@ -15,10 +17,8 @@ backdrop-filter
 
 canvas effects https://canvas-cards.glitch.me/#intotomorrow-selector
 
-https://riccardoscalco.it/textures/
+https://riccardoscalco.it/textures/ SVG patterns for Data Visualization
 https://github.com/SystemErrorWang/White-box-Cartoonization
-
-https://om.elvenar.com/ox/en
 
 VR
 https://blog.mozvr.com/webxr-1-0-is-here/
