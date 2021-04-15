@@ -4,7 +4,7 @@ const { LIB } = require('./consts')
 const { version } = require('../package.json')
 
 
-let banner = `${LIB} v${version}:`
+let banner = `[${LIB}] v${version}:`
 function set_banner(_banner = banner) {
 	banner = _banner
 }

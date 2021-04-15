@@ -58,7 +58,7 @@ function compile(tscOptions, files, options) {
 
 			if (options.verbose) {
 				display_banner_if_1st_output()
-				console.error(`[${LIB}] Failure during tsc invocation: ${reason}`)
+				console.error(`[${LIB}] ✖ Failure during tsc invocation: ${reason}`)
 				console.error(err)
 			}
 
@@ -84,7 +84,8 @@ function compile(tscOptions, files, options) {
 			// not returning due to complex "callback style" async code
 			find_tsc()
 				.then(tsc_executable_relative_path => {
-					if (options.verbose) console.log(`${LIB}: spawning: "${tildify(tsc_executable_relative_path)} ` + spawn_params.join(' ') + '"\n')
+					if (options.verbose) console.log(`[${LIB}] ✔ found a typescript compiler at this location: "${tildify(tsc_executable_relative_path)}"`)
+					if (options.verbose) console.log(`[${LIB}] ► now spawning the compilation command: "${[tildify(tsc_executable_relative_path), ...spawn_params].join(' ')}"...\n`)
 
 					const spawn_instance = spawn(tsc_executable_relative_path, spawn_params, spawn_options)
 
@@ -94,7 +95,7 @@ function compile(tscOptions, files, options) {
 					})
 					spawn_instance.on('disconnect', () => {
 						display_banner_if_1st_output()
-						console.log(`${LIB}: Spawn: got event "disconnect"`)
+						console.log(`[${LIB}] Spawn: got event "disconnect"`)
 					})
 					spawn_instance.on('exit', (code, signal) => {
 						if (code === 0)
@@ -112,7 +113,7 @@ function compile(tscOptions, files, options) {
 					// for debug purpose only
 					spawn_instance.stdin.on('data', data => {
 						display_banner_if_1st_output()
-						console.log(`${LIB}: got stdin event "data": "${data}"`)
+						console.log(`[${LIB}] got stdin event "data": "${data}"`)
 					})
 					// mandatory for correct error detection
 					spawn_instance.stdin.on('error', err => {
@@ -154,6 +155,10 @@ function compile(tscOptions, files, options) {
 		catch (err) {
 			on_failure(`unexpected global catch`, err)
 		}
+	})
+	.then(stdout => {
+		if (options.verbose) console.log(`[${LIB}] ✔ executed successfully.`)
+		return stdout
 	})
 }
 
