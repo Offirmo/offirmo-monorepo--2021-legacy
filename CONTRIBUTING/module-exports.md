@@ -1,7 +1,7 @@
 
-# export and transpilation policy
+# Export and transpilation policy
 
-## policy
+## Policy
 
 The public modules in this mono-repo ase exposed as:
 - Latest stable ES, with latest stable module exports
@@ -16,26 +16,10 @@ See below more exact numbers.
 
 Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue]()
 
-Notes:
-* when updating here, also update `0-scripts/build-typescript.js`
-* when updating node/lib, also update
-  * `.nvmrc`
-  * `engines` from root `package.json` = `"node":`
-  * `"@types/node"`
-  * `tsconfig.json`: `"lib":`
-  * replace in `package.json`: `src.es202x`
-  * `B-apps--support/online-adventur.es/heroku/.babelrc`
-  * `B-apps--support/online-adventur.es/functions/.babelrc`
-  * Netlify:
-    * ensure AWS_LAMBDA_JS_RUNTIME = "nodejsXX.x" is valid in `netlify.toml`
-    * in admin change AWS_LAMBDA_JS_RUNTIME = nodeXX.x or sth
-  * sibling repos
-    * adjust `.nvmrc` and `netlify.toml` in online-adventures.github.io
+## Technical details
 
-
-
-### FUTURE update ???
-- 2021/06 ?? new ES 2020 → 2021
+### PENDING updates
+- 2021/06? new ES 2020 → 2021
 - 2021/10/26 oldest active LTS node 14 → 16  https://nodejs.org/en/about/releases/
 - ??? webpack release 5 → 6  https://github.com/webpack/webpack/milestones
 
@@ -85,6 +69,28 @@ since node 10 in maintenance mode since 2020-05-19 https://nodejs.org/en/about/r
 * oldest active LTS node = [10](https://nodejs.org/en/about/releases/)
 * latest ES supported by this node LTS = [ES2018](https://node.green/#ES2018)
 
+
+
+## Maintainer playbook
+* when updating this file, also update `0-scripts/build-typescript.js`
+* when updating node/lib, also update
+  * `.nvmrc`
+  * `engines` from root `package.json` = `"node":`
+  * `"@types/node"`
+  * `tsconfig.json`: `"lib":`
+  * replace in `package.json`: `src.es202x`
+  * `B-apps--support/online-adventur.es/heroku/.babelrc`
+  * `B-apps--support/online-adventur.es/functions/.babelrc`
+  * Netlify:
+    * ensure AWS_LAMBDA_JS_RUNTIME = "nodejsXX.x" is valid in `netlify.toml`
+    * in admin change AWS_LAMBDA_JS_RUNTIME = nodeXX.x or sth
+  * sibling repos
+    * adjust `.nvmrc` and `netlify.toml` in online-adventures.github.io
+
+
+
+
 ## TODO
 - TODO are refreshes major or minor?? Most likely major (see @sindre)
 - TODO new typescript ?
+
