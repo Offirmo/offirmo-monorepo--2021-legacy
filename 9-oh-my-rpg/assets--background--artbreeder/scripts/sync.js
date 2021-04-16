@@ -42,6 +42,13 @@ const raw_backgrounds = [
 ////////////////////////////////////
 // Data extraction
 
+function autocomplete_raw_biome_id(raw_biome_id) {
+	if (!raw_biome_id.startsWith('terrestrial'))
+		raw_biome_id = 'terrestrial--' + raw_biome_id
+
+	return raw_biome_id
+}
+
 function get_code_biome_id(raw_biome_id) {
 	return raw_biome_id.split('--').join('ⵧ')
 }
@@ -59,6 +66,12 @@ function compare_backgrounds(b1, b2) {
 		return b1.biome_id.localeCompare(b2.biome_id)
 	}
 
+	if (b1.subfolder !== b2.subfolder) {
+		if (!b1.subfolder) return -1
+		if (!b2.subfolder) return 1
+		return b1.subfolder.localeCompare(b2.subfolder)
+	}
+
 	if (b1.transitions_to !== b2.transitions_to) {
 		return (b1.transitions_to ?? '').localeCompare(b2.transitions_to ?? '')
 	}
@@ -73,27 +86,51 @@ function register_raw_background(raw_bg) {
 	}
 	if (raw_bg.transitions_to && !raw_biome_ids.includes(raw_bg.transitions_to)) {
 		report_unknown_raw_biome(raw_bg.transitions_to)
-		raw_bg.subfolder = 'to--' + raw_bg.transitions_to
 		raw_bg.transitions_to = null
 	}
 	raw_backgrounds.push(raw_bg)
 }
 
 // extract biome ids
-ASSETS_SUBDIR_BASENAMES__FIRST_LEVEL.forEach(basename__first_level => {
+const BIOME_SUBFOLDERS = ASSETS_SUBDIR_BASENAMES__FIRST_LEVEL
+	.filter(b => {
+		if (!b.startsWith('biome--')) {
+			if (!basename__first_level.startsWith('tosort'))
+				logger.warn(`ignoring root folder "${basename__first_level}". Please check.`)
+			return false
+		}
+		return true
+	})
+
+function explore_subfolder(parent_path, subfolder_basename, raw_biome_id) {
+	const sub_path = path.join(parent_path, subfolder_basename)
+	logger.debug('looking into a subfolder:', { id: raw_biome_id, path: sub_path })
+
+	// backgrounds
+	const sub_files = fs.lsFilesSync(sub_path, { full_path: false })
+		.filter(basename => !basename.startsWith('.'))
+	//console.log({ sub_files })
+
+	sub_files.forEach(basename => {
+		register_raw_background({
+			biome_id: raw_biome_id,
+			basename,
+			subfolder: sub_folder_basename,
+			features_settlement: sub_folder_basename === 'settlements',
+			transitions_to: sub_folder_basename.startsWith('to--') ? autocomplete_raw_biome_id(sub_folder_basename.split('--').slice(1).join('--')) : null,
+		})
+	})
+}
+
+
+BIOME_SUBFOLDERS.forEach(basename__first_level => {
 	const splitted = basename__first_level.split('--')
 	/*console.log({
 		basename__first_level,
 		splitted,
 	})*/
 
-	if (splitted[0] !== 'biome') {
-		if (!basename__first_level.startsWith('tosort'))
-			logger.warn(`ignoring root folder "${basename__first_level}". Please check.`)
-		return
-	}
-
-	const raw_biome_id = splitted.slice(1).join('--')
+	const raw_biome_id = autocomplete_raw_biome_id(splitted.slice(1).join('--'))
 	if (raw_biome_id.toLowerCase() !== raw_biome_id) {
 		throw new Error(`Error: biome "${raw_biome_id}" should be LC!`)
 	}
@@ -135,8 +172,9 @@ raw_biome_ids.forEach(raw_biome_id => {
 			register_raw_background({
 				biome_id: raw_biome_id,
 				basename,
+				subfolder: sub_folder_basename,
 				features_settlement: sub_folder_basename === 'settlements',
-				transitions_to: sub_folder_basename.startsWith('to--') ? sub_folder_basename.split('--').slice(1).join('--') : null,
+				transitions_to: sub_folder_basename.startsWith('to--') ? autocomplete_raw_biome_id(sub_folder_basename.split('--').slice(1).join('--')) : null,
 			})
 		})
 	})
@@ -158,7 +196,7 @@ export const BACKGROUNDS: Immutable<Background[]> = [` + raw_backgrounds.map(bg 
 	return `
 	{
 		biome_id: BiomeId.${get_code_biome_id(bg.biome_id)},
-		basename: '${bg.basename}',${bg.subfolder ? `\nsubfolder: '${bg.subfolder}',` : ''}
+		basename: '${bg.basename}',${bg.subfolder ? ` subfolder: '${bg.subfolder}',` : ''}
 		features_settlement: ${bg.features_settlement},
 		transitions_to: ${bg.transitions_to ? `BiomeId.${get_code_biome_id(bg.transitions_to)}` : 'null'},
 	},`

@@ -13,9 +13,15 @@ export const BiomeId = Enum(
 	// boreal, polar
 
 	// We settle on a mix of scientific / common language
-	'terrestrialⵧgrassland',
-	'terrestrialⵧforestⵧgreen',
+	'terrestrialⵧbarren',
+	'terrestrialⵧcave',
+	'terrestrialⵧcoastal',
 	'terrestrialⵧforestⵧdark',
+	'terrestrialⵧforestⵧgreen',
+	'terrestrialⵧforestⵧsnowy',
+	'terrestrialⵧgrassland',
+	'terrestrialⵧmountainⵧgreen',
+	'terrestrialⵧswamp',
 
 	// TODO future
 	// https://en.wikipedia.org/wiki/Marine_habitats

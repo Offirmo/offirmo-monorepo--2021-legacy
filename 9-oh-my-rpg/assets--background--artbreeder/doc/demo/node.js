@@ -5,6 +5,7 @@ const {
 	BACKGROUNDS,
 	get_backgrounds_for_biome,
 	get_background_url,
+	get_background_matching,
 } = require('../..')
 
 console.log(`- ${BACKGROUNDS.length} backgrounds`)
@@ -27,11 +28,23 @@ const OPTIONS = {
 	fallback,
 }
 
-console.log(termImg(get_background_url(grassland_bgs[0]), OPTIONS))
-/*console.log(termImg(get_background_url(get_backgrounds_matching({
-	//biome_id,
-	features_settlement: ,
-	transitions_to,
-	excluding_those_basenames,
-})), OPTIONS))
-*/
+function display_bg(bg) {
+	console.log(termImg(get_background_url(bg), OPTIONS))
+}
+display_bg(grassland_bgs[0])
+
+console.log('ex. biome1+settlement -> biome1 -> biome1+transition/biome2 -> biome2')
+display_bg(get_background_matching({
+	biome_id: BiomeId.terrestrialⵧgrassland,
+	features_settlement: true,
+}))
+display_bg(get_background_matching({
+	biome_id: BiomeId.terrestrialⵧgrassland,
+}))
+display_bg(get_background_matching({
+	biome_id: BiomeId.terrestrialⵧgrassland,
+	transitions_to: BiomeId.terrestrialⵧforestⵧgreen,
+}))
+display_bg(get_background_matching({
+	biome_id: BiomeId.terrestrialⵧforestⵧgreen,
+}))
