@@ -5,6 +5,7 @@
 * XXX DO NOT PUBLISH BEFORE RESOLVING THE PRIVATE DEP (temporary, work in progress)
 * TODO fix the "maximum call stack exceeded" when printing a SEC
 * TODO pretty+intelligently print the details
+* [feat] improved the log line spacing (suppressed a redundant one)
 * [doc] ++
 * [chore] re-organized the source (monorepo) and tweaked the shared build script. No logic change.
 * [chore] bumped dependencies (minor)

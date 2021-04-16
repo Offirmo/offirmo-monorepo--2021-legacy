@@ -24,27 +24,23 @@ export function createSink(options: Readonly<SinkOptions> = {}): LogSink {
 	return (payload: LogPayload): void => {
 		const { level, name, msg, time, details, err } = payload
 
-		let line = ''
-			+ (displayTime
-				? (chalk.dim(String(time)) + ' ')
-				: '')
-			+ LEVEL_TO_ASCII[level]
-			+ '› '
-			+ LEVEL_TO_STYLIZE[level](''
-					+ name
-					+ (name ? '›' : '')
-					+ (msg ? ' ' : '')
-					+ msg
-				)
-			+ (
+		let line = [
+				displayTime ? chalk.dim(String(time)) : '',
+				LEVEL_TO_ASCII[level] + '›',
+				LEVEL_TO_STYLIZE[level]([
+						name,
+						msg
+					].filter(x => !!x).join('› ')
+				),
 				Reflect.ownKeys(details).length === 0
 					? ''
 					//: (' ' + JSON.stringify(details))
-					: (' ' + prettify_any(details, {
+					: prettify_any(details, {
 						//line_width:
 						//first_line_already_used:
-					}))
-				)
+					}),
+			].filter(x => !!x).join(' ')
+
 		console.log(line) // eslint-disable-line no-console
 		if (err)
 			displayError(err)
