@@ -1,5 +1,9 @@
 import path from 'path'
+
+import assert from 'tiny-invariant'
 import memoize_one from 'memoize-one'
+import { Enum } from 'typescript-string-enums'
+
 import { Immutable, Mutable } from '@offirmo-private/ts-types'
 
 import {
@@ -22,7 +26,11 @@ export const get_backgrounds_by_biome_id = memoize_one(function get_backgrounds_
 // BIOME
 
 export function get_backgrounds_for_biome(id: BiomeId): Immutable<Background[]> {
-	return get_backgrounds_by_biome_id()[id]
+	assert(id, `get_backgrounds_for_biome() should be given an id`)
+	assert(Enum.isType(BiomeId, id), `get_backgrounds_for_biome() should be given a valid id "${id}"`)
+	const backgrounds_by_biome_id = get_backgrounds_by_biome_id()
+	assert((backgrounds_by_biome_id[id] ?? []).length > 0, `get_backgrounds_for_biome() should find backgrounds for "${id}"`)
+	return backgrounds_by_biome_id[id]
 }
 
 export interface BackgroundMatch {
