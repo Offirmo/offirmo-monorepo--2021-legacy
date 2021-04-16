@@ -136,6 +136,7 @@
 		"semver": "^7",
 		"strip-ansi": "^6",
 		"styled-components": "^3",
+		"term-img": "^5",
 		"term-size": "^2",
 		"tildify": "^2",
 		"tiny-invariant": "^1",

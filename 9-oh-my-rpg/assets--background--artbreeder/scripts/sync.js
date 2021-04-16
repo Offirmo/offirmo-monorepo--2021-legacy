@@ -11,31 +11,76 @@ const { getLogger } = require('@offirmo/universal-debug-api-node')
 const display_mode = 'dump'
 const logger = getLogger({
 	//name: 'foo',
-	suggestedLevel: 'silly',
+	suggestedLevel: 'warn',
 })
 
 ////////////////////////////////////
 
 const LAST_KNOWN_BG_COUNT = 114 - 16
-const ROOT_DIR = 'src/assets'
-const DIRS__FIRST_LEVEL = fs.lsDirsSync(ROOT_DIR, { full_path: false })
-logger.debug('fs read:', { ROOT_DIR, DIRS__FIRST_LEVEL })
+// path relative to package's root
+const SRC_DIR = 'src'
+const ASSETS_ROOT_DIR = path.join(SRC_DIR, 'assets')
+const ASSETS_SUBDIR_BASENAMES__FIRST_LEVEL = fs.lsDirsSync(ASSETS_ROOT_DIR, { full_path: false })
+logger.debug('fs read:', {
+	ASSETS_ROOT_DIR,
+	ASSETS_SUBDIR_BASENAMES__FIRST_LEVEL,
+})
+const DATA_SOURCEFILE_PATH = path.join(SRC_DIR, 'data.ts')
 
 ////////////////////////////////////
 // OUTPUT
 
-const biome_ids = []
-const backgrounds = [
+const raw_biome_ids = []
+const raw_backgrounds = [
 	// {
 	// biome_id
 	// basename
-	// transition_to
+	// transitions_to
 	// }
 ]
 
+////////////////////////////////////
+// Data extraction
 
-// extract biomes
-DIRS__FIRST_LEVEL.forEach(basename__first_level => {
+function get_code_biome_id(raw_biome_id) {
+	return raw_biome_id.split('--').join('ⵧ')
+}
+
+const unknown_raw_biome_ids = new Set()
+function report_unknown_raw_biome(raw_unknown_biome_id) {
+	if (unknown_raw_biome_ids.has(raw_unknown_biome_id)) return
+
+	unknown_raw_biome_ids.add(raw_unknown_biome_id)
+	logger.warn(`Found reference to an unknown biome: ${raw_unknown_biome_id}`)
+}
+
+function compare_backgrounds(b1, b2) {
+	if (b1.biome_id !== b2.biome_id) {
+		return b1.biome_id.localeCompare(b2.biome_id)
+	}
+
+	if (b1.transitions_to !== b2.transitions_to) {
+		return (b1.transitions_to ?? '').localeCompare(b2.transitions_to ?? '')
+	}
+
+	return b1.basename.localeCompare(b2.basename)
+}
+
+function register_raw_background(raw_bg) {
+	// TODO add assertions
+	if (raw_bg.basename.includes('small')) {
+		logger.warn('Small artbreeder picture need a bigger format!', raw_bg)
+	}
+	if (raw_bg.transitions_to && !raw_biome_ids.includes(raw_bg.transitions_to)) {
+		report_unknown_raw_biome(raw_bg.transitions_to)
+		raw_bg.subfolder = 'to--' + raw_bg.transitions_to
+		raw_bg.transitions_to = null
+	}
+	raw_backgrounds.push(raw_bg)
+}
+
+// extract biome ids
+ASSETS_SUBDIR_BASENAMES__FIRST_LEVEL.forEach(basename__first_level => {
 	const splitted = basename__first_level.split('--')
 	/*console.log({
 		basename__first_level,
@@ -48,177 +93,81 @@ DIRS__FIRST_LEVEL.forEach(basename__first_level => {
 		return
 	}
 
-	const biome_id = splitted.slice(1).join('--')
-	if (biome_id.toLowerCase() !== biome_id) {
-		throw new Error(`Error: biome "${biome_id}" should be LC!`)
+	const raw_biome_id = splitted.slice(1).join('--')
+	if (raw_biome_id.toLowerCase() !== raw_biome_id) {
+		throw new Error(`Error: biome "${raw_biome_id}" should be LC!`)
 	}
-	logger.info(`found biome "${biome_id}"`)
-	biome_ids.push(biome_id)
+	logger.info(`found biome "${raw_biome_id}"`)
+	raw_biome_ids.push(raw_biome_id)
 })
 
-biome_ids.forEach(biome_id => {
-	const biome_path = path.join(ROOT_DIR, 'biome--' + biome_id)
-	logger.debug('looking into a biome:', { id: biome_id, path: biome_path })
+// extract backgrounds
+raw_biome_ids.forEach(raw_biome_id => {
+	const biome_path = path.join(ASSETS_ROOT_DIR, 'biome--' + raw_biome_id)
+	logger.debug('looking into a biome:', { id: raw_biome_id, path: biome_path })
 
 	// backgrounds
 	const sub_files = fs.lsFilesSync(biome_path, { full_path: false })
 		.filter(basename => !basename.startsWith('.'))
-	console.log({ sub_files })
+	//console.log({ sub_files })
 	sub_files.forEach(basename => {
-		const background = {
-			biome_id,
+		register_raw_background({
+			biome_id: raw_biome_id,
 			basename,
-			transition_to: null,
-		}
-		backgrounds.push(background)
+			features_settlement: false,
+			transitions_to: null,
+		})
 	})
 
 	// transitions
 	const sub_folders = fs.lsDirsSync(biome_path, { full_path: false })
 		.filter(basename => !basename.startsWith('.'))
-	console.log({ sub_folders })
+	//console.log({ sub_folders })
+	sub_folders.forEach(sub_folder_basename => {
+		const sub_path = path.join(ASSETS_ROOT_DIR, 'biome--' + raw_biome_id, sub_folder_basename)
+		logger.debug('looking into a subfolder:', { id: raw_biome_id, path: sub_path })
 
-})
-
-	/*
-	const author_name = humanize(path.basename(author_dir))
-
-	const author = {
-		display_name: author_name,
-		url: `https://www.google.com/search?q=${author_name.split(' ').join('+')}`,
-	}
-	authors_by_dir[author_dir] = author
-
-	if (display_mode !== 'dump') {
-		console.log('\n-------')
-		console.log('discovered author dir:', { dir: path.basename(author_dir)})
-	}
-
-	if (!AUTHORS_BY_NAME[author_name]) {
-		dump_prettified_any('\n{', author)
-		console.log('},')
-		throw new Error('🔥 💣 💥  Missing author!')
-	}
-
-	switch (display_mode) {
-		case 'review':
-			//console.log({author_name})
-			break
-		case 'dump':
-			break
-		default:
-			break
-	}*/
-
-// extract artworks
-/*author_dirs.forEach(author_dir => {
-	const author = authors_by_dir[author_dir]
-
-	const artwork_paths = fs.lsFilesSync(author_dir)
-		.filter(d => !d.endsWith('/.DS_Store'))
-
-	artwork_paths.forEach(artwork_path => {
-		if (display_mode !== 'dump') {
-			console.log('\n-------')
-			console.log('discovered artwork:', {path: artwork_path})
-		}
-
-		let display_name = humanize(
-				path.basename(artwork_path)
-					.slice(0, -4) // remove .jpg
-			)
-			.replace(author.display_name, '')
-			.trim()
-
-		let background = {
-			author: `AUTHORS_BY_NAME['${author.display_name}'],`,
-			source: `'TODO',`,
-			display_name: `'${display_name}',`,
-			keywords: `[],`,
-			css_class: '\'tbrpg⋄bg-image⁚' + [
-				author.display_name.toLowerCase().split(' ').join('_'),
-				display_name.toLowerCase().split(' ').join('_'),
-			].join('-') + `',`,
-			position_pct: `{ x: 50, y: 50 },`,
-		}
-
-		// find it in known bg
-		const existing_bg = ELEMENTS.find(artwork =>
-			artwork.author.display_name === author.display_name
-			&& canonize(artwork.display_name) === canonize(display_name))
-
-		if (existing_bg) {
-			existing_bg.found = true
-			background = {
-				...background,
-				source: `'${existing_bg.source}',`,
-				keywords: `[ '` + existing_bg.keywords.join(`', '`) + `' ],`,
-				position_pct: `${JSON.stringify(existing_bg.position_pct)},`,
-				position_pct_alt: `${JSON.stringify(existing_bg.position_pct_alt)},`,
-			}
-		}
-
-		switch (display_mode) {
-			case 'review':
-				console.log(
-					existing_bg
-						? ' Previously known as: ' + rich_text_to_ansi(render_artwork_legend(existing_bg))
-						: '🆕'
-				)
-				/* fallthrough *//*
-			case 'dump':
-				dump_prettified_any('\n{', background)
-				console.log('},')
-				break
-			default:
-				break
-		}
-
-		if (!existing_bg) {
-			console.error(canonize(display_name))
-			throw new Error('Missing background!')
-		}
-
-		artworks.push({
-			artwork_path,
-			css_class: 'tbrpg⋄bg-image⁚' + [
-				author.display_name.toLowerCase().split(' ').join('_'),
-				display_name.toLowerCase().split(' ').join('_'),
-			].join('-') + ``,
-			position_pct: existing_bg ? existing_bg.position_pct : { x: 50, y: 50 },
-			position_pct_alt: existing_bg ? existing_bg.position_pct_alt : undefined,
+		// backgrounds
+		const sub_files = fs.lsFilesSync(sub_path, { full_path: false })
+			.filter(basename => !basename.startsWith('.'))
+		//console.log({ sub_files })
+		sub_files.forEach(basename => {
+			register_raw_background({
+				biome_id: raw_biome_id,
+				basename,
+				features_settlement: sub_folder_basename === 'settlements',
+				transitions_to: sub_folder_basename.startsWith('to--') ? sub_folder_basename.split('--').slice(1).join('--') : null,
+			})
 		})
 	})
 })
 
-if (display_mode === 'dump') {
-	console.log('/* XXX AUTO-GENERATED from ad hoc command line tool *//*')
-	artworks
-		.sort(({css_class: a}, {css_class: b}) => -(a < b) || +(a > b))
-		.forEach(({artwork_path, css_class, position_pct}) => {
-		console.log(`
-.${css_class} {
-	background-image: url('${artwork_path.slice(4)}');
-	background-position: ${position_pct.x}% ${position_pct.y}%;
-}
+////////////////////////////////////
+// DATA write
+raw_backgrounds.sort(compare_backgrounds)
+
+const target_path = path.resolve(process.cwd(), DATA_SOURCEFILE_PATH)
+let data = `// THIS FILE IS AUTO GENERATED!
+// ${(new Date()).toISOString()}
+
+import { Immutable } from '@offirmo-private/ts-types'
+
+import { Background, BiomeId } from './types'
+
+export const BACKGROUNDS: Immutable<Background[]> = [` + raw_backgrounds.map(bg => {
+	return `
+	{
+		biome_id: BiomeId.${get_code_biome_id(bg.biome_id)},
+		basename: '${bg.basename}',${bg.subfolder ? `\nsubfolder: '${bg.subfolder}',` : ''}
+		features_settlement: ${bg.features_settlement},
+		transitions_to: ${bg.transitions_to ? `BiomeId.${get_code_biome_id(bg.transitions_to)}` : 'null'},
+	},`
+}) .join('')
++ `
+]
+
+export default BACKGROUNDS
 `
-		)
-	})
-}
 
-console.log(`
----------
-[${artworks.length} artworks!]`)
-if (artworks.length > LAST_KNOWN_BG_COUNT) {
-	console.log(`- 😍 feature: ${artworks.length - LAST_KNOWN_BG_COUNT} new backgrounds (now totalling ${artworks.length}!)`)
-}
+fs.writeFileSync(target_path, data)
 
-ELEMENTS.forEach(e => {
-	if (e.found) return
-
-	console.error(`XXX UNMATCHED ARTWORK!`)
-	dump_prettified_any('', e)
-})
-*/
-
-console.log(backgrounds)

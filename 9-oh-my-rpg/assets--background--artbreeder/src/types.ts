@@ -13,9 +13,9 @@ export const BiomeId = Enum(
 	// boreal, polar
 
 	// We settle on a mix of scientific / common language
-	'terrestrial--grassland',
-	'terrestrial--forest--green',
-	'terrestrial--forest--dark',
+	'terrestrialⵧgrassland',
+	'terrestrialⵧforestⵧgreen',
+	'terrestrialⵧforestⵧdark',
 
 	// TODO future
 	// https://en.wikipedia.org/wiki/Marine_habitats
@@ -31,5 +31,7 @@ export interface Biome {
 export interface Background {
 	biome_id: BiomeId
 	basename: string
-	transition_to: BiomeId | null
+	subfolder?: string // for technical reasons, ex. future transition not yet declared as a BiomeId
+	features_settlement: boolean,
+	transitions_to: BiomeId | null
 }
