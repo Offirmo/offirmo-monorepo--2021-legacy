@@ -22,6 +22,7 @@ export const BiomeId = Enum(
 	'terrestrialⵧforestⵧswamp',
 	'terrestrialⵧgrassland',
 	'terrestrialⵧmountainⵧgreen',
+	'terrestrialⵧmountainⵧsnowy',
 
 	// TODO future
 	// https://en.wikipedia.org/wiki/Marine_habitats
