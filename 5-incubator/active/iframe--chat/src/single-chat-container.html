@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="o⋄top-container">
+	<head>
+		<meta charset="UTF-8">
+		<title>single-chat-container.html</title>
+
+		<style>
+			@import "../../../../3-advanced--browser/view-css/src/style--containers.css";
+			@import "../../../../3-advanced--browser/view-css/src/style--debug.css";
+
+			:root {
+				--bg: #26282c;
+			}
+
+			body {
+				margin: 0;
+				background-color: var(--bg);
+			}
+			.o⋄top-container {
+				border-width: 1px;
+			}
+		</style>
+		<script>
+			console.log('Hello from head')
+			// TODO attach error handlers
+			// TODO read query params and pass them to the div
+		</script>
+	</head>
+
+	<body class="o⋄top-container">
+
+		single-chat-container.html
+
+		<!-- TODO a button to open in a tab -->
+		<script>
+			// alter/fix the defaults above according to params
+			console.log('Hello from body', { 'window.location': window.location })
+
+			const state = (() => {
+				// TODO read queryparams
+				const DEFAULT_THEME = 'pop'
+				const DEFAULT_CHANNEL_ID = location.hostname
+
+				const id = DEFAULT_CHANNEL_ID
+				const theme = DEFAULT_THEME
+				const bg_color = {
+					'day':     '#f4f3f1',
+					'night':   '#26282c',
+					'pop':     '#f9eced',
+					'minimal': 'transparent',
+				}[theme] ?? 'transparent'
+				return {
+					id,
+					theme,
+					bg_color,
+					nickname: undefined,
+					custom_css_url: location.origin + location.pathname + './overrides.css', // NOTE: should be absolute
+				}
+			})()
+
+			function render() {
+				console.log('rendering...', state)
+				const div = document.createElement('div')
+
+				document.documentElement.style.setProperty( '--bg', state.bg_color )
+
+				div.id = 'tlkio' // mandatory for the tlk.io script to work
+				div.className = 'o⋄top-container'
+				div.setAttribute('data-channel', state.id)
+				div.style = 'width:100%;height:100%;' // TODO max-width:762px;
+				div.setAttribute('data-theme', 'theme--' + state.theme)
+				if (state.nickname)
+					div.setAttribute('data-nickname', state.nickname)
+				if (state.custom_css_url)
+					div.setAttribute('data-custom-css', state.custom_css_url)
+
+				document.body.appendChild(div)
+
+				// add script
+				// https://stackoverflow.com/a/26478358/587407
+				const script = document.createElement('script')
+				script.type = 'text/javascript'
+				script.async = true
+				script.importance = 'low'
+				script.src = 'https://tlk.io/embed.js'
+				document.body.appendChild(script)
+			}
+			render()
+		</script>
+	</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en" class="o⋄top-container">
 	<head>
 		<meta charset="UTF-8">
-		<title>Title</title>
+		<title>demo--tlk.io.html</title>
 
 		<style>
 			@import "../../../../3-advanced--browser/view-css/src/style--containers.css";
@@ -10,22 +10,28 @@
 
 			body {
 				margin: 0;
+				background-color: cyan;
 			}
 			.o⋄top-container {
 				border-width: 1px;
 			}
 		</style>
 		<script>
+			console.log('Hello')
 			// TODO attach error handlers
+			// TODO read query params and pass them to the div
 		</script>
 	</head>
+
 	<body class="o⋄top-container">
 
-		<!-- has a breakpoint at <765px -->
+		demo--tlk.io.html
+
+		<!-- note: has a breakpoint at <765px -->
 		<div id="tlkio"
 			data-channel="hey"
-			data-theme="theme--day"
-			data-custom-css="overrides.css"
+			data-theme="theme--night"
+			data-custom-css="http://localhost:1234/overrides.css"
 			style="width:100%;height:100%;">
 		</div>
 

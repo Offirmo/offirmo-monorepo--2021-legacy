@@ -1,0 +1,27 @@
+{
+	"name": "@offirmo-private/iframe--chat",
+	"version": "0.0.1",
+	"description": "A top-level index.html loading a chat, to be used as an iframe",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"optionalDependencies": {
+		"@offirmo-private/xoff": "^0"
+	},
+	"dependencies": {
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js …dist …cache",
+
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall src/*.html src/*.css",
+
+		"demo": "run-s clean start:parcel"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"npm-run-all": "^4",
+		"typescript": "^4"
+	}
+}
