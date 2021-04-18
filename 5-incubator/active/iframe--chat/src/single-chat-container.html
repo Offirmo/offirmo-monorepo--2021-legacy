@@ -9,7 +9,7 @@
 			@import "../../../../3-advanced--browser/view-css/src/style--debug.css";
 
 			:root {
-				--bg: #26282c;
+				--bg: transparent;
 			}
 
 			body {
@@ -21,45 +21,61 @@
 			}
 		</style>
 		<script>
-			console.log('Hello from head')
+			console.log('Hello from single-chat-container.html head')
 			// TODO attach error handlers
 			// TODO read query params and pass them to the div
 		</script>
 	</head>
 
 	<body class="o⋄top-container">
-
-		single-chat-container.html
-
-		<!-- TODO a button to open in a tab -->
 		<script>
+			const LIB = '@offirmo/🖼💬/📦tlk.io'
+
 			// alter/fix the defaults above according to params
-			console.log('Hello from body', { 'window.location': window.location })
+			console.log(`[${LIB}] Hello from single-chat-container.html body`, {
+				'window.location': window.location,
+				'document.referrer': document.referrer,
+				searchParams: new URLSearchParams(window.location.search),
+			})
 
 			const state = (() => {
-				// TODO read queryparams
-				const DEFAULT_THEME = 'pop'
-				const DEFAULT_CHANNEL_ID = location.hostname
+				const searchParams = new URLSearchParams(window.location.search)
 
-				const id = DEFAULT_CHANNEL_ID
-				const theme = DEFAULT_THEME
-				const bg_color = {
+				const id       = searchParams.get('channel_id') || location.hostname // TODO referrer
+				const theme    = searchParams.get('theme')      || 'night'
+				const nickname = searchParams.get('nickname')   || 'anonymousⵧ' + (() => {
+					// https://michalzalecki.com/generate-unique-id-in-the-browser-without-a-library/
+					let anon_uuid = crypto.getRandomValues(new Uint32Array(1))[0].toString(16)
+
+					try { // defensive!
+						const LS_KEY = `@offirmo-private/iframe--chat/anon_uuid`
+						let candidate = localStorage.getItem(LS_KEY)
+						if (candidate && candidate.length === anon_uuid.length)
+							return candidate
+						localStorage.setItem(LS_KEY, anon_uuid)
+					} catch (e) { /* swallow */ }
+
+					return anon_uuid
+				})()
+				const bg_color = searchParams.get('bg_color')   || ({
 					'day':     '#f4f3f1',
 					'night':   '#26282c',
 					'pop':     '#f9eced',
 					'minimal': 'transparent',
-				}[theme] ?? 'transparent'
+				}[theme] ?? 'transparent')
+				const css_overrides_url = searchParams.get('css_overrides_url') || (location.origin + '/tlk.io_overrides.css') // NOTE: should be absolute
+
 				return {
 					id,
 					theme,
 					bg_color,
-					nickname: undefined,
-					custom_css_url: location.origin + location.pathname + './overrides.css', // NOTE: should be absolute
+					nickname,
+					css_overrides_url,
 				}
 			})()
 
 			function render() {
-				console.log('rendering...', state)
+				console.log(`[${LIB}] rendering…`, state)
 				const div = document.createElement('div')
 
 				document.documentElement.style.setProperty( '--bg', state.bg_color )
@@ -71,8 +87,8 @@
 				div.setAttribute('data-theme', 'theme--' + state.theme)
 				if (state.nickname)
 					div.setAttribute('data-nickname', state.nickname)
-				if (state.custom_css_url)
-					div.setAttribute('data-custom-css', state.custom_css_url)
+				if (state.css_overrides_url)
+					div.setAttribute('data-custom-css', state.css_overrides_url)
 
 				document.body.appendChild(div)
 
