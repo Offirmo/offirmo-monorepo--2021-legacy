@@ -9,6 +9,7 @@ API:
 
 http://localhost:1234/single-chat-container.html?channel_id=tbrpg&theme=pop&bg_color=yellow&nickname=admin
 
+https://www.offirmo.net/offirmo-monorepo/5-incubator/active/iframe--chat/src/single-chat-container.html
 
 ### tlk.io
 

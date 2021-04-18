@@ -41,8 +41,15 @@
 			const state = (() => {
 				const searchParams = new URLSearchParams(window.location.search)
 
-				const id       = searchParams.get('channel_id') || location.hostname // TODO referrer
-				const theme    = searchParams.get('theme')      || 'night'
+				const id       = searchParams.get('channel_id') || (() => {
+					let hostname = (
+						document.referrer
+						? new URL(document.referrer)
+						: location
+					).hostname
+					return encodeURIComponent(hostname.replace('.', '-'))
+				})()
+				const theme    = searchParams.get('theme')      || 'minimal'
 				const nickname = searchParams.get('nickname')   || 'anonymousⵧ' + (() => {
 					// https://michalzalecki.com/generate-unique-id-in-the-browser-without-a-library/
 					let anon_uuid = crypto.getRandomValues(new Uint32Array(1))[0].toString(16)
@@ -63,7 +70,9 @@
 					'pop':     '#f9eced',
 					'minimal': 'transparent',
 				}[theme] ?? 'transparent')
-				const css_overrides_url = searchParams.get('css_overrides_url') || (location.origin + '/tlk.io_overrides.css') // NOTE: should be absolute
+				const css_overrides_url = !!searchParams.get('css_overrides_url')
+					? decodeURIComponent(searchParams.get('css_overrides_url'))
+					: (location.origin + '/tlk.io_overrides.css') // NOTE: should be absolute
 
 				return {
 					id,
