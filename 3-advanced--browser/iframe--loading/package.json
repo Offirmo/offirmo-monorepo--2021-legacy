@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo-private/iframe-loading",
+	"name": "@offirmo-private/iframe--loading",
 	"version": "0.0.1",
 	"description": "A top-level index.html loading an app as an underlying iframe",
 	"author": "Offirmo <offirmo.net@gmail.com>",

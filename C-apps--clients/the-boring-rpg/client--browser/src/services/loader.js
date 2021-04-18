@@ -1,7 +1,7 @@
 'use strict'
 
 import memoize_one from 'memoize-one'
-import get_loader from '@offirmo-private/iframe-loading'
+import get_loader from '@offirmo-private/iframe--loading'
 import { schedule_when_idle_but_within_human_perception } from '@offirmo-private/async-utils'
 
 import { ↆcordova } from './cordova'
@@ -18,7 +18,7 @@ import logger from './logger'
 
 const declare_app_loaded = memoize_one(function _declare_app_loaded() {
 	schedule_when_idle_but_within_human_perception(() => {
-		// @offirmo-private/iframe-loading
+		// @offirmo-private/iframe--loading
 		get_loader().on_rsrc_loaded()
 
 		logger.info('🙌 🙌 🙌 App loaded! 🙌 🙌 🙌')
