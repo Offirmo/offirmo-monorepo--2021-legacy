@@ -5,6 +5,13 @@ Turns that into a safe embedding of an iframe, passing params as query params. M
 
 API:
 
+## Usage
+
+http://localhost:1234/single-chat-container.html?channel_id=tbrpg&theme=pop&bg_color=yellow&nickname=admin
+
+
+### tlk.io
+
 - channel name
 - theme: Day | Night | Pop | Minimal
 - custom CSS
@@ -21,3 +28,5 @@ API:
 ></div>
 <script async src="http://tlk.io/embed.js" type="text/javascript"></script>
 ```
+
+

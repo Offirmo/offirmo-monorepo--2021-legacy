@@ -8,11 +8,13 @@
 	Hello I'm an app
 
 	<iframe
+		title="chat"
+		width="100%"
+		height="800px"
 		referrerpolicy="same-origin"
-		allow=""
-		sandbox=""
-		src="./empty.html?foo=bar"
-		xxsrc="../../src/single-chat-container.html?foo=bar"
-		>The chat should load here</iframe>
+		xxallow=""
+		sandbox="allow-same-origin allow-scripts allow-forms"
+		src="./single-chat-container.html?channel_id=test&theme=pop&bg_color=yellow&nickname=dev"
+	>The chat should load here</iframe>
 </body>
 </html>
