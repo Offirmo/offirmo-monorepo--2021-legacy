@@ -32,10 +32,10 @@
 			const LIB = '@offirmo/🖼💬/📦tlk.io'
 
 			// alter/fix the defaults above according to params
-			console.log(`[${LIB}] Hello from single-chat-container.html body`, {
+			console.log(`[${LIB}] Hello from body`, {
 				'window.location': window.location,
 				'document.referrer': document.referrer,
-				searchParams: new URLSearchParams(window.location.search),
+				//searchParams: new URLSearchParams(window.location.search),
 			})
 
 			const state = (() => {
@@ -47,7 +47,7 @@
 						? new URL(document.referrer)
 						: location
 					).hostname
-					return encodeURIComponent(hostname.replace('.', '-'))
+					return encodeURIComponent(hostname.replaceAll('.', '-'))
 				})()
 				const theme    = searchParams.get('theme')      || 'minimal'
 				const nickname = searchParams.get('nickname')   || 'anonymousⵧ' + (() => {
