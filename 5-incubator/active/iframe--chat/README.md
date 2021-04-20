@@ -27,7 +27,7 @@ https://www.offirmo.net/offirmo-monorepo/5-incubator/active/iframe--chat/src/sin
   data-custom-css="foo/bar.css"
   data-nickname="somename"
 ></div>
-<script async src="http://tlk.io/embed.js" type="text/javascript"></script>
+<script async src="//tlk.io/embed.js" type="text/javascript"></script>
 ```
 
 

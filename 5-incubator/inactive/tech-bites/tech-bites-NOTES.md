@@ -188,7 +188,7 @@ Privacy:
   - account information
   - customer content
   - User-generated content
-  - Structured/Unstractured data
+  - Structured/Unstructured data
   - direct/indirict identifiers
 - key concepts
   - transparency and fairness
@@ -200,5 +200,7 @@ Privacy:
 https://en.wikipedia.org/wiki/Dependency_hell
 
 shell vs terminal
+
+https://monorepo.guide/getting-started
 
 https://martinfowler.com/articles/feature-toggles.html

@@ -1,20 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="o⋄top-container">
 <head>
 	<meta charset="UTF-8">
 	<title>demo.html</title>
+
+	<style>
+		@import "../../../../3-advanced--browser/view-css/src/style.css";
+
+		/*:root {
+			--bg: transparent;
+		}
+
+		body {
+			margin: 0;
+			background-color: var(--bg);
+		}*/
+
+		.o⋄top-container {
+			border-width: 1px;
+		}
+	</style>
+
 </head>
-<body>
+<body class="o⋄top-container" data-o-theme="light-on-dark">
 	Hello I'm an app
 
-	<iframe
+	<iframe class="o⋄top-container"
 		title="chat"
 		width="100%"
 		height="800px"
 		referrerpolicy="same-origin"
 		allow=""
 		sandbox="allow-same-origin allow-scripts"
-		src="./single-chat-container.html?channel_id=test&theme=pop&bg_color=yellow&nickname=dev"
+		src="./single-chat-container.html?channel_id=test&nickname=dev&theme=night"
+		xxsrc="./single-chat-container.html?channel_id=test&theme=pop&bg_color=yellow&nickname=dev"
 	>The chat should load here</iframe>
 </body>
 </html>

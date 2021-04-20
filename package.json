@@ -27,7 +27,7 @@
 
 		"serve": "serve --listen 1981 --debug",
 
-		"deploy": "./0-scripts/deploy_tbrpg.sh"
+		"deploy": "./0-scripts/deploy--tbrpg.sh"
 	},
 	"bolt": {
 		"workspaces": [

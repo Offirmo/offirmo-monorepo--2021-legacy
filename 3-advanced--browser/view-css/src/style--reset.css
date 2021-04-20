@@ -11,7 +11,7 @@
  * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
  * https://github.com/mike-engel/a11y-css-reset/pull/12#issuecomment-516582884
  */
-html                 { box-sizing: border-box; }
+html                   { box-sizing: border-box; }
 *, *::before, *::after { box-sizing: inherit; }
 
 /* but allow to reset it if needed
@@ -51,8 +51,7 @@ body {
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility; /* challenge about perf: https://marco.org/2012/11/15/text-rendering-optimize-legibility
-	                                     * Tested: this options makes a TOO HUGE difference in quality
-	                                     * to be missed.
+	                                     * Tested: this options makes a TOO HUGE difference in quality to be missed.
 	                                     * For ex. it enables the computing of lighter/bolder variants.
 	                                     */
 	-webkit-font-smoothing: antialiased;

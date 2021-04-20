@@ -75,14 +75,14 @@ console.log(dirs)
 output:
 ```
 [
-  '/Users/yjutard/work/src/off/cli-toolbox/.git',
-  '/Users/yjutard/work/src/off/cli-toolbox/_doc',
-  '/Users/yjutard/work/src/off/cli-toolbox/_tosort',
-  '/Users/yjutard/work/src/off/cli-toolbox/framework',
-  '/Users/yjutard/work/src/off/cli-toolbox/fs',
-  '/Users/yjutard/work/src/off/cli-toolbox/node_modules',
-  '/Users/yjutard/work/src/off/cli-toolbox/stdout',
-  '/Users/yjutard/work/src/off/cli-toolbox/string'
+  '/Users/user/work/src/off/cli-toolbox/.git',
+  '/Users/user/work/src/off/cli-toolbox/_doc',
+  '/Users/user/work/src/off/cli-toolbox/_tosort',
+  '/Users/user/work/src/off/cli-toolbox/framework',
+  '/Users/user/work/src/off/cli-toolbox/fs',
+  '/Users/user/work/src/off/cli-toolbox/node_modules',
+  '/Users/user/work/src/off/cli-toolbox/stdout',
+  '/Users/user/work/src/off/cli-toolbox/string'
 ]
 ```
 
