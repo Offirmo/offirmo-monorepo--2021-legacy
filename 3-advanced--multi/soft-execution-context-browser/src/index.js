@@ -1,4 +1,4 @@
-import bowser from 'bowser'
+import Bowser from 'bowser'
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import ensureDeviceUUID from '@offirmo-private/ensure-device-uuid-browser'
 import { LS_KEYS } from './consts'
@@ -90,27 +90,19 @@ function decorateWithDetectedEnv(SEC) {
 		IS_VERBOSE,
 	})
 
+	const browser = Bowser.getParser(window.navigator.userAgent)
 	const details = {
 		DEVICE_UUID: ensureDeviceUUID(),
 		// TODO normalize browser/os detection!
-		OS_NAME: bowser.osname,
-		OS_RELEASE: bowser.osversion,
-		BROWSER_NAME: bowser.name,
-		BROWSER_VERSION: bowser.version,
-		BROWSER_GRADE: bowser.a
-			? 'A'
-			: bowser.c
-				? 'C'
-				: 'X',
-		DEVICE_TYPE: bowser.tablet
-			? 'tablet'
-			: bowser.mobile
-				? 'mobile'
-				: 'desktop',
+		OS_NAME: browser.getOSName(),
+		OS_RELEASE: browser.getOSVersion(),
+		BROWSER_NAME: browser.getBrowserName(),
+		BROWSER_VERSION: browser.getBrowserVersion(),
+		DEVICE_TYPE: browser.getPlatformType(),
 	}
 
 	SEC.setAnalyticsAndErrorDetails(details)
-	//logger.verbose('Root SEC is now decorated with env infos ✔', { bowser, details: SEC.getAnalyticsDetails() })
+	logger.verbose('Root SEC is now decorated with env infos ✔', { Bowser: browser.getResult(), details: SEC.getAnalyticsDetails() })
 }
 
 

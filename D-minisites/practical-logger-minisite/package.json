@@ -18,7 +18,7 @@
 
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall",
 
-		"build:parcel": "parcel build src/index.html --public-url ./",
+		"build:parcel": "parcel build --no-minify src/index.html --public-url ./",
 
 		"dev": "run-s start:parcel",
 		"build": "run-s build:parcel"

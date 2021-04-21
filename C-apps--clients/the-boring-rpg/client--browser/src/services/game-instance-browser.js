@@ -1,7 +1,7 @@
 'use strict'
 
 import { Enum } from 'typescript-string-enums'
-import bowser from 'bowser'
+import Bowser from 'bowser'
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import tiny_singleton from '@offirmo/tiny-singleton'
 import assert from 'tiny-invariant'
@@ -83,10 +83,11 @@ const get = tiny_singleton(() => getRootSEC().xTry('creating game instance', ({S
 		}
 	})
 
-	const is_web_diversity_supporter = bowser.name.toLowerCase().includes('firefox')
+	const browser = Bowser.getParser(window.navigator.userAgent)
+	const is_web_diversity_supporter = browser.getBrowserName().toLowerCase().includes('firefox')
 	console.log({
 		is_web_diversity_supporter,
-		bowser,
+		Bowser: browser.getResult(),
 	})
 	game_instance.commands.on_start_session(is_web_diversity_supporter)
 
