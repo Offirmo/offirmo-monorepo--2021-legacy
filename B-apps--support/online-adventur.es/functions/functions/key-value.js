@@ -2844,6 +2844,7 @@ exports.HTTP_STATUS_CODE = {
       // https://stackoverflow.com/questions/50143518/401-unauthorized-vs-403-forbidden-which-is-the-right-status-code-for-when-the-u
       unauthorized: 401,
       forbidden: 403,
+      // ex. CORS with wrong origin
       not_found: 404,
       method_not_allowed: 405,
       unprocessable_entity: 422
@@ -3228,7 +3229,7 @@ exports.CHANNEL = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(6);
 
-const api_interface_1 = __webpack_require__(53); /////////////////////////////////////////////////
+const api_interface_1 = __webpack_require__(51); /////////////////////////////////////////////////
 
 
 exports.CHANNEL = (() => {
@@ -4454,6 +4455,120 @@ module.exports = keysIn;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "LIB", function() { return /* reexport */ LIB; });
+__webpack_require__.d(__webpack_exports__, "HEADER_IMPERSONATE", function() { return /* reexport */ HEADER_IMPERSONATE; });
+__webpack_require__.d(__webpack_exports__, "Endpoint", function() { return /* reexport */ Endpoint; });
+__webpack_require__.d(__webpack_exports__, "SERVER_RESPONSE_VERSION", function() { return /* reexport */ SERVER_RESPONSE_VERSION; });
+__webpack_require__.d(__webpack_exports__, "ReleaseChannel", function() { return /* reexport */ ReleaseChannel; });
+__webpack_require__.d(__webpack_exports__, "get_allowed_origin", function() { return /* reexport */ get_allowed_origin; });
+__webpack_require__.d(__webpack_exports__, "get_api_base_url", function() { return /* reexport */ get_api_base_url; });
+__webpack_require__.d(__webpack_exports__, "create_server_response_body__blank", function() { return /* reexport */ create_server_response_body__blank; });
+__webpack_require__.d(__webpack_exports__, "create_server_response_body__error", function() { return /* reexport */ create_server_response_body__error; });
+__webpack_require__.d(__webpack_exports__, "create_server_response_body__data", function() { return /* reexport */ create_server_response_body__data; });
+__webpack_require__.d(__webpack_exports__, "is_server_response_body", function() { return /* reexport */ is_server_response_body; });
+
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
+var dist = __webpack_require__(6);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/consts.js
+ /////////////////////////////////////////////////
+
+const LIB = '@online-adventur.es/api-interface'; /////////////////////////////////////////////////
+
+const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase(); // tslint:disable-next-line: variable-name
+
+const Endpoint = Object(dist["Enum"])('whoami', 'report-error', 'key-value', // dev
+'echo', 'hello-world', 'hello-world-advanced', 'test-error-handling', 'temp');
+const SERVER_RESPONSE_VERSION = 1;
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/types.js
+ // tslint:disable-next-line: variable-name
+
+const ReleaseChannel = Object(dist["Enum"])('prod', 'staging', 'dev');
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js + 2 modules
+var src_es2019 = __webpack_require__(31);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/utils.js
+
+ /////////////////////////////////////////////////
+
+function get_allowed_origin(channel) {
+  switch (channel) {
+    case 'dev':
+      return 'http://localhost:8080';
+
+    case 'staging':
+      return 'https://offirmo-monorepo.netlify.app';
+
+    case 'prod':
+      return 'https://www.online-adventur.es';
+
+    default:
+      throw new Error(`[${LIB}] no allowed origin for channel "${channel}"!`);
+  }
+}
+
+function _get_api_base_url(channel) {
+  switch (channel) {
+    case 'dev':
+      return 'http://localhost:9000';
+
+    case 'staging':
+      return 'https://offirmo-monorepo.netlify.app/.netlify/functions';
+
+    case 'prod':
+      return 'https://www.online-adventur.es/.netlify/functions';
+
+    default:
+      if (channel === 'unknown') return 'http://test.test';
+      throw new Error(`[${LIB}] no base URL for channel "${channel}"!`);
+  }
+}
+
+function get_api_base_url(channel) {
+  return Object(src_es2019["b" /* overrideHook */])('api-base-url', _get_api_base_url(channel));
+}
+function create_server_response_body__blank() {
+  return {
+    v: SERVER_RESPONSE_VERSION,
+    data: undefined,
+    error: undefined,
+    side: {},
+    meta: {}
+  };
+}
+function create_server_response_body__error(error) {
+  var _a, _b;
+
+  const body = create_server_response_body__blank();
+  body.error = {
+    message: error.message,
+    code: error.code,
+    logical_stack: (_b = (_a = error._temp) === null || _a === void 0 ? void 0 : _a.SEC) === null || _b === void 0 ? void 0 : _b.getLogicalStack()
+  };
+  return body;
+}
+function create_server_response_body__data(data) {
+  const body = create_server_response_body__blank();
+  body.data = data;
+  return body;
+}
+function is_server_response_body(body) {
+  return body && body.v && body.side && body.meta && (body.data || body.error);
+}
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/index.js
+
+
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return combine_normalizers; });
 /* unused harmony export normalize */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return default_to; });
@@ -4472,7 +4587,7 @@ function default_to(def = '') {
 }
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4590,120 +4705,6 @@ function get_id_from_path(event, params = {}) {
 }
 
 exports.get_id_from_path = get_id_from_path;
-
-/***/ }),
-/* 53 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "LIB", function() { return /* reexport */ LIB; });
-__webpack_require__.d(__webpack_exports__, "HEADER_IMPERSONATE", function() { return /* reexport */ HEADER_IMPERSONATE; });
-__webpack_require__.d(__webpack_exports__, "Endpoint", function() { return /* reexport */ Endpoint; });
-__webpack_require__.d(__webpack_exports__, "SERVER_RESPONSE_VERSION", function() { return /* reexport */ SERVER_RESPONSE_VERSION; });
-__webpack_require__.d(__webpack_exports__, "ReleaseChannel", function() { return /* reexport */ ReleaseChannel; });
-__webpack_require__.d(__webpack_exports__, "get_allowed_origin", function() { return /* reexport */ get_allowed_origin; });
-__webpack_require__.d(__webpack_exports__, "get_api_base_url", function() { return /* reexport */ get_api_base_url; });
-__webpack_require__.d(__webpack_exports__, "create_server_response_body__blank", function() { return /* reexport */ create_server_response_body__blank; });
-__webpack_require__.d(__webpack_exports__, "create_server_response_body__error", function() { return /* reexport */ create_server_response_body__error; });
-__webpack_require__.d(__webpack_exports__, "create_server_response_body__data", function() { return /* reexport */ create_server_response_body__data; });
-__webpack_require__.d(__webpack_exports__, "is_server_response_body", function() { return /* reexport */ is_server_response_body; });
-
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(6);
-
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/consts.js
- /////////////////////////////////////////////////
-
-const LIB = '@online-adventur.es/api-interface'; /////////////////////////////////////////////////
-
-const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase(); // tslint:disable-next-line: variable-name
-
-const Endpoint = Object(dist["Enum"])('whoami', 'report-error', 'key-value', // dev
-'echo', 'hello-world', 'hello-world-advanced', 'test-error-handling', 'temp');
-const SERVER_RESPONSE_VERSION = 1;
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/types.js
- // tslint:disable-next-line: variable-name
-
-const ReleaseChannel = Object(dist["Enum"])('prod', 'staging', 'dev');
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js + 2 modules
-var src_es2019 = __webpack_require__(31);
-
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/utils.js
-
- /////////////////////////////////////////////////
-
-function get_allowed_origin(channel) {
-  switch (channel) {
-    case 'dev':
-      return 'http://localhost:8080';
-
-    case 'staging':
-      return 'https://offirmo-monorepo.netlify.app';
-
-    case 'prod':
-      return 'https://www.online-adventur.es';
-
-    default:
-      throw new Error(`[${LIB}] no allowed origin for channel "${channel}"!`);
-  }
-}
-
-function _get_api_base_url(channel) {
-  switch (channel) {
-    case 'dev':
-      return 'http://localhost:9000';
-
-    case 'staging':
-      return 'https://offirmo-monorepo.netlify.app/.netlify/functions';
-
-    case 'prod':
-      return 'https://www.online-adventur.es/.netlify/functions';
-
-    default:
-      if (channel === 'unknown') return 'http://test.test';
-      throw new Error(`[${LIB}] no base URL for channel "${channel}"!`);
-  }
-}
-
-function get_api_base_url(channel) {
-  return Object(src_es2019["b" /* overrideHook */])('api-base-url', _get_api_base_url(channel));
-}
-function create_server_response_body__blank() {
-  return {
-    v: SERVER_RESPONSE_VERSION,
-    data: undefined,
-    error: undefined,
-    side: {},
-    meta: {}
-  };
-}
-function create_server_response_body__error(error) {
-  var _a, _b;
-
-  const body = create_server_response_body__blank();
-  body.error = {
-    message: error.message,
-    code: error.code,
-    logical_stack: (_b = (_a = error._temp) === null || _a === void 0 ? void 0 : _a.SEC) === null || _b === void 0 ? void 0 : _b.getLogicalStack()
-  };
-  return body;
-}
-function create_server_response_body__data(data) {
-  const body = create_server_response_body__blank();
-  body.data = data;
-  return body;
-}
-function is_server_response_body(body) {
-  return body && body.v && body.side && body.meta && (body.data || body.error);
-}
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/index.js
-
-
-
 
 /***/ }),
 /* 54 */
@@ -8055,10 +8056,10 @@ function createSink(options = {}) {
       details,
       err
     } = payload;
-    let line = '' + (displayTime ? source_default.a.dim(String(time)) + ' ' : '') + LEVEL_TO_ASCII[level] + '› ' + LEVEL_TO_STYLIZE[level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (Reflect.ownKeys(details).length === 0 ? '' //: (' ' + JSON.stringify(details))
-    : ' ' + prettify_any(details, {//line_width:
+    let line = [displayTime ? source_default.a.dim(String(time)) : '', LEVEL_TO_ASCII[level] + '›', LEVEL_TO_STYLIZE[level]([name, msg].filter(x => !!x).join('› ')), Reflect.ownKeys(details).length === 0 ? '' //: (' ' + JSON.stringify(details))
+    : prettify_any(details, {//line_width:
       //first_line_already_used:
-    }));
+    })].filter(x => !!x).join(' ');
     console.log(line); // eslint-disable-line no-console
 
     if (err) displayError(err);
@@ -26928,7 +26929,7 @@ const soft_execution_context_1 = __webpack_require__(25);
 
 const state_utils_1 = __webpack_require__(27);
 
-const api_interface_1 = __webpack_require__(53);
+const api_interface_1 = __webpack_require__(51);
 
 const async_utils_1 = __webpack_require__(201);
 
@@ -26936,7 +26937,7 @@ const sentry_1 = __webpack_require__(144);
 
 const channel_1 = __webpack_require__(38);
 
-const utils_1 = __webpack_require__(52); ////////////////////////////////////
+const utils_1 = __webpack_require__(53); ////////////////////////////////////
 // note: deducted from the overall running budget
 
 
@@ -27136,6 +27137,7 @@ function _run_with_safety_net(SEC, event, context, middlewares) {
       clean(); // must be last,
 
       resolve(response);
+      logger.trace(`[${PREFIX}] done invoking the middleware chain, resolved.`);
     }).catch(on_final_error);
   }));
 }
@@ -27233,7 +27235,9 @@ async function _run_mw_chain({
       } = SEC.getInjectedDependencies();
       local_mutable.last_invoked_mw = current_mw_name;
       await middlewares[index](SEC, event, context, response, next.bind(null, SEC, index + 1));
-      logger.trace(`[${PREFIX}] returned from middleware ${index + 1}/${middlewares.length} "${current_mw_name}"…`);
+      logger.trace(`[${PREFIX}] returned from middleware ${index + 1}/${middlewares.length} "${current_mw_name}"…`, {
+        status: response === null || response === void 0 ? void 0 : response.statusCode
+      });
 
       _check_response(SEC, index, 'out');
     }).catch(err => {
@@ -27280,10 +27284,12 @@ async function _run_mw_chain({
   if (typeof body !== 'string') {
     logger.debug(`[${PREFIX}] stringifying automatically…`);
     body = json_stable_stringify_1.default(body);
-  }
+  } // give time to unhandled rejections to be detected. not 100% reliable, of course, depending on the delay to reject.
+  // Seen: works ok in dev, doesn't work in prod (caught during processing but to late)
 
-  await async_utils_1.end_of_current_event_loop(); // to give time to unhandled rejections to be detected. not 100% reliable, of course.
 
+  await async_utils_1.end_of_current_event_loop();
+  logger.trace(`[${PREFIX}] Returning from the chain of ${middlewares.length} middlewares.`);
   return {
     statusCode,
     headers,
@@ -31354,7 +31360,7 @@ const typescript_string_enums_1 = __webpack_require__(6);
 
 const consts_1 = __webpack_require__(26);
 
-const utils_1 = __webpack_require__(52); ////////////////////////////////////
+const utils_1 = __webpack_require__(53); ////////////////////////////////////
 
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS'); ////////////////////////////////////
@@ -40657,7 +40663,7 @@ __webpack_require__.d(kvs_namespaceObject, "sync_kv_entry", function() { return 
 var normalizers = __webpack_require__(552);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalize.js
-var normalize = __webpack_require__(51);
+var normalize = __webpack_require__(52);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/db/dist/src.es2019/utils/email.js
 const email_crypto = __webpack_require__(108);
@@ -41498,13 +41504,13 @@ exports.require_authenticated = void 0;
 
 const db_1 = __webpack_require__(305);
 
-const api_interface_1 = __webpack_require__(53);
+const api_interface_1 = __webpack_require__(51);
 
 const consts_1 = __webpack_require__(26);
 
 const netlify_1 = __webpack_require__(204);
 
-const utils_1 = __webpack_require__(52); ////////////////////////////////////
+const utils_1 = __webpack_require__(53); ////////////////////////////////////
 
 
 async function require_authenticated(SEC, event, context, response, next) {
@@ -58447,6 +58453,9 @@ util.inherits(Cursor, EventEmitter)
 Cursor.prototype._ifNoData = function () {
   this.state = 'idle'
   this._shiftQueue()
+  if (this.connection) {
+    this.connection.removeListener('rowDescription', this._rowDescription)
+  }
 }
 
 Cursor.prototype._rowDescription = function () {
@@ -58711,11 +58720,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const api_interface_1 = __webpack_require__(53);
+const api_interface_1 = __webpack_require__(51);
 
 const consts_1 = __webpack_require__(26);
 
-const utils_1 = __webpack_require__(52); ////////////////////////////////////
+const utils_1 = __webpack_require__(53); ////////////////////////////////////
 
 
 async function handle_cors(SEC, event, context, response, next) {
@@ -58747,6 +58756,7 @@ async function handle_cors(SEC, event, context, response, next) {
           origin: advertised_origin
         });
         throw utils_1.create_error(consts_1.HTTP_STATUS_CODE.error.client.forbidden, {
+          advertised_origin,
           expected_origin,
           origin: advertised_origin
         }, SEC);
@@ -58783,7 +58793,7 @@ exports.default = handle_cors;
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ NORMALIZERS; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalize.js
-var normalize = __webpack_require__(51);
+var normalize = __webpack_require__(52);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers--base.js
  /////////////////////
@@ -58982,7 +58992,7 @@ const enrich_side_infos_1 = tslib_1.__importDefault(__webpack_require__(560));
 
 const require_http_method_1 = __webpack_require__(200);
 
-const utils_1 = __webpack_require__(52);
+const utils_1 = __webpack_require__(53);
 
 const consts_1 = __webpack_require__(26); ////////////////////////////////////
 
@@ -59044,7 +59054,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const api_interface_1 = __webpack_require__(53);
+const api_interface_1 = __webpack_require__(51);
 
 const state_1 = __webpack_require__(566); ////////////////////////////////////
 
@@ -59155,7 +59165,7 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 const VERSION = '0.66.2';
 const NUMERIC_VERSION = 0.6602; // for easy comparisons
 
-const BUILD_DATE = '20210407_06h04';
+const BUILD_DATE = '20210421_01h34';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
@@ -59454,7 +59464,7 @@ const ItemQuality = Object(dist["Enum"])('common', 'uncommon', 'rare', 'epic', '
 const InventorySlot = Object(dist["Enum"])('weapon', 'armor', 'none'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/consts.js
 ////////////////////////////////////
 const src_es2019_consts_LIB = '@oh-my-rpg/logic-weapons'; //const SCHEMA_VERSION: number = 2
 
@@ -59462,13 +59472,13 @@ const MIN_ENHANCEMENT_LEVEL = 0;
 const MAX_ENHANCEMENT_LEVEL = 8; ////////////////////////////////////
 
  ////////////////////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/types.js
  /////////////////////
 
 const WeaponPartType = Object(dist["Enum"])('base', 'qualifier1', 'qualifier2'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/data/i18n_en.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/data/i18n_en.js
 const messages = {
   weapon: {
     base: {
@@ -59597,7 +59607,7 @@ const messages = {
   }
 };
 /* harmony default export */ var i18n_en = (messages);
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/data/entries.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/data/entries.js
 // TODO tests!!
 const ENTRIES = [{
   type: 'base',
@@ -59952,7 +59962,7 @@ const ENTRIES = [{
   hid: 'woodsman'
 }];
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/data/index.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/data/index.js
 /////////////////////
 
 
@@ -59967,7 +59977,7 @@ const WEAPON_QUALIFIERS1 = ENTRIES.filter(armor_component => armor_component.typ
 const WEAPON_QUALIFIERS2 = ENTRIES.filter(armor_component => armor_component.type === WeaponPartType.qualifier2); /////////////////////
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/selectors.js
 /////////////////////
 
 
@@ -60066,7 +60076,8 @@ function is_at_max_enhancement(weapon) {
 
  ///////
 
-const PRODUCT = '@oh-my-rpg'; ///////
+const PRODUCT = '@tbrpg';
+const dist_src_es2019_consts_LIB = '@tbrpg/definitions'; ///////
 
 const ITEM_QUALITIES = dist["Enum"].keys(ItemQuality); // useful for ex. for sorting
 
@@ -60088,8 +60099,6 @@ const ITEM_SLOTS_TO_INT = {
 
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 9999; /////////////////////
-
- /////////////////////
 // EXTERNAL MODULE: external "crypto"
 var external_crypto_ = __webpack_require__(108);
 var external_crypto_default = /*#__PURE__*/__webpack_require__.n(external_crypto_);
@@ -60250,7 +60259,7 @@ function compare_items_by_quality(a, b) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -60312,7 +60321,7 @@ function enhance(weapon) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/examples.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/examples.js
 /////////////////////
 
 
@@ -60354,7 +60363,7 @@ function generate_random_demo_weapon(rng) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-monsters/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--monsters/dist/src.es2019/types.js
  /////////////////////
 
 const MonsterRank = Object(dist["Enum"])('common', 'elite', 'boss'); /////////////////////
@@ -61138,7 +61147,7 @@ const CHARACTERS = {
   }
 };
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-monsters/dist/src.es2019/data/index.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--monsters/dist/src.es2019/data/index.js
 
 const EMOJI_ENTRIES = Object.keys(CHARACTERS).map(key => CHARACTERS[key]).filter(charDetails => charDetails.taxonomy.includes('monster')).map(charDetails => ({
   name: charDetails.properties.description,
@@ -61169,7 +61178,7 @@ const EXTRA_ENTRIES = [{
 }];
 const data_ENTRIES = [].concat(...EMOJI_ENTRIES, ...EXTRA_ENTRIES);
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-monsters/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--monsters/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -61204,7 +61213,7 @@ function src_es2019_state_create(rng, hints = {}) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-monsters/dist/src.es2019/examples.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--monsters/dist/src.es2019/examples.js
 /////////////////////
 
 
@@ -61231,8 +61240,8 @@ var migration = __webpack_require__(111);
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
 var src_es2019_generate = __webpack_require__(109);
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-character/dist/src.es2019/consts.js
-const dist_src_es2019_consts_LIB = '@oh-my-rpg/state-character';
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--character/dist/src.es2019/consts.js
+const state_character_dist_src_es2019_consts_LIB = '@tbrpg/state--character';
 const src_es2019_consts_SCHEMA_VERSION = 2;
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/index.js + 20 modules
@@ -61255,7 +61264,7 @@ function decorate_SEC(SEC) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-character/dist/src.es2019/sec.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--character/dist/src.es2019/sec.js
 
 
 
@@ -61263,14 +61272,14 @@ function decorate_SEC(SEC) {
 function get_lib_SEC(parent) {
   // TODO review memoize / not mutate the parent??
   return decorate_SEC((parent || Object(src_es2019["getRootSEC"])()).createChild().setLogicalStack({
-    module: dist_src_es2019_consts_LIB
+    module: state_character_dist_src_es2019_consts_LIB
   }).setAnalyticsAndErrorDetails({
     sub_product: 'state-character'
   }));
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-character/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--character/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61292,7 +61301,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
     let state = legacy_state; // for starter, may actually be true
 
     if (existing_version < src_es2019_consts_SCHEMA_VERSION) {
-      logger.warn(`${dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${src_es2019_consts_SCHEMA_VERSION}…`);
+      logger.warn(`${state_character_dist_src_es2019_consts_LIB}: attempting to migrate schema from v${existing_version} to v${src_es2019_consts_SCHEMA_VERSION}…`);
       SEC.fireAnalyticsEvent('schema_migration.began');
 
       try {
@@ -61302,7 +61311,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         throw err;
       }
 
-      logger.info(`${dist_src_es2019_consts_LIB}: schema migration successful.`);
+      logger.info(`${state_character_dist_src_es2019_consts_LIB}: schema migration successful.`);
       SEC.fireAnalyticsEvent('schema_migration.ended');
     } // migrate sub-reducers if any...
 
@@ -61318,11 +61327,11 @@ function migrate_to_2(SEC, legacy_state, hints) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-wallet/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--wallet/dist/src.es2019/consts.js
 const state_wallet_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-wallet';
 const dist_src_es2019_consts_SCHEMA_VERSION = 1;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-wallet/dist/src.es2019/sec.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--wallet/dist/src.es2019/sec.js
 
 
 
@@ -61336,7 +61345,7 @@ function sec_get_lib_SEC(parent) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-wallet/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--wallet/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61384,13 +61393,13 @@ function migrations_migrate_to_2(SEC, legacy_state, hints) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-wallet/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--wallet/dist/src.es2019/types.js
  /////////////////////
 
 const Currency = Object(dist["Enum"])('coin', 'token'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-wallet/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--wallet/dist/src.es2019/state.js
 /////////////////////
 
  /////////////////////
@@ -61449,11 +61458,11 @@ function* iterables_currency(state) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-inventory/dist/src.es2019/consts.js
-const state_inventory_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-inventory';
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--inventory/dist/src.es2019/consts.js
+const state_inventory_dist_src_es2019_consts_LIB = '@tbrpg/state--inventory';
 const state_inventory_dist_src_es2019_consts_SCHEMA_VERSION = 1;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-inventory/dist/src.es2019/sec.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--inventory/dist/src.es2019/sec.js
 
 
 
@@ -61467,7 +61476,7 @@ function src_es2019_sec_get_lib_SEC(parent) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-inventory/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--inventory/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61515,13 +61524,13 @@ function src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-prng/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--prng/dist/src.es2019/consts.js
 const state_prng_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-prng';
 const state_prng_dist_src_es2019_consts_SCHEMA_VERSION = 3; // TODO move in SEC
 
 const consts_DEBUG = true;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-prng/dist/src.es2019/sec.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--prng/dist/src.es2019/sec.js
 
 
 
@@ -61535,7 +61544,7 @@ function dist_src_es2019_sec_get_lib_SEC(parent) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-prng/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--prng/dist/src.es2019/migrations.js
 
 
 
@@ -61592,13 +61601,13 @@ function dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, hints) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-energy/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--energy/dist/src.es2019/consts.js
 const state_energy_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-energy';
 const state_energy_dist_src_es2019_consts_SCHEMA_VERSION = 4; // roughly the amount of time for a change to be worth a display
 
 const TICK_MS = 500;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-energy/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--energy/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61640,11 +61649,11 @@ const migrations_migrate_to_3 = () => {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-engagement/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--engagement/dist/src.es2019/consts.js
 const state_engagement_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-engagement';
 const state_engagement_dist_src_es2019_consts_SCHEMA_VERSION = 1;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-engagement/dist/src.es2019/sec.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--engagement/dist/src.es2019/sec.js
 
 
 
@@ -61658,7 +61667,7 @@ function state_engagement_dist_src_es2019_sec_get_lib_SEC(parent) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-engagement/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--engagement/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61706,11 +61715,11 @@ function state_engagement_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_st
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-codes/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--codes/dist/src.es2019/consts.js
 const state_codes_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-codes';
 const state_codes_dist_src_es2019_consts_SCHEMA_VERSION = 1;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-codes/dist/src.es2019/sec.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--codes/dist/src.es2019/sec.js
 
 
 
@@ -61724,7 +61733,7 @@ function state_codes_dist_src_es2019_sec_get_lib_SEC(parent) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-codes/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--codes/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61772,11 +61781,11 @@ function state_codes_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_state, 
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-progress/dist/src.es2019/consts.js
-const state_progress_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-progress';
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--progress/dist/src.es2019/consts.js
+const state_progress_dist_src_es2019_consts_LIB = '@tbrpg/state--progress';
 const state_progress_dist_src_es2019_consts_SCHEMA_VERSION = 2;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-progress/dist/src.es2019/sec.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--progress/dist/src.es2019/sec.js
 
 
 
@@ -61790,7 +61799,7 @@ function state_progress_dist_src_es2019_sec_get_lib_SEC(parent) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-progress/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--progress/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61841,11 +61850,11 @@ function state_progress_dist_src_es2019_migrations_migrate_to_2(SEC, legacy_stat
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-meta/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--meta/dist/src.es2019/consts.js
 const state_meta_dist_src_es2019_consts_LIB = '@oh-my-rpg/state-meta';
 const state_meta_dist_src_es2019_consts_SCHEMA_VERSION = 3;
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-meta/dist/src.es2019/migrations.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--meta/dist/src.es2019/migrations.js
 
 
  // some hints may be needed to migrate to demo state
@@ -61878,7 +61887,7 @@ const migrate_to_3x = (SEC, legacy_state, hints, next, legacy_schema_version) =>
 const state_meta_dist_src_es2019_migrations_migrate_to_2 = () => {
   throw new Error('Schema is too old (pre-beta), can’t migrate!');
 }; /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-progress/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--progress/dist/src.es2019/types.js
  /////////////////////
 
 const AchievementStatus = Object(dist["Enum"])('secret', // should not even be hinted
@@ -61887,7 +61896,7 @@ const AchievementStatus = Object(dist["Enum"])('secret', // should not even be h
 'unlocked'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-progress/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--progress/dist/src.es2019/selectors.js
  /////////////////////
 
 function get_last_known_achievement_status(state, key) {
@@ -61903,7 +61912,7 @@ function is_achievement_already_unlocked(state, key) {
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
 var tiny_invariant_esm = __webpack_require__(1);
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-progress/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--progress/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -62044,7 +62053,7 @@ function on_achieved(previous_state, key, new_status) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-engagement/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--engagement/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -62096,7 +62105,7 @@ function acknowledge_all_seen(state) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-engagement/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--engagement/dist/src.es2019/types.js
  /////////////////////
 
 const EngagementType = Object(dist["Enum"])('flow', // normal immediate feedback to user actions
@@ -62104,7 +62113,7 @@ const EngagementType = Object(dist["Enum"])('flow', // normal immediate feedback
 'warning'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/consts.js
 ////////////////////////////////////
 const logic_armors_dist_src_es2019_consts_LIB = '@oh-my-rpg/logic-armors'; //const SCHEMA_VERSION: number = 2
 
@@ -62112,7 +62121,7 @@ const consts_MIN_ENHANCEMENT_LEVEL = 0;
 const consts_MAX_ENHANCEMENT_LEVEL = 8; ////////////////////////////////////
 
  ////////////////////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/selectors.js
 ////////////////////////////////////
 
 
@@ -62212,7 +62221,7 @@ function selectors_is_at_max_enhancement(armor) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-shop/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--shop/dist/src.es2019/selectors.js
 /////////////////////
 
 
@@ -62293,11 +62302,21 @@ function appraise_sell_value(item) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-character/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--character/dist/src.es2019/types.js
  /////////////////////
 
-const CharacterAttribute = Object(dist["Enum"])( // TODO improve
-'agility', 'health', 'level', 'luck', 'mana', 'strength', 'charisma', 'wisdom'); // I arbitrarily skip the classes I find uncool / unclear / better fit for a "job"
+const CharacterAttribute = Object(dist["Enum"])( // We replicate the attributes from the original game
+// However it's hard to map those to power consistently...
+// To improve in a future game!
+// trying to map to: might / mind / moxie (from https://www.forgeandfortune.com/)
+'level', // any
+'strength', // might
+'health', // might + any
+'wisdom', // mind
+'mana', // mind + any
+'luck', // moxie + any
+'charisma', // moxie
+'agility'); // I arbitrarily skip the classes I find uncool / unclear / better fit for a "job"
 
 const CharacterClass = Object(dist["Enum"])( // initial (also Korean game)
 'novice', // classic DnD
@@ -62323,7 +62342,7 @@ const CharacterClass = Object(dist["Enum"])( // initial (also Korean game)
 'sculptor', 'summoner'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-character/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--character/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -62335,7 +62354,7 @@ const DEFAULT_AVATAR_NAME = '[anonymous]';
 const CHARACTER_ATTRIBUTES = dist["Enum"].keys(CharacterAttribute);
 const CHARACTER_ATTRIBUTES_SORTED = ['level', 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
 get_lib_SEC().xTry('boot checks', () => {
-  if (CHARACTER_ATTRIBUTES.length !== CHARACTER_ATTRIBUTES_SORTED.length) throw new Error(`${dist_src_es2019_consts_LIB}: CHARACTER_ATTRIBUTES to update!`);
+  if (CHARACTER_ATTRIBUTES.length !== CHARACTER_ATTRIBUTES_SORTED.length) throw new Error(`${state_character_dist_src_es2019_consts_LIB}: CHARACTER_ATTRIBUTES to update!`);
 });
 const CHARACTER_CLASSES = dist["Enum"].keys(CharacterClass); ///////
 
@@ -62365,7 +62384,7 @@ function state_character_dist_src_es2019_state_create(SEC) {
 function rename(SEC, state, new_name) {
   return get_lib_SEC(SEC).xTry('rename', () => {
     // TODO name normalization
-    if (!new_name) throw new Error(`${dist_src_es2019_consts_LIB}: Error while renaming to "${new_name}": invalid target value!`); // TODO details
+    if (!new_name) throw new Error(`${state_character_dist_src_es2019_consts_LIB}: Error while renaming to "${new_name}": invalid target value!`); // TODO details
 
     if (new_name === state.name) return state;
     return Object(utils["c" /* enforce_immutability */])({ ...state,
@@ -62378,7 +62397,7 @@ function rename(SEC, state, new_name) {
 function switch_class(SEC, state, klass) {
   return get_lib_SEC(SEC).xTry('switch_class', () => {
     if (klass === state.klass) return state;
-    if (!dist["Enum"].isType(CharacterClass, klass)) throw new Error(`${dist_src_es2019_consts_LIB}: "${klass}" is not a valid class!`);
+    if (!dist["Enum"].isType(CharacterClass, klass)) throw new Error(`${state_character_dist_src_es2019_consts_LIB}: "${klass}" is not a valid class!`);
     return Object(utils["c" /* enforce_immutability */])({ ...state,
       klass,
       revision: state.revision + 1
@@ -62388,7 +62407,7 @@ function switch_class(SEC, state, klass) {
 
 function increase_stat(SEC, state, stat, amount = 1) {
   return get_lib_SEC(SEC).xTry('increase_stat', () => {
-    if (amount <= 0) throw new Error(`${dist_src_es2019_consts_LIB}: Error while increasing stat "${stat}": invalid amount!`); // TODO details
+    if (amount <= 0) throw new Error(`${state_character_dist_src_es2019_consts_LIB}: Error while increasing stat "${stat}": invalid amount!`); // TODO details
     // TODO stats caps?
 
     return Object(utils["c" /* enforce_immutability */])({ ...state,
@@ -62402,7 +62421,7 @@ function increase_stat(SEC, state, stat, amount = 1) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-inventory/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--inventory/dist/src.es2019/selectors.js
 /////////////////////
  /////////////////////
 
@@ -62464,14 +62483,14 @@ function* iterables_unslotted(state) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-adventures/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--adventures/dist/src.es2019/types.js
  /////////////////////
 
 const CoinsGain = Object(dist["Enum"])('lossꘌsmall', 'lossꘌone', 'none', 'gainꘌone', 'gainꘌsmall', 'gainꘌmedium', 'gainꘌbig', 'gainꘌhuge');
 const AdventureType = Object(dist["Enum"])('story', 'fight'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-adventures/dist/src.es2019/data/i18n_en.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--adventures/dist/src.es2019/data/i18n_en.js
 const BAD_ADVENTURES = {
   // http://www.thesaurus.com/browse/tired
   bad_s1: `🚫  You clicked too early!
@@ -63501,7 +63520,7 @@ function clean_multiline_string(str) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-adventures/dist/src.es2019/data/index.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--adventures/dist/src.es2019/data/index.js
  // TODO type better? (coins)
 
 
@@ -64917,7 +64936,7 @@ const data_i18n_messages = {
   en: i18n_en_messages
 };
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-adventures/dist/src.es2019/index.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--adventures/dist/src.es2019/index.js
 /////////////////////
 
 
@@ -65029,7 +65048,7 @@ function generate_random_coin_gain_or_loss(rng, {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/compare.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/compare.js
 ////////////////////////////////////
 
  /////////////////////
@@ -65045,7 +65064,7 @@ function compare_armors_by_potential(a, b) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-weapons/dist/src.es2019/compare.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--weapons/dist/src.es2019/compare.js
 /////////////////////
 
  /////////////////////
@@ -65061,7 +65080,7 @@ function compare_weapons_by_potential(a, b) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-inventory/dist/src.es2019/compare.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--inventory/dist/src.es2019/compare.js
 /////////////////////
 
 
@@ -65093,7 +65112,7 @@ function compare_items_by_slot_then_strength(a, b) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-inventory/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--inventory/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -65188,7 +65207,7 @@ function get_logger() {
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/memoize-one/dist/memoize-one.esm.js
 var memoize_one_esm = __webpack_require__(546);
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-energy/dist/src.es2019/utils.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--energy/dist/src.es2019/utils.js
 function time_to_human(seconds) {
   //console.log(`time_to_human(${seconds})`)
   const human_time_parts = [];
@@ -65216,7 +65235,7 @@ function time_to_human(seconds) {
 }
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-energy/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--energy/dist/src.es2019/selectors.js
 
 
 
@@ -65374,7 +65393,7 @@ function get_available_energy_int(t_state) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-energy/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--energy/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -65564,7 +65583,7 @@ function restore_energy([u_state, t_state], qty = 1, now_ms = Object(src_es2019_
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-prng/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--prng/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -65632,7 +65651,7 @@ function register_recently_used(state, id, value, max_memory_size) {
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/normalize-string/dist/src.es2019/normalizers.js + 2 modules
 var normalizers = __webpack_require__(552);
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-codes/dist/src.es2019/normalize-code.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--codes/dist/src.es2019/normalize-code.js
  // useless function to circumvent a strange TS bug
 
 function normalize_code(s) {
@@ -65640,7 +65659,7 @@ function normalize_code(s) {
 }
 
 /* harmony default export */ var src_es2019_normalize_code = (normalize_code);
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-codes/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--codes/dist/src.es2019/selectors.js
 
  /////////////////////
 
@@ -65669,7 +65688,7 @@ function is_code_redeemable(state, code_spec, infos) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-codes/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--codes/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -65710,7 +65729,7 @@ function attempt_to_redeem_code(state, code_spec, infos) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-meta/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--meta/dist/src.es2019/state.js
 /////////////////////
 
  /////////////////////
@@ -65755,7 +65774,7 @@ function on_logged_in_refresh(previous_state, is_logged_in, roles = []) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-prng/dist/src.es2019/get_prng.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--prng/dist/src.es2019/get_prng.js
 /////////////////////
 
 
@@ -65838,7 +65857,7 @@ function switch_mode(new_mode) {
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-prng/dist/src.es2019/utils.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--prng/dist/src.es2019/utils.js
 /////////////////////
 
  /////////////////////
@@ -65877,13 +65896,13 @@ function regenerate_until_not_recently_encountered({
 
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/types.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/types.js
  /////////////////////
 
 const ArmorPartType = Object(dist["Enum"])('base', 'qualifier1', 'qualifier2'); /////////////////////
 
  /////////////////////
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/data/i18n_en.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/data/i18n_en.js
 const data_i18n_en_messages = {
   armor: {
     base: {
@@ -66018,7 +66037,7 @@ const data_i18n_en_messages = {
   }
 };
 /* harmony default export */ var data_i18n_en = (data_i18n_en_messages);
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/data/entries.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/data/entries.js
 const entries_ENTRIES = [{
   type: 'base',
   hid: 'armguards'
@@ -66306,7 +66325,7 @@ const entries_ENTRIES = [{
   hid: 'wise'
 }];
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/data/index.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/data/index.js
 
 
  /////////////////////
@@ -66318,7 +66337,7 @@ const ARMOR_BASES = entries_ENTRIES.filter(armor_component => armor_component.ty
 const ARMOR_QUALIFIERS1 = entries_ENTRIES.filter(armor_component => armor_component.type === ArmorPartType.qualifier1);
 const ARMOR_QUALIFIERS2 = entries_ENTRIES.filter(armor_component => armor_component.type === ArmorPartType.qualifier2);
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic-armors/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/logic--armors/dist/src.es2019/state.js
 /////////////////////
 
 
@@ -69796,7 +69815,7 @@ function get_achievements_completion(u_state) {
 
 
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state-engagement/dist/src.es2019/selectors.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state--engagement/dist/src.es2019/selectors.js
  /////////////////////
 
 function get_oldest_queued_flow(state) {

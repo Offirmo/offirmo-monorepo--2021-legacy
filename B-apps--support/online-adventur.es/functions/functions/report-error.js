@@ -9820,7 +9820,7 @@ exports.CHANNEL = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(6);
 
-const api_interface_1 = __webpack_require__(53); /////////////////////////////////////////////////
+const api_interface_1 = __webpack_require__(51); /////////////////////////////////////////////////
 
 
 exports.CHANNEL = (() => {
@@ -10862,7 +10862,7 @@ function isInstanceOf(wat, base) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 51:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11004,6 +11004,8 @@ process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 
 __webpack_require__(62);
 
+const api_interface_1 = __webpack_require__(51);
+
 const sentry_1 = __webpack_require__(144); ////////////////////////////////////
 
 
@@ -11017,7 +11019,10 @@ const handler = async (event, badly_typed_context) => {
   return {
     statusCode: 200,
     headers: {},
-    body: JSON.stringify('Error reported✔')
+    body: JSON.stringify(api_interface_1.create_server_response_body__data({
+      result: 'Error reported✔',
+      err_message: message
+    }))
   };
 };
 
@@ -11805,10 +11810,10 @@ function createSink(options = {}) {
       details,
       err
     } = payload;
-    let line = '' + (displayTime ? source_default.a.dim(String(time)) + ' ' : '') + LEVEL_TO_ASCII[level] + '› ' + LEVEL_TO_STYLIZE[level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (Reflect.ownKeys(details).length === 0 ? '' //: (' ' + JSON.stringify(details))
-    : ' ' + prettify_any(details, {//line_width:
+    let line = [displayTime ? source_default.a.dim(String(time)) : '', LEVEL_TO_ASCII[level] + '›', LEVEL_TO_STYLIZE[level]([name, msg].filter(x => !!x).join('› ')), Reflect.ownKeys(details).length === 0 ? '' //: (' ' + JSON.stringify(details))
+    : prettify_any(details, {//line_width:
       //first_line_already_used:
-    }));
+    })].filter(x => !!x).join(' ');
     console.log(line); // eslint-disable-line no-console
 
     if (err) displayError(err);
