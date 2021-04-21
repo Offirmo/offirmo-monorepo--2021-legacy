@@ -2770,6 +2770,7 @@ __webpack_require__.d(__webpack_exports__, "init", function() { return /* reexpo
 __webpack_require__.d(__webpack_exports__, "lastEventId", function() { return /* reexport */ lastEventId; });
 __webpack_require__.d(__webpack_exports__, "flush", function() { return /* reexport */ flush; });
 __webpack_require__.d(__webpack_exports__, "close", function() { return /* reexport */ sdk_close; });
+__webpack_require__.d(__webpack_exports__, "getSentryRelease", function() { return /* reexport */ getSentryRelease; });
 __webpack_require__.d(__webpack_exports__, "SDK_NAME", function() { return /* reexport */ SDK_NAME; });
 __webpack_require__.d(__webpack_exports__, "Integrations", function() { return /* binding */ INTEGRATIONS; });
 __webpack_require__.d(__webpack_exports__, "Transports", function() { return /* reexport */ transports_namespaceObject; });
@@ -5793,7 +5794,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.2.5';
+var SDK_VERSION = '6.3.0';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
@@ -6886,7 +6887,7 @@ function enhanceEventWithSdkInfo(event, sdkInfo) {
     event.sdk.packages = core_node_modules_tslib_tslib_es6_spread((event.sdk.packages || []), (sdkInfo.packages || []));
     return event;
 }
-/** Creates a SentryRequest from an event. */
+/** Creates a SentryRequest from a Session. */
 function sessionToSentryRequest(session, api) {
     var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
     var envelopeHeaders = JSON.stringify(core_node_modules_tslib_tslib_es6_assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })));
@@ -7487,8 +7488,8 @@ var baseclient_BaseClient = /** @class */ (function () {
      * @inheritDoc
      */
     BaseClient.prototype.captureSession = function (session) {
-        if (!session.release) {
-            logger.warn('Discarded session because of missing release');
+        if (!(typeof session.release === 'string')) {
+            logger.warn('Discarded session because of missing or non-string release');
         }
         else {
             this._sendSession(session);
@@ -8999,14 +9000,9 @@ function init(options) {
         }
     }
     if (options.release === undefined) {
-        var global_1 = Object(misc["f" /* getGlobalObject */])();
-        // Prefer env var over global
-        if (process.env.SENTRY_RELEASE) {
-            options.release = process.env.SENTRY_RELEASE;
-        }
-        // This supports the variable that sentry-webpack-plugin injects
-        else if (global_1.SENTRY_RELEASE && global_1.SENTRY_RELEASE.id) {
-            options.release = global_1.SENTRY_RELEASE.id;
+        var detectedRelease = getSentryRelease();
+        if (detectedRelease !== undefined) {
+            options.release = detectedRelease;
         }
     }
     if (options.environment === undefined && process.env.SENTRY_ENVIRONMENT) {
@@ -9061,6 +9057,34 @@ function sdk_close(timeout) {
             return [2 /*return*/, Promise.reject(false)];
         });
     });
+}
+/**
+ * A function that returns a Sentry release string dynamically from env variables
+ */
+function getSentryRelease() {
+    // Always read first as Sentry takes this as precedence
+    if (process.env.SENTRY_RELEASE) {
+        return process.env.SENTRY_RELEASE;
+    }
+    // This supports the variable that sentry-webpack-plugin injects
+    var global = Object(misc["f" /* getGlobalObject */])();
+    if (global.SENTRY_RELEASE && global.SENTRY_RELEASE.id) {
+        return global.SENTRY_RELEASE.id;
+    }
+    return (
+    // GitHub Actions - https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables
+    process.env.GITHUB_SHA ||
+        // Netlify - https://docs.netlify.com/configure-builds/environment-variables/#build-metadata
+        process.env.COMMIT_REF ||
+        // Vercel - https://vercel.com/docs/v2/build-step#system-environment-variables
+        process.env.VERCEL_GIT_COMMIT_SHA ||
+        process.env.VERCEL_GITHUB_COMMIT_SHA ||
+        process.env.VERCEL_GITLAB_COMMIT_SHA ||
+        process.env.VERCEL_BITBUCKET_COMMIT_SHA ||
+        // Zeit (now known as Vercel)
+        process.env.ZEIT_GITHUB_COMMIT_SHA ||
+        process.env.ZEIT_GITLAB_COMMIT_SHA ||
+        process.env.ZEIT_BITBUCKET_COMMIT_SHA);
 }
 //# sourceMappingURL=sdk.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/utils.js
@@ -9723,11 +9747,13 @@ var browserPerformanceTimeOrigin = (function () {
         return undefined;
     }
     var threshold = 3600 * 1000;
-    var timeOriginIsReliable = performance.timeOrigin && Math.abs(performance.timeOrigin + performance.now() - Date.now()) < threshold;
-    if (timeOriginIsReliable) {
-        _browserPerformanceTimeOriginMode = 'timeOrigin';
-        return performance.timeOrigin;
-    }
+    var performanceNow = performance.now();
+    var dateNow = Date.now();
+    // if timeOrigin isn't available set delta to threshold so it isn't used
+    var timeOriginDelta = performance.timeOrigin
+        ? Math.abs(performance.timeOrigin + performanceNow - dateNow)
+        : threshold;
+    var timeOriginIsReliable = timeOriginDelta < threshold;
     // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
     // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
     // Also as of writing, performance.timing is not available in Web Workers in mainstream browsers, so it is not always
@@ -9736,14 +9762,23 @@ var browserPerformanceTimeOrigin = (function () {
     // eslint-disable-next-line deprecation/deprecation
     var navigationStart = performance.timing && performance.timing.navigationStart;
     var hasNavigationStart = typeof navigationStart === 'number';
-    var navigationStartIsReliable = hasNavigationStart && Math.abs(navigationStart + performance.now() - Date.now()) < threshold;
-    if (navigationStartIsReliable) {
-        _browserPerformanceTimeOriginMode = 'navigationStart';
-        return navigationStart;
+    // if navigationStart isn't available set delta to threshold so it isn't used
+    var navigationStartDelta = hasNavigationStart ? Math.abs(navigationStart + performanceNow - dateNow) : threshold;
+    var navigationStartIsReliable = navigationStartDelta < threshold;
+    if (timeOriginIsReliable || navigationStartIsReliable) {
+        // Use the more reliable time origin
+        if (timeOriginDelta <= navigationStartDelta) {
+            _browserPerformanceTimeOriginMode = 'timeOrigin';
+            return performance.timeOrigin;
+        }
+        else {
+            _browserPerformanceTimeOriginMode = 'navigationStart';
+            return navigationStart;
+        }
     }
     // Either both timeOrigin and navigationStart are skewed or neither is available, fallback to Date.
     _browserPerformanceTimeOriginMode = 'dateNow';
-    return Date.now();
+    return dateNow;
 })();
 //# sourceMappingURL=time.js.map
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(145)(module)))
