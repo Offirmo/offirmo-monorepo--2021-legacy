@@ -11,6 +11,7 @@ import { APIGatewayEvent, XSoftExecutionContext, NetlifyContext, Response} from 
 export const FailureMode = Enum(
 	'none',
 	'manual',
+	'assertion-sync',
 	'throw-sync',
 	'throw-sync-non-error',
 	'throw-async',
@@ -66,6 +67,10 @@ export async function test_failure(
 			response.statusCode = get_test_err().statusCode!
 			response.body = get_test_err().message
 			break
+
+		case FailureMode['assertion-sync']:
+			assert(false, get_test_err().message)
+			//break
 
 		case FailureMode['throw-sync']:
 			throw get_test_err()

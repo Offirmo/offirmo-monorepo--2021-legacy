@@ -244,6 +244,7 @@ function _run_with_safety_net(
 
 					// must be last,
 					resolve(response)
+					logger.trace(`[${PREFIX}] done invoking the middleware chain, resolved.`)
 				})
 				.catch(on_final_error)
 		})
@@ -340,7 +341,7 @@ async function _run_mw_chain(
 				const { local_mutable } = SEC.getInjectedDependencies()
 				local_mutable.last_invoked_mw = current_mw_name
 				await middlewares[index](SEC as XSoftExecutionContext, event, context, response, next.bind(null, SEC, index + 1))
-				logger.trace(`[${PREFIX}] returned from middleware ${index+1}/${middlewares.length} "${current_mw_name}"…`)
+				logger.trace(`[${PREFIX}] returned from middleware ${index+1}/${middlewares.length} "${current_mw_name}"…`, { status: response?.statusCode })
 				_check_response(SEC, index, 'out')
 			})
 			.catch(err => {
@@ -353,7 +354,6 @@ async function _run_mw_chain(
 				}
 				throw err
 			})
-
 	}
 
 	// launch the chain
@@ -387,7 +387,11 @@ async function _run_mw_chain(
 		body = stable_stringify(body)
 	}
 
-	await end_of_current_event_loop() // to give time to unhandled rejections to be detected. not 100% reliable, of course.
+	// give time to unhandled rejections to be detected. not 100% reliable, of course, depending on the delay to reject.
+	// Seen: works ok in dev, doesn't work in prod (caught during processing but to late)
+	await end_of_current_event_loop()
+
+	logger.trace(`[${PREFIX}] Returning from the chain of ${middlewares.length} middlewares.`)
 
 	return {
 		statusCode,

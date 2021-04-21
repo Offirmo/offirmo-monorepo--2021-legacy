@@ -8,9 +8,11 @@ Pipelines:
 * Heroku: [pipeline](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | [Activity](https://dashboard.heroku.com/apps/online-adventures-prod/activity) | [Logs](https://dashboard.heroku.com/apps/online-adventures-prod/logs)
 
 Monitoring:
-* https://onlineornot.com/app/pages
+* uptime + perfs: https://onlineornot.com/app/pages
 * Sentry: [Backend](https://sentry.io/organizations/offirmo/issues/?project=1772719) | [Frontend -- TBRPG](https://sentry.io/organizations/offirmo/issues/?project=1235383)
+* functions log: https://app.netlify.com/sites/online-adventures/functions
 * Analytics: [UA](https://analytics.google.com/analytics/web/#/report/content-event-overview/a103238291w176401989p175259321/_u.date00=20210101&_u.date01=20210131&_u.date10=20201201&_u.date11=20201231)
+
 
 | web surface | status |
 | ----------- | ------ |

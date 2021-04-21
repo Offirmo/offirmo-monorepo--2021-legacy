@@ -18,6 +18,7 @@ export const HTTP_STATUS_CODE = {
 			// https://stackoverflow.com/questions/50143518/401-unauthorized-vs-403-forbidden-which-is-the-right-status-code-for-when-the-u
 			unauthorized: 401, // The 401 (Unauthorized) status code indicates that the request has not been applied because it lacks valid authentication credentials for the target resource.
 			forbidden: 403, // The 403 (Forbidden) status code indicates that the server understood the request but refuses to authorize it.
+			                // ex. CORS with wrong origin
 			not_found: 404,
 			method_not_allowed: 405,
 			unprocessable_entity: 422,

@@ -6,6 +6,7 @@ process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 */
 import '@offirmo/universal-debug-api-node'
+import { create_server_response_body__data } from '@online-adventur.es/api-interface'
 
 import {
 	APIGatewayEvent,
@@ -31,7 +32,10 @@ const handler: NetlifyHandler = async (
 	return {
 		statusCode: 200,
 		headers: {},
-		body: JSON.stringify('Error reported✔'),
+		body: JSON.stringify(create_server_response_body__data({
+			result: 'Error reported✔',
+			err_message: message,
+		})),
 	}
 }
 

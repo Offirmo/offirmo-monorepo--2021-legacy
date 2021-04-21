@@ -32,6 +32,7 @@ export default async function handle_cors(
 			if (advertised_origin !== expected_origin) {
 				logger.warn('rejecting due to wrong advertised_origin', { expected_origin, origin: advertised_origin })
 				throw create_error(HTTP_STATUS_CODE.error.client.forbidden, {
+					advertised_origin,
 					expected_origin,
 					origin: advertised_origin,
 				}, SEC)

@@ -75,7 +75,7 @@ export async function fetch_oa<Req, Res>({
 				}),
 			])
 			.then((response: FetchResponse) => {
-				logger.trace(`fetch_oa() #${request_id}: got fetch response`, { method, url, response })
+				logger.trace(`fetch_oa() #${request_id}: got fetch response`, { method, url, ok: response.ok, response })
 				response_for_logging = fetch_response = response.clone()
 
 				// reminder: we can't destructure response because .json() needs a binding to response
@@ -87,8 +87,22 @@ export async function fetch_oa<Req, Res>({
 				}
 				// even if the response has an error status, we still need to attempt decoding the json
 				// since it can hold error data
-
-				return response.json()
+				if (response.status === 404) {
+					// no way to have an OA response if there is no answering endpoint
+					return
+				}
+				else {
+					return response
+						.json()
+						.then(
+							(response: OAServerResponseBody<Res>) => response,
+							(err: Error) => {
+								// failure in decoding
+								candidate_error = candidate_error || err
+								return // will pick the candidate error
+							}
+						)
+				}
 			})
 			.then((response: OAServerResponseBody<Res>) => {
 				logger.trace(`fetch_oa() #${request_id}: got json body`, { method, url, response })
@@ -119,7 +133,7 @@ export async function fetch_oa<Req, Res>({
 				return enforce_immutability<OAResponse<Res>>({ data, side })
 			})
 			.catch((err: Error) => {
-				logger.warn(`fetch_it #${request_id} ended with an error!`, { method, url, response: response_for_logging, err, err_message: err.message})
+				logger.warn(`fetch_oa() #${request_id} ended with an error!`, { method, url, response: response_for_logging, err, err_message: err.message})
 				_state.error_count++
 				throw err
 			})

@@ -7,7 +7,7 @@ import { fetch_oa, ReleaseChannel, Endpoint, SERVER_RESPONSE_VERSION } from '@on
 import { APP } from './consts'
 
 
-describe(`${APP} - [sub/staging] live`, function() {
+describe(`${APP} - live`, function() {
 	const SEC = getRootSEC()
 		.createChild()
 		.setLogicalStack({module: 'UT'})
@@ -19,25 +19,63 @@ describe(`${APP} - [sub/staging] live`, function() {
 			SEC.injectDependencies({ CHANNEL: ReleaseChannel.staging })
 		})
 
-		Enum.values(Endpoint).forEach((endpoint) => {
+		describe(`404`, function() {
 
-			describe(`/${endpoint}`, function() {
+			it('should be handled properly', () => {
+				const ↆresult = fetch_oa({
+					SEC,
+					method: 'GET',
+					url: 'foo-xyz',
+				})
+
+				return expect(ↆresult).to.eventually.be.rejectedWith('404')
+			})
+		})
+
+		Enum.values(Endpoint)
+			//.filter(e => e !== 'report-error')
+			.forEach((endpoint) => {
+
+			describe.only(`/${endpoint}`, function() {
 
 				it('should exist', () => {
-					const result = fetch_oa({
+					const ↆresult = fetch_oa({
 						SEC,
 						method: 'GET',
 						url: endpoint,
 					})
 
-					return result.then(
-						console.log,
+					return expect(ↆresult).not.to.eventually.be.rejectedWith('404')
+				})
+
+				it('should respond properly', () => {
+					const ↆresult = fetch_oa({
+						SEC,
+						method: 'GET',
+						url: endpoint,
+					})
+
+					return ↆresult.then(
+						() => { /* all good */ },
 						err => {
-							const is_auth_error = err.message.includes('not logged in')
-							if (!is_auth_error)
-								console.error('unexpected error:', err)
-							expect(is_auth_error, 'is_auth_error').to.be.true
-						},
+							if (err.message.includes('not logged in')) {
+								// expected, all good
+								return
+							}
+
+							if (endpoint === 'hello-world' && err.message.includes('invalid json')) {
+								// expected, primitive endpoint not to be queried with fetch_oa()
+								return
+							}
+
+							if (endpoint === 'test-error-handling' && err.message.includes('Please provide a failure mode')) {
+								// expected, endpoint needs a param
+								return
+							}
+
+							console.error('unexpected error:', err)
+							throw err
+						}
 					)
 				})
 			})

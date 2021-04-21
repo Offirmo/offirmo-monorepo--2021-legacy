@@ -79,6 +79,7 @@ function _filter_out_secrets(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
 		.map(([k, v]) => {
 			const isSecret = k.toLowerCase().includes('secret')
 				|| k.toLowerCase().includes('token')
+				|| k.toLowerCase().includes('key')
 			return [ k, isSecret ? '🙈' : v ]
 		})
 		.reduce((acc: any, [k, v]: any) => {

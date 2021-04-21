@@ -15,7 +15,7 @@ export interface OAResponse<T> {
 	data: T, // note: flat denormalized data or graph? Graph seems to be preferred ATM
 
 	side: {
-		tbrpg?: {
+		tbrpg?: { // TODO improve w/ no mention of a particular app
 			VERSION: string
 			NUMERIC_VERSION: number
 			latest_news: any[] // TODO refine this
