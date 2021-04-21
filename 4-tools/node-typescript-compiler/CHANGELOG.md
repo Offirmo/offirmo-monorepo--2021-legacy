@@ -4,6 +4,7 @@
 ## PENDING
 * TODO remove lodash as a dependency
 * TODO change the interface to use named params
+* [chore] micro-improvement of verbose logs
 * ...
 
 ## v2.3.0

@@ -83,11 +83,11 @@ function compile(tscOptions, files, options) {
 
 			// not returning due to complex "callback style" async code
 			find_tsc()
-				.then(tsc_executable_relative_path => {
-					if (options.verbose) console.log(`[${LIB}] ✔ found a typescript compiler at this location: "${tildify(tsc_executable_relative_path)}"`)
-					if (options.verbose) console.log(`[${LIB}] ► now spawning the compilation command: "${[tildify(tsc_executable_relative_path), ...spawn_params].join(' ')}"...\n`)
+				.then(tsc_executable_absolute_path => {
+					if (options.verbose) console.log(`[${LIB}] ✔ found a typescript compiler at this location: "${tsc_executable_absolute_path}" aka. "${tildify(tsc_executable_absolute_path)}"`)
+					if (options.verbose) console.log(`[${LIB}] ► now spawning the compilation command: "${[tsc_executable_absolute_path, ...spawn_params].join(' ')}"...\n`)
 
-					const spawn_instance = spawn(tsc_executable_relative_path, spawn_params, spawn_options)
+					const spawn_instance = spawn(tsc_executable_absolute_path, spawn_params, spawn_options)
 
 					// listen to events
 					spawn_instance.on('error', err => {
