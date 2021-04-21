@@ -7,7 +7,7 @@ import {
 import { get_lib_SEC } from './sec'
 
 
-describe('@oh-my-rpg/state-progress - selectors', function() {
+describe('@tbrpg/state--progress - selectors', function() {
 
 
 })

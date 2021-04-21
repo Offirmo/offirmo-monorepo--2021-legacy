@@ -7,7 +7,7 @@ import {
 	ItemQuality,
 	InventorySlot,
 	ElementType,
-} from '@oh-my-rpg/definitions'
+} from '@tbrpg/definitions'
 
 import { Weapon } from './types'
 

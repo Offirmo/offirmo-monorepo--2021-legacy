@@ -1,6 +1,6 @@
 import { UUID } from '@offirmo-private/uuid'
 import { Immutable } from '@offirmo-private/ts-types'
-import { get_unslotted_item } from '@oh-my-rpg/state-inventory'
+import { get_unslotted_item } from '@tbrpg/state--inventory'
 import { UState } from '@tbrpg/state'
 import {
 	Action,

@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import { MAX_LEVEL } from '@oh-my-rpg/definitions'
+import { MAX_LEVEL } from '@tbrpg/definitions'
 
 import {
 	Monster,

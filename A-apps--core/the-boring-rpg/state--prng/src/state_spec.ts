@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { Random, Engine } from '@offirmo/random'
-import { xxx_test_unrandomize_element } from '@oh-my-rpg/definitions'
+import { xxx_test_unrandomize_element } from '@tbrpg/definitions'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 

@@ -6,13 +6,13 @@ import { TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes } from '@of
 /////////////////////
 
 import * as Character from '@tbrpg/state--character'
-import * as Inventory from '@oh-my-rpg/state-inventory'
+import * as Inventory from '@tbrpg/state--inventory'
 import * as Wallet from '@oh-my-rpg/state-wallet'
 import * as PRNG from '@oh-my-rpg/state-prng'
 import * as Energy from '@oh-my-rpg/state-energy'
 import * as Engagement from '@oh-my-rpg/state-engagement'
 import * as Codes from '@oh-my-rpg/state-codes'
-import * as Progress from '@oh-my-rpg/state-progress'
+import * as Progress from '@tbrpg/state--progress'
 import * as MetaState from '@oh-my-rpg/state-meta'
 
 import { DEMO_WEAPON_1, Weapon } from '@oh-my-rpg/logic-weapons'

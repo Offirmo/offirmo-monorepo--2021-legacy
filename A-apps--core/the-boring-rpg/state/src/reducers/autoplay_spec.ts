@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import { dump_prettified_any } from '@offirmo-private/prettify-any'
 
-import { ItemQuality, Item, InventorySlot } from '@oh-my-rpg/definitions'
+import { ItemQuality, Item, InventorySlot } from '@tbrpg/definitions'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import { Weapon, matches as matches_weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'

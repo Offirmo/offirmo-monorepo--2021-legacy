@@ -6,16 +6,16 @@ import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 /////////////////////
 
-import { ItemQuality } from '@oh-my-rpg/definitions'
+import { ItemQuality } from '@tbrpg/definitions'
 
 import * as CharacterState from '@tbrpg/state--character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
-import * as InventoryState from '@oh-my-rpg/state-inventory'
+import * as InventoryState from '@tbrpg/state--inventory'
 import * as EnergyState from '@oh-my-rpg/state-energy'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as CodesState from '@oh-my-rpg/state-codes'
-import * as ProgressState from '@oh-my-rpg/state-progress'
+import * as ProgressState from '@tbrpg/state--progress'
 import * as MetaState from '@oh-my-rpg/state-meta'
 
 import {

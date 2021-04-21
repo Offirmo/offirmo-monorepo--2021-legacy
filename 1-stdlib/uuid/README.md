@@ -14,7 +14,7 @@ generate_uuid() // "uu1I0D2MihtF1GK0MqE5VtfM"
 
 See also:
 ```js
-import { xxx_test_unrandomize_element } from '@oh-my-rpg/definitions'
+import { xxx_test_unrandomize_element } from '@tbrpg/definitions'
 
 xxx_test_unrandomize_element(...)
 ```

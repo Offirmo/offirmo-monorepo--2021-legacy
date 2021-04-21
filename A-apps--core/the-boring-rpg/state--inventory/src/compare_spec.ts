@@ -7,12 +7,13 @@ import {
 	generate_random_demo_weapon,
 } from '@oh-my-rpg/logic-weapons'
 
+import { LIB } from './consts'
 import {
 	Item,
 	compare_items_by_slot_then_strength,
 } from '.'
 
-describe('@oh-my-rpg/state-inventory - sorting', function() {
+describe(`${LIB} - sorting`, function() {
 
 	describe('comparison of different types', function() {
 

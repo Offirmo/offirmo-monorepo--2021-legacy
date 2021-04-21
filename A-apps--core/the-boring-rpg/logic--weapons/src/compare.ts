@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Immutable } from '@offirmo-private/ts-types'
-import { compare_items_by_quality } from '@oh-my-rpg/definitions'
+import { compare_items_by_quality } from '@tbrpg/definitions'
 
 import { Weapon } from './types'
 import { get_ultimate_medium_damage } from './selectors'

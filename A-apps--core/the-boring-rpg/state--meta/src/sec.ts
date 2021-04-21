@@ -1,5 +1,5 @@
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
-import { OMRSoftExecutionContext, decorate_SEC } from '@oh-my-rpg/definitions'
+import { OMRSoftExecutionContext, decorate_SEC } from '@tbrpg/definitions'
 
 import { LIB } from './consts'
 

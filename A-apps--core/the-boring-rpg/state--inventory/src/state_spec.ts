@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import {
 	InventorySlot,
 	ItemQuality,
-} from '@oh-my-rpg/definitions'
+} from '@tbrpg/definitions'
 import {
 	generate_random_demo_armor,
 } from '@oh-my-rpg/logic-armors'
@@ -11,7 +11,7 @@ import {
 	generate_random_demo_weapon,
 } from '@oh-my-rpg/logic-weapons'
 
-import { SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 
 import {
@@ -31,7 +31,7 @@ import {
 	iterables_unslotted,
 } from '.'
 
-describe('@oh-my-rpg/state-inventory - reducer', function() {
+describe(`${LIB} - reducer`, function() {
 	const DUMMY_ITEM: Item = generate_random_demo_weapon()
 
 	describe('🆕 initial state', function() {

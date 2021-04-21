@@ -12,7 +12,7 @@ import {
 import { get_lib_SEC } from './sec'
 
 
-describe('@oh-my-rpg/state-progress - reducer', function() {
+describe('@tbrpg/state--progress - reducer', function() {
 
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers() // needed to have a reproducible timestamp

@@ -16,7 +16,7 @@ import {
 	switch_class,
 } from '@tbrpg/state--character'
 
-import * as InventoryState from '@oh-my-rpg/state-inventory'
+import * as InventoryState from '@tbrpg/state--inventory'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as MetaState from '@oh-my-rpg/state-meta'
 

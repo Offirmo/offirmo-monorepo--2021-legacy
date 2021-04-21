@@ -1,24 +1,12 @@
 import { expect } from 'chai'
 
-import { InventorySlot, ItemQuality } from '@oh-my-rpg/definitions'
+import { DEMO_ARMOR_1 } from '@oh-my-rpg/logic-armors'
+import { DEMO_WEAPON_1 } from '@oh-my-rpg/logic-weapons'
 
-import {
-	Armor,
-	DEMO_ARMOR_1,
-	get_medium_damage_reduction,
-} from '@oh-my-rpg/logic-armors'
+import { appraise_sell_value } from '.'
 
-import {
-	Weapon,
-	DEMO_WEAPON_1,
-	get_medium_damage,
-} from '@oh-my-rpg/logic-weapons'
 
-import {
-	appraise_sell_value,
-} from '.'
-
-describe('@oh-my-rpg/logic-shop - selectors:', function() {
+describe('@tbrpg/logic--shop - selectors:', function() {
 
 	describe('appraisal', function() {
 

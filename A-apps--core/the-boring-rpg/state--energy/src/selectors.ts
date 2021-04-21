@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 import Fraction from 'fraction.js'
 import memoize_one from 'memoize-one'
 
-import { get_logger } from '@oh-my-rpg/definitions'
+import { get_logger } from '@tbrpg/definitions'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { LIB, TICK_MS } from './consts'

@@ -6,7 +6,7 @@ import { Enum } from 'typescript-string-enums'
 import { generate_uuid } from '@offirmo-private/uuid'
 import { Random, Engine } from '@offirmo/random'
 
-import { InventorySlot } from '@oh-my-rpg/definitions'
+import { InventorySlot } from '@tbrpg/definitions'
 
 import {
 	CharacterAttribute,
@@ -15,7 +15,7 @@ import {
 	State as CharacterState,
 } from '@tbrpg/state--character'
 
-import * as InventoryState from '@oh-my-rpg/state-inventory'
+import * as InventoryState from '@tbrpg/state--inventory'
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import {

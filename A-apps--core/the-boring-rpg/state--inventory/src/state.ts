@@ -2,7 +2,7 @@
 
 import { UUID } from '@offirmo-private/uuid'
 import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
-import { InventorySlot } from '@oh-my-rpg/definitions'
+import { InventorySlot } from '@tbrpg/definitions'
 
 
 import { SCHEMA_VERSION } from './consts'

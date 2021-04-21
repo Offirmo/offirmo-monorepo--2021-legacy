@@ -99,7 +99,7 @@ bolt --only-fs "B-apps--support/**/*" ws run build
 bolt --only-fs "B-apps--support/**/*" ws run test
 bolt --only-fs "C-apps--clients/**/*" ws run build
 bolt --only-fs "C-apps--clients/**/*" ws run test
-bolt w @oh-my-rpg/definitions run build
+bolt w @tbrpg/definitions run build
 bolt ws run build --only @offirmo-private/*
 bolt ws run test  --only @offirmo-private/*
 

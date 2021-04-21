@@ -6,7 +6,7 @@ import {
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
 } from '@offirmo-private/soft-execution-context-browser'
-import { decorate_SEC } from '@oh-my-rpg/definitions'
+import { decorate_SEC } from '@tbrpg/definitions'
 
 import { LIB } from './consts'
 import { VERSION } from '@tbrpg/flux'

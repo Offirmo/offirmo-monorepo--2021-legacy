@@ -2,18 +2,18 @@ import { Immutable} from '@offirmo-private/ts-types'
 import { UUID } from '@offirmo-private/uuid'
 import * as RichText from '@offirmo-private/rich-text-format'
 
-import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'
-import { appraise_power } from '@oh-my-rpg/logic-shop'
+import { ITEM_SLOTS, InventorySlot, Element } from '@tbrpg/definitions'
+import { appraise_power } from '@tbrpg/logic--shop'
 import {
 	get_item as _get_item,
 	get_item_in_slot as _get_item_in_slot,
-} from '@oh-my-rpg/state-inventory'
+} from '@tbrpg/state--inventory'
 import {
 	PendingEngagement,
 	get_oldest_queued_flow,
 	get_oldest_queued_non_flow,
 } from '@oh-my-rpg/state-engagement'
-import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
+import { AchievementSnapshot } from '@tbrpg/state--progress'
 
 /////////////////////
 

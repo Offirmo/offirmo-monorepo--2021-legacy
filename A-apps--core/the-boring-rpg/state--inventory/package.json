@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/state-inventory",
+	"name": "@tbrpg/state--inventory",
 	"description": "evolving inventory state and reducer",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -20,7 +20,7 @@
 	"dependencies": {
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/uuid": "^0",
-		"@oh-my-rpg/definitions": "^0",
+		"@tbrpg/definitions": "^0",
 		"@oh-my-rpg/logic-armors": "^0",
 		"@oh-my-rpg/logic-weapons": "^0",
 		"tiny-invariant": "^1"

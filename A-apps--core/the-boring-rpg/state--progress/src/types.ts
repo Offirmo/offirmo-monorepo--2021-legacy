@@ -3,7 +3,7 @@ import { Enum } from 'typescript-string-enums'
 import { Immutable, BaseUState } from '@offirmo-private/state-utils'
 import { HumanReadableTimestampUTCDays } from '@offirmo-private/timestamps'
 
-import { Element } from '@oh-my-rpg/definitions'
+import { Element } from '@tbrpg/definitions'
 
 /////////////////////
 

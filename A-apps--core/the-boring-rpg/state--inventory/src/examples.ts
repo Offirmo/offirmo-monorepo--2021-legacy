@@ -1,6 +1,6 @@
 import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
-import { InventorySlot } from '@oh-my-rpg/definitions'
+import { InventorySlot } from '@tbrpg/definitions'
 import { DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
 import { DEMO_ARMOR_1, DEMO_ARMOR_2 } from '@oh-my-rpg/logic-armors'
 

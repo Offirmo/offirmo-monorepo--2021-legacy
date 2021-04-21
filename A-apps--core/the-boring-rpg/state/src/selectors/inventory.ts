@@ -1,16 +1,16 @@
 import { UUID } from '@offirmo-private/uuid'
 import { Immutable} from '@offirmo-private/ts-types'
 
-import { InventorySlot, Element } from '@oh-my-rpg/definitions'
-import { is_full } from '@oh-my-rpg/state-inventory'
-import { appraise_sell_value, appraise_power } from '@oh-my-rpg/logic-shop'
+import { InventorySlot, Element } from '@tbrpg/definitions'
+import { is_full } from '@tbrpg/state--inventory'
+import { appraise_sell_value, appraise_power } from '@tbrpg/logic--shop'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import {
 	Item,
 	get_item as _get_item,
 	get_item_in_slot as _get_item_in_slot,
-} from '@oh-my-rpg/state-inventory'
+} from '@tbrpg/state--inventory'
 
 /////////////////////
 

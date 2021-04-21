@@ -2,7 +2,7 @@ import * as React from 'react'
 import { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import { ElementType } from '@oh-my-rpg/definitions'
+import { ElementType } from '@tbrpg/definitions'
 import { InteractiveRichTextFragment } from '@offirmo-private/rich-text-format-to-react'
 import {
 	render_item_short,

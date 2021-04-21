@@ -2,7 +2,7 @@ import * as Globalize from 'globalize'
 import * as CLDRData from 'cldr-data'
 import * as stylizeString from 'chalk'
 
-import { InventorySlot, ItemQuality } from '@oh-my-rpg/definitions'
+import { InventorySlot, ItemQuality } from '@tbrpg/definitions'
 import { generate_random_demo_weapon } from '@oh-my-rpg/logic-weapons'
 import { i18n_messages as i18n_messages_armor, generate_random_demo_armor } from '@oh-my-rpg/logic-armors'
 import { en as en_weapons } from '@oh-my-rpg/data/src/weapon_component/i18n'
@@ -15,7 +15,7 @@ import {
 	equip_item_at_coord,
 	add_item,
 	remove_item_at_coord,
-} from '@oh-my-rpg/state-inventory'
+} from '@tbrpg/state--inventory'
 
 import {
 	Currency,

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { Enum } from 'typescript-string-enums'
 
-import { InventorySlot, ItemQuality, ElementType, xxx_test_unrandomize_element } from '@oh-my-rpg/definitions'
+import { InventorySlot, ItemQuality, ElementType, xxx_test_unrandomize_element } from '@tbrpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
 import { LIB } from './consts'

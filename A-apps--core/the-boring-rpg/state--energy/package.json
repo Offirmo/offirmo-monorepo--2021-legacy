@@ -20,7 +20,7 @@
 	"dependencies": {
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
-		"@oh-my-rpg/definitions": "^0",
+		"@tbrpg/definitions": "^0",
 		"fraction.js": "^4",
 		"memoize-one": "^5",
 		"tiny-invariant": "^1",

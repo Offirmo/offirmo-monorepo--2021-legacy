@@ -9,12 +9,12 @@ import deep_merge from 'deepmerge'
 import { UUID } from '@offirmo/uuid'
 import { Document } from '@offirmo/rich-text-format'
 
-import { Element } from '@oh-my-rpg/definitions'
+import { Element } from '@tbrpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
-import { Item } from '@oh-my-rpg/state-inventory'
+import { Item } from '@tbrpg/state--inventory'
 import { PendingEngagement } from "@oh-my-rpg/state-engagement"
 import * as PRNGState from '@oh-my-rpg/state-prng'
-import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
+import { AchievementSnapshot } from '@tbrpg/state--progress'
 
 import { Adventure, State, UState } from './types'
 import * as state_fns from './state'

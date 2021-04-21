@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import { Item, InventorySlot } from '@oh-my-rpg/definitions'
+import { Item, InventorySlot } from '@tbrpg/definitions'
 import {
 	Weapon,
 	create as create_weapon,

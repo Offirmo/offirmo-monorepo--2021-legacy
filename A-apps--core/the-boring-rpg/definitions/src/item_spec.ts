@@ -1,13 +1,14 @@
 import { expect } from 'chai'
 
 import { Item, InventorySlot, ItemQuality } from './types'
+import { LIB } from './consts'
 import {
 	create_item_base,
 	compare_items_by_slot,
 	compare_items_by_quality,
 } from './'
 
-describe('@oh-my-rpg/definitions - item utilities', function() {
+describe(`${LIB} - item utilities`, function() {
 
 	describe('compare_items_by_slot', function() {
 

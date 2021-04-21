@@ -7,7 +7,7 @@ import {
 	InventorySlot,
 	get_unequipped_item_count,
 	get_equipped_item_count,
-} from '@oh-my-rpg/state-inventory'
+} from '@tbrpg/state--inventory'
 
 import {
 	Currency,

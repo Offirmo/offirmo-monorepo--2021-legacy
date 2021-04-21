@@ -6,4 +6,4 @@ import {
     Item,
     InventorySlot,
     ItemQuality,
- } from '@oh-my-rpg/definitions'
+ } from '@tbrpg/definitions'

@@ -46,7 +46,7 @@
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-node": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
-		"@oh-my-rpg/definitions": "^0",
+		"@tbrpg/definitions": "^0",
 		"@online-adventur.es/api-interface": "^0",
 		"@sentry/node": "^6",
 		"@tbrpg/state": "^0",

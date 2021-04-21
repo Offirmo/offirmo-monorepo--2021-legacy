@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/state-progress",
+	"name": "@tbrpg/state--progress",
 	"description": "flags, unlocks and extra statistics state and reducer",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -21,7 +21,7 @@
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ts-types": "^0",
-		"@oh-my-rpg/definitions": "^0",
+		"@tbrpg/definitions": "^0",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},

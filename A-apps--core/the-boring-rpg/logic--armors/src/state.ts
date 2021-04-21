@@ -6,7 +6,7 @@ import {
 	ItemQuality,
 	InventorySlot,
 	create_item_base,
-} from '@oh-my-rpg/definitions'
+} from '@tbrpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
 import {

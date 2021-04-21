@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Immutable } from '@offirmo-private/ts-types'
-import { Item, InventorySlot } from '@oh-my-rpg/definitions'
+import { Item, InventorySlot } from '@tbrpg/definitions'
 import {
 	Armor,
 	get_ultimate_medium_damage_reduction,

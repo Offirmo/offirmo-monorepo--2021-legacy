@@ -1,10 +1,10 @@
 import { Immutable } from '@offirmo-private/ts-types'
 import { UUID } from '@offirmo-private/uuid'
 import { Document } from '@offirmo-private/rich-text-format'
-import { Element } from '@oh-my-rpg/definitions'
-import { Item } from '@oh-my-rpg/state-inventory'
+import { Element } from '@tbrpg/definitions'
+import { Item } from '@tbrpg/state--inventory'
 import { PendingEngagement } from '@oh-my-rpg/state-engagement'
-import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
+import { AchievementSnapshot } from '@tbrpg/state--progress'
 import {
 	Adventure,
 	State,

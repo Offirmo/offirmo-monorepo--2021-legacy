@@ -1,13 +1,14 @@
 import { expect } from 'chai'
 
 import {
+	LIB,
 	ITEM_QUALITIES,
 	ITEM_QUALITIES_TO_INT,
 	ITEM_SLOTS,
 	ITEM_SLOTS_TO_INT,
 } from '.'
 
-describe('@oh-my-rpg/definitions - constants', function() {
+describe(`${LIB} - constants`, function() {
 
 	describe('item quality', function() {
 

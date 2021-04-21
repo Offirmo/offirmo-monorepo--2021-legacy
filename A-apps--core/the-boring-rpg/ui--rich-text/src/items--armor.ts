@@ -1,6 +1,6 @@
 import { Immutable } from '@offirmo-private/ts-types'
 import {Builder} from '@offirmo-private/rich-text-format'
-import { InventorySlot } from '@oh-my-rpg/definitions'
+import { InventorySlot } from '@tbrpg/definitions'
 import {
 	MAX_ENHANCEMENT_LEVEL,
 	Armor,
@@ -8,7 +8,7 @@ import {
 } from '@oh-my-rpg/logic-armors'
 import * as RichText from '@offirmo-private/rich-text-format'
 import { i18n_messages as I18N_ARMORS } from '@oh-my-rpg/logic-armors'
-import { appraise_power, appraise_sell_value } from '@oh-my-rpg/logic-shop'
+import { appraise_power, appraise_sell_value } from '@tbrpg/logic--shop'
 
 import { RenderItemOptions } from './types'
 import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'

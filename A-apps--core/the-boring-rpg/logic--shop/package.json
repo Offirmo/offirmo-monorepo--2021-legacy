@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/logic-shop",
+	"name": "@tbrpg/logic--shop",
 	"description": "shop related logic and utilities",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -20,7 +20,7 @@
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/unicode-data": "^0",
 		"@offirmo/random": "^2",
-		"@oh-my-rpg/definitions": "^0",
+		"@tbrpg/definitions": "^0",
 		"@oh-my-rpg/logic-armors": "^0",
 		"@oh-my-rpg/logic-weapons": "^0",
 		"tiny-invariant": "^1",

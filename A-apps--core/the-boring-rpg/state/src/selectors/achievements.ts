@@ -1,4 +1,4 @@
-import { ElementType } from '@oh-my-rpg/definitions'
+import { ElementType } from '@tbrpg/definitions'
 import { Immutable} from '@offirmo-private/ts-types'
 
 import {
@@ -6,7 +6,7 @@ import {
 	AchievementDefinition,
 	AchievementStatus,
 	AchievementSnapshot,
-} from '@oh-my-rpg/state-progress'
+} from '@tbrpg/state--progress'
 
 import { UState } from '../types'
 

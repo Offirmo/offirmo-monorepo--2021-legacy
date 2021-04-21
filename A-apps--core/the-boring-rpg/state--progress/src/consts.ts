@@ -1,4 +1,4 @@
-const LIB = '@oh-my-rpg/state-progress'
+const LIB = '@tbrpg/state--progress'
 
 const SCHEMA_VERSION: number = 2
 

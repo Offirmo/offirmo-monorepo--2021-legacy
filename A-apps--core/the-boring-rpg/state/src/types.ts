@@ -13,7 +13,7 @@ import { Armor } from '@oh-my-rpg/logic-armors'
 import { Monster } from '@oh-my-rpg/logic-monsters'
 
 import { State as CharacterState } from '@tbrpg/state--character'
-import { State as InventoryState } from '@oh-my-rpg/state-inventory'
+import { State as InventoryState } from '@tbrpg/state--inventory'
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
 import { State as PRNGState } from '@oh-my-rpg/state-prng'
 import {
@@ -22,7 +22,7 @@ import {
 } from '@oh-my-rpg/state-energy'
 import { State as EngagementState } from '@oh-my-rpg/state-engagement'
 import { State as CodesState } from '@oh-my-rpg/state-codes'
-import { State as ProgressState } from '@oh-my-rpg/state-progress'
+import { State as ProgressState } from '@tbrpg/state--progress'
 import { State as MetaState } from '@oh-my-rpg/state-meta'
 
 /////////////////////

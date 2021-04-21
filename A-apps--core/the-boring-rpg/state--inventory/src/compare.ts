@@ -4,7 +4,7 @@ import {
 	Item,
 	InventorySlot,
 	compare_items_by_slot,
-} from '@oh-my-rpg/definitions'
+} from '@tbrpg/definitions'
 
 import {
 	Armor,

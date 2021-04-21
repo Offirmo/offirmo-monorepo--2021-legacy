@@ -19,7 +19,7 @@
 	},
 	"dependencies": {
 		"@offirmo-private/state-utils": "^0",
-		"@oh-my-rpg/definitions": "^0",
+		"@tbrpg/definitions": "^0",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},

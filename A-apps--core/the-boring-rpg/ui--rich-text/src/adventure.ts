@@ -1,5 +1,5 @@
 import { Immutable } from '@offirmo-private/ts-types'
-import { InventorySlot, ITEM_SLOTS } from '@oh-my-rpg/definitions'
+import { InventorySlot, ITEM_SLOTS } from '@tbrpg/definitions'
 import { CHARACTER_ATTRIBUTES, CharacterAttribute } from '@tbrpg/state--character'
 import { i18n_messages as I18N_ADVENTURES } from '@oh-my-rpg/logic-adventures'
 import { Adventure } from '@tbrpg/state'

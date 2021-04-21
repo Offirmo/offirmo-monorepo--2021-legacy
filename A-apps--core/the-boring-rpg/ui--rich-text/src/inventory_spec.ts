@@ -10,7 +10,7 @@ import {
 	equip_item,
 	add_item,
 	remove_item_from_unslotted,
-} from '@oh-my-rpg/state-inventory'
+} from '@tbrpg/state--inventory'
 
 import {
 	Currency,

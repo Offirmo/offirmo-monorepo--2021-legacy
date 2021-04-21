@@ -1,6 +1,6 @@
 {
-	"name": "@oh-my-rpg/definitions",
-	"description": "Oh My RPG global primitive definitions",
+	"name": "@tbrpg/definitions",
+	"description": "TBRPG global primitive definitions",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",

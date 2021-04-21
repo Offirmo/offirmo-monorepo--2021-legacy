@@ -4,17 +4,17 @@ import {
 	Item,
 	ITEM_SLOTS,
 	ITEM_SLOTS_TO_INT,
-} from '@oh-my-rpg/definitions'
+} from '@tbrpg/definitions'
 
 import {
 	State as InventoryState,
 	iterables_unslotted,
 	get_item_in_slot,
-} from '@oh-my-rpg/state-inventory'
+} from '@tbrpg/state--inventory'
 
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
 import * as RichText from '@offirmo-private/rich-text-format'
-import { appraise_power } from '@oh-my-rpg/logic-shop'
+import { appraise_power } from '@tbrpg/logic--shop'
 
 import { render_item_short } from './items'
 import { render_wallet } from './wallet'

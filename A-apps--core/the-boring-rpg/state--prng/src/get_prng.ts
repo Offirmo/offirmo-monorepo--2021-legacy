@@ -4,7 +4,7 @@ import assert from 'tiny-invariant'
 import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 import { Random, MT19937 } from '@offirmo/random'
 
-import { get_logger } from '@oh-my-rpg/definitions'
+import { get_logger } from '@tbrpg/definitions'
 
 import { LIB } from './consts'
 import { MT19937WithSeed, State } from './types'

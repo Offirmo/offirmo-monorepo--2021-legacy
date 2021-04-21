@@ -1,5 +1,5 @@
 import { Immutable } from '@offirmo-private/ts-types'
-import { ItemQuality, InventorySlot, Item } from '@oh-my-rpg/definitions'
+import { ItemQuality, InventorySlot, Item } from '@tbrpg/definitions'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import * as RichText from '@offirmo-private/rich-text-format'

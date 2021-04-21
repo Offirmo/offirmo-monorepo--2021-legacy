@@ -3,7 +3,7 @@
 import { UUID } from '@offirmo-private/uuid'
 import { Immutable } from '@offirmo-private/ts-types'
 
-import { InventorySlot } from '@oh-my-rpg/definitions'
+import { InventorySlot } from '@tbrpg/definitions'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 

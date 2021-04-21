@@ -17,7 +17,7 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@oh-my-rpg/definitions": "^0",
+		"@tbrpg/definitions": "^0",
 		"@offirmo/random": "^2",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
