@@ -102,7 +102,7 @@ function decorateWithDetectedEnv(SEC) {
 	}
 
 	SEC.setAnalyticsAndErrorDetails(details)
-	logger.verbose('Root SEC is now decorated with env infos ✔', { Bowser: browser.getResult(), details: SEC.getAnalyticsDetails() })
+	//xxx.logger.verbose('Root SEC is now decorated with env infos ✔', { Bowser: browser.getResult(), details: SEC.getAnalyticsDetails() })
 }
 
 
