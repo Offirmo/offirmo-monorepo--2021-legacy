@@ -44,10 +44,15 @@
 			}
 		</style>
 		<script>
+			// immediately cut our connection to our parent
+			// so that the foreign tlk.io script can't escape the sandbox
+			window.parent = window
+
 			const LIB = '@offirmo/🖼💬/📦tlk.io'
 			console.log(`[${LIB}] Hello from head`, {
-				window,
-				document,
+				//window,
+				//document,
+				'window.parent': window.parent,
 				'window.location': window.location,
 				'document.referrer': document.referrer,
 				//searchParams: new URLSearchParams(window.location.search),
@@ -130,9 +135,6 @@
 				const css_overrides_url = !!searchParams.get('css_overrides_url')
 					? decodeURIComponent(searchParams.get('css_overrides_url'))
 					: (location.origin + '/tlk.io_overrides.css') // NOTE: should be absolute
-				const delay_ms    = searchParams.get('delay_ms')
-					? Number(searchParams.get('delay_ms'))
-					: 250
 
 				return {
 					id,
@@ -140,7 +142,6 @@
 					bg_color,
 					nickname,
 					css_overrides_url,
-					delay_ms,
 				}
 			})()
 
@@ -161,7 +162,7 @@
 
 				div.innerHTML = state.id === 'null'
 					? `([${LIB}] waiting for a reload with a channel id)`
-					: `<p>The chat is loading… <a href="https://tlk.io/${state.id}">(click here if it takes too long)</a></p>`
+					: `<p>The chat is loading…` // <a href="https://tlk.io/${state.id}">(click here if it takes too long)</a></p>`
 
 				document.body.appendChild(div)
 
@@ -190,10 +191,12 @@
 				script.importance = 'low'
 				script.src = 'https://tlk.io/embed.js'
 
-				//setTimeout(() => {
-					document.body.appendChild(script)
-					console.log(`[${LIB}] script inserted`)
-				//}, state.delay_ms)
+				// cut off the referrer in case tlk.io script is nosy
+				document.referrer = null
+
+				// note: this doesn't work if in a setTimeout()
+				document.body.appendChild(script)
+				console.log(`[${LIB}] script inserted`)
 			}
 
 			render()

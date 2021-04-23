@@ -71,9 +71,16 @@
 		</div>
 
 		<!-- group chat, outside of react control for DOM stability -->
-		<div id="group-chat-container" class="o⋄top-container">
-			<br><br>The chat should be loading here…
-		</div>
+		<iframe id="group-chat-container"
+			class="o⋄top-container"
+			title="chat"
+			width="100%"
+			height="800px"
+			referrerpolicy="same-origin"
+			allow=""
+			sandbox="allow-same-origin allow-scripts"
+			src="../node_modules/@offirmo-private/iframe--chat/dist/single-chat-container.html?id=null"
+		>The chat should load here</iframe>
 	</body>
 
 	<script async importance="high" src="./index-2.jsx"></script>

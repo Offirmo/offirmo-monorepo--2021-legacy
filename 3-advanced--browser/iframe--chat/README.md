@@ -7,6 +7,9 @@ API:
 
 ## Usage
 
+https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/5-incubator/active/iframe--chat/dist/single-chat-container.html
+
+
 ```html
 		<iframe id="group-chat-container"
 			class="o⋄top-container"
@@ -30,7 +33,6 @@ Properties:
 * `bg_color` defaulting to: [variable according to the theme]
 * `nickname` defaulting to: 'anonymousⵧ' + random id (stored in LS for stability)
 * `css_overrides_url` defaulting to: [none]
-* `delay_ms` = delay loading the chat (usually not critical) defaulting to: 250
 
 ## Dev
 

@@ -28,11 +28,11 @@
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@oh-my-rpg/audio-browser": "^0",
-		"@tbrpg/definitions": "^0",
 		"@oh-my-rpg/rsrc-backgrounds": "^0",
 		"@oh-my-rpg/view-browser-react": "^0",
 		"@oh-my-rpg/view-rich-text": "^0",
 		"@online-adventur.es/api-client": "^0",
+		"@tbrpg/definitions": "^0",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0",
 		"@tbrpg/state": "^0",
@@ -62,7 +62,7 @@
 		"copy-extra": "cp -f src/*.json src/google*.html dist",
 		"copy-favicons-for-webmanifest": "mkdir -p dist/favicons && cp -rf dist/android-chrome-512x512.*.png dist/favicons/android-chrome-512x512.png",
 
-		"start:parcel": "PARCEL_AUTOINSTALL=false parcel --no-minify src/index-2.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
+		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index-2.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 		"copy-extra--dev": "mkdir -p .parcel && cp -f src/index.html .parcel && cp -f src/build.json .parcel",
 		"dev": "npm-run-all clean refresh-build-variables refresh-loading-template --parallel start:parcel copy-extra--dev",
 
