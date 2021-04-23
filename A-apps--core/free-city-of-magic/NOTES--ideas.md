@@ -11,3 +11,35 @@ The libraries had copyist workshops, and the general organisation of books allow
 - Literary criticisms in order to establish reference texts for the copy (example : The Iliad and The Odyssey)
 - A catalog of books
 - The copy itself, which allowed books to be disseminated
+-
+
+Social
+- sharing food! (banquets)
+- tournaments!
+- sharing knowledge
+- sharing skilled workers
+
+
+- fortifications + towers
+- force field
+- flying city (at some point)
+- digging below and finding ancient stuff + ore
+- teleportation gate
+- friendly and enemy barbarians
+- altered spaces (bigger inside), ex. university and magic academy, library
+- pocket universe (safe)
+
+
+embassies
+
+mines
+
+ancient wonders
+
+ascension
+
+moving the city
+
+underground / sewers
+
+university

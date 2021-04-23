@@ -7,17 +7,45 @@ API:
 
 ## Usage
 
-http://localhost:1234/single-chat-container.html?channel_id=tbrpg&theme=pop&bg_color=yellow&nickname=admin
+```html
+		<iframe id="group-chat-container"
+			class="o⋄top-container"
+			title="chat"
+			width="100%"
+			height="800px"
+			referrerpolicy="same-origin"
+			allow=""
+			sandbox="allow-same-origin allow-scripts"
+			src="../node_modules/@offirmo-private/iframe--chat/src/single-chat-container.html?id=test&nickname=dev&theme=night"
+		>The chat should load here</iframe>
 
-https://www.offirmo.net/offirmo-monorepo/5-incubator/active/iframe--chat/src/single-chat-container.html
+xsrc="../../src/single-chat-container.html?id=test&nickname=dev&theme=night&bg_color=transparent"
+src="../../src/single-chat-container.html?id=none"
+xxsrc="../../src/single-chat-container.html?id=test&theme=pop&bg_color=yellow&nickname=dev"
+```
 
-### tlk.io
+Properties:
+* `id` = channel id, [a-z\-]*, defaulting to: referrer hostname (sanitized). Special value: `null` = won't load the chat (useful for early loading that needs to wait for data)
+* `theme` defaulting to: 'minimal'
+* `bg_color` defaulting to: [variable according to the theme]
+* `nickname` defaulting to: 'anonymousⵧ' + random id (stored in LS for stability)
+* `css_overrides_url` defaulting to: [none]
+* `delay_ms` = delay loading the chat (usually not critical) defaulting to: 250
+
+## Dev
+
+### demo files
+
+* http://localhost:1234/doc/demo/demo.html
+* http://localhost:1234/__/__/src/single-chat-container.html?theme=pop&bg_color=yellow&nickname=admin
+
+### tlk.io interface
 
 - channel name
 - theme: Day | Night | Pop | Minimal
 - custom CSS
 - custom nickname `data-nickname="somename"`
-- note: the chat has a breakpoint at <765px (or 762?)
+- note: the chat has a breakpoint at <765px (or 762? depending )
 
 ```html
 <div id="tlkio"
@@ -29,5 +57,3 @@ https://www.offirmo.net/offirmo-monorepo/5-incubator/active/iframe--chat/src/sin
 ></div>
 <script async src="//tlk.io/embed.js" type="text/javascript"></script>
 ```
-
-

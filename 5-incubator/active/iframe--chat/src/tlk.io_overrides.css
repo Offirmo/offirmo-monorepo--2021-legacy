@@ -1,8 +1,7 @@
 header {
-	xxdisplay: none;
+	display: none;
 }
 
 header .header-avatar {
 	display: none;
 }
-

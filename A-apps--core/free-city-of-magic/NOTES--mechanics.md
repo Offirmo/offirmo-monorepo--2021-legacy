@@ -8,16 +8,3 @@ upgradable buildings
 
 slots?
 
-embassies
-
-mines
-
-ancient wonders
-
-force field
-
-ascension
-
-moving the city
-
-underground / sewers

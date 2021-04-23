@@ -15,9 +15,12 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist …cache",
 
-		"start:parcel": "parcel --out-dir .parcel --no-autoinstall src/*.html src/*.css",
+		"start:parcel--demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
 
-		"demo": "run-s clean start:parcel"
+		"build:parcel": "parcel build --no-minify src/*.html src/*.css --public-url ./",
+
+		"demo": "run-s clean start:parcel--demo",
+		"build": "npm-run-all clean build:parcel"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",

@@ -5,7 +5,7 @@
 	<title>demo.html</title>
 
 	<style>
-		@import "../../../../3-advanced--browser/view-css/src/style.css";
+		@import "../../../../../3-advanced--browser/view-css/src/style.css";
 
 		/*:root {
 			--bg: transparent;
@@ -32,8 +32,15 @@
 		referrerpolicy="same-origin"
 		allow=""
 		sandbox="allow-same-origin allow-scripts"
-		src="./single-chat-container.html?channel_id=test&nickname=dev&theme=night&bg_color=transparent"
-		xxsrc="./single-chat-container.html?channel_id=test&theme=pop&bg_color=yellow&nickname=dev"
+		xsrc="../../src/single-chat-container.html?id=null"
+		src="../../src/single-chat-container.html?id=test&nickname=dev&theme=night&bg_color=transparent"
+		xxsrc="../../src/single-chat-container.html?id=test&theme=pop&bg_color=yellow&nickname=dev"
 	>The chat should load here</iframe>
+
+	<script>
+		window.addEventListener('message', ({data, origin, source}) => {
+			console.log('📥 PM seen', { data, origin, source })
+		}, false)
+	</script>
 </body>
 </html>
