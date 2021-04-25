@@ -48,7 +48,7 @@ export default class OhMyRPGView extends PureComponent {
 		<span key="social" className="omr⋄bottom-menu⁚icon icomoon-eagle-emblem"
 			onClick={() => this.activate_panel('social')}/>,
 		<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation"
-			onClick={() => GroupChat.toggle()}/>,
+			onClick={() => GroupChat.toggle_visibility()}/>,
 	]
 
 	static getDerivedStateFromProps(nextProps, prevState) {

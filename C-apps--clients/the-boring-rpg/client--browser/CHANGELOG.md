@@ -12,10 +12,10 @@
 - 😷 chore: bump dependencies
 
 ## TODO
-- 😅 TODO fix: the chat
 
 
 ## v0.66.2
+- 😅 fix: the chat is back!
 - 😅 fix: diversity supporter detection was broken (no one was a diversity supporter anymore)
 - 😷 chore: reorganised code internally
 - 😷 chore: bump dependencies

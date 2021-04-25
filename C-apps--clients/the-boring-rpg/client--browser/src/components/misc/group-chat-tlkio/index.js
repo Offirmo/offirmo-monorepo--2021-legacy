@@ -3,16 +3,17 @@ import logger from '../../../services/logger'
 import './index.css'
 
 const LIB = 'group chat SaaS (tlk.io)'
-const PARENT_ID = 'group-chat-container'
-const PARENT_OPEN_CLASS = 'group-chat-container--open'
-const ELEMENT_ID = 'tlkio'
-const ERROR_ELEMENT_ID = 'tlkio'
+const CSS_CLASS__OPEN = 'group-chat-container--open'
+const ELEMENT_ID = 'group-chat-container'
+
+//const ELEMENT_ID = 'tlkio'
+//const ERROR_ELEMENT_ID = 'tlkio'
 
 /*
 function report_error() {
 	console.error(`${LIB}: error, timeout waiting for chat to load!`)
 
-	const parent = document.getElementById(PARENT_ID)
+	const parent = document.getElementById(ELEMENT_ID)
 
 	const error_elem = document.getElementById(ERROR_ELEMENT_ID) || document.createElement('div')
 	error_elem.id = ERROR_ELEMENT_ID
@@ -31,14 +32,16 @@ function report_error() {
 }
 */
 
-// TODO use an iframe!
-function restart({channel_id, nickname} = {}) {
+export function restart({channel_id, nickname}) {
+	console.log(`${LIB}: restart()`, {channel_id, nickname})
+
 	if (!channel_id)
 		throw new Error(`${LIB}: can’t set up chat without a channel id!`)
 
-	const parent = document.getElementById(PARENT_ID)
-	if (!parent)
-		throw new Error(`${LIB}: can’t set up chat without a #${PARENT_ID} parent!`)
+
+	const iframe_elem = document.getElementById(ELEMENT_ID)
+	if (!iframe_elem)
+		throw new Error(`${LIB}: can’t set up chat without a #${ELEMENT_ID} parent!`)
 
 	/*
 	setTimeout(() => {
@@ -49,26 +52,42 @@ function restart({channel_id, nickname} = {}) {
 	}, 5000)
 */
 
-	let optimization_delay_ms = 2000 // the chat has a lower priority and the browser should not try to load it asap
-	if (document.getElementById(ELEMENT_ID))
-		optimization_delay_ms = 0 // no need
+	// the chat has a lower priority and the browser should not try to load it asap
+	let optimization_delay_ms = iframe_elem.classList.contains(CSS_CLASS__OPEN)
+		? 0
+		: 1000
 
-	setTimeout(/*XXX*/() => {
-		console.info('starting the chat...')
-		let anchor_elem = document.getElementById(ELEMENT_ID)
-		if (anchor_elem) {
-			logger.warn(`${LIB}: replacing an existing instance. This may not work well!`)
-			anchor_elem.parentNode.removeChild(anchor_elem)
-		}
-		anchor_elem = document.createElement('div')
-		anchor_elem.id = ELEMENT_ID
-		anchor_elem.className = 'o⋄top-container'
-		anchor_elem.setAttribute('data-theme', 'theme--night')
-		anchor_elem.setAttribute('data-channel', channel_id)
+	const current_src = new URL(iframe_elem.src)
+	const new_src = current_src.origin
+		+ current_src.pathname
+		+ '?'
+		+ new URLSearchParams({
+			id: channel_id,
+			theme: 'night',
+			//bg_color: 'yellow',
+			nickname,
+			//css_overrides_url,
+		})
+	console.log(LIB, {
+		current_src,
+		new_src,
+	})
+
+	setTimeout(() => {
+		console.log(LIB + ' switching src…')
+		iframe_elem.src = new_src
+	}, optimization_delay_ms)
+
+		/*
+		iframe_elem = document.createElement('iframe')
+		iframe_elem.id = ELEMENT_ID
+		iframe_elem.className = 'o⋄top-container'
+		iframe_elem.setAttribute('data-theme', 'theme--night')
+		iframe_elem.setAttribute('data-channel', channel_id)
 		if (nickname)
-			anchor_elem.setAttribute('data-nickname', nickname)
+			iframe_elem.setAttribute('data-nickname', nickname)
 
-		parent.appendChild(anchor_elem)
+		iframe_elem.appendChild(iframe_elem)
 
 		// add script
 		// https://stackoverflow.com/a/26478358/587407
@@ -79,22 +98,18 @@ function restart({channel_id, nickname} = {}) {
 		//script_elem.src = `${document.location.protocol || 'https:'}//tlk.io/embed.js`
 		script_elem.src = 'https://tlk.io/embed.js'
 		const scripts = document.getElementsByTagName('script')[0].parentNode
-		scripts.appendChild(script_elem)
-	}, optimization_delay_ms)
+		scripts.appendChild(script_elem)*/
+	//}, optimization_delay_ms)
 }
 
-function toggle() {
-	console.log(`${LIB}: toggle`)
+export function toggle_visibility() {
+	console.log(`${LIB}: toggle_visibility()`)
 
-	const drawer = document.getElementById(PARENT_ID)
 
-	if (drawer.classList.contains(PARENT_OPEN_CLASS))
-		drawer.classList.remove(PARENT_OPEN_CLASS)
+	const drawer = document.getElementById(ELEMENT_ID)
+
+	if (drawer.classList.contains(CSS_CLASS__OPEN))
+		drawer.classList.remove(CSS_CLASS__OPEN)
 	else
-		drawer.classList.add(PARENT_OPEN_CLASS)
-}
-
-export {
-	restart,
-	toggle,
+		drawer.classList.add(CSS_CLASS__OPEN)
 }
