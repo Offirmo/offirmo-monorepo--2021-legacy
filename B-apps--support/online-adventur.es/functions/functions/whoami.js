@@ -21674,7 +21674,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.3.0';
+var SDK_VERSION = '6.3.1';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
@@ -22757,10 +22757,7 @@ function enhanceEventWithSdkInfo(event, sdkInfo) {
     if (!sdkInfo) {
         return event;
     }
-    event.sdk = event.sdk || {
-        name: sdkInfo.name,
-        version: sdkInfo.version,
-    };
+    event.sdk = event.sdk || {};
     event.sdk.name = event.sdk.name || sdkInfo.name;
     event.sdk.version = event.sdk.version || sdkInfo.version;
     event.sdk.integrations = core_node_modules_tslib_tslib_es6_spread((event.sdk.integrations || []), (sdkInfo.integrations || []));
@@ -22943,6 +22940,41 @@ var base_BaseTransport = /** @class */ (function () {
     BaseTransport.prototype.close = function (timeout) {
         return this._buffer.drain(timeout);
     };
+    /**
+     * Extracts proxy settings from client options and env variables.
+     *
+     * Honors `no_proxy` env variable with the highest priority to allow for hosts exclusion.
+     *
+     * An order of priority for available protocols is:
+     * `http`  => `options.httpProxy` | `process.env.http_proxy`
+     * `https` => `options.httpsProxy` | `options.httpProxy` | `process.env.https_proxy` | `process.env.http_proxy`
+     */
+    BaseTransport.prototype._getProxy = function (protocol) {
+        var e_1, _a;
+        var _b = process.env, no_proxy = _b.no_proxy, http_proxy = _b.http_proxy, https_proxy = _b.https_proxy;
+        var _c = this.options, httpProxy = _c.httpProxy, httpsProxy = _c.httpsProxy;
+        var proxy = protocol === 'http' ? httpProxy || http_proxy : httpsProxy || httpProxy || https_proxy || http_proxy;
+        if (!no_proxy) {
+            return proxy;
+        }
+        var _d = this._api.getDsn(), host = _d.host, port = _d.port;
+        try {
+            for (var _e = __values(no_proxy.split(',')), _f = _e.next(); !_f.done; _f = _e.next()) {
+                var np = _f.value;
+                if (host.endsWith(np) || (host + ":" + port).endsWith(np)) {
+                    return;
+                }
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_f && !_f.done && (_a = _e.return)) _a.call(_e);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+        return proxy;
+    };
     /** Returns a build request option object used by request */
     BaseTransport.prototype._getRequestOptions = function (uri) {
         var headers = __assign(__assign({}, this._api.getRequestHeaders(SDK_NAME, SDK_VERSION)), this.options.headers);
@@ -23029,7 +23061,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
     function HTTPTransport(options) {
         var _this = _super.call(this, options) || this;
         _this.options = options;
-        var proxy = options.httpProxy || process.env.http_proxy;
+        var proxy = _this._getProxy('http');
         _this.module = external_http_;
         _this.client = proxy
             ? new (__webpack_require__(87))(proxy)
@@ -23064,7 +23096,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
     function HTTPSTransport(options) {
         var _this = _super.call(this, options) || this;
         _this.options = options;
-        var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
+        var proxy = _this._getProxy('https');
         _this.module = external_https_;
         _this.client = proxy
             ? new (__webpack_require__(87))(proxy)
@@ -23373,7 +23405,7 @@ var baseclient_BaseClient = /** @class */ (function () {
         }
         else {
             this._sendSession(session);
-            // After sending, we set init false to inidcate it's not the first occurence
+            // After sending, we set init false to indicate it's not the first occurrence
             session.update({ init: false });
         }
     };
@@ -23619,10 +23651,10 @@ var baseclient_BaseClient = /** @class */ (function () {
      * @param event The event that will be filled with all integrations.
      */
     BaseClient.prototype._applyIntegrationsMetadata = function (event) {
-        var sdkInfo = event.sdk;
         var integrationsArray = Object.keys(this._integrations);
-        if (sdkInfo && integrationsArray.length > 0) {
-            sdkInfo.integrations = integrationsArray;
+        if (integrationsArray.length > 0) {
+            event.sdk = event.sdk || {};
+            event.sdk.integrations = core_node_modules_tslib_tslib_es6_spread((event.sdk.integrations || []), integrationsArray);
         }
     };
     /**
@@ -24939,7 +24971,7 @@ function sdk_close(timeout) {
     });
 }
 /**
- * A function that returns a Sentry release string dynamically from env variables
+ * Returns a release dynamically from environment variables.
  */
 function getSentryRelease() {
     // Always read first as Sentry takes this as precedence

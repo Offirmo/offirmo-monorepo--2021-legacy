@@ -1,0 +1,1 @@
+{"version":3,"sources":["tlk.io_overrides.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"tlk.io_overrides.css","sourceRoot":"../src","sourcesContent":["header {\n\tdisplay: none;\n}\n\nheader .header-avatar {\n\tdisplay: none;\n}\n"]}
