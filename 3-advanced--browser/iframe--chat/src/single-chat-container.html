@@ -93,11 +93,7 @@
 
 	<body class="o⋄body⁚full-page o⋄top-container">
 		<script>
-			console.log(`[${LIB}] Hello from head`, {
-				'window.location': window.location,
-				'document.referrer': document.referrer,
-				//searchParams: new URLSearchParams(window.location.search),
-			})
+			//console.log(`[${LIB}] Hello from body`)
 
 			// alter/fix the defaults above according to params
 			const state = (() => {
@@ -196,7 +192,7 @@
 
 				// note: this doesn't work if in a setTimeout()
 				document.body.appendChild(script)
-				console.log(`[${LIB}] script inserted`)
+				console.log(`[${LIB}] script inserted✔`)
 			}
 
 			render()

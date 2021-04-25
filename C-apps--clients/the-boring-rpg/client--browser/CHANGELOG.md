@@ -15,6 +15,7 @@
 
 
 ## v0.66.2
+2021/04/26
 - 😅 fix: the chat is back!
 - 😅 fix: diversity supporter detection was broken (no one was a diversity supporter anymore)
 - 😷 chore: reorganised code internally
