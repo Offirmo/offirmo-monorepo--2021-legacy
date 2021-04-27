@@ -41,6 +41,9 @@ This is a trivial, isomorphic, straightforward, TypeScript-compatible [singleton
 **Be sure to review your options** before using the singleton pattern.
 While there are legitimate usages, it can also be a code smell close to a global variable.
 
+See also:
+* [memoize-one](https://github.com/alexreardon/memoize-one) if you simply want a single call
+
 ```typescript
 // "@offirmo/tiny-singleton": "^0",
 import tiny_singleton from '@offirmo/tiny-singleton'

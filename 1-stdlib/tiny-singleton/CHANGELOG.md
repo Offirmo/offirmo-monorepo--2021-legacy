@@ -2,7 +2,9 @@
 **This package follows [semver](https://semver.org/).**
 
 ## pending
-* TODO check the semantic (once?) + duplication handling
+* TODO check the semantic (once?) + duplication handling + global + 1st call wins (regardless of the params)
+  * use golbalThis to ensure there is no accidental duplication due to incorrect bundling or bundle split?
+* [doc]++
 * [chore] bumped deps
 * ...
 
