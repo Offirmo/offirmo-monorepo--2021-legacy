@@ -9,10 +9,10 @@ import improve_console_groups from './better-console-groups/practical-logger'
 const ORIGINAL_CONSOLE = console
 
 
-const install_groups_or_not_once_for_all = tiny_singleton((active: boolean) => { if (active) improve_console_groups() })
+const _install_groups_or_not_once_for_all = tiny_singleton((active: boolean) => { if (active) improve_console_groups() })
 
-function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logger {
-	install_groups_or_not_once_for_all(p.sinkOptions?.betterGroups !== false)
+export function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logger {
+	_install_groups_or_not_once_for_all(p.sinkOptions?.betterGroups !== false)
 
 	const sink: LogSink = p.sinkOptions?.sink || create(p.sinkOptions)
 
@@ -23,11 +23,6 @@ function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logg
 		groupCollapsed,
 		groupEnd,
 	}
-}
-
-
-export {
-	createLogger,
 }
 
 export * from '@offirmo/practical-logger-types'
