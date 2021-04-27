@@ -17,9 +17,9 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo/tiny-singleton": "^0",
 		"@oh-my-rpg/rsrc-audio": "^0",
 		"howler": "^2",
+		"memoize-one": "^5",
 		"tiny-invariant": "^1"
 	},
 

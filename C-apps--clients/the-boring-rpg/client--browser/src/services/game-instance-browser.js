@@ -3,7 +3,7 @@
 import { Enum } from 'typescript-string-enums'
 import Bowser from 'bowser'
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
-import tiny_singleton from '@offirmo/tiny-singleton'
+import memoize_one from 'memoize-one'
 import assert from 'tiny-invariant'
 
 import { create_game_instance } from '@tbrpg/flux'
@@ -18,7 +18,7 @@ export const ACCOUNT_STATE = Enum(
 	'error', // needed?
 )
 
-const get = tiny_singleton(() => getRootSEC().xTry('creating game instance', ({SEC, logger}) => {
+const get = memoize_one(() => getRootSEC().xTry('creating game instance', ({SEC, logger}) => {
 	const INITIAL_APP_STATE = {
 		// can change:
 		mode: 'explore',

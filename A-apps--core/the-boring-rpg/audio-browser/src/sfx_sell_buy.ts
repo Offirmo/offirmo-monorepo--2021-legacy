@@ -1,8 +1,9 @@
-import tiny_singleton from '@offirmo/tiny-singleton'
+import memoize_one from 'memoize-one'
 import { Howl } from 'howler'
 import sfx_sell_buy from '@oh-my-rpg/rsrc-audio/src/sfx_sell_buy'
 
-const get = tiny_singleton(() => new Howl({
+// lazy-load + no duplication
+const get = memoize_one(() => new Howl({
 	src: [ sfx_sell_buy ],
 }))
 

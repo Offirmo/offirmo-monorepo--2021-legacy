@@ -46,7 +46,9 @@
 		<script>
 			// immediately cut our connection to our parent
 			// so that the foreign tlk.io script can't escape the sandbox
+			// https://stackoverflow.com/questions/67223608/how-can-an-iframe-remove-its-own-sandboxing
 			window.parent = window
+			window.top = window
 
 			const LIB = '@offirmo/🖼💬/📦tlk.io'
 			console.log(`[${LIB}] Hello from head`, {

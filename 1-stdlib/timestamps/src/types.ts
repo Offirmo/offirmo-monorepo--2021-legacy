@@ -1,15 +1,7 @@
 
-type TimestampUTCMs = number
+export type TimestampUTCMs = number
 
-type HumanReadableTimestampUTCDays = string
-type HumanReadableTimestampUTCMinutes = string
-type HumanReadableTimestampUTCSeconds = string
-type HumanReadableTimestampUTCMs = string
-
-export {
-	TimestampUTCMs,
-	HumanReadableTimestampUTCDays,
-	HumanReadableTimestampUTCMinutes,
-	HumanReadableTimestampUTCSeconds,
-	HumanReadableTimestampUTCMs,
-}
+export type HumanReadableTimestampUTCDays = string
+export type HumanReadableTimestampUTCMinutes = string
+export type HumanReadableTimestampUTCSeconds = string
+export type HumanReadableTimestampUTCMs = string

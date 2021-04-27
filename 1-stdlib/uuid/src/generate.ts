@@ -1,6 +1,5 @@
 /////////////////////
 
-// TODO NOT USE nanoid!!
 import { nanoid, customRandom, urlAlphabet } from 'nanoid'
 
 import { Random, Engine } from '@offirmo/random'

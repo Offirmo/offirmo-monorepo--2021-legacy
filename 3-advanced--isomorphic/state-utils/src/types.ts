@@ -6,16 +6,20 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 export interface WithSchemaVersion {
 	schema_version: number
 }
-// represents user-initiated changes
+// count of user-initiated *changes*
+// (should not increment if an action triggers no change)
 export interface WithRevision {
 	revision: number
+}
+// time of last user-initiated *change*
+// (*may* increment even if an action triggers no change, as it's an indicator of freshness TODO clarify)
+export interface WithLastUserActionTimestamp {
+	last_user_action_tms: TimestampUTCMs
 }
 export interface WithTimestamp {
 	timestamp_ms: TimestampUTCMs
 }
-export interface WithLastUserActionTimestamp {
-	last_user_action_tms: TimestampUTCMs
-}
+
 
 
 export interface BaseState extends WithSchemaVersion, WithRevision {

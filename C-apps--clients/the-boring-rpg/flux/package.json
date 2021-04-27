@@ -27,7 +27,6 @@
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/deferred": "^4",
 		"@offirmo/globalthis-ponyfill": "^3",
-		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@tbrpg/definitions": "^0",
 		"@tbrpg/state--character": "^0",

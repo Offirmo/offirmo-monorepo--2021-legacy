@@ -43,7 +43,6 @@
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/uuid": "^0",
-		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-node": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@tbrpg/definitions": "^0",

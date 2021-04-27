@@ -27,15 +27,16 @@ console.log(`🔧  🔻 Cleaning ${stylize_string.bold(PKG_NAME)} [${cli.input}]
 Promise.all(cli.input
 	.map(dir => {
 		switch(dir) {
+
 			case '…dist':
 				return fs.remove(path.join(PKG_PATH, 'dist'))
+
 			case '…cache':
 				return Promise.all([
 					fs.remove(path.join(PKG_PATH, '.cache')),
 					fs.remove(path.join(PKG_PATH, '.parcel')),
 				])
-			case '…deps': // TODO useful?
-				return fs.remove(path.join(PKG_PATH, 'node_modules'))
+
 			default:
 				return fs.remove(path.join(PKG_PATH, dir))
 		}

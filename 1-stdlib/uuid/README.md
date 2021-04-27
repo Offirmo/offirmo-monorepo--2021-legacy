@@ -1,6 +1,6 @@
 UUID
 
-TODO remove the monstruous dependency on crypto!
+TODO remove the monstruous dependency on crypto! or  NOT USE nanoid!!
 
 ```js
 /*

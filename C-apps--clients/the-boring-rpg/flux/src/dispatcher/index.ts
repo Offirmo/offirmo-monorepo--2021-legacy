@@ -1,5 +1,4 @@
 import assert from 'tiny-invariant'
-import { tiny_singleton } from '@offirmo/tiny-singleton'
 import { Immutable, get_schema_version_loose, is_RootState, get_base_loose } from '@offirmo-private/state-utils'
 import { dequal as is_deep_equal } from 'dequal'
 
@@ -70,7 +69,3 @@ export function create(
 		}
 	})
 }
-
-/*
-export const get: (SEC: OMRSoftExecutionContext) => Dispatcher = tiny_singleton(create)
-*/
