@@ -66,6 +66,8 @@
 		"copy-extra--dev": "mkdir -p .parcel && cp -f src/index.html .parcel && cp -f src/build.json .parcel",
 		"dev": "npm-run-all clean refresh-build-variables refresh-loading-template --parallel start:parcel copy-extra--dev",
 
+		"start:x": "snowpack dev",
+
 		"build": "npm-run-all clean refresh-build-variables refresh-loading-template build:parcel copy-extra copy-favicons-for-webmanifest"
 	},
 	"devDependencies": {

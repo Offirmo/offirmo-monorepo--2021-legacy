@@ -13,6 +13,17 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"size-limit": [
+		{
+			"limit": "250b",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "250b",
+			"path": "dist/src.es2019.cjs/index.js"
+		}
+	],
+
 	"peerDependencies": {
 		"tslib": "^2"
 	},
@@ -26,14 +37,19 @@
 
 		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod",
+
 		"cheatsheet": "node doc/cheatsheet.js"
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^7",
-		"npm-run-all": "^4"
+		"@size-limit/preset-small-lib": "^4",
+		"np": "^7",
+		"npm-run-all": "^4",
+		"size-limit": "^4"
 	}
 }
