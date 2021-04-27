@@ -35,7 +35,10 @@ node_modules
 .~lock.*
 ## caches
 .cache
+## parcel 1
 .parcel
+## parcel 2
+.parcel-cache
 
 
 ## may be auto-generated (shouldn't), but not used
