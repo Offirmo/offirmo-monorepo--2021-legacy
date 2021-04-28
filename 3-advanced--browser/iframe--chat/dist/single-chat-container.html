@@ -43,7 +43,9 @@
 			}</style>
 		<script>// immediately cut our connection to our parent
 // so that the foreign tlk.io script can't escape the sandbox
+// https://stackoverflow.com/questions/67223608/how-can-an-iframe-remove-its-own-sandboxing
 window.parent = window;
+window.top = window;
 const LIB = '@offirmo/🖼💬/📦tlk.io';
 console.log(`[${LIB}] Hello from head`, {
   //window,
@@ -81,12 +83,8 @@ window.addEventListener('unhandledrejection', function (evt) {
 	</head>
 
 	<body class="o⋄body⁚full-page o⋄top-container">
-		<script>console.log(`[${LIB}] Hello from head`, {
-  'window.location': window.location,
-  'document.referrer': document.referrer //searchParams: new URLSearchParams(window.location.search),
-
-}); // alter/fix the defaults above according to params
-
+		<script>//console.log(`[${LIB}] Hello from body`)
+// alter/fix the defaults above according to params
 const state = (() => {
   const searchParams = new URLSearchParams(window.location.search);
 
@@ -172,7 +170,7 @@ function render() {
   document.referrer = null; // note: this doesn't work if in a setTimeout()
 
   document.body.appendChild(script);
-  console.log(`[${LIB}] script inserted`);
+  console.log(`[${LIB}] script inserted✔`);
 }
 
 render();</script>

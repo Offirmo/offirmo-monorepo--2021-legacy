@@ -49,7 +49,7 @@ class ErrorBoundary extends React.Component {
 			}
 
 			// You can also log error messages to an error reporting service here
-			logger.error(`Error caught in boundary "${name}"`, {
+			logger.error(`Error caught in react-error-boundary@"${name}"`, {
 				error,
 				errorInfo,
 				isMounted: this.mounted,
@@ -77,8 +77,8 @@ class ErrorBoundary extends React.Component {
 				<div key={name} className={`o⋄error-report error-boundary-report-${name}`} style={{padding: '.3em'}}>
 					<h2 style={{margin: '0'}}>Boundary "{name}": Something went wrong</h2>
 					<details open={false} style={{ whiteSpace: 'pre-wrap', margin: '.3em 0' }}>
-						<summary>{error && error.toString()}</summary>
-						{errorInfo && errorInfo.componentStack.trim()}
+						<summary>{(error ?? 'unknown error').toString()}</summary>
+						{(errorInfo?.componentStack ?? '').trim()}
 					</details>
 					<a href="https://github.com/Offirmo/offirmo-monorepo/issues"
 					   target="_blank"
