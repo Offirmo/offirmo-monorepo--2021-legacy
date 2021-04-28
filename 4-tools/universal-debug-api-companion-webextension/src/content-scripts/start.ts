@@ -71,6 +71,9 @@ if (should_inject) {
 	// https://stackoverflow.com/a/30106551/587407
 	const scriptElement0 = document.createElement('script')
 	scriptElement0.innerHTML = `
+// injected by the webextension "Offirmo’s Universal Web Dev Tool"
+// = Utility to decode base 64 properly
+// credits: https://stackoverflow.com/a/30106551/587407
 function _UWDT_b64DecodeUnicode(str) {
 	// Going backwards: from bytestream, to percent-encoding, to original string.
 	return decodeURIComponent(atob(str).split('').map(function(c) {
@@ -82,11 +85,19 @@ function _UWDT_b64DecodeUnicode(str) {
 	// TODO download up-to-date Universal Web Debug API from somewhere?
 	// not for now, not even published to npm.
 	const scriptElement1 = document.createElement('script')
-	scriptElement1.innerHTML = `eval(_UWDT_b64DecodeUnicode("${lib1}"))`
+	scriptElement1.innerHTML = `
+// injected by the webextension "Offirmo’s Universal Web Dev Tool"
+// = Universal Web Debug API library, browser version
+eval(_UWDT_b64DecodeUnicode("${lib1}"))
+`
 	document.documentElement.prepend(scriptElement1)
 
 	const scriptElement2 = document.createElement('script')
-	scriptElement2.innerHTML = `eval(_UWDT_b64DecodeUnicode("${lib2}"))`
+	scriptElement2.innerHTML = `
+// injected by the webextension "Offirmo’s Universal Web Dev Tool"
+// = control code to communicate with the webextension
+eval(_UWDT_b64DecodeUnicode("${lib2}"))
+`
 	document.documentElement.prepend(scriptElement2)
 
 	// TODO allow 3rd-party addons (for the debug command feature)
