@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Component, Fragment, createRef } from 'react'
 import ToolTip from 'react-portal-tooltip'
 import { Modal } from 'react-overlays'

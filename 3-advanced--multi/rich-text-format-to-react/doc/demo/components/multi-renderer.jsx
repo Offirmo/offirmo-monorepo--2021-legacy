@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Component } from 'react'
 
 import ErrorBoundary from '@offirmo-private/react-error-boundary'

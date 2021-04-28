@@ -1,7 +1,5 @@
 'use strict'
 
-import * as React from 'react'
-
 import {
 	to_react,
 	generate_react_key,

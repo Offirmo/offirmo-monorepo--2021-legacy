@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import MetaPanel from '../../panels/meta'
 import './index.css'
 

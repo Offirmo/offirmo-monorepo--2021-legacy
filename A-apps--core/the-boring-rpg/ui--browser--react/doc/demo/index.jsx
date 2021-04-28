@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import { set_xoff_flag } from '@offirmo-private/xoff'

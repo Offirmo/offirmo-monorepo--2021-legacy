@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react';
 
 import ErrorBoundary from '@offirmo/react-error-boundary'
 import SwipeableViews from 'react-swipeable-views'

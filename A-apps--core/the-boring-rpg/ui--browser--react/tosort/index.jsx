@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import { ScaleDown as BurgerMenu } from 'react-burger-menu'
 import ErrorBoundary from '@offirmo/react-error-boundary'
