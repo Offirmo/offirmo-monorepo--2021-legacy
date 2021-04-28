@@ -9,6 +9,7 @@
 * TODO [fix] ugly styling
 * TODO bump dependencies (major)
 * [test] TODO unit tests!
+* [chore] new JSX transform (internal)
 * [chore] bumped dependencies (minor)
 * ...
 

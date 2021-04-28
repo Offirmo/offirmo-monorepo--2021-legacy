@@ -1,5 +1,4 @@
 import assert from 'tiny-invariant'
-import * as React from 'react'
 import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
