@@ -4,13 +4,11 @@
 		"@babel/plugin-proposal-object-rest-spread"
 	],
 	"presets": [
-		[
-			"@babel/preset-env",
-			{
-				"targets": {
-					"browsers": [ "extends @offirmo/browserlist-config" ]
-				}
+
+		["@babel/preset-env",{
+			"targets": {
+				"browsers": [ "extends @offirmo/browserslist-config" ]
 			}
-		]
+		}]
 	]
 }

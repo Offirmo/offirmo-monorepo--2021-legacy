@@ -80,8 +80,13 @@ module.exports = {
 		'mocha/no-exclusive-tests': 'error',
 		'node/no-extraneous-require': 'off',  // TODO, too much noise for now
 		'node/no-unsupported-features/es-syntax': 'off',  // TODO, too much noise for now
+
+		// react
 		'react/display-name': 'off',  // TODO, too much noise for now
 		'react/prop-types': 'off',  // TODO, too much noise for now
+		// using the new jsx transform https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
+		"react/jsx-uses-react": "off",
+		"react/react-in-jsx-scope": "off",
 
 		// typescript globals
 		'@typescript-eslint/camelcase': 'off',

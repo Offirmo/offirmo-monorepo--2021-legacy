@@ -3,10 +3,13 @@
 		"@babel/plugin-proposal-export-default-from"
 	],
 	"presets": [
-		[  "@babel/preset-env",
-			{
-				"useBuiltIns": "usage"
-			}
-		]
+
+		[ "@babel/preset-env", {
+			"debug": true,
+			"bugfixes": true,
+			"shippedProposals": true,
+			"useBuiltIns": "usage",
+			"corejs": { "version": "3.11", "proposals": true }
+		}]
 	]
 }

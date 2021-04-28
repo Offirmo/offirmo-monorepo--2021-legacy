@@ -70,6 +70,7 @@
 		"cli-columns": "^3",
 		"cli-progress": "^3",
 		"columnify": "^1",
+		"core-js": "^3.11",
 		"deep-freeze-strict": "^1",
 		"deepmerge": "^4",
 		"dequal": "^2",

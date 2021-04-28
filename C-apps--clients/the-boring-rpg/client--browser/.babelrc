@@ -3,13 +3,15 @@
 		"@babel/plugin-proposal-export-default-from"
 	],
 	"presets": [
-		[
-			"@babel/preset-env",
-			{
-				"targets": {
-					"browsers": [ "extends @offirmo/browserslist-config" ]
-				}
+
+		["@babel/preset-react", {
+			"runtime": "automatic"
+		}],
+
+		["@babel/preset-env",{
+			"targets": {
+				"browsers": [ "extends @offirmo/browserslist-config" ]
 			}
-		]
+		}]
 	]
 }
