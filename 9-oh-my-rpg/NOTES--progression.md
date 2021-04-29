@@ -1,6 +1,6 @@
 
 
-Guild level
+Guild level https://en.wikipedia.org/wiki/Academic_grading_in_Japan
 F
 E
 D
@@ -9,9 +9,15 @@ B
 A
 S
 
+https://en.wikipedia.org/wiki/Latin_honors
 
 Inventory
 * bigger bags https://game-icons.net/tags/bag.html
+  * basket https://thenounproject.com/term/basket/198121/  https://thenounproject.com/term/basket/1685338/
+  * small backpack https://thenounproject.com/term/backpack/2551/
+  * https://thenounproject.com/term/backpack/74337/
+  * https://thenounproject.com/term/backpack/301770/
+  * https://thenounproject.com/term/backpack/65884/
 * spatial bags
 * soul bags
 
