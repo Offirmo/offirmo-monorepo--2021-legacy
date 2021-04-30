@@ -91,7 +91,7 @@ const PUNCTUATION = ''
 // crossy
 // ※ ⁜ ⁕ ⊹ ⋇ ☸ ⎈ ⌖
 // futuristic
-// ⌬ ⎊ ⎔ ⏣ ⑀ ⑁ ⑂ ⑃ ⑄ ⟐ ⟓ ⟔ ⟠ ⟡ ⟁
+// ⌬ ⎊ ⎔ ⏣ ⑀ ⑁ ⑂ ⑃ ⑄ ⟐ ⟓ ⟔ ⟠ ⟡ ⟁ Ⴈ Ⴄ Ⴌ Ⴞ Ⴖ Ⴙ ୦ ଽ ୮ ୲ ୵ ᄀ ᄂ ᄃ ᄅ ᄆ ᄇ ᄏ ᄐᎰ Ꮁ
 // boxy https://jrgraphix.net/r/Unicode/2500-257F
 // dotsy https://jrgraphix.net/r/Unicode/2800-28FF
 

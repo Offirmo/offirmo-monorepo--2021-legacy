@@ -19,6 +19,7 @@
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
 		"@offirmo-private/state-utils": "^0",
+		"@offirmo/error-utils": "^0",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"json-stable-stringify": "^1",
