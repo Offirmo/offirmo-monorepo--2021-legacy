@@ -99,7 +99,7 @@ function render(options) {
 	let result = base
 
 	// coercions
-	if (hair === HAIR.brown && )
+	//if (hair === HAIR.brown && )
 	if (!is_skin_tone_applied) {
 		is_skin_tone_applied = true
 		result = result + skin

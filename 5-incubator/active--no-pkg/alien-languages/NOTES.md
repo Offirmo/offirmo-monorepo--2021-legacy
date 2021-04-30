@@ -5,5 +5,15 @@ Concepts
     * basic english
     * https://en.wikipedia.org/wiki/Simplified_Technical_English
     * https://en.wikipedia.org/wiki/Attempto_Controlled_English
-* most frequent words https://en.wikipedia.org/wiki/Most_common_words_in_English
-* basic English
+* most frequent words
+  * https://en.wikipedia.org/wiki/Most_common_words_in_English
+    * https://en.wikipedia.org/wiki/Swadesh_list
+    * https://en.wikipedia.org/wiki/Academic_Word_List vs. https://en.wikipedia.org/wiki/General_Service_List
+  * https://simple.wikipedia.org/wiki/Wikipedia:List_of_1000_basic_words
+  * globish 1500 https://simple.wikipedia.org/wiki/Globish
+  * top 100 https://simple.wikipedia.org/wiki/Most_common_words_in_English
+  * basic English https://simple.wikipedia.org/wiki/Basic_English
+    * https://simple.wikipedia.org/wiki/Wikipedia:Basic_English_alphabetical_wordlist
+    * https://simple.wikipedia.org/wiki/Wikipedia:Basic_English_ordered_wordlist
+    * https://en.wiktionary.org/wiki/Appendix:Basic_English_word_list
+

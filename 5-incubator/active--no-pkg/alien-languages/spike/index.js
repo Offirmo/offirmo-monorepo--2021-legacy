@@ -14,7 +14,86 @@ const { NORMALIZERS } = require('../../../../3-advanced--isomorphic/normalize-st
 const assert = require('tiny-invariant').default
 
 const SPACES = ` \t\n`
-const PUNCTUATION = `.,!:;?'"-()`
+const PUNCTUATION = ''
+	+ `!"%'()*+,-./:;=?` // basic latin https://jrgraphix.net/r/Unicode/0020-007F
+
+////////////////////////////////////
+
+// languages
+// IPA Extensions https://jrgraphix.net/r/Unicode/0250-02AF
+// ɑ ɒ c ɔ ɾ ɿ ʌ ʍ ʘ ʟ
+// Greek and Coptic https://jrgraphix.net/r/Unicode/0370-03FF
+// ͼ ͽ Γ Δ Θ Ι Κ Λ Π Ο Τ Υ Χ ϴ Ϲ Ͻ Ͼ Ͽ
+// Cyrillic https://jrgraphix.net/r/Unicode/0400-04FF
+// Armenian https://jrgraphix.net/r/Unicode/0530-058F
+// ֍ ֎
+// Oriya https://jrgraphix.net/r/Unicode/0B00-0B7F
+// ୦ ଽ ୮ ୲ ୵
+// Telugu https://jrgraphix.net/r/Unicode/0C00-0C7F
+// ౦ ౧ ౩
+// https://jrgraphix.net/r/Unicode/0D80-0DFF
+// ෴
+// https://jrgraphix.net/r/Unicode/0E00-0E7F
+// ๏
+// Tibetan https://jrgraphix.net/r/Unicode/0F00-0FFF
+// ࿓ ࿔ ༄ ༅ ༒ ༓ ༚ ༛ ༜ ༝ ༞ ༟ ࿎ ࿏ ༶ ࿊ ࿋ ࿌
+// Myanmar https://jrgraphix.net/r/Unicode/1000-109F
+// ဂ ပ င ၁ ၀ ၐ ၑ စ ႎ ဓ ၜ
+// Georgian https://jrgraphix.net/r/Unicode/10A0-10FF
+// Ⴈ Ⴄ Ⴌ Ⴞ Ⴖ Ⴙ
+// Hangul Jamo https://jrgraphix.net/r/Unicode/1100-11FF
+// ᄀ ᄂ ᄃ ᄅ ᄆ ᄇ ᄏ ᄐ
+// Ethiopic https://jrgraphix.net/r/Unicode/1200-137F
+// ፟ ፠ ፡ ፧ ። ፨
+// Cherokee https://jrgraphix.net/r/Unicode/13A0-13FF
+// Ꮀ Ꮁ
+// Unified Canadian Aboriginal Syllabics https://jrgraphix.net/r/Unicode/1400-167F
+// ᐁ ᐌ ᐍ
+// ᐅ ᐆ ᐇ ᐈ ᐉ ᐒ ᐓ ᐔ ᐕ ᐖ
+// ᐎ ᐏ ᐐ ᐑ ᐂ ᐃ ᐄ
+// ᐊ ᐋ ᐘ ᐙ ᐚ ᐛ ᐗ
+// ᐫ ᐬ ᐭ ᐮ
+// ᐯ ᐺ ᐻ
+// ᐳ ᐴ ᐵ ᐶ ᐷ ᑀ ᑁ ᑂ ᑃ
+// ᐸ ᐹ ᑄ ᑅ ᑆ ᑇ ᑈ
+// ᐼ ᐽ ᐾ ᐿ ᐰ ᐱ ᐲ
+// ᑌ ᑗ ᑘ
+// ᑍ ᑎ ᑏ ᑙ ᑚ ᑛ ᑜ
+// ᑐ ᑑ ᑒ ᑓ ᑔ ᑝ ᑞ ᑟ ᑠ
+// ᑕ ᑖ ᑡ ᑢ ᑣ ᑤ ᑥ
+// ᒣ ᒬ ᒭ
+// ᒤ ᒥ ᒦ ᒮ ᒯ ᒰ ᒱ
+// ᒧ ᒨ ᒩ ᒲ ᒳ ᒴ ᒵ
+// ᒪ ᒫ ᒶ ᒷ ᒸ ᒹ ᒺ
+// Runic https://jrgraphix.net/r/Unicode/16A0-16FF
+// ᚠ ᚡ ᚴ ᚵ ᚶ
+// ᚢ ᚣ ᚤ ᚥ ᛷ
+// ᚨ ᚩ ᚪ ᚫ
+// ᚬ ᚭ ᚮ ᚯ
+// ᚱ ᚳ
+// ᚸ ᚹ ᚺ ᚻ ᚼ
+// ᚽ ᚾ ᚿ ᛀ ᛅ ᛆ ᛐ ᛑ ᛙ ᛚ ᛛ ᛮ
+// ᛇ ᛢ ᛈ ᛊ ᛋ
+// ᛒ ᛓ ᛖ ᛗ ᛘ ᛉ ᛠ ᛳ
+// ᛝ ᛞ ᛟ ᛡ ᛤ ᛥ
+// ᛩ ᛪ ᛯ ᛰ ᛱ ᛲ ᛴ ᛵ ᛶ
+// ᛸ ᛣ ᛦ
+// Mongolian https://jrgraphix.net/r/Unicode/1800-18AF
+
+// magic (runes)
+//
+// imaginary language: roundy
+// ʘ၀ၐၑစႎဓ◴◵◶◷ၜ⊚⌾⊝⌀∅⊘ᛰ⊕⊖⊗⊙⊛⊜⌽⍉⍜⍟⎉⎊⏀⏼☉⚆⚇⚯
+//
+// triangly
+// ⋈ ⋉ ⋊ ⋋ ⋌ ⋖ ⋗ ⟨ ⟩
+// squary
+// crossy
+// ※ ⁜ ⁕ ⊹ ⋇ ☸ ⎈ ⌖
+// futuristic
+// ⌬ ⎊ ⎔ ⏣ ⑀ ⑁ ⑂ ⑃ ⑄ ⟐ ⟓ ⟔ ⟠ ⟡ ⟁
+// boxy https://jrgraphix.net/r/Unicode/2500-257F
+// dotsy https://jrgraphix.net/r/Unicode/2800-28FF
 
 ////////////////////////////////////
 
