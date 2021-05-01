@@ -17,7 +17,7 @@ import { create_user } from '../users'
 import { TABLE__KEY_VALUES } from './consts'
 import {
 	upsert_kv_entry,
-	set_kv_entry,
+	set_kv_entry_intelligently,
 	sync_kv_entry,
 } from './update'
 import {
@@ -194,12 +194,12 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 		})
 	})
 
-	describe('set_kv_entry()', function () {
+	describe('set_kv_entry_intelligently()', function () {
 
 		context('on basic json', function() {
 
 			it('should work in create condition', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_1,
@@ -213,7 +213,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should do nothing on identical data', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_1,
@@ -225,7 +225,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__old).to.deep.equal(null)
 				expect(actual.bkp__older).to.deep.equal(null)
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_1,
@@ -239,12 +239,12 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should always work in update condition -- change x3 = minor bkp pipeline', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_1,
 				})
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_2,
@@ -256,7 +256,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__old).to.deep.equal(null)
 				expect(actual.bkp__older).to.deep.equal(null)
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_3a,
@@ -273,7 +273,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 		context('on advanced Offirmo’s states', function() {
 
 			it('should work in create condition', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: DEMO_ROOT_STATE,
@@ -287,7 +287,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should do nothing on identical data', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: DEMO_ROOT_STATE,
@@ -299,7 +299,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__old).to.deep.equal(null)
 				expect(actual.bkp__older).to.deep.equal(null)
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: DEMO_ROOT_STATE,
@@ -313,13 +313,13 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should work in update condition -- same schema version x3 = minor bkp pipeline', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v10_103,
 				})
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v10_123,
@@ -330,7 +330,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__old, 'o1').to.deep.equal(null)
 				expect(actual.bkp__older, 'oo1').to.deep.equal(null)
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v10_124,
@@ -341,7 +341,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__old, 'o2').to.deep.equal(null)
 				expect(actual.bkp__older, 'oo2').to.deep.equal(null)
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v10_125,
@@ -383,13 +383,13 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 					}
 				}
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_0,
 				})
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_1,
@@ -400,7 +400,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__old, 'o1').to.deep.equal(TEST_ADV_DATA_0)
 				expect(actual.bkp__older, 'oo1').to.deep.equal(null)
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_2,
@@ -411,7 +411,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__old, 'o2').to.deep.equal(TEST_ADV_DATA_1)
 				expect(actual.bkp__older, 'oo2').to.deep.equal(TEST_ADV_DATA_0)
 
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_3,
@@ -426,12 +426,12 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			it('should work in update condition -- real case, increasing everything = full bkp pipeline', async () => {
 				const user_id = TEST_USER1_ID
 				const key = 'foo'
-				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_v1_1 })
-				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_v1_2 })
-				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_v2_10 })
-				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_v2_11 })
-				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_v3_30 })
-				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_v3_31 })
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v1_1 })
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v1_2 })
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v2_10 })
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v2_11 })
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v3_30 })
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v3_31 })
 
 				const actual = (await get({ user_id, key }))!
 				expect(actual.value,       'v').to.deep.equal(TEST_ADV_DATA_v3_31)
@@ -441,13 +441,13 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should throw on older data -- minor', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v10_123,
 				})
 
-				await expect(set_kv_entry({
+				await expect(set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v10_103,
@@ -462,13 +462,13 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should throw on older data -- major', async () => {
-				await set_kv_entry({
+				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v3_30,
 				})
 
-				await expect(set_kv_entry({
+				await expect(set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v2_11,

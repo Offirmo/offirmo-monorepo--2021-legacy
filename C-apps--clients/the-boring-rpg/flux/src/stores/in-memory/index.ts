@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
-import { Immutable, get_revision_loose, get_semantic_difference, SemanticDifference, get_base_loose } from '@offirmo-private/state-utils'
+import { Immutable, get_revision_loose, fluid_select, get_base_loose } from '@offirmo-private/state-utils'
 
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store } from '../../types'
@@ -26,13 +26,13 @@ export function create(
 		/////////////////////////////////////////////////
 
 		function set(new_state: Immutable<State>): void {
-			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
-			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), semantic_difference })
+			const has_valuable_difference = fluid_select(new_state).has_valuable_difference_with(state)
+			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), has_valuable_difference })
 
 			if (!state) {
 				logger.trace(`${LIB}.set(): init ✔`)
 			}
-			else if (semantic_difference === SemanticDifference.none) {
+			else if (!has_valuable_difference) {
 				logger.trace(`${LIB}.set(): no semantic change ✔`)
 				return
 			}
@@ -56,11 +56,10 @@ export function create(
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
-			const semantic_difference = get_semantic_difference(state, previous_state, { assert_newer: false })
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
 				current_rev: get_revision_loose(previous_state as any),
 				new_rev: get_revision_loose(state as any),
-				semantic_difference,
+				//semantic_difference,
 			})
 			if (state === previous_state) {
 				return

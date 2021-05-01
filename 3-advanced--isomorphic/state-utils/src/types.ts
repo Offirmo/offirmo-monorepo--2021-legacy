@@ -53,6 +53,7 @@ export interface StateInfos extends WithSchemaVersion, WithRevision, WithLastUse
 
 // TODO review
 export type AnyOffirmoState<
+	B extends BaseState = BaseState,
 	U extends BaseUState = BaseUState,
 	T extends BaseTState = BaseTState,
-> = U | T | UTBundle<U, T> | BaseRootState<U, T>
+> = B | U | T | UTBundle<U, T> | BaseRootState<U, T>

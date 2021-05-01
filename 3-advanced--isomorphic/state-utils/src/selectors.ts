@@ -12,6 +12,7 @@ import {
 	UTBundle,
 	BaseRootState,
 	StateInfos,
+	AnyOffirmoState,
 } from './types'
 import {
 	is_WithSchemaVersion,
@@ -59,7 +60,7 @@ export function get_schema_version_loose<
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
->(s: Immutable<V> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
+>(s: Immutable<V> | Immutable<AnyOffirmoState>): number {
 	if (has_versioned_schema(s))
 		return get_schema_version(s)
 
@@ -102,7 +103,7 @@ export function get_revision_loose<
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
->(s: Immutable<V> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
+>(s: Immutable<V> | Immutable<AnyOffirmoState>): number {
 	if (is_revisioned(s))
 		return get_revision(s)
 
@@ -143,9 +144,9 @@ export function get_timestamp_loose<
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
->(s: Immutable<V> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
+>(s: Immutable<V> | Immutable<AnyOffirmoState>): number {
 	if (is_time_stamped(s))
-		return get_timestamp(s)
+		return get_timestamp(s as any)
 
 	// specific fallbacks:
 	// loose bundles
@@ -159,10 +160,11 @@ export function get_timestamp_loose<
 
 export function get_last_user_activity_timestamp<
 	T extends WithLastUserActivityTimestamp,
+	B extends BaseState,
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
-	>(s: Immutable<T> | Immutable<BR>): number {
+>(s: Immutable<T> | Immutable<BR>): number {
 	assert(is_WithLastUserActivityTimestamp(s), 'get_last_user_activity_timestamp() structure')
 	const { last_user_activity_tms } = s
 	assert(Number.isSafeInteger(last_user_activity_tms), 'get_last_user_activity_timestamp() safeInteger')
@@ -171,11 +173,12 @@ export function get_last_user_activity_timestamp<
 }
 
 export function get_last_user_activity_timestamp_loose<
-	V extends WithTimestamp,
+	V extends WithLastUserActivityTimestamp,
+	B extends BaseState,
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
->(s: Immutable<V> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
+>(s: Immutable<V> | Immutable<AnyOffirmoState>): number {
 	if (is_WithLastUserActivityTimestamp(s))
 		return get_last_user_activity_timestamp(s)
 
@@ -185,12 +188,12 @@ export function get_last_user_activity_timestamp_loose<
 
 
 export function get_base_loose<
-	VR extends WithSchemaVersion & WithRevision,
+	VR extends WithSchemaVersion & WithRevision & WithLastUserActivityTimestamp,
 	B extends BaseState,
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
->(s: Immutable<VR> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): Immutable<StateInfos> {
+>(s: Immutable<VR> | Immutable<AnyOffirmoState>): Immutable<StateInfos> {
 	return {
 		schema_version: get_schema_version_loose(s as any),
 		revision: get_revision_loose(s as any),

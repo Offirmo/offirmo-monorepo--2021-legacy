@@ -4,6 +4,7 @@ import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
 import { JSONObject, Storage } from '@offirmo-private/ts-types'
 import {
+	fluid_select,
 	Immutable,
 	get_schema_version_loose,
 	get_base_loose,
@@ -143,14 +144,13 @@ export function create(
 				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): echo from restoration, no change ✔`)
 				return false
 			}
-			const semantic_difference = get_semantic_difference(some_state, bkp__current, { assert_newer: false })
-			const is_different_enough = semantic_difference !== SemanticDifference.none && semantic_difference !== SemanticDifference.time
-			if (bkp__current && !is_different_enough) {
-				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): no relevant change ✔`, { semantic_difference })
+			const has_valuable_difference = fluid_select(some_state).has_valuable_difference_with(bkp__current)
+			if (bkp__current && !has_valuable_difference) {
+				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): no relevant change ✔`)
 				return false
 			}
 
-			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): ${semantic_difference} change…`)
+			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): valuable change…`)
 			const promises: Promise<any>[] = []
 			bkp__recent = bkp__current
 			bkp__current = some_state
@@ -180,23 +180,19 @@ export function create(
 			logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline()`, get_base_loose(legacy_state as any))
 
 			const most_recent_previous_major_version = bkp__older[0]
-			const semantic_difference = get_semantic_difference(legacy_state, most_recent_previous_major_version)
-			switch (semantic_difference) {
-				case SemanticDifference.none:
-				case SemanticDifference.time:
+			assert(fluid_select(legacy_state).has_higher_or_equal_schema_version_than(most_recent_previous_major_version))
+			const is_major_update = fluid_select(legacy_state).has_higher_schema_version_than(most_recent_previous_major_version)
+			if (is_major_update) {
+				bkp__older = [legacy_state, bkp__older[0]]
+			}
+			else {
+				const has_valuable_difference = fluid_select(legacy_state).has_valuable_difference_with(most_recent_previous_major_version)
+				if (!has_valuable_difference)
 					return false
 
-				case SemanticDifference.minor: {
-					bkp__older[0] = legacy_state
-					break
-				}
-				case SemanticDifference.major: {
-					bkp__older = [legacy_state, bkp__older[0]]
-					break
-				}
-				default:
-					throw new Error(`Unexpected difference when injecting into the major bkp pipeline: "${semantic_difference}"!`)
+				bkp__older[0] = legacy_state
 			}
+
 			logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline(): saving major`, get_base_loose(bkp__older[0] as any))
 			await _optimized_store_key_value(StorageKey.bkp_major_old, bkp__older[0])
 			if (bkp__older[1]) {
@@ -267,11 +263,11 @@ export function create(
 		/////////////////////////////////////////////////
 
 		function set(new_state: Immutable<State>): void {
-			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
+			const has_valuable_difference = fluid_select(new_state).has_valuable_difference_with(state)
 			logger.trace(`${LIB}.set()`, {
 				...get_base_loose(new_state),
 				...(state
-					? { previous: get_base_loose(state), semantic_difference }
+					? { previous: get_base_loose(state) }
 					: { previous: null }
 				),
 			})
@@ -279,7 +275,7 @@ export function create(
 			if (!state) {
 				logger.trace(`${LIB}.set(): init ✔`)
 			}
-			else if (semantic_difference === SemanticDifference.none) {
+			else if (!has_valuable_difference) {
 				logger.trace(`${LIB}.set(): no semantic change ✔`)
 				return
 			}
@@ -306,13 +302,13 @@ export function create(
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
-			const semantic_difference = get_semantic_difference(state, previous_state, { assert_newer: false })
+			const has_valuable_difference = fluid_select(state).has_valuable_difference_with(previous_state)
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
 				current_rev: get_revision_loose(previous_state as any),
 				new_rev: get_revision_loose(state as any),
-				semantic_difference,
+				has_valuable_difference,
 			})
-			if (semantic_difference === SemanticDifference.none) {
+			if (!has_valuable_difference) {
 				return
 			}
 

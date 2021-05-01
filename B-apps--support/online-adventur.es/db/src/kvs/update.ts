@@ -1,12 +1,9 @@
 const { deepStrictEqual: assertDeepStrictEqual } = require('assert').strict
+const { isDeepStrictEqual } = require('util')
 
 import assert from 'tiny-invariant'
-import {
-	has_versioned_schema,
-	is_RootState,
-	get_semantic_difference,
-	SemanticDifference,
-} from '@offirmo-private/state-utils'
+import { createError } from '@offirmo/error-utils'
+import { fluid_select } from '@offirmo-private/state-utils'
 
 import { WithoutTimestamps } from '../types'
 import get_db from '../db'
@@ -17,6 +14,7 @@ import { TABLE__KEY_VALUES } from './consts'
 import { get } from './read'
 
 ////////////////////////////////////
+
 
 export async function upsert_kv_entry<T>(
 	params: {
@@ -39,8 +37,8 @@ export async function upsert_kv_entry<T>(
 		key,
 		value: params.value,
 		bkp__recent: params.bkp__recent || null,
-		bkp__old:    params.bkp__old || null,
-		bkp__older:  params.bkp__older || null,
+		bkp__old:    params.bkp__old    || null,
+		bkp__older:  params.bkp__older  || null,
 	}
 
 	// inspired by
@@ -57,9 +55,11 @@ export async function upsert_kv_entry<T>(
 	logger.log('⭅ upserted a KV entry ✔')
 }
 
-const SPECIAL_ERROR_ATTRIBUTE_WHEN_OLDER = 'latest_from_db'
 
-export async function set_kv_entry<T>(
+const SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB = 'latest_from_db'
+
+
+export async function set_kv_entry_intelligently<T>(
 	params: {
 		user_id: PUser['id'],
 		key: string,
@@ -77,55 +77,54 @@ export async function set_kv_entry<T>(
 
 		// TODO validate JSON
 
-		// EXPECTED: calls to this function are expected from the oldest to the newest!
-		function enqueue_in_bkp_pipeline(old_val: any) {
-			if (!old_val) return
-			const semantic_difference = get_semantic_difference(value, old_val)
-			if (semantic_difference === 'major') {
-				enqueue_in_major_bkp_pipeline(old_val)
-			} else {
-				bkp__recent = old_val
-			}
-		}
-
-		// EXPECTED: values are presented from the oldest to the newest!
-		function enqueue_in_major_bkp_pipeline(old_val: any) {
-			const most_recent_previous_major_version = previous_major_versions[0]
-			const has_previous_major_version = !!most_recent_previous_major_version
-			if (!has_previous_major_version)
-				previous_major_versions.unshift(old_val)
-			else {
-				const semantic_difference = get_semantic_difference(old_val, most_recent_previous_major_version)
-				switch (semantic_difference) {
-					case 'minor':
-						previous_major_versions[0] = old_val
-						break
-					case 'major':
-						previous_major_versions.unshift(old_val)
-						break
-					default:
-						throw new Error(`Unexpected difference when injecting into the major bkp pipeline: "${semantic_difference}"!`)
-				}
-			}
-		}
-
 		let existing: PKeyValue<T> | null = params.existing_hint || null
 		existing = existing || await get<T>({ user_id, key }, trx)
 		if (existing) {
-			try {
-				assertDeepStrictEqual(value, existing.value)
+			if (isDeepStrictEqual(value, existing.value)) {
 				logger.log('⭅ intelligently set a KV entry = no change ✔')
 				return
 			}
-			catch {}
 
-			try {
-				// YES it's critical, that's how a lagging client will get the newest data
-				assert(get_semantic_difference(value, existing.value), 'new value should really be newer!')
+			const is_client_up_to_date = fluid_select(value).has_higher_or_equal_schema_version_than(existing.value)
+			if (!is_client_up_to_date) {
+				// since the client is online, it should update itself first!
+				// TODO review: or should we always succeed?
+				throw createError(`Old schema version, please update your client first!`, { statusCode: 426 }) // upgrade required
 			}
-			catch (err) {
-				err[SPECIAL_ERROR_ATTRIBUTE_WHEN_OLDER] = existing.value
-				throw err
+
+			const should_candidate_replace_existing = fluid_select(value).has_higher_investment_than(existing.value)
+			if (!should_candidate_replace_existing) {
+				// that's how a lagging client will get the newest/most invested in data
+				throw createError(`[internal] existing has precedence!`, { [SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]: existing.value })
+			}
+
+			// EXPECTED: calls to this function are expected from the oldest to the newest!
+			function enqueue_in_bkp_pipeline(old_val: any) {
+				if (!old_val) return
+
+				const is_major_update = fluid_select(value).has_higher_schema_version_than(old_val)
+				if (is_major_update) {
+					enqueue_in_major_bkp_pipeline(old_val)
+				} else {
+					bkp__recent = old_val
+				}
+			}
+
+			// EXPECTED: values are presented from the oldest to the newest!
+			function enqueue_in_major_bkp_pipeline(old_val: any) {
+				const most_recent_previous_major_version = previous_major_versions[0]
+				const has_previous_major_version = !!most_recent_previous_major_version
+				if (!has_previous_major_version)
+					previous_major_versions.unshift(old_val)
+				else {
+					const is_major_update = fluid_select(old_val).has_higher_schema_version_than(most_recent_previous_major_version)
+					if (is_major_update) {
+						previous_major_versions.unshift(old_val)
+					}
+					else {
+						previous_major_versions[0] = old_val
+					}
+				}
 			}
 
 			// IMPORTANT should enqueue from oldest to newest
@@ -154,6 +153,7 @@ export async function set_kv_entry<T>(
 	}
 }
 
+
 export async function sync_kv_entry<T>(
 	params: {
 		user_id: PUser['id'],
@@ -164,12 +164,12 @@ export async function sync_kv_entry<T>(
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<T> {
 	try {
-		await set_kv_entry(params, trx)
+		await set_kv_entry_intelligently(params, trx)
 		return params.value
 	}
 	catch (err) {
-		if (err[SPECIAL_ERROR_ATTRIBUTE_WHEN_OLDER]) {
-			return err[SPECIAL_ERROR_ATTRIBUTE_WHEN_OLDER]
+		if (err[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]) {
+			return err[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]
 		}
 		throw err
 	}

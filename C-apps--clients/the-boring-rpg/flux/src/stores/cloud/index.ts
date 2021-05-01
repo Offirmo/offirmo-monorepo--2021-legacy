@@ -6,6 +6,7 @@ import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { Immutable, Storage } from '@offirmo-private/ts-types'
 import {
+	fluid_select,
 	get_schema_version_loose,
 	get_base_loose,
 	get_semantic_difference,
@@ -123,14 +124,13 @@ export function create(
 			const _is_initialised = !!state
 			const _is_online = is_online(cloud_sync_state)
 			const _is_healthy = is_healthy(cloud_sync_state)
-			const semantic_difference = get_semantic_difference(state, last_known_cloud_state)
-			const _has_relevant_changes = semantic_difference === SemanticDifference.minor || semantic_difference === SemanticDifference.major
+			const _has_valuable_difference = fluid_select(state).has_valuable_difference_with(last_known_cloud_state)
 			const _has_recent_sync = has_recent_sync(cloud_sync_state)
 			const _should_sync = is_enabled
 				&& _is_initialised
 				&& _is_online
 				&& _is_healthy
-				&& (_has_relevant_changes || !_has_recent_sync)
+				&& (_has_valuable_difference || !_has_recent_sync)
 				&& !is_sync_in_flight
 			logger.trace(`[${LIB}] thinking about a sync… Is it appropriate?`, {
 				is_enabled,
@@ -139,8 +139,7 @@ export function create(
 				_is_healthy,
 				candidate_rev: get_revision_loose(state!),
 				last_known_cloud_rev: get_revision_loose(last_known_cloud_state!),
-				semantic_difference,
-				_has_relevant_changes,
+				_has_valuable_difference,
 				_has_recent_sync,
 				is_sync_in_flight,
 				_should_sync,
@@ -186,7 +185,7 @@ export function create(
 				logger.info(`[${LIB}] _sync_with_cloud() got result:`, result)
 
 				try {
-					const { data, side } = result
+					const {data, side} = result
 
 					if (side.tbrpg) {
 						if (side.tbrpg.NUMERIC_VERSION > NUMERIC_VERSION) {
@@ -199,7 +198,7 @@ export function create(
 									? (new_version - current_version) >= 0.01
 									: (new_version - current_version) >= 1
 
-								logger.warn(`[${LIB}] outdated client! TODO suggest update`, {
+								logger.warn(`[${ LIB }] outdated client! TODO suggest update`, {
 									current_version,
 									new_version,
 									is_major,
@@ -217,8 +216,7 @@ export function create(
 									}
 								}*/
 							}
-						}
-						else if (side.tbrpg.latest_news.length) {
+						} else if (side.tbrpg.latest_news.length) {
 							// TODO handle
 						}
 					}
@@ -233,28 +231,29 @@ export function create(
 					}
 
 					// sync result should always be >= by design
-					const semantic_difference = get_semantic_difference(last_known_cloud_state, state, { assert_newer: false })
-					logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, {
+					const semantic_difference = get_semantic_difference(last_known_cloud_state, state, {assert_newer: false})
+					logger.trace(`[${ LIB }] _sync_with_cloud() got savegame:`, {
 						local_base: get_base_loose(state!),
 						cloud_base: get_base_loose(last_known_cloud_state),
 						semantic_difference,
 					})
 
-					switch (semantic_difference) {
-						case SemanticDifference.major: {
-							assert(get_schema_version_loose(last_known_cloud_state) === SCHEMA_VERSION, 'schema version of cloud state should match')
-							break
+					const has_same_schema_version = fluid_select(last_known_cloud_state).has_same_schema_version_than(state)
+					if (!has_same_schema_version) {
+						// TODO trigger an update
+						assert(get_schema_version_loose(last_known_cloud_state) === SCHEMA_VERSION, 'schema version of cloud state should match')
+						assert(has_same_schema_version, 'schema version of cloud state should match')
+					}
+
+					const has_valuable_difference = fluid_select(last_known_cloud_state).has_valuable_difference_with(state)
+					if (has_valuable_difference) {
+						if (dispatcher) {
+							dispatcher.dispatch(create_action__set(TBRPGState.update_to_now(last_known_cloud_state)))
 						}
-						case SemanticDifference.minor: {
-							if (dispatcher) {
-								dispatcher.dispatch(create_action__set(TBRPGState.update_to_now(last_known_cloud_state)))
-							}
-							break
-						}
-						default:
-							// irrelevant diff, don't care
-							logger.verbose(`[${LIB}] _sync_with_cloud() = we are in sync with the cloud ✔`)
-							break
+					}
+					else {
+						// irrelevant diff, don't care
+						logger.verbose(`[${LIB}] _sync_with_cloud() = we are in sync with the cloud ✔`)
 					}
 				}
 				catch (err) {
@@ -306,14 +305,14 @@ export function create(
 		/////////////////////////////////////////////////
 
 		function set(new_state: Immutable<State>): void {
-			const semantic_difference = get_semantic_difference(new_state, state, { assert_newer: false })
-			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), semantic_difference })
+			const has_valuable_difference = fluid_select(new_state).has_valuable_difference_with(state)
+			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), has_valuable_difference })
 
 			if (!state) {
 				logger.trace(`${LIB}.set(): init ✔`)
 			}
-			else if (semantic_difference === SemanticDifference.none) {
-				logger.trace(`${LIB}.set(): no semantic change ✔`)
+			else if (!has_valuable_difference) {
+				logger.trace(`${LIB}.set(): no valuable change ✔`)
 				return
 			}
 
@@ -341,11 +340,11 @@ export function create(
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
-			const semantic_difference = get_semantic_difference(state, previous_state, { assert_newer: false })
+			const has_valuable_difference = fluid_select(state).has_valuable_difference_with(previous_state)
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
 				current_rev: get_revision_loose(previous_state!),
 				new_rev: get_revision_loose(state!),
-				semantic_difference,
+				has_valuable_difference,
 			})
 
 			// snoop on actions
@@ -366,7 +365,7 @@ export function create(
 					break
 			}
 
-			if (semantic_difference === SemanticDifference.none) {
+			if (!has_valuable_difference) {
 				return
 			}
 

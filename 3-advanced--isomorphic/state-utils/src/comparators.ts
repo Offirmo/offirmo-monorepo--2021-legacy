@@ -21,7 +21,7 @@ import { JSONObject } from '@offirmo-private/ts-types'
 // tslint:disable-next-line: variable-name
 export const SemanticDifference = Enum(
 	'none',
-	'time', // TODO refine this one
+	'time', // time of last activity, not T-State. Important to discriminate forks.
 	'minor',
 	'major',
 )
@@ -41,8 +41,10 @@ export function s_max(a: SemanticDifference, b: SemanticDifference): SemanticDif
 	return SemanticDifference.none
 }
 
+
 const _advanced_json_differ = jsondiffpatch.create({
-	// used to match objects when diffing arrays, by default only === operator is used
+	// method used to match objects when diffing arrays
+	// by default === operator is used
 	objectHash: (obj: any) => JSON.stringify(obj),
 })
 export const get_json_difference: (a: any, b: any) => JSONObject =
@@ -63,7 +65,7 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 	const older_schema_version = get_schema_version_loose(older)
 	//console.log({ newer_schema_version, older_schema_version })
 	if (assert_newer) {
-		assert(newer_schema_version >= older_schema_version, `get_semantic_difference() schema version order: ${newer_schema_version} >= ${older_schema_version}`)
+		assert(newer_schema_version >= older_schema_version, `get_semantic_difference() schema version order should: ${newer_schema_version} >= ${older_schema_version}`)
 	}
 	if (newer_schema_version !== older_schema_version)
 		return SemanticDifference.major
@@ -148,26 +150,26 @@ export function compare(a: any, b: any): number {
 	if (is_root__a !== is_root__b)
 		return (is_root__a ? 1 : 0) - (is_root__b ? 1 : 0)
 	if (is_root__a) {
-		const u_state_rev__a = get_revision(a.u_state)
-		const u_state_rev__b = get_revision(b.u_state)
+		const u_state_rev__a = get_schema_version_loose(a.u_state)
+		const u_state_rev__b = get_schema_version_loose(b.u_state)
 		if (u_state_rev__a !== u_state_rev__b)
 			return u_state_rev__a - u_state_rev__b
 
-		const t_state_rev__a = get_revision(a.t_state)
-		const t_state_rev__b = get_revision(b.t_state)
+		const t_state_rev__a = get_revision_loose(a.t_state)
+		const t_state_rev__b = get_revision_loose(b.t_state)
 		if (t_state_rev__a !== t_state_rev__b)
 			return t_state_rev__a - t_state_rev__b
 
-		const t_state_tms__a = get_timestamp(b.t_state)
-		const t_state_tms__b = get_timestamp(b.t_state)
-		if (t_state_tms__a !== t_state_tms__b)
-			return t_state_tms__a - t_state_tms__b
+		const activity_tms__a = get_last_user_activity_timestamp_loose(a)
+		const activity_tms__b = get_last_user_activity_timestamp_loose(b)
+		if (activity_tms__a !== activity_tms__b)
+			return activity_tms__a - activity_tms__b
 	}
 
-	const tms__a = get_timestamp_loose(a)
-	const tms__b = get_timestamp_loose(b)
-	if (tms__a !== tms__b)
-		return tms__a - tms__b
+	const activity_tms__a = get_last_user_activity_timestamp_loose(a)
+	const activity_tms__b = get_last_user_activity_timestamp_loose(b)
+	if (activity_tms__a !== activity_tms__b)
+		return activity_tms__a - activity_tms__b
 
 	return 0
 }

@@ -280,9 +280,7 @@ describe(`${LIB} - selectors`, function() {
 		it('should return 0 on non-matching', () => {
 			// @ts-expect-error
 			expect(get_timestamp_loose({ foo: 42 })).to.equal(0)
-			// @ts-expect-error
 			expect(get_timestamp_loose(DEMO_USTATE)).to.equal(0)
-			// @ts-expect-error
 			expect(get_timestamp_loose(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(0)
 		})
 	})
