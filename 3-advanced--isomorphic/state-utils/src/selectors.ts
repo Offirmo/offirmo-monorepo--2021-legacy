@@ -5,22 +5,27 @@ import {
 	WithSchemaVersion,
 	WithRevision,
 	WithTimestamp,
+	WithLastUserActivityTimestamp,
 	BaseState,
 	BaseTState,
 	BaseUState,
 	UTBundle,
 	BaseRootState,
+	StateInfos,
 } from './types'
 import {
 	is_WithSchemaVersion,
 	is_WithRevision,
 	is_WithTimestamp,
+	is_WithLastUserActivityTimestamp,
 	has_versioned_schema,
 	is_revisioned,
 	is_time_stamped,
 	is_RootState,
 	is_UTBundle,
 } from './type-guards'
+
+// loose = can recover from some legacy states (wrong structure) and will fallback to 0 if not a state (ex. undefined or unrecognized)
 
 
 export function get_schema_version<
@@ -29,15 +34,15 @@ export function get_schema_version<
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
-	>(s: Immutable<V> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
+>(s: Immutable<V> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
 
 	if (is_UTBundle(s)) {
-		assert(get_schema_version(s[0]) === get_schema_version(s[1]), 'get_schema_version() matching U & T versions!')
+		assert(get_schema_version(s[0]) === get_schema_version(s[1]), 'get_schema_version() U & T versions should match inside a bundle!')
 		return get_schema_version(s[0])
 	}
 
 	if (is_RootState(s)) {
-		assert(get_schema_version(s.u_state) === get_schema_version(s.t_state), 'get_schema_version() matching U & T versions!')
+		assert(get_schema_version(s.u_state) === get_schema_version(s.t_state), 'get_schema_version() U & T versions should match inside a root!')
 		return get_schema_version(s.u_state)
 	}
 
@@ -84,9 +89,9 @@ export function get_revision<
 		return get_revision(s.u_state) + get_revision(s.t_state)
 	}
 
-	assert(is_WithRevision(s), 'get_revision() structure')
+	assert(is_WithRevision(s), 'get_revision() should have a revision')
 	const { revision } = s
-	assert(Number.isSafeInteger(revision), 'get_revision() safeInteger')
+	assert(Number.isSafeInteger(revision), 'get_revision() should be a safeInteger')
 
 	return revision
 }
@@ -152,16 +157,43 @@ export function get_timestamp_loose<
 }
 
 
+export function get_last_user_activity_timestamp<
+	T extends WithLastUserActivityTimestamp,
+	BU extends BaseUState,
+	BT extends BaseTState,
+	BR extends BaseRootState,
+	>(s: Immutable<T> | Immutable<BR>): number {
+	assert(is_WithLastUserActivityTimestamp(s), 'get_last_user_activity_timestamp() structure')
+	const { last_user_activity_tms } = s
+	assert(Number.isSafeInteger(last_user_activity_tms), 'get_last_user_activity_timestamp() safeInteger')
+
+	return last_user_activity_tms
+}
+
+export function get_last_user_activity_timestamp_loose<
+	V extends WithTimestamp,
+	BU extends BaseUState,
+	BT extends BaseTState,
+	BR extends BaseRootState,
+>(s: Immutable<V> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
+	if (is_WithLastUserActivityTimestamp(s))
+		return get_last_user_activity_timestamp(s)
+
+	// final fallback
+	return 0
+}
+
+
 export function get_base_loose<
 	VR extends WithSchemaVersion & WithRevision,
 	B extends BaseState,
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
->(s: Immutable<VR> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): Immutable<BaseState> {
+>(s: Immutable<VR> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): Immutable<StateInfos> {
 	return {
 		schema_version: get_schema_version_loose(s as any),
 		revision: get_revision_loose(s as any),
-		// timestamp?
+		last_user_activity_tms: get_last_user_activity_timestamp_loose(s as any)
 	}
 }

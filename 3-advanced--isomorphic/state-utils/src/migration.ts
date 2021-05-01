@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Immutable } from '@offirmo-private/ts-types'
 
-import { BaseState, UTBundle, BaseRootState, OffirmoState, BaseUState, BaseTState } from './types'
+import { BaseState, UTBundle, BaseRootState, AnyOffirmoState, BaseUState, BaseTState } from './types'
 import {
 	AnyBaseState,
 	AnyBaseUState,
@@ -50,7 +50,7 @@ export type SubStatesMigrations = { [key: string]: GenericMigration }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function generic_migrate_to_latest<State extends OffirmoState>({
+export function generic_migrate_to_latest<State extends AnyOffirmoState>({
 	SEC,
 
 	LIB,
@@ -159,7 +159,7 @@ export function generic_migrate_to_latest<State extends OffirmoState>({
 			state = _migrate_sub_states__base<BaseState>(SEC, state as any, sub_states_migrate_to_latest, hints) as unknown as Immutable<State>
 		}
 		else {
-			assert(false, 'should be a recognized OffirmoState!')
+			assert(false, 'should be a recognized AnyOffirmoState!')
 		}
 
 		state = cleanup(SEC, state, hints)

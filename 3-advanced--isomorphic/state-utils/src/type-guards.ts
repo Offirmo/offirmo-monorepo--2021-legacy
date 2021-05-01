@@ -8,19 +8,22 @@ import {
 	BaseTState,
 	BaseUState,
 	BaseRootState,
-	UTBundle,
+	UTBundle, WithLastUserActivityTimestamp,
 } from './types'
 
 /////////////////////////////////////////////////
 
 export function is_WithSchemaVersion(s: Immutable<any>): s is WithSchemaVersion {
-	return Number.isInteger(s?.schema_version)
+	return Number.isInteger((s as WithSchemaVersion)?.schema_version)
 }
 export function is_WithRevision(s: Immutable<any>): s is WithRevision {
-	return Number.isInteger(s?.revision)
+	return Number.isInteger((s as WithRevision)?.revision)
 }
 export function is_WithTimestamp(s: Immutable<any>): s is WithTimestamp {
-	return Number.isInteger(s?.timestamp_ms)
+	return Number.isInteger((s as WithTimestamp)?.timestamp_ms)
+}
+export function is_WithLastUserActivityTimestamp(s: Immutable<any>): s is WithLastUserActivityTimestamp {
+	return Number.isInteger((s as WithLastUserActivityTimestamp)?.last_user_activity_tms)
 }
 
 /////////////////////////////////////////////////
@@ -68,4 +71,5 @@ export function is_UTBundle(s: Immutable<any>): s is UTBundle<BaseUState, BaseTS
 export function is_RootState(s: Immutable<any>): s is BaseRootState {
 	return is_UState(s?.u_state)
 		&& is_TState(s?.t_state)
+		&& is_WithLastUserActivityTimestamp(s)
 }

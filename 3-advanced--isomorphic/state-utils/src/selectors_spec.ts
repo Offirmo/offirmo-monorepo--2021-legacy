@@ -292,21 +292,21 @@ describe(`${LIB} - selectors`, function() {
 		it('should work', () => {
 			// @ts-expect-error
 			expect(get_base_loose('foo'))
-				.to.deep.equal({ schema_version: 0, revision: 0 })
+				.to.deep.equal({ schema_version: 0, revision: 0, last_user_activity_tms: 0 })
 
 			// @ts-expect-error
 			expect(get_base_loose({ revision: 33 }))
-				.to.deep.equal({ schema_version: 0, revision: 33 })
+				.to.deep.equal({ schema_version: 0, revision: 33, last_user_activity_tms: 0 })
 
 			// @ts-expect-error
 			expect(get_base_loose({ schema_version: 33 }))
-				.to.deep.equal({ schema_version: 33, revision: 0 })
+				.to.deep.equal({ schema_version: 33, revision: 0, last_user_activity_tms: 0 })
 
 			expect(get_base_loose(DEMO_USTATE))
-				.to.deep.equal({ schema_version: 5, revision: 24 })
+				.to.deep.equal({ schema_version: 5, revision: 24, last_user_activity_tms: 0 })
 
 			expect(get_base_loose(DEMO_ROOT_STATE))
-				.to.deep.equal({ schema_version: 8, revision: 136 })
+				.to.deep.equal({ schema_version: 8, revision: 136, last_user_activity_tms: 1234567890 })
 		})
 	})
 })
