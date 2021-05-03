@@ -17,9 +17,9 @@
 * CODE data = SANITIZED + DEFAULTED version of PERSISTENCE
 * BASE data = shared base type used to build the types above
 * SANITIZING = making user-entered data not harmful + normalized
-               we redo it on un-persist because the code may have improved!
+               we redo it on un-persist because the sanitizing code may have improved!
 * DEFAULTING = filling the holes with reasonable fallbacks (ex. gravatar)
-               we redo it on un-persist because the code may have improved!
+               we redo it on un-persist because the defaults may have improved!
 
 ### naming convention
 
