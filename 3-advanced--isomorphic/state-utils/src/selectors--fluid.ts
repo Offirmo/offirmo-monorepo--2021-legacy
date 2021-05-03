@@ -6,6 +6,7 @@ import {
 	get_schema_version_loose,
 	get_revision_loose,
 	get_last_user_activity_timestamp_loose,
+	get_base_loose,
 } from './selectors'
 
 
@@ -13,14 +14,8 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 	const schema_version__A = get_schema_version_loose(stateA)
 
 	return {
-		has_valuable_difference_with(stateB: Immutable<AnyOffirmoState>): boolean {
-			const schema_version__B = get_schema_version_loose(stateB)
-			assert(schema_version__A === schema_version__B, `has_valuable_difference_with() requires same schema versions`)
-
-			const revision__A = get_revision_loose(stateA)
-			const revision__B = get_revision_loose(stateB)
-			return revision__A !== revision__B
-		},
+		// separation of concerns
+		// comparing schema versions is not the same as comparing "effort/investment"
 		has_same_schema_version_than(stateB: Immutable<AnyOffirmoState>): boolean {
 			const schema_version__B = get_schema_version_loose(stateB)
 			return schema_version__A === schema_version__B
@@ -29,9 +24,23 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 			const schema_version__B = get_schema_version_loose(stateB)
 			return schema_version__A >= schema_version__B
 		},
+		has_higher_schema_version_than(stateB: Immutable<AnyOffirmoState>): boolean {
+			const schema_version__B = get_schema_version_loose(stateB)
+			return schema_version__A > schema_version__B
+		},
+
+		has_valuable_difference_with(stateB: Immutable<AnyOffirmoState>): boolean {
+			const schema_version__B = get_schema_version_loose(stateB)
+			assert(schema_version__A === schema_version__B, `has_valuable_difference_with() expects same schema versions`)
+
+			const revision__A = get_revision_loose(stateA)
+			const revision__B = get_revision_loose(stateB)
+			return revision__A !== revision__B
+		},
+
 		has_higher_investment_than(stateB: Immutable<AnyOffirmoState>): boolean {
 			const schema_version__B = get_schema_version_loose(stateB)
-			assert(schema_version__A === schema_version__B, `has_higher_investment_than() requires same schema versions`)
+			assert(schema_version__A === schema_version__B, `has_higher_investment_than() expects same schema versions`)
 
 			const revision__A = get_revision_loose(stateA)
 			const revision__B = get_revision_loose(stateB)
@@ -46,5 +55,18 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 
 			return false
 		},
+
+		get_debug_infos_about_comparison_with(stateB: Immutable<AnyOffirmoState>) {
+			return {
+				A: {
+					exists: !!stateA,
+					...get_base_loose(stateA)
+				},
+				B: {
+					exists: !!stateB,
+					...get_base_loose(stateB)
+				},
+			}
+		}
 	}
 }

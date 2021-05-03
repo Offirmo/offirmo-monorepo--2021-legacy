@@ -13,8 +13,8 @@ import {
 	get_json_difference,
 	SemanticDifference,
 	s_max,
-	get_semantic_difference,
-	compare,
+	//get_semantic_difference,
+	//compare,
 } from './comparators'
 import {
 	BaseRootState,
@@ -67,7 +67,7 @@ describe(`${LIB} - comparators`, function() {
 			})
 		})
 	})
-
+/*
 	describe('get_semantic_difference()', function() {
 
 		context('on basic json', function() {
@@ -367,5 +367,5 @@ describe(`${LIB} - comparators`, function() {
 				})
 			})
 		})
-	})
+	})*/
 })

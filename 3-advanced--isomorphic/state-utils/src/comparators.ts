@@ -10,10 +10,8 @@ import {
 } from './type-guards'
 import {
 	get_schema_version_loose,
-	get_revision,
 	get_revision_loose,
-	get_timestamp,
-	get_timestamp_loose,
+	get_last_user_activity_timestamp_loose,
 } from './selectors'
 import { JSONObject } from '@offirmo-private/ts-types'
 
@@ -52,6 +50,7 @@ export const get_json_difference: (a: any, b: any) => JSONObject =
 
 // newer and older so that we get order check as a side-effect
 // TODO improve unclear params
+/*
 export function get_semantic_difference(newer: any, older?: any, { assert_newer = true }: { assert_newer?: boolean } = {}): SemanticDifference {
 	//console.log({ newer, older })
 	assert(newer, `get_semantic_difference() should have a newer at least!`)
@@ -75,6 +74,7 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 		//console.log('root state')
 		const u_diff = get_semantic_difference(newer.u_state, older?.u_state, {assert_newer})
 		const t_diff = get_semantic_difference(newer.t_state, older?.t_state, {assert_newer})
+		const activity_diff =
 		const sub_diff = s_max(u_diff, t_diff)
 		//console.log({ u_diff, t_diff, sub_diff })
 		if (sub_diff === SemanticDifference.major)
@@ -131,7 +131,6 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 	return SemanticDifference.none
 }
 
-
 export function compare(a: any, b: any): number {
 	//console.log('compare()', { a, b })
 
@@ -175,3 +174,4 @@ export function compare(a: any, b: any): number {
 }
 
 export { dequal as is_deep_equal } from 'dequal'
+*/

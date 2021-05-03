@@ -47,7 +47,7 @@ export interface BaseRootState<U extends BaseUState = BaseUState, T extends Base
 }
 
 
-export interface StateInfos extends WithSchemaVersion, WithRevision, WithLastUserActivityTimestamp {
+export interface StateInfos extends WithSchemaVersion, WithRevision, WithTimestamp, WithLastUserActivityTimestamp {
 }
 
 

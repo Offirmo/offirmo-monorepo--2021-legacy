@@ -187,6 +187,7 @@ export function get_last_user_activity_timestamp_loose<
 }
 
 
+// TODO review name
 export function get_base_loose<
 	VR extends WithSchemaVersion & WithRevision & WithLastUserActivityTimestamp,
 	B extends BaseState,
@@ -197,6 +198,7 @@ export function get_base_loose<
 	return {
 		schema_version: get_schema_version_loose(s as any),
 		revision: get_revision_loose(s as any),
-		last_user_activity_tms: get_last_user_activity_timestamp_loose(s as any)
+		last_user_activity_tms: get_last_user_activity_timestamp_loose(s as any),
+		timestamp_ms: get_timestamp_loose(s as any),
 	}
 }
