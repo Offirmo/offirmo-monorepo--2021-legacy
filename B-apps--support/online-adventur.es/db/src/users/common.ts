@@ -1,9 +1,10 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import { NORMALIZERS, combine_normalizers } from '@offirmo-private/normalize-string'
 
 import { BaseUser, User, PUser } from './types'
 import {
 	logger,
-	deep_equals,
+	deep_equals_stable,
 	get_gravatar_url,
 
 	normalize_email_safe,
@@ -13,15 +14,15 @@ import {
 
 ////////////////////////////////////
 
-const DEFAULT_ROLES: Readonly<string[]> = []
+const DEFAULT_ROLES: Immutable<string[]> = []
 
-export function _infer_avatar_url(data: Readonly<BaseUser>): string {
+export function _infer_avatar_url(data: Immutable<BaseUser>): string {
 	//return get_gravatar_url(data.usual_email)
 	// https://github.com/Kikobeats/unavatar
 	return 'https://unavatar.now.sh/' + normalize_email_reasonable(data.raw_email)
 }
 
-export function _infer_called(data: Readonly<BaseUser>): string {
+export function _infer_called(data: Immutable<BaseUser>): string {
 	const [ local_part ] = normalize_email_reasonable(data.raw_email).split('@')
 
 	/*console.log({
@@ -46,8 +47,8 @@ export const _sanitize_called = combine_normalizers(
 /////////////////////
 
 export function sanitize_persisted<T extends BaseUser>(
-	input: Readonly<T>,
-): T {
+	input: Immutable<T>,
+): Immutable<T> {
 	const output = {
 		...input,
 		called: input.called ? _sanitize_called(input.called!) : undefined,
@@ -57,7 +58,7 @@ export function sanitize_persisted<T extends BaseUser>(
 		roles: Array.from(new Set([...input.roles])).sort(),
 	}
 
-	if (!deep_equals(input, output)) {
+	if (!deep_equals_stable(input, output)) {
 		logger.debug('FYI base was sanitized:', { input, output })
 	}
 
@@ -65,9 +66,9 @@ export function sanitize_persisted<T extends BaseUser>(
 }
 
 export function infer_defaults_from_persisted(
-	data: Readonly<PUser>,
+	data: Immutable<PUser>,
 ): User {
-	const { id, created_at, updated_at, ...base } = sanitize_persisted(data)
+	const base = extract_base(data)
 
 	return {
 		...base,
@@ -77,7 +78,7 @@ export function infer_defaults_from_persisted(
 	}
 }
 
-export function extract_base<T extends BaseUser>(user: Readonly<T>): BaseUser {
+export function extract_base<T extends BaseUser>(user: Immutable<T>): Immutable<BaseUser> {
 	const {
 		called,
 		raw_email,

@@ -1,9 +1,10 @@
 const { deepStrictEqual: assertDeepStrictEqual } = require('assert').strict
 const { isDeepStrictEqual } = require('util')
+import { Immutable } from '@offirmo-private/ts-types'
 
 import assert from 'tiny-invariant'
 import { createError } from '@offirmo/error-utils'
-import { fluid_select } from '@offirmo-private/state-utils'
+import { AnyOffirmoState, fluid_select } from '@offirmo-private/state-utils'
 
 import { WithoutTimestamps } from '../types'
 import get_db from '../db'
@@ -20,7 +21,7 @@ export async function upsert_kv_entry<T>(
 	params: {
 		user_id: PUser['id'],
 		key: string,
-		value: Readonly<T>,
+		value: Immutable<T>,
 		bkp__recent?: any
 		bkp__old?: any
 		bkp__older?: any
@@ -32,7 +33,7 @@ export async function upsert_kv_entry<T>(
 	const { user_id, key } = params
 
 	// TODO validate JSON
-	const data: WithoutTimestamps<PKeyValue<T>> = {
+	const data: Immutable<WithoutTimestamps<PKeyValue<T>>> = {
 		user_id,
 		key,
 		value: params.value,
@@ -56,15 +57,15 @@ export async function upsert_kv_entry<T>(
 }
 
 
-const SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB = 'latest_from_db'
+const SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB = '_latest_from_db'
 
 
 export async function set_kv_entry_intelligently<T>(
 	params: {
 		user_id: PUser['id'],
 		key: string,
-		value: Readonly<T>,
-		existing_hint?: PKeyValue<T>,
+		value: Immutable<T>,
+		//existing_hint?: PKeyValue<T>,
 	},
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<void> {
@@ -77,32 +78,39 @@ export async function set_kv_entry_intelligently<T>(
 
 		// TODO validate JSON
 
-		let existing: PKeyValue<T> | null = params.existing_hint || null
-		existing = existing || await get<T>({ user_id, key }, trx)
-		if (existing) {
-			if (isDeepStrictEqual(value, existing.value)) {
+		let existing_pipeline: PKeyValue<T> | null = /*params.existing_hint ||*/ null
+		existing_pipeline = /*existing_pipeline ||*/ await get<T>({ user_id, key }, trx)
+		logger.log('… intelligently setting a KV entry', {
+			//candidate: value,
+			//existing_pipeline,
+			...fluid_select(value as unknown as AnyOffirmoState)
+				.get_debug_infos_about_comparison_with(existing_pipeline?.value as unknown as AnyOffirmoState),
+		})
+
+		if (existing_pipeline) {
+			if (isDeepStrictEqual(value, existing_pipeline.value)) {
 				logger.log('⭅ intelligently set a KV entry = no change ✔')
 				return
 			}
 
-			const is_client_up_to_date = fluid_select(value).has_higher_or_equal_schema_version_than(existing.value)
+			const is_client_up_to_date = fluid_select(value as unknown as AnyOffirmoState).has_higher_or_equal_schema_version_than(existing_pipeline.value as unknown as AnyOffirmoState)
 			if (!is_client_up_to_date) {
 				// since the client is online, it should update itself first!
 				// TODO review: or should we always succeed?
 				throw createError(`Old schema version, please update your client first!`, { statusCode: 426 }) // upgrade required
 			}
 
-			const should_candidate_replace_existing = fluid_select(value).has_higher_investment_than(existing.value)
+			const should_candidate_replace_existing = fluid_select(value as unknown as AnyOffirmoState).has_higher_investment_than(existing_pipeline.value as unknown as AnyOffirmoState)
 			if (!should_candidate_replace_existing) {
 				// that's how a lagging client will get the newest/most invested in data
-				throw createError(`[internal] existing has precedence!`, { [SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]: existing.value })
+				throw createError(`[internal] existing has precedence!`, { [SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]: existing_pipeline.value })
 			}
 
 			// EXPECTED: calls to this function are expected from the oldest to the newest!
 			function enqueue_in_bkp_pipeline(old_val: any) {
 				if (!old_val) return
 
-				const is_major_update = fluid_select(value).has_higher_schema_version_than(old_val)
+				const is_major_update = fluid_select(value as unknown as AnyOffirmoState).has_higher_schema_version_than(old_val as unknown as AnyOffirmoState)
 				if (is_major_update) {
 					enqueue_in_major_bkp_pipeline(old_val)
 				} else {
@@ -128,13 +136,13 @@ export async function set_kv_entry_intelligently<T>(
 			}
 
 			// IMPORTANT should enqueue from oldest to newest
-			enqueue_in_bkp_pipeline(existing.bkp__older)
-			enqueue_in_bkp_pipeline(existing.bkp__old)
-			enqueue_in_bkp_pipeline(existing.bkp__recent)
-			enqueue_in_bkp_pipeline(existing.value)
+			enqueue_in_bkp_pipeline(existing_pipeline.bkp__older)
+			enqueue_in_bkp_pipeline(existing_pipeline.bkp__old)
+			enqueue_in_bkp_pipeline(existing_pipeline.bkp__recent)
+			enqueue_in_bkp_pipeline(existing_pipeline.value)
 		}
 
-		const data: WithoutTimestamps<PKeyValue<T>> = {
+		const data: Immutable<WithoutTimestamps<PKeyValue<T>>> = {
 			user_id,
 			key,
 			value: params.value,
@@ -158,19 +166,26 @@ export async function sync_kv_entry<T>(
 	params: {
 		user_id: PUser['id'],
 		key: string,
-		value: Readonly<T>,
-		existing_hint?: PKeyValue<T>,
+		value: Immutable<T>,
+		//existing_hint?: PKeyValue<T>,
 	},
 	trx: ReturnType<typeof get_db> = get_db()
-): Promise<T> {
+): Promise<Immutable<T>> {
+	logger.log('⭆ syncing a KV entry...', { params })
+
 	try {
 		await set_kv_entry_intelligently(params, trx)
+		logger.log('⭅ intelligently sync’ed a KV entry ✅')
 		return params.value
 	}
 	catch (err) {
-		if (err[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]) {
-			return err[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]
+		const existing_value_with_precedence = err?.details?.[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]
+		if (existing_value_with_precedence) {
+			logger.log('⭅ intelligently sync’ed a KV entry ❎')
+			return existing_value_with_precedence
 		}
+
+		logger.error('⭅ FAILED to intelligently sync a KV entry ❌', { b: Boolean(err[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB])})
 		throw err
 	}
 }

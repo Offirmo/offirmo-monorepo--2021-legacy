@@ -1,5 +1,6 @@
 import Knex from 'knex'
 import assert from 'tiny-invariant'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { WithoutTimestamps } from '../types'
 import get_db from '../db'
@@ -9,7 +10,7 @@ import { sanitize_persisted } from './common'
 
 ////////////////////////////////////
 
-export function get_base_user_from_netlify_user(input: Readonly<NetlifyUser>): BaseUser {
+export function get_base_user_from_netlify_user(input: Immutable<NetlifyUser>): Immutable<BaseUser> {
 	return sanitize_persisted({
 		called: input.full_name,
 		raw_email: input.email,
@@ -21,7 +22,7 @@ export function get_base_user_from_netlify_user(input: Readonly<NetlifyUser>): B
 ////////////////////////////////////
 
 export async function create_user(
-	data: Readonly<BaseUser>,
+	data: Immutable<BaseUser>,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<PUser['id']> {
 	data = {
@@ -43,9 +44,9 @@ export async function create_user(
 }
 
 export async function create_netlify_user(
-	data: Readonly<WithoutTimestamps<PNetlifyUser>>,
+	data: Immutable<WithoutTimestamps<PNetlifyUser>>,
 	trx: ReturnType<typeof get_db> = get_db()
-): Promise<Readonly<WithoutTimestamps<PNetlifyUser>>> {
+): Promise<Immutable<WithoutTimestamps<PNetlifyUser>>> {
 	logger.log('creating Netlify user...', { data })
 
 	await trx('users__netlify')
@@ -59,9 +60,9 @@ export async function create_netlify_user(
 }
 
 export async function create_user_through_netlify(
-	data: Readonly<NetlifyUser>,
+	data: Immutable<NetlifyUser>,
 	trx: ReturnType<typeof get_db>
-): Promise<Readonly<WithoutTimestamps<PNetlifyUser>>> {
+): Promise<Immutable<WithoutTimestamps<PNetlifyUser>>> {
 	logger.log('creating user through Netlify...', { data })
 	assert(data.netlify_id, 'create_user_through_netlify: Netlify Id is mandatory!') // can this be typed?
 

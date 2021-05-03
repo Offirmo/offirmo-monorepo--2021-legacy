@@ -1,5 +1,6 @@
 import Knex from 'knex'
 import assert from 'tiny-invariant'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { WithoutTimestamps } from '../types'
 import { PKeyValue } from './types'
@@ -14,12 +15,12 @@ export async function create_kv_entry<T>(
 	{ user_id, key, value }: {
 		user_id: PUser['id'],
 		key: string,
-		value: Readonly<T>,
+		value: Immutable<T>,
 	},
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<void> {
 	// TODO validate JSON
-	const data: WithoutTimestamps<PKeyValue<T>> = {
+	const data: Immutable<WithoutTimestamps<PKeyValue<T>>> = {
 		user_id,
 		key,
 		value,

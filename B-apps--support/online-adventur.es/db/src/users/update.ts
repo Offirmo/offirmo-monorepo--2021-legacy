@@ -1,4 +1,5 @@
 import assert from 'tiny-invariant'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import get_db from '../db'
 import { BaseUser, NetlifyUser, PUser } from './types'
@@ -6,14 +7,14 @@ import { TABLE__USERS } from './consts'
 import { sanitize_persisted, extract_base } from './common'
 import { get_base_user_from_netlify_user, create_netlify_user, create_user_through_netlify } from './create'
 import { get_by_email, get_by_netlify } from './read'
-import { logger, deep_equals, normalize_email_full } from '../utils'
+import { logger, deep_equals_stable, normalize_email_full } from '../utils'
 
 ////////////////////////////////////
 
 function get_updated_base(
-	existing: Readonly<BaseUser>,
-	candidate: Readonly<BaseUser>,
-): BaseUser {
+	existing: Immutable<BaseUser>,
+	candidate: Immutable<BaseUser>,
+): Immutable<BaseUser> {
 	existing = sanitize_persisted(existing)
 	candidate = sanitize_persisted(candidate)
 	//console.log('get_updated_base', { existing, candidate })
@@ -38,16 +39,16 @@ function get_updated_base(
 }
 
 async function ensure_up_to_date(
-	existing_p: Readonly<PUser>,
-	candidate: Readonly<BaseUser>,
+	existing_p: Immutable<PUser>,
+	candidate: Immutable<BaseUser>,
 	trx: ReturnType<typeof get_db>,
-): Promise<PUser> {
+): Promise<Immutable<PUser>> {
 	const existing = extract_base(existing_p)
 	//console.log('ensure_up_to_date', { existing, candidate })
 
 	candidate = get_updated_base(existing, candidate)
 
-	if (deep_equals(existing, candidate)) {
+	if (deep_equals_stable(existing, candidate)) {
 		//console.log('ensure_up_to_date: all good ✔')
 		return existing_p
 	}
@@ -65,12 +66,12 @@ async function ensure_up_to_date(
 ////////////////////////////////////
 
 export async function ensure_user_through_netlify(
-	data: Readonly<NetlifyUser>,
+	data: Immutable<NetlifyUser>,
 	trx: ReturnType<typeof get_db>
-): Promise<PUser> {
+): Promise<Immutable<PUser>> {
 	logger.log('ensuring user from its netlify data...', { data })
 
-	let user: PUser | null = await get_by_netlify(data, trx)
+	let user: Immutable<PUser> | null = await get_by_netlify(data, trx)
 	logger.log('ensure_user_through_netlify #1 / get_by_netlify', {user})
 
 	if (!user) {

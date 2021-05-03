@@ -1,4 +1,5 @@
 import assert from 'tiny-invariant'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import get_db from '../db'
 
@@ -12,7 +13,7 @@ import { normalize_email_full } from '../utils'
 export async function get_by_email(
 	raw_email: string,
 	trx: ReturnType<typeof get_db> = get_db()
-): Promise<null | PUser> {
+): Promise<null | Immutable<PUser>> {
 	const normalized_email = normalize_email_full(raw_email)
 	const raw_result = await trx(TABLE__USERS)
 		.select()
@@ -29,9 +30,9 @@ export async function get_by_email(
 // returns null bc one should use "ensure user…" in actual code
 // DO NOT mistake with ensure_user()!
 export async function get_by_netlify(
-	data: Partial<NetlifyUser>, // partial as a convenience TODO review
+	data: Partial<Immutable<NetlifyUser>>, // partial as a convenience TODO review
 	trx: ReturnType<typeof get_db> = get_db()
-): Promise<null | PUser> {
+): Promise<null | Immutable<Immutable<PUser>>> {
 	assert(data.netlify_id, 'get_by_netlify: Netlify Id is mandatory!') // can this be typed?
 
 	// TODO improve?
