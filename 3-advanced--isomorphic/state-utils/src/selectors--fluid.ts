@@ -53,7 +53,12 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 			if (activity_tms__A !== activity_tms__B)
 				return activity_tms__A > activity_tms__B
 
-			return false
+			// no change in the semantic fields
+			// that should mean that they are equal, so we can return true or false.
+			// BUT it could also be non-semantic states (no revision, schema version, etc.)
+			// meaning that we can't really tell if it's higher investment.
+			// safer to return true!
+			return true
 		},
 
 		get_debug_infos_about_comparison_with(stateB: Immutable<AnyOffirmoState>) {

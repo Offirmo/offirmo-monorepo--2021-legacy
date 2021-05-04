@@ -140,3 +140,5 @@ email: offirmo.net@gmail.com
 npm publish
 npm publish --access public
 ```
+
+yellow~greenish FDEE00

@@ -1,1 +1,1 @@
-tabset --badge $1 --color "#FF4136"
+tabset --badge $1 --color "#01FF70"

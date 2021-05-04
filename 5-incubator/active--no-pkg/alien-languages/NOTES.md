@@ -17,3 +17,8 @@ Concepts
     * https://simple.wikipedia.org/wiki/Wikipedia:Basic_English_ordered_wordlist
     * https://en.wiktionary.org/wiki/Appendix:Basic_English_word_list
 
+Reflexion
+* https://en.wikipedia.org/wiki/E-Prime
+
+Existing "alien" languages
+* https://en.wikipedia.org/wiki/Ithkuil

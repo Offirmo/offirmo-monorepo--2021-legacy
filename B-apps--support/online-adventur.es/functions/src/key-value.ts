@@ -43,6 +43,7 @@ async function _handler(
 	const body: OAServerResponseBody<any> = response.body as any
 
 	switch(event.httpMethod) {
+
 		case HttpMethod.GET:
 			body.data = await KVs.get_value({
 				user_id: p_user!.id,
@@ -50,6 +51,7 @@ async function _handler(
 			})
 			response.statusCode = 200 // never 404 since there is no "existence"
 			break
+
 		case HttpMethod.PATCH:
 			if (!event.body)
 				throw create_error('Missing body!', { statusCode: HTTP_STATUS_CODE.error.client.bad_request}, SEC)
@@ -61,6 +63,7 @@ async function _handler(
 			})
 			response.statusCode = 200 // always succeed
 			break
+
 		default:
 			// should never happen due to prior validation
 			throw create_error(HTTP_STATUS_CODE.error.server.internal, {}, SEC)
