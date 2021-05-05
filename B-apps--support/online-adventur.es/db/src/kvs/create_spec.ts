@@ -23,12 +23,14 @@ import {
 describe(`${LIB} - ${TABLE__KEY_VALUES} - create`, function() {
 	let TEST_USER1_ID = -1
 	let TEST_USER2_ID = -1
+	const key = 'unit-tests--kv--test-key'
 	before(user_cleanup)
 	beforeEach(async () => {
 		TEST_USER1_ID = await create_user(get_test_base_user_01())
 		TEST_USER2_ID = await create_user(get_test_base_user_02())
 	})
 	afterEach(user_cleanup)
+
 
 	const TEST_DATA = { bar: { baz: 42 }}
 
@@ -37,13 +39,13 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - create`, function() {
 		it('should work in nominal condition', async () => {
 			await create_kv_entry({
 				user_id: TEST_USER1_ID,
-				key: 'foo',
+				key,
 				value: TEST_DATA,
 			})
 
 			const data = await get_value({
 				user_id: TEST_USER1_ID,
-				key: 'foo',
+				key,
 			})
 			//console.log(data)
 			expect(data).to.deep.equal(TEST_DATA)
@@ -52,33 +54,33 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - create`, function() {
 		it('should NOT work if duplicated key - same user', async () => {
 			await create_kv_entry({
 				user_id: TEST_USER1_ID,
-				key: 'foo',
+				key,
 				value: TEST_DATA,
 			})
 
 			await expect(create_kv_entry({
 				user_id: TEST_USER1_ID,
-				key: 'foo',
+				key,
 				value: {'baz': 33},
 			})).to.be.rejectedWith('duplicate')
 
-			expect(await get_value({ user_id: TEST_USER1_ID, key: 'foo' })).to.deep.equal(TEST_DATA)
+			expect(await get_value({ user_id: TEST_USER1_ID, key })).to.deep.equal(TEST_DATA)
 		})
 
 		it('should work if duplicated key but different user', async () => {
 			await create_kv_entry({
 				user_id: TEST_USER1_ID,
-				key: 'foo',
+				key,
 				value: TEST_DATA,
 			})
 			await create_kv_entry({
 				user_id: TEST_USER2_ID,
-				key: 'foo',
+				key,
 				value: TEST_DATA,
 			})
 
-			expect(await get_value({ user_id: TEST_USER1_ID, key: 'foo' })).to.deep.equal(TEST_DATA)
-			expect(await get_value({ user_id: TEST_USER2_ID, key: 'foo' })).to.deep.equal(TEST_DATA)
+			expect(await get_value({ user_id: TEST_USER1_ID, key })).to.deep.equal(TEST_DATA)
+			expect(await get_value({ user_id: TEST_USER2_ID, key })).to.deep.equal(TEST_DATA)
 		})
 	})
 })

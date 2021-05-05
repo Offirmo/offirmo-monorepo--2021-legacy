@@ -39,8 +39,11 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 		},
 
 		has_higher_investment_than(stateB: Immutable<AnyOffirmoState>): boolean {
-			const schema_version__B = get_schema_version_loose(stateB)
-			assert(schema_version__A === schema_version__B, `has_higher_investment_than() expects same schema versions`)
+			// NO!
+			// We don't compare schema versions straight away
+			// if the user used an outdated+offline client for a while (high revision)
+			// we may rather want an outdated-but-migratable format
+			//assert(schema_version__A === schema_version__B, `has_higher_investment_than() expects same schema versions`)
 
 			const revision__A = get_revision_loose(stateA)
 			const revision__B = get_revision_loose(stateB)
@@ -53,11 +56,17 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 			if (activity_tms__A !== activity_tms__B)
 				return activity_tms__A > activity_tms__B
 
-			// no change in the semantic fields
+			// no change in the semantic INVESTMENT fields
+			// we default to the other semantic fields
+			const schema_version__B = get_schema_version_loose(stateB)
+			if (schema_version__A !== schema_version__B)
+				return schema_version__A > schema_version__B
+
+			// no change in any of the semantic fields
 			// that should mean that they are equal, so we can return true or false.
 			// BUT it could also be non-semantic states (no revision, schema version, etc.)
 			// meaning that we can't really tell if it's higher investment.
-			// safer to return true!
+			// safer to assume there is an investment!
 			return true
 		},
 

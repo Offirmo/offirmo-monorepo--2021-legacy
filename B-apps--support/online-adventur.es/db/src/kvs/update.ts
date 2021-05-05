@@ -103,7 +103,7 @@ export async function set_kv_entry_intelligently<T>(
 			const should_candidate_replace_existing = fluid_select(value as unknown as AnyOffirmoState).has_higher_investment_than(existing_pipeline.value as unknown as AnyOffirmoState)
 			if (!should_candidate_replace_existing) {
 				// that's how a lagging client will get the newest/most invested in data
-				throw createError(`[internal] existing has precedence!`, { [SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]: existing_pipeline.value })
+				throw createError(`Existing data has more value/investment!`, { [SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]: existing_pipeline.value })
 			}
 
 			// EXPECTED: calls to this function are expected from the oldest to the newest!

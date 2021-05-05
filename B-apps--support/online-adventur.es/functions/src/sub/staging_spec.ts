@@ -36,7 +36,7 @@ describe(`${APP} - live`, function() {
 			//.filter(e => e !== 'report-error')
 			.forEach((endpoint) => {
 
-			describe.only(`/${endpoint}`, function() {
+			describe(`/${endpoint}`, function() {
 
 				it('should exist', () => {
 					const ↆresult = fetch_oa({

@@ -25,12 +25,14 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - read`, function() {
 	before(user_cleanup)
 	afterEach(user_cleanup)
 
+	const key = 'unit-tests--kv--test-key'
+
 	describe('get()', function () {
 
 		it('should work when no user', async () => {
 			const data = await get({
 				user_id: 123456789,
-				key: 'foo',
+				key,
 			})
 			//console.log(data)
 			expect(data).to.be.null
@@ -47,7 +49,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - read`, function() {
 
 			const data = await get({
 				user_id: TEST_USER1_ID,
-				key: 'foo',
+				key,
 			})
 			//console.log(data)
 			expect(data).to.be.null
@@ -59,7 +61,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - read`, function() {
 		it('should work when no user', async () => {
 			const value = await get_value({
 				user_id: 123456789,
-				key: 'foo',
+				key,
 			})
 			expect(value).to.be.null
 		})
@@ -75,7 +77,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - read`, function() {
 
 			const value = await get_value({
 				user_id: TEST_USER1_ID,
-				key: 'foo',
+				key,
 			})
 			expect(value).to.be.null
 		})

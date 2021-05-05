@@ -37,6 +37,12 @@ export function get_schema_version<
 	BR extends BaseRootState,
 >(s: Immutable<V> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
 
+	if (is_WithSchemaVersion(s)) {
+		const { schema_version } = s
+		assert(Number.isSafeInteger(schema_version), 'get_schema_version() safeInteger!')
+		return schema_version
+	}
+
 	if (is_UTBundle(s)) {
 		assert(get_schema_version(s[0]) === get_schema_version(s[1]), 'get_schema_version() U & T versions should match inside a bundle!')
 		return get_schema_version(s[0])
@@ -47,11 +53,7 @@ export function get_schema_version<
 		return get_schema_version(s.u_state)
 	}
 
-	assert(is_WithSchemaVersion(s), 'get_schema_version() structure!')
-	const { schema_version } = s
-	assert(Number.isSafeInteger(schema_version), 'get_schema_version() safeInteger!')
-
-	return schema_version
+	throw new Error('get_schema_version() should have a recognized versioned structure!')
 }
 
 export function get_schema_version_loose<
@@ -82,6 +84,12 @@ export function get_revision<
 	BR extends BaseRootState,
 >(s: Immutable<V> | Immutable<B> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
 
+	if (is_WithRevision(s)) {
+		const { revision } = s
+		assert(Number.isSafeInteger(revision), 'get_revision() should be a safeInteger')
+		return revision
+	}
+
 	if (is_UTBundle(s)) {
 		return get_revision(s[0]) + get_revision(s[1])
 	}
@@ -90,11 +98,7 @@ export function get_revision<
 		return get_revision(s.u_state) + get_revision(s.t_state)
 	}
 
-	assert(is_WithRevision(s), 'get_revision() should have a revision')
-	const { revision } = s
-	assert(Number.isSafeInteger(revision), 'get_revision() should be a safeInteger')
-
-	return revision
+	throw new Error('get_revision() should have a recognized revisioned structure!')
 }
 
 export function get_revision_loose<
@@ -124,6 +128,12 @@ export function get_timestamp<
 	BR extends BaseRootState,
 >(s: Immutable<T> | Immutable<UTBundle<BU, BT>> | Immutable<BR>): number {
 
+	if (is_WithTimestamp(s)) {
+		const { timestamp_ms } = s
+		assert(Number.isSafeInteger(timestamp_ms), 'get_timestamp() safeInteger')
+		return timestamp_ms
+	}
+
 	if (is_UTBundle(s)) {
 		return get_timestamp(s[1])
 	}
@@ -132,11 +142,7 @@ export function get_timestamp<
 		return get_timestamp(s.t_state)
 	}
 
-	assert(is_WithTimestamp(s), 'get_timestamp() structure')
-	const { timestamp_ms } = s
-	assert(Number.isSafeInteger(timestamp_ms), 'get_timestamp() safeInteger')
-
-	return timestamp_ms
+	throw new Error('get_timestamp() should have a recognized revisioned structure!')
 }
 
 export function get_timestamp_loose<
@@ -165,11 +171,15 @@ export function get_last_user_activity_timestamp<
 	BT extends BaseTState,
 	BR extends BaseRootState,
 >(s: Immutable<T> | Immutable<BR>): number {
-	assert(is_WithLastUserActivityTimestamp(s), 'get_last_user_activity_timestamp() structure')
-	const { last_user_activity_tms } = s
-	assert(Number.isSafeInteger(last_user_activity_tms), 'get_last_user_activity_timestamp() safeInteger')
 
-	return last_user_activity_tms
+	if(is_WithLastUserActivityTimestamp(s)) {
+		const { last_user_activity_tms } = s
+		assert(Number.isSafeInteger(last_user_activity_tms), 'get_last_user_activity_timestamp() safeInteger')
+		return last_user_activity_tms
+	}
+
+	throw new Error('get_last_user_activity_timestamp() should have a recognized activity-stamped structure!')
+
 }
 
 export function get_last_user_activity_timestamp_loose<

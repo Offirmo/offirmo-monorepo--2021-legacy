@@ -56,7 +56,7 @@ Pipelines:
 
 
 
-## Github pages
+## ~Nightly (Github pages)
 
 | web surface | status |
 | ----------- | ------ |

@@ -37,7 +37,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 	})
 	afterEach(user_cleanup)
 
-	const key = 'foo'
+	const key = 'unit-tests--kv--test-key'
 	const TEST_BASE_DATA_1 = { bar: 42 }
 	const TEST_BASE_DATA_2 = { bar: { baz: 42 }}
 	const TEST_BASE_DATA_3a = { foo: { bar: { baz: 42 }}}
@@ -239,18 +239,25 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should always work in update condition -- change x3 = minor bkp pipeline', async () => {
+				let actual = (await get({ user_id, key }))!
+				//console.log('0', actual)
+
 				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_1,
 				})
+				actual = (await get({ user_id, key }))!
+				//console.log('1', actual)
+
 				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_BASE_DATA_2,
 				})
+				actual = (await get({ user_id, key }))!
+				//console.log('2', actual)
 
-				let actual = (await get({ user_id, key }))!
 				expect(actual.value).to.deep.equal(TEST_BASE_DATA_2)
 				expect(actual['bkp__recent']).to.deep.equal(TEST_BASE_DATA_1)
 				expect(actual.bkp__old).to.deep.equal(null)
@@ -261,8 +268,9 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 					key,
 					value: TEST_BASE_DATA_3a,
 				})
-
 				actual = (await get({ user_id, key }))!
+				//console.log('3a', actual)
+
 				expect(actual.value).to.deep.equal(TEST_BASE_DATA_3a)
 				expect(actual['bkp__recent']).to.deep.equal(TEST_BASE_DATA_2)
 				expect(actual.bkp__old).to.deep.equal(null)
@@ -354,51 +362,65 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 			})
 
 			it('should work in update condition -- only increasing schema version x3 = major bkp pipeline', async () => {
-				let TEST_ADV_DATA_0 = {
-					...DEMO_ROOT_STATE,
-					schema_version: 1,
-				}
+				let actual = (await get({ user_id, key }))!
+				//console.log('0', actual)
+				expect(actual).to.be.null
+
 				let TEST_ADV_DATA_1 = {
 					...DEMO_ROOT_STATE,
-					schema_version: 3,
 					u_state: {
 						...DEMO_ROOT_STATE.u_state,
-						revision: 123,
-					}
+						schema_version: 1,
+					},
+					t_state: {
+						...DEMO_ROOT_STATE.t_state,
+						schema_version: 1,
+					},
 				}
 				let TEST_ADV_DATA_2 = {
 					...DEMO_ROOT_STATE,
-					schema_version: 4,
 					u_state: {
 						...DEMO_ROOT_STATE.u_state,
-						revision: 124,
-					}
+						schema_version: 3,
+						//revision: 123,
+					},
+					t_state: {
+						...DEMO_ROOT_STATE.t_state,
+						schema_version: 3,
+					},
 				}
 				let TEST_ADV_DATA_3 = {
 					...DEMO_ROOT_STATE,
-					schema_version: 7,
 					u_state: {
 						...DEMO_ROOT_STATE.u_state,
-						revision: 125,
-					}
+						schema_version: 4,
+						//revision: 124,
+					},
+					t_state: {
+						...DEMO_ROOT_STATE.t_state,
+						schema_version: 4,
+					},
 				}
-
-				await set_kv_entry_intelligently({
-					user_id,
-					key,
-					value: TEST_ADV_DATA_0,
-				})
+				let TEST_ADV_DATA_4 = {
+					...DEMO_ROOT_STATE,
+					u_state: {
+						...DEMO_ROOT_STATE.u_state,
+						schema_version: 7,
+						//revision: 125,
+					},
+					t_state: {
+						...DEMO_ROOT_STATE.t_state,
+						schema_version: 7,
+					},
+				}
 
 				await set_kv_entry_intelligently({
 					user_id,
 					key,
 					value: TEST_ADV_DATA_1,
 				})
-				let actual = (await get({ user_id, key }))!
-				expect(actual.value, 'v1').to.deep.equal(TEST_ADV_DATA_1)
-				expect(actual.bkp__recent, 'r1').to.deep.equal(null)
-				expect(actual.bkp__old, 'o1').to.deep.equal(TEST_ADV_DATA_0)
-				expect(actual.bkp__older, 'oo1').to.deep.equal(null)
+				actual = (await get({ user_id, key }))!
+				//console.log('1', actual)
 
 				await set_kv_entry_intelligently({
 					user_id,
@@ -406,10 +428,12 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 					value: TEST_ADV_DATA_2,
 				})
 				actual = (await get({ user_id, key }))!
+				//console.log('2', actual)
+
 				expect(actual.value, 'v2').to.deep.equal(TEST_ADV_DATA_2)
 				expect(actual.bkp__recent, 'r2').to.deep.equal(null)
 				expect(actual.bkp__old, 'o2').to.deep.equal(TEST_ADV_DATA_1)
-				expect(actual.bkp__older, 'oo2').to.deep.equal(TEST_ADV_DATA_0)
+				expect(actual.bkp__older, 'oo2').to.deep.equal(null)
 
 				await set_kv_entry_intelligently({
 					user_id,
@@ -421,19 +445,50 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__recent, 'r3').to.deep.equal(null)
 				expect(actual.bkp__old, 'o3').to.deep.equal(TEST_ADV_DATA_2)
 				expect(actual.bkp__older, 'oo3').to.deep.equal(TEST_ADV_DATA_1)
+
+				await set_kv_entry_intelligently({
+					user_id,
+					key,
+					value: TEST_ADV_DATA_4,
+				})
+				actual = (await get({ user_id, key }))!
+				expect(actual.value, 'v4').to.deep.equal(TEST_ADV_DATA_4)
+				expect(actual.bkp__recent, 'r4').to.deep.equal(null)
+				expect(actual.bkp__old, 'o4').to.deep.equal(TEST_ADV_DATA_3)
+				expect(actual.bkp__older, 'oo4').to.deep.equal(TEST_ADV_DATA_2)
 			})
 
 			it('should work in update condition -- real case, increasing everything = full bkp pipeline', async () => {
 				const user_id = TEST_USER1_ID
-				const key = 'foo'
-				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v1_1 })
-				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v1_2 })
-				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v2_10 })
-				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v2_11 })
-				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v3_30 })
-				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v3_31 })
+				let actual = (await get({ user_id, key }))!
+				//console.log('0', actual)
 
-				const actual = (await get({ user_id, key }))!
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v1_1 })
+				actual = (await get({ user_id, key }))!
+				//console.log('1', actual)
+
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v1_2 })
+				actual = (await get({ user_id, key }))!
+				//console.log('2', actual)
+
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v2_10 })
+				actual = (await get({ user_id, key }))!
+				//console.log('3', actual)
+
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v2_11 })
+				actual = (await get({ user_id, key }))!
+				//console.log('4', actual)
+
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v3_30 })
+				actual = (await get({ user_id, key }))!
+				//console.log('5', actual)
+
+				await set_kv_entry_intelligently({ user_id, key, value: TEST_ADV_DATA_v3_31 })
+				actual = (await get({ user_id, key }))!
+				//console.log('6', actual)
+
+				actual = (await get({ user_id, key }))!
+				//console.log(actual)
 				expect(actual.value,       'v').to.deep.equal(TEST_ADV_DATA_v3_31)
 				expect(actual.bkp__recent, 'r').to.deep.equal(TEST_ADV_DATA_v3_30)
 				expect(actual.bkp__old,    'o').to.deep.equal(TEST_ADV_DATA_v2_11)
@@ -451,7 +506,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v10_103,
-				})).to.be.rejectedWith('semantic')
+				})).to.be.rejectedWith('investment')
 
 				// no change in db
 				let actual = (await get({ user_id, key }))!
@@ -472,7 +527,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v2_11,
-				})).to.be.rejectedWith('semantic')
+				})).to.be.rejectedWith('update')
 
 				// no change in db
 				let actual = (await get({ user_id, key }))!

@@ -28,7 +28,7 @@ export function get_test_netlify_user_01(p: Partial<Immutable<NetlifyUser>> = {}
 		email: EMAIL_01,
 		avatar_url: undefined,
 		roles: [ 'test' ],
-		provider: 'foo',
+		provider: 'unit-tests--users--test-provider',
 		...p,
 	})
 }
@@ -40,7 +40,7 @@ export function get_test_netlify_user_01_alt(p: Partial<Immutable<NetlifyUser>> 
 		email: EMAIL_01_ALT,
 		avatar_url: undefined,
 		roles: [ 'test' ],
-		provider: 'foo',
+		provider: 'unit-tests--users--test-provider',
 		...p,
 	})
 }

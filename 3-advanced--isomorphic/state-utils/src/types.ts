@@ -41,6 +41,7 @@ export type UTBundle<U extends BaseUState, T extends BaseTState> = [ U, T ]
 // most advanced state = aggregation of multiple U+T states
 export interface BaseRootState<U extends BaseUState = BaseUState, T extends BaseTState = BaseTState> extends WithLastUserActivityTimestamp {
 	// schema_version, revision -> NO, would be redundant, see u_state & t_state
+	app_id: string // unique identifier of the app using this state. Useful for dedicated checks/ops in common code
 
 	u_state: U
 	t_state: T
