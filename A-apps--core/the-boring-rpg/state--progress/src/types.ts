@@ -62,8 +62,9 @@ interface State extends BaseUState {
 
 	// TODO externalize?
 	statistics: {
-		// TODO rename with hint at the "day"
-		last_visited_timestamp: HumanReadableTimestampUTCDays
+		creation_date_hrtday: HumanReadableTimestampUTCDays,
+
+		last_visited_timestamp_hrtday: HumanReadableTimestampUTCDays
 		active_day_count: number
 
 		// game
@@ -79,7 +80,8 @@ interface State extends BaseUState {
 		tokens_gained: number
 		items_gained: number
 
-		// meta (sent from above)
+		// meta (sent from above) yet needed for some achievements
+		// TODO review redundancy
 		has_account: boolean
 		is_registered_alpha_player: boolean
 	}

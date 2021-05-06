@@ -1,7 +1,10 @@
 /////////////////////
 
 import assert from 'tiny-invariant'
-import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
+import {
+	get_human_readable_UTC_timestamp_days,
+	get_human_readable_UTC_timestamp_minutes,
+} from '@offirmo-private/timestamps'
 import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -19,6 +22,7 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
 	return get_lib_SEC(SEC).xTry('create', () => {
+		const now_hrtday = get_human_readable_UTC_timestamp_days()
 		return enforce_immutability<State>({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
@@ -28,7 +32,8 @@ function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
 			achievements: {},
 
 			statistics: {
-				last_visited_timestamp: get_human_readable_UTC_timestamp_days(),
+				creation_date_hrtday: now_hrtday,
+				last_visited_timestamp_hrtday: now_hrtday,
 				active_day_count: 1,
 				good_play_count: 0,
 				bad_play_count: 0,
@@ -51,15 +56,15 @@ function create(SEC?: OMRSoftExecutionContext): Immutable<State> {
 /////////////////////
 
 function _on_activity(state: Immutable<State>, previous_revision: number): Immutable<State> {
-	const current_timestamp = get_human_readable_UTC_timestamp_days()
-	const is_new_day = state.statistics.last_visited_timestamp !== current_timestamp
+	const now_hrtday = get_human_readable_UTC_timestamp_days()
+	const is_new_day = state.statistics.last_visited_timestamp_hrtday !== now_hrtday
 	if (is_new_day) {
 		state = {
 			...state,
 
 			statistics: {
 				...state.statistics,
-				last_visited_timestamp: current_timestamp,
+				last_visited_timestamp_hrtday: now_hrtday,
 				active_day_count: (state.statistics.active_day_count || 0) + 1,
 			},
 

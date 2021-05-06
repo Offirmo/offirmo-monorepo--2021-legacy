@@ -10,7 +10,7 @@ const TRUE_TRUE: true = true // https://github.com/Microsoft/TypeScript/issues/1
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
 const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
-	schema_version: 2,
+	schema_version: 3,
 	revision: 42,
 
 	wiki: null,
@@ -37,7 +37,8 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 	},
 
 	statistics: {
-		last_visited_timestamp: get_human_readable_UTC_timestamp_days(new Date(TEST_TIMESTAMP_MS)),
+		creation_date_hrtday: get_human_readable_UTC_timestamp_days(new Date(TEST_TIMESTAMP_MS - 100_000)),
+		last_visited_timestamp_hrtday: get_human_readable_UTC_timestamp_days(new Date(TEST_TIMESTAMP_MS)),
 		active_day_count: 12,
 		good_play_count: 12,
 		bad_play_count: 3,
