@@ -6,7 +6,7 @@ import { LIB } from '../consts'
 
 export const logger = getLogger({
 	name: LIB,
-	suggestedLevel: 'silly',
+	//suggestedLevel: 'silly',
 	//suggestedLevel: 'log',
 	//suggestedLevel: 'warn',
 })

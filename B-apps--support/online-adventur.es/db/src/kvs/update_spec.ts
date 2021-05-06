@@ -527,7 +527,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 					user_id,
 					key,
 					value: TEST_ADV_DATA_v2_11,
-				})).to.be.rejectedWith('update')
+				})).to.be.rejectedWith('investment')
 
 				// no change in db
 				let actual = (await get({ user_id, key }))!
@@ -583,7 +583,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 
 		context('on advanced Offirmo’s states', function() {
 
-			it('should work and UPDATE in create, update and identical situation', async () => {
+			it('should work and UPDATE in create, rev-same and rev-update situation', async () => {
 				// create
 				let latest = await sync_kv_entry({
 					user_id,

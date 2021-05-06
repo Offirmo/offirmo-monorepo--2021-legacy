@@ -93,12 +93,18 @@ export async function set_kv_entry_intelligently<T>(
 				return
 			}
 
+			// DISCUSSION
+			// In theory, this endpoint should only look at investment, not schema version
+			// (ex. an outdated client = app store, played a long time offline, suddenly coming online)
+			// HOWEVER could that break the backup pipeline? TODO review
+
+			/* NO, according to above
 			const is_client_up_to_date = fluid_select(value as unknown as AnyOffirmoState).has_higher_or_equal_schema_version_than(existing_pipeline.value as unknown as AnyOffirmoState)
 			if (!is_client_up_to_date) {
 				// since the client is online, it should update itself first!
 				// TODO review: or should we always succeed?
 				throw createError(`Old schema version, please update your client first!`, { statusCode: 426 }) // upgrade required
-			}
+			}*/
 
 			const should_candidate_replace_existing = fluid_select(value as unknown as AnyOffirmoState).has_higher_investment_than(existing_pipeline.value as unknown as AnyOffirmoState)
 			if (!should_candidate_replace_existing) {

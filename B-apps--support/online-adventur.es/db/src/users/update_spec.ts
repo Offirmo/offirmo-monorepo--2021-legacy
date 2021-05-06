@@ -68,7 +68,7 @@ describe(`${LIB} - ${TABLE__USERS} - update`, function() {
 			const expected_final_data = {
 				...get_base_user_from_netlify_user(new_base_n),
 				called: sanitize_persisted(old_base).called, // not replaced once set
-				roles: [ 'unit-tests--users--test-role', 'test' ] // merged
+				roles: [ 'test', 'unit-tests--users--test-role' ] // merged
 			}
 
 			const user_through_netlify = await ensure_user_through_netlify(new_base_n, get_db())

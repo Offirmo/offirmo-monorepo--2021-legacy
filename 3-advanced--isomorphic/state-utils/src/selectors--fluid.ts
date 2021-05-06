@@ -57,7 +57,7 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 				return activity_tms__A > activity_tms__B
 
 			// no change in the semantic INVESTMENT fields
-			// we default to the other semantic fields
+			// we fallback to the other semantic fields
 			const schema_version__B = get_schema_version_loose(stateB)
 			if (schema_version__A !== schema_version__B)
 				return schema_version__A > schema_version__B
