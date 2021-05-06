@@ -1,3 +1,4 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import { Logger } from '@offirmo/universal-debug-api-node'
 import {
 	getRootSEC,
@@ -24,7 +25,7 @@ import logger from './logger'
 
 export interface Injections extends BaseInjections {
 	logger: Logger
-	p_user?: Users.PUser
+	p_user?: Immutable<Users.PUser>
 	user?: Users.User
 	//jsonrpc_request?: JSONRpcRequest<{}>,
 	//jsonrpc_response?: JSONRpcResponse<{}>,

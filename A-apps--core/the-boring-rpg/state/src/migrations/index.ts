@@ -1,4 +1,11 @@
-import { Immutable, LastMigrationStep, MigrationStep, SubStatesMigrations, CleanupStep, generic_migrate_to_latest } from '@offirmo-private/state-utils'
+import {
+	Immutable,
+	LastMigrationStep,
+	MigrationStep,
+	SubStatesMigrations,
+	CleanupStep,
+	generic_migrate_to_latest,
+} from '@offirmo-private/state-utils'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import * as CharacterState from '@tbrpg/state--character'
@@ -50,7 +57,8 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Im
 			sub_states_migrate_to_latest: SUB_STATES_MIGRATIONS,
 			cleanup,
 			pipeline: [
-				migrate_to_14x,
+				migrate_to_15x,
+				migrate_to_14,
 				migrate_to_13,
 				migrate_to_12,
 			]
@@ -77,7 +85,6 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Im
 /////////////////////
 
 export const cleanup: CleanupStep<State> = (SEC, state, hints) => {
-	let has_change = false
 
 	// HACK
 	// new achievements may appear thanks to new content !== migration
@@ -87,44 +94,87 @@ export const cleanup: CleanupStep<State> = (SEC, state, hints) => {
 	// HENCE we refresh the achievements here, for test simplicity, even when it's not 100% semantic
 	state = _refresh_achievements(state)
 
+	/////// begin minor migrations (not warranting a schema_version change)
+	// to be bundled in the next major schema version
+	let has_change = false
 	let { u_state, t_state } = state
 
-	// micro migrations TODO clean
-	if ((u_state as any).uuid) {
-		u_state = {
-			...u_state
-		}
-		delete (u_state as any).uuid
-		has_change = true
-	}
-	if (!u_state.last_user_action_tms) {
-		u_state = {
-			...u_state,
-			last_user_action_tms: get_UTC_timestamp_ms(),
-		}
-		has_change = true
-	}
+	// ...
 
-	// introduced late: min wallet always >0
-	if (WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin) <= 0) {
-		u_state = {
-			...u_state,
-			wallet: WalletState.add_amount(u_state.wallet, WalletState.Currency.coin, 1),
+	if (has_change) {
+		state = {
+			...state,
+			u_state,
+			t_state,
 		}
-		has_change = true
 	}
+	/////// end minor migrations
 
-	if (!has_change)
-		return state
-
-	return {
-		...state,
-		u_state,
-		t_state,
-	}
+	return state
 }
 
-const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+const migrate_to_15x: LastMigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+	if (legacy_schema_version < 14)
+		legacy_state = previous(SEC, legacy_state, hints)
+
+	const { schema_version, ...rest__root } = legacy_state
+	// minor migration: cleanup uuid field
+	const { last_user_action_tms, creation_date: creation_date_hrtmin, uuid, ...rest__u_state } = rest__root.u_state
+	const last_user_activity_tms = last_user_action_tms ?? get_UTC_timestamp_ms()
+
+	console.log('@@@@@', { last_user_action_tms, creation_date_hrtmin, uuid, schema_version })
+	let state = {
+		...rest__root,
+		u_state: {
+			...rest__u_state,
+		},
+	} as State // for starter
+
+	state = {
+		...state,
+		app_id: 'tbrpg',
+		last_user_activity_tms,
+
+		u_state: {
+			...state.u_state,
+			progress: {
+				...state.u_state.progress,
+				statistics: {
+					...state.u_state.progress.statistics,
+					creation_date_hrtday: creation_date_hrtmin.slice(0, 8),
+				}
+			},
+		},
+	}
+
+	// minor migration: min wallet always >0
+	if (WalletState.get_currency_amount(state.u_state.wallet, WalletState.Currency.coin) <= 0) {
+		state = {
+			...state,
+			u_state: {
+				...state.u_state,
+				wallet: WalletState.add_amount(state.u_state.wallet, WalletState.Currency.coin, 1),
+			}
+		}
+	}
+
+	// eventually, update schema version
+	state = {
+		...state,
+		u_state: {
+			...state.u_state,
+			schema_version: 15,
+		},
+		t_state: {
+			...state.t_state,
+			schema_version: 15,
+		},
+	}
+
+	return state
+}
+
+const migrate_to_14: MigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 	if (legacy_schema_version < 13)
 		legacy_state = previous(SEC, legacy_state, hints)
 

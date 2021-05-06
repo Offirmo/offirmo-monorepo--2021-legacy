@@ -73,9 +73,6 @@ interface Adventure {
 /////////////////////
 
 interface UState extends BaseUState {
-	creation_date: HumanReadableTimestampUTCMinutes // TODO useful? move to progress?
-	last_user_action_tms: TimestampUTCMs
-
 	avatar: CharacterState
 	codes: CodesState
 	energy: EnergyUState,
@@ -93,12 +90,7 @@ interface TState extends BaseTState {
 	energy: EnergyTState,
 }
 
-interface State extends BaseRootState {
-	schema_version: number
-
-	u_state: UState
-	t_state: TState
-}
+type State = BaseRootState<UState, TState>
 
 /////////////////////
 

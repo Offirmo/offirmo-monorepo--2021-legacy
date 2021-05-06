@@ -71,14 +71,12 @@ function create(SEC?: OMRSoftExecutionContext, seed?: number): Immutable<State> 
 		//console.log('creation', now)
 
 		let state: Immutable<State> = {
-			schema_version: SCHEMA_VERSION,
+			app_id: 'tbrpg',
+			last_user_activity_tms: get_UTC_timestamp_ms(now),
 
 			u_state: {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
-				last_user_action_tms: get_UTC_timestamp_ms(now),
-
-				creation_date: get_human_readable_UTC_timestamp_minutes(now),
 
 				avatar: CharacterState.create(SEC),
 				inventory: InventoryState.create(SEC),

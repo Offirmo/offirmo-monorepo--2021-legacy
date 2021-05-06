@@ -42,9 +42,9 @@ function on_start_session(previous_state: Immutable<State>, is_web_diversity_sup
 
 	state = {
 		...state,
+		//last_user_activity_tms: now_ms, //No, this is NOT a valuable user action
 		u_state: {
 			...state.u_state,
-			last_user_action_tms: now_ms,
 
 			meta: MetaState.on_start_session(state.u_state.meta, is_web_diversity_supporter),
 
@@ -66,9 +66,9 @@ function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: bo
 
 	state = {
 		...state,
+		//last_user_activity_tms: now_ms, //No, this is NOT a valuable user action
 		u_state: {
 			...state.u_state,
-			//last_user_action_tms: now_ms, // XXX this is NOT a user action
 			meta: MetaState.on_logged_in_refresh(state.u_state.meta, is_logged_in, roles),
 		},
 	}
@@ -89,9 +89,10 @@ function equip_item(previous_state: Immutable<State>, uuid: UUID, now_ms: Timest
 	let state = previous_state
 	state = {
 		...state,
+		last_user_activity_tms: now_ms,
+
 		u_state: {
 			...state.u_state,
-			last_user_action_tms: now_ms,
 			inventory: InventoryState.equip_item(state.u_state.inventory, uuid),
 			revision: previous_state.u_state.revision + 1,
 		},
@@ -105,9 +106,10 @@ function sell_item(previous_state: Immutable<State>, uuid: UUID, now_ms: Timesta
 	state = _sell_item(state, uuid)
 	state = {
 		...state,
+		last_user_activity_tms: now_ms,
+
 		u_state: {
 			...state.u_state,
-			last_user_action_tms: now_ms,
 			revision: previous_state.u_state.revision + 1,
 		},
 	}
@@ -119,10 +121,10 @@ function rename_avatar(previous_state: Immutable<State>, new_name: string, now_m
 	let state = previous_state
 	state = {
 		...state,
+		last_user_activity_tms: now_ms,
 
 		u_state: {
 			...state.u_state,
-			last_user_action_tms: now_ms,
 			avatar: rename(get_lib_SEC(), state.u_state.avatar, new_name),
 			revision: previous_state.u_state.revision + 1,
 		},
@@ -138,10 +140,10 @@ function change_avatar_class(previous_state: Immutable<State>, new_class: Charac
 	let state = previous_state
 	state = {
 		...state,
+		last_user_activity_tms: now_ms,
 
 		u_state: {
 			...state.u_state,
-			last_user_action_tms: now_ms,
 			avatar: switch_class(get_lib_SEC(), state.u_state.avatar, new_class),
 			revision: previous_state.u_state.revision + 1,
 		},
@@ -154,10 +156,10 @@ function acknowledge_engagement_msg_seen(previous_state: Immutable<State>, uid: 
 	let state = previous_state
 	state = {
 		...state,
+		last_user_activity_tms: now_ms,
 
 		u_state: {
 			...state.u_state,
-			last_user_action_tms: now_ms,
 			engagement: EngagementState.acknowledge_seen(state.u_state.engagement, uid),
 			revision: previous_state.u_state.revision + 1,
 		},

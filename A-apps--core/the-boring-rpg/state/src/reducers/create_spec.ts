@@ -18,12 +18,11 @@ describe(`${LIB} - reducer - create`, function() {
 
 		it('should be correct', function() {
 			const state = create()
-			expect(state).to.have.property('schema_version', SCHEMA_VERSION)
-			expect(Object.keys(state), 'quick key count check').to.deep.equal(['schema_version', 'u_state', 't_state']) // because this test should be updated if that changes
+			expect(state).not.to.have.property('schema_version')
+			expect(Object.keys(state), 'quick key count check')
+				.to.deep.equal(['app_id', 'last_user_activity_tms', 'u_state', 't_state']) // because this test should be updated if that changes
 
 			const { u_state } = state
-
-			expect(u_state.creation_date).to.be.a('string')
 
 			// check presence of sub-states
 			expect(u_state, 'avatar').to.have.property('avatar')
@@ -35,7 +34,7 @@ describe(`${LIB} - reducer - create`, function() {
 			expect(u_state, 'prng').to.have.property('prng')
 			expect(u_state, 'progress').to.have.property('progress')
 			expect(u_state, 'wallet').to.have.property('wallet')
-			expect(Object.keys(u_state), 'quick key count check U').to.have.lengthOf(14) // because this test should be updated if that changes
+			expect(Object.keys(u_state), 'quick key count check U').to.have.lengthOf(12) // because this test should be updated if that changes
 
 			const { t_state } = state
 			expect(t_state, 'energy').to.have.property('energy')

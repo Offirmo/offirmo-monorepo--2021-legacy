@@ -105,9 +105,9 @@ function _autoplay(previous_state: Immutable<State>, options: Immutable<{ target
 	let last_visited_timestamp_num = (() => {
 		const days_needed = Math.ceil((target_good_play_count - state.u_state.progress.statistics.good_play_count) / 8) // TODO magic number!!!
 		const from_now = Number(get_human_readable_UTC_timestamp_days()) - days_needed
-		return Math.min(from_now, Number(state.u_state.progress.statistics.last_visited_timestamp))
+		return Math.min(from_now, Number(state.u_state.progress.statistics.last_visited_timestamp_hrtday))
 	})()
-	if (last_visited_timestamp_num !== Number(state.u_state.progress.statistics.last_visited_timestamp)) {
+	if (last_visited_timestamp_num !== Number(state.u_state.progress.statistics.last_visited_timestamp_hrtday)) {
 		state = {
 			...state,
 			u_state: {
@@ -116,7 +116,7 @@ function _autoplay(previous_state: Immutable<State>, options: Immutable<{ target
 					...state.u_state.progress,
 					statistics: {
 						...state.u_state.progress.statistics,
-						last_visited_timestamp: String(last_visited_timestamp_num),
+						last_visited_timestamp_hrtday: String(last_visited_timestamp_num),
 					},
 				},
 			},
@@ -160,7 +160,7 @@ function _autoplay(previous_state: Immutable<State>, options: Immutable<{ target
 							...state.u_state.progress,
 							statistics: {
 								...state.u_state.progress.statistics,
-								last_visited_timestamp: String(last_visited_timestamp_num),
+								last_visited_timestamp_hrtday: String(last_visited_timestamp_num),
 							},
 						},
 					},

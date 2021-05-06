@@ -127,9 +127,10 @@ const DEMO_ADVENTURE_04: Immutable<Adventure> = enforce_immutability<Adventure>(
 // can't build an example from disconnected sample states.
 // taken from a real savegame:
 const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib_SEC(), {
-	'schema_version': 14,
+	app_id: 'tbrpg',
+	last_user_activity_tms: 1598854698575,
 	't_state': {
-		'schema_version': 14,
+		'schema_version': 15,
 		revision: 0,
 		'timestamp_ms': 1598854700150,
 		'energy': {
@@ -139,7 +140,7 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib
 		},
 	},
 	'u_state': {
-		'schema_version': 14,
+		'schema_version': 15,
 		'revision': 1185,
 		'avatar': {
 			'attributes': {
@@ -158,7 +159,6 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib
 			'revision': 1,
 			'schema_version': 1,
 		},
-		'creation_date': '20190423_08h08',
 		'energy': {'max_energy': 7, 'revision': 0, 'schema_version': 4, 'total_energy_consumed_so_far': 1035},
 		'engagement': {'queue': [], 'revision': 161, 'schema_version': 1},
 		'inventory': {
@@ -244,7 +244,6 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib
 			'hid': 'found_random_mushroom',
 			'uuid': 'uu1FXVTOup-drVDr9t-nXR3a',
 		},
-		'last_user_action_tms': 1598854698575,
 		'meta': {
 			'is_logged_in': true,
 			'is_web_diversity_supporter': false,
@@ -366,7 +365,12 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib
 				'Young Explorer': 'unlocked',
 				'did I mention I was bored?': 'unlocked',
 				'king of boredom': 'unlocked',
-			}, 'flags': null, 'revision': 1364, 'schema_version': 2, 'statistics': {
+			},
+			'flags': null,
+			'revision': 1364,
+			'schema_version': 3,
+			'statistics': {
+				'creation_date_hrtday': '20190423',
 				'active_day_count': 915,
 				'bad_play_count': 93,
 				'bad_play_count_by_active_class': {'knight': 2, 'summoner': 91},
@@ -627,7 +631,7 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib
 				'has_account': false,
 				'is_registered_alpha_player': false,
 				'items_gained': 132,
-				'last_visited_timestamp': '20200804',
+				'last_visited_timestamp_hrtday': '20200804',
 				'tokens_gained': 44,
 			}, 'wiki': null,
 		},

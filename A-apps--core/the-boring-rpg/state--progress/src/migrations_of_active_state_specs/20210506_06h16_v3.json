@@ -1,0 +1,61 @@
+{
+	"schema_version": 3,
+	"revision": 42,
+	"wiki": null,
+	"flags": null,
+	"achievements": {
+		"TEST": "unlocked",
+		"Summoned": "unlocked",
+		"Alpha player": "unlocked",
+		"Beta player": "revealed",
+		"I am bored": "unlocked",
+		"Turn it up to eleven": "unlocked",
+		"I am dead bored": "revealed",
+		"did I mention I was bored?": "hidden",
+		"king of boredom": "hidden",
+		"No-life except for boredom": "hidden",
+		"Hello darkness my old friend": "hidden",
+		"What’s in a name?": "unlocked",
+		"Graduated": "unlocked",
+		"I am very bored": "unlocked",
+		"Sorry my hand slipped": "unlocked",
+		"Oops!... I Did It Again": "unlocked",
+		"I’m not that innocent": "revealed",
+		"It’s good to be bad": "hidden"
+	},
+	"statistics": {
+		"creation_date_hrtday": "19700115",
+		"last_visited_timestamp_hrtday": "19700115",
+		"active_day_count": 12,
+		"good_play_count": 12,
+		"bad_play_count": 3,
+		"encountered_adventures": {
+			"caravan_success": true,
+			"dying_man": true,
+			"ate_bacon": true,
+			"ate_zombie": true,
+			"refreshing_nap": true,
+			"older": true
+		},
+		"encountered_monsters": {
+			"wolf": true,
+			"spreading adder": true,
+			"fur-bearing truit": true
+		},
+		"good_play_count_by_active_class": {
+			"novice": 7,
+			"warrior": 5
+		},
+		"bad_play_count_by_active_class": {
+			"novice": 2,
+			"warrior": 1
+		},
+		"fight_won_count": 6,
+		"fight_lost_count": 4,
+		"coins_gained": 1234,
+		"tokens_gained": 2,
+		"items_gained": 3,
+		"has_account": true,
+		"is_registered_alpha_player": false
+	}
+}

@@ -1,4 +1,6 @@
+import { Immutable } from '@offirmo-private/ts-types'
 import { get_db, Users, get_connection_string } from '@offirmo-private/db'
+
 import { HEADER_IMPERSONATE } from '@online-adventur.es/api-interface'
 
 import { HTTP_STATUS_CODE } from '../consts'
@@ -29,7 +31,7 @@ export async function require_authenticated(
 			await SEC.xPromiseTry('ensure_user_through_netlify', ({SEC}) =>
 				get_db().transaction(async trx => {
 					logger.trace('calling…')
-					let p_user: Users.PUser = await Users.ensure_user_through_netlify(netlify_user_data, trx)
+					let p_user: Immutable<Users.PUser> = await Users.ensure_user_through_netlify(netlify_user_data, trx)
 					//logger.log('user found', p_user)
 
 					const impersonation_target = event.headers[HEADER_IMPERSONATE]

@@ -87,9 +87,10 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 	const u_state = state.u_state
 	state = {
 		...state,
+		last_user_activity_tms: now_ms,
+
 		u_state: {
 			...u_state,
-			last_user_action_tms: now_ms,
 			revision: state.u_state.revision + 1,
 			progress: ProgressState.on_played(u_state.progress, {
 				good: is_good_play,

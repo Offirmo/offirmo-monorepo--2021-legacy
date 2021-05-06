@@ -1,0 +1,25 @@
+{
+	"schema_version": 3,
+	"revision": 0,
+	"wiki": null,
+	"flags": null,
+	"achievements": {},
+	"statistics": {
+		"creation_date_hrtday": "19700115",
+		"last_visited_timestamp_hrtday": "19700115",
+		"active_day_count": 1,
+		"good_play_count": 0,
+		"bad_play_count": 0,
+		"encountered_adventures": {},
+		"encountered_monsters": {},
+		"good_play_count_by_active_class": {},
+		"bad_play_count_by_active_class": {},
+		"fight_won_count": 0,
+		"fight_lost_count": 0,
+		"coins_gained": 0,
+		"tokens_gained": 0,
+		"items_gained": 0,
+		"has_account": false,
+		"is_registered_alpha_player": false
+	}
+}
