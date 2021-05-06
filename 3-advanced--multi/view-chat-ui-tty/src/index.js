@@ -5,7 +5,6 @@ const term_size = require('term-size')
 const strip_ansi = require('strip-ansi')
 const create_ora_spinner = require('ora')
 const Gauge = require('gauge')
-const promiseFinally = require('p-finally')
 
 const { to_prettified_str, stylize_string, indent_string, wrap_string } = require('./libs')
 const { get_shared_start } = require('./utils')
@@ -222,10 +221,8 @@ function create({DEBUG, shouldCenter}) {
 			stream: process.stdout,
 		}).start()
 
-		return promiseFinally(
-			Promise.resolve(anything),
-			() => spinner.stop(),
-		)
+		return Promise.resolve(anything)
+			.finally(() => spinner.stop())
 	}
 
 	function pretend_to_think(duration_ms) {

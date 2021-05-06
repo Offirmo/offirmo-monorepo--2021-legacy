@@ -8,7 +8,7 @@
 * [chore] updated dev dependencies
 * [chore] reduced the number files published
 * [doc] improved doc
-
+* [chore] bumped dependencies
 
 ## v2.0.0
 2020/10/22

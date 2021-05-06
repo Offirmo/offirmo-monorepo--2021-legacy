@@ -17,7 +17,7 @@
 		"async": "^3",
 		"cli-progress": "^3",
 		"exiftool-vendored": "^14",
-		"fs-extra": "^9",
+		"fs-extra": "^10",
 		"hasha": "^5",
 		"json-stable-stringify": "^1",
 		"lodash": "^4",

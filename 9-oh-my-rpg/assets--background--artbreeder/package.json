@@ -46,10 +46,10 @@
 		"@offirmo/cli-toolbox": "^2",
 		"@offirmo/unit-test-toolbox": "^7",
 		"@offirmo/universal-debug-api-node": "^0",
-		"fs-extra": "^9",
+		"fs-extra": "^10",
 		"lodash": "^4",
 		"npm-run-all": "^4",
-		"term-img": "^5",
+		"term-img": "^6",
 		"typescript": "^4"
 	}
 }

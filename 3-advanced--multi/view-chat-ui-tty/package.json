@@ -16,14 +16,13 @@
 	},
 	"dependencies": {
 		"@offirmo-private/prettify-any": "^0",
-		"ansi-escapes": "^4",
+		"ansi-escapes": "^5",
 		"chalk": "^4",
 		"gauge": "^3",
 		"linewrap": "^0.2",
 		"ora": "^5",
-		"p-finally": "^2",
 		"p-progress": "^0.5",
-		"strip-ansi": "^6",
+		"strip-ansi": "^7",
 		"term-size": "^2"
 	},
 

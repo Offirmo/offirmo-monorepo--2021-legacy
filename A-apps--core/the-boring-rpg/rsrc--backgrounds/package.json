@@ -44,7 +44,7 @@
 		"@offirmo-private/rich-text-format-to-ansi": "^0",
 		"@offirmo/cli-toolbox": "^2",
 		"@offirmo/unit-test-toolbox": "^7",
-		"fs-extra": "^9",
+		"fs-extra": "^10",
 		"lodash": "^4",
 		"npm-run-all": "^4",
 		"typescript": "^4"

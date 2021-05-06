@@ -1,7 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-const promiseFinally = require('p-finally')
 import { elapsed_time_ms } from '@offirmo-private/async-utils'
 import schedule_on_next_repaint from 'raf-schd'
 
@@ -140,10 +139,8 @@ class Chat extends React.Component {
 
 		const spin_until_resolution = anything => {
 			this.set_state(s => {spinning: true})
-			return promiseFinally(
-				Promise.resolve(anything),
-				() => { this.set_state(s => {spinning: false}) },
-			)
+			return Promise.resolve(anything)
+				.finally(() => { this.set_state(s => {spinning: false}) })
 		}
 
 		const pretend_to_think = duration_ms => {
