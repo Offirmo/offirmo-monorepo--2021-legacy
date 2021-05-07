@@ -1,4 +1,5 @@
 
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { Options } from './types'
 import {
@@ -26,7 +27,7 @@ export function get_default_options(): Options {
 	}
 }
 
-export function get_options(options: Readonly<Partial<Options>> = {}): Options {
+export function get_options(options: Immutable<Partial<Options>> = {}): Options {
 	return {
 		...get_default_options(),
 		...options,

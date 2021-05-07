@@ -17,6 +17,7 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
+		"@offirmo-private/ts-types": "^0",
 		"indent-string": "^5"
 	},
 

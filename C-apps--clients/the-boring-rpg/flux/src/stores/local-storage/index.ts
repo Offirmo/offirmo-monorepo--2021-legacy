@@ -128,7 +128,7 @@ export function create(
 			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline()`, {
 				candidate: get_base_loose(some_state as any),
 				current: get_base_loose(state as any),
-				bkp: get_base_loose(bkp__current as any),
+				bkp__current: get_base_loose(bkp__current as any),
 				'legacy.length': recovered_states_unmigrated_ordered.length,
 				//some_state,
 			})

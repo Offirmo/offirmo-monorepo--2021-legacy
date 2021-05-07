@@ -29,9 +29,10 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 			return schema_version__A > schema_version__B
 		},
 
+		// has actual difference, not just timestamp
 		has_valuable_difference_with(stateB: Immutable<AnyOffirmoState>): boolean {
-			const schema_version__B = get_schema_version_loose(stateB)
-			assert(schema_version__A === schema_version__B, `has_valuable_difference_with() expects same schema versions`)
+			//const schema_version__B = get_schema_version_loose(stateB)
+			//assert(schema_version__A === schema_version__B, `has_valuable_difference_with() expects same schema versions`)
 
 			const revision__A = get_revision_loose(stateA)
 			const revision__B = get_revision_loose(stateB)

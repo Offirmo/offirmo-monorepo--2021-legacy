@@ -1,3 +1,5 @@
+import { Immutable } from '@offirmo-private/ts-types'
+
 import {
 	Options,
 	State,
@@ -14,7 +16,7 @@ function create_state(options: Options): State {
 	}
 }
 
-export function prettify_any(js: Readonly<any>, options: Readonly<Partial<Options>> = {}): string {
+export function prettify_any(js: Immutable<any>, options: Immutable<Partial<Options>> = {}): string {
 	try {
 		const st = create_state(get_options(options))
 
@@ -25,19 +27,19 @@ export function prettify_any(js: Readonly<any>, options: Readonly<Partial<Option
 	}
 }
 
-export function prettify_json(js: Readonly<any>, options: Readonly<Partial<Options>> = {}): string {
+export function prettify_json(js: Immutable<any>, options: Immutable<Partial<Options>> = {}): string {
 	const st = create_state(get_options(options))
 
 	// TODO show not JSON
 	return st.o.prettify_any(js, st)
 }
 
-export function dump_prettified_any(msg: string, data: Readonly<any>, options: Readonly<Partial<Options>> = {}): void {
+export function dump_prettified_any(msg: string, data: Immutable<any>, options: Immutable<Partial<Options>> = {}): void {
 	console.log(msg)
 	console.log(prettify_any(data, options))
 }
 
 
-export function is_pure_json(js: Readonly<any>): boolean {
+export function is_pure_json(js: Immutable<any>): boolean {
 	return false
 }
