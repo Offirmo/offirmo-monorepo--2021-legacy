@@ -66,10 +66,20 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far
 		// the savegame may also be outdated.
-		const persistent_store = create_store__local_storage(SEC, local_storage, _dispatcher)
+		const persistent_store = create_store__local_storage(
+				SEC,
+				local_storage,
+				TBRPGState.migrate_to_latest,
+				_dispatcher,
+			)
 		_dispatcher.register_store(persistent_store)
 
-		const cloud_store = create_store__cloud_storage(SEC, local_storage, _dispatcher)
+		const cloud_store = create_store__cloud_storage(
+				SEC,
+				local_storage,
+				TBRPGState.migrate_to_latest,
+				_dispatcher,
+			)
 		_dispatcher.register_store(cloud_store)
 
 		/////////////////////////////////////////////////

@@ -35,7 +35,7 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 
 			const revision__A = get_revision_loose(stateA)
 			const revision__B = get_revision_loose(stateB)
-			return revision__A !== revision__B
+			return revision__A !== revision__B // no order here
 		},
 
 		has_higher_investment_than(stateB: Immutable<AnyOffirmoState>): boolean {
@@ -70,10 +70,10 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 			return true
 		},
 
-		get_debug_infos_about_comparison_with(stateB: Immutable<AnyOffirmoState>) {
+		get_debug_infos_about_comparison_with(stateB: Immutable<AnyOffirmoState>, nickname__a: string = 'A', nickname__b: string = 'B') {
 			return {
-				A: get_base_loose(stateA),
-				B: get_base_loose(stateB),
+				[nickname__a]: get_base_loose(stateA),
+				[nickname__b]: get_base_loose(stateB),
 			}
 		}
 	}

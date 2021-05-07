@@ -8,14 +8,10 @@ import {
 	Immutable,
 	get_schema_version_loose,
 	get_base_loose,
-	get_revision_loose,
-	get_semantic_difference,
-	SemanticDifference,
-	compare as compare_state, has_versioned_schema,
+	UNCLEAR_compare,
 } from '@offirmo-private/state-utils'
 import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 
-import * as TBRPGState from '@tbrpg/state'
 import { State, SCHEMA_VERSION } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
 
@@ -62,11 +58,8 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 			if (is_empty)
 				return fallback
 
-			// NO! base/root was harmonized recently, can be valid while not passing those type guards
-			//const is_valid_state: boolean = is_BaseState(json) || is_RootState(json)
-			const is_valid_state: boolean = has_versioned_schema(json)
-			if (!is_valid_state)
-				throw new Error(`Content of storage key "${key}" is not a base nor a root state!`)
+			// NOTE base/root was reworked over time, can be valid while not passing those type guards
+			//const is_valid_state: boolean = is_BaseState(json) || is_RootState(json) || has_versioned_schema(json)
 
 			return json as any as State
 		}
@@ -78,6 +71,7 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 export function create(
 	SEC: OMRSoftExecutionContext,
 	storage: Storage,
+	migrate_to_latest: (SEC: OMRSoftExecutionContext, legacy: Immutable<any>, hints?: Immutable<any>) => Immutable<State>,
 	dispatcher?: Dispatcher,
 ): Store {
 	const LIB = `Store--local`
@@ -123,30 +117,32 @@ export function create(
 
 		let bkp__current: Immutable<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_main, _on_error)
 		let bkp__recent: Immutable<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, StorageKey.bkp_minor, _on_error)
-		let bkp__older: Array<Readonly<JSONObject> | undefined> = [
+		let bkp__older: Array<Readonly<JSONObject>> = [
 			_safe_read_parse_and_validate_from_storage<any>(storage, StorageKey.bkp_major_old, _on_error),
 			_safe_read_parse_and_validate_from_storage<any>(storage, StorageKey.bkp_major_older, _on_error),
-		]
+		].filter(s => !!s)
 
-		// should allow any minor overwrite,
-		// in case manual revert or cloud sync.
-		async function _enqueue_in_bkp_pipeline(some_state?: Immutable<State>): Promise<boolean> {
+		// TODO should allow any minor overwrite, in case manual revert
+		// Return value: not used TODO review and clean
+		async function _enqueue_in_bkp_pipeline(some_state: Immutable<State>): Promise<boolean> {
 			logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline()`, {
-				candidate_rev: some_state ? get_revision_loose(some_state) : null,
-				current_rev: state ? get_revision_loose(state) : null,
-				bkp_rev: bkp__current ? get_revision_loose(bkp__current) : null,
+				candidate: get_base_loose(some_state as any),
+				current: get_base_loose(state as any),
+				bkp: get_base_loose(bkp__current as any),
 				'legacy.length': recovered_states_unmigrated_ordered.length,
 				//some_state,
 			})
-			if (!some_state) return false
+
 			assert(get_schema_version_loose(some_state) === SCHEMA_VERSION, `schema version === ${SCHEMA_VERSION} (current)!`)
+
 			if (some_state === restored_migrated) {
 				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): echo from restoration, no change ✔`)
 				return false
 			}
-			const has_valuable_difference = fluid_select(some_state).has_valuable_difference_with(bkp__current)
-			if (bkp__current && !has_valuable_difference) {
-				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): no relevant change ✔`)
+
+			const has_valuable_difference = !bkp__current || fluid_select(some_state).has_valuable_difference_with(bkp__current)
+			if (!has_valuable_difference) {
+				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): no valuable change ✔`)
 				return false
 			}
 
@@ -159,7 +155,7 @@ export function create(
 				if (get_schema_version_loose(bkp__recent) === SCHEMA_VERSION)
 					promises.push(_optimized_store_key_value(StorageKey.bkp_minor, bkp__recent))
 				else {
-					// cleanup, will be stored in the major pipeline, cf. lines below
+					// cleanup, we move it to the major pipeline, cf. lines below
 					storage.removeItem(StorageKey.bkp_minor)
 					bkp__recent = undefined
 				}
@@ -176,11 +172,12 @@ export function create(
 		}
 
 		// EXPECTED: values are presented from the oldest to the newest!
-		async function _enqueue_in_major_bkp_pipeline(legacy_state?: Readonly<any>): Promise<boolean> {
+		async function _enqueue_in_major_bkp_pipeline(legacy_state: Immutable<any>): Promise<boolean> {
 			logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline()`, get_base_loose(legacy_state as any))
 
-			const most_recent_previous_major_version = bkp__older[0]
+			const most_recent_previous_major_version = bkp__older[0] as any
 			assert(fluid_select(legacy_state).has_higher_or_equal_schema_version_than(most_recent_previous_major_version))
+
 			const is_major_update = fluid_select(legacy_state).has_higher_schema_version_than(most_recent_previous_major_version)
 			if (is_major_update) {
 				bkp__older = [legacy_state, bkp__older[0]]
@@ -217,7 +214,7 @@ export function create(
 					...bkp__older,
 				]
 				.filter(s => !!s)
-				.sort(compare_state)
+				.sort(UNCLEAR_compare)
 
 			if (recovered_states_unmigrated_ordered.length)
 				logger.trace(`[${LIB}] found ${recovered_states_unmigrated_ordered.length} past backups:`, {
@@ -236,7 +233,7 @@ export function create(
 				logger.trace(`[${LIB}] automigrating and restoring this candidate state…`)
 
 				// memorize it for later
-				restored_migrated = TBRPGState.migrate_to_latest(SEC,
+				restored_migrated = migrate_to_latest(SEC,
 					// deep clone in case the migration is not immutable (seen!)
 					JSON.parse(JSON.stringify(
 						most_recent_unmigrated_bkp
@@ -263,13 +260,10 @@ export function create(
 		/////////////////////////////////////////////////
 
 		function set(new_state: Immutable<State>): void {
-			const has_valuable_difference = fluid_select(new_state).has_valuable_difference_with(state)
+			const has_valuable_difference = !state || fluid_select(new_state).has_valuable_difference_with(state)
 			logger.trace(`${LIB}.set()`, {
-				...get_base_loose(new_state),
-				...(state
-					? { previous: get_base_loose(state) }
-					: { previous: null }
-				),
+				new_state: get_base_loose(new_state),
+				existing_state: get_base_loose(state as any),
 			})
 
 			if (!state) {
@@ -295,17 +289,17 @@ export function create(
 
 		function on_dispatch(action: Immutable<Action>, eventual_state_hint?: Immutable<State>): void {
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
-				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
+				eventual_state_hint: get_base_loose(eventual_state_hint as any),
 			})
 			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
 			assert(!!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint is mandatory in this store`)
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
-			const has_valuable_difference = fluid_select(state).has_valuable_difference_with(previous_state)
+			const has_valuable_difference = !previous_state || fluid_select(state).has_valuable_difference_with(previous_state)
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
-				current_rev: get_revision_loose(previous_state as any),
-				new_rev: get_revision_loose(state as any),
+				current_rev: get_base_loose(previous_state as any),
+				new_rev: get_base_loose(state as any),
 				has_valuable_difference,
 			})
 			if (!has_valuable_difference) {

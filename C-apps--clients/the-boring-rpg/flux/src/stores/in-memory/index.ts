@@ -2,7 +2,12 @@ import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
-import { Immutable, get_revision_loose, fluid_select, get_base_loose } from '@offirmo-private/state-utils'
+import {
+	Immutable,
+	get_revision_loose,
+	fluid_select,
+	get_base_loose,
+} from '@offirmo-private/state-utils'
 
 import { OMRSoftExecutionContext } from '../../sec'
 import { Store } from '../../types'
@@ -26,14 +31,14 @@ export function create(
 		/////////////////////////////////////////////////
 
 		function set(new_state: Immutable<State>): void {
-			const has_valuable_difference = fluid_select(new_state).has_valuable_difference_with(state)
-			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), has_valuable_difference })
+			const has_valuable_difference = !state || fluid_select(new_state).has_valuable_difference_with(state)
+			logger.trace(`${LIB}.set()`, { state: get_base_loose(new_state), has_valuable_difference })
 
 			if (!state) {
 				logger.trace(`${LIB}.set(): init ✔`)
 			}
 			else if (!has_valuable_difference) {
-				logger.trace(`${LIB}.set(): no semantic change ✔`)
+				logger.trace(`${LIB}.set(): no valuable change ✔`)
 				return
 			}
 
@@ -42,14 +47,14 @@ export function create(
 		}
 
 		function get(): Immutable<State> {
-			assert(state, `get(): ${LIB} never initialized!`)
+			assert(state, `${LIB}.get(): never initialized!`)
 
 			return state
 		}
 
 		function on_dispatch(action: Immutable<Action>, eventual_state_hint?: Immutable<State>): void {
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
-				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
+				eventual_state_hint: get_base_loose(eventual_state_hint as any),
 			})
 			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
 			assert(!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint not expected in this store`)
@@ -59,7 +64,6 @@ export function create(
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
 				current_rev: get_revision_loose(previous_state as any),
 				new_rev: get_revision_loose(state as any),
-				//semantic_difference,
 			})
 			if (state === previous_state) {
 				return

@@ -13,8 +13,8 @@ import {
 	get_json_difference,
 	SemanticDifference,
 	s_max,
-	//get_semantic_difference,
-	compare,
+	UNCLEAR_get_difference,
+	UNCLEAR_compare,
 } from './comparators'
 import {
 	BaseRootState,
@@ -67,23 +67,23 @@ describe(`${LIB} - comparators`, function() {
 			})
 		})
 	})
-/*
-	describe('get_semantic_difference()', function() {
+
+	describe('UNCLEAR_get_difference()', function() {
 
 		context('on basic json', function() {
 			const TEST_DATA = { foo: 42 }
 
 			it('should return minor when no previous', () => {
-				expect(get_semantic_difference(TEST_DATA)).to.equal(SemanticDifference.minor)
-				expect(get_semantic_difference(TEST_DATA, null)).to.equal(SemanticDifference.minor)
+				expect(UNCLEAR_get_difference(TEST_DATA), 'undef').to.equal(SemanticDifference.minor)
+				expect(UNCLEAR_get_difference(TEST_DATA, null), 'null').to.equal(SemanticDifference.minor)
 			})
 
 			it('should always return minor whatever the previous (not null)', () => {
-				expect(get_semantic_difference(TEST_DATA, 5)).to.equal(SemanticDifference.minor)
+				expect(UNCLEAR_get_difference(TEST_DATA, 5)).to.equal(SemanticDifference.minor)
 			})
 
 			it('should return none on equality', () => {
-				expect(get_semantic_difference(TEST_DATA, TEST_DATA)).to.equal(SemanticDifference.none)
+				expect(UNCLEAR_get_difference(TEST_DATA, TEST_DATA)).to.equal(SemanticDifference.none)
 			})
 		})
 
@@ -92,49 +92,58 @@ describe(`${LIB} - comparators`, function() {
 			context('when no previous', function() {
 
 				it('should return minor', () => {
-					expect(get_semantic_difference(DEMO_BASE_STATE)).to.equal(SemanticDifference.minor)
-					expect(get_semantic_difference(DEMO_BASE_STATE, null)).to.equal(SemanticDifference.minor)
+					expect(UNCLEAR_get_difference(DEMO_BASE_STATE)).to.equal(SemanticDifference.minor)
+					expect(UNCLEAR_get_difference(DEMO_BASE_STATE, null)).to.equal(SemanticDifference.minor)
 				})
 			})
 
 			context('when the previous has no schema', function() {
 
 				it('should return major', () => {
-					expect(get_semantic_difference(DEMO_BASE_STATE, {foo: 42})).to.equal(SemanticDifference.major)
+					expect(UNCLEAR_get_difference(DEMO_BASE_STATE, {foo: 42})).to.equal(SemanticDifference.major)
 				})
 			})
 
 			it('should return major when the schema version changed', () => {
-				expect(get_semantic_difference(DEMO_BASE_STATE, {
+				expect(UNCLEAR_get_difference(DEMO_BASE_STATE, {
 					...DEMO_BASE_STATE,
 					schema_version: 1,
 				})).to.equal(SemanticDifference.major)
 			})
 
 			it('should return minor when no schema change but revision change', () => {
-				expect(get_semantic_difference(DEMO_BASE_STATE, {
+				expect(UNCLEAR_get_difference(DEMO_BASE_STATE, {
 					...DEMO_BASE_STATE,
 					revision: 1,
 				})).to.equal(SemanticDifference.minor)
 			})
 
+			it('should return minor when no revision change but last involvement difference (fork, revisions are in fact not referring to the same history)', () => {
+				expect(UNCLEAR_get_difference(
+					DEMO_ROOT_STATE,
+					{
+						...DEMO_ROOT_STATE,
+						last_user_investment_tms: DEMO_ROOT_STATE.last_user_investment_tms - 1,
+					})).to.equal(SemanticDifference.minor)
+			})
+
 			it('should return time when no other change but timestamp (tstate)', () => {
-				expect(get_semantic_difference(DEMO_TSTATE, {
+				expect(UNCLEAR_get_difference(DEMO_TSTATE, {
 					...DEMO_TSTATE,
 					timestamp_ms: DEMO_TSTATE.timestamp_ms - 1,
 				})).to.equal(SemanticDifference.time)
 			})
 
 			it('should return none on equality -- same obj', () => {
-				expect(get_semantic_difference(DEMO_BASE_STATE, DEMO_BASE_STATE)).to.equal(SemanticDifference.none)
+				expect(UNCLEAR_get_difference(DEMO_BASE_STATE, DEMO_BASE_STATE)).to.equal(SemanticDifference.none)
 			})
 			it('should return none on equality -- different obj', () => {
-				expect(get_semantic_difference(DEMO_BASE_STATE, {...DEMO_BASE_STATE})).to.equal(SemanticDifference.none)
-				expect(get_semantic_difference(DEMO_TSTATE, {...DEMO_TSTATE})).to.equal(SemanticDifference.none)
+				expect(UNCLEAR_get_difference(DEMO_BASE_STATE, {...DEMO_BASE_STATE})).to.equal(SemanticDifference.none)
+				expect(UNCLEAR_get_difference(DEMO_TSTATE, {...DEMO_TSTATE})).to.equal(SemanticDifference.none)
 			})
 
 			it('should return none on equality -- init state (past bug)', () => {
-				expect(get_semantic_difference({
+				expect(UNCLEAR_get_difference({
 					schema_version: 14,
 					revision: 0,
 				},{
@@ -143,8 +152,8 @@ describe(`${LIB} - comparators`, function() {
 				})).to.equal(SemanticDifference.none)
 			})
 
-			it('should throw on immutability problem', () => {
-				expect(() => get_semantic_difference({
+			/*it('should throw on immutability problem', () => {
+				expect(() => UNCLEAR_get_difference({
 					schema_version: 14,
 					revision: 3,
 					timestamp_ms: 1234,
@@ -158,40 +167,40 @@ describe(`${LIB} - comparators`, function() {
 			})
 
 			it('should throw on reversed order -- schema version', () => {
-				expect(() => get_semantic_difference(DEMO_BASE_STATE, {
+				expect(() => UNCLEAR_get_difference(DEMO_BASE_STATE, {
 					...DEMO_BASE_STATE,
 					schema_version: 9999,
 				})).to.throw('order')
 			})
 
 			it('should throw on reversed order -- revision', () => {
-				expect(() => get_semantic_difference(DEMO_BASE_STATE, {
+				expect(() => UNCLEAR_get_difference(DEMO_BASE_STATE, {
 					...DEMO_BASE_STATE,
 					revision: 9999,
 				})).to.throw('order')
 			})
 
 			it('should throw on reversed order -- time', () => {
-				expect(() => get_semantic_difference(DEMO_TSTATE, {
+				expect(() => UNCLEAR_get_difference(DEMO_TSTATE, {
 					...DEMO_TSTATE,
 					timestamp_ms: DEMO_TSTATE.timestamp_ms + 1,
 				})).to.throw('order')
-			})
+			})*/
 		})
 
 		context('on advanced Offirmo’s Root state', function() {
 
 			it('should return minor when no previous', () => {
-				expect(get_semantic_difference(DEMO_ROOT_STATE)).to.equal(SemanticDifference.minor)
-				expect(get_semantic_difference(DEMO_ROOT_STATE, null)).to.equal(SemanticDifference.minor)
+				expect(UNCLEAR_get_difference(DEMO_ROOT_STATE)).to.equal(SemanticDifference.minor)
+				expect(UNCLEAR_get_difference(DEMO_ROOT_STATE, null)).to.equal(SemanticDifference.minor)
 			})
 
 			it('should return major when previous has no schema', () => {
-				expect(get_semantic_difference(DEMO_ROOT_STATE, { foo: 42 })).to.equal(SemanticDifference.major)
+				expect(UNCLEAR_get_difference(DEMO_ROOT_STATE, { foo: 42 })).to.equal(SemanticDifference.major)
 			})
 
 			it('should return major when the ROOT schema changed', () => {
-				expect(get_semantic_difference(DEMO_ROOT_STATE, {
+				expect(UNCLEAR_get_difference(DEMO_ROOT_STATE, {
 					...DEMO_ROOT_STATE,
 					schema_version: 1,
 					u_state: {
@@ -206,7 +215,7 @@ describe(`${LIB} - comparators`, function() {
 			})
 
 			it('should throw when any U/T schemas is mismatching', () => {
-				expect(() => get_semantic_difference(DEMO_ROOT_STATE, {
+				expect(() => UNCLEAR_get_difference(DEMO_ROOT_STATE, {
 					...DEMO_ROOT_STATE,
 					u_state: {
 						...DEMO_ROOT_STATE.u_state,
@@ -214,7 +223,7 @@ describe(`${LIB} - comparators`, function() {
 					}
 				})).to.throw()
 
-				expect(() => get_semantic_difference(DEMO_ROOT_STATE, {
+				expect(() => UNCLEAR_get_difference(DEMO_ROOT_STATE, {
 					...DEMO_ROOT_STATE,
 					t_state: {
 						...DEMO_ROOT_STATE.t_state,
@@ -224,7 +233,7 @@ describe(`${LIB} - comparators`, function() {
 			})
 
 			it('should return minor when no schema change but revision change (SUB)', () => {
-				expect(get_semantic_difference(DEMO_ROOT_STATE, {
+				expect(UNCLEAR_get_difference(DEMO_ROOT_STATE, {
 					...DEMO_ROOT_STATE,
 					u_state: {
 						...DEMO_ROOT_STATE.u_state,
@@ -232,7 +241,7 @@ describe(`${LIB} - comparators`, function() {
 					}
 				})).to.equal(SemanticDifference.minor)
 
-				expect(get_semantic_difference(DEMO_ROOT_STATE, {
+				expect(UNCLEAR_get_difference(DEMO_ROOT_STATE, {
 					...DEMO_ROOT_STATE,
 					t_state: {
 						...DEMO_ROOT_STATE.t_state,
@@ -242,11 +251,11 @@ describe(`${LIB} - comparators`, function() {
 			})
 
 			it('should return none on equality', () => {
-				expect(get_semantic_difference(DEMO_ROOT_STATE, DEMO_ROOT_STATE)).to.equal(SemanticDifference.none)
+				expect(UNCLEAR_get_difference(DEMO_ROOT_STATE, DEMO_ROOT_STATE)).to.equal(SemanticDifference.none)
 			})
 
-			it('should throw on reversed order -- schema version', () => {
-				expect(() => get_semantic_difference(DEMO_ROOT_STATE, {
+			/*it('should throw on reversed order -- schema version', () => {
+				expect(() => UNCLEAR_get_difference(DEMO_ROOT_STATE, {
 					...DEMO_ROOT_STATE,
 					u_state: {
 						...DEMO_ROOT_STATE.u_state,
@@ -257,12 +266,11 @@ describe(`${LIB} - comparators`, function() {
 						schema_version: 9999,
 					},
 				})).to.throw()
-			})
+			})*/
 		})
 	})
-*/
 
-	describe('compare()', function() {
+	describe('UNCLEAR_compare()', function() {
 
 		function gen_base(d: SemanticDifference): BaseState {
 			return {
@@ -298,14 +306,14 @@ describe(`${LIB} - comparators`, function() {
 						const s__a = gen_base(a)
 						const s__b = gen_base(b)
 						//console.log({a,b, s__a, s__b})
-						const comp = compare(s__a, s__b)
+						const comp = UNCLEAR_compare(s__a, s__b)
 
 						if (ia > ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.above(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.above(0)
 						else if (ia < ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.below(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.below(0)
 						else
-							expect(comp, `compare(${a}, ${b})`).to.equal(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.equal(0)
 					})
 				})
 			})
@@ -318,14 +326,14 @@ describe(`${LIB} - comparators`, function() {
 						const s__a = gen_tstate(a)
 						const s__b = gen_tstate(b)
 						//console.log({a, b, s__a, s__b})
-						const comp = compare(s__a, s__b)
+						const comp = UNCLEAR_compare(s__a, s__b)
 
 						if (ia > ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.above(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.above(0)
 						else if (ia < ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.below(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.below(0)
 						else
-							expect(comp, `compare(${a}, ${b})`).to.equal(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.equal(0)
 					})
 				})
 			})
@@ -338,14 +346,14 @@ describe(`${LIB} - comparators`, function() {
 						const s__a = gen_aggregated(a)
 						const s__b = gen_aggregated(b)
 						//console.log({a, b, s__a, s__b})
-						const comp = compare(s__a, s__b)
+						const comp = UNCLEAR_compare(s__a, s__b)
 
 						if (ia > ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.above(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.above(0)
 						else if (ia < ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.below(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.below(0)
 						else
-							expect(comp, `compare(${a}, ${b})`).to.equal(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.equal(0)
 					})
 				})
 			})
@@ -358,14 +366,14 @@ describe(`${LIB} - comparators`, function() {
 						const s__a = gen_rootstate(a)
 						const s__b = gen_rootstate(b)
 						//console.log({a, b, s__a, s__b})
-						const comp = compare(s__a, s__b)
+						const comp = UNCLEAR_compare(s__a, s__b)
 
 						if (ia > ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.above(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.above(0)
 						else if (ia < ib)
-							expect(comp, `compare(${a}, ${b})`).to.be.below(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.be.below(0)
 						else
-							expect(comp, `compare(${a}, ${b})`).to.equal(0)
+							expect(comp, `UNCLEAR_compare(${a}, ${b})`).to.equal(0)
 					})
 				})
 			})

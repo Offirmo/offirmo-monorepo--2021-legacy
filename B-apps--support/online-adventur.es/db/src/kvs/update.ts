@@ -84,7 +84,7 @@ export async function set_kv_entry_intelligently<T>(
 			//candidate: value,
 			//existing_pipeline,
 			...fluid_select(value as unknown as AnyOffirmoState)
-				.get_debug_infos_about_comparison_with(existing_pipeline?.value as unknown as AnyOffirmoState),
+				.get_debug_infos_about_comparison_with(existing_pipeline?.value as unknown as AnyOffirmoState, 'candidate', 'existing'),
 		})
 
 		if (existing_pipeline) {

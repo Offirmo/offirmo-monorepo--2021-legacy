@@ -48,7 +48,7 @@ export function create(
 		}
 
 		function set(state: Immutable<State>): void {
-			logger.trace(`${LIB}.set()`, { ...get_base_loose(state) })
+			logger.trace(`${LIB}.set()`, { state: get_base_loose(state) })
 
 			assert(stores.length, 'Dispatcher: set() before registering any stores!')
 

@@ -4,6 +4,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'
+import { is_RootState } from '@offirmo-private/state-utils'
 import { State, DEMO_STATE, EngagementKey } from '@tbrpg/state'
 import { StorageKey } from './stores/local-storage'
 
@@ -49,11 +50,11 @@ describe(`${LIB} - game-instance`, function() {
 					app_state: {} as any,
 				})
 
-				expect(game_instance.model.get()).to.have.property('schema_version')
+				expect(is_RootState(game_instance.model.get())).to.be.true
 			})
 		})
 
-		context('when passed no game ({})', function() {
+		context('when passed no game (empty object {})', function() {
 			it('should create a new game', () => {
 				local_storage.setItem(StorageKey.bkp_main, '{}')
 				const game_instance = create_game_instance<AppState>({
@@ -62,7 +63,7 @@ describe(`${LIB} - game-instance`, function() {
 					app_state: {} as any,
 				})
 
-				expect(game_instance.model.get()).to.have.property('schema_version')
+				expect(is_RootState(game_instance.model.get())).to.be.true
 			})
 		})
 
@@ -76,7 +77,7 @@ describe(`${LIB} - game-instance`, function() {
 				})
 
 				const model = game_instance.model.get()
-				expect(model).to.have.property('schema_version')
+				expect(is_RootState(model)).to.be.true
 
 				expect(model.u_state.avatar.name).to.equal('PerteProd')
 				expect(model.u_state.avatar.klass).to.equal('knight')

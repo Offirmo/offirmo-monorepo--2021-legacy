@@ -71,7 +71,7 @@ describe(`${LIB} - store - local storage`, function() {
 			context('on a non-initialized store', function () {
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 					const listener = sinon.stub()
 
 					listener.resetHistory()
@@ -104,7 +104,7 @@ describe(`${LIB} - store - local storage`, function() {
 			context('on an initialized store', function () {
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 					store.set(DEMO_LATEST)
 					await all_planned_idle_executed()
 
@@ -137,7 +137,7 @@ describe(`${LIB} - store - local storage`, function() {
 	describe('side features', function() {
 
 		it('get() should crash when not initialized', () => {
-			const store = create(SEC, local_storage)
+			const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 			expect(store.get).to.throw('initialized')
 		})
 
@@ -153,7 +153,7 @@ describe(`${LIB} - store - local storage`, function() {
 		context('when starting fresh', function () {
 
 			it('should work', async () => {
-				const store = create(SEC, local_storage)
+				const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 				let step = 'A'
 
 				await all_planned_idle_executed()
@@ -196,7 +196,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 
 					await all_planned_idle_executed()
 					// nothing changed in LS
@@ -215,7 +215,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 
 					let step = 'sync'
 					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
@@ -265,7 +265,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 
 					let step = 'sync'
 					expect(store.get(), `${step} get`).to.deep.equal(DEMO_LATEST_ALT)
@@ -316,7 +316,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 
 					let step = 'sync'
 					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
@@ -376,7 +376,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 
 					let step = 'sync'
 					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)
@@ -444,7 +444,7 @@ describe(`${LIB} - store - local storage`, function() {
 				})
 
 				it('should work', async () => {
-					const store = create(SEC, local_storage)
+					const store = create(SEC, local_storage, s => { throw 'UNEXPECTED!' })
 
 					let step = 'sync'
 					expect(get_schema_version_loose(store.get()), `${step} get`).to.equal(SCHEMA_VERSION)

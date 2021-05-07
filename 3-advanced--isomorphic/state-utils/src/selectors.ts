@@ -65,13 +65,24 @@ export function get_schema_version_loose<
 	BT extends BaseTState,
 	BR extends BaseRootState,
 >(s: Immutable<V> | Immutable<AnyOffirmoState>): number {
+
 	if (has_versioned_schema(s))
 		return get_schema_version(s)
 
-	// specific fallbacks:
-	// loose legacy bundles
-	if (Array.isArray(s) && has_versioned_schema(s[0]))
-		return get_schema_version(s[0])
+	// specific fallbacks
+	if (Array.isArray(s)) {
+		const maybe_legacy_bundle = s
+		if (has_versioned_schema(maybe_legacy_bundle[0])) {
+			return get_schema_version(maybe_legacy_bundle[0])
+		}
+	}
+
+	if (s && typeof s === 'object') {
+		const maybe_legacy_root_state = s as any
+		if (maybe_legacy_root_state.u_state) {
+			return get_schema_version(maybe_legacy_root_state.u_state)
+		}
+	}
 
 	// final fallback
 	return 0
@@ -121,7 +132,7 @@ export function get_revision_loose<
 		}
 	}
 
-	if (typeof s === 'object') {
+	if (s && typeof s === 'object') {
 		const maybe_legacy_root_state = s as any
 		if (maybe_legacy_root_state.u_state || maybe_legacy_root_state.t_state) {
 			return get_revision(maybe_legacy_root_state.u_state) + get_revision_loose(maybe_legacy_root_state.t_state)

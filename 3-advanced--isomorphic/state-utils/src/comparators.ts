@@ -50,109 +50,40 @@ const _advanced_json_differ = jsondiffpatch.create({
 export const get_json_difference: (a: any, b: any) => JSONObject =
 	_advanced_json_differ.diff.bind(_advanced_json_differ)
 
-// newer and older so that we get order check as a side-effect
-// TODO improve unclear params
-/*
-export function get_semantic_difference(newer: any, older?: any, { assert_newer = true }: { assert_newer?: boolean } = {}): SemanticDifference {
-	//console.log({ newer, older })
-	assert(newer, `get_semantic_difference() should have a newer at least!`)
-
-	// trivial
-	if (newer === older) return SemanticDifference.none
-	if (!older) return SemanticDifference.minor // init, by convention
-
-	// check major = schema version
-	const newer_schema_version = get_schema_version_loose(newer)
-	const older_schema_version = get_schema_version_loose(older)
-	//console.log({ newer_schema_version, older_schema_version })
-	if (assert_newer) {
-		assert(newer_schema_version >= older_schema_version, `get_semantic_difference() schema version order should: ${newer_schema_version} >= ${older_schema_version}`)
-	}
-	if (newer_schema_version !== older_schema_version)
-		return SemanticDifference.major
-
-	// check minor = revision
-	if (is_RootState(newer)) {
-		//console.log('root state')
-		const u_diff = get_semantic_difference(newer.u_state, older?.u_state, {assert_newer})
-		const t_diff = get_semantic_difference(newer.t_state, older?.t_state, {assert_newer})
-		const activity_diff =
-		const sub_diff = s_max(u_diff, t_diff)
-		//console.log({ u_diff, t_diff, sub_diff })
-		if (sub_diff === SemanticDifference.major)
-			throw new Error('get_semantic_difference() A major sub state change wasn’t propagated to the root!')
-
-		//console.log({ sub_diff })
-		return sub_diff
-	}
-	// do they even have revisions?
-	const newer_has_revision = is_revisioned(newer)
-	const older_has_revision = is_revisioned(older)
-	const no_revisions = !newer_has_revision && !older_has_revision
-	if (no_revisions)
-		return SemanticDifference.minor // they are different. what else can we infer?
-	if (assert_newer) {
-		assert(newer_has_revision, `get_semantic_difference() schema version order: rev=${newer_has_revision} >= rev=${older_has_revision}`)
-	}
-	if (newer_has_revision !== older_has_revision)
-		return SemanticDifference.major
-	// compare revisions
-	const newer_revision = get_revision_loose(newer)
-	const older_revision = get_revision_loose(older)
-	//console.log({ newer_revision, older_revision })
-	if (assert_newer)
-		assert(newer_revision >= older_revision, 'get_semantic_difference() revision order')
-	if (newer_revision !== older_revision) {
-		//console.log({ newer_revision, older_revision })
-		return SemanticDifference.minor
-	}
-
-	// major & minor equal, only diff left is time
-	const newer_has_timestamp = is_time_stamped(newer)
-	const older_has_timestamp = is_time_stamped(older)
-	if (newer_has_timestamp && older_has_timestamp) {
-		const newer_timestamp = get_timestamp(newer)
-		const older_timestamp = get_timestamp(older)
-		if (assert_newer) {
-			assert(newer_timestamp >= older_timestamp, `get_semantic_difference() timestamp order: t=${newer_timestamp} >= t=${older_timestamp}`)
-		}
-		if (newer_timestamp !== older_timestamp)
-			return SemanticDifference.time
-	}
-
-	// we couldn't find any semantic difference.
-	// however, the objects are different so bad immutability could have kicked in...
-	const is_truely_equal = is_deep_equal(newer, older)
-	if (!is_truely_equal) {
-		const diff = get_json_difference(newer, older)
-		console.error('ERROR get_semantic_difference() deep eq of semantically equal objects!', diff)
-		debugger
-	}
-	assert(is_truely_equal, 'get_semantic_difference() deep eq of semantically equal objects')
-
-	return SemanticDifference.none
-}
-*/
-
-// compare by structure
-// mainly used to sort out backups
-export function compare(a: any, b: any): number {
+// TODO improve unclear semantics
+export function UNCLEAR_get_difference__full(a: any, b?: any): { type: SemanticDifference, direction: number } {
 	//console.log('compare()', { a, b })
+
+	// quick
+	if (a === b)
+		return {
+			type: SemanticDifference.none,
+			direction: 0,
+		}
+
+	const exists__a = !!a
+	const exists__b = !!b
+	if (exists__a !== exists__b)
+		return {
+			type: SemanticDifference.minor, // by convention
+			direction: (exists__a ? 1 : 0) - (exists__b ? 1 : 0)
+		}
 
 	const schema_version__a = get_schema_version_loose(a)
 	const schema_version__b = get_schema_version_loose(b)
 	if (schema_version__a !== schema_version__b)
-		return schema_version__a - schema_version__b
-
-	const revision__a = get_revision_loose(a)
-	const revision__b = get_revision_loose(b)
-	if (revision__a !== revision__b)
-		return revision__a - revision__b
+		return {
+			type: SemanticDifference.major,
+			direction: schema_version__a - schema_version__b
+		}
 
 	const is_root__a = is_RootState(a)
 	const is_root__b = is_RootState(b)
 	if (is_root__a !== is_root__b)
-		return (is_root__a ? 1 : 0) - (is_root__b ? 1 : 0)
+		return {
+			type: SemanticDifference.major,
+			direction: (is_root__a ? 1 : 0) - (is_root__b ? 1 : 0)
+		}
 	/* TODO is it needed? revision should work on a state
 	if (is_root__a) {
 		const u_state_rev__a = get_revision_loose(a.u_state)
@@ -165,17 +96,57 @@ export function compare(a: any, b: any): number {
 		if (t_state_rev__a !== t_state_rev__b)
 			return t_state_rev__a - t_state_rev__b
 	}*/
+	if (is_root__a && a.app_id && b.app_id) {
+		assert(a.app_id === b.app_id, `UNCLEAR_get_difference() states should be in the same universe!`)
+	}
+
+	const revision__a = get_revision_loose(a)
+	const revision__b = get_revision_loose(b)
+	if (revision__a !== revision__b)
+		return {
+			type: SemanticDifference.minor,
+			direction: revision__a - revision__b,
+		}
 
 	const activity_tms__a = get_last_user_activity_timestamp_loose(a)
 	const activity_tms__b = get_last_user_activity_timestamp_loose(b)
 	if (activity_tms__a !== activity_tms__b)
-		return activity_tms__a - activity_tms__b
+		return {
+			type: SemanticDifference.minor, // fork
+			direction: activity_tms__a - activity_tms__b,
+		}
 
 	// last resort if state is/has a T_state
 	const t_tms__a = get_timestamp_loose(a)
 	const t_tms__b = get_timestamp_loose(b)
 	if (t_tms__a !== t_tms__b)
-		return t_tms__a - t_tms__b
+		return {
+			type: SemanticDifference.time,
+			direction: t_tms__a - t_tms__b,
+		}
 
-	return 0
+	if ([
+		schema_version__a,
+		revision__a,
+		activity_tms__a,
+		t_tms__a
+	].join(',') === '0,0,0,0') {
+		// compared stuff are not semantic states
+		return {
+			type: SemanticDifference.minor, // by convention = minor change on an implied "schema version = 0"
+			direction: t_tms__a - t_tms__b,
+		}
+	}
+
+	return {
+		type: SemanticDifference.none,
+		direction: 0,
+	}
+}
+
+export function UNCLEAR_get_difference(a: any, b?: any): SemanticDifference {
+	return UNCLEAR_get_difference__full(a, b).type
+}
+export function UNCLEAR_compare(a: any, b: any): number {
+	return UNCLEAR_get_difference__full(a, b).direction
 }

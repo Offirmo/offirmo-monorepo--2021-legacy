@@ -9,9 +9,8 @@ import {
 	fluid_select,
 	get_schema_version_loose,
 	get_base_loose,
-	get_semantic_difference,
-	SemanticDifference,
 	get_revision_loose,
+	UNCLEAR_get_difference__full,
 } from '@offirmo-private/state-utils'
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 
@@ -86,6 +85,7 @@ function on_sync_result(state: Immutable<CloudSyncState>): Immutable<CloudSyncSt
 export function create(
 	SEC: OMRSoftExecutionContext,
 	storage: Storage,
+	migrate_to_latest: (SEC: OMRSoftExecutionContext, legacy: Immutable<any>, hints?: Immutable<any>) => Immutable<State>,
 	dispatcher?: Dispatcher,
 ): Store {
 	const LIB = `Store--cloud`
@@ -119,12 +119,13 @@ export function create(
 		let last_known_cloud_state: Immutable<State> | undefined = undefined
 		let is_sync_in_flight = false
 		let update_suggested = false
+		let warned_unhealthy = false
 
 		function should_sync(): boolean {
 			const _is_initialised = !!state
 			const _is_online = is_online(cloud_sync_state)
 			const _is_healthy = is_healthy(cloud_sync_state)
-			const _has_valuable_difference = fluid_select(state).has_valuable_difference_with(last_known_cloud_state)
+			const _has_valuable_difference = state && (!last_known_cloud_state || fluid_select(state).has_valuable_difference_with(last_known_cloud_state))
 			const _has_recent_sync = has_recent_sync(cloud_sync_state)
 			const _should_sync = is_enabled
 				&& _is_initialised
@@ -146,7 +147,9 @@ export function create(
 			})
 
 			if (!_is_healthy) {
-				logger.warn(`[${LIB}] no longer syncing with the cloud, too many errors!`)
+				// To avoid polluting the logs every tick
+				logger[warned_unhealthy ? 'log' : 'warn'](`[${LIB}] no longer syncing with the cloud, too many errors!`)
+				warned_unhealthy = true
 			}
 
 			return _should_sync
@@ -171,7 +174,7 @@ export function create(
 
 			// TODO don't re-send if already in-flight? or sth
 			try {
-				logger.info(`[${LIB}] _sync_with_cloud()`)
+				logger.info(`[${LIB}] _sync_with_cloud() initiating call…`)
 				is_sync_in_flight = true
 				const revision_on_last_sync_start = get_revision_loose(state!)
 				const result = await fetch_oa<State, State>({
@@ -185,7 +188,7 @@ export function create(
 				logger.info(`[${LIB}] _sync_with_cloud() got result:`, result)
 
 				try {
-					const {data, side} = result
+					const { data, side } = result
 
 					if (side.tbrpg) {
 						if (side.tbrpg.NUMERIC_VERSION > NUMERIC_VERSION) {
@@ -231,21 +234,28 @@ export function create(
 					}
 
 					// sync result should always be >= by design
-					const semantic_difference = get_semantic_difference(last_known_cloud_state, state, {assert_newer: false})
-					logger.trace(`[${ LIB }] _sync_with_cloud() got savegame:`, {
-						local_base: get_base_loose(state!),
-						cloud_base: get_base_loose(last_known_cloud_state),
-						semantic_difference,
+					logger.trace(`[${LIB}] _sync_with_cloud() got savegame:`, {
+						...fluid_select(state!).get_debug_infos_about_comparison_with(last_known_cloud_state, 'local', 'cloud'),
+						semantic_difference: UNCLEAR_get_difference__full(last_known_cloud_state, state),
 					})
 
-					const has_same_schema_version = fluid_select(last_known_cloud_state).has_same_schema_version_than(state)
-					if (!has_same_schema_version) {
+					let cloud_schema_version = get_schema_version_loose(last_known_cloud_state)
+					if (cloud_schema_version > SCHEMA_VERSION) {
 						// TODO trigger an update
-						assert(get_schema_version_loose(last_known_cloud_state) === SCHEMA_VERSION, 'schema version of cloud state should match')
-						assert(has_same_schema_version, 'schema version of cloud state should match')
+						assert(cloud_schema_version <= SCHEMA_VERSION, `[${LIB}] schema version of cloud state should match`)
 					}
+					if (cloud_schema_version < SCHEMA_VERSION) {
+						// either:
+						// - this is a new client (reinstall?) and the existing cloud save is old
+						// - a legacy client (ex. mobile app not up to date due to offline or store validation) is still active with higher involvement
+						// no worries, we can migrate it
+						last_known_cloud_state = migrate_to_latest(SEC, last_known_cloud_state)
+						cloud_schema_version = get_schema_version_loose(last_known_cloud_state)
+						assert(cloud_schema_version === SCHEMA_VERSION, `[${LIB}] schema version of cloud state should match after migration`)
+					}
+					// schema versions now match
 
-					const has_valuable_difference = fluid_select(last_known_cloud_state).has_valuable_difference_with(state)
+					const has_valuable_difference = !state || fluid_select(last_known_cloud_state).has_valuable_difference_with(state)
 					if (has_valuable_difference) {
 						if (dispatcher) {
 							dispatcher.dispatch(create_action__set(TBRPGState.update_to_now(last_known_cloud_state)))
@@ -301,12 +311,15 @@ export function create(
 			})
 		}
 
-
 		/////////////////////////////////////////////////
 
 		function set(new_state: Immutable<State>): void {
-			const has_valuable_difference = fluid_select(new_state).has_valuable_difference_with(state)
-			logger.trace(`${LIB}.set()`, { ...get_base_loose(new_state), has_valuable_difference })
+			const has_valuable_difference = !state || fluid_select(new_state).has_valuable_difference_with(state)
+			logger.trace(`${LIB}.set()`, {
+				'new': get_base_loose(new_state),
+				existing: get_base_loose(state as any),
+				has_valuable_difference,
+			})
 
 			if (!state) {
 				logger.trace(`${LIB}.set(): init ✔`)
@@ -332,7 +345,7 @@ export function create(
 
 		function on_dispatch(action: Immutable<Action>, eventual_state_hint?: Immutable<State>): void {
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
-				...(eventual_state_hint && get_base_loose(eventual_state_hint)),
+				eventual_state_hint: get_base_loose(eventual_state_hint as any),
 			})
 
 			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
@@ -340,14 +353,14 @@ export function create(
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
-			const has_valuable_difference = fluid_select(state).has_valuable_difference_with(previous_state)
+			const has_valuable_difference = !previous_state || fluid_select(state).has_valuable_difference_with(previous_state)
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
-				current_rev: get_revision_loose(previous_state!),
-				new_rev: get_revision_loose(state!),
+				current_rev: get_base_loose(previous_state!),
+				new_rev: get_base_loose(state!),
 				has_valuable_difference,
 			})
 
-			// snoop on actions
+			// snoop on some actions
 			switch(action.type) {
 				case ActionType.on_logged_in_refresh: {
 					if (is_logged_in !== action.is_logged_in) {
