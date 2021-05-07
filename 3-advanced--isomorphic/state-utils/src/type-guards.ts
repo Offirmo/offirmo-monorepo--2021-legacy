@@ -8,7 +8,7 @@ import {
 	BaseTState,
 	BaseUState,
 	BaseRootState,
-	UTBundle, WithLastUserActivityTimestamp,
+	UTBundle, WithLastUserInvestmentTimestamp,
 } from './types'
 
 /////////////////////////////////////////////////
@@ -22,8 +22,8 @@ export function is_WithRevision(s: Immutable<any>): s is WithRevision {
 export function is_WithTimestamp(s: Immutable<any>): s is WithTimestamp {
 	return Number.isInteger((s as WithTimestamp)?.timestamp_ms)
 }
-export function is_WithLastUserActivityTimestamp(s: Immutable<any>): s is WithLastUserActivityTimestamp {
-	return Number.isInteger((s as WithLastUserActivityTimestamp)?.last_user_activity_tms)
+export function is_WithLastUserInvestmentTimestamp(s: Immutable<any>): s is WithLastUserInvestmentTimestamp {
+	return Number.isInteger((s as WithLastUserInvestmentTimestamp)?.last_user_investment_tms)
 }
 
 /////////////////////////////////////////////////
@@ -71,5 +71,5 @@ export function is_UTBundle(s: Immutable<any>): s is UTBundle<BaseUState, BaseTS
 export function is_RootState(s: Immutable<any>): s is BaseRootState {
 	return is_UState(s?.u_state)
 		&& is_TState(s?.t_state)
-		&& is_WithLastUserActivityTimestamp(s)
+		&& is_WithLastUserInvestmentTimestamp(s)
 }

@@ -206,3 +206,5 @@ https://monorepo.guide/getting-started
 https://martinfowler.com/articles/feature-toggles.html
 
 https://stackoverflow.com/questions/1050222/what-is-the-difference-between-concurrency-and-parallelism
+
+LTS, maintenance LTS, active LTS https://nodejs.org/en/about/releases/

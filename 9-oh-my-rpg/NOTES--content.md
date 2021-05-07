@@ -891,6 +891,6 @@ Alfonz
 https://en.wikipedia.org/wiki/History_of_books
 But there also exists a less visible but nonetheless effective form of censorship when books are reserved for the elite; the book was not originally a medium for expressive liberty. It may serve to confirm the values of a political system, as during the reign of the emperor Augustus, who skillfully surrounded himself with great authors. This is a good ancient example of the control of the media by a political power. However, private and public censorship have continued into the modern era, albeit in various forms.
 
-
-
 https://en.wikipedia.org/wiki/Scientific_Revolution
+
+https://earther.gizmodo.com/melting-ice-in-the-alps-has-revealed-world-war-i-relics-1846836951

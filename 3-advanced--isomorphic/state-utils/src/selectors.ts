@@ -5,7 +5,7 @@ import {
 	WithSchemaVersion,
 	WithRevision,
 	WithTimestamp,
-	WithLastUserActivityTimestamp,
+	WithLastUserInvestmentTimestamp,
 	BaseState,
 	BaseTState,
 	BaseUState,
@@ -18,7 +18,7 @@ import {
 	is_WithSchemaVersion,
 	is_WithRevision,
 	is_WithTimestamp,
-	is_WithLastUserActivityTimestamp,
+	is_WithLastUserInvestmentTimestamp,
 	has_versioned_schema,
 	is_revisioned,
 	is_time_stamped,
@@ -26,7 +26,9 @@ import {
 	is_UTBundle,
 } from './type-guards'
 
-// loose = can recover from some legacy states (wrong structure) and will fallback to 0 if not a state (ex. undefined or unrecognized)
+// "loose" =
+// can recover from some legacy states (wrong structure) and will fallback to 0 if not a state (ex. undefined or unrecognized)
+// BUT we don't type them as accepting null | undefined | any to better catch errors
 
 
 export function get_schema_version<
@@ -112,9 +114,19 @@ export function get_revision_loose<
 		return get_revision(s)
 
 	// specific fallbacks:
-	// loose legacy bundles
-	if (Array.isArray(s) && is_revisioned(s[0]))
-		return get_revision(s[0]) + get_revision_loose(s[1])
+	if (Array.isArray(s)) {
+		const maybe_legacy_bundle = s
+		if (is_revisioned(maybe_legacy_bundle[0])) {
+			return get_revision(maybe_legacy_bundle[0]) + get_revision_loose(maybe_legacy_bundle[1])
+		}
+	}
+
+	if (typeof s === 'object') {
+		const maybe_legacy_root_state = s as any
+		if (maybe_legacy_root_state.u_state || maybe_legacy_root_state.t_state) {
+			return get_revision(maybe_legacy_root_state.u_state) + get_revision_loose(maybe_legacy_root_state.t_state)
+		}
+	}
 
 	// final fallback
 	return 0
@@ -165,17 +177,17 @@ export function get_timestamp_loose<
 
 
 export function get_last_user_activity_timestamp<
-	T extends WithLastUserActivityTimestamp,
+	T extends WithLastUserInvestmentTimestamp,
 	B extends BaseState,
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
 >(s: Immutable<T> | Immutable<BR>): number {
 
-	if(is_WithLastUserActivityTimestamp(s)) {
-		const { last_user_activity_tms } = s
-		assert(Number.isSafeInteger(last_user_activity_tms), 'get_last_user_activity_timestamp() safeInteger')
-		return last_user_activity_tms
+	if(is_WithLastUserInvestmentTimestamp(s)) {
+		const { last_user_investment_tms } = s
+		assert(Number.isSafeInteger(last_user_investment_tms), 'get_last_user_activity_timestamp() safeInteger')
+		return last_user_investment_tms
 	}
 
 	throw new Error('get_last_user_activity_timestamp() should have a recognized activity-stamped structure!')
@@ -183,13 +195,13 @@ export function get_last_user_activity_timestamp<
 }
 
 export function get_last_user_activity_timestamp_loose<
-	V extends WithLastUserActivityTimestamp,
+	V extends WithLastUserInvestmentTimestamp,
 	B extends BaseState,
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
 >(s: Immutable<V> | Immutable<AnyOffirmoState>): number {
-	if (is_WithLastUserActivityTimestamp(s))
+	if (is_WithLastUserInvestmentTimestamp(s))
 		return get_last_user_activity_timestamp(s)
 
 	// final fallback
@@ -199,16 +211,22 @@ export function get_last_user_activity_timestamp_loose<
 
 // TODO review name
 export function get_base_loose<
-	VR extends WithSchemaVersion & WithRevision & WithLastUserActivityTimestamp,
+	VR extends WithSchemaVersion & WithRevision & WithLastUserInvestmentTimestamp,
 	B extends BaseState,
 	BU extends BaseUState,
 	BT extends BaseTState,
 	BR extends BaseRootState,
->(s: Immutable<VR> | Immutable<AnyOffirmoState>): Immutable<StateInfos> {
+>(s: Immutable<VR> | Immutable<AnyOffirmoState>): Immutable<StateInfos> | null | undefined | string {
+	if (s === null)
+		return null
+	if (s === undefined)
+		return undefined
+	if (typeof s !== 'object')
+		return `[not a state! ${typeof s}]`
 	return {
 		schema_version: get_schema_version_loose(s as any),
 		revision: get_revision_loose(s as any),
-		last_user_activity_tms: get_last_user_activity_timestamp_loose(s as any),
+		last_user_investment_tms: get_last_user_activity_timestamp_loose(s as any),
 		timestamp_ms: get_timestamp_loose(s as any),
 	}
 }

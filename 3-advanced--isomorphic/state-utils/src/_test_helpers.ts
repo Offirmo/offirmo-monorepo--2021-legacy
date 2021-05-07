@@ -153,7 +153,7 @@ export const DEMO_BUNDLE_v8: Immutable<DemoBundleState_v8> = enforce_immutabilit
 
 export const DEMO_ROOT_v8: Immutable<DemoRootState_v8> = enforce_immutability<DemoRootState_v8>({
 	app_id: 'test',
-	last_user_activity_tms: TEST_TIMESTAMP_MS,
+	last_user_investment_tms: TEST_TIMESTAMP_MS,
 
 	own_r: 7,
 

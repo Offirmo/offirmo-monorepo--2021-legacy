@@ -1,7 +1,7 @@
 import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { BaseState, WithLastUserActivityTimestamp, get_mutable_copy } from '@offirmo-private/state-utils'
+import { BaseState, WithLastUserInvestmentTimestamp, get_mutable_copy } from '@offirmo-private/state-utils'
 import stylize_string from 'chalk'
 
 import logger from '../services/logger'
@@ -27,7 +27,7 @@ const SCHEMA_VERSION = 1
 // DESIGN NOTE: the idea is to NOT have a duplication of info
 // However since we don't control the order of file discovery in the explore phase,
 // there'll be a temporary redundancy which will be corrected in the consolidation phase
-export interface State extends BaseState, WithLastUserActivityTimestamp {
+export interface State extends BaseState, WithLastUserInvestmentTimestamp {
 	_comment: string
 	encountered_files: { [oldest_hash: string]: FileNotes }
 	known_modifications_new_to_old: { [newer_hash: string]: string }
@@ -72,7 +72,7 @@ export function create(debug_id: string, notes_to_copy?: Immutable<State>): Stat
 
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
-		last_user_activity_tms: get_UTC_timestamp_ms(),
+		last_user_investment_tms: get_UTC_timestamp_ms(),
 
 		encountered_files: {},
 		known_modifications_new_to_old: {},

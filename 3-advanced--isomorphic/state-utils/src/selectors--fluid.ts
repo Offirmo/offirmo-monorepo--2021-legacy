@@ -72,14 +72,8 @@ export function fluid_select(stateA: Immutable<AnyOffirmoState>) {
 
 		get_debug_infos_about_comparison_with(stateB: Immutable<AnyOffirmoState>) {
 			return {
-				A: {
-					exists: !!stateA,
-					...get_base_loose(stateA)
-				},
-				B: {
-					exists: !!stateB,
-					...get_base_loose(stateB)
-				},
+				A: get_base_loose(stateA),
+				B: get_base_loose(stateB),
 			}
 		}
 	}

@@ -96,6 +96,7 @@ Médiévale
 * table ronde https://www.youtube.com/watch?v=Lwb8mUb3hu8&list=UU7PMPiMjYU4qWJqKbmwkyyQ&index=23
 * le vin gaulois https://www.youtube.com/watch?v=4zKOLGwku8o
 * stawars inspired https://www.youtube.com/watch?v=KhktXWzMHKU&list=PL9PLUrw0CbcSx6jZ5sO1W8wY_P0QsiVkb&index=8
+* https://www.youtube.com/channel/UCW9-gzkFzVOmtu9Tvb7pqgA/videos?view=0&sort=p
 
 * Irish
   * https://www.youtube.com/watch?v=qHMvlV0-_lk

@@ -1,4 +1,5 @@
 import { expect } from 'chai'
+import { Immutable } from '@offirmo-private/ts-types'
 import { SoftExecutionContext, getRootSEC } from '@offirmo-private/soft-execution-context'
 
 import { LIB } from './consts'
@@ -79,7 +80,7 @@ describe(`${LIB} - migration`, function() {
 				return state
 			}
 
-			function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}, ): State {
+			function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Immutable<any>, hints: Immutable<any> = {}, ): State {
 				return generic_migrate_to_latest({
 					SEC,
 
@@ -111,7 +112,7 @@ describe(`${LIB} - migration`, function() {
 			})
 
 			it('should throw on end of pipeline (too old version)', () => {
-				function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}, ): State {
+				function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Immutable<any>, hints: Immutable<any> = {}, ): State {
 					return generic_migrate_to_latest({
 						SEC,
 

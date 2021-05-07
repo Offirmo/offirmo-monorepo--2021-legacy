@@ -14,7 +14,7 @@ import {
 	SemanticDifference,
 	s_max,
 	//get_semantic_difference,
-	//compare,
+	compare,
 } from './comparators'
 import {
 	BaseRootState,
@@ -260,6 +260,7 @@ describe(`${LIB} - comparators`, function() {
 			})
 		})
 	})
+*/
 
 	describe('compare()', function() {
 
@@ -277,6 +278,8 @@ describe(`${LIB} - comparators`, function() {
 		}
 		function gen_rootstate(d: SemanticDifference): BaseRootState {
 			return {
+				app_id: 'unit-tests',
+				last_user_investment_tms: d === SemanticDifference.time ? 333 : 222,
 				u_state: gen_base(d),
 				t_state: gen_tstate(d),
 			}
@@ -367,5 +370,5 @@ describe(`${LIB} - comparators`, function() {
 				})
 			})
 		})
-	})*/
+	})
 })

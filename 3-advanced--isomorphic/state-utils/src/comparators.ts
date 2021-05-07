@@ -12,14 +12,16 @@ import {
 	get_schema_version_loose,
 	get_revision_loose,
 	get_last_user_activity_timestamp_loose,
+	get_timestamp_loose,
 } from './selectors'
 import { JSONObject } from '@offirmo-private/ts-types'
 
+export { dequal as is_deep_equal } from 'dequal'
 
 // tslint:disable-next-line: variable-name
 export const SemanticDifference = Enum(
 	'none',
-	'time', // time of last activity, not T-State. Important to discriminate forks.
+	'time', // time of last meaningful activity, not T-State. Important to discriminate forks.
 	'minor',
 	'major',
 )
@@ -130,7 +132,10 @@ export function get_semantic_difference(newer: any, older?: any, { assert_newer 
 
 	return SemanticDifference.none
 }
+*/
 
+// compare by structure
+// mainly used to sort out backups
 export function compare(a: any, b: any): number {
 	//console.log('compare()', { a, b })
 
@@ -148,9 +153,10 @@ export function compare(a: any, b: any): number {
 	const is_root__b = is_RootState(b)
 	if (is_root__a !== is_root__b)
 		return (is_root__a ? 1 : 0) - (is_root__b ? 1 : 0)
+	/* TODO is it needed? revision should work on a state
 	if (is_root__a) {
-		const u_state_rev__a = get_schema_version_loose(a.u_state)
-		const u_state_rev__b = get_schema_version_loose(b.u_state)
+		const u_state_rev__a = get_revision_loose(a.u_state)
+		const u_state_rev__b = get_revision_loose(b.u_state)
 		if (u_state_rev__a !== u_state_rev__b)
 			return u_state_rev__a - u_state_rev__b
 
@@ -158,20 +164,18 @@ export function compare(a: any, b: any): number {
 		const t_state_rev__b = get_revision_loose(b.t_state)
 		if (t_state_rev__a !== t_state_rev__b)
 			return t_state_rev__a - t_state_rev__b
-
-		const activity_tms__a = get_last_user_activity_timestamp_loose(a)
-		const activity_tms__b = get_last_user_activity_timestamp_loose(b)
-		if (activity_tms__a !== activity_tms__b)
-			return activity_tms__a - activity_tms__b
-	}
+	}*/
 
 	const activity_tms__a = get_last_user_activity_timestamp_loose(a)
 	const activity_tms__b = get_last_user_activity_timestamp_loose(b)
 	if (activity_tms__a !== activity_tms__b)
 		return activity_tms__a - activity_tms__b
 
+	// last resort if state is/has a T_state
+	const t_tms__a = get_timestamp_loose(a)
+	const t_tms__b = get_timestamp_loose(b)
+	if (t_tms__a !== t_tms__b)
+		return t_tms__a - t_tms__b
+
 	return 0
 }
-
-export { dequal as is_deep_equal } from 'dequal'
-*/
