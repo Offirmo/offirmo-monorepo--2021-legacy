@@ -1,8 +1,9 @@
+import { Immutable } from '@offirmo-private/ts-types'
+
 import * as OriginState from './origin'
 import * as TabState from './tab'
 import { UNKNOWN_ORIGIN } from '../consts'
 import {SpecSyncStatus} from './tab'
-import {was_injection_enabled} from './tab'
 
 export interface State {
 	origin: OriginState.State,

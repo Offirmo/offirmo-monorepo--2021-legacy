@@ -11,7 +11,7 @@
 
 		"dev:parcel": "parcel --no-autoinstall --port 9090 --no-hmr src/**/*.html src/background/background.ts src/content-scripts/*.ts",
 		"dev:cpx": "cpx 'src/**/*.{json,png,svg}' dist --watch --verbose",
-		"ts": "node ../../0-scripts/build-typescript.js --watch",
+		"dev": "node ../../0-scripts/build-typescript.js --watch",
 
 		"build:lib1-bundle": "parcel build --no-autoinstall --no-source-maps --out-file injected-api-bundle-1.js  src/injected-libs/universal-debug-api-from-webext.ts",
 		"build:lib2-bundle": "parcel build --no-autoinstall --no-source-maps --out-file injected-api-bundle-2.js  src/injected-libs/universal-debug-api-control.ts",
@@ -23,7 +23,7 @@
 		"build:extension": "run-s  build:refresh-injectable-libs  build:parcel  build:cpx",
 		"build:demo": "parcel build --no-minify doc/demo/index.html --out-dir dist.demo --public-url ./",
 
-		"dev": "npm-run-all  clean  build:refresh-injectable-libs  --parallel dev:parcel dev:cpx",
+		"dev--full": "npm-run-all  clean  build:refresh-injectable-libs  --parallel dev:parcel dev:cpx",
 		"build": "run-s clean build:demo build:extension",
 		"demo": "parcel doc/demo/index.html"
 	},
@@ -38,6 +38,7 @@
 		"@offirmo-private/async-utils": "^0",
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/timestamps": "^0",
+		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/deferred": "^4",
 		"@offirmo/practical-logger-browser": "^3",

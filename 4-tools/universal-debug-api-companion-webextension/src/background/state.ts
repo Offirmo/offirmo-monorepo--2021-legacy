@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant'
 import { Tabs, Runtime } from 'webextension-polyfill-ts'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { UNKNOWN_ORIGIN } from '../common/consts'
 import * as OriginState from '../common/state/origin'

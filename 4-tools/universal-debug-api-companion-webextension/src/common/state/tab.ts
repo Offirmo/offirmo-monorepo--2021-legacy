@@ -1,6 +1,7 @@
 import assert from 'tiny-invariant'
 import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { UNKNOWN_ORIGIN } from '../consts'
 import { Report } from '../messages'

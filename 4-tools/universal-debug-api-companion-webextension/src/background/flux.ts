@@ -1,6 +1,7 @@
 import EventEmitter from 'emittery'
 import assert from 'tiny-invariant'
 import { Tabs, Runtime } from 'webextension-polyfill-ts'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import * as OriginState from '../common/state/origin'
 import * as TabState from '../common/state/tab'

@@ -1,3 +1,5 @@
+import { Immutable } from '@offirmo-private/ts-types'
+
 import { MSG_ENTRY } from '../consts'
 import * as OriginState from '../state/origin'
 import * as UIState from '../state/ui'

@@ -1,5 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { StringifiedJSON, sjson_parse, sjson_stringify, is_valid_stringified_json } from '../utils/stringified-json'
 import { UNKNOWN_ORIGIN } from '../consts'

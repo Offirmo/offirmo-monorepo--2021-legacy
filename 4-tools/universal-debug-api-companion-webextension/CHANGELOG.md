@@ -8,6 +8,8 @@
 * TODO [fix] stale overrides handling (last_reported: -1)
 * TODO [fix] ugly styling
 * TODO bump dependencies (major)
+* TODO finish migration to Immutable
+* TODO [fix] TS typings
 * [test] TODO unit tests!
 * [doc] inject comments in the page as well as the libs
 * [chore] new JSX transform (internal)
