@@ -33,6 +33,7 @@
 		"emitDecoratorMetadata": false,
 		"importHelpers": true,
 		"noEmitHelpers": true,
+		"jsx": "react-jsx",
 
 		"module": "ES2015",
 		"esModuleInterop": true,

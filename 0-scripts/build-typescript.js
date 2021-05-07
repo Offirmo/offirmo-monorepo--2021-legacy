@@ -67,6 +67,7 @@ if (cli.flags.watch) {
 		noUnusedLocals: false,
 		noUnusedParameters: false,
 		allowUnreachableCode: true,
+		"jsx": "react-jsxdev",
 	}
 }
 
