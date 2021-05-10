@@ -15,7 +15,7 @@ function with_element_and_action(Component) {
 	return (props) => {
 
 		const { UUID } = props
-		//console.log('🔄 with_element_and_action', { UUID, revision: game_instance.model.get().u_state.revision })
+		//console.log('🔄 with_element_and_action', { UUID, revision: get_revision(game_instance.model.get()) })
 
 		const element = get_game_instance().queries.find_element(UUID)
 		if (!element) {

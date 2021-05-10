@@ -11,8 +11,8 @@ import {
 import { enforce_immutability } from './utils'
 
 // needed only for changing the default level
-//import { _force_uda_logger_with_level } from '@offirmo-private/soft-execution-context-node'
-//_force_uda_logger_with_level('silly')
+//import { _force_set_level_of_uda_default_logger } from '@offirmo-private/soft-execution-context-node'
+//_force_set_level_of_uda_default_logger('silly')
 
 /////////////////////////////////////////////////
 

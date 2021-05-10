@@ -85,10 +85,11 @@ const get = memoize_one(() => getRootSEC().xTry('creating game instance', ({SEC,
 
 	const browser = Bowser.getParser(window.navigator.userAgent)
 	const is_web_diversity_supporter = browser.getBrowserName().toLowerCase().includes('firefox')
-	console.log({
+	logger.info('Current browser details', {
 		is_web_diversity_supporter,
 		Bowser: browser.getResult(),
 	})
+
 	game_instance.commands.on_start_session(is_web_diversity_supporter)
 
 	window.ga && window.ga('send', 'event', {

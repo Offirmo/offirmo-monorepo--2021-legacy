@@ -8,6 +8,7 @@ import {
 	Immutable,
 	get_schema_version_loose,
 	get_base_loose,
+	get_revision_loose,
 	UNCLEAR_compare,
 } from '@offirmo-private/state-utils'
 import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
@@ -74,13 +75,13 @@ export function create(
 	migrate_to_latest: (SEC: OMRSoftExecutionContext, legacy: Immutable<any>, hints?: Immutable<any>) => Immutable<State>,
 	dispatcher?: Dispatcher,
 ): Store {
-	const LIB = `Store--local`
+	const LIB = `🗃ⵧ⚫local`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
-		logger.trace(`${LIB}.create()…`)
+		logger.trace(`[${LIB}].create()…`)
 		logger.verbose(`[${LIB}] FYI storage keys = "${Object.values(StorageKey).join(', ')}"`)
 
 		let state: Immutable<State> | undefined = undefined
-		let recovered_states_unmigrated_ordered: any[] = []
+		let recovered_states_unmigrated_ordered_oldest_first: any[] = []
 		let restored_migrated: Immutable<State> | undefined = undefined
 
 		/////////////////////////////////////////////////
@@ -129,11 +130,11 @@ export function create(
 				candidate: get_base_loose(some_state as any),
 				current: get_base_loose(state as any),
 				bkp__current: get_base_loose(bkp__current as any),
-				'legacy.length': recovered_states_unmigrated_ordered.length,
+				'legacy.length': recovered_states_unmigrated_ordered_oldest_first.length,
 				//some_state,
 			})
 
-			assert(get_schema_version_loose(some_state) === SCHEMA_VERSION, `schema version === ${SCHEMA_VERSION} (current)!`)
+			assert(get_schema_version_loose(some_state) === SCHEMA_VERSION, `_enqueue_in_bkp_pipeline(): schema version === ${SCHEMA_VERSION} (current)!`)
 
 			if (some_state === restored_migrated) {
 				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): echo from restoration, no change ✔`)
@@ -160,9 +161,10 @@ export function create(
 					bkp__recent = undefined
 				}
 			}
-			while(recovered_states_unmigrated_ordered.length) {
-				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): since there was a change, moving restored states along the major bkp pipeline…`)
-				const some_legacy_state = recovered_states_unmigrated_ordered.shift()
+			if (recovered_states_unmigrated_ordered_oldest_first.length)
+				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): this is the first valuable change, moving restored states along the major bkp pipeline…`)
+			while(recovered_states_unmigrated_ordered_oldest_first.length) {
+				const some_legacy_state = recovered_states_unmigrated_ordered_oldest_first.shift()
 				if (get_schema_version_loose(some_legacy_state) < SCHEMA_VERSION)
 					promises.push(_enqueue_in_major_bkp_pipeline(some_legacy_state))
 			}
@@ -173,14 +175,20 @@ export function create(
 
 		// EXPECTED: values are presented from the oldest to the newest!
 		async function _enqueue_in_major_bkp_pipeline(legacy_state: Immutable<any>): Promise<boolean> {
-			logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline()`, get_base_loose(legacy_state as any))
-
 			const most_recent_previous_major_version = bkp__older[0] as any
-			assert(fluid_select(legacy_state).has_higher_or_equal_schema_version_than(most_recent_previous_major_version))
+			logger.trace(`[${LIB}] _enqueue_in_major_bkp_pipeline()`, {
+				...fluid_select(legacy_state).get_debug_infos_about_comparison_with(most_recent_previous_major_version, 'enqueued', 'most_recent_major'),
+				current_major_bkp_pipeline: JSON.parse(JSON.stringify(bkp__older))
+			})
+
+			assert(
+				fluid_select(legacy_state).has_higher_or_equal_schema_version_than(most_recent_previous_major_version),
+				`_enqueue_in_major_bkp_pipeline() candidate should >= version than most recent major`
+			)
 
 			const is_major_update = fluid_select(legacy_state).has_higher_schema_version_than(most_recent_previous_major_version)
 			if (is_major_update) {
-				bkp__older = [legacy_state, bkp__older[0]]
+				bkp__older = [legacy_state, bkp__older[0]].filter(s => !!s)
 			}
 			else {
 				const has_valuable_difference = fluid_select(legacy_state).has_valuable_difference_with(most_recent_previous_major_version)
@@ -209,21 +217,24 @@ export function create(
 			// XXX this code block is tricky, beware sync/async
 
 			// read and store everything needed in memory
-			recovered_states_unmigrated_ordered = [
-					bkp__current || bkp__recent,
+			recovered_states_unmigrated_ordered_oldest_first = [
 					...bkp__older,
+					bkp__current || bkp__recent,
 				]
 				.filter(s => !!s)
 				.sort(UNCLEAR_compare)
+			bkp__older = [] // reset since we hold the backups in the var above now
 
-			if (recovered_states_unmigrated_ordered.length)
-				logger.trace(`[${LIB}] found ${recovered_states_unmigrated_ordered.length} past backups:`, {
-					...((bkp__current || bkp__recent) && { main: bkp__current || bkp__recent }),
+			if (recovered_states_unmigrated_ordered_oldest_first.length)
+				logger.trace(`[${LIB}] found ${recovered_states_unmigrated_ordered_oldest_first.length} past backups:`, {
+					recovered_states_unmigrated_ordered_most_recent_first: JSON.parse(JSON.stringify(recovered_states_unmigrated_ordered_oldest_first)),
+					...(bkp__current && { main: bkp__current }),
+					...(bkp__recent && { minor: bkp__recent }),
 					...(bkp__older[0] && { major_1: bkp__older[0]}),
-					...(bkp__older[1] && { major_1: bkp__older[1]}),
+					...(bkp__older[1] && { major_2: bkp__older[1]}),
 				})
 
-			const most_recent_unmigrated_bkp = recovered_states_unmigrated_ordered.slice(-1)[0]
+			const most_recent_unmigrated_bkp = recovered_states_unmigrated_ordered_oldest_first.slice(-1)[0]
 
 			if (!most_recent_unmigrated_bkp) {
 				logger.trace(`[${LIB}] found NO candidate state to be restored.`)
@@ -244,7 +255,7 @@ export function create(
 				set(restored_migrated)
 
 				if (dispatcher) {
-					// NO!
+					// NO DISPATCH ON RESTORATION!
 					// - We can't do it SYNC because all the stores may not be plugged in yet
 					// - We can't do it ASYNC because dependents would need to wait with sth like a promise
 					// Eventually, we let the caller (plugging stores to dispatcher) do it.
@@ -261,16 +272,20 @@ export function create(
 
 		function set(new_state: Immutable<State>): void {
 			const has_valuable_difference = !state || fluid_select(new_state).has_valuable_difference_with(state)
-			logger.trace(`${LIB}.set()`, {
+			logger.trace(`[${LIB}].set()`, {
 				new_state: get_base_loose(new_state),
 				existing_state: get_base_loose(state as any),
 			})
 
 			if (!state) {
-				logger.trace(`${LIB}.set(): init ✔`)
+				logger.trace(`[${LIB}].set(): init ✔`)
+			}
+			else if (new_state === state) {
+				logger.warn(`[${LIB}].set(): echo ?`)
+				return
 			}
 			else if (!has_valuable_difference) {
-				logger.trace(`${LIB}.set(): no semantic change ✔`)
+				logger.trace(`[${LIB}].set(): no semantic change ✔`)
 				return
 			}
 
@@ -282,7 +297,7 @@ export function create(
 		}
 
 		function get(): Immutable<State> {
-			assert(state, `${LIB}.get(): never initialized`)
+			assert(state, `[${LIB}].get(): should be initialized`)
 
 			return state
 		}
@@ -291,15 +306,15 @@ export function create(
 			logger.trace(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 				eventual_state_hint: get_base_loose(eventual_state_hint as any),
 			})
-			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
-			assert(!!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint is mandatory in this store`)
+			assert(state || eventual_state_hint, `[${LIB}].on_dispatch(): should be provided a hint or a previous state`)
+			assert(!!eventual_state_hint, `[${LIB}].on_dispatch(): (upper level architectural invariant) hint is mandatory in this store`)
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
 			const has_valuable_difference = !previous_state || fluid_select(state).has_valuable_difference_with(previous_state)
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
-				current_rev: get_base_loose(previous_state as any),
-				new_rev: get_base_loose(state as any),
+				current_rev: get_revision_loose(previous_state as any),
+				new_rev: get_revision_loose(state as any),
 				has_valuable_difference,
 			})
 			if (!has_valuable_difference) {

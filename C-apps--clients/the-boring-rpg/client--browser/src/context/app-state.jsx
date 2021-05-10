@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { get_revision } from '@offirmo-private/state-utils'
 
 import get_game_instance from '../services/game-instance-browser'
 
@@ -33,7 +34,7 @@ class AppStateListenerAndProvider extends React.Component {
 	render() {
 		// yes, we shortcut React and make sure to pick the latest version
 		const latest_app_state = get_game_instance().view.get()
-		const latest_revision = latest_app_state ? latest_app_state.model.u_state.revision : -1
+		const latest_revision = latest_app_state ? get_revision(latest_app_state.model) : -1
 
 		//console.log(`🔄 AppStateListenerAndProvider (model is #${latest_revision})`/*, {app_state: this.state.app_state}*/);
 

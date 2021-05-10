@@ -41,6 +41,10 @@ export type UTBundle<U extends BaseUState, T extends BaseTState> = [ U, T ]
 export interface BaseRootState<U extends BaseUState = BaseUState, T extends BaseTState = BaseTState> extends WithLastUserInvestmentTimestamp {
 	// schema_version, revision -> NO, would be redundant, see u_state & t_state
 	app_id: string // unique identifier of the app using this state. Useful for dedicated checks/ops in common code
+	// HOWEVER very useful for debug -> we let the final user make the call and manage it.
+
+	// unique identifier of the app using this state.
+	// Useful for dedicated checks/ops in common code.
 
 	u_state: U
 	t_state: T

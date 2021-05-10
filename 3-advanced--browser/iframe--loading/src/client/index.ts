@@ -40,7 +40,7 @@ if (!loader_full) {
 	const { searchParams } = url
 	const hint_at_loader = searchParams.has(PROP)
 	if (!hint_at_loader)
-		console.info('🖼 iframe-loading: loader not found, are you properly set up?' + (url.hostname === 'localhost' ? ' (looks like dev mode ✔)' : ''))
+		console.info('🖼 iframe-loading: loader not found' + (url.hostname === 'localhost' ? ' but looks like dev mode ✔' : ', are you properly set up?'))
 	else
 		console.info('🖼 iframe-loading: loader not found or cross-domain, will postMessage().')
 }

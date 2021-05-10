@@ -10,6 +10,7 @@ import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
 import { Action} from '@tbrpg/interfaces'
 import { asap_but_out_of_current_event_loop, schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
+import { get_revision } from '@offirmo-private/state-utils'
 
 
 import { LIB } from './consts'
@@ -89,7 +90,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			// but this should be good enough
 			const recovered_state: any = persistent_store.get()
 			assert(!!recovered_state, 'ls get defined')
-			logger.trace(`[${LIB}] restoring the state from the content of persistent_store… (incl. update to now)`)
+			logger.trace(`[${LIB}] restoring the state from the content of persistent store… (incl. update to now)`)
 			// TODO should we update to now?
 			_dispatcher.set(TBRPGState.update_to_now(recovered_state))
 		}
@@ -198,7 +199,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 
 				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on(Event.view_change, (src: string) => {
-						logger.trace(`🌀🌀 root/view change reported to subscriber "${id}" (model: #${in_memory_store.get().u_state.revision}, source: view/${src})`)
+						logger.trace(`🌀🌀 root/view change reported to subscriber "${id}" (model: rev#${get_revision(in_memory_store.get())}, source: view/${src})`)
 						fn()
 					})
 					return unbind

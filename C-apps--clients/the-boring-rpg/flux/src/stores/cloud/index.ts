@@ -63,7 +63,6 @@ function has_recent_sync(state: Immutable<CloudSyncState>): boolean {
 }
 
 function on_network_error(state: Immutable<CloudSyncState>, err: Error): Immutable<CloudSyncState> {
-	console.warn('TODO switch network error', err.message)
 	// TODO snoop offline?
 
 	return {
@@ -88,9 +87,9 @@ export function create(
 	migrate_to_latest: (SEC: OMRSoftExecutionContext, legacy: Immutable<any>, hints?: Immutable<any>) => Immutable<State>,
 	dispatcher?: Dispatcher,
 ): Store {
-	const LIB = `Store--cloud`
+	const LIB = `🗃ⵧ🔵cloud`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger, CHANNEL}) => {
-		logger.trace(`${LIB}.create()…`)
+		logger.trace(`[${LIB}].create()…`)
 
 		let cloud_sync_state: CloudSyncState = {
 			last_successful_sync_tms: 0,
@@ -229,7 +228,7 @@ export function create(
 						// the local state changed since we initiated the sync
 						// this result is outdated.
 						// we need to re-attempt to sync asap
-						_schedule_sync_with_cloud_if_possible()
+						_schedule_sync_with_cloud_if_needed_and_possible()
 						return
 					}
 
@@ -286,13 +285,13 @@ export function create(
 			trailing: true,
 		})
 
-		function _schedule_sync_with_cloud_if_possible(): void {
+		function _schedule_sync_with_cloud_if_needed_and_possible(): void {
 			const _should_sync = should_sync()
 
 			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, { _should_sync })
 
 			if (!_should_sync) {
-				logger.trace(`[${LIB}] skipping scheduling a cloud sync: there are reasons not to.`)
+				logger.trace(`[${LIB}] skipping scheduling a cloud sync: there are no reasons to or reasons not to.`)
 				return
 			}
 
@@ -307,7 +306,7 @@ export function create(
 		if (getGlobalThis().addEventListener) {
 			getGlobalThis().addEventListener('online', () => {
 				if (state && is_logged_in && !has_recent_sync(cloud_sync_state))
-					_schedule_sync_with_cloud_if_possible()
+					_schedule_sync_with_cloud_if_needed_and_possible()
 			})
 		}
 
@@ -315,17 +314,17 @@ export function create(
 
 		function set(new_state: Immutable<State>): void {
 			const has_valuable_difference = !state || fluid_select(new_state).has_valuable_difference_with(state)
-			logger.trace(`${LIB}.set()`, {
+			logger.trace(`[${LIB}].set()`, {
 				'new': get_base_loose(new_state),
 				existing: get_base_loose(state as any),
 				has_valuable_difference,
 			})
 
 			if (!state) {
-				logger.trace(`${LIB}.set(): init ✔`)
+				logger.trace(`[${LIB}].set(): init ✔`)
 			}
 			else if (!has_valuable_difference) {
-				logger.trace(`${LIB}.set(): no valuable change ✔`)
+				logger.trace(`[${LIB}].set(): no valuable change ✔`)
 				return
 			}
 
@@ -334,11 +333,11 @@ export function create(
 
 			if (!is_logged_in) return
 
-			_schedule_sync_with_cloud_if_possible()
+			_schedule_sync_with_cloud_if_needed_and_possible()
 		}
 
 		function get(): Immutable<State> {
-			assert(state, `${LIB}.get(): never initialized`)
+			assert(state, `[${LIB}].get(): never initialized`)
 
 			return state
 		}
@@ -348,15 +347,15 @@ export function create(
 				eventual_state_hint: get_base_loose(eventual_state_hint as any),
 			})
 
-			assert(state || eventual_state_hint, `on_dispatch(): ${LIB} should be provided a hint or a previous state`)
-			assert(!!eventual_state_hint, `on_dispatch(): ${LIB} (upper level architectural invariant) hint is mandatory in this store`)
+			assert(state || eventual_state_hint, `[${LIB}].on_dispatch(): should be provided a hint or a previous state`)
+			assert(!!eventual_state_hint, `[${LIB}].on_dispatch(): (upper level architectural invariant) hint is mandatory in this store`)
 
 			const previous_state = state
 			state = eventual_state_hint || reduce_action(state!, action)
 			const has_valuable_difference = !previous_state || fluid_select(state).has_valuable_difference_with(previous_state)
 			logger.trace(`[${LIB}] ⚡ action dispatched & reduced:`, {
-				current_rev: get_base_loose(previous_state!),
-				new_rev: get_base_loose(state!),
+				current_rev: get_revision_loose(previous_state as any),
+				new_rev: get_revision_loose(state as any),
 				has_valuable_difference,
 			})
 
@@ -365,7 +364,7 @@ export function create(
 				case ActionType.on_logged_in_refresh: {
 					if (is_logged_in !== action.is_logged_in) {
 						is_logged_in = action.is_logged_in
-						logger.verbose(`${LIB} logged-in status snooped:`, { is_logged_in })
+						logger.verbose(`[${LIB}] logged-in status snooped:`, { is_logged_in })
 						if (is_logged_in) {
 							// not using the debounced one, this is urgent
 							__sync_with_cloud()
@@ -378,18 +377,19 @@ export function create(
 					break
 			}
 
-			if (!has_valuable_difference) {
-				return
+			if (has_valuable_difference) {
+				emitter.emit(EMITTER_EVT)
 			}
 
-			emitter.emit(EMITTER_EVT)
+			// whether or not the state passed to us is valuable, we take the opportunity to check if a sync is needed
+			// TODO review into a dedicated periodic check?
 
 			if (!is_logged_in) {
-				logger.trace(`[${LIB}] still not logged in, ignoring for now.`)
+				logger.trace(`[${LIB}] note: still not logged in, no sync for now.`)
 				return
 			}
 
-			_schedule_sync_with_cloud_if_possible()
+			_schedule_sync_with_cloud_if_needed_and_possible()
 		}
 
 		function subscribe(debug_id: string, listener: () => void): () => void {
