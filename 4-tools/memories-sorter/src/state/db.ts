@@ -502,7 +502,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 
 // called by Actions.create_action_load_notes initiated by on_file_found
 export function on_notes_found(state: Immutable<State>, raw_data: any): Immutable<State> {
-	logger.trace(`${LIB} on_notes_found(…)`, get_base_loose(raw_data))
+	logger.trace(`${LIB} on_notes_found(…)`, { base: get_base_loose(raw_data) })
 	logger.verbose(`${LIB} found previous notes about the files`)
 
 	const recovered_data = Notes.migrate_to_latest(raw_data)

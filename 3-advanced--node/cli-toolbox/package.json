@@ -9,7 +9,7 @@
 	"sideEffects": false,
 
 	"dependencies": {
-		"ansi-escapes": "^5",
+		"ansi-escapes": "^4",
 		"boxen": "^5",
 		"chalk": "^4",
 		"cli-columns": "^3",

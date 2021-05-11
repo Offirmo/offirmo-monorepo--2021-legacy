@@ -33,15 +33,16 @@ class AppStateListenerAndProvider extends React.Component {
 
 	render() {
 		// yes, we shortcut React and make sure to pick the latest version
+		// Without that, there is a delay while setState get propagated
 		const latest_app_state = get_game_instance().view.get()
-		const latest_revision = latest_app_state ? get_revision(latest_app_state.model) : -1
+		const latest_model_revision = latest_app_state ? get_revision(latest_app_state.model) : -1
 
-		//console.log(`🔄 AppStateListenerAndProvider (model is #${latest_revision})`/*, {app_state: this.state.app_state}*/);
+		console.log(`🔄 AppStateListenerAndProvider (model is rev#${latest_model_revision})`/*, {app_state: this.state.app_state}*/);
 
-		/*
-		const local_revision = this.state.app_state ? this.state.app_state.model.u_state.revision : -1
-		if (latest_revision !== local_revision)
-			console.warn(`App State Context discrepancy: local = ${local_revision}, latest = ${latest_revision}`)
+		/* Yes this triggers
+		const local_revision = this.state.app_state ? get_revision(this.state.app_state.model) : -1
+		if (latest_model_revision !== local_revision)
+			console.warn(`FYI App State Context discrepancy: local = ${local_revision}, latest = ${latest_model_revision}`)
 		*/
 
 		return (

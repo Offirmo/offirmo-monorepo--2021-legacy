@@ -51,6 +51,6 @@
 		"@oh-my-rpg/state-prng": "^0",
 		"@tbrpg/state": "^0",
 		"npm-run-all": "^4",
-		"strip-ansi": "^7"
+		"strip-ansi": "^6"
 	}
 }
