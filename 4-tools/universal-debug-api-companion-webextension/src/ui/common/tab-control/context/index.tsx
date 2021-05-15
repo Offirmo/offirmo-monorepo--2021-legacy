@@ -1,4 +1,5 @@
 import assert from 'tiny-invariant'
+import * as React from 'react'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { render_any_m } from '@offirmo-private/react-error-boundary'
@@ -28,7 +29,7 @@ function set_app_state(state: Readonly<State>) {
 
 ////////////////////////////////////
 
-class AppStateListenerAndProvider extends React.Component {
+class AppStateListenerAndProvider extends Component {
 	static propTypes = {
 		children: PropTypes.node.isRequired,
 	}

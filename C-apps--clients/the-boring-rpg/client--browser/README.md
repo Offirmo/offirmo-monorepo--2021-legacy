@@ -38,8 +38,11 @@ bolt deploy
 ## TODO
 
 ```
-npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg/index-2.html"
+npx bundle-inspector "http://localhost:1981/C-apps--clients/the-boring-rpg/client--browser/dist/index-2.html"
 npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg-preprod/index-2.html"
+npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg/index-2.html"
+
+source-map-explorer ./dist/index-2.51e35431.js ./dist/index-2.51e35431.js.map
 ```
 
 ## doc

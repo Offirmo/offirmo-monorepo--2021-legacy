@@ -87,7 +87,7 @@ export function create(
 	migrate_to_latest: (SEC: OMRSoftExecutionContext, legacy: Immutable<any>, hints?: Immutable<any>) => Immutable<State>,
 	dispatcher?: Dispatcher,
 ): Store {
-	const LIB = `🗃ⵧ🔵cloud`
+	const LIB = `🗃ⵧ🔴cloud`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger, CHANNEL}) => {
 		logger.trace(`[${LIB}].create()…`)
 
@@ -133,16 +133,18 @@ export function create(
 				&& (_has_valuable_difference || !_has_recent_sync)
 				&& !is_sync_in_flight
 			logger.trace(`[${LIB}] thinking about a sync… Is it appropriate?`, {
-				is_enabled,
-				_is_initialised,
-				_is_online,
-				_is_healthy,
-				candidate_rev: get_revision_loose(state!),
-				last_known_cloud_rev: get_revision_loose(last_known_cloud_state!),
-				_has_valuable_difference,
-				_has_recent_sync,
-				is_sync_in_flight,
-				_should_sync,
+				should_sync: _should_sync,
+				details: {
+					is_enabled,
+					_is_initialised,
+					_is_online,
+					_is_healthy,
+					candidate_rev: get_revision_loose(state!),
+					last_known_cloud_rev: get_revision_loose(last_known_cloud_state!),
+					_has_valuable_difference,
+					_has_recent_sync,
+					is_sync_in_flight,
+				},
 			})
 
 			if (!_is_healthy) {
@@ -157,8 +159,8 @@ export function create(
 		// TODO handle offline
 		// TODO retries?
 		// TODO spontaneous periodic sync -> for now we rely on periodic "time" sets
-		async function __sync_with_cloud(): Promise<void> {
-			logger.warn('[FYI debounce waking up]')
+		async function _NON_DEBOUNCED_sync_with_cloud(): Promise<void> {
+			logger.warn(`[${LIB}] [FYI debounce waking up or direct call]`) // temp for debug, exiting group
 
 			const cloud_key = get_cloud_key(state)
 			// since this func is debounced, re-evaluate the conditions that may have changed
@@ -171,7 +173,6 @@ export function create(
 				return
 			}
 
-			// TODO don't re-send if already in-flight? or sth
 			try {
 				logger.info(`[${LIB}] _sync_with_cloud() initiating call…`)
 				is_sync_in_flight = true
@@ -276,8 +277,8 @@ export function create(
 			}
 		}
 
-		const _debounced_schedule_sync_with_cloud: () => void = debounce(() => {
-			__sync_with_cloud()
+		const _DEBOUNCED_sync_with_cloud: () => void = debounce(() => {
+			_NON_DEBOUNCED_sync_with_cloud()
 				.catch(_on_error)
 		}, 5000, {
 			maxWait: 30_000,
@@ -286,17 +287,16 @@ export function create(
 		})
 
 		function _schedule_sync_with_cloud_if_needed_and_possible(): void {
+			logger.trace(`[${LIB}] thinking about scheduling a sync…`)
+
 			const _should_sync = should_sync()
-
-			logger.trace(`[${LIB}] thinking about scheduling a sync… Is it appropriate?`, { _should_sync })
-
 			if (!_should_sync) {
 				logger.trace(`[${LIB}] skipping scheduling a cloud sync: there are no reasons to or reasons not to.`)
 				return
 			}
 
 			logger.info(`[${LIB}] scheduling a cloud sync… (debounced)`)
-			_debounced_schedule_sync_with_cloud()
+			_DEBOUNCED_sync_with_cloud()
 		}
 
 		/////////////////////////////////////////////////
@@ -364,10 +364,10 @@ export function create(
 				case ActionType.on_logged_in_refresh: {
 					if (is_logged_in !== action.is_logged_in) {
 						is_logged_in = action.is_logged_in
-						logger.verbose(`[${LIB}] logged-in status snooped:`, { is_logged_in })
+						logger.verbose(`[${LIB}] new logged-in status snooped:`, { is_logged_in })
 						if (is_logged_in) {
 							// not using the debounced one, this is urgent
-							__sync_with_cloud()
+							_NON_DEBOUNCED_sync_with_cloud()
 								.catch(_on_error)
 						}
 					}
@@ -385,7 +385,7 @@ export function create(
 			// TODO review into a dedicated periodic check?
 
 			if (!is_logged_in) {
-				logger.trace(`[${LIB}] note: still not logged in, no sync for now.`)
+				logger.trace(`[${LIB}] still not logged in, no sync for now.`)
 				return
 			}
 

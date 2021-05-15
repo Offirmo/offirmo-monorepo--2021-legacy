@@ -203,7 +203,7 @@ describe(`${LIB} - store - local storage`, function() {
 					expect(local_storage, 'unpersist ls size').to.have.lengthOf(1)
 					expect(local_storage.getItem(StorageKey.bkp_main), 'unpersist main').to.equal(BAD_LS_CONTENT)
 					// no state at all
-					expect(store.get).to.throw('never init')
+					expect(store.get).to.throw('should be initialized')
 				})
 			})
 

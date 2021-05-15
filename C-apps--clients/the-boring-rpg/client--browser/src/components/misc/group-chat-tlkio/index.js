@@ -33,7 +33,7 @@ function report_error() {
 */
 
 export function restart({channel_id, nickname}) {
-	console.log(`${LIB}: restart()`, {channel_id, nickname})
+	//console.log(`${LIB}: restart()`, {channel_id, nickname})
 
 	if (!channel_id)
 		throw new Error(`${LIB}: can’t set up chat without a channel id!`)
@@ -68,13 +68,13 @@ export function restart({channel_id, nickname}) {
 			nickname,
 			//css_overrides_url,
 		})
-	console.log(LIB, {
+	/*console.log(LIB, {
 		current_src,
 		new_src,
-	})
+	})*/
 
 	setTimeout(() => {
-		console.log(LIB + ' switching src…')
+		//console.log(LIB + ' switching iframe src…')
 		iframe_elem.src = new_src
 	}, optimization_delay_ms)
 
@@ -103,8 +103,7 @@ export function restart({channel_id, nickname}) {
 }
 
 export function toggle_visibility() {
-	console.log(`${LIB}: toggle_visibility()`)
-
+	//console.log(`${LIB}: toggle_visibility()`)
 
 	const drawer = document.getElementById(ELEMENT_ID)
 

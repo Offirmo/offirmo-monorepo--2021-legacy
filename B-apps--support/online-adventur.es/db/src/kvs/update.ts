@@ -1,4 +1,3 @@
-const { deepStrictEqual: assertDeepStrictEqual } = require('assert').strict
 const { isDeepStrictEqual } = require('util')
 import { Immutable } from '@offirmo-private/ts-types'
 
@@ -18,14 +17,14 @@ import { get } from './read'
 
 
 export async function upsert_kv_entry<T>(
-	params: {
+	params: Immutable<{
 		user_id: PUser['id'],
 		key: string,
-		value: Immutable<T>,
+		value: T,
 		bkp__recent?: any
 		bkp__old?: any
 		bkp__older?: any
-	},
+	}>,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<void> {
 	logger.log('⭆ upserting a KV entry...', { params })
@@ -61,12 +60,12 @@ const SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB = '_latest_from_db'
 
 
 export async function set_kv_entry_intelligently<T>(
-	params: {
+	params: Immutable<{
 		user_id: PUser['id'],
 		key: string,
-		value: Immutable<T>,
+		value: T,
 		//existing_hint?: PKeyValue<T>,
-	},
+	}>,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<void> {
 	logger.log('⭆ intelligently setting a KV entry...', { params })
@@ -169,12 +168,12 @@ export async function set_kv_entry_intelligently<T>(
 
 
 export async function sync_kv_entry<T>(
-	params: {
+	params: Immutable<{
 		user_id: PUser['id'],
 		key: string,
-		value: Immutable<T>,
+		value: T,
 		//existing_hint?: PKeyValue<T>,
-	},
+	}>,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<Immutable<T>> {
 	logger.log('⭆ syncing a KV entry...', { params })

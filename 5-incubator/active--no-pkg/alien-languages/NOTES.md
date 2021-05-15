@@ -1,4 +1,8 @@
 
+Previous art:
+- https://starwars.fandom.com/wiki/Aurebesh
+
+
 Concepts
 * natural language, or ordinary language is any language that has evolved naturally in humans through use and repetition without conscious planning or premeditation https://en.wikipedia.org/wiki/Natural_language
   * https://en.wikipedia.org/wiki/Controlled_natural_language
