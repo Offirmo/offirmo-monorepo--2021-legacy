@@ -61,7 +61,6 @@
 		"indent-string": "^3",
 		"json-stringify-safe": "^5",
 		"json3": "^3",
-		"jsondiffpatch": "^0.2",
 		"linewrap": "^0.2.1",
 		"listr": "^0.12",
 		"lodash": "^4",

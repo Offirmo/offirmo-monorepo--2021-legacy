@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 import { Enum } from 'typescript-string-enums'
-import { dequal as is_deep_equal } from 'dequal'
+import memoize_one from 'memoize-one'
 const jsondiffpatch = require('jsondiffpatch')
 
 import {
@@ -15,6 +15,8 @@ import {
 	get_timestamp_loose,
 } from './selectors'
 import { JSONObject } from '@offirmo-private/ts-types'
+
+////////////////////////////////////
 
 export { dequal as is_deep_equal } from 'dequal'
 
@@ -41,14 +43,21 @@ export function s_max(a: SemanticDifference, b: SemanticDifference): SemanticDif
 	return SemanticDifference.none
 }
 
+// used only in tests AFAIK
+const _get_advanced_json_differ = memoize_one(() => {
+	const advanced_json_differ = jsondiffpatch.create({
+		// method used to match objects when diffing arrays
+		// by default === operator is used
+		objectHash: (obj: any) => JSON.stringify(obj),
+	})
 
-const _advanced_json_differ = jsondiffpatch.create({
-	// method used to match objects when diffing arrays
-	// by default === operator is used
-	objectHash: (obj: any) => JSON.stringify(obj),
+	return advanced_json_differ
 })
-export const get_json_difference: (a: any, b: any) => JSONObject =
-	_advanced_json_differ.diff.bind(_advanced_json_differ)
+
+export function get_json_difference(a: any, b: any): JSONObject {
+	return _get_advanced_json_differ().diff(a, b)
+}
+
 
 // TODO improve unclear semantics
 export function UNCLEAR_get_difference__full(a: any, b?: any): { type: SemanticDifference, direction: number } {

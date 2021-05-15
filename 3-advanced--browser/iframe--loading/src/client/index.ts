@@ -11,6 +11,7 @@ export interface XOffExtension {
 	loader: Loader
 }
 
+const LIB = '🖼 iframe-loading'
 export const PROP = 'oᐧloader'
 
 /////////////////////
@@ -40,9 +41,9 @@ if (!loader_full) {
 	const { searchParams } = url
 	const hint_at_loader = searchParams.has(PROP)
 	if (!hint_at_loader)
-		console.info('🖼 iframe-loading: loader not found' + (url.hostname === 'localhost' ? ' but looks like dev mode ✔' : ', are you properly set up?'))
+		console.info(`[${LIB}] loader not found` + (url.hostname === 'localhost' ? ' but looks like dev mode ✔' : ', are you properly set up?'))
 	else
-		console.info('🖼 iframe-loading: loader not found or cross-domain, will postMessage().')
+		console.info(`[${LIB}] loader not found or cross-domain, will postMessage().`)
 }
 
 const loader = loader_full || loader_fallback

@@ -31,6 +31,32 @@ https://twitter.com/Atlassian
 https://twitter.com/Jira
 https://elisegal.medium.com/5-tips-for-a-better-agile-board-in-jira-c4ba1296e38c
 
+https://www.youtube.com/watch?v=XU0llRltyFM intro to scrum in 10minutes
+
+https://hello.atlassian.net/wiki/spaces/agile/pages/1054404185/Research%2BProject%2B-%2BJSW%2BAgile%2Bbasics
+
+https://outsidein.dev/why-agile.html
+
+https://www.atlassian.com/software/jira/features
+https://www.atlassian.com/software/jira/great-teams
+https://www.atlassian.com/software/jira/guides/getting-started/best-practices
+https://www.atlassian.com/software/jira/guides/getting-started/overview
+https://www.atlassian.com/team-playbook
+https://www.atlassian.com/company/events
+https://developer.atlassian.com/
+https://www.atlassian.com/company/careers
+https://confluence.atlassian.com/kb
+https://www.atlassian.com/university
+https://www.atlassian.com/trust
+https://www.atlassian.com/trust/security
+https://www.atlassian.com/trust/security/vendor-security-risk-response
+https://www.atlassian.com/trust/privacy
+https://www.atlassian.com/trust/compliance
+https://community.atlassian.com/t5/Jira-questions/qa-p/jira-questions
+https://community.atlassian.com/t5/Jira-Software-questions/Jira-Desktop-client-for-windows/qaq-p/1330996
+
+
+
 JIRA issue search (not perfect, but definitely better than alternatives), the simplicity of logging time, JIRA ticket layout/configuration, ticket update notifications (the visual representation of diffs, but also others).
 
 Join Atlassian community https://click.e.atlassian.com/?qs=983f158187f660f35c48a224a55c5a389ec072d3b9f6784984d535edbca2abcec165318d4a3a58f9aea10f587f8db44a25a2096795d2bf05f3030d5e9a0f91a2
