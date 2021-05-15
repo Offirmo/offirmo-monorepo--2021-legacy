@@ -127,8 +127,9 @@ const DEMO_ADVENTURE_04: Immutable<Adventure> = enforce_immutability<Adventure>(
 // can't build an example from disconnected sample states.
 // taken from a real savegame:
 const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib_SEC(), {
-	app_id: 'tbrpg',
-	last_user_activity_tms: 1598854698575,
+	ⵙapp_id: 'tbrpg',
+	'schema_version': 15,
+	last_user_investment_tms: 1598854698575,
 	't_state': {
 		'schema_version': 15,
 		revision: 0,
@@ -641,11 +642,11 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib
 
 /*const FAKE_DEMO_STATE: Immutable<State> = enforce_immutability<State>(cleanup(get_lib_SEC(), {
 	schema_version: SCHEMA_VERSION,
+	last_user_investment_tms: TEST_TIMESTAMP_MS,
 
 	u_state: {
 		schema_version: SCHEMA_VERSION,
 		revision: 203,
-		last_user_action_tms: TEST_TIMESTAMP_MS,
 
 		creation_date: get_human_readable_UTC_timestamp_minutes(new Date(TEST_TIMESTAMP_MS)),
 

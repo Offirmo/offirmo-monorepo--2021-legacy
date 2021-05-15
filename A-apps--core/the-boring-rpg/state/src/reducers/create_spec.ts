@@ -18,9 +18,15 @@ describe(`${LIB} - reducer - create`, function() {
 
 		it('should be correct', function() {
 			const state = create()
-			expect(state).not.to.have.property('schema_version')
-			expect(Object.keys(state), 'quick key count check')
-				.to.deep.equal(['app_id', 'last_user_activity_tms', 'u_state', 't_state']) // because this test should be updated if that changes
+			expect(state).to.have.property('schema_version')
+			expect(Object.keys(state).sort(), 'quick root key check')
+				.to.deep.equal([
+					'ⵙapp_id',
+					'schema_version',
+					'last_user_investment_tms',
+					'u_state',
+					't_state',
+				].sort()) // because this test should be updated if that changes
 
 			const { u_state } = state
 

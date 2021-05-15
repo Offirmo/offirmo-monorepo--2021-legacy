@@ -42,7 +42,7 @@ function on_start_session(previous_state: Immutable<State>, is_web_diversity_sup
 
 	state = {
 		...state,
-		//last_user_activity_tms: now_ms, //No, this is NOT a valuable user action
+		//last_user_investment_tms: now_ms, //No, this is NOT a valuable user action
 		u_state: {
 			...state.u_state,
 
@@ -66,7 +66,7 @@ function on_logged_in_refresh(previous_state: Immutable<State>, is_logged_in: bo
 
 	state = {
 		...state,
-		//last_user_activity_tms: now_ms, //No, this is NOT a valuable user action
+		//last_user_investment_tms: now_ms, //No, this is NOT a valuable user action
 		u_state: {
 			...state.u_state,
 			meta: MetaState.on_logged_in_refresh(state.u_state.meta, is_logged_in, roles),
@@ -89,7 +89,7 @@ function equip_item(previous_state: Immutable<State>, uuid: UUID, now_ms: Timest
 	let state = previous_state
 	state = {
 		...state,
-		last_user_activity_tms: now_ms,
+		last_user_investment_tms: now_ms,
 
 		u_state: {
 			...state.u_state,
@@ -106,7 +106,7 @@ function sell_item(previous_state: Immutable<State>, uuid: UUID, now_ms: Timesta
 	state = _sell_item(state, uuid)
 	state = {
 		...state,
-		last_user_activity_tms: now_ms,
+		last_user_investment_tms: now_ms,
 
 		u_state: {
 			...state.u_state,
@@ -121,7 +121,7 @@ function rename_avatar(previous_state: Immutable<State>, new_name: string, now_m
 	let state = previous_state
 	state = {
 		...state,
-		last_user_activity_tms: now_ms,
+		last_user_investment_tms: now_ms,
 
 		u_state: {
 			...state.u_state,
@@ -140,7 +140,7 @@ function change_avatar_class(previous_state: Immutable<State>, new_class: Charac
 	let state = previous_state
 	state = {
 		...state,
-		last_user_activity_tms: now_ms,
+		last_user_investment_tms: now_ms,
 
 		u_state: {
 			...state.u_state,
@@ -156,7 +156,7 @@ function acknowledge_engagement_msg_seen(previous_state: Immutable<State>, uid: 
 	let state = previous_state
 	state = {
 		...state,
-		last_user_activity_tms: now_ms,
+		last_user_investment_tms: now_ms,
 
 		u_state: {
 			...state.u_state,

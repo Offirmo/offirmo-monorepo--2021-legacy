@@ -90,7 +90,9 @@ interface TState extends BaseTState {
 	energy: EnergyTState,
 }
 
-type State = BaseRootState<UState, TState>
+interface State extends BaseRootState<UState, TState> {
+	schema_version: number // yes it's redundant but very convenient for debugging in the console
+}
 
 /////////////////////
 

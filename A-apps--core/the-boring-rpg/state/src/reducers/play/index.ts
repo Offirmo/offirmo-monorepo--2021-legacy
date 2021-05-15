@@ -87,7 +87,7 @@ function play(previous_state: Immutable<State>, now_ms: TimestampUTCMs = get_UTC
 	const u_state = state.u_state
 	state = {
 		...state,
-		last_user_activity_tms: now_ms,
+		last_user_investment_tms: now_ms,
 
 		u_state: {
 			...u_state,

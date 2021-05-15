@@ -71,8 +71,9 @@ function create(SEC?: OMRSoftExecutionContext, seed?: number): Immutable<State> 
 		//console.log('creation', now)
 
 		let state: Immutable<State> = {
-			app_id: 'tbrpg',
-			last_user_activity_tms: get_UTC_timestamp_ms(now),
+			ⵙapp_id: 'tbrpg',
+			schema_version: SCHEMA_VERSION,
+			last_user_investment_tms: get_UTC_timestamp_ms(now),
 
 			u_state: {
 				schema_version: SCHEMA_VERSION,

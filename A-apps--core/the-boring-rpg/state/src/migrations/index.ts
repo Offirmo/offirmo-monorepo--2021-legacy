@@ -117,14 +117,13 @@ const migrate_to_15x: LastMigrationStep<State, any> = (SEC, legacy_state, hints,
 	if (legacy_schema_version < 14)
 		legacy_state = previous(SEC, legacy_state, hints)
 
-	const { schema_version, ...rest__root } = legacy_state
 	// minor migration: cleanup uuid field
-	const { last_user_action_tms, creation_date: creation_date_hrtmin, uuid, ...rest__u_state } = rest__root.u_state
-	const last_user_activity_tms = last_user_action_tms ?? get_UTC_timestamp_ms()
+	const { last_user_action_tms, creation_date: creation_date_hrtmin, uuid, ...rest__u_state } = legacy_state.u_state
+	const last_user_investment_tms = last_user_action_tms ?? get_UTC_timestamp_ms()
 
-	console.log('@@@@@', { last_user_action_tms, creation_date_hrtmin, uuid, schema_version })
+	//console.log('@@@@@', { last_user_action_tms, creation_date_hrtmin, uuid, schema_version: legacy_state.schema_version })
 	let state = {
-		...rest__root,
+		...legacy_state,
 		u_state: {
 			...rest__u_state,
 		},
@@ -132,8 +131,8 @@ const migrate_to_15x: LastMigrationStep<State, any> = (SEC, legacy_state, hints,
 
 	state = {
 		...state,
-		app_id: 'tbrpg',
-		last_user_activity_tms,
+		ⵙapp_id: 'tbrpg',
+		last_user_investment_tms,
 
 		u_state: {
 			...state.u_state,
@@ -161,6 +160,7 @@ const migrate_to_15x: LastMigrationStep<State, any> = (SEC, legacy_state, hints,
 	// eventually, update schema version
 	state = {
 		...state,
+		schema_version: 15,
 		u_state: {
 			...state.u_state,
 			schema_version: 15,

@@ -1,6 +1,7 @@
 {
-	"app_id": "tbrpg",
-	"last_user_activity_tms": 1234567890,
+	"schema_version": 15,
+	"ⵙapp_id": "tbrpg",
+	"last_user_investment_tms": 1234567890,
 	"u_state": {
 		"schema_version": 15,
 		"revision": 0,

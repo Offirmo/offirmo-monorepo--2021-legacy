@@ -105,8 +105,8 @@ export function UNCLEAR_get_difference__full(a: any, b?: any): { type: SemanticD
 		if (t_state_rev__a !== t_state_rev__b)
 			return t_state_rev__a - t_state_rev__b
 	}*/
-	if (is_root__a && a.app_id && b.app_id) {
-		assert(a.app_id === b.app_id, `UNCLEAR_get_difference() states should be in the same universe!`)
+	if (is_root__a && a.ⵙapp_id && b.ⵙapp_id) {
+		assert(a.ⵙapp_id === b.ⵙapp_id, `UNCLEAR_get_difference() states should be in the same universe!`)
 	}
 
 	const revision__a = get_revision_loose(a)

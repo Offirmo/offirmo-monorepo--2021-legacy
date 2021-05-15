@@ -108,19 +108,19 @@ describe(`${LIB} - game-instance`, function() {
 
 				this.clock.tick(1_500)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 2_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 2_000)
 
 				this.clock.tick(2_000)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 4_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 4_000)
 
 				this.clock.tick(10_000)
 				game_instance.commands.rename_avatar('Test')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 14_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 14_000)
 
 				this.clock.tick(5_000)
 				game_instance.commands.change_avatar_class('warrior')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 19_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 19_000)
 
 				expect(game_instance.model.get().u_state.avatar.name).to.equal('Test')
 				expect(game_instance.queries.get_sub_state('avatar').name).to.equal('Test')
@@ -177,7 +177,7 @@ describe(`${LIB} - game-instance`, function() {
 				game_instance.commands.play()
 				game_instance.commands.play()
 				//game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(elapsed_ms)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(elapsed_ms)
 				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 2b').to.equal(0)
 				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 2g').to.equal(12)
 
@@ -225,19 +225,19 @@ describe(`${LIB} - game-instance`, function() {
 
 				this.clock.tick(1_500)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 2_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 2_000)
 
 				this.clock.tick(2_000)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 4_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 4_000)
 
 				this.clock.tick(10_000)
 				game_instance.commands.rename_avatar('Test')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 14_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 14_000)
 
 				this.clock.tick(5_000)
 				game_instance.commands.change_avatar_class('warrior')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 19_000)
+				expect(game_instance.model.get().last_user_investment_tms).to.equal(START_MS + 19_000)
 
 				// wooo the user likes it!
 				this.clock.tick(5_000)
