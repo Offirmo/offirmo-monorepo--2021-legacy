@@ -73,7 +73,9 @@
 	},
 	"devDependencies": {
 		"@offirmo-private/simple-upgradable-template": "^0",
-		"npm-run-all": "^4",
+		"npm-run-all": "^4"
+	},
+	"commentedDependencies": {
 		"parcel-plugin-bundle-visualiser": "^1"
 	}
 }
