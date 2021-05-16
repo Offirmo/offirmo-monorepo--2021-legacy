@@ -63364,7 +63364,7 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 const VERSION = '0.67.1';
 const NUMERIC_VERSION = 0.6701; // for easy comparisons
 
-const BUILD_DATE = '20210515_21h34';
+const BUILD_DATE = '20210516_04h57';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
@@ -66543,7 +66543,7 @@ const CharacterClass = Object(dist["Enum"])( // initial (also Korean game)
 
  /////////////////////
 
-const DEFAULT_AVATAR_NAME = '[anonymous]';
+const DEFAULT_AVATAR_NAME = '[new player]';
 const CHARACTER_ATTRIBUTES = dist["Enum"].keys(CharacterAttribute);
 const CHARACTER_ATTRIBUTES_SORTED = ['level', 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
 get_lib_SEC().xTry('boot checks', () => {
