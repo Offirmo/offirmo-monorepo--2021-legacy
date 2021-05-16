@@ -6,6 +6,13 @@
 	"license": "Unlicense",
 	"private": true,
 
+	"size-limit": [
+		{
+			"limit": "1.2Mb",
+			"path": "dist/index-*.js"
+		}
+	],
+
 	"dependencies": {
 		"@babel/core": "^7",
 		"@offirmo-private/async-utils": "^0",
@@ -62,6 +69,7 @@
 		"build:parcel": "parcel build --no-minify src/*.html --public-url ./",
 		"copy-extra": "cp -f src/*.json src/google*.html dist",
 		"copy-favicons-for-webmanifest": "mkdir -p dist/favicons && cp -rf dist/android-chrome-512x512.*.png dist/favicons/android-chrome-512x512.png",
+		"ensure-size": "size-limit",
 
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index-2.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 		"copy-extra--dev": "mkdir -p .parcel && cp -f src/index.html .parcel && cp -f src/build.json .parcel",
@@ -69,10 +77,11 @@
 
 		"start:x": "snowpack dev",
 
-		"build": "npm-run-all clean refresh-build-variables refresh-loading-template build:parcel copy-extra copy-favicons-for-webmanifest"
+		"build": "npm-run-all clean refresh-build-variables refresh-loading-template build:parcel copy-extra copy-favicons-for-webmanifest ensure-size"
 	},
 	"devDependencies": {
 		"@offirmo-private/simple-upgradable-template": "^0",
+		"@size-limit/file": "^4",
 		"npm-run-all": "^4"
 	},
 	"commentedDependencies": {

@@ -14,6 +14,7 @@
 		<meta name="author" content="John Smith">
 		<!-- OT⋄CUSTOM END meta description -->
 
+		<!-- TODO make it OK for sharing on social medias! -->
 		<title>Loading…</title>
 
 		<!-- OT⋄CUSTOM BEGIN favicons -->
@@ -59,12 +60,12 @@
 				height: 100%;
 			}
 
-			.blinking{
+			.blinking {
 				animation: blinkingText 1.2s infinite ease-in-out;
 			}
 			@keyframes blinkingText{
-				0% {  color: inherit; }
-				33% { color: transparent; }
+				0%  { opacity: 100%; }
+				33% { opacity: 0; }
 			}
 
 			.progressive {
@@ -85,6 +86,33 @@
 			/* OT⋄CUSTOM BEGIN early styles */
 			/* OT⋄CUSTOM END early styles */
 		</style>
+
+		<script>
+			const path_segment_after_last_slash = location.pathname.split('/').slice(-1)[0] || ''
+			if (path_segment_after_last_slash) {
+				// current path doesn't end with a trailing slash
+				// that may be an issue if we are located by our parent folder (implicit file)
+				// https://searchfacts.com/url-trailing-slash/
+				// https://ahrefs.com/blog/trailing-slash/
+				const is_last_segment_a_html_file = path_segment_after_last_slash.endsWith('.html') || path_segment_after_last_slash.endsWith('.htm')
+				if (is_last_segment_a_html_file) {
+					// all good ✔
+				} else {
+					// We are located by a folder without a trailing slash.
+					// We are opinionated towards a trailing slash to ease relative references.
+					// Redirect to the version with slash
+					// https://love2dev.com/blog/ways-to-use-javascript-redirect-to-another-page/
+					const new_path = location.pathname + '/'
+					// let's be careful to not loose any part of the URL
+					const new_url =
+						location.origin
+						+ new_path
+						+ location.search
+						+ location.hash
+					location.replace(new_url)
+				}
+			}
+		</script>
 	</head>
 
 	<body class="o⋄top-container o⋄body⁚full-page">
@@ -92,11 +120,12 @@
 
 		<!-- the actual app, initially hidden -->
 		<iframe class="o⋄top-container progressive"
-			  importance="high"
-			  loading="eager"
-			  scrolling="no"
+			importance="high"
+			loading="eager"
+			scrolling="no"
 		>
 			<p>Error. Your app should be here.</p>
+			<!-- TODO link for help -->
 			<p>Check your add blocker?</p>
 		</iframe>
 
@@ -114,8 +143,7 @@
 	</body>
 
 	<script>
-		user_settings = {}
-
+		window.user_settings = {}
 		/* OT⋄CUSTOM BEGIN early code */
 		if (document.URL.startsWith('http://localhost:1981/5-incubator/active/iframe-loading/src/index.html')) {
 			user_settings.app_url = '../doc/demo/index-2.html'
@@ -132,6 +160,7 @@
 			try {
 				return window._debug.v1.getLogger({name: LIB})
 			} catch {}
+
 			if (!!window.localStorage.getItem(`🛠UDA.override.logger.${LIB}.logLevel`))
 				return console
 
@@ -142,7 +171,8 @@
 				error() {},
 			}
 		})()
-		logger.log('[IL] starting…', { user_settings, location })
+		const user_settings = window.user_settings || {}
+		logger.log('[IL] starting…', { location, user_settings })
 
 		/////////////////////
 
@@ -153,6 +183,7 @@
 				fg_color: 'hsl(0, 0%, 98%)',
 				// TODO font, bg picture etc.
 				app_queryparams: [
+					// TODO explain???
 					user_settings.app_queryparams,
 					user_settings.app_url && new URLSearchParams(user_settings.app_url.split('?')[1]).toString(),
 					new URLSearchParams(location.search).toString(),
@@ -160,9 +191,13 @@
 				legend: undefined,
 				expected_rsrc_count: 1,
 				...user_settings,
-				app_url: user_settings.app_url // normalize
-					? user_settings.app_url.split('?')[0]
-					: './index-2.html',
+				app_url: (() => {
+
+					let app_url = user_settings.app_url || './index-2.html'
+					app_url = app_url.split('?')[0]
+
+					return app_url
+					})(),
 			},
 
 			is_rsrc_loaded: {
@@ -174,6 +209,7 @@
 		const LS_KEY_CACHED_CONFIG = `XOF.${LIB}.config_cache.url(${state.settings.app_url})`
 
 		/////////////////////
+		// SELECTORS
 
 		function get_load_infos(state) {
 			const rsrc_keys = Object.keys(state.is_rsrc_loaded)
@@ -194,9 +230,10 @@
 		}
 
 		/////////////////////
+		// REDUCERS
 
 		function on_error(state, error) {
-			logger.error('[IL] on error', { error })
+			logger.error('[IL] on error', { error, state })
 			state = {
 				...state,
 				error,
@@ -228,6 +265,7 @@
 		}
 
 		/////////////////////
+		// EXPOSE API
 
 		if (window[PROP]) {
 			logger.error('[IL] Error! iframe-loading recursion!')
@@ -270,6 +308,7 @@
 		// TODO favicon?
 
 		/////////////////////
+		// UX
 
 		function render(state, caller) {
 			const elt_iframe = document.getElementsByTagName('iframe')[0]
@@ -344,15 +383,20 @@
 				elt_iframe.onload = (args) => logger.log(`[IL] iframe loaded`, { args })
 				elt_iframe.onerror = (args) => logger.warn(`[IL] iframe something wrong happened`, { args }) // TODO error on this one?
 
-				// cordova support BUT up to the user to load the cordova script if needed!
+				// cordova support
+				// BUT up to the user to load the cordova script if needed!
 				// https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html
 				document.addEventListener('deviceready', () => {
 					if ('splashscreen' in navigator) {
 						// take over the loading feature
-						logger.log('[IL] hiding cordova loader')
-						navigator.splashscreen.hide()
+						setTimeout(() => {
+							logger.log('[IL] hiding cordova loader')
+							navigator.splashscreen.hide()
+						}, 10) // to avoid FOUC
 					}
 				}, false)
+
+				logger.log(`[IL] Now waiting for the iframe to load "${elt_iframe.src}"`)
 			}
 
 			if (state.settings.legend) {
@@ -372,6 +416,8 @@
 			try { sub_frame_title = sub_frame_window.document.title } catch {}
 			window.document.title = sub_frame_title || state.settings.legend || ''
 		}
+
+		// trigger initial render
 
 		try {
 			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
@@ -406,7 +452,8 @@
 		// PM listener for cross origin sub-frames
 		window.addEventListener('message', ({data, origin, source}) => {
 			if (!data[PROP]) return
-			logger.log('[IL] 📥 PM received', data[PROP])
+
+			logger.log(`[IL] 📥 PM ["${prop}"] received`, data[PROP])
 			const { method, args } = data[PROP]
 			window[PROP][method](...args)
 		}, false)

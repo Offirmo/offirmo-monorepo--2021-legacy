@@ -16,7 +16,7 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-const DEFAULT_AVATAR_NAME = '[anonymous]'
+const DEFAULT_AVATAR_NAME = '[new player]'
 const CHARACTER_ATTRIBUTES = Enum.keys(CharacterAttribute)
 const CHARACTER_ATTRIBUTES_SORTED: Readonly<CharacterAttribute>[] = [
 	'level',

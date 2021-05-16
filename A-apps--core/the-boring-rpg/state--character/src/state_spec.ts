@@ -21,7 +21,7 @@ describe(`${LIB} - reducer`, function() {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
-				name: '[anonymous]',
+				name: '[new player]',
 				klass: CharacterClass.novice,
 				attributes: {
 					level: 1,
