@@ -11,8 +11,15 @@
 - 😷 chore: some internal refactors
 - 😷 chore: bump dependencies
 
+
 ## TODO
 
+
+## v0.67.1
+- 👋 feature: (feature flagged) progress on the cloud save
+- 😅 fix: the size of the app was cut in half! (faster loading time)
+- 😷 chore: some internal refactors (data format now v15)
+- 😷 chore: bump dependencies
 
 ## v0.66.2
 2021/04/26
