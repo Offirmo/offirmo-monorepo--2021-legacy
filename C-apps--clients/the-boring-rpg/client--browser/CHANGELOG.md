@@ -16,8 +16,9 @@
 
 
 ## v0.67.1
+- 😅 fix: the size of the app was cut in half! (much faster loading time 🚀)
+- 👋 feature: slightly improved the default player name + its handling in the chat
 - 👋 feature: (feature flagged) progress on the cloud save
-- 😅 fix: the size of the app was cut in half! (faster loading time)
 - 😷 chore: some internal refactors (data format now v15)
 - 😷 chore: bump dependencies
 

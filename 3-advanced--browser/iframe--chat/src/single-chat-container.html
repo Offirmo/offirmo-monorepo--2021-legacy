@@ -115,7 +115,8 @@
 					return encodeURIComponent(hostname.replaceAll('.', '-'))
 				})()
 				const theme    = searchParams.get('theme') || 'minimal'
-				const nickname = ((candidate = 'anonymous') => {
+				const nickname = ((candidate) => {
+					if (!candidate) candidate = 'anonymous' // covers null, undef & ''
 					const has_brackets = candidate.startsWith('[') && candidate.endsWith(']')
 					if (has_brackets)
 						candidate = candidate.slice(1, -1)
@@ -130,11 +131,13 @@
 
 							try { // defensive!
 								const LS_KEY = `@offirmo-private/iframe--chat/anon_uuid`
-								let candidate = localStorage.getItem(LS_KEY)
-								if (candidate && candidate.length === anon_uuid.length)
-									return candidate
+								let already_generated_anon_uuid = localStorage.getItem(LS_KEY)
+								if (!!already_generated_anon_uuid && already_generated_anon_uuid.length === anon_uuid.length)
+									return already_generated_anon_uuid
+
 								localStorage.setItem(LS_KEY, anon_uuid)
-							} catch (e) { /* swallow */
+							} catch (e) {
+								/* swallow */
 							}
 
 							return anon_uuid

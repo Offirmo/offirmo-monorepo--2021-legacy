@@ -7,7 +7,7 @@ API:
 
 ## Usage
 
-https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/5-incubator/active/iframe--chat/dist/single-chat-container.html
+https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/iframe--chat/dist/single-chat-container.html
 
 
 ```html
@@ -38,8 +38,15 @@ Properties:
 
 ### demo files
 
-* http://localhost:1234/doc/demo/demo.html
-* http://localhost:1234/__/__/src/single-chat-container.html?theme=pop&bg_color=yellow&nickname=admin
+```
+http://localhost:1234/demo--tlk.io.html
+http://localhost:1234/demo.html
+http://localhost:1234/__/__/src/single-chat-container.html?theme=pop&bg_color=yellow&nickname=admin
+http://localhost:1234/overrides.css
+
+https://www.offirmo.net/offirmo-monorepo/3-advanced--browser/iframe--chat/doc/demo/demo.html
+https://www.offirmo.net/offirmo-monorepo/3-advanced--browser/iframe--chat/src/single-chat-container.html
+```
 
 ### tlk.io interface
 
