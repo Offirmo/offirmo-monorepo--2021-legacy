@@ -24,6 +24,7 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@storybook/addon-actions": "^6",
+		"@storybook/addon-console": "^1",
 		"@storybook/addon-essentials": "^6",
 		"@storybook/addon-links": "^6",
 		"@storybook/react": "^6",

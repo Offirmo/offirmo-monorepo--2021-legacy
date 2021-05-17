@@ -51,6 +51,7 @@
 	"resolutions": {
 		"@babel/preset-env": "7.13.8"
 	},
+	"comment": { "note": "Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included"},
 	"dependencies": {
 		"@atlaskit/form": "^7",
 		"@atlaskit/range": "^3",
@@ -163,6 +164,7 @@
 		"@size-limit/preset-app": "^4",
 		"@size-limit/preset-small-lib": "^4",
 		"@storybook/addon-actions": "^6",
+		"@storybook/addon-console": "^1",
 		"@storybook/addon-essentials": "^6",
 		"@storybook/addon-links": "^6",
 		"@storybook/react": "^6",

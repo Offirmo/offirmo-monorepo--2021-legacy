@@ -27,6 +27,14 @@ Advanced roadmaps
 Automation
 free tier
 
+https://community.atlassian.com/t5/Jira-articles/bg-p/jira-articles
+https://community.atlassian.com/t5/Marketplace-Apps-Integrations/Scripting-for-Jira-simplified/ba-p/1036862
+https://community.atlassian.com/t5/Jira-Software-questions/Cannot-delete-projects-and-create-Classic-projects/qaq-p/1588184
+https://community.atlassian.com/t5/tag/jira-cloud/tg-p
+https://community.atlassian.com/t5/Jira-articles/Understanding-issue-types-in-jira/ba-p/1497237?jira_cloud_basics_1=&link_1=&ref=community_jira&showcase=
+https://community.atlassian.com/t5/Jira-articles/What-are-issues-in-Jira/ba-p/1497233?jira_cloud_basics_2=&link_2=&ref=community_jira&showcase=
+https://community.atlassian.com/t5/Jira-articles/What-s-the-difference-between-a-kanban-board-and-a-Scrum-board/ba-p/1497235?ref=community_jira&showcase&jira_cloud_basics_5&link_3
+
 https://twitter.com/Atlassian
 https://twitter.com/Jira
 https://elisegal.medium.com/5-tips-for-a-better-agile-board-in-jira-c4ba1296e38c
