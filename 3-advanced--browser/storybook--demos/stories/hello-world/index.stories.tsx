@@ -8,7 +8,7 @@ export default {
 	title: 'HelloWorld',
 	component: HelloWorld,
 	argTypes: {
-		backgroundColor: { control: 'color' },
+		//backgroundColor: { control: 'color' },
 	},
 } as Meta
 
@@ -18,25 +18,11 @@ const StoryTemplate: Story<HelloWorldProps> = (args) => <HelloWorld {...args} />
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export const Primary = StoryTemplate.bind({});
-Primary.args = {
-	primary: true,
-	label: 'H',
+export const Default = StoryTemplate.bind({});
+Default.args = {
 };
 
-export const Secondary = StoryTemplate.bind({});
-Secondary.args = {
-	label: 'H',
-};
-
-export const Large = StoryTemplate.bind({});
-Large.args = {
-	size: 'large',
-	label: 'H',
-};
-
-export const Small = StoryTemplate.bind({});
-Small.args = {
-	size: 'small',
-	label: 'H',
+export const Custom = StoryTemplate.bind({});
+Custom.args = {
+	who: 'you'
 };

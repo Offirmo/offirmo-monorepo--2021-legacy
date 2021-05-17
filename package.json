@@ -193,6 +193,7 @@
 		"@types/sinon-chai": "^3",
 		"@typescript-eslint/eslint-plugin": "^4",
 		"@typescript-eslint/parser": "^4",
+		"babel-loader": "^8",
 		"browserslist": "^4",
 		"chai": "^4",
 		"chai-as-promised": "^7",
