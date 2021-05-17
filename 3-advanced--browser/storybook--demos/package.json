@@ -1,0 +1,32 @@
+{
+	"name": "@offirmo-private/storybook--demos",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
+		"prop-types": "^15",
+		"react": "^17",
+		"react-dom": "^17"
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist …cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+		"demo": "run-s clean start:parcel",
+		"storybook": "start-storybook -p 6006",
+		"build-storybook": "build-storybook"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@storybook/addon-actions": "^6",
+		"@storybook/addon-essentials": "^6",
+		"@storybook/addon-links": "^6",
+		"@storybook/react": "^6",
+		"parcel-bundler": "^1"
+	}
+}
