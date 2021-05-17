@@ -13,21 +13,17 @@ https://github.com/munrocket/parallax-effect
 
 inventory items http://augmented-ui.com/
 
-backdrop-filter
+https://web.dev/backdrop-filter/
 
 canvas effects https://canvas-cards.glitch.me/#intotomorrow-selector
 
-https://riccardoscalco.it/textures/ SVG patterns for Data Visualization
 https://github.com/SystemErrorWang/White-box-Cartoonization
 
 VR
 https://blog.mozvr.com/webxr-1-0-is-here/
 
-SVG animation https://www.svgator.com/
-
 BG effect https://tympanus.net/Development/BackgroundScaleHoverEffect/
 wave effect https://tympanus.net/codrops/2020/03/17/create-a-wave-motion-effect-on-an-image-with-three-js/
-https://web.dev/backdrop-filter/
 
 maps https://inkarnate.com/
      https://heredragonsabound.blogspot.com/  +  https://news.ycombinator.com/item?id=21406356
@@ -51,7 +47,7 @@ SNOW
 }
 
 
-effects https://yoksel.github.io/svg-gradient-map/#/
+effects
 text effect http://www.brutalistframework.com/bfx#curved
 
 fonts
@@ -93,8 +89,6 @@ offline
 Beaux contours https://medium.com/better-programming/augmented-ui-cyberpunk-inspired-web-ui-made-easy-d463c0371144
 
 https://github.com/xobotyi/react-scrollbars-custom
-
-logo animé https://svgartista.net/
 
 3D et transitions three.js https://ykob.github.io/sketch-threejs/
 3D camera https://woodneck.github.io/css-camera/release/latest/docs/index.html
