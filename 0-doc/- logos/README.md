@@ -3,6 +3,3 @@
 * https://github.com/npm/logos
 * https://github.com/semver/semver/issues/171
 
-
-Noun
-* https://thenounproject.com/search/?q=security%20mobile&i=153136#

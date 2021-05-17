@@ -26,7 +26,7 @@ See [CONTRIBUTING/README.md](./CONTRIBUTING/README.md)
 ## Credits and Hat tips
 
 Credits:
-- Adriano Emerick "Mobile Security" icon
+- Adriano Emerick "Mobile Security" icon https://thenounproject.com/search/?q=security mobile&i=153136
 - José Hernandez "Weight" icon https://thenounproject.com/search/?q=weight&i=9409
 
 Tools

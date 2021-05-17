@@ -10,6 +10,7 @@ import rich_text_to_react from '../../../services/rich-text-to-react'
 import { UStateListenerAndProvider } from '../../../context'
 import get_game_instance from '../../../services/game-instance-browser'
 import { LS_KEYS } from '../../../services/consts'
+import logger from '../../../services/logger'
 
 let start_notifs_displayed = false
 const OMRUINotifierC1 = React.memo(
@@ -58,7 +59,7 @@ const OMRUINotifierC1 = React.memo(
 			pending_non_flow_engagement = get_game_instance().queries.get_oldest_pending_non_flow_engagement()
 			if (pending_non_flow_engagement) {
 				const { uid, $doc, pe } = pending_non_flow_engagement
-				console.info('Dequeing engagement: ', {uid, $doc, pe, pending_non_flow_engagement})
+				logger.log('Dequeing engagement: ', {uid, $doc, pe, pending_non_flow_engagement})
 				const type = pe.engagement.type
 				switch(type) {
 					case 'aside': {
