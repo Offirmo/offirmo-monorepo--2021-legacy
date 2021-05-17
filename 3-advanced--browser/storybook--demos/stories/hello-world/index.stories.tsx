@@ -2,6 +2,7 @@ import { Story, Meta } from '@storybook/react'
 
 import HelloWorld, { HelloWorldProps } from '.'
 
+////////////////////////////////////////////////////////////////////////////////////
 
 export default {
 	title: 'HelloWorld',
@@ -11,26 +12,30 @@ export default {
 	},
 } as Meta
 
-const Template: Story<HelloWorldProps> = (args) => <HelloWorld {...args} />;
+////////////////////////////////////////////////////////////////////////////////////
 
-export const Primary = Template.bind({});
+const StoryTemplate: Story<HelloWorldProps> = (args) => <HelloWorld {...args} />;
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export const Primary = StoryTemplate.bind({});
 Primary.args = {
 	primary: true,
 	label: 'H',
 };
 
-export const Secondary = Template.bind({});
+export const Secondary = StoryTemplate.bind({});
 Secondary.args = {
 	label: 'H',
 };
 
-export const Large = Template.bind({});
+export const Large = StoryTemplate.bind({});
 Large.args = {
 	size: 'large',
 	label: 'H',
 };
 
-export const Small = Template.bind({});
+export const Small = StoryTemplate.bind({});
 Small.args = {
 	size: 'small',
 	label: 'H',
