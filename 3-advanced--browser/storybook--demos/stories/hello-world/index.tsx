@@ -1,7 +1,7 @@
 import './index.css'
 
-interface Props {
-	who: stringXXX
+export interface Props {
+	who: string
 }
 
 export function HelloWorld({who = 'World'}: Props) {

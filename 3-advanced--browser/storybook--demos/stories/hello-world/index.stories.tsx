@@ -18,11 +18,11 @@ const StoryTemplate: Story<HelloWorldProps> = (args) => <HelloWorld {...args} />
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export const Default = StoryTemplate.bind({});
+export const Default = StoryTemplate.bind({})
 Default.args = {
-};
+}
 
-export const Custom = StoryTemplate.bind({});
+export const Custom = StoryTemplate.bind({})
 Custom.args = {
 	who: 'you'
-};
+}

@@ -18,14 +18,12 @@
 		"build-storybook": "build-storybook"
 	},
 	"devDependencies": {
-		"@babel/core": "^7",
 		"@storybook/addon-actions": "^6",
 		"@storybook/addon-console": "^1",
 		"@storybook/addon-essentials": "^6",
 		"@storybook/addon-links": "^6",
 		"@storybook/react": "^6",
-		"babel-loader": "^8",
-		"parcel-bundler": "^1",
+		"storybook-dark-mode": "^1",
 		"typescript": "^4"
 	}
 }

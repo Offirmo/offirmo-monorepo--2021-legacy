@@ -51,7 +51,9 @@
 	"resolutions": {
 		"@babel/preset-env": "7.13.8"
 	},
-	"comment": { "note": "Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included"},
+	"comments": {
+		"01": "Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included"
+	},
 	"dependencies": {
 		"@atlaskit/form": "^7",
 		"@atlaskit/range": "^3",
@@ -236,6 +238,7 @@
 		"sinon-chai": "^3",
 		"size-limit": "^4",
 		"snowpack": "^3",
+		"storybook-dark-mode": "^1",
 		"sum-up": "^3",
 		"ts-node": "^9",
 		"typescript": "^4",
