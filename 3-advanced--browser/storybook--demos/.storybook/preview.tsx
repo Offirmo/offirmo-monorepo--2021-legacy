@@ -1,6 +1,6 @@
 // https://storybook.js.org/docs/react/configure/overview#configure-story-rendering
 
-import { useDarkMode } from 'storybook-dark-mode'
+import '@storybook/addon-console'
 
 export const parameters = {
 	actions: {

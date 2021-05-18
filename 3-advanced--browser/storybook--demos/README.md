@@ -1,2 +1,8 @@
 		"babel-loader": "^8",
 		"fork-ts-checker-webpack-plugin": "^6",
+		"@storybook/addon-actions": "^6",
+		"@storybook/addon-console": "^1",
+		"@storybook/addon-essentials": "^6",
+		"@storybook/addon-links": "^6",
+		"@storybook/react": "^6",
+		"storybook-dark-mode": "^1",

@@ -5,6 +5,7 @@ export interface Props {
 }
 
 export function HelloWorld({who = 'World'}: Props) {
+	console.error('Test')
 	return (
 		<div>
 			Hello, {who}!
