@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo-private/view-css",
+	"name": "@offirmo-private/ui--browser--css",
 	"version": "0.0.1",
 	"private": true,
 	"description": "Small reusable CSS classes",

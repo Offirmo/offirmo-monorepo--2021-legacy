@@ -7,7 +7,7 @@
 
 	"dependencies": {
 		"@babel/core": "^7",
-		"@offirmo-private/view-css": "^0",
+		"@offirmo-private/ui--browser--css": "^0",
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@offirmo/universal-debug-api-placeholder": "^1",

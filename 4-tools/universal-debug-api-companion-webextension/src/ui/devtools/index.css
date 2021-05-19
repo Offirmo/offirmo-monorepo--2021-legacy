@@ -1,4 +1,4 @@
-@import '../../../node_modules/@offirmo-private/view-css/src/style.css';
+@import '../../../node_modules/@offirmo-private/ui--browser--css/src/style.css';
 
 :root {
 	--o⋄font-size--default: 14px;

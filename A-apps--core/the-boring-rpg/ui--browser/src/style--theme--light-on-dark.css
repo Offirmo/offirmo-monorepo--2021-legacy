@@ -1,4 +1,4 @@
-@import '../node_modules/@offirmo-private/view-css/src/style--theme--light-on-dark.css';
+@import '../node_modules/@offirmo-private/ui--browser--css/src/style--theme--light-on-dark.css';
 
 /* light on dark theme */
 [data-o-theme="light-on-dark"] {
