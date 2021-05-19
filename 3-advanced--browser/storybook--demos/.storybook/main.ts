@@ -5,7 +5,7 @@ module.exports = {
 	],
 	'addons': [
 		'@geometricpanda/storybook-addon-iframe',
-		require.resolve('storybook-addon-grid/preset'),
+		//require.resolve('storybook-addon-grid/preset'),
 		'@storybook/addon-essentials',
 		'@storybook/addon-links',
 		'storybook-dark-mode/register',

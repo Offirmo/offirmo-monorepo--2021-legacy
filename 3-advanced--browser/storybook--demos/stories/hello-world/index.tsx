@@ -3,7 +3,6 @@ import './index.css'
 export interface Props {
 	who: string
 }
-
 export function HelloWorld({who = 'World'}: Props) {
 	console.error('Test')
 	return (

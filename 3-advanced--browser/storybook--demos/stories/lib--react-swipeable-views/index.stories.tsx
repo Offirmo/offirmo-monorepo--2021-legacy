@@ -1,12 +1,13 @@
 import { Story, Meta } from '@storybook/react'
 
+import SwipeableViews from 'react-swipeable-views'
 import Component, { Props } from '.'
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export default {
-	title: 'HelloWorld',
-	component: Component,
+	title: 'react-swipeable-views',
+	//component: HelloWorld,
 	argTypes: {
 		//backgroundColor: { control: 'color' },
 	},
@@ -24,5 +25,5 @@ Default.args = {
 
 export const Custom = StoryTemplate.bind({})
 Custom.args = {
-	who: 'you'
+	//who: 'you'
 }
