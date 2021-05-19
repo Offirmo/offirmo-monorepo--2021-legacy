@@ -7,7 +7,7 @@ const searchParams = new URLSearchParams(window.location.search)
 const style = searchParams.get('style_select')
 
 if (style.startsWith('base'))
-	style_once({ id: 'style', href: '//localhost:1981/3-advanced--browser/view-css/src/style.css' })
+	style_once({ id: 'style', href: '//localhost:1981/3-advanced--browser/ui--browser--css/src/style.css' })
 if (style.startsWith('omr'))
 	style_once({ id: 'style', href: '//localhost:1981/9-oh-my-rpg/view-browser/src/style.css' })
 

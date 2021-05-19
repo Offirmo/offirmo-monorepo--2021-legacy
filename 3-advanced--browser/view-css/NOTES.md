@@ -12,7 +12,7 @@ visit http://localhost:1234/index.html
 
 then select sth in the last row !
 
-Direct: http://localhost:1981/3-advanced--browser/view-css/doc/demo--base--alternate-colors.html
+Direct: http://localhost:1981/3-advanced--browser/ui--browser--css/doc/demo--base--alternate-colors.html
 
 
 Dynamic Color Theme With CSS Vars https://codepen.io/una/pen/VJMBbx/
