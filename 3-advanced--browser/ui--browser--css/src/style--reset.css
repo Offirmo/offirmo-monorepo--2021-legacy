@@ -73,7 +73,7 @@ h1, h2, h3, h4, p {
 
 
 /* nicer lists */
-ul {
+ul, ol {
 	/* instead of fixed */
 	padding-inline-start: 2em;
 }

@@ -2,7 +2,6 @@
 ## Running the local demo:
 
 ```bash
-mono233
 yarn demo
 
 # serve the monorepo's root on 1981
