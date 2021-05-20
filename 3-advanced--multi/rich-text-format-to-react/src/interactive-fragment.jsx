@@ -38,11 +38,11 @@ const dialog_style = function() {
 const tooltip_style = {
 	style: {
 		padding: '.5em',
-		backgroundColor: 'var(--o⋄color--bg⁚main)',
+		backgroundColor: 'var(--o⋄color⁚bg--main)',
 		borderRadius: '0',
 		//zIndex: 'auto',
 		zIndex: 1039,
-		border: 'solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color--fg⁚main)',
+		border: 'solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color⁚fg--main)',
 		boxShadow: '0 5px 15px rgba(0,0,0,.5)',
 		maxWidth: '400px',
 	},

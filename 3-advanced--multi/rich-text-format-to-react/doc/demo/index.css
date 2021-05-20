@@ -24,16 +24,16 @@ pre {
 
 
 .place {
-	color: var(--o⋄color__quality--uncommon);
+	color: var(--o⋄color⁚quality--uncommon);
 }
 .place:after {
 	content: ' 🏜';
 }
 .person {
-	color: var(--o⋄color__quality--rare);
+	color: var(--o⋄color⁚quality--rare);
 }
 .item--weapon {
-	color: var(--o⋄color__quality--artifact);
+	color: var(--o⋄color⁚quality--artifact);
 }
 .item--weapon:before {
 	content: '⚔ ';

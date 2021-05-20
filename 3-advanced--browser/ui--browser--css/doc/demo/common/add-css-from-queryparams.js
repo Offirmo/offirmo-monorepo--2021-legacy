@@ -27,6 +27,6 @@ body {
 }
 
 .test-container {
-	background-color: var(--o⋄color--bg⁚main--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 }
 ` })

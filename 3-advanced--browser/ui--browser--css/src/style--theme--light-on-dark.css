@@ -8,19 +8,19 @@
   https://blog.superhuman.com/how-to-design-delightful-dark-themes-7b3da644ff1f
  */
 [data-o-theme="light-on-dark"] {
-	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
-	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1); /* TODO not different enough */
-	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .2);
+	--o⋄color⁚bg--main: var(--o⋄color⁚dolt__quasi-black);
+	--o⋄color⁚bg--main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
+	--o⋄color⁚bg--highlight--1: rgba(100%, 100%, 100%, .1); /* TODO not different enough */
+	--o⋄color⁚bg--highlight--2: rgba(100%, 100%, 100%, .2);
 
-	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
-	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, .33);
+	--o⋄color⁚fg--main: var(--o⋄color⁚dolt__quasi-white);
+	--o⋄color⁚fg--secondary: hsla(0, 0%, 98%, .66);
+	--o⋄color⁚fg--ancillary: hsla(0, 0%, 98%, .33);
 
 	/* levels */
-	/*--o⋄color--fg⁚error: hsl(19, 81%, 56%);*/
-	--o⋄color--fg⁚error: red;
-	--o⋄color--fg⁚warning: var(--o⋄color__boz__yellow);
-	--o⋄color--fg⁚info: var(--o⋄color__boz__blue);
-	--o⋄color--fg⁚success: var(--o⋄color__boz__green);
+	/*--o⋄color⁚fg--error: hsl(19, 81%, 56%);*/
+	--o⋄color⁚fg--error: red;
+	--o⋄color⁚fg--warning: var(--o⋄color⁚boz__yellow);
+	--o⋄color⁚fg--info: var(--o⋄color⁚boz__blue);
+	--o⋄color⁚fg--success: var(--o⋄color⁚boz__green);
 }

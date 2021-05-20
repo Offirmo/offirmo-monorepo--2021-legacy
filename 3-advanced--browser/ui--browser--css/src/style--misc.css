@@ -4,7 +4,7 @@
  */
 .o⋄character-as-icon {
 	color: transparent;
-	text-shadow: 0 0 var(--o⋄color--fg⁚main);
+	text-shadow: 0 0 var(--o⋄color⁚fg--main);
 }
 
 /* TODO remove past d */

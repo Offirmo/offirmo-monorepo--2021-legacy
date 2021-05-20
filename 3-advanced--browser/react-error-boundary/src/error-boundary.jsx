@@ -87,7 +87,7 @@ class ErrorBoundary extends React.Component {
 					><strong>Report bug</strong></a>
 					&nbsp;
 					<button
-						style={{'--o⋄color--fg⁚main': 'var(--o⋄color--fg⁚error)'}}
+						style={{'--o⋄color⁚fg--main': 'var(--o⋄color⁚fg--error)'}}
 						onClick={() => window.location.reload()}>
 						Reload page
 					</button>

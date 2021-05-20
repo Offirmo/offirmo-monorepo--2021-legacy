@@ -22,21 +22,21 @@ function style_fn_color(base, { isDisabled }) {
 	return {
 		...base,
 		color: isDisabled
-			? 'var(--o⋄color--fg⁚secondary)'
-			: 'var(--o⋄color--fg⁚main)',
+			? 'var(--o⋄color⁚fg--secondary)'
+			: 'var(--o⋄color⁚fg--main)',
 	}
 }
 function style_fn_bgcolor(base, { isDisabled, isSelected }) {
 	return {
 		...base,
 		backgroundColor: isDisabled
-			? 'var(--o⋄color--bg⁚main)'
+			? 'var(--o⋄color⁚bg--main)'
 			: isSelected
-				? 'var(--o⋄color--fg⁚accent)'
-				: 'var(--o⋄color--bg⁚main)',
+				? 'var(--o⋄color⁚fg--accent)'
+				: 'var(--o⋄color⁚bg--main)',
 		':hover': {
 			...base[':hover'],
-			backgroundColor: 'var(--o⋄color--fg⁚accent)',
+			backgroundColor: 'var(--o⋄color⁚fg--accent)',
 		},
 		//cursor: isDisabled ? 'not-allowed' : 'default',
 	}

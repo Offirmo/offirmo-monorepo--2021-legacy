@@ -3,7 +3,7 @@
 .tab-controls h1,
 .tab-controls h2,
 .tab-controls h3 {
-	color: var(--o⋄color--fg⁚main) !important; /* TODO use Ak theming */
+	color: var(--o⋄color⁚fg--main) !important; /* TODO use Ak theming */
 }
 
 .tab-debug-info {

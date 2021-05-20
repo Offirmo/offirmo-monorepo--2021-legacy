@@ -15,22 +15,22 @@
 
 
 .item--quality--common {
-	color: var(--o⋄color__quality--common);
+	color: var(--o⋄color⁚quality--common);
 }
 .item--quality--uncommon {
-	color: var(--o⋄color__quality--uncommon);
+	color: var(--o⋄color⁚quality--uncommon);
 }
 .item--quality--rare {
-	color: var(--o⋄color__quality--rare);
+	color: var(--o⋄color⁚quality--rare);
 }
 .item--quality--epic {
-	color: var(--o⋄color__quality--epic);
+	color: var(--o⋄color⁚quality--epic);
 }
 .item--quality--legendary {
-	color: var(--o⋄color__quality--legendary);
+	color: var(--o⋄color⁚quality--legendary);
 }
 .item--quality--artifact {
-	color: var(--o⋄color__quality--artifact);
+	color: var(--o⋄color⁚quality--artifact);
 }
 .item--quality--admin {
 	color: #ff3c3a; /* TODO check if used */
@@ -43,10 +43,10 @@
 .monster--rank--common {
 }
 .monster--rank--elite {
-	color: var(--o⋄color--fg⁚warning)
+	color: var(--o⋄color⁚fg--warning)
 }
 .monster--rank--boss {
-	color: var(--o⋄color--fg⁚error);
+	color: var(--o⋄color⁚fg--error);
 }
 
 
@@ -65,10 +65,10 @@
 }
 
 .comparison--better {
-	color: var(--o⋄color--fg⁚success);
+	color: var(--o⋄color⁚fg--success);
 }
 .comparison--worse {
-	color: var(--o⋄color--fg⁚error);
+	color: var(--o⋄color⁚fg--error);
 }
 .comparison--equal {
 	/* TODO not used */

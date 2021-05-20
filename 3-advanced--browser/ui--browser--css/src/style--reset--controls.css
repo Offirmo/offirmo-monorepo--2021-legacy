@@ -11,7 +11,7 @@
  * a classic ring when focused on any element
  */
 body.user-is-tabbing *:focus {
-	outline: 5px auto var(--o⋄color--fg⁚accent);
+	outline: 5px auto var(--o⋄color⁚fg--accent);
 }
 
 
@@ -32,10 +32,10 @@ button {
 	display: inline-block;
 	padding: .3em 2.1em;
 	margin: .1em; /* TODO remove and move to a container? https://mxstbr.com/thoughts/margin */
-	border: solid calc(var(--border--thickness) * 2) var(--o⋄color--fg⁚main);
+	border: solid calc(var(--border--thickness) * 2) var(--o⋄color⁚fg--main);
 
-	background-color: var(--o⋄color--bg⁚highlight--1);
-	color: var(--o⋄color--fg⁚main);
+	background-color: var(--o⋄color⁚bg--highlight--1);
+	color: var(--o⋄color⁚fg--main);
 	text-decoration: none;
 	text-align: center;
 
@@ -43,12 +43,12 @@ button {
 	box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);
 }
 button:hover {
-	background-color: var(--o⋄color--bg⁚highlight--2);
-	box-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);
+	background-color: var(--o⋄color⁚bg--highlight--2);
+	box-shadow: 0 0 .3em 0 var(--o⋄color⁚bg--main--backdrop);
 }
 button:active {
-	background-color: var(--o⋄color--bg⁚highlight--2);
-	border-color: var(--o⋄color--fg⁚accent);
+	background-color: var(--o⋄color⁚bg--highlight--2);
+	border-color: var(--o⋄color⁚fg--accent);
 }
 
 /************ progress ************/
@@ -58,31 +58,31 @@ button:active {
  * https://snook.ca/archives/html_and_css/animating-progress
  */
 progress {
-	--o⋄color__progress--bg: var(--o⋄color--bg⁚highlight--1);
-	--o⋄color__progress-border: var(--o⋄color--bg⁚highlight--1);
-	--o⋄color__progress-bar: var(--o⋄color--fg⁚main);
+	--o⋄color⁚progress--bg: var(--o⋄color⁚bg--highlight--1);
+	--o⋄color⁚progress-border: var(--o⋄color⁚bg--highlight--1);
+	--o⋄color⁚progress-bar: var(--o⋄color⁚fg--main);
 
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 
 	vertical-align: middle;
-	background-color: var(--o⋄color__progress--bg);
-	border: solid var(--o⋄border--thickness) var(--o⋄color__progress-border);
+	background-color: var(--o⋄color⁚progress--bg);
+	border: solid var(--o⋄border--thickness) var(--o⋄color⁚progress-border);
 	overflow: hidden;
 }
 /* necessary to style the progress bar background */
 progress::-webkit-progress-bar {
-	background-color: var(--o⋄color__progress--bg);
+	background-color: var(--o⋄color⁚progress--bg);
 }
 progress::-webkit-progress-value {
-	background-color: var(--o⋄color__progress-bar);
+	background-color: var(--o⋄color⁚progress-bar);
 }
 progress::-moz-progress-bar {
-	background-color: var(--o⋄color__progress-bar);
+	background-color: var(--o⋄color⁚progress-bar);
 }
 progress::-ms-fill {
-	background-color: var(--o⋄color__progress-bar);
+	background-color: var(--o⋄color⁚progress-bar);
 	border: 0;
 }
 
@@ -96,14 +96,14 @@ progress::-ms-fill {
 	width: .5em;
 }
 ::-webkit-scrollbar-thumb {
-	background-color: var(--o⋄color--bg⁚highlight--2);
-	xxx-webkit-box-shadow: inset 0 0 .4em var(--o⋄color--bg⁚highlight--2);
+	background-color: var(--o⋄color⁚bg--highlight--2);
+	xxx-webkit-box-shadow: inset 0 0 .4em var(--o⋄color⁚bg--highlight--2);
 }
 
 /* Firefox
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars
  */
 html {
-	scrollbar-color: var(--o⋄color--bg⁚highlight--2) var(--o⋄color--bg⁚main);
+	scrollbar-color: var(--o⋄color⁚bg--highlight--2) var(--o⋄color⁚bg--main);
 	scrollbar-width: thin;
 }

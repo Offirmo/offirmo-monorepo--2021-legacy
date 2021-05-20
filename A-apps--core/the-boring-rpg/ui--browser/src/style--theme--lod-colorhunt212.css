@@ -1,11 +1,11 @@
 @import '../node_modules/@offirmo-private/ui--browser--css/src/style--theme--lod-colorhunt212.css';
 
 [data-o-theme="lod--colorhunt212"] {
-	--o⋄color__quality--poor:      hsl(0, 0%, 62%);
-	--o⋄color__quality--common:    hsl(0, 0%, 82%);
-	--o⋄color__quality--uncommon:  hsl(85, 88%, 56%);
-	--o⋄color__quality--rare:      hsl(221, 78%, 69%);
-	--o⋄color__quality--epic:      hsl(296, 100%, 72%);
-	--o⋄color__quality--legendary: hsl(39, 100%, 50%);
-	--o⋄color__quality--artifact:  hsl(54, 100%, 69%);
+	--o⋄color⁚quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color⁚quality--common:    hsl(0, 0%, 82%);
+	--o⋄color⁚quality--uncommon:  hsl(85, 88%, 56%);
+	--o⋄color⁚quality--rare:      hsl(221, 78%, 69%);
+	--o⋄color⁚quality--epic:      hsl(296, 100%, 72%);
+	--o⋄color⁚quality--legendary: hsl(39, 100%, 50%);
+	--o⋄color⁚quality--artifact:  hsl(54, 100%, 69%);
 }

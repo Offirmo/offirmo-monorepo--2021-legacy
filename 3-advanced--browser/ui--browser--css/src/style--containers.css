@@ -33,15 +33,15 @@
 }
 
 .o⋄border⁚default {
-	border: solid var(--o⋄border--thickness) var(--o⋄color--fg⁚main);
+	border: solid var(--o⋄border--thickness) var(--o⋄color⁚fg--main);
 }
 
 .o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
-	color: var(--o⋄color--fg⁚error);
+	color: var(--o⋄color⁚fg--error);
 	/*background-color: rgba(0, 0, 0, .3); /* TODO */
-	background-color: var(--o⋄color--bg⁚main--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 	margin: auto;
 	z-index: 100000; /* just in case TODO check */
 }
@@ -53,7 +53,7 @@
 
 .o⋄box {
 	padding: 1em;
-	color: var(--o⋄color--fg⁚main);
-	background-color: var(--o⋄color--bg⁚main);
-	border: solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color--fg⁚main);
+	color: var(--o⋄color⁚fg--main);
+	background-color: var(--o⋄color⁚bg--main);
+	border: solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color⁚fg--main);
 }

@@ -6,7 +6,7 @@
 	padding: 30px;
 	text-align: center;
 	width: 100%;
-	background-color: var(--o⋄color--bg⁚main--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 }
 
 
@@ -21,7 +21,7 @@
 
 /* 3rd party override */
 .notification {
-	background-color: var(--o⋄color--bg⁚main--backdrop) !important;
+	background-color: var(--o⋄color⁚bg--main--backdrop) !important;
 	padding: .2rem .5rem !important;
 }
 .notification > h4,
@@ -40,29 +40,29 @@
 	font-size: var(--o⋄font-size--default) !important;
 }
 .notification-dismiss {
-	color: var(--o⋄color--fg⁚main) !important;
-	background-color: var(--o⋄color--bg⁚highlight--2) !important;
+	color: var(--o⋄color⁚fg--main) !important;
+	background-color: var(--o⋄color⁚bg--highlight--2) !important;
 }
 
 .notification-error {
-	color: var(--o⋄color--fg⁚error) !important;
+	color: var(--o⋄color⁚fg--error) !important;
 	border: none !important;
-	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color--fg⁚error) !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--error) !important;
 }
 .notification-warning {
-	color: var(--o⋄color--fg⁚warning) !important;
+	color: var(--o⋄color⁚fg--warning) !important;
 	border: none !important;
-	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color--fg⁚warning) !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--warning) !important;
 }
 .notification-info {
-	color: var(--o⋄color--fg⁚info) !important;
+	color: var(--o⋄color⁚fg--info) !important;
 	border: none !important;
-	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color--fg⁚info) !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--info) !important;
 }
 .notification-success {
-	color: var(--o⋄color--fg⁚success) !important;
+	color: var(--o⋄color⁚fg--success) !important;
 	border: none !important;
-	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color--fg⁚success) !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--success) !important;
 }
 
 /* make room for the OMR HUD

@@ -1,7 +1,7 @@
 /* re-styling of react-burger-menu classes */
 
 .bm-menu-wrap {
-	background-color: var(--o⋄color--bg⁚main--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 	border-right: solid 2px;
 }
 
@@ -18,10 +18,10 @@
 }
 
 .bm-overlay {
-	background-color: var(--o⋄color--bg⁚main--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 }
 .bm-cross {
-	background: var(--o⋄color--fg⁚main);
+	background: var(--o⋄color⁚fg--main);
 }
 .bm-cross-button {
 	top: 7px !important;

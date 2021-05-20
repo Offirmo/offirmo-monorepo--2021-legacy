@@ -46,8 +46,8 @@ body {
 	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
 	padding: 40px 10px;
 	font-family: var(--o⋄font-family--fast_and_good_enough);
-	color: var(--o⋄color--fg⁚main);
-	background-color: var(--o⋄color--bg⁚main);
+	color: var(--o⋄color⁚fg--main);
+	background-color: var(--o⋄color⁚bg--main);
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility; /* challenge about perf: https://marco.org/2012/11/15/text-rendering-optimize-legibility
@@ -97,13 +97,13 @@ img {
  * Better than the defaults.
  */
 a {
-	text-decoration-color: var(--o⋄color--fg⁚secondary);
+	text-decoration-color: var(--o⋄color⁚fg--secondary);
 	touch-action: manipulation; /* we assume PWA, https://webkit.org/blog/5610/more-responsive-tapping-on-ios/ */
 }
 a:link,
 a:visited {color: inherit;}
 a:hover,
-a:active {color: var(--o⋄color--fg⁚accent);}
+a:active {color: var(--o⋄color⁚fg--accent);}
 
 
 /* Nicer HR
@@ -114,7 +114,7 @@ hr {
 	width: 100%;
 	border: none;
 	border-top: var(--o⋄border--thickness) solid;
-	background-color: var(--o⋄color--fg⁚ancillary);
+	background-color: var(--o⋄color⁚fg--ancillary);
 }
 
 

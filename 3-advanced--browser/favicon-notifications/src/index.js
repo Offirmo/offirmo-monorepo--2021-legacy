@@ -42,15 +42,15 @@ function ensure_libs_initialized() {
 	if (!opted_out) {
 		const body_styles = window.getComputedStyle(document.body)
 		const pie_chart_color =
-			body_styles.getPropertyValue('--o⋄color--fg⁚error')
+			body_styles.getPropertyValue('--o⋄color⁚fg--error')
 			|| '#ff0084'
 		const empty_pie_chart_color =
 			body_styles.getPropertyValue('--fg')
-			|| body_styles.getPropertyValue('--o⋄color--fg⁚main')
+			|| body_styles.getPropertyValue('--o⋄color⁚fg--main')
 			|| 'lightgrey'
 		const outer_ring_color =
 			body_styles.getPropertyValue('--bg')
-			|| body_styles.getPropertyValue('--o⋄color--bg⁚main')
+			|| body_styles.getPropertyValue('--o⋄color⁚bg--main')
 			|| 'white'
 		if (DEBUG) console.log(`[${LIB}]`, { pie_chart_color, empty_pie_chart_color, outer_ring_color })
 

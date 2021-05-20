@@ -5,48 +5,48 @@
  * https://picular.co/quality
  */
 :root {
-	--o⋄color--transparent: rgba(0, 0, 0, 0);
+	--o⋄color⁚transparent: rgba(0, 0, 0, 0);
 
-	--o⋄color__darker--10: rgba(0, 0, 0, .1);
-	--o⋄color__darker--20: rgba(0, 0, 0, .2);
-	--o⋄color__darker--90: rgba(0, 0, 0, .9);
+	--o⋄color⁚darker--10: rgba(0, 0, 0, .1);
+	--o⋄color⁚darker--20: rgba(0, 0, 0, .2);
+	--o⋄color⁚darker--90: rgba(0, 0, 0, .9);
 
-	--o⋄color__lighter--10: rgba(100%, 100%, 100%, .1);
-	--o⋄color__lighter--20: rgba(100%, 100%, 100%, .2);
-	--o⋄color__lighter--90: rgba(100%, 100%, 100%, .9);
+	--o⋄color⁚lighter--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color⁚lighter--20: rgba(100%, 100%, 100%, .2);
+	--o⋄color⁚lighter--90: rgba(100%, 100%, 100%, .9);
 
 	/* Base colors
 	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%); /* #2B2B2B */
-	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 33%);
-	--o⋄color__dolt__medium-grey: hsl(0, 0%, 66%);
-	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%); /* #FAFAFA */
+	--o⋄color⁚dolt__quasi-black: hsl(0, 0%, 17%); /* #2B2B2B */
+	--o⋄color⁚dolt__dark-grey:   hsl(0, 0%, 33%);
+	--o⋄color⁚dolt__medium-grey: hsl(0, 0%, 66%);
+	--o⋄color⁚dolt__quasi-white: hsl(0, 0%, 98%); /* #FAFAFA */
 
 	/* accent on tab, seldom used */
-	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */
+	--o⋄color⁚fg--accent: #7AACFE; /* classic blue */
 
 	/* from http://boz.com/
 	 * Looks good on dark backgrounds
 	 */
-	--o⋄color__boz__gray:     hsl(0,    0%, 60%);
-	--o⋄color__boz__yellow:   hsl(53,  87%, 57%);
-	--o⋄color__boz__pink:     hsl(318, 87%, 69%);
-	--o⋄color__boz__green:    hsl(93,  73%, 61%);
-	--o⋄color__boz__cyan:     hsl(180, 86%, 52%);
-	--o⋄color__boz__blue:     hsl(199, 81%, 56%);
-	--o⋄color__boz__purple:   hsl(269, 83%, 77%);
+	--o⋄color⁚boz__gray:     hsl(0,    0%, 60%);
+	--o⋄color⁚boz__yellow:   hsl(53,  87%, 57%);
+	--o⋄color⁚boz__pink:     hsl(318, 87%, 69%);
+	--o⋄color⁚boz__green:    hsl(93,  73%, 61%);
+	--o⋄color⁚boz__cyan:     hsl(180, 86%, 52%);
+	--o⋄color⁚boz__blue:     hsl(199, 81%, 56%);
+	--o⋄color⁚boz__purple:   hsl(269, 83%, 77%);
 }
 
 .o⋄color⁚main {
-	color: var(--o⋄color--fg⁚main);
+	color: var(--o⋄color⁚fg--main);
 }
 
 .o⋄color⁚secondary {
-	color: var(--o⋄color--fg⁚secondary);
+	color: var(--o⋄color⁚fg--secondary);
 }
 
 .o⋄color⁚ancillary {
-	color: var(--o⋄color--fg⁚ancillary);
+	color: var(--o⋄color⁚fg--ancillary);
 }

@@ -4,7 +4,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-color: var(--o⋄color--bg⁚main--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 	border-right: solid 2px;
 }
 

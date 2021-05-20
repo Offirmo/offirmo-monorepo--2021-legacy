@@ -109,9 +109,9 @@
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 
-	background-color: var(--o⋄color--bg⁚main);
-	color: var(--o⋄color--fg⁚main);
-	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color--fg⁚main);
+	background-color: var(--o⋄color⁚bg--main);
+	color: var(--o⋄color⁚fg--main);
+	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color⁚fg--main);
 
 	font-size: calc(33px * var(--scale));
 
@@ -158,9 +158,9 @@
 	height: var(--height);
 	width: var(--width);
 
-	background-color: var(--o⋄color--bg⁚main);
-	color: var(--o⋄color--fg⁚main);
-	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color--fg⁚main);
+	background-color: var(--o⋄color⁚bg--main);
+	color: var(--o⋄color⁚fg--main);
+	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color⁚fg--main);
 	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
 
 	position: fixed;
@@ -231,8 +231,8 @@
 	/*max-height: var(--height);*/
 	border-radius: calc(5px * var(--scale-base)) / calc(30px * var(--scale-base));
 
-	background-color: var(--o⋄color--bg⁚main--backdrop);
-	color: var(--o⋄color--fg⁚main);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+	color: var(--o⋄color⁚fg--main);
 	border: none;
 
 	position: fixed;
@@ -289,10 +289,10 @@
 	max-height: var(--height);
 	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
 
-	color: var(--o⋄color--fg⁚main);
-	border: solid calc(1px * var(--scale)) var(--o⋄color--fg⁚main);
-	background-color: var(--o⋄color--bg⁚main--backdrop);
-/*	background-color: var(--o⋄color--bg⁚main--translucent);*/
+	color: var(--o⋄color⁚fg--main);
+	border: solid calc(1px * var(--scale)) var(--o⋄color⁚fg--main);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+/*	background-color: var(--o⋄color⁚bg--main--translucent);*/
 
 	position: fixed;
 	--position-shift: calc(var(--height) * (1 - var(--visible-ratio)));
@@ -324,7 +324,7 @@
 }
 .omr⋄bottom-menu⁚icon:hover {
 	font-size: calc(var(--icon-width_) * 1.1 * var(--scale));
-	text-shadow: 0 0 calc(22px * var(--scale)) var(--o⋄color--fg⁚main);
+	text-shadow: 0 0 calc(22px * var(--scale)) var(--o⋄color⁚fg--main);
 }
 .omr⋄bottom-menu--selected-indicator {
 	--height: calc(3px * var(--scale));
@@ -338,7 +338,7 @@
 
 	height: var(--height);
 	width: var(--width);
-	background-color: var(--o⋄color--fg⁚main);
+	background-color: var(--o⋄color⁚fg--main);
 }
 
 /************/
@@ -384,5 +384,5 @@
 
 	pointer-events: none;
 	background-color: transparent;
-	outline: calc(var(--omr⋄ui__scale) * 30px) solid var(--o⋄color--bg⁚main);
+	outline: calc(var(--omr⋄ui__scale) * 30px) solid var(--o⋄color⁚bg--main);
 }

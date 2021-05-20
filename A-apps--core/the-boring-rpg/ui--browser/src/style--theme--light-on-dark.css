@@ -7,11 +7,11 @@
 	 * some colors taken from http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
 	 * some colors inspired from http://boz.com/
 	 */
-	--o⋄color__quality--poor:      var(--o⋄color__boz__gray);
-	--o⋄color__quality--common:    white;
-	--o⋄color__quality--uncommon:  var(--o⋄color__boz__green);
-	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
-	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
-	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
-	--o⋄color__quality--artifact:  hsl(360, 100%, 64%);
+	--o⋄color⁚quality--poor:      var(--o⋄color⁚boz__gray);
+	--o⋄color⁚quality--common:    white;
+	--o⋄color⁚quality--uncommon:  var(--o⋄color⁚boz__green);
+	--o⋄color⁚quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color⁚quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color⁚quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color⁚quality--artifact:  hsl(360, 100%, 64%);
 }

@@ -101,22 +101,22 @@ Activated through classes:
 
 There are also variables:
 * theme colors
-  * `--o⋄color--bg⁚main`
-  * `--o⋄color--bg⁚main--backdrop`
-  * `--o⋄color--bg⁚highlight--1`
-  * `--o⋄color--bg⁚highlight--2`
-  * `--o⋄color--fg⁚main`
-  * `--o⋄color--fg⁚secondary`
-  * `--o⋄color--fg⁚ancillary`
-  * `--o⋄color--fg⁚accent`
+  * `--o⋄color⁚bg--main`
+  * `--o⋄color⁚bg--main--backdrop`
+  * `--o⋄color⁚bg--highlight--1`
+  * `--o⋄color⁚bg--highlight--2`
+  * `--o⋄color⁚fg--main`
+  * `--o⋄color⁚fg--secondary`
+  * `--o⋄color⁚fg--ancillary`
+  * `--o⋄color⁚fg--accent`
 * modifier colors (but better use the theme colors!)
-  * `--o⋄color--transparent`
-  * `--o⋄color__darker--10`
-  * `--o⋄color__darker--20`
-  * `--o⋄color__darker--90`
-  * `--o⋄color__lighter--10`
-  * `--o⋄color__lighter--20`
-  * `--o⋄color__lighter--90`
+  * `--o⋄color⁚transparent`
+  * `--o⋄color⁚darker--10`
+  * `--o⋄color⁚darker--20`
+  * `--o⋄color⁚darker--90`
+  * `--o⋄color⁚lighter--10`
+  * `--o⋄color⁚lighter--20`
+  * `--o⋄color⁚lighter--90`
 
 
 

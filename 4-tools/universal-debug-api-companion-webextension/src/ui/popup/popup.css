@@ -7,7 +7,7 @@
 
 /* adjustments */
 [data-o-theme="lod--colorhunt212"] {
-	--o⋄color--bg⁚main: var(--o⋄color__co212__brown);
+	--o⋄color⁚bg--main: var(--o⋄color⁚co212__brown);
 }
 
 body {
