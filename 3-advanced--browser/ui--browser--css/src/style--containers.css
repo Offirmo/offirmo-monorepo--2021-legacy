@@ -45,7 +45,7 @@
 	margin: auto;
 	z-index: 100000; /* just in case TODO check */
 }
-.o⋄error-report > pre {
+.o⋄error-report > pre, .o⋄error-report > samp {
 	white-space: pre-wrap;
 	text-align: initial;
 }

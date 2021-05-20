@@ -19,7 +19,7 @@ export default {
 
 export function Default() {
 	return (
-		<>
+		<main>
 			<h1>{ LIB } - CSS micro framework</h1>
 
 			<p>
@@ -30,8 +30,6 @@ export function Default() {
 				there need to make them not total shit.
 			</p>
 
-			<hr/>
-
 			<p>
 				<strong>emphasized text</strong> &nbsp;
 				Normal text &nbsp;
@@ -40,16 +38,14 @@ export function Default() {
 				<a href="#">link</a>
 			</p>
 
-			<hr/>
-
-			Strongly inspired by:
+			<p>Strongly inspired by:</p>
 			<ol>
 				<li><a href="http://motherfuckingwebsite.com/">motherfuckingwebsite.com</a>,</li>
 				<li><a href="http://bettermotherfuckingwebsite.com/">bettermotherfuckingwebsite.com</a>,</li>
 				<li><a href="http://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite.com</a></li>
-				<li>and many blogs posts.</li>
+				<li>and many blogs posts…</li>
 			</ol>
-		</>
+		</main>
 	)
 }
 
@@ -61,15 +57,14 @@ export function Normalization() {
 			<div className="o⋄flow">
 				<h1>The five boxing wizards jump quickly</h1>
 				<h2>Sphinx of black quartz, judge my vow!</h2>
-				<h3>Pack my box with five dozen liquor jugs…</h3>
-				<h4>Jackdaws love my big sphinx of quartz</h4>
+				<h3>Pack my box with five dozen liquor jugs!</h3>
 				<p>
-					{ LIB } provides CSS reset/normalization through <a
-					target="https://necolas.github.io/normalize.css/">normalize.css</a>
+					{ LIB } provides CSS reset/normalization through
+					{' '}
+					<a target="https://necolas.github.io/normalize.css/">normalize.css</a>
 				</p>
 				<p>
-					{ LIB } provides CSS reset/normalization through <a
-					target="https://necolas.github.io/normalize.css/">normalize.css</a>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at varius eros. Curabitur pulvinar metus diam, nec aliquet felis pellentesque et. Ut iaculis aliquam augue, sed vestibulum lacus varius at. Mauris et facilisis massa. Sed vehicula placerat convallis. Sed dui magna, semper non neque non, semper dapibus lacus.
 				</p>
 				<ul>
 					<li>Foo</li>
@@ -82,8 +77,17 @@ export function Normalization() {
 
 				<details>
 					<summary>expand me...</summary>
-					Hello, world!
+					<p>Hello, world!</p>
 				</details>
+
+				<dl><dt>Term</dt><dd>Definition.</dd></dl>
+
+				<figure>
+					<img src='https://placekitten.com/200/300'/>
+					<figcaption>A figure caption!</figcaption>
+				</figure>
+
+				<q>Quoted text</q> <cite>— Author Name</cite>
 			</div>
 
 			<hr />
@@ -92,6 +96,7 @@ export function Normalization() {
 				<h1>The five boxing wizards jump quickly</h1>
 				<h2>Sphinx of black quartz, judge my vow!</h2>
 				<h3>Pack my box with five dozen liquor jugs…</h3>
+
 				<p>
 					{ LIB } provides CSS reset/normalization through <a
 					target="https://necolas.github.io/normalize.css/">normalize.css</a>
