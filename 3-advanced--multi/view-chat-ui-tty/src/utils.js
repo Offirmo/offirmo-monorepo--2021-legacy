@@ -1,6 +1,6 @@
 'use strict'
 
-// http://stackoverflow.com/a/1917041/587407
+// https://stackoverflow.com/a/1917041/587407
 // TODO extract
 function get_shared_start(strs) {
 	if (strs.length <= 1) return ''

@@ -58,7 +58,7 @@ export function get_human_readable_UTC_timestamp_ms(now: Readonly<Date> = new Da
 /////////////////////
 
 // ISO 8601 Extended Format. The format is as follows: YYYY-MM-DDTHH:mm:ss.sssZ
-// http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
+// https://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
 export function get_ISO8601_extended_ms(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCMs {
 	return now.toISOString()
 }

@@ -73,7 +73,7 @@ A logger will have the following interface:
 
 ## Concept
 Other loggers:
-* http://getpino.io/#/docs/benchmarks
+* https://getpino.io/#/docs/benchmarks
 * discovered later:  https://github.com/ianstormtaylor/browser-logger
 
 ## Credits

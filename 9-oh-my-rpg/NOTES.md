@@ -54,7 +54,7 @@ Réutiliser les brigands en armée
 
 Okik
 
-http://goodriddlesnow.com/riddles/by/what-am-i-riddles/page:5/sort:id/direction:asc#
+https://goodriddlesnow.com/riddles/by/what-am-i-riddles/page:5/sort:id/direction:asc#
 
 Asgardia
 
@@ -77,7 +77,7 @@ https://www.ftc.gov/tips-advice/business-center/privacy-and-security/children's-
 
 
 Chat/adversaires simulés
-http://www.minecraftforum.net/forums/off-topic/forum-games/431299-big-list-of-minecraft-forum-usernames
+https://www.minecraftforum.net/forums/off-topic/forum-games/431299-big-list-of-minecraft-forum-usernames
 Filtrer mots
 https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words
 comptes
@@ -91,44 +91,44 @@ Polices
 *
 
 Inventaire
-* http://packery.metafizzy.co/draggable.html
+* https://packery.metafizzy.co/draggable.html
 
 Graphisme
-* CutJS http://dailyjs.com/2014/04/10/cutjs/ http://cutjs.org/
+* CutJS https://dailyjs.com/2014/04/10/cutjs/ https://cutjs.org/
 
 Son
-* http://keithwhor.com/music/
-* http://01org.github.io/jWebAudio/
-* http://flippinawesome.org/2013/10/28/audio-synthesis-in-javascript/
-* http://blog.jetienne.com/blog/2014/02/18/webaudiox-a-dry-library-for-webaudio-api/
+* https://keithwhor.com/music/
+* https://01org.github.io/jWebAudio/
+* https://flippinawesome.org/2013/10/28/audio-synthesis-in-javascript/
+* https://blog.jetienne.com/blog/2014/02/18/webaudiox-a-dry-library-for-webaudio-api/
 
 frameworks
-* http://weblog.bocoup.com/building-multiplayer-html5-games-with-cloak/
+* https://weblog.bocoup.com/building-multiplayer-html5-games-with-cloak/
 * https://playcanvas.com/
 * https://www.scirra.com/construct2
-* http://impactjs.com/
+* https://impactjs.com/
 
 
 ### à trier
-* http://js13kgames.com/
-* http://phaser.io/
-* http://creativejs.com/2013/06/physically-based-rendering-physics-simulation/
+* https://js13kgames.com/
+* https://phaser.io/
+* https://creativejs.com/2013/06/physically-based-rendering-physics-simulation/
 * pathfinding : https://github.com/prettymuchbryce/easystarjs
-* http://www.sitepoint.com/the-wds-title-sequence-explained-html5-and-css3-in-action/
-* http://www.sitepoint.com/html5-video-cross-browser-fall-backs
-* http://sitepointcom.createsend1.com/t/y-l-trkkhtk-xhjdtydht-bl/
-* http://coquette.maryrosecook.com/
-* téléphone comme contrôleur : http://www.muzzley.com/
-* http://jster.net/blog/mienfield-author-interview#.UVwg3Fcto78
-* http://microjs.com/#games
-* http://www.impressivewebs.com/demo-files/question-mark-js/
+* https://www.sitepoint.com/the-wds-title-sequence-explained-html5-and-css3-in-action/
+* https://www.sitepoint.com/html5-video-cross-browser-fall-backs
+* https://sitepointcom.createsend1.com/t/y-l-trkkhtk-xhjdtydht-bl/
+* https://coquette.maryrosecook.com/
+* téléphone comme contrôleur : https://www.muzzley.com/
+* https://jster.net/blog/mienfield-author-interview#.UVwg3Fcto78
+* https://microjs.com/#games
+* https://www.impressivewebs.com/demo-files/question-mark-js/
 * https://github.com/EvanBurchard/tyranoscript
 
 
 
 
 Music
-http://www.steven-obrien.net/
+https://www.steven-obrien.net/
 
 
 
@@ -136,10 +136,10 @@ TOSORT
 
 typing https://github.com/akZhy/typebot
 https://hub.openshift.com/quickstarts/128-node-js-0-12
-better manifest http://www.slideshare.net/brucelawson/bruce-lawson-progressive-web-apps-the-future-of-apps
-http://spin.js.org/
-http://masonry.desandro.com/layout.html
-http://getstream.io/features/
+better manifest https://www.slideshare.net/brucelawson/bruce-lawson-progressive-web-apps-the-future-of-apps
+https://spin.js.org/
+https://masonry.desandro.com/layout.html
+https://getstream.io/features/
 
 
 
@@ -164,7 +164,7 @@ Bad
 💬
 https://www.wowhead.com/the-entitled-a-guide-to-titles
 https://www.wowhead.com/achievements
-http://cookieclicker.wikia.com/wiki/Achievement
+https://cookieclicker.wikia.com/wiki/Achievement
 https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
 
 https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
@@ -427,9 +427,9 @@ https://blog.prototypr.io/what-should-designers-know-about-the-roboto-typeface-b
 "They reckon you get ice in your veins, that's what they call it," she said.
 
 Idées (blogs)
-- http://www.necropraxis.com/
-- http://www.lulu.com/shop/matthew-finch/quick-primer-for-old-school-gaming/ebook/product-3159558.html
-- http://questingblog.com/
+- https://www.necropraxis.com/
+- https://www.lulu.com/shop/matthew-finch/quick-primer-for-old-school-gaming/ebook/product-3159558.html
+- https://questingblog.com/
 
 
 Idées
@@ -490,10 +490,10 @@ https://www.dndbeyond.com/compendium/rules/basic-rules/magic-items#Attunement
 https://en.wikipedia.org/wiki/The_Riddle_of_Steel <- idées de combat
 
 méchants
-http://fandom.wikia.com/articles/grindelwald-vs-voldemort-who-is-more-villainous
+https://fandom.wikia.com/articles/grindelwald-vs-voldemort-who-is-more-villainous
 
 books:
-- http://forgottenrealms.wikia.com/wiki/Book_of_Vile_Darkness
+- https://forgottenrealms.wikia.com/wiki/Book_of_Vile_Darkness
 
 
 // TODO steal morrowind's level up message
@@ -516,7 +516,7 @@ TOREAD https://josephg.com/blog/fixing-fortnite/
 TODO salvage lists from here https://docs.google.com/spreadsheets/d/1FCNPBMZm6tWfeOEtdOvcOrWDRZVqbe1ipzK9eQmNp2o/edit#gid=443281176
 
 Schema:
-- http://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-game-of-thrones-data-model
+- https://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-game-of-thrones-data-model
 
 Ideas:
 * https://www.reddit.com/r/incremental_games/search?q=flair%3A%27MDMonday%27&restrict_sr=on&sort=new&t=all
@@ -588,22 +588,22 @@ rare, difficile d'accès
 Content:
 * stories
   * https://ifcomp.org/comp/2017
-  * http://mangakakalot.com/chapter/the_great_ruler/chapter_21
+  * https://mangakakalot.com/chapter/the_great_ruler/chapter_21
 * pics
   * https://www.pinterest.com.au/athn1/commoner-for-dd/
   * https://lonewolfangel.deviantart.com/favourites/63788883/Fantasy-Male
   * https://www.pinterest.com.au/msquirewriting/fantasy-art/
   * https://deathbornaeon.deviantart.com/favourites/69459555/Druids-and-Shamans
 * world
-  * http://forgottenrealms.wikia.com/wiki/Main_Page
+  * https://forgottenrealms.wikia.com/wiki/Main_Page
 
 
 
 https://getavataaars.com/?accessoriesType=Wayfarers&avatarStyle=Circle&clotheColor=PastelRed&clotheType=Hoodie&eyeType=Dizzy&eyebrowType=RaisedExcitedNatural&hairColor=Platinum&mouthType=Serious&ref=producthunt&skinColor=Brown&topType=LongHairFroBand
 
-http://paizo.com/pathfinderRPG
+https://paizo.com/pathfinderRPG
 
-http://idlerpg.net/
+https://idlerpg.net/
 
 emotions: https://westus.dev.cognitive.microsoft.com/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa
     "anger": 0.00300731952,
@@ -621,8 +621,8 @@ https://gamedevelopment.tutsplus.com/categories/game-design
 
 https://github.com/rangle/typed-immutable-record
 
-http://mewo2.com/notes/naming-language/
-http://mewo2.com/notes/terrain/ Generating fantasy maps
+https://mewo2.com/notes/naming-language/
+https://mewo2.com/notes/terrain/ Generating fantasy maps
 https://github.com/dariusk/NaNoGenMo-2015/issues/156
 
 Companions

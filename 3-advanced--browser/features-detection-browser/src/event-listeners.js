@@ -8,10 +8,10 @@ if (DEBUG) console.info(`[${LIB}] Hello!`)
 // https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
 let has_seen_tab_key_usage = false // so far
 
-// http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+// https://www.stucox.com/blog/you-cant-detect-a-touchscreen/
 let has_seen_touch_usage = false // so far
 
-// http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+// https://www.stucox.com/blog/you-cant-detect-a-touchscreen/
 // tricky bc for ex. Safari iOs sends mouse event for compatibility
 //let has_seen_credible_mouse_usage = false // so far
 

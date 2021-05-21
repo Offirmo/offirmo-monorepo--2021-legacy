@@ -9,7 +9,7 @@ const dingbats = [
 	[parseInt('2700', 16), parseInt('27BF', 16)],
 ]
 
-// http://jrgraphix.net/r/Unicode/2460-24FF
+// https://jrgraphix.net/r/Unicode/2460-24FF
 const enclosed_white_round_set = [
 	parseInt('24ea', 16), // 0
 	[parseInt('2460', 16), parseInt('2473', 16)], // numbers
@@ -19,7 +19,7 @@ const enclosed_white_round_set = [
 	[parseInt('2780', 16), parseInt('2789', 16)], // numbers
 ]
 
-// http://jrgraphix.net/r/Unicode/2460-24FF
+// https://jrgraphix.net/r/Unicode/2460-24FF
 const enclosed_parens_set = [
 	[parseInt('2474', 16), parseInt('2487', 16)], // numbers
 	[parseInt('249c', 16), parseInt('24b5', 16)], // letters

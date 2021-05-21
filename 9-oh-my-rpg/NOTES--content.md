@@ -98,7 +98,7 @@ Fall of Roman Empire
 https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fashion
 
 SCP
-* http://www.scp-wiki.net/
+* https://www.scp-wiki.net/
 
 
 ### technologie
@@ -208,7 +208,7 @@ https://goblinscomic.com/dungeon-master-tips
 
 easing
 * https://gist.github.com/gre/1650294
-* http://robertpenner.com/easing/
+* https://robertpenner.com/easing/
 * https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
 * https://easings.net/en
 
@@ -340,7 +340,7 @@ Martial art
 * https://www.quora.com/Was-Bruce-Lee-just-an-actor-Where-would-he-rank-in-the-UFC-if-he-were-in-his-prime-today
 * https://www.quora.com/Why-is-there-so-much-disrespect-for-Bruce-Lee-in-MMA-Newbie-fighters-claim-that-theyd-floor-an-in-his-prime-Bruce-Lee-today-Whats-up-with-that
 * https://www.youtube.com/embed/_5KBnA-2NBg
-* http://www.progressivecombatsystems.com/articles/bruce-lee-footwork/
+* https://www.progressivecombatsystems.com/articles/bruce-lee-footwork/
 * https://www.quora.com/Did-Judo-Gene-Lebell-defeat-Bruce-Lee-If-not-would-Bruce-Lee-have-been-able-to-defeat-an-experienced-grappler-like-Judo-Gene
 
 https://en.wikipedia.org/wiki/Conservation_status
@@ -392,7 +392,7 @@ pick what is good, all feedback is good feedback
 
 https://science.slashdot.org/story/20/06/14/036217/scientists-trigger-hibernation-in-mice-could-astronauts-be-next
 https://worldbuilding.stackexchange.com/questions/179786/a-two-thresholds-poison-how-does-it-work
-http://www.thepathmag.com/quarantine-skill-growth/
+https://www.thepathmag.com/quarantine-skill-growth/
 
 https://mailchi.mp/f0d560ea0cc2/printable_sheets
 
@@ -823,7 +823,7 @@ Truqui
 * https://worldbuilding.stackexchange.com/questions/94950/a-fruit-that-electrically-shocks-you
 
 personalité
-http://www.personalityresearch.org/bigfive.html
+https://www.personalityresearch.org/bigfive.html
 
 Stories
 - réanimation de travailleurs
@@ -833,17 +833,17 @@ Stories
 https://ifcomp.org/comp/2017
 
 free adventures
-http://www.dungeonmastering.com/campaigns-adventures/83-free-dd-adventures
+https://www.dungeonmastering.com/campaigns-adventures/83-free-dd-adventures
 
 collect famous precious stones:
 -
 -
 -
 
-http://conan.wikia.com/wiki/Eye_of_the_Serpent
+https://conan.wikia.com/wiki/Eye_of_the_Serpent
 the mountain of power
 the jeweled crown of Aquilonia
-the atlantean sword http://conan.wikia.com/wiki/Atlantean_Sword
+the atlantean sword https://conan.wikia.com/wiki/Atlantean_Sword
 
 
 fight ancient ones

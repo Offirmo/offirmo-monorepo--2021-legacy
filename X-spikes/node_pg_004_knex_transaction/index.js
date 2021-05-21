@@ -1,7 +1,7 @@
 const knex = require('knex')
 const assert = require('tiny-invariant')
 
-// http://knexjs.org/
+// https://knexjs.org/
 
 
 const db = require('./db')()

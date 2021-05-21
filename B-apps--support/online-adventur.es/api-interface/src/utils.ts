@@ -29,7 +29,7 @@ function _get_api_base_url(channel: ReleaseChannel): string {
 			return 'https://www.online-adventur.es/.netlify/functions'
 		default:
 			if ((channel as any) === 'unknown')
-				return 'http://test.test'
+				return 'https://test.test'
 			throw new Error(`[${LIB}] no base URL for channel "${channel}"!`)
 	}
 }

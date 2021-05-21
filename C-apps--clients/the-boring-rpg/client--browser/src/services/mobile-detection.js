@@ -5,7 +5,7 @@ import memoize_one from 'memoize-one'
 /////////////////////////////////////////////////
 
 // TODO externalize
-// http://detectmobilebrowsers.com/
+// https://detectmobilebrowsers.com/
 const is_likely_to_be_mobile = memoize_one(function is_likely_to_be_mobile() {
 	const a = navigator.userAgent||navigator.vendor||window.opera
 	const is_mobile_according_to_this_random_snippet_from_the_internet =

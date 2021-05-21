@@ -30,7 +30,7 @@ Credits:
 - José Hernandez "Weight" icon https://thenounproject.com/search/?q=weight&i=9409
 
 Tools
-- Color converter http://www.cssportal.com/css-color-converter/
+- Color converter https://www.cssportal.com/css-color-converter/
 - favicon https://realfavicongenerator.net/
 - https://github.com/scottsidwell/bundle-inspector
 

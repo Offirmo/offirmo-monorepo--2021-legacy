@@ -11,7 +11,7 @@ https://github.com/munrocket/parallax-effect
 - tree view https://github.com/elbywan/bosket
 - pathfinding https://github.com/anvaka/ngraph.path
 
-inventory items http://augmented-ui.com/
+inventory items https://augmented-ui.com/
 
 https://web.dev/backdrop-filter/
 
@@ -48,7 +48,7 @@ SNOW
 
 
 effects
-text effect http://www.brutalistframework.com/bfx#curved
+text effect https://www.brutalistframework.com/bfx#curved
 
 fonts
  https://pixelbuddha.net/freebie/jelani-display-font
@@ -60,7 +60,7 @@ TODO bg switching effects https://tympanus.net/codrops/2018/04/10/webgl-distorti
 TODO ui npm
 - https://github.com/RonenNess/RPGUI
 - https://github.com/Tuxemon/Tuxemon
-- http://www.mapeditor.org/
+- https://www.mapeditor.org/
 
 items
 https://opengameart.org/content/flare-item-variation-60x60-only
@@ -99,7 +99,7 @@ lumière https://jaredforsyth.com/veoluz/gallery/
 
 procedural mountains https://codepen.io/kylewetton/pen/oNvEXYM
 
-dweets http://frankforce.com/?p=7160#shattered
+dweets https://frankforce.com/?p=7160#shattered
 
 potions https://codepen.io/chrisgannon/pen/WNNJqXz
 
@@ -139,11 +139,11 @@ https://pixelbuddha.net/freebie/45-geometric-vector-shapes auras !!!
 
 https://codepen.io/nicoptere/full/awzbQW/ +++ basic isomorphic ?
 
-http://www.spritecow.com/  to generate CSS for sprites
+https://www.spritecow.com/  to generate CSS for sprites
 https://vxresource.wordpress.com/ RPG maker Vx resources
-http://game-icons.net/ +++ SVG game icons
+https://game-icons.net/ +++ SVG game icons
 
-http://codepen.io/giana/pen/qmKNeE +++ superb shimmering effect
+https://codepen.io/giana/pen/qmKNeE +++ superb shimmering effect
 
 https://www.openprocessing.org/ +++ superb graphic effects
 

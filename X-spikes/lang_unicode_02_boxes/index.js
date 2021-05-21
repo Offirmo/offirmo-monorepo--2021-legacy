@@ -2,7 +2,7 @@
 'use strict';
 
 console.log('The boring RPG')
-// http://jrgraphix.net/r/Unicode/2500-257F
+// https://jrgraphix.net/r/Unicode/2500-257F
 
 console.log('┃ Hello') // 2503
 console.log('┃ World') // 2503

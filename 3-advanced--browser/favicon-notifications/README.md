@@ -2,9 +2,9 @@
 
 This is an aggregation of 2 other libs:
 * https://github.com/ejci/favico.js (dual licensed GPL or MIT)
-  * [demo](http://lab.ejci.net/favico.js/)
+  * [demo](https://lab.ejci.net/favico.js/)
 * https://github.com/lipka/piecon (MIT)
-  * [demo](http://lipka.github.io/piecon/)
+  * [demo](https://lipka.github.io/piecon/)
 
 Modifications made:
 * sub-libs can take a target "window"

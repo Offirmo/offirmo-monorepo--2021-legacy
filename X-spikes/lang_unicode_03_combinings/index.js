@@ -5,7 +5,7 @@ console.log('The boring RPG')
 
 const stylize = require('chalk')
 
-// http://jrgraphix.net/r/Unicode/20D0-20FF
+// https://jrgraphix.net/r/Unicode/20D0-20FF
 console.log('Hello 1\u20dd a\u20dd A\u20dd world')
 console.log('Hello 1\u20de a\u20de A\u20de world')
 console.log('Hello 1\u20df a\u20df A\u20df world')

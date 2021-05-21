@@ -65,7 +65,7 @@ optim ? https://github.com/thecodrr/fdir
 ```
 
 
-timezones  http://spacetime.how/
+timezones  https://spacetime.how/
 
 img manipulation
    https://sharp.pixelplumbing.com/ High performance Node.js image processing

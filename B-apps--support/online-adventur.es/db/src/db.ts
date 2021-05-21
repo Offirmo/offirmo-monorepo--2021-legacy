@@ -50,7 +50,7 @@ export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: n
 			//idleTimeoutMillis: 100, no, not good in function env.
 			// we want to keep the connexion alive between calls if possible
 
-			// http://knexjs.org/#Installation-pooling-afterCreate
+			// https://knexjs.org/#Installation-pooling-afterCreate
 			afterCreate: (rawConn: any, done: any) => {
 				logger.info('knex connection acquired ✔')
 				done(undefined, rawConn)
@@ -62,7 +62,7 @@ export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: n
 			? 1000 // local should be fast
 			: 5000,
 
-		// http://knexjs.org/#Installation-post-process-response
+		// https://knexjs.org/#Installation-post-process-response
 		postProcessResponse: (result: any, queryContext: any) => {
 			//logger.info('knex got a response', result)
 			return result

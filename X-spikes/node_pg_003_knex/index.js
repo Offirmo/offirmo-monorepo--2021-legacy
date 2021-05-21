@@ -1,5 +1,5 @@
 
-// http://knexjs.org/#Migrations
+// https://knexjs.org/#Migrations
 // knex init -x ts
 // knex migrate:make migration_name -x ts
 // knex migrate:latest

@@ -69,7 +69,7 @@ const MAKER_ANDZ = {
 
 const THE_BORING_RPG_ORIGINAL = {
 	maker: MAKER_ANDZ,
-	url: 'http://http://www.boringrpg.com/',
+	url: 'https://www.boringrpg.com/',
 	social_urls: {
 		reddit: 'https://www.reddit.com/r/boringrpg/',
 		twitter: 'https://twitter.com/BoringRPG',

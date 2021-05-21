@@ -74,7 +74,7 @@ touhou
 
 
 
-http://craig-russell.co.uk/2016/01/29/service-worker-messaging.html
+https://craig-russell.co.uk/2016/01/29/service-worker-messaging.html
 
 TODO https://developers.google.com/web/updates/2018/10/intl-relativetimeformat
 TODO https://segment.com/product/connections/

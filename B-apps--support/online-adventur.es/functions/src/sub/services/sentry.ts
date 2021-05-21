@@ -11,7 +11,7 @@ import { CHANNEL } from './channel'
 /////////////////////////////////////////////////
 
 Sentry.init({
-	// http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
+	// https://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
 	dsn: 'https://a86696dcd573448a8fcc3bd7151349b4@sentry.io/1772719',
 	debug: process.env.NODE_ENV === 'development',
 	//release TODO

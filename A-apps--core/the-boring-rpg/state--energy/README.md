@@ -4,7 +4,7 @@ Energy bar, like most mobile games.
 Support an onboarding period where energy comes back faster.
 
 Interesting reads:
-* http://dota2.gamepedia.com/Cooldown
+* https://dota2.gamepedia.com/Cooldown
 
 ## contributing
 

@@ -19,7 +19,7 @@ Stores
 Personal stores
 * https://www.kenney.nl/assets
 * commissions https://yessys.carrd.co/
-* http://ansimuz.com/site/skill-type/fantasy/
+* https://ansimuz.com/site/skill-type/fantasy/
 
 Stock
 * https://pixabay.com/
@@ -63,7 +63,7 @@ image resizer https://waifu2x.booru.pics/
 
 
 ## Audio
-* http://soundimage.org/
+* https://soundimage.org/
 * https://deepintheoceansoundtrack.abrams.link/
 
 ### soundscapes
@@ -119,4 +119,4 @@ Médiévale
 * y
 * https://www.si.edu/search/collection-images?edan_q=Primary%20Gem&edan_fq%5B0%5D=topic%3A%22Mineralogy%22%20OR%20object_type%3A%22Photographs%22&edan_fq%5B1%5D=metadata_usage%3A%22CC0%22%20AND%20media_usage%3A%22CC0%22
 https://www.si.edu/object/nmnhmineralsciences_1175789
-* Fantasy interface http://homebrewery.naturalcrit.com/
+* Fantasy interface https://homebrewery.naturalcrit.com/

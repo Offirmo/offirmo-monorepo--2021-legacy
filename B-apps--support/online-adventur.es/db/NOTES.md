@@ -31,7 +31,7 @@ mention the table in function names?
 
 ## References
 
-* http://knexjs.org/
+* https://knexjs.org/
 * https://github.com/Offirmo-team/wiki/wiki/PostgreSQL
 
 

@@ -4,7 +4,7 @@
 
 	/* disable text selection, since unclean clicks/taps may select text
 	 * and cause inconvenience (especially on mobile)
-	 * http://stackoverflow.com/a/4407335/587407
+	 * https://stackoverflow.com/a/4407335/587407
 	 */
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;

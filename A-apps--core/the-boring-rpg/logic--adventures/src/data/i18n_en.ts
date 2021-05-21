@@ -1,7 +1,7 @@
 import { I18nMessages } from '@offirmo-private/ts-types'
 
 const BAD_ADVENTURES: I18nMessages = {
-	// http://www.thesaurus.com/browse/tired
+	// https://www.thesaurus.com/browse/tired
 	bad_s1: `🚫  You clicked too early!
 You collapse from exhaustion 😵 , you lose all your energy⚡ !`,
 
@@ -291,7 +291,7 @@ Alas, he also trained and beats you again!
 Well, the +{{level}} level is still useful…`,
 
 	// paintraincomic.com
-	// http://paintraincomic.com/comic/cemetery/
+	// https://paintraincomic.com/comic/cemetery/
 	useless: `
 Arriving at the village, the mayor announces that the neighborhood is no longer dangerous.
 The sorceress fell in love and no longer curses people.
@@ -395,7 +395,7 @@ const OFFIRMO_INSPIRED_FROM_NET_RSRCS: I18nMessages = {
 
 	// My potions would kill you traveler. You can’t handle my potions.
 
-	// http://orteil.dashnet.org/gamegen
+	// https://orteil.dashnet.org/gamegen
 	bards: `
 Bards start writing songs about you.
 This fame helps you when dealing with humans.
@@ -584,7 +584,7 @@ You would be using your experience to keep other adventurers from looting it!
 
 	// slackwirm:
 
-	// http://www.joshuawright.net/slack-wyrm-012.html
+	// https://www.joshuawright.net/slack-wyrm-012.html
 	// "I am the Wise Wisewood Tree and I possess uncanny wisdom
 	wise_wisewood_tree: `
 You meet the Wise Wisewood Tree:
@@ -592,43 +592,43 @@ You meet the Wise Wisewood Tree:
 Indeed, the talking tree impart you some: +{{wisdom}} wisdom.
 		`,
 
-	// http://www.joshuawright.net/slack-wyrm-017.html
+	// https://www.joshuawright.net/slack-wyrm-017.html
 	//you the dragon having tea with the rabbits His reputation is crushed.
 
-	// http://www.joshuawright.net/slack-wyrm-026.html
+	// https://www.joshuawright.net/slack-wyrm-026.html
 	// the giant eye of Agoroth
 
-	// http://www.joshuawright.net/slack-wyrm-030.html
+	// https://www.joshuawright.net/slack-wyrm-030.html
 	// guilt anxiety
 
 	// princess with woodland friends
 	// having to spot the real princess
-	// http://www.joshuawright.net/slack-wyrm-031.html
+	// https://www.joshuawright.net/slack-wyrm-031.html
 
 	// hallowed dragonspear
-	// http://www.joshuawright.net/slack-wyrm-034.html
+	// https://www.joshuawright.net/slack-wyrm-034.html
 
 	// village of Spuddy
-	// http://www.joshuawright.net/slack-wyrm-042.html
+	// https://www.joshuawright.net/slack-wyrm-042.html
 
-	// http://www.joshuawright.net/slack-wyrm-059.html
+	// https://www.joshuawright.net/slack-wyrm-059.html
 	// Zizok the wizard
 	// they weren’t my friends,they were just using me for my spells
 
-	// http://www.joshuawright.net/slack-wyrm-066.html
+	// https://www.joshuawright.net/slack-wyrm-066.html
 	// dragon stole the wedding cake
 
-	// http://www.joshuawright.net/slack-wyrm-072.html
+	// https://www.joshuawright.net/slack-wyrm-072.html
 	// Linda Greenslime
 
 	//the country of Doily
 	// 99
 
-	// http://www.joshuawright.net/slack-wyrm-158.html
+	// https://www.joshuawright.net/slack-wyrm-158.html
 	// The sulking swamp
 	// butthurt bog
 
-	// http://www.comic-rocket.com/read/bunny/28
+	// https://www.comic-rocket.com/read/bunny/28
 	// Bunthulhu
 
 	// https://www.instagram.com/p/Bi5QlAeAAlx/
@@ -696,12 +696,12 @@ You gain {{coin}} coins and +{{attr}} {{attr_name}}.
 		`,
 
 	// Colossal Cave Adventure
-	// http://rickadams.org/adventure/d_hints/index.html
+	// https://rickadams.org/adventure/d_hints/index.html
 	colossal_cave: `
 You discover and explore a colossal cave! Undeads, goblins...
 You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_name}})!
 		`,
-	// http://rickadams.org/adventure/d_hints/hint009.html
+	// https://rickadams.org/adventure/d_hints/hint009.html
 	colossal_cave_maze: `
 You explore yet another cave.
 You are in a maze of twisty little passages, all alike.
@@ -786,11 +786,11 @@ You feel the need…{{br}}
 "The only good goblins are the one who never come out of their stinking holes!"
 	`,
 
-	// Conan movie http://conan.wikia.com/wiki/The_Riddle_of_Steel
+	// Conan movie https://conan.wikia.com/wiki/The_Riddle_of_Steel
 	riddle_of_steel: `
 You solve the riddle of steel; Obviously it’s more steel! And stronger steel!{{br}}
 You have a blacksmith reforge your equipment to enhance it.`,
-	// TOTO tree of woe, eat a vulture http://conan.wikia.com/wiki/Tree_of_Woe
+	// TOTO tree of woe, eat a vulture https://conan.wikia.com/wiki/Tree_of_Woe
 
 	// classic tales
 	sword_in_rock: `
@@ -1186,9 +1186,9 @@ Once you wake up (one day later!) you discover that you strangely gained +{{attr
 
 	/*
 	fantasy metals
-		* http://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
-* http://metallurgy.wikia.com/wiki/Fantasy_Metals
-	* http://www.bodycote.com/fictional-metals
+		* https://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
+* https://metallurgy.wikia.com/wiki/Fantasy_Metals
+	* https://www.bodycote.com/fictional-metals
 */
 
 	// potions

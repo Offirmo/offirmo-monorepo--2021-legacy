@@ -1,5 +1,5 @@
 // beware of multiplicity!
-// http://www.stucox.com/blog/the-good-and-bad-of-level-4-media-queries/#multiplicity
+// https://www.stucox.com/blog/the-good-and-bad-of-level-4-media-queries/#multiplicity
 
 import {
 	get_usage_observations,
@@ -35,7 +35,7 @@ const relevant_media_queries = _get_relevant_media_queries()
 ///////
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/@media/any-hover
-// http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+// https://www.stucox.com/blog/you-cant-detect-a-touchscreen/
 function has_any_hover() {
 	// from more trustable to less trustable:
 
@@ -64,13 +64,13 @@ function has_any_hover() {
 }
 
 /*
-// http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+// https://www.stucox.com/blog/you-cant-detect-a-touchscreen/
 function has_any_touch(window = window) {
 	const from_MQ = window.matchMedia('(any-hover: hover)')
 	const from_
 }
 
-// http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+// https://www.stucox.com/blog/you-cant-detect-a-touchscreen/
 function has_any_pointer(window = window) {
 	const from_MQ = window.matchMedia('(any-hover: hover)')
 	const from_

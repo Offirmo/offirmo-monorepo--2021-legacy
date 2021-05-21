@@ -41,4 +41,4 @@ TODO All states (and logic) having...
 See package.json.
 
 Extra:
-- inspired by http://ronenness.github.io/RPGUI/
+- inspired by https://ronenness.github.io/RPGUI/

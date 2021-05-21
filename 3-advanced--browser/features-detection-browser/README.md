@@ -15,5 +15,5 @@ Those sliding keyboards may hide the input fields if not taken into account
 
 ## references
 * https://www.html5rocks.com/en/mobile/touchandmouse/
-* http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
-* http://www.stucox.com/blog/the-good-and-bad-of-level-4-media-queries/
+* https://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+* https://www.stucox.com/blog/the-good-and-bad-of-level-4-media-queries/

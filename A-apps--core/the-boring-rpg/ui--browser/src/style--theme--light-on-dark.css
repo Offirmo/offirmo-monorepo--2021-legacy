@@ -4,8 +4,8 @@
 [data-o-theme="light-on-dark"] {
 	/* TODO redo following LOD212 */
 	/* List from https://wow.gamepedia.com/Quality
-	 * some colors taken from http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
-	 * some colors inspired from http://boz.com/
+	 * some colors taken from https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
+	 * some colors inspired from https://boz.com/
 	 */
 	--o⋄color⁚quality--poor:      var(--o⋄color⁚boz__gray);
 	--o⋄color⁚quality--common:    white;

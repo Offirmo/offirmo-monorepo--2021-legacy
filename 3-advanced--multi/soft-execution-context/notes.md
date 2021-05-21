@@ -44,7 +44,7 @@ TOREAD
   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#Exception_Handling_Statements
-  * http://www.ecma-international.org/ecma-262/6.0/#sec-error-objects
+  * https://www.ecma-international.org/ecma-262/6.0/#sec-error-objects
 
 https://github.com/sindresorhus/serialize-error
 https://github.com/sindresorhus?utf8=%E2%9C%93&tab=repositories&q=error&type=&language=
@@ -57,8 +57,8 @@ Standard fields:
 *
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types
-      http://stackoverflow.com/questions/1382107/whats-a-good-way-to-extend-error-in-javascript
-      http://www.ecma-international.org/ecma-262/5.1/#sec-15.11.1
+      https://stackoverflow.com/questions/1382107/whats-a-good-way-to-extend-error-in-javascript
+      https://www.ecma-international.org/ecma-262/5.1/#sec-15.11.1
       https://github.com/sindresorhus/aggregate-error
 
 
@@ -95,7 +95,7 @@ React
  * This class has been extended without using ES6 so that "instanceof" works as intended.
  *
  * See:
- * http://stackoverflow.com/questions/33870684/why-doesnt-instanceof-work-on-instances-of-error-subclasses-under-babel-node
+ * https://stackoverflow.com/questions/33870684/why-doesnt-instanceof-work-on-instances-of-error-subclasses-under-babel-node
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
  */
 

@@ -43,7 +43,7 @@ TOSORT
 ### https://fontawesome.com
 https://fontawesome.com/icons?d=gallery&p=2&m=free
 
-### http://www.languageicon.org
+### https://www.languageicon.org
 The "change language" icon.
 
 Possible alternative: https://thenounproject.com/term/translation/24074/

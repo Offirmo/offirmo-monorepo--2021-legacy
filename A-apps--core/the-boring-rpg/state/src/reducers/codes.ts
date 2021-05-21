@@ -164,21 +164,21 @@ function attempt_to_redeem_code(_state: Immutable<State>, code: string, now_ms: 
 			}
 
 			case 'XYZZY':
-				// http://www.plover.net/~davidw/sol/xyzzy.html
+				// https://www.plover.net/~davidw/sol/xyzzy.html
 				u_state = {
 					...u_state,
 					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.flow,
 						key: EngagementKey['just-some-text'],
 					}, {
-						// http://rickadams.org/adventure/d_hints/hint024.html
+						// https://rickadams.org/adventure/d_hints/hint024.html
 						text: 'fee fie foe foo ;)',
 					}),
 				}
 				break
 
 			case 'PLUGH':
-				// http://www.plover.net/~davidw/sol/plugh.html
+				// https://www.plover.net/~davidw/sol/plugh.html
 				u_state = {
 					...u_state,
 					engagement: EngagementState.enqueue(u_state.engagement, {
