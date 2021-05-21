@@ -1462,6 +1462,21 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fontsource/roboto-condensed@^4":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto-condensed/-/roboto-condensed-4.3.0.tgz#b6524edc8498b7106331d775b92a19335a16ee46"
+  integrity sha512-5d1byBryprAy4SZrhMqe1kqySBkP+o/u3Bf+eRzi5gx7VcPT93ceiJnsrlTUMNUmr1iqOwht7J3NzW+OqH53uw==
+
+"@fontsource/roboto-mono@^4":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto-mono/-/roboto-mono-4.3.0.tgz#b443c6cd8b44a37ad4582279771f70e4042d8438"
+  integrity sha512-Driw0cYOvwUONOaWV6PxgUrqjcfsAvp2HxV94wmBZQAYhVQEPRBGbOa01fGX/ZjOsLok4xx94C/dH2pYh933YQ==
+
+"@fontsource/roboto@^4":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.3.0.tgz#00f1cceca43eff85bb0e1d424311751ee41f6aa6"
+  integrity sha512-WeFWCWYutLWyEtRmBhn+bLbW4/km0l+HhTpR8wWDxJLiGiMOhVLO/Z0q5w6l20ZOkWnf6Z1rN3o3W2HjvYN6Rg==
+
 "@geometricpanda/storybook-addon-iframe@^0":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@geometricpanda/storybook-addon-iframe/-/storybook-addon-iframe-0.0.3.tgz#d4ba8c4bbf37834e8a415177dba55833b101603f"

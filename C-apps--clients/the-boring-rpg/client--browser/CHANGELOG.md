@@ -14,7 +14,8 @@
 
 ## TODO
 - 😅 fix: the scrollbars are now properly styled in Firefox 💅
-
+- 😷 chore: some internal refactors
+- 😷 chore: bump dependencies
 
 ## v0.67.1
 2021/05/16

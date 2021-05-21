@@ -141,8 +141,9 @@ table[cellspacing],
 
   img[alt=""] ,      img:not([alt]),
   img[title=""],     img:not([title]),
-    a[title=""],       a:not([title]),
-table[summary=""], table:not([summary])
+/*a[title=""],       a:not([title]), No, not needed */
+table[summary=""], table:not([summary]),
+a[href="#"], a[href="javascript:void(0)"] /* abuse of a as button https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#onclick_events */
 {
 	border: 3px dashed var(--o⋄color⁚diagnostics--accessibility) !important;
 }
@@ -160,7 +161,8 @@ html:not([lang]) body
 iframe:not([sandbox]),
 /* non secure http */
 *[href^="http:"],
-*[src^="http:"]
+*[src^="http:"],
+a[target=_blank]:not([rel=noreferrer]):not([rel=noopener]) /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#security_and_privacy */
 {
 	outline: 5px dashed var(--o⋄color⁚diagnostics--security) !important;
 }

@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react'
+import styled from 'styled-components'
 
-//import '../../src/style.css'
 import './index.css'
 
 const LIB = '@offirmo-private/ui--browser--css'
@@ -20,7 +20,7 @@ export default {
 export function Default() {
 	return (
 		<main>
-			<h1>{ LIB } - CSS micro framework</h1>
+			<h1>{ LIB } = a CSS micro framework</h1>
 
 			<p>
 				What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default,
@@ -35,7 +35,7 @@ export function Default() {
 				Normal text &nbsp;
 				<span className="o⋄color⁚secondary">secondary text</span> &nbsp;
 				<span className="o⋄color⁚ancillary">ancillary text</span> &nbsp;
-				<a href="#">link</a>
+				<a href=".">link</a>
 			</p>
 
 			<p>Strongly inspired by:</p>
@@ -142,6 +142,36 @@ export function Fonts() {
 				<br/>{ pangram }
 			</p>
 		</>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export function Emojis() {
+	return (
+		<main>
+			<p>emoji 13.1
+				https://emojipedia.org/emoji-13.1/
+
+				😮‍💨 Face Exhaling
+				😵‍💫 Face with Spiral Eyes
+				😶‍🌫️ Face in Clouds
+				❤️‍🔥 Heart on Fire
+				❤️‍🩹 Mending Heart
+				🧔‍♀️ Woman: Beard
+				🧔🏻‍♀️ Woman: Light Skin Tone, Beard
+				🧔🏼‍♀️ Woman: Medium-Light Skin Tone, Beard
+				🧔🏽‍♀️ Woman: Medium Skin Tone, Beard
+				🧔🏾‍♀️ Woman: Medium-Dark Skin Tone, Beard
+				🧔🏿‍♀️ Woman: Dark Skin Tone, Beard
+				🧔‍♂️ Man: Beard
+				🧔🏻‍♂️ Man: Light Skin Tone, Beard
+				🧔🏼‍♂️ Man: Medium-Light Skin Tone, Beard
+				🧔🏽‍♂️ Man: Medium Skin Tone, Beard
+				🧔🏾‍♂️ Man: Medium-Dark Skin Tone, Beard
+				🧔🏿‍♂️ Man: Dark Skin Tone, Beard
+			</p>
+		</main>
 	)
 }
 
@@ -293,9 +323,9 @@ export function Advanced() {
 		<>
 			<nav>
 				<ul className="o⋄nav-list">
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="#">Home</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="#">Nav1</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="#">Nav2</a></li>
+					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Home</a></li>
+					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav1</a></li>
+					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav2</a></li>
 				</ul>
 			</nav>
 
@@ -484,8 +514,46 @@ export function Diagnostics() {
 
 			<hr />
 			<img src='http://placekitten.com/200/300'/>
-			<a href='http://placekitten.com/'>a nice site</a>
+			<a href='http://placekitten.com/'>a nice site in HTTP</a>
 			<iframe src='http://placekitten.com/'/>
+			<a href="#">Home</a>
 		</>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export function Debug() {
+	const Wrapper = styled.div`
+	border-width: 1px;
+`
+	return (
+		<Wrapper className="o⋄top-container">
+			<h1>{ LIB } - CSS micro framework</h1>
+
+			<p>
+				What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default,
+				they are
+				functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web
+				designers out
+				there need to make them not total shit.
+			</p>
+
+			<p>
+				<strong>emphasized text</strong> &nbsp;
+				Normal text &nbsp;
+				<span className="o⋄color⁚secondary">secondary text</span> &nbsp;
+				<span className="o⋄color⁚ancillary">ancillary text</span> &nbsp;
+				<a href="#">link</a>
+			</p>
+
+			<p>Strongly inspired by:</p>
+			<ol>
+				<li><a href="https://motherfuckingwebsite.com/">motherfuckingwebsite.com</a>,</li>
+				<li><a href="https://bettermotherfuckingwebsite.com/">bettermotherfuckingwebsite.com</a>,</li>
+				<li><a href="https://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite.com</a></li>
+				<li>and many blogs posts…</li>
+			</ol>
+		</Wrapper>
 	)
 }
