@@ -2,6 +2,7 @@
 // better than Readonly<>
 
 // derived from https://github.com/microsoft/TypeScript/issues/13923#issuecomment-557509399
+// improved
 // then contributed back https://github.com/microsoft/TypeScript/issues/13923#issuecomment-716706151
 export type ImmutablePrimitive = undefined | null | boolean | string | number | Function;
 
@@ -23,7 +24,8 @@ export type ImmutabilityEnforcer = <T>(x: T | Immutable<T>) => Immutable<T>
 
 /////////////////////
 
-// to cancel an Immutable
+// to cancel an Immutable (beware! You're breaking the contract!)
+// Example usage: API outside of your control that refuse to take an Immutable, ex. ORM
 export type Mutable<I> =
 	I extends ImmutablePrimitive ? I
 		: I extends ImmutableMap<infer IK, infer IV> ? MutableMap<IK, IV>

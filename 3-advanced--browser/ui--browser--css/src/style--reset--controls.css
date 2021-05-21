@@ -2,6 +2,7 @@
 
 /* Alter the ugly focus ring
  * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
+ * TODO UPDATE https://css-tricks.com/platform-news-using-focus-visible-bbcs-new-typeface-declarative-shadow-doms-a11y-and-placeholders/#declarative-shadow-dom-could-help-popularize-style-encapsulation
  */
 /* 1) no focus style for non-keyboard-inputs elements */
 *:focus {

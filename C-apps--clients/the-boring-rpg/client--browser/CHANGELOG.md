@@ -13,6 +13,7 @@
 
 
 ## TODO
+- 😅 fix: the scrollbars are now properly styled in Firefox 💅
 
 
 ## v0.67.1
@@ -21,6 +22,7 @@
 - 👋 feature: slightly improved the default player name + its handling in the chat
 - 👋 feature: (feature flagged) progress on the cloud save
 - 😷 chore: some internal refactors (data format now v15)
+- 😷 chore: added a bundle size detection that should prevent unexpected app size explosion 💥
 - 😷 chore: bump dependencies
 
 ## v0.66.2
