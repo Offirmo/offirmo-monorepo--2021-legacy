@@ -41,7 +41,7 @@ html {
 }
 
 body {
-	/* adapted from http://perfectmotherfuckingwebsite.com */
+	/* adapted from https://perfectmotherfuckingwebsite.com */
 	max-width: 650px;
 	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
 	padding: 40px 10px;
@@ -63,7 +63,7 @@ body {
 
 /* Note that h4~h6 are smaller than p! usage not recommended */
 h1, h2, h3 {
-	/* http://perfectmotherfuckingwebsite.com/ */
+	/* https://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
 }
 h1, h2, h3, p {
@@ -81,8 +81,8 @@ ul, ol {
 
 /* nicer collapsibles */
 details {
-	border: dashed var(--o⋄border--thickness) var(--o⋄color⁚transparent);
-	padding-left: .9em;
+	border: dashed var(--o⋄border--thickness) transparent;
+	padding-left: .8em;
 }
 details[open] {
 	border-color: var(--o⋄color⁚fg--main);
@@ -113,9 +113,13 @@ a {
 	touch-action: manipulation; /* we assume PWA, https://webkit.org/blog/5610/more-responsive-tapping-on-ios/ */
 }
 a:link,
-a:visited {color: inherit;}
+a:visited {
+	color: inherit;
+}
 a:hover,
-a:active {color: var(--o⋄color⁚fg--accent);}
+a:active {
+	color: var(--o⋄color⁚fg--accent);
+}
 
 
 /* Nicer HR
@@ -127,19 +131,6 @@ hr {
 	border: none;
 	border-top: var(--o⋄border--thickness) solid;
 	background-color: var(--o⋄color⁚fg--ancillary);
-}
-
-
-/* https://github.com/mike-engel/a11y-css-reset/blob/master/a11y.css */
-/* prettier-ignore */
-@media(prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		transition: none !important;
-		animation: none !important;
-		scroll-behavior: auto !important;
-	}
 }
 
 iframe {

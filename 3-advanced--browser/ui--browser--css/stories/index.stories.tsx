@@ -40,9 +40,9 @@ export function Default() {
 
 			<p>Strongly inspired by:</p>
 			<ol>
-				<li><a href="http://motherfuckingwebsite.com/">motherfuckingwebsite.com</a>,</li>
-				<li><a href="http://bettermotherfuckingwebsite.com/">bettermotherfuckingwebsite.com</a>,</li>
-				<li><a href="http://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite.com</a></li>
+				<li><a href="https://motherfuckingwebsite.com/">motherfuckingwebsite.com</a>,</li>
+				<li><a href="https://bettermotherfuckingwebsite.com/">bettermotherfuckingwebsite.com</a>,</li>
+				<li><a href="https://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite.com</a></li>
 				<li>and many blogs posts…</li>
 			</ol>
 		</main>
@@ -61,7 +61,7 @@ export function Normalization() {
 				<p>
 					{ LIB } provides CSS reset/normalization through
 					{' '}
-					<a target="https://necolas.github.io/normalize.css/">normalize.css</a>
+					<a href="https://necolas.github.io/normalize.css/">normalize.css</a>
 				</p>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at varius eros. Curabitur pulvinar metus diam, nec aliquet felis pellentesque et. Ut iaculis aliquam augue, sed vestibulum lacus varius at. Mauris et facilisis massa. Sed vehicula placerat convallis. Sed dui magna, semper non neque non, semper dapibus lacus.
@@ -76,7 +76,7 @@ export function Normalization() {
 				</ol>
 
 				<details>
-					<summary>expand me...</summary>
+					<summary>Details: expand me...</summary>
 					<p>Hello, world!</p>
 				</details>
 
@@ -88,23 +88,6 @@ export function Normalization() {
 				</figure>
 
 				<q>Quoted text</q> <cite>— Author Name</cite>
-			</div>
-
-			<hr />
-
-			<div>
-				<h1>The five boxing wizards jump quickly</h1>
-				<h2>Sphinx of black quartz, judge my vow!</h2>
-				<h3>Pack my box with five dozen liquor jugs…</h3>
-
-				<p>
-					{ LIB } provides CSS reset/normalization through <a
-					target="https://necolas.github.io/normalize.css/">normalize.css</a>
-				</p>
-				<p>
-					{ LIB } provides CSS reset/normalization through <a
-					target="https://necolas.github.io/normalize.css/">normalize.css</a>
-				</p>
 			</div>
 		</>
 	)
@@ -206,26 +189,6 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 }
 
 export function Colors() {
-	const BASE_COLORS_VARS_RADIX = [
-		'transparent',
-		'darker--10',
-		'darker--20',
-		'darker--90',
-		'lighter--10',
-		'lighter--20',
-		'lighter--90',
-		'dolt__quasi-black',
-		'dolt__dark-grey',
-		'dolt__medium-grey',
-		'dolt__quasi-white',
-		'boz__gray',
-		'boz__yellow',
-		'boz__pink',
-		'boz__green',
-		'boz__cyan',
-		'boz__blue',
-		'boz__purple',
-	]
 
 	const SEMANTIC_COLORS_VARS_RADIX = [
 		'fg--main',
@@ -245,10 +208,29 @@ export function Colors() {
 		'fg--accent',
 	]
 
-	const COLORS_CLASS_RADIX = [
-		'main',
-		'secondary',
-		'ancillary',
+	const BASE_COLORS_VARS_RADIX = [
+		'transparent',
+		'darker--10',
+		'darker--20',
+		'darker--90',
+		'lighter--10',
+		'lighter--20',
+		'lighter--90',
+		'dolt__quasi-black',
+		'dolt__dark-grey',
+		'dolt__medium-grey',
+		'dolt__quasi-white',
+		'boz__gray',
+		'boz__yellow',
+		'boz__pink',
+		'boz__green',
+		'boz__cyan',
+		'boz__blue',
+		'boz__purple',
+		'co212__beige',
+		'co212__blue',
+		'co212__brown',
+		'co212__dark',
 	]
 
 	return (
@@ -275,7 +257,7 @@ export function Controls() {
 	return (
 		<>
 			<p>
-				…some text… <a href="http://bettermotherfuckingwebsite.com/">link</a> …some text… <button>Click me!</button> …some text… <progress value=".5">progress</progress> …some text…
+				…some text… <a href="https://bettermotherfuckingwebsite.com/">link</a> …some text… <button>Click me!</button> …some text… <progress value=".5">progress</progress> …some text…
 			</p>
 
 			<p>
@@ -387,6 +369,115 @@ export function Containers() {
 				<p>Hi</p>
 			</div>
 
+		</>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export function Diagnostics() {
+	return (
+		<>
+			<h2>Empties</h2>
+			<ol>
+				<li>empty line item, comment-only line item, and space-only line item follow:</li>
+				<li></li>
+				<li>{/* can't HTML comment from JSX*/}</li>
+				<li> </li>
+				<li>empty span [ <span></span> ], and a break [ <br/> ]</li>
+				<li>empty div follows: [<div></div>]</li>
+				<li>see also first cell of following table</li>
+			</ol>
+
+
+			<h2>Images</h2>
+
+			<table summary="Testing image attribute based diagnostic styling" id="imgtest">
+				<thead>
+				<tr>
+					<th></th>
+					<th scope="col">no alt</th>
+					<th scope="col">empty alt</th>
+					<th scope="col">filled alt</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<th scope="row">no title</th>
+					<td><img src="https://placekitten.com/64/64" /></td>
+					<td><img src="https://placekitten.com/64/64" alt="" /></td>
+					<td><img src="https://placekitten.com/64/64" alt="blah" /></td>
+				</tr>
+				<tr>
+					<th scope="row">empty title</th>
+					<td><img src="https://placekitten.com/64/64" title="" /></td>
+					<td><img src="https://placekitten.com/64/64" title="" alt="" /></td>
+					<td><img src="https://placekitten.com/64/64" title="" alt="blah" /></td>
+				</tr>
+				<tr>
+					<th scope="row">filled title</th>
+					<td><img src="https://placekitten.com/64/64" title="blah" /></td>
+					<td><img src="https://placekitten.com/64/64" title="blah" alt="" /></td>
+					<td><img src="https://placekitten.com/64/64" title="blah" alt="blah" /></td>
+				</tr>
+				</tbody>
+			</table>
+
+
+			<h2>Tables</h2>
+
+			<table>
+				<tr>
+					<th>A</th>
+					<th>B</th>
+				</tr>
+				<tr>
+					<th>C</th>
+					<td>1</td>
+				</tr>
+			</table>
+
+			<table summary="">
+				<tr>
+					<th scope>A</th>
+					<th scope="">B</th>
+				</tr>
+				<tr>
+					<th scope="diag">C</th>
+					<td>1</td>
+				</tr>
+			</table>
+
+			<table summary="">
+				<tr>
+					<th scope="col">A</th>
+					<th scope="col">B</th>
+				</tr>
+				<tr>
+					<th scope="row">C</th>
+					<td>1</td>
+				</tr>
+			</table>
+
+
+			<h2>Links</h2>
+
+			<ol>
+				<li><a href="none">fillblah</a> (no title, filled href)</li>
+				<li><a href="none" title="">fillblah</a> (empty title, filled href)</li>
+				<li><a href="none" title="blah">fillblah</a> (filled title, filled href)</li>
+				<li><a href="#">blah#</a> (no title, '#' href)</li>
+				<li><a href="#" title="">blah#</a> (empty title, '#' href)</li>
+				<li><a href="#" title="blah">blah#</a> (filled title, '#' href)</li>
+				<li><a href="">blah</a> (no title, blank href)</li>
+				<li><a href="" title="">blah</a> (empty title, blank href)</li>
+				<li><a href="" title="blah">blah</a> (filled title, blank href)</li>
+			</ol>
+
+			<hr />
+			<img src='https://placekitten.com/200/300'/>
+			<a href='https://placekitten.com/'>a nice site</a>
+			<iframe src='https://placekitten.com/'/>
 		</>
 	)
 }

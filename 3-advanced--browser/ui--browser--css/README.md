@@ -13,7 +13,7 @@ Features:
 
 Inspiration:
 * inspired by [tachyons](https://tachyons.io/)
-* inspired by [motherfuckingwebsite](http://motherfuckingwebsite.com/) / [better](http://bettermotherfuckingwebsite.com/) / [perfect](http://perfectmotherfuckingwebsite.com/)
+* inspired by [motherfuckingwebsite](https://motherfuckingwebsite.com/) / [better](https://bettermotherfuckingwebsite.com/) / [perfect](https://perfectmotherfuckingwebsite.com/)
 * inspired by techniques borrowed in articles around the net (see refs. in the code and "credits" below)
 
 
@@ -110,7 +110,6 @@ There are also variables:
   * `--o⋄color⁚fg--ancillary`
   * `--o⋄color⁚fg--accent`
 * modifier colors (but better use the theme colors!)
-  * `--o⋄color⁚transparent`
   * `--o⋄color⁚darker--10`
   * `--o⋄color⁚darker--20`
   * `--o⋄color⁚darker--90`
@@ -142,10 +141,10 @@ Solution: use a cascade of `class="o⋄top-container"` (optionally starting at `
 
 
 ## Credits
-* http://motherfuckingwebsite.com/
-* http://bettermotherfuckingwebsite.com/
-* http://perfectmotherfuckingwebsite.com/
-* using data="xyz" http://simurai.com/blog/2018/04/01/contextual-styling
+* https://motherfuckingwebsite.com/
+* https://bettermotherfuckingwebsite.com/
+* https://perfectmotherfuckingwebsite.com/
+* using data="xyz" https://simurai.com/blog/2018/04/01/contextual-styling
   * (more about data) https://www.sitepoint.com/use-html5-data-attributes/
 * https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/
 * https://ianstormtaylor.com/design-tip-never-use-black/

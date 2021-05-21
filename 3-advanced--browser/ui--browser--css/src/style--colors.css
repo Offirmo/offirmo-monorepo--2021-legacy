@@ -1,12 +1,11 @@
 @import './style--themes.css';
 
 /* Good tools:
- * http://www.cssportal.com/css-color-converter/
+ * https://www.cssportal.com/css-color-converter/
  * https://picular.co/quality
  */
 :root {
-	--o⋄color⁚transparent: rgba(0, 0, 0, 0);
-
+	/* modifiers as overlays */
 	--o⋄color⁚darker--10: rgba(0, 0, 0, .1);
 	--o⋄color⁚darker--20: rgba(0, 0, 0, .2);
 	--o⋄color⁚darker--90: rgba(0, 0, 0, .9);
@@ -27,7 +26,7 @@
 	/* accent on tab, seldom used */
 	--o⋄color⁚fg--accent: #7AACFE; /* classic blue */
 
-	/* from http://boz.com/
+	/* from https://boz.com/
 	 * Looks good on dark backgrounds
 	 */
 	--o⋄color⁚boz__gray:     hsl(0,    0%, 60%);

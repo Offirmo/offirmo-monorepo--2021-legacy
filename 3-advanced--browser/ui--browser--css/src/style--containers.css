@@ -17,7 +17,7 @@
 }
 
 .o⋄centered-article {
-	max-width: 650px; /* a suggested good max width for text content. Taken from http://bettermotherfuckingwebsite.com/ */
+	max-width: 650px; /* a suggested good max width for text content. Taken from https://bettermotherfuckingwebsite.com/ */
 	width: 100%; /* avoid lower than max if possible. Possible alternative: inherit */
 
 	margin: 0 auto;/* horizontal centering */
