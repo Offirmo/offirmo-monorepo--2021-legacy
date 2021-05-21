@@ -293,9 +293,9 @@ export function Advanced() {
 		<>
 			<nav>
 				<ul className="o⋄nav-list">
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a>Home</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a>Nav1</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a>Nav2</a></li>
+					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="#">Home</a></li>
+					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="#">Nav1</a></li>
+					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="#">Nav2</a></li>
 				</ul>
 			</nav>
 
@@ -333,7 +333,15 @@ export function Advanced() {
 export function Containers() {
 	return (
 		<>
-			<code>o⋄top-container</code>, <code>o⋄centered-article</code>, <code>o⋄body⁚full-page</code>
+			<p>
+				<code>o⋄top-container</code> = very convenient container to propagate full height (flexbox column)
+			</p>
+			<p>
+				<code>o⋄centered-article</code> = max width + auto-centered
+			</p>
+			<p>
+				<code>o⋄body⁚full-viewport</code> = try to force the body to take the full viewport
+			</p>
 
 			<hr/>
 
@@ -437,7 +445,7 @@ export function Diagnostics() {
 				</tr>
 			</table>
 
-			<table summary="">
+			<table>
 				<tr>
 					<th scope>A</th>
 					<th scope="">B</th>
@@ -475,9 +483,9 @@ export function Diagnostics() {
 			</ol>
 
 			<hr />
-			<img src='https://placekitten.com/200/300'/>
-			<a href='https://placekitten.com/'>a nice site</a>
-			<iframe src='https://placekitten.com/'/>
+			<img src='http://placekitten.com/200/300'/>
+			<a href='http://placekitten.com/'>a nice site</a>
+			<iframe src='http://placekitten.com/'/>
 		</>
 	)
 }

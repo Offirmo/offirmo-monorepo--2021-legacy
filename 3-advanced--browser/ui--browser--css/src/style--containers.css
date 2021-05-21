@@ -25,7 +25,7 @@
 	padding: 7px; /* looks good by default. Use o⋄pad⁚0 else */
 }
 
-.o⋄body⁚full-page {
+.o⋄body⁚full-viewport {
 	max-width: unset;
 	width: 100%; /* avoid lower than max if possible */
 	margin: 0;

@@ -63,7 +63,7 @@ https://www.atlassian.com/trust/compliance
 https://community.atlassian.com/t5/Jira-questions/qa-p/jira-questions
 https://community.atlassian.com/t5/Jira-Software-questions/Jira-Desktop-client-for-windows/qaq-p/1330996
 
-
+https://www.atlassian.com/solutions/devops/guides/product-guide
 
 JIRA issue search (not perfect, but definitely better than alternatives), the simplicity of logging time, JIRA ticket layout/configuration, ticket update notifications (the visual representation of diffs, but also others).
 

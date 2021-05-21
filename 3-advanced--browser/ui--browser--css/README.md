@@ -42,7 +42,7 @@ alternatively:
 There is a special class to unset the defaults:
 ```html
 <html class="o⋄top-container">
-	<body class="o⋄top-container o⋄body⁚full-page" data-o-theme="light-on-dark">
+	<body class="o⋄top-container o⋄body⁚full-viewport" data-o-theme="light-on-dark">
 		…
 ```
 

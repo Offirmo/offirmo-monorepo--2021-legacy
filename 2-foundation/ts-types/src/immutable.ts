@@ -1,9 +1,8 @@
 /////////////////////
 // better than Readonly<>
-// pb. error TS2345: Argument of type 'State' is not assignable to parameter of type 'Immutable<State>'
-// pb. this breaks tuples :(
 
-// https://github.com/microsoft/TypeScript/issues/13923#issuecomment-557509399
+// derived from https://github.com/microsoft/TypeScript/issues/13923#issuecomment-557509399
+// then contributed back https://github.com/microsoft/TypeScript/issues/13923#issuecomment-716706151
 export type ImmutablePrimitive = undefined | null | boolean | string | number | Function;
 
 export type Immutable<T> =

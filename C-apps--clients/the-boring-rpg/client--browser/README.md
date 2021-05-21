@@ -37,6 +37,8 @@ bolt deploy
 
 ## TODO
 
+* TODO pulse relative to visibility API https://visibility-api.netlify.app
+
 ```
 yarn exec zx ../../../0-scripts/compensate-for-parcel1-limitations.mjs
 

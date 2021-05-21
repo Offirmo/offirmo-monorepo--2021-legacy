@@ -210,3 +210,5 @@ https://stackoverflow.com/questions/1050222/what-is-the-difference-between-concu
 LTS, maintenance LTS, active LTS https://nodejs.org/en/about/releases/
 
 https://www.componentdriven.org/
+
+https://softskills.audio/

@@ -49,7 +49,7 @@
 
 /* special "inline" button */
 button.o⋄button--inline {
-	--o⋄border--thickness__button: 0;
+	--o⋄border--thickness__button: 0; /* override own CSS var for this typeof button */
 	padding: .1em .3em;
 	border-radius: .25em;
 }

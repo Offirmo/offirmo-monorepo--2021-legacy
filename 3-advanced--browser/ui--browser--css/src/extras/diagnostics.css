@@ -1,29 +1,111 @@
-/*
+/* Inspired from:
  * https://css-tricks.com/snippets/css/css-diagnostics/
  * https://meyerweb.com/eric/tools/css/diagnostics/
  */
 
+:root {
+	--o⋄color⁚diagnostics--warning: yellow; /* bright and ugly */
+	--o⋄color⁚diagnostics--error: orangered;
+
+	/* in order of increasing criticity */
+	--o⋄color⁚diagnostics--questionable: var(--o⋄color⁚diagnostics--warning);
+	--o⋄color⁚diagnostics--empty: var(--o⋄color⁚diagnostics--warning);
+	--o⋄color⁚diagnostics--experimental: var(--o⋄color⁚diagnostics--warning);
+
+	--o⋄color⁚diagnostics--deprecated: purple;
+	--o⋄color⁚diagnostics--accessibility: cyan;
+	--o⋄color⁚diagnostics--broken: var(--o⋄color⁚diagnostics--error);
+	--o⋄color⁚diagnostics--security: var(--o⋄color⁚diagnostics--error);
+}
+
+/* NOTE: should be in order of increasing criticity */
+
+/************ QUESTIONABLE ************/
+
+
+*[style], /* inline styles: questionable since very useful in react or component-based */
+a[href="#"] /* acceptable for page navs? */
+{
+	/*border: 2px dotted var(--o⋄color⁚diagnostics--questionable) !important;*/
+}
+
+/************ SEMANTIC ERRORS ************/
+
+th:not([scope=col]):not([scope=row])
+{
+	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
+}
+
+/************ FASHION POLICE ************/
+/* TODO */
+
+/************ EMPTY ************/
+
 /* Empty Elements */
-div:empty,
-span:empty,
-li:empty,
-p:empty,
-td:empty,
-th:empty
-{ padding: 20px; border: 5px dotted yellow !important; }
+*:empty:not(img):not(hr):not(td):not(iframe)
+{
+	/* padding needed to better outline empty = usually 0-sized */
+	padding: 1.5em;
+	background: var(--o⋄color⁚diagnostics--empty) !important;
+}
 
-/* Empty Attributes */
+/* Declared but empty Attributes */
 *[alt=""],
-*[title=""],
 *[class=""],
+*[href=""],
 *[id=""],
-a[href=""],
-a[href="#"]
-{ border: 5px solid yellow !important; }
+*[src=""],
+*[title=""] {
+	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
+}
 
-/* Deprecated Elements */
-applet, basefont, center, dir, font, isindex, menu, s, strike, u
-{ border: 5px dotted red !important; }
+/************ EXPERIMENTAL ************/
+menu
+{
+	border: 5px dashed var(--o⋄color⁚diagnostics--experimental) !important;
+}
+
+/************ DEPRECATED ************/
+
+/* Deprecated Elements
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
+ */
+acronym,
+applet,
+basefont,
+bgsound,
+big,
+blink,
+center,
+content,
+dir,
+font,
+frame,
+frameset,
+hgroup,
+image,
+isindex,
+keygen,
+listing,
+marquee,
+menuitem,
+multicol,
+nextid,
+nobr,
+noembed,
+noframes,
+plaintext,
+rb,
+rtc,
+shadow,
+spacer,
+strike,
+tt,
+xmp,
+s, u /* technically valid but used to be used in a deprecated way. Most likely deprecated usage ;) */
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}
 
 /* Deprecated Attributes */
 *[background], *[bgcolor], *[clear], *[color], *[compact], *[noshade], *[nowrap], *[size], *[start],
@@ -34,18 +116,51 @@ applet, basefont, center, dir, font, isindex, menu, s, strike, u
 ul[type],
 ol[type],
 li[type]
-{ border: 5px solid red !important; }
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}
 
 /* Proposed Deprecated Elements */
-input[type="button"],
-big,
-tt
-{ border: 5px dotted #33FF00 !important; }
+input[type="button"] /* TODO reference */
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}
 
 /* Proposed Deprecated Attributes */
+/* TODO reference */
 *[border],
 a[target],
 table[cellpadding],
 table[cellspacing],
 *[name]
-{ border: 5px solid #33FF00 !important; }
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}
+
+/************ ACCESSIBILITY ************/
+
+  img[alt=""] ,      img:not([alt]),
+  img[title=""],     img:not([title]),
+    a[title=""],       a:not([title]),
+table[summary=""], table:not([summary])
+{
+	border: 3px dashed var(--o⋄color⁚diagnostics--accessibility) !important;
+}
+
+/************ BROKEN EXPERIENCE ************/
+
+a[href=""], a:not([href]),
+html:not([lang]) body
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--broken) !important;
+}
+
+/************ SECURITY ************/
+
+iframe:not([sandbox]),
+/* non secure http */
+*[href^="http:"],
+*[src^="http:"]
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--security) !important;
+}

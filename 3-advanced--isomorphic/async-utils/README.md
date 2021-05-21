@@ -13,6 +13,7 @@
 Good articles:
 * https://github.com/YuzuJS/setImmediate
 * micro / macro tasks https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
+* user-blocking / user-visible / background https://medium.com/airbnb-engineering/building-a-faster-web-experience-with-the-posttask-scheduler-276b83454e91
 
 > A task is any JavaScript code which is scheduled to be run by the standard mechanisms
 > such as initially starting to run a program, an event callback being run, or an interval or timeout being fired.

@@ -39,12 +39,12 @@ button {
 	text-decoration: none;
 	text-align: center;
 
-	/* stripe.com */
-	box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);
+	/* stripe.com
+	box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08); */
 }
 button:hover {
 	background-color: var(--o⋄color⁚bg--highlight--2);
-	box-shadow: 0 0 .3em 0 var(--o⋄color⁚bg--main--backdrop);
+	/*box-shadow: 0 0 .3em 0 var(--o⋄color⁚bg--main--backdrop);*/
 }
 button:active {
 	background-color: var(--o⋄color⁚bg--highlight--2);
@@ -88,6 +88,15 @@ progress::-ms-fill {
 
 /************ scroll bars ************/
 
+/* Standard
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars
+ */
+* {
+	/* <scrollbar color> <scrollbar track color> */
+	scrollbar-color: var(--o⋄color⁚bg--highlight--1) var(--o⋄color⁚bg--main);
+	scrollbar-width: thin;
+}
+
 /* Chrome
  * https://stackoverflow.com/a/14150577/587407
  * https://css-tricks.com/almanac/properties/s/scrollbar/
@@ -97,13 +106,5 @@ progress::-ms-fill {
 }
 ::-webkit-scrollbar-thumb {
 	background-color: var(--o⋄color⁚bg--highlight--2);
-	xxx-webkit-box-shadow: inset 0 0 .4em var(--o⋄color⁚bg--highlight--2);
-}
-
-/* Firefox
- * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars
- */
-html {
-	scrollbar-color: var(--o⋄color⁚bg--highlight--2) var(--o⋄color⁚bg--main);
-	scrollbar-width: thin;
+	/*-webkit-box-shadow: inset 0 0 .4em var(--o⋄color⁚bg--highlight--2);*/
 }
