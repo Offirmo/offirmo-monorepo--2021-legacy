@@ -1,7 +1,7 @@
 import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import { OhMyRPGUIContext } from '@oh-my-rpg/view-browser-react'
+import { OhMyRPGUIContext } from '@tbrpg/ui--browser--react'
 
 import { AppStateContext } from '../../../context'
 import get_game_instance from '../../../services/game-instance-browser'

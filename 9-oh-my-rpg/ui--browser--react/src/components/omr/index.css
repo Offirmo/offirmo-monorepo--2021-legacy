@@ -1,0 +1,88 @@
+
+#about-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 30px;
+	text-align: center;
+	width: 100%;
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+}
+
+
+#about-panel .omr-auto-logo {
+	width: 300px;
+	margin: 0 auto;
+}
+#about-panel .omr-auto-logo img {
+	width: 100%;
+}
+
+
+/* 3rd party override */
+.notification {
+	background-color: var(--o⋄color⁚bg--main--backdrop) !important;
+	padding: .2rem .5rem !important;
+}
+.notification > h4,
+.notification > p {
+	margin: .3em 0;
+}
+.notification {
+	color: inherit !important;
+	font-size: var(--o⋄font-size--default) !important;
+}
+.notification-title {
+	color: inherit !important;
+	font-size: var(--o⋄font-size--default) !important;
+}
+.notification-message {
+	font-size: var(--o⋄font-size--default) !important;
+}
+.notification-dismiss {
+	color: var(--o⋄color⁚fg--main) !important;
+	background-color: var(--o⋄color⁚bg--highlight--2) !important;
+}
+
+.notification-error {
+	color: var(--o⋄color⁚fg--error) !important;
+	border: none !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--error) !important;
+}
+.notification-warning {
+	color: var(--o⋄color⁚fg--warning) !important;
+	border: none !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--warning) !important;
+}
+.notification-info {
+	color: var(--o⋄color⁚fg--info) !important;
+	border: none !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--info) !important;
+}
+.notification-success {
+	color: var(--o⋄color⁚fg--success) !important;
+	border: none !important;
+	border-left: solid calc(var(--o⋄border--thickness) * 3) var(--o⋄color⁚fg--success) !important;
+}
+
+/* make room for the OMR HUD
+ * (sorry for the static values = matching TBRPG)
+*/
+@media screen and (max-width: 900px) {
+	.notifications-tc {
+		padding-top: calc(var(--omr⋄ui__hamburger--visible-heigth_) * var(--omr⋄ui__scale) * .8) !important;
+	}
+}
+@media screen and (max-width: 800px) {
+	.notifications-bc {
+		padding-bottom: calc(var(--omr⋄ui__bottom-menu--height_) * var(--omr⋄ui__scale) * 1.2) !important;
+	}
+}
+
+/* solve the bug of notif blanket preventing from clicking */
+.notifications-wrapper > div {
+	pointer-events: none;
+}
+.notifications-wrapper > div > div.notification {
+	pointer-events: initial;
+}

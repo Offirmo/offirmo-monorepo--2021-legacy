@@ -36,7 +36,7 @@
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@oh-my-rpg/audio-browser": "^0",
 		"@oh-my-rpg/rsrc-backgrounds": "^0",
-		"@oh-my-rpg/view-browser-react": "^0",
+		"@tbrpg/ui--browser--react": "^0",
 		"@oh-my-rpg/view-rich-text": "^0",
 		"@online-adventur.es/api-client": "^0",
 		"@tbrpg/definitions": "^0",

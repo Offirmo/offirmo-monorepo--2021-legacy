@@ -1,0 +1,10 @@
+
+#about-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 30px;
+	text-align: center;
+	width: 100%;
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+}

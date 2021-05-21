@@ -1,0 +1,17 @@
+{
+	"plugins": [
+		"@babel/plugin-proposal-export-default-from"
+	],
+	"presets": [
+
+		["@babel/preset-react", {
+			"runtime": "automatic"
+		}],
+
+		["@babel/preset-env",{
+			"targets": {
+				"browsers": [ "extends @offirmo/browserslist-config" ]
+			}
+		}]
+	]
+}

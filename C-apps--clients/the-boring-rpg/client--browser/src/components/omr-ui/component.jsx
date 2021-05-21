@@ -1,7 +1,7 @@
 import { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import OhMyRpg from '@oh-my-rpg/view-browser-react'
+import OhMyRpg from '@tbrpg/ui--browser--react'
 
 import declare_app_loaded from '../../services/loader'
 import get_game_instance from '../../services/game-instance-browser'

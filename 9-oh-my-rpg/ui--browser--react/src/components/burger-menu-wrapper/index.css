@@ -1,0 +1,55 @@
+/* re-styling of react-burger-menu classes */
+
+.bm-menu-wrap {
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+	border-right: solid 2px;
+}
+
+/* https://stackoverflow.com/a/37600130/587407 */
+/* big screens */
+.bm-menu-wrap {
+	width: 400px !important;
+}
+/* small screens */
+@media screen and (max-width: 500px) {
+	.bm-menu-wrap {
+		width: 80% !important;
+	}
+}
+
+.bm-overlay {
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+}
+.bm-cross {
+	background: var(--o⋄color⁚fg--main);
+}
+.bm-cross-button {
+	top: 7px !important;
+	left: 7px !important;
+}
+
+.bm-burger-button {
+	z-index: calc(51 + var(--omr⋄ui__meta-view--z-index));
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: calc(var(--diameter) * var(--visible-ratio));
+	height: calc(var(--diameter) * var(--visible-ratio));
+}
+
+/* https://github.com/negomi/react-burger-menu/issues/220#issue-289936395 */
+.bm-overlay,
+.bm-menu-wrap {
+	transition-duration: .4s !important;
+}
+
+/************/
+
+.bm-menu-wrap .omr-auto-logo {
+	text-align: center;
+	width: 100%;
+	padding: 24px 1em 0 1em;
+}
+.bm-menu-wrap .omr-auto-logo img {
+	width: 100%;
+}
