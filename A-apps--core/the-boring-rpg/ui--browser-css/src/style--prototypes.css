@@ -1,0 +1,14 @@
+
+
+[class^="icomoon-"], [class*=" icomoon-"] {
+	/* disable text selection, since unclean clicks/taps may select text
+	 * and cause inconvenience (especially on mobile)
+	 * https://stackoverflow.com/a/4407335/587407
+	 */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}

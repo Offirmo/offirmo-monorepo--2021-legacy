@@ -1,0 +1,8 @@
+/* We are forced to follow our parent's default */
+@import './theme--dark-on-light.css';
+
+/* this one is the recommended */
+@import './theme--lod-colorhunt212.css';
+
+/* other themes must be imported manually */
+/*@import './theme--light-on-dark.css';*/

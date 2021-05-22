@@ -1,0 +1,29 @@
+<!-- preview-body.html -->
+<!-- cf. https://storybook.js.org/docs/react/configure/story-rendering -->
+<style>
+
+</style>
+
+<script>
+	const html_elt = document.getElementsByTagName('html')[0]
+	const body_elt = document.getElementsByTagName('body')[0]
+
+	html_elt.classList.add('o⋄top-container')
+	body_elt.classList.add('body⁚full-viewport', 'o⋄top-container')
+
+	function refresh() {
+		body_elt.classList.remove('sb-show-main', 'sb-main-padded')
+
+		const storybook_theme = body_elt.classList.contains('dark') ? 'dark' : 'light'
+		//console.log({storybook_theme})
+
+		const offirmo_theme = {
+			'light': 'dark-on-light',
+			'dark': 'light-on-dark',
+		}[storybook_theme] ?? 'dark-on-light'
+		body_elt.dataset['oTheme'] = offirmo_theme
+	}
+	setInterval(refresh, 500)
+	refresh()
+
+</script>

@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/ui--browser--css",
+	"name": "@tbrpg/ui--browser--css",
 	"version": "0.0.1",
 	"private": true,
 	"description": "Graphical css and assets for an RPG UI",

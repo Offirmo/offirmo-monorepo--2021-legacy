@@ -1,0 +1,74 @@
+
+/*******/
+
+.omr⋄full-size-background-layer {
+	display: block;
+	/*position: fixed;*/
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.omr⋄full-size-fixed-layer {
+	display: block;
+	position: fixed;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.omr⋄bg⁚cover {
+	background-size: cover;
+	background-position: center; /* good default */
+}
+
+/*******/
+
+/* from tachyons.io */
+/* TODO is it useful ? */
+/*
+.omr⋄aspect-ratio-container⁚16x9 {
+	height: 0;
+	position: relative;
+	padding-bottom: 56.25%;
+}*/
+.omr⋄aspect-ratio-container⁚SH { /* TODO in progress SH???*/
+	height: 0;
+	position: relative;
+	padding-bottom: 52.33%;
+}
+.omr⋄aspect-ratio--subject {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/*******/
+
+.omr⋄bg-image⁚parchment-xxl {
+	background-image: url('img--parchment-xxl.jpg');
+	background-size: cover;
+}
+
+.omr⋄bg-image⁚tiled-parchment {
+	background-image: url('img--parchment-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-marble_black {
+	background-image: url('img--black_marble-tile.png');
+	background-repeat: repeat;
+}
+
+/*
+.omr⋄bg-image⁚test {
+	background-image: url('PandarenWood.png');
+	background-repeat: repeat;
+}
+*/

@@ -1,0 +1,327 @@
+@font-face {
+  font-family: 'icomoon-TBRPG';
+  src:  url('fonts/icomoon-TBRPG.eot?wwormj');
+  src:  url('fonts/icomoon-TBRPG.eot?wwormj#iefix') format('embedded-opentype'),
+    url('fonts/icomoon-TBRPG.ttf?wwormj') format('truetype'),
+    url('fonts/icomoon-TBRPG.woff?wwormj') format('woff'),
+    url('fonts/icomoon-TBRPG.svg?wwormj#icomoon-TBRPG') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icomoon-"], [class*=" icomoon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon-TBRPG' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icomoon-build:before {
+  content: "\e869";
+}
+.icomoon-chat:before {
+  content: "\e0b7";
+}
+.icomoon-palette:before {
+  content: "\e40a";
+}
+.icomoon-dehaze:before {
+  content: "\e3c7";
+}
+.icomoon-directions_run:before {
+  content: "\e566";
+}
+.icomoon-directions_walk:before {
+  content: "\e536";
+}
+.icomoon-sms_failed:before {
+  content: "\e63f";
+}
+.icomoon-flash_on:before {
+  content: "\e3e7";
+}
+.icomoon-question_answer:before {
+  content: "\e8af";
+}
+.icomoon-my_location:before {
+  content: "\e55c";
+}
+.icomoon-home:before {
+  content: "\e88a";
+}
+.icomoon-import_contacts:before {
+  content: "\e0e0";
+}
+.icomoon-room:before {
+  content: "\e8b4";
+}
+.icomoon-menu:before {
+  content: "\e5d2";
+}
+.icomoon-person_pin_circle:before {
+  content: "\e56a";
+}
+.icomoon-security:before {
+  content: "\e32a";
+}
+.icomoon-settings:before {
+  content: "\e8b8";
+}
+.icomoon-thumb_down:before {
+  content: "\e8db";
+}
+.icomoon-thumb_up:before {
+  content: "\e8dc";
+}
+.icomoon-touch_app:before {
+  content: "\e913";
+}
+.icomoon-tune:before {
+  content: "\e429";
+}
+.icomoon-unfold_less:before {
+  content: "\e5d6";
+}
+.icomoon-unfold_more:before {
+  content: "\e5d7";
+}
+.icomoon-volume_off:before {
+  content: "\e04f";
+}
+.icomoon-volume_up:before {
+  content: "\e050";
+}
+.icomoon-language-choice:before {
+  content: "\e624";
+}
+.icomoon-exit-fullscreen:before {
+  content: "\e604";
+}
+.icomoon-enter-fullscreen:before {
+  content: "\e605";
+}
+.icomoon-sword-spade:before {
+  content: "\e900";
+}
+.icomoon-breastplate:before {
+  content: "\e901";
+}
+.icomoon-spider-alt:before {
+  content: "\e902";
+}
+.icomoon-locked-chest:before {
+  content: "\e903";
+}
+.icomoon-enlightenment:before {
+  content: "\e904";
+}
+.icomoon-cash:before {
+  content: "\e905";
+}
+.icomoon-biceps:before {
+  content: "\e906";
+}
+.icomoon-laurel-crown:before {
+  content: "\e600";
+}
+.icomoon-death-note:before {
+  content: "\e601";
+}
+.icomoon-conversation:before {
+  content: "\e606";
+}
+.icomoon-crossed-swords:before {
+  content: "\e607";
+}
+.icomoon-eagle-emblem:before {
+  content: "\e620";
+}
+.icomoon-treasure-map:before {
+  content: "\e621";
+}
+.icomoon-battle-gear:before {
+  content: "\e622";
+}
+.icomoon-home3:before {
+  content: "\e623";
+}
+.icomoon-music:before {
+  content: "\e60e";
+}
+.icomoon-book:before {
+  content: "\e62c";
+}
+.icomoon-qrcode:before {
+  content: "\e602";
+}
+.icomoon-lifebuoy:before {
+  content: "\e632";
+}
+.icomoon-envelop:before {
+  content: "\e603";
+}
+.icomoon-box-add:before {
+  content: "\e60d";
+}
+.icomoon-floppy-disk:before {
+  content: "\e611";
+}
+.icomoon-undo2:before {
+  content: "\e633";
+}
+.icomoon-bubbles4:before {
+  content: "\e625";
+}
+.icomoon-user:before {
+  content: "\e608";
+}
+.icomoon-users:before {
+  content: "\e609";
+}
+.icomoon-user-plus:before {
+  content: "\e60a";
+}
+.icomoon-user-minus:before {
+  content: "\e60b";
+}
+.icomoon-spinner4:before {
+  content: "\e60c";
+}
+.icomoon-spinner11:before {
+  content: "\e616";
+}
+.icomoon-wrench:before {
+  content: "\e635";
+}
+.icomoon-equalizer2:before {
+  content: "\e60f";
+}
+.icomoon-cog:before {
+  content: "\e610";
+}
+.icomoon-aid-kit:before {
+  content: "\e617";
+}
+.icomoon-bug:before {
+  content: "\e631";
+}
+.icomoon-stats-dots:before {
+  content: "\e62e";
+}
+.icomoon-trophy:before {
+  content: "\e626";
+}
+.icomoon-gift:before {
+  content: "\e612";
+}
+.icomoon-fire:before {
+  content: "\e636";
+}
+.icomoon-shield:before {
+  content: "\e637";
+}
+.icomoon-power:before {
+  content: "\e638";
+}
+.icomoon-switch:before {
+  content: "\e619";
+}
+.icomoon-cloud-download:before {
+  content: "\e613";
+}
+.icomoon-cloud-upload:before {
+  content: "\e614";
+}
+.icomoon-cloud-check:before {
+  content: "\e615";
+}
+.icomoon-download2:before {
+  content: "\e627";
+}
+.icomoon-upload2:before {
+  content: "\e628";
+}
+.icomoon-star-empty:before {
+  content: "\e63d";
+}
+.icomoon-star-half:before {
+  content: "\e63e";
+}
+.icomoon-star-full:before {
+  content: "\e618";
+}
+.icomoon-point-up:before {
+  content: "\e639";
+}
+.icomoon-point-right:before {
+  content: "\e63a";
+}
+.icomoon-point-down:before {
+  content: "\e63b";
+}
+.icomoon-point-left:before {
+  content: "\e63c";
+}
+.icomoon-warning:before {
+  content: "\e61c";
+}
+.icomoon-blocked:before {
+  content: "\e61a";
+}
+.icomoon-cross:before {
+  content: "\e629";
+}
+.icomoon-volume-high:before {
+  content: "\e61d";
+}
+.icomoon-volume-low:before {
+  content: "\e62a";
+}
+.icomoon-volume-mute2:before {
+  content: "\e61e";
+}
+.icomoon-radio-checked:before {
+  content: "\e907";
+}
+.icomoon-radio-unchecked:before {
+  content: "\e908";
+}
+.icomoon-terminal:before {
+  content: "\e61b";
+}
+.icomoon-facebook2:before {
+  content: "\e62b";
+}
+.icomoon-twitter2:before {
+  content: "\e62d";
+}
+.icomoon-github:before {
+  content: "\e61f";
+}
+.icomoon-apple:before {
+  content: "\e62f";
+}
+.icomoon-android:before {
+  content: "\e630";
+}
+.icomoon-chrome:before {
+  content: "\e634";
+}

@@ -1,0 +1,19 @@
+{
+	"name": "@oh-my-rpg/assets--cursors",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Graphical assets for an RPG UI: cursors",
+	"license": "Unlicense",
+
+	"dependencies": {
+	},
+
+	"scripts": {
+	},
+	"devDependencies": {
+		"@offirmo-private/ui--browser--css": "^0",
+		"clean-css-cli": "^5",
+		"cpx": "^1",
+		"npm-run-all": "^4"
+	}
+}

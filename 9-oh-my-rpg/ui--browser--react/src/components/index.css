@@ -1,4 +1,4 @@
-@import '../../node_modules/@oh-my-rpg/ui--browser--css/src/style.css';
+@import '../../node_modules/@tbrpg/ui--browser--css/src/style.css';
 
 #meta-panel, .bm-menu-wrap {
 	position: fixed;

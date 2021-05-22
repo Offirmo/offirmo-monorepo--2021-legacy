@@ -1,0 +1,26 @@
+{
+	"name": "@oh-my-rpg/ui--browser--css",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Graphical css and assets for an RPG UI",
+	"license": "Unlicense",
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js …dist",
+
+		"build:copy": "mkdir -p dist && cpx 'src/**/*.{woff,woff2,eot,svg,ttf,png,jpg}' dist --verbose",
+		"build:cleancss": "mkdir -p dist && cleancss -o dist/oh-my-rpg-browser.css src/style.css",
+
+		"storybook": "start-storybook -p 6006",
+		
+		"build": "npm-run-all --parallel build:copy build:cleancss"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"@offirmo-private/ui--browser--css": "^0",
+		"@storybook/react": "^6",
+		"clean-css-cli": "^5",
+		"cpx": "^1",
+		"npm-run-all": "^4"
+	}
+}

@@ -1,0 +1,9 @@
+
+:root {
+	/* override parent framework variables here */
+}
+
+button {
+	border-radius: .2em;
+	cursor: inherit;
+}
