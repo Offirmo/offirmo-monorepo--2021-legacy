@@ -27,7 +27,7 @@ const MainAreaView = React.memo(
 
 				<Scenery />
 
-				<div key="content-area" className="o⋄pos⁚rel o⋄top-container o⋄centered-article omr⋄content-area--inner">
+				<div key="content-area" className="o⋄positionꘌrelative o⋄top-container o⋄centered-article omr⋄content-area--inner">
 					{MODE_TO_PANEL[mode] || <ExplorePanel/>}
 				</div>
 			</div>

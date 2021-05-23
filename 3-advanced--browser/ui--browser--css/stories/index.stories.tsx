@@ -202,12 +202,12 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 						<td>{ radix }</td>
 						{
 							radix.startsWith('bg--')
-								? <td className="o⋄text-align⁚center">-</td>
+								? <td className="o⋄text-alignꘌcenter">-</td>
 								: <td style={ {color: `var(${ css_var })`} }>as foreground</td>
 						}
 						{
 							radix.startsWith('fg--')
-								? <td className="o⋄text-align⁚center">-</td>
+								? <td className="o⋄text-alignꘌcenter">-</td>
 								: <td style={ {backgroundColor: `var(${ css_var })`} }>as background</td>
 						}
 					</tr>
@@ -406,6 +406,13 @@ export function Containers() {
 				<p>Hi</p>
 				<p>Hi</p>
 			</div>
+
+			<hr />
+
+			<p>
+				img with 100% width: <code>o⋄width⁚100pc</code>
+				<img alt="cute kitten" className="o⋄width⁚100pc" src="https://placekitten.com/1024/512" />
+			</p>
 
 		</>
 	)

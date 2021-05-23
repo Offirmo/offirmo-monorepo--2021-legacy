@@ -40,7 +40,7 @@ function render() {
 		const inner_html = ELEMENTS.reduce((acc, bg) => {
 			const { css_class } = bg
 			return acc + `
-<button class="grid-item o⋄margin⁚0 omr⋄text⁚outlined" onclick="switch_to_bg('${get_bg_id(css_class)}')">${get_bg_id(css_class)}</button>`
+<button class="grid-item o⋄marginꘌ0 omr⋄text⁚outlined" onclick="switch_to_bg('${get_bg_id(css_class)}')">${get_bg_id(css_class)}</button>`
 		}, '')
 		document.getElementById('grid-root')!.innerHTML = inner_html
 

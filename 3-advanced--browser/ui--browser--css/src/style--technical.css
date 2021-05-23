@@ -1,15 +1,15 @@
 
-.o⋄text-align⁚center {
+.o⋄text-alignꘌcenter {
 	text-align: center;
 }
 
-.o⋄pos⁚abs {
+.o⋄positionꘌabsolute {
 	position: absolute;
 }
-.o⋄pos⁚rel {
+.o⋄positionꘌrelative {
 	position: relative;
 }
-.o⋄pos⁚fixed {
+.o⋄positionꘌfixed {
 	position: fixed;
 }
 
@@ -39,25 +39,26 @@
 }
 
 
-.o⋄pad⁚0 {
+.o⋄padꘌ0 {
 	padding: 0;
 }
-.o⋄pad⁚5 {
+/* TODO should we really use px? */
+.o⋄padꘌ5 {
 	padding: 5px;
 }
-.o⋄pad⁚7 {
+.o⋄padꘌ7 {
 	padding: 7px;
 }
 
 
-.o⋄margin⁚0 {
+.o⋄marginꘌ0 {
 	margin: 0;
 }
 /*
-.o⋄margin⁚5 {
+.o⋄marginꘌ5 {
 	margin: 5px;
 }
-.o⋄margin⁚7 {
+.o⋄marginꘌ7 {
 	margin: 7px;
 }
 */

@@ -64,12 +64,10 @@ export function Default() {
 ////////////////////////////////////////////////////////////////////////////////////
 
 import DemoBgForestGreen from '@oh-my-rpg/assets--background--artbreeder/src/assets/biome--terrestrial--forest--green/2fd369e60d1911ab963d1636868c.jpeg'
-
+// 			<img alt="green forest" className="xxo⋄width⁚100pc" src={DemoBgForestGreen} />
 export function FontEffects() {
 	return (
 		<main className="o⋄top-container omr⋄font⁚spectral">
-
-			<img alt="green forest" className="o⋄width⁚100pc" src={DemoBgForestGreen} />
 
 			<p className="omr⋄text-with-shadow">
 				Text with shadow.
@@ -82,6 +80,20 @@ export function FontEffects() {
 			<p className="omr⋄text⁚outlined">
 				Text outlined.
 			</p>
+
+			<div className="omr⋄bg⁚cover" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
+				<p className="omr⋄text-with-shadow">
+					Text with shadow.
+				</p>
+
+				<p className="omr⋄text⁚glowing--gold">
+					Text glowing gold.
+				</p>
+
+				<p className="omr⋄text⁚outlined">
+					Text outlined.
+				</p>
+			</div>
 
 		</main>
 	)
@@ -179,12 +191,12 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 						<td>{ radix }</td>
 						{
 							radix.startsWith('bg--')
-								? <td className="o⋄text-align⁚center">-</td>
+								? <td className="o⋄text-alignꘌcenter">-</td>
 								: <td style={ {color: `var(${ css_var })`} }>as foreground</td>
 						}
 						{
 							radix.startsWith('fg--')
-								? <td className="o⋄text-align⁚center">-</td>
+								? <td className="o⋄text-alignꘌcenter">-</td>
 								: <td style={ {backgroundColor: `var(${ css_var })`} }>as background</td>
 						}
 					</tr>

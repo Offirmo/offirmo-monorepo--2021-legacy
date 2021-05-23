@@ -71,10 +71,10 @@ Activated through classes:
   * `o⋄color⁚secondary`
   * `o⋄color⁚ancillary`
 
-  * `o⋄pad⁚0`
-  * `o⋄pad⁚5`
-  * `o⋄pad⁚7`
-  * `o⋄margin⁚0`
+  * `o⋄padꘌ0`
+  * `o⋄padꘌ5`
+  * `o⋄padꘌ7`
+  * `o⋄marginꘌ0`
 
   * `o⋄flex--row`
   * `o⋄flex--column`
@@ -82,7 +82,7 @@ Activated through classes:
   * `o⋄flex-element--nogrow`
   * `o⋄flex-element--grow`
 
-  * `o⋄text-align⁚center`
+  * `o⋄text-alignꘌcenter`
   * `o⋄overflow-y⁚auto`
   * `o⋄height⁚100pc`
 
@@ -162,9 +162,10 @@ Solution: use a cascade of `class="o⋄top-container"` (optionally starting at `
 using the fancy
 U+205A TWO DOT PUNCTUATION '⁚'
 U+22C4 DIAMOND OPERATOR '⋄'
-
+VAI LENGTHENER 'ꘌ'
 
 TODO evaluate https://hihayk.github.io/shaper/#system-ui,%20sans-serif/1.21/1.01/2.48/0.31/1.65/0.45/296/73/65/13/0.45/3/false
 TODO https://glassmorphism.com/
 TODO https://piccalil.li/tutorial/fluid-typography-with-css-clamp
 TODO https://uxdesign.cc/uniwidth-typefaces-for-interface-design-b6e8078dc0f7
+TODO review units +
