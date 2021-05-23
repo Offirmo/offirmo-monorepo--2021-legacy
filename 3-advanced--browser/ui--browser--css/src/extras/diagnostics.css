@@ -31,6 +31,8 @@ a[href="#"] /* acceptable for page navs? */
 
 /************ SEMANTIC ERRORS ************/
 
+/* TODO https://codeclimate.com/github/facebook/react/packages/react-dom/src/client/validateDOMNesting.js/source */
+
 th:not([scope=col]):not([scope=row])
 {
 	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
@@ -55,7 +57,9 @@ th:not([scope=col]):not([scope=row])
 *[href=""],
 *[id=""],
 *[src=""],
-*[title=""] {
+*[title=""],
+*[summary=""]
+{
 	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
 }
 
@@ -139,10 +143,9 @@ table[cellspacing],
 
 /************ ACCESSIBILITY ************/
 
-  img[alt=""] ,      img:not([alt]),
-  img[title=""],     img:not([title]),
-/*a[title=""],       a:not([title]), No, not needed */
-table[summary=""], table:not([summary]),
+img:not([alt]):not([title]), /* slightly relaxed, we ask only for one of them */
+/*a:not([title]), No, not really needed */
+table:not([summary]),
 a[href="#"], a[href="javascript:void(0)"] /* abuse of a as button https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#onclick_events */
 {
 	border: 3px dashed var(--o⋄color⁚diagnostics--accessibility) !important;

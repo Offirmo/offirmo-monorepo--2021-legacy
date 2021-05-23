@@ -63,9 +63,13 @@ export function Default() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+import DemoBgForestGreen from '@oh-my-rpg/assets--background--artbreeder/src/assets/biome--terrestrial--forest--green/2fd369e60d1911ab963d1636868c.jpeg'
+
 export function FontEffects() {
 	return (
-		<main className="omr⋄font⁚spectral">
+		<main className="o⋄top-container omr⋄font⁚spectral">
+
+			<img alt="green forest" className="o⋄width⁚100pc" src={DemoBgForestGreen} />
 
 			<p className="omr⋄text-with-shadow">
 				Text with shadow.
@@ -85,94 +89,33 @@ export function FontEffects() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function Normalization() {
-	return (
-		<>
-			<div className="o⋄flow">
-				<h1>The five boxing wizards jump quickly</h1>
-				<h2>Sphinx of black quartz, judge my vow!</h2>
-				<h3>Pack my box with five dozen liquor jugs!</h3>
-				<p>
-					{ LIB } provides CSS reset/normalization through
-					{' '}
-					<a href="https://necolas.github.io/normalize.css/">normalize.css</a>
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at varius eros. Curabitur pulvinar metus diam, nec aliquet felis pellentesque et. Ut iaculis aliquam augue, sed vestibulum lacus varius at. Mauris et facilisis massa. Sed vehicula placerat convallis. Sed dui magna, semper non neque non, semper dapibus lacus.
-				</p>
-				<ul>
-					<li>Foo</li>
-					<li>Bar</li>
-				</ul>
-				<ol>
-					<li>Foo</li>
-					<li>Bar</li>
-				</ol>
-
-				<details>
-					<summary>Details: expand me...</summary>
-					<p>Hello, world!</p>
-				</details>
-
-				<dl><dt>Term</dt><dd>Definition.</dd></dl>
-
-				<figure>
-					<img alt="a cute kitty" src='https://placekitten.com/200/300'/>
-					<figcaption>A figure caption!</figcaption>
-				</figure>
-
-				<q>Quoted text</q> <cite>— Author Name</cite>
-			</div>
-		</>
-	)
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export function Fonts() {
 	// https://en.wikipedia.org/wiki/Pangram
 	const pangram = 'The five boxing wizards jump quickly -> Sphinx of black quartz, judge my vow! Pack my box with five dozen liquor jugs…'
 
 	return (
 		<>
-			<p className="o⋄font⁚fast-and-good-enough">
-				Featuring the "fast and good enough" font-family (.o⋄font⁚fast-and-good-enough)
-				<br/>{ pangram }
-			</p>
-			<hr/>
-
-			<p className="o⋄font⁚system">
-				Featuring the "system" font-family (.o⋄font⁚system)
-				<br/>{ pangram }
-			</p>
-			<hr/>
-
-			<p className="o⋄font⁚roboto">
-				Featuring the nice and precise "roboto" font-family (.o⋄font⁚roboto)
-				<br/>{ pangram }
-			</p>
-			<hr/>
-
-			<p className="o⋄font⁚roboto-condensed">
-				Featuring the nice and precise "roboto condensed" font-family (.o⋄font⁚roboto-condensed)
-				<br/>{ pangram }
-			</p>
-			<hr/>
-
-			<p className="o⋄font⁚roboto-mono">
-				Featuring the code wise "roboto mono" font-family (.o⋄font⁚roboto-mono)
-				<br/>{ pangram }
-			</p>
-			<hr/>
 
 			<p className="omr⋄font⁚spectral">
-				Featuring the elegant "Spectral" font-family (.omr⋄font⁚spectral)
+				Featuring the elegant "Spectral" font-family (<code>.omr⋄font⁚spectral</code>)
 				<br/>{ pangram }
 			</p>
 			<hr/>
 
 			<p className="omr⋄font⁚pixantiqua">
-				Featuring the playful "PixAntiqua" font-family (.omr⋄font⁚pixantiqua)
+				Featuring the playful "PixAntiqua" font-family (<code>.omr⋄font⁚pixantiqua</code>)
+				<br/>{ pangram }
+			</p>
+			<hr/>
+
+			<p className="o⋄font⁚roboto">
+				Featuring the nice and precise "roboto" font-family (<code>.o⋄font⁚roboto</code>)
+				<br/>{ pangram }
+			</p>
+			<hr/>
+
+			<p className="o⋄font⁚roboto-condensed">
+				Featuring the nice and precise "roboto condensed" font-family (<code>.o⋄font⁚roboto-condensed</code>)
 				<br/>{ pangram }
 			</p>
 		</>
