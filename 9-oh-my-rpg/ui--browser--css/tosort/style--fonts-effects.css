@@ -1,27 +1,27 @@
 
-/*.omr⋄text-with-shadow.omr⋄font⁚spectral,
+.omr⋄text-with-shadow.omr⋄font⁚spectral,
 .omr⋄text-with-shadow .omr⋄font⁚spectral,
 .omr⋄font⁚spectral .omr⋄text-with-shadow
 {
-	color: var(--o⋄color⁚quasi-white);
+	color: var(--o⋄color⁚bg--main);
 	text-shadow:
 		0.07em 0 black,
 		0 0.07em black,
 		-0.07em 0 black,
 		0 -0.07em black;
-}*/
+}
 
-/*.omr⋄text-with-shadow.omr⋄font⁚pixantiqua,
+.omr⋄text-with-shadow.omr⋄font⁚pixantiqua,
 .omr⋄text-with-shadow .omr⋄font⁚pixantiqua,
 .omr⋄font⁚pixantiqua .omr⋄text-with-shadow
 {
-	color: var(--o⋄color⁚quasi-white);
+	color: var(--o⋄color⁚bg--main);
 	text-shadow:
 		-2px 0 black,
 		0 2px black,
 		2px 0 black,
 		0 -2px black;
-}*/
+}
 
 /*********************/
 

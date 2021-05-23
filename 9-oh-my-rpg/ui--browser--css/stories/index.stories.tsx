@@ -19,7 +19,7 @@ export default {
 
 export function Default() {
 	return (
-		<main className="omr⋄font⁚spectral">
+		<main className="omr⋄font⁚spectral o⋄centered-article">
 			<h1>{ LIB }</h1>
 			<h2>a CSS micro framework for RPGs</h2>
 
@@ -69,6 +69,8 @@ export function FontEffects() {
 	return (
 		<main className="o⋄top-container omr⋄font⁚spectral">
 
+			<h1>TODO one day</h1>
+
 			<p className="omr⋄text-with-shadow">
 				Text with shadow.
 			</p>
@@ -106,7 +108,7 @@ export function Fonts() {
 	const pangram = 'The five boxing wizards jump quickly -> Sphinx of black quartz, judge my vow! Pack my box with five dozen liquor jugs…'
 
 	return (
-		<>
+		<main className="o⋄centered-article">
 
 			<p className="omr⋄font⁚spectral">
 				Featuring the elegant "Spectral" font-family (<code>.omr⋄font⁚spectral</code>)
@@ -129,36 +131,6 @@ export function Fonts() {
 			<p className="o⋄font⁚roboto-condensed">
 				Featuring the nice and precise "roboto condensed" font-family (<code>.o⋄font⁚roboto-condensed</code>)
 				<br/>{ pangram }
-			</p>
-		</>
-	)
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export function Emojis() {
-	return (
-		<main>
-			<p>emoji 13.1
-				https://emojipedia.org/emoji-13.1/
-
-				😮‍💨 Face Exhaling
-				😵‍💫 Face with Spiral Eyes
-				😶‍🌫️ Face in Clouds
-				❤️‍🔥 Heart on Fire
-				❤️‍🩹 Mending Heart
-				🧔‍♀️ Woman: Beard
-				🧔🏻‍♀️ Woman: Light Skin Tone, Beard
-				🧔🏼‍♀️ Woman: Medium-Light Skin Tone, Beard
-				🧔🏽‍♀️ Woman: Medium Skin Tone, Beard
-				🧔🏾‍♀️ Woman: Medium-Dark Skin Tone, Beard
-				🧔🏿‍♀️ Woman: Dark Skin Tone, Beard
-				🧔‍♂️ Man: Beard
-				🧔🏻‍♂️ Man: Light Skin Tone, Beard
-				🧔🏼‍♂️ Man: Medium-Light Skin Tone, Beard
-				🧔🏽‍♂️ Man: Medium Skin Tone, Beard
-				🧔🏾‍♂️ Man: Medium-Dark Skin Tone, Beard
-				🧔🏿‍♂️ Man: Dark Skin Tone, Beard
 			</p>
 		</main>
 	)
@@ -253,7 +225,7 @@ export function Colors() {
 	]
 
 	return (
-		<>
+		<main className="o⋄centered-article">
 
 			<ColorsAsCSSVariablesTable
 				radixes={ SEMANTIC_COLORS_VARS_RADIX }
@@ -266,7 +238,7 @@ export function Colors() {
 				radixes={ BASE_COLORS_VARS_RADIX }
 				caption={ 'Base colors from CSS variables = building blocks (do NOT use directly!)' }
 			/>
-		</>
+		</main>
 	)
 }
 
@@ -274,7 +246,7 @@ export function Colors() {
 
 export function Controls() {
 	return (
-		<>
+		<main className="o⋄centered-article">
 			<p>
 				…some text… <a href="https://bettermotherfuckingwebsite.com/">link</a> …some text… <button>Click me!</button> …some text… <progress value=".5">progress</progress> …some text…
 			</p>
@@ -301,49 +273,7 @@ export function Controls() {
 				<p>Hi</p>
 				<p>Hi</p>
 			</div>
-		</>
-	)
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export function Advanced() {
-	return (
-		<>
-			<nav>
-				<ul className="o⋄nav-list">
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Home</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav1</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav2</a></li>
-				</ul>
-			</nav>
-
-			<hr />
-
-			<div className='o⋄box'>
-				This is a box
-			</div>
-
-			<hr />
-			<ul>
-				<li><span className="o⋄character-as-icon">🗡</span> character as icon <span className="o⋄character-as-icon">🛡 👕 🍽 🍴 🥄 🔪 🗡 ⚔ 🏹 🔧 🔨 ⛏ ⚒ 🛠</span></li>
-				<li><span className="o⋄character-as-icon o⋄rotated⁚45deg">🗡</span> rotated 45°</li>
-				<li><span className="o⋄character-as-icon o⋄rotated⁚90deg">🗡</span> rotated 90°</li>
-				<li><span className="o⋄character-as-icon o⋄rotated⁚180deg">🗡</span> rotated 180°</li>
-				<li><span className="o⋄character-as-icon o⋄rotated⁚270deg">🗡</span> rotated 270°</li>
-			</ul>
-
-			Footer:
-			<hr />
-			<nav>
-				<ul className="o⋄nav-list o⋄flex--centered-content">
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./try">Try all products</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./privacy-policy">Privacy policy</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./customer-agreement">Terms of service</a>
-					</li>
-				</ul>
-			</nav>
-		</>
+		</main>
 	)
 }
 
@@ -351,52 +281,117 @@ export function Advanced() {
 
 export function Containers() {
 	return (
-		<>
-			<p>
-				<code>o⋄top-container</code> = very convenient container to propagate full height (flexbox column)
-			</p>
-			<p>
-				<code>o⋄centered-article</code> = max width + auto-centered
-			</p>
-			<p>
-				<code>o⋄body⁚full-viewport</code> = try to force the body to take the full viewport
-			</p>
+		<div className="o⋄top-container omr⋄bg⁚cover omr⋄font⁚pixantiqua" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
 
-			<hr/>
+			<h1>Immersion <code>o⋄top-container omr⋄bg⁚cover"</code></h1>
 
-			<div className='o⋄box'>
-				This is a box
-			</div>
+			<main className="omr⋄font⁚spectral o⋄centered-article" style={{overflowY: 'scroll'}}>
 
-			<hr />
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
 
-			<div className="o⋄error-report">
-				A sample error report
-				<pre>[Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/stats/Merriweather/normal/900
-				</pre>
-			</div>
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
 
-			<hr />
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
 
-			Default border: <code>o⋄border⁚default</code>
-			<div className="o⋄border⁚default" style={{
-				height: '200px',
-				overflowY: 'scroll',
-			}}>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-			</div>
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
 
-		</>
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+			</main>
+		</div>
 	)
 }
 
