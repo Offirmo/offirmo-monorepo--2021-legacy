@@ -12,7 +12,7 @@
 }
 
 
-[data-o-theme="lod--colorhunt212"] {
+[data-o-theme="dark--colorhunt212"] {
 	--o⋄color⁚bg--main: var(--o⋄color⁚co212__dark);
 	--o⋄color⁚bg--main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
 	--o⋄color⁚bg--highlight--1: rgba(100%, 100%, 100%, .1);

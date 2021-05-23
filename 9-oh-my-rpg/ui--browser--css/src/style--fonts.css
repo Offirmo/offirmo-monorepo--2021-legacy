@@ -1,0 +1,32 @@
+
+@font-face {
+	font-family: 'Spectral';
+	src: url('webfont--spectral-regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'PixAntiqua';
+	src: url('webfont--pixantiqua.woff') format('woff');
+}
+
+/*********************/
+
+:root {
+	--omr⋄font⁚spectral: 'Spectral', sans-serif;
+	--omr⋄font⁚pixantiqua: 'PixAntiqua', sans-serif;
+}
+
+/*********************/
+
+.omr⋄font⁚spectral {
+	font-family: var(--omr⋄font⁚spectral);
+	letter-spacing: -.05px;
+}
+
+.omr⋄font⁚pixantiqua {
+	font-family: var(--omr⋄font⁚pixantiqua);
+	letter-spacing: .35px;
+	line-height: 1.65;
+}
+
+/*********************/

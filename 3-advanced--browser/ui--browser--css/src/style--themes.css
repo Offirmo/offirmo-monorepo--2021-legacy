@@ -4,5 +4,6 @@ TODO steal themes from:
   dark: https://github.com/gaearon/subliminal
  */
 
-@import './style--theme--dark-on-light.css';
-@import './style--theme--light-on-dark.css';
+@import './style--theme--light--black-on-white.css';
+@import './style--theme--dark--white-on-black.css';
+@import './style--theme--dark--colorhunt212.css';

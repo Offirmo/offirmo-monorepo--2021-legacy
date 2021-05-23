@@ -1,9 +1,11 @@
 
-@import '../src/index.css';
-/*@import '../src/style--theme--lod-colorhunt212.css';
-@import '../src/extras/beautiful-website.css';
-@import '../src/extras/diagnostics.css';
-/*@import '../src/extras/debug-snippet.css';*/
+@import '../src/style.css';
+
+
+@import '../node_modules/@offirmo-private/ui--browser--css/src/extras/beautiful-website.css';
+/*@import '../node_modules/@offirmo-private/ui--browser--css/src/extras/debug-snippet.css';*/
+@import '../node_modules/@offirmo-private/ui--browser--css/src/extras/diagnostics.css';
+
 
 body {
 

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import './index.css'
 
-const LIB = '@offirmo-private/ui--browser--css'
+const LIB = '@oh-my-rpg/ui--browser--css'
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,32 +19,66 @@ export default {
 
 export function Default() {
 	return (
-		<main>
-			<h1>{ LIB } = a CSS micro framework</h1>
+		<main className="omr⋄font⁚spectral">
+			<h1>{ LIB }</h1>
+			<h2>a CSS micro framework for RPGs</h2>
 
 			<p>
-				What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default,
-				they are
-				functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web
-				designers out
-				there need to make them not total shit.
+				Ai! laurië lantar lassi súrinen,
+				yéni únótimë ve rámar aldaron!
+				Yéni ve lintë yuldar avánier
+				mi oromardi lissë-miruvóreva
+				Andúnë pella, Vardo tellumar
+				nu luini yassen tintilar i eleni
+				ómaryo airetári-lírinen.
 			</p>
 
 			<p>
-				<strong>emphasized text</strong> &nbsp;
-				Normal text &nbsp;
-				<span className="o⋄color⁚secondary">secondary text</span> &nbsp;
-				<span className="o⋄color⁚ancillary">ancillary text</span> &nbsp;
+				Sí man i yulma nin enquantuva?
+			</p>
+
+			<p>
+				An sí Tintallë Varda Oiolossëo
+				ve fanyar máryat Elentári ortanë
+				ar ilyë tier undulávë lumbulë
+				ar sindanóriello caita mornië
+				i falmalinnar imbë met,
+				ar hísië untúpa Calaciryo míri oialë.
+				Sí vanwa ná, Rómello vanwa, Valimar!
+				Namárië! Nai hiruvalyë Valimar!
+				Nai elyë hiruva! Namárië!
+			</p>
+
+			<p>
+				<strong>emphasized text</strong>{' '}
+				Normal text{' '}
+				<span className="o⋄color⁚secondary">secondary text</span>{' '}
+				<span className="o⋄color⁚ancillary">ancillary text</span>{' '}
 				<a href=".">link</a>
 			</p>
 
-			<p>Strongly inspired by:</p>
-			<ol>
-				<li><a href="https://motherfuckingwebsite.com/">motherfuckingwebsite.com</a>,</li>
-				<li><a href="https://bettermotherfuckingwebsite.com/">bettermotherfuckingwebsite.com</a>,</li>
-				<li><a href="https://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite.com</a></li>
-				<li>and many blogs posts…</li>
-			</ol>
+		</main>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export function FontEffects() {
+	return (
+		<main className="omr⋄font⁚spectral">
+
+			<p className="omr⋄text-with-shadow">
+				Text with shadow.
+			</p>
+
+			<p className="omr⋄text⁚glowing--gold">
+				Text glowing gold.
+			</p>
+
+			<p className="omr⋄text⁚outlined">
+				Text outlined.
+			</p>
+
 		</main>
 	)
 }
@@ -411,149 +445,3 @@ export function Containers() {
 	)
 }
 
-////////////////////////////////////////////////////////////////////////////////////
-
-export function Diagnostics() {
-	return (
-		<>
-			<h2>Empties</h2>
-			<ol>
-				<li>empty line item, comment-only line item, and space-only line item follow:</li>
-				<li></li>
-				<li>{/* can't HTML comment from JSX*/}</li>
-				<li> </li>
-				<li>empty span [ <span></span> ], and a break [ <br/> ]</li>
-				<li>empty div follows: [<div></div>]</li>
-				<li>see also first cell of following table</li>
-			</ol>
-
-
-			<h2>Images</h2>
-
-			<table summary="Testing image attribute based diagnostic styling" id="imgtest">
-				<thead>
-				<tr>
-					<th></th>
-					<th scope="col">no alt</th>
-					<th scope="col">empty alt</th>
-					<th scope="col">filled alt</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<th scope="row">no title</th>
-					<td><img src="https://placekitten.com/64/64" /></td>
-					<td><img src="https://placekitten.com/64/64" alt="" /></td>
-					<td><img src="https://placekitten.com/64/64" alt="blah" /></td>
-				</tr>
-				<tr>
-					<th scope="row">empty title</th>
-					<td><img src="https://placekitten.com/64/64" title="" /></td>
-					<td><img src="https://placekitten.com/64/64" title="" alt="" /></td>
-					<td><img src="https://placekitten.com/64/64" title="" alt="blah" /></td>
-				</tr>
-				<tr>
-					<th scope="row">filled title</th>
-					<td><img src="https://placekitten.com/64/64" title="blah" /></td>
-					<td><img src="https://placekitten.com/64/64" title="blah" alt="" /></td>
-					<td><img src="https://placekitten.com/64/64" title="blah" alt="blah" /></td>
-				</tr>
-				</tbody>
-			</table>
-
-
-			<h2>Tables</h2>
-
-			<table>
-				<tr>
-					<th>A</th>
-					<th>B</th>
-				</tr>
-				<tr>
-					<th>C</th>
-					<td>1</td>
-				</tr>
-			</table>
-
-			<table>
-				<tr>
-					<th scope>A</th>
-					<th scope="">B</th>
-				</tr>
-				<tr>
-					<th scope="diag">C</th>
-					<td>1</td>
-				</tr>
-			</table>
-
-			<table summary="">
-				<tr>
-					<th scope="col">A</th>
-					<th scope="col">B</th>
-				</tr>
-				<tr>
-					<th scope="row">C</th>
-					<td>1</td>
-				</tr>
-			</table>
-
-
-			<h2>Links</h2>
-
-			<ol>
-				<li><a href="none">fillblah</a> (no title, filled href)</li>
-				<li><a href="none" title="">fillblah</a> (empty title, filled href)</li>
-				<li><a href="none" title="blah">fillblah</a> (filled title, filled href)</li>
-				<li><a href="#">blah#</a> (no title, '#' href)</li>
-				<li><a href="#" title="">blah#</a> (empty title, '#' href)</li>
-				<li><a href="#" title="blah">blah#</a> (filled title, '#' href)</li>
-				<li><a href="">blah</a> (no title, blank href)</li>
-				<li><a href="" title="">blah</a> (empty title, blank href)</li>
-				<li><a href="" title="blah">blah</a> (filled title, blank href)</li>
-			</ol>
-
-			<hr />
-			<img src='http://placekitten.com/200/300'/>
-			<a href='http://placekitten.com/'>a nice site in HTTP</a>
-			<iframe src='http://placekitten.com/'/>
-			<a href="#">Home</a>
-		</>
-	)
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export function Debug() {
-	const Wrapper = styled.div`
-	border-width: 1px;
-`
-	return (
-		<Wrapper className="o⋄top-container">
-			<h1>{ LIB } - CSS micro framework</h1>
-
-			<p>
-				What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default,
-				they are
-				functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web
-				designers out
-				there need to make them not total shit.
-			</p>
-
-			<p>
-				<strong>emphasized text</strong> &nbsp;
-				Normal text &nbsp;
-				<span className="o⋄color⁚secondary">secondary text</span> &nbsp;
-				<span className="o⋄color⁚ancillary">ancillary text</span> &nbsp;
-				<a href="#">link</a>
-			</p>
-
-			<p>Strongly inspired by:</p>
-			<ol>
-				<li><a href="https://motherfuckingwebsite.com/">motherfuckingwebsite.com</a>,</li>
-				<li><a href="https://bettermotherfuckingwebsite.com/">bettermotherfuckingwebsite.com</a>,</li>
-				<li><a href="https://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite.com</a></li>
-				<li>and many blogs posts…</li>
-			</ol>
-		</Wrapper>
-	)
-}

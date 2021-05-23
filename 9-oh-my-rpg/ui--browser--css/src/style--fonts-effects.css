@@ -1,28 +1,5 @@
 
-@font-face {
-	font-family: 'Spectral';
-	src: url('webfont--spectral-regular.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'PixAntiqua';
-	src:url('webfont--pixantiqua.woff') format('woff');
-}
-
-/*********************/
-
-:root {
-	--omr⋄font⁚spectral: 'Spectral', sans-serif;
-	--omr⋄font⁚pixantiqua: 'PixAntiqua', sans-serif;
-}
-
-/*********************/
-
-.omr⋄font⁚spectral {
-	font-family: var(--omr⋄font⁚spectral);
-	letter-spacing: -.05px;
-}
-.omr⋄text-with-shadow.omr⋄font⁚spectral,
+/*.omr⋄text-with-shadow.omr⋄font⁚spectral,
 .omr⋄text-with-shadow .omr⋄font⁚spectral,
 .omr⋄font⁚spectral .omr⋄text-with-shadow
 {
@@ -32,14 +9,9 @@
 		0 0.07em black,
 		-0.07em 0 black,
 		0 -0.07em black;
-}
+}*/
 
-.omr⋄font⁚pixantiqua {
-	font-family: var(--omr⋄font⁚pixantiqua);
-	letter-spacing: .35px;
-	line-height: 1.65;
-}
-.omr⋄text-with-shadow.omr⋄font⁚pixantiqua,
+/*.omr⋄text-with-shadow.omr⋄font⁚pixantiqua,
 .omr⋄text-with-shadow .omr⋄font⁚pixantiqua,
 .omr⋄font⁚pixantiqua .omr⋄text-with-shadow
 {
@@ -49,7 +21,7 @@
 		0 2px black,
 		2px 0 black,
 		0 -2px black;
-}
+}*/
 
 /*********************/
 
@@ -60,10 +32,10 @@
 }
 
 /* credits: https://www.dota2.com/international/battlepass/ 2020/06 */
-[data-o-theme^='lod--'] .omr⋄text⁚outlined  {
+[data-o-theme^='light--'] .omr⋄text⁚outlined  {
 	text-shadow: 0 2px 1px rgba(0,0,0,0.8);
 }
 .omr⋄text⁚outlined,
-[data-o-theme^='dol--'] .omr⋄text⁚outlined  {
+[data-o-theme^='dark--'] .omr⋄text⁚outlined  {
 	text-shadow: 0 2px 1px rgba(255,255,255,0.8);
 }

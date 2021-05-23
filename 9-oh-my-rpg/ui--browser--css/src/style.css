@@ -4,14 +4,14 @@
 @import '../node_modules/@offirmo-private/ui--browser--css/src/style.css';
 
 @import './parent-overrides.css';
-@import './themes.css';
+@import './style--themes.css';
+@import './style--fonts.css';
 
 /*
 @import './style--backgrounds.css';
 @import './style--colors.css';
 @import './style--containers.css';
 @import './style--cursors.css';
-@import './style--fonts.css';
 @import './style--icomoon.css';
 @import './style--ui.css';
 */

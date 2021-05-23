@@ -83,7 +83,7 @@ export function Normalization() {
 				<dl><dt>Term</dt><dd>Definition.</dd></dl>
 
 				<figure>
-					<img src='https://placekitten.com/200/300'/>
+					<img alt="a cute kitty" src='https://placekitten.com/200/300'/>
 					<figcaption>A figure caption!</figcaption>
 				</figure>
 
