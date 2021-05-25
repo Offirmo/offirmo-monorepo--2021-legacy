@@ -281,7 +281,7 @@ export function Controls() {
 
 export function Containers() {
 	return (
-		<div className="o⋄top-container omr⋄bg⁚cover omr⋄font⁚pixantiqua" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
+		<div className="o⋄top-container omr⋄bg⁚cover omr⋄font⁚pixantiqua o⋄text-alignꘌcenter" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
 
 			<h1>Immersion <code>o⋄top-container omr⋄bg⁚cover"</code></h1>
 
@@ -301,7 +301,7 @@ export function Containers() {
 					Sí man i yulma nin enquantuva?
 				</p>
 
-				<p>
+				<p className="o⋄bg-colorꘌbackdrop">
 					An sí Tintallë Varda Oiolossëo
 					ve fanyar máryat Elentári ortanë
 					ar ilyë tier undulávë lumbulë
@@ -391,6 +391,20 @@ export function Containers() {
 					Nai elyë hiruva! Namárië!
 				</p>
 			</main>
+
+			<div>
+				controls
+				<nav className="o⋄bg-colorꘌbackdrop toolbar">
+					<ul className="o⋄nav-list o⋄flex--centered-content">
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">🗺</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">⚔️💰</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">👤</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">🏆</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">💬</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">⚙️</span></a></li>
+					</ul>
+				</nav>
+			</div>
 		</div>
 	)
 }

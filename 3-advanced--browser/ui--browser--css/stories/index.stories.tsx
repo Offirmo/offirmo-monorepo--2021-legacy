@@ -20,7 +20,8 @@ export default {
 export function Default() {
 	return (
 		<main>
-			<h1>{ LIB } = a CSS micro framework</h1>
+			<h1>{ LIB }</h1>
+			<h2>a CSS micro framework</h2>
 
 			<p>
 				What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default,

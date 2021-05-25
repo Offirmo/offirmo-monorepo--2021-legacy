@@ -1,3 +1,5 @@
+/* Traditional, most efficient theme
+ */
 
 :root {
 
@@ -7,9 +9,10 @@
 :root, /* this theme is the default */
 [data-o-theme="dark-on-light"] {
 	--o⋄color⁚bg--main: var(--o⋄color⁚dolt__quasi-white);
-	--o⋄color⁚bg--main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
-	--o⋄color⁚bg--highlight--1: rgba(0, 0, 0, .1);
-	--o⋄color⁚bg--highlight--2: rgba(0, 0, 0, .3);
+	--o⋄color⁚bg--main--backdrop: hsla(0, 0%, 98%, .88);
+
+	--o⋄color⁚bg--highlight--1: hsla(0, 0%, 17%, .1);
+	--o⋄color⁚bg--highlight--2: hsla(0, 0%, 17%, .3);
 
 	--o⋄color⁚fg--main: var(--o⋄color⁚dolt__quasi-black);
 	--o⋄color⁚fg--secondary: hsla(0, 0%, 17%, .66);

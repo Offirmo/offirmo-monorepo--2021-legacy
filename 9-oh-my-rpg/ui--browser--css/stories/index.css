@@ -14,3 +14,13 @@ body {
 #docs-root {
 	padding: 0;
 }
+
+.emoji-as-icon {
+	vertical-align: text-top;
+}
+nav.toolbar {
+	border: 1px solid;
+	display: inline-block;
+	padding: .1em 2.1em;
+	border-radius: 1em;
+}

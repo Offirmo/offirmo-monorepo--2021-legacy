@@ -14,9 +14,10 @@
 
 [data-o-theme="dark--colorhunt212"] {
 	--o⋄color⁚bg--main: var(--o⋄color⁚co212__dark);
-	--o⋄color⁚bg--main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
-	--o⋄color⁚bg--highlight--1: rgba(100%, 100%, 100%, .1);
-	--o⋄color⁚bg--highlight--2: rgba(100%, 100%, 100%, .2);
+	--o⋄color⁚bg--main--backdrop: rgba(41, 40, 48, .8);
+
+	--o⋄color⁚bg--highlight--1: rgba(41, 40, 48, .1);
+	--o⋄color⁚bg--highlight--2: rgba(41, 40, 48, .2);
 
 	--o⋄color⁚fg--main: var(--o⋄color⁚co212__beige);
 	--o⋄color⁚fg--secondary: rgba(255, 235, 188, 0.66);
@@ -25,7 +26,7 @@
 	--o⋄color⁚fg--accent: var(--o⋄color⁚co212__blue);
 
 	/* levels */
-	/*--o⋄color⁚fg--error: hsl(19, 81%, 56%);*/
+	/*--o⋄color⁚fg--error: hsl(19, 81%, 56%); TODO review*/
 	--o⋄color⁚fg--error: red;
 	--o⋄color⁚fg--warning: var(--o⋄color⁚boz__yellow);
 	--o⋄color⁚fg--info: var(--o⋄color⁚boz__blue);

@@ -26,3 +26,6 @@ Reflexion
 
 Existing "alien" languages
 * https://en.wikipedia.org/wiki/Ithkuil
+
+Alien fonts
+* https://www.dafont.com/theme.php?cat=701&page=1

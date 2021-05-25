@@ -1,10 +1,14 @@
 
 @import '../src/style.css';
-@import '../src/style--theme--lod-colorhunt212.css';
+@import '../src/style--theme--dark--colorhunt212.css';
 @import '../src/extras/beautiful-website.css';
 @import '../src/extras/diagnostics.css';
 /*@import '../src/extras/debug-snippet.css';*/
 
 body {
 
+}
+
+#docs-root {
+	padding: 0;
 }
