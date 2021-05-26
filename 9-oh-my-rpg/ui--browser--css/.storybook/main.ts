@@ -6,10 +6,12 @@ module.exports = {
 	],
 	'addons': [
 		'@geometricpanda/storybook-addon-iframe',
-		//require.resolve('storybook-addon-grid/preset'),
 		'@storybook/addon-essentials',
 		'@storybook/addon-links',
+		'storybook-addon-jsx',
 		'storybook-dark-mode/register',
+		'storybook-mobile',
+		//require.resolve('storybook-addon-grid/preset'),
 	],
 	reactOptions: {
 		fastRefresh: true,
