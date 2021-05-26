@@ -32,11 +32,11 @@ export function Default() {
 			</p>
 
 			<p>
-				<strong>emphasized text</strong> &nbsp;
-				Normal text &nbsp;
-				<span className="o⋄color⁚secondary">secondary text</span> &nbsp;
-				<span className="o⋄color⁚ancillary">ancillary text</span> &nbsp;
-				<a href=".">link</a>
+				<strong>emphasized text</strong>{' '}
+				Normal text{' '}
+				<span className="o⋄color⁚secondary">secondary text</span>{' '}
+				<span className="o⋄color⁚ancillary">ancillary text</span>{' '}
+				<a href=".">link</a>{' '}
 			</p>
 
 			<p>Strongly inspired by:</p>
@@ -296,7 +296,7 @@ export function Controls() {
 				sites</button> easier to read...
 			</p>
 
-			Scrollbar
+			Nicer scrollbars by default
 			<div className="o⋄border⁚default" style={{
 				height: '200px',
 				overflowY: 'scroll',
@@ -329,12 +329,6 @@ export function Advanced() {
 					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav2</a></li>
 				</ul>
 			</nav>
-
-			<hr />
-
-			<div className='o⋄box'>
-				This is a box
-			</div>
 
 			<hr />
 			<ul>
@@ -374,11 +368,43 @@ export function Containers() {
 				<code>o⋄body⁚full-viewport</code> = try to force the body to take the full viewport
 			</p>
 
-			<hr/>
-
 			<div className='o⋄box'>
 				This is a box
 			</div>
+
+			<div style={{
+				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+				backgroundImage: `url(https://placekitten.com/1024/512)`,
+				padding: '5px',
+				margin: '5px 0',
+			}}>
+				<p className="o⋄bg-colorꘌbackdrop">
+					Text on a backdrop <code>o⋄bg-colorꘌbackdrop</code>
+				</p>
+			</div>
+
+			<hr />
+
+			Default border <code>o⋄border⁚default</code> + y-scroll <code>o⋄overflow-y⁚auto</code>
+			<div className="o⋄border⁚default o⋄overflow-y⁚auto" style={{height: '100px'}}>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+				<p>Hi</p>
+			</div>
+
+			<p>
+				img with 100% width: <code>o⋄width⁚100pc</code>
+				<img alt="cute kitten" className="o⋄width⁚100pc" src="https://placekitten.com/1024/512" />
+			</p>
 
 			<hr />
 
@@ -387,34 +413,6 @@ export function Containers() {
 				<pre>[Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/stats/Merriweather/normal/900
 				</pre>
 			</div>
-
-			<hr />
-
-			Default border: <code>o⋄border⁚default</code>
-			<div className="o⋄border⁚default" style={{
-				height: '200px',
-				overflowY: 'scroll',
-			}}>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-				<p>Hi</p>
-			</div>
-
-			<hr />
-
-			<p>
-				img with 100% width: <code>o⋄width⁚100pc</code>
-				<img alt="cute kitten" className="o⋄width⁚100pc" src="https://placekitten.com/1024/512" />
-			</p>
-
 		</>
 	)
 }
@@ -552,7 +550,7 @@ export function Debug() {
 				Normal text &nbsp;
 				<span className="o⋄color⁚secondary">secondary text</span> &nbsp;
 				<span className="o⋄color⁚ancillary">ancillary text</span> &nbsp;
-				<a href="#">link</a>
+				<a href=".">link</a>
 			</p>
 
 			<p>Strongly inspired by:</p>

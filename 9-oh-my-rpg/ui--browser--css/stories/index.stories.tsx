@@ -1,6 +1,7 @@
 import { Story, Meta } from '@storybook/react'
 import styled from 'styled-components'
 
+import { default_viewport__mobile } from '../../../0-meta/storybook-viewports'
 import './index.css'
 
 const LIB = '@oh-my-rpg/ui--browser--css'
@@ -65,9 +66,9 @@ export function Default() {
 
 import DemoBgForestGreen from '@oh-my-rpg/assets--background--artbreeder/src/assets/biome--terrestrial--forest--green/2fd369e60d1911ab963d1636868c.jpeg'
 // 			<img alt="green forest" className="xxo⋄width⁚100pc" src={DemoBgForestGreen} />
-export function FontEffects() {
+export function FontEffectsTODO() {
 	return (
-		<main className="o⋄top-container omr⋄font⁚spectral">
+		<main className="o⋄top-container omr⋄font⁚spectral o⋄centered-article">
 
 			<h1>TODO one day</h1>
 
@@ -392,7 +393,7 @@ export function Containers() {
 				</p>
 			</main>
 
-			<div>
+			<footer>
 				controls
 				<nav className="o⋄bg-colorꘌbackdrop toolbar">
 					<ul className="o⋄nav-list o⋄flex--centered-content">
@@ -404,8 +405,144 @@ export function Containers() {
 						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">⚙️</span></a></li>
 					</ul>
 				</nav>
-			</div>
+			</footer>
 		</div>
 	)
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+
+export function GameDemo() {
+	return (
+		<div className="o⋄top-container omr⋄bg⁚cover omr⋄font⁚pixantiqua" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
+
+			<h1>Immersion <code>o⋄top-container omr⋄bg⁚cover"</code></h1>
+
+			<main className="omr⋄font⁚spectral o⋄centered-article" style={{overflowY: 'scroll'}}>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p className="o⋄bg-colorꘌbackdrop">
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+			</main>
+
+			<footer className="o⋄text-alignꘌcenter">
+				<nav className="o⋄bg-colorꘌbackdrop toolbar">
+					<ul className="o⋄nav-list o⋄flex--centered-content">
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">🗺</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">⚔️💰</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">👤</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">🏆</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">💬</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">⚙️</span></a></li>
+					</ul>
+				</nav>
+			</footer>
+
+		</div>
+	)
+}
+GameDemo.parameters = {
+	viewport: {
+		defaultViewport: default_viewport__mobile,
+	},
+};

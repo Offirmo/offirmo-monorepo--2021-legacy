@@ -92,13 +92,15 @@ progress::-ms-fill {
 /* Standard
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars
  */
-* {
+html, body {
 	/* <scrollbar color> <scrollbar track color> */
 	scrollbar-color: var(--o⋄color⁚bg--highlight--1) var(--o⋄color⁚bg--main);
 	scrollbar-width: thin;
 }
+*, *::before, *::after { scrollbar-color: inherit; scrollbar-width: inherit; }
 
-/* Chrome
+
+/* non-standard Chrome
  * https://stackoverflow.com/a/14150577/587407
  * https://css-tricks.com/almanac/properties/s/scrollbar/
  */

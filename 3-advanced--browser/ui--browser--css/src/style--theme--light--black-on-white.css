@@ -9,7 +9,7 @@
 :root, /* this theme is the default */
 [data-o-theme="dark-on-light"] {
 	--o⋄color⁚bg--main: var(--o⋄color⁚dolt__quasi-white);
-	--o⋄color⁚bg--main--backdrop: hsla(0, 0%, 98%, .88);
+	--o⋄color⁚bg--main--backdrop: hsla(0, 0%, 98%, .75);
 
 	--o⋄color⁚bg--highlight--1: hsla(0, 0%, 17%, .1);
 	--o⋄color⁚bg--highlight--2: hsla(0, 0%, 17%, .3);

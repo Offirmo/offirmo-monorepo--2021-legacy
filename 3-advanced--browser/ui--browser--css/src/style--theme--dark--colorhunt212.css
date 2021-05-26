@@ -14,7 +14,7 @@
 
 [data-o-theme="dark--colorhunt212"] {
 	--o⋄color⁚bg--main: var(--o⋄color⁚co212__dark);
-	--o⋄color⁚bg--main--backdrop: rgba(41, 40, 48, .8);
+	--o⋄color⁚bg--main--backdrop: rgba(41, 40, 48, .75);
 
 	--o⋄color⁚bg--highlight--1: rgba(41, 40, 48, .1);
 	--o⋄color⁚bg--highlight--2: rgba(41, 40, 48, .2);

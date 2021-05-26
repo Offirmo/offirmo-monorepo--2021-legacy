@@ -1,6 +1,7 @@
 // https://storybook.js.org/docs/react/configure/overview#configure-story-rendering
 
 import '@storybook/addon-console'
+import VIEWPORTS from '../../../0-meta/storybook-viewports'
 
 export const parameters = {
 	actions: {
@@ -22,6 +23,7 @@ export const parameters = {
 	},
 	viewport: {
 		// https://storybook.js.org/docs/react/essentials/viewport
+		viewports: VIEWPORTS,
 		//defaultViewport: 'mobile1',
 	},
 	// https://storybook.js.org/addons/storybook-addon-paddings

@@ -9,7 +9,7 @@
  */
 [data-o-theme="light-on-dark"] {
 	--o⋄color⁚bg--main: var(--o⋄color⁚dolt__quasi-black);
-	--o⋄color⁚bg--main--backdrop: hsla(0, 0%, 17%, .9);
+	--o⋄color⁚bg--main--backdrop: hsla(0, 0%, 17%, .75);
 
 	--o⋄color⁚bg--highlight--1: hsla(0, 0%, 98%, .2);
 	--o⋄color⁚bg--highlight--2: hsla(0, 0%, 98%, .4);
