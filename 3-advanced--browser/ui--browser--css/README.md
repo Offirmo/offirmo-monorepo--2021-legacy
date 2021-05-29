@@ -56,7 +56,6 @@ Activated through classes:
   * `o⋄box`
   * `o⋄text-noselect`
   * `o⋄nav-list`
-  * `o⋄flow`
   * `o⋄button--inline`
   * `o⋄plain-list`
 
@@ -93,7 +92,6 @@ Activated through classes:
   * `o⋄rotated⁚90deg`
   * `o⋄rotated⁚180deg`
   * `o⋄rotated⁚270deg`
-  * `o⋄invert-to-dark-mode`
 
 * data selectors
   * `data-o-theme="light-on-dark"` (dark-on-light being the default)
@@ -166,6 +164,9 @@ VAI LENGTHENER 'ꘌ'
 
 TODO evaluate https://hihayk.github.io/shaper/#system-ui,%20sans-serif/1.21/1.01/2.48/0.31/1.65/0.45/296/73/65/13/0.45/3/false
 TODO https://glassmorphism.com/
-TODO https://piccalil.li/tutorial/fluid-typography-with-css-clamp
+TODO https://piccalil.li/quick-tips/
 TODO https://uxdesign.cc/uniwidth-typefaces-for-interface-design-b6e8078dc0f7
 TODO review units +
+TODO review scalability
+TODO review font size https://tonsky.me/blog/font-size/
+TODO https://mxstbr.com/thoughts/margin/ https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/

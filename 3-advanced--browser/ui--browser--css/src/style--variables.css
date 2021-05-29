@@ -1,0 +1,15 @@
+
+
+:root {
+	--o⋄scale: 1.0; /* overall scale of the UI, to allow programmatic scaling TODO */
+
+	/* transfer the env() to variables so that
+	 * - we can programmatically read them
+	 * - we can override them
+	 * Of course only the var() version must be used in the framework.
+	 */
+	--o⋄safe-area-inset--top:    env(safe-area-inset-top,    0px);
+	--o⋄safe-area-inset--right:  env(safe-area-inset-right,  0px);
+	--o⋄safe-area-inset--bottom: env(safe-area-inset-bottom, 0px);
+	--o⋄safe-area-inset--left:   env(safe-area-inset-left,   0px);
+}

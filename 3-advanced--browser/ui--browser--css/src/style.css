@@ -2,6 +2,7 @@
 
 @import '../node_modules/normalize.css/normalize.css';
 
+@import './style--variables.css';
 @import './style--reset.css';
 @import './style--reset--controls.css';
 @import './style--colors.css';

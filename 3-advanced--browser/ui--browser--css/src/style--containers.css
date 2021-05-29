@@ -17,7 +17,7 @@
 }
 
 .o⋄centered-article {
-	max-width: 650px; /* a suggested good max width for text content. Taken from https://bettermotherfuckingwebsite.com/ */
+	max-width: var(--o⋄content-recommended-width);
 	width: 100%; /* avoid lower than max if possible. Possible alternative: inherit */
 
 	margin: 0 auto;/* horizontal centering */
@@ -53,6 +53,7 @@
 
 .o⋄box {
 	padding: 1em;
+	/* XXX * 1 ??? */
 	border: solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color⁚fg--main);
 }
 .o⋄bg-colorꘌbackdrop {

@@ -894,3 +894,5 @@ But there also exists a less visible but nonetheless effective form of censorshi
 https://en.wikipedia.org/wiki/Scientific_Revolution
 
 https://earther.gizmodo.com/melting-ice-in-the-alps-has-revealed-world-war-i-relics-1846836951
+
+https://rpg.stackexchange.com/questions/185365/is-there-an-in-universe-reason-why-each-wizard-uses-different-notation-in-their

@@ -4,7 +4,7 @@
 :root {
 	--o⋄border--thickness: 1px;
 	--o⋄font-size--default: 14px;
-	/*--o⋄border--thickness: .08em;*/
+	--o⋄content-recommended-width: 650px; /* a suggested good max width for text content. Taken from https://bettermotherfuckingwebsite.com/ */
 }
 
 /* apply a natural box layout model to all elements, but allowing components to change
@@ -42,7 +42,7 @@ html {
 
 body {
 	/* adapted from https://perfectmotherfuckingwebsite.com */
-	max-width: 650px;
+	max-width: var(--o⋄content-recommended-width);
 	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
 	padding: 40px 10px;
 	font-family: var(--o⋄font-family--fast_and_good_enough);
@@ -137,3 +137,4 @@ iframe {
 	/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes */
 	border: 0;
 }
+

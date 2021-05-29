@@ -2,6 +2,7 @@ import { Story, Meta } from '@storybook/react'
 import styled from 'styled-components'
 
 import { default_viewport__mobile } from '../../../0-meta/storybook-viewports'
+
 import './index.css'
 
 const LIB = '@oh-my-rpg/ui--browser--css'
@@ -208,10 +209,6 @@ export function Colors() {
 		'lighter--10',
 		'lighter--20',
 		'lighter--90',
-		'dolt__quasi-black',
-		'dolt__dark-grey',
-		'dolt__medium-grey',
-		'dolt__quasi-white',
 		'boz__gray',
 		'boz__yellow',
 		'boz__pink',
@@ -545,4 +542,4 @@ GameDemo.parameters = {
 	viewport: {
 		defaultViewport: default_viewport__mobile,
 	},
-};
+}

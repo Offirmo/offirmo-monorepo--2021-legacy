@@ -1,11 +1,7 @@
 /*********************/
 /* borders for debug, display only if debug activated */
 
-/* comment/uncomment this for debug
-.o⋄top-container {
-	border-width: 1px;
-}
-*/
+
 
 .o⋄top-container {
 	/* debug technique */
@@ -13,18 +9,13 @@
 	border-style: solid;
 	border-width: 0;
 }
+/* comment/uncomment this for debug*/
+/*.o⋄top-container {
+	border-width: 1px;
+}*/
 
 /* Note: will only work if has class o⋄top-container (should) */
 html                                  { border-color: red; }
 body                                  { border-color: greenyellow; }
 body .o⋄top-container:nth-child(odd)  { border-color: greenyellow; }
 body .o⋄top-container:nth-child(even) { border-color: red; }
-
-
-/*
-/*#root, #app         { border-color: blue; }  commonly used in react
-
-#root > .o⋄top-container:first-child,
-#app > .o⋄top-container:first-child
-                    { border-color: coral; }
-*/

@@ -1,6 +1,8 @@
 import { Story, Meta } from '@storybook/react'
 import styled from 'styled-components'
 
+import { default_viewport__mobile } from '../../../0-meta/storybook-viewports'
+
 import './index.css'
 
 const LIB = '@offirmo-private/ui--browser--css'
@@ -55,7 +57,7 @@ export function Default() {
 export function Normalization() {
 	return (
 		<>
-			<div className="o⋄flow">
+			<div>
 				<h1>The five boxing wizards jump quickly</h1>
 				<h2>Sphinx of black quartz, judge my vow!</h2>
 				<h3>Pack my box with five dozen liquor jugs!</h3>
@@ -96,6 +98,84 @@ export function Normalization() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export function Semantic() {
+	return (
+		<div className="o⋄font⁚fast-and-good-enough o⋄flow">
+			<header>
+				<nav>
+					<ul className="o⋄nav-list">
+						<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Home</a></li>
+						<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav1</a></li>
+						<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav2</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<hr className="o⋄border-color⁚ancillary"/>
+
+			<main>
+				<article>
+					<h1>The five boxing wizards jump quickly</h1>
+					Posted <time datetime="2017-01-01">1y ago</time>.
+					<figure>
+						<img alt="a cute kitty" src='https://placekitten.com/200/300'/>
+						<figcaption>A figure caption!</figcaption>
+					</figure>
+					<h2>Sphinx of black quartz, judge my vow!</h2>
+					<h3>Pack my box with five dozen liquor jugs!</h3>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id augue ante. Aliquam tristique viverra tellus sed ullamcorper. Vivamus velit ipsum, tempus et sapien sit amet, luctus ultricies est. Phasellus ac ipsum vulputate, volutpat libero non, dictum ligula. Cras tincidunt justo urna, nec consequat lectus luctus vel. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec lacinia sed nisi nec viverra.
+					</p>
+					<p>
+						Maecenas in laoreet est. Morbi blandit enim magna, a semper orci facilisis quis. In vehicula sagittis turpis vel eleifend. Nullam aliquet feugiat cursus. Mauris orci purus, pellentesque vitae interdum eu, blandit sed ligula. Cras eu mattis quam, vel ornare ante. Duis molestie eros dui, at varius odio viverra in. In rhoncus, ante eget fermentum eleifend, massa eros tincidunt purus, quis maximus sapien odio ut enim. Suspendisse ex purus, aliquet sed velit porta, tempus sodales lorem.
+					</p>
+					<h3>Pack my box with five dozen liquor jugs!</h3>
+					<p>
+						Pellentesque gravida tincidunt risus sit amet varius. Cras ac luctus mauris. Aliquam erat volutpat. In hac habitasse platea dictumst. Aliquam metus sapien, suscipit vel dapibus a, convallis nec lorem. Suspendisse ac rhoncus urna, nec ornare metus. Sed at porttitor nisl. Curabitur vestibulum tempus mattis.
+					</p>
+					<ul>
+						<li>Foo</li>
+						<li>Bar</li>
+					</ul>
+					<p>
+						Nullam euismod massa neque, vitae sollicitudin diam tincidunt non. Phasellus interdum felis congue, semper libero et, efficitur mauris. Aenean velit leo, egestas dignissim enim ut, tincidunt facilisis velit. Aliquam orci augue, facilisis nec mauris quis, finibus sagittis quam. Morbi orci libero, consequat in placerat sit amet, dignissim at elit. Curabitur lobortis neque vel aliquet ultrices. Mauris efficitur auctor pulvinar. In finibus nunc quis nisl interdum fermentum sit amet at odio. Suspendisse vitae lorem vulputate, eleifend nunc nec, scelerisque enim. Aliquam vulputate venenatis porttitor. In hac habitasse platea dictumst.
+					</p>
+					<ol>
+						<li>Foo</li>
+						<li>Bar</li>
+					</ol>
+					<p>
+						Vestibulum varius nisl a ante vehicula, eu euismod justo ornare. Praesent purus velit, finibus at varius sed, malesuada et orci. Integer vel accumsan enim, sit amet elementum lorem. Fusce tincidunt urna vitae ligula vehicula, consectetur sagittis orci bibendum. Praesent quis velit in massa aliquam commodo in ut elit. Nulla viverra lectus in nibh semper, id ultricies est vehicula. Phasellus fermentum eget augue vitae consequat. Praesent bibendum fringilla ullamcorper. Praesent luctus ultrices enim, dapibus pretium tortor hendrerit vel. Fusce ultrices, risus vitae iaculis vehicula, ipsum dui tincidunt lacus, eu volutpat nibh magna vitae nisi. Aliquam quis nibh in erat faucibus cursus sit amet nec nisi. Sed bibendum diam ut eros pharetra tempus.
+					</p>
+					<q>[Quoted text] Vestibulum varius nisl a ante vehicula, eu euismod justo ornare. Praesent purus velit, finibus at varius sed, malesuada et orci.</q> <cite>— Author Name</cite>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at varius eros. Curabitur pulvinar metus diam, nec aliquet felis pellentesque et. Ut iaculis aliquam augue, sed vestibulum lacus varius at. Mauris et facilisis massa. Sed vehicula placerat convallis. Sed dui magna, semper non neque non, semper dapibus lacus.
+					</p>
+				</article>
+				<aside>
+					[aside]
+				</aside>
+			</main>
+
+			<hr className="o⋄border-color⁚ancillary"/>
+
+			<footer>
+				bla bla copyright links
+				<nav>
+					<ul className="o⋄nav-list o⋄flex--centered-content">
+						<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./try">Try all products</a></li>
+						<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./privacy-policy">Privacy policy</a></li>
+						<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./customer-agreement">Terms of service</a>
+						</li>
+					</ul>
+				</nav>
+			</footer>
+		</div>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export function Fonts() {
 	// https://en.wikipedia.org/wiki/Pangram
 	const pangram = 'The five boxing wizards jump quickly -> Sphinx of black quartz, judge my vow! Pack my box with five dozen liquor jugs…'
@@ -128,18 +208,6 @@ export function Fonts() {
 
 			<p className="o⋄font⁚roboto-mono">
 				Featuring the code wise "roboto mono" font-family (.o⋄font⁚roboto-mono)
-				<br/>{ pangram }
-			</p>
-			<hr/>
-
-			<p className="omr⋄font⁚spectral">
-				Featuring the elegant "Spectral" font-family (.omr⋄font⁚spectral)
-				<br/>{ pangram }
-			</p>
-			<hr/>
-
-			<p className="omr⋄font⁚pixantiqua">
-				Featuring the playful "PixAntiqua" font-family (.omr⋄font⁚pixantiqua)
 				<br/>{ pangram }
 			</p>
 		</>
@@ -247,10 +315,6 @@ export function Colors() {
 		'lighter--10',
 		'lighter--20',
 		'lighter--90',
-		'dolt__quasi-black',
-		'dolt__dark-grey',
-		'dolt__medium-grey',
-		'dolt__quasi-white',
 		'boz__gray',
 		'boz__yellow',
 		'boz__pink',
@@ -322,15 +386,6 @@ export function Controls() {
 export function Advanced() {
 	return (
 		<>
-			<nav>
-				<ul className="o⋄nav-list">
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Home</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav1</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav2</a></li>
-				</ul>
-			</nav>
-
-			<hr />
 			<ul>
 				<li><span className="o⋄character-as-icon">🗡</span> character as icon <span className="o⋄character-as-icon">🛡 👕 🍽 🍴 🥄 🔪 🗡 ⚔ 🏹 🔧 🔨 ⛏ ⚒ 🛠</span></li>
 				<li><span className="o⋄character-as-icon o⋄rotated⁚45deg">🗡</span> rotated 45°</li>
@@ -338,17 +393,6 @@ export function Advanced() {
 				<li><span className="o⋄character-as-icon o⋄rotated⁚180deg">🗡</span> rotated 180°</li>
 				<li><span className="o⋄character-as-icon o⋄rotated⁚270deg">🗡</span> rotated 270°</li>
 			</ul>
-
-			Footer:
-			<hr />
-			<nav>
-				<ul className="o⋄nav-list o⋄flex--centered-content">
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./try">Try all products</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./privacy-policy">Privacy policy</a></li>
-					<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./customer-agreement">Terms of service</a>
-					</li>
-				</ul>
-			</nav>
 		</>
 	)
 }
@@ -415,6 +459,145 @@ export function Containers() {
 			</div>
 		</>
 	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export function AppDemo() {
+	return (
+		<div className="o⋄top-container">
+
+			<header className="o⋄border⁚default">
+				[header]
+			</header>
+
+			<main className="o⋄overflow-y⁚auto">
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p className="o⋄bg-colorꘌbackdrop">
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+
+				<p>
+					Ai! laurië lantar lassi súrinen,
+					yéni únótimë ve rámar aldaron!
+					Yéni ve lintë yuldar avánier
+					mi oromardi lissë-miruvóreva
+					Andúnë pella, Vardo tellumar
+					nu luini yassen tintilar i eleni
+					ómaryo airetári-lírinen.
+				</p>
+
+				<p>
+					Sí man i yulma nin enquantuva?
+				</p>
+
+				<p>
+					An sí Tintallë Varda Oiolossëo
+					ve fanyar máryat Elentári ortanë
+					ar ilyë tier undulávë lumbulë
+					ar sindanóriello caita mornië
+					i falmalinnar imbë met,
+					ar hísië untúpa Calaciryo míri oialë.
+					Sí vanwa ná, Rómello vanwa, Valimar!
+					Namárië! Nai hiruvalyë Valimar!
+					Nai elyë hiruva! Namárië!
+				</p>
+			</main>
+
+			<footer className="o⋄text-alignꘌcenter o⋄border⁚default">
+				<nav className="o⋄bg-colorꘌbackdrop toolbar">
+					<ul className="o⋄nav-list o⋄flex--centered-content">
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">🗺</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">⚔️💰</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">👤</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">🏆</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">💬</span></a></li>
+						<li className="o⋄text-noselect"><a href="."><span className="emoji-as-icon">⚙️</span></a></li>
+					</ul>
+				</nav>
+			</footer>
+
+		</div>
+	)
+}
+AppDemo.parameters = {
+	viewport: {
+		defaultViewport: default_viewport__mobile,
+	},
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -561,5 +744,25 @@ export function Debug() {
 				<li>and many blogs posts…</li>
 			</ol>
 		</Wrapper>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export function Experimental() {
+	return (
+		<>
+			<p className="o⋄glass">
+				<code>o⋄glass</code>
+			</p>
+			<p>
+				<code>o⋄outline</code>
+				<span className="o⋄outline">Test</span>
+			</p>
+			<p>
+				<code>o⋄visually-hidden</code>
+				<span className="o⋄visually-hidden">can't see me</span>
+			</p>
+		</>
 	)
 }

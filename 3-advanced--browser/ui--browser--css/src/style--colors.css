@@ -2,9 +2,12 @@
 /* Good tools:
  * https://www.cssportal.com/css-color-converter/
  * https://picular.co/quality
+ *
+ * Principles:
+ * - https://ianstormtaylor.com/design-tip-never-use-black/
  */
 :root {
-	/* modifiers as overlays */
+	/* modifiers, to be used as overlays */
 	--o⋄color⁚darker--10: rgba(0, 0, 0, .1);
 	--o⋄color⁚darker--20: rgba(0, 0, 0, .2);
 	--o⋄color⁚darker--90: rgba(0, 0, 0, .9);
@@ -13,17 +16,12 @@
 	--o⋄color⁚lighter--20: rgba(100%, 100%, 100%, .2);
 	--o⋄color⁚lighter--90: rgba(100%, 100%, 100%, .9);
 
-	/* Base colors
-	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
-	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
-	 */
-	--o⋄color⁚dolt__quasi-black: hsl(0, 0%, 17%); /* #2B2B2B */
+	/*
+	--o⋄color⁚dolt__quasi-black: hsl(0, 0%, 17%);
 	--o⋄color⁚dolt__dark-grey:   hsl(0, 0%, 33%);
 	--o⋄color⁚dolt__medium-grey: hsl(0, 0%, 66%);
-	--o⋄color⁚dolt__quasi-white: hsl(0, 0%, 98%); /* #FAFAFA */
-
-	/* accent on tab, seldom used */
-	--o⋄color⁚fg--accent: #7AACFE; /* classic blue */
+	--o⋄color⁚dolt__quasi-white: hsl(0, 0%, 98%);
+	*/
 
 	/* from https://boz.com/
 	 * Looks good on dark backgrounds
@@ -47,4 +45,8 @@
 
 .o⋄color⁚ancillary {
 	color: var(--o⋄color⁚fg--ancillary);
+}
+
+.o⋄border-color⁚ancillary {
+	border-color: var(--o⋄color⁚fg--ancillary);
 }

@@ -3,30 +3,39 @@
  */
 
 :root {
-	--o⋄color⁚co212__beige:   rgb(255, 235, 188); /* #FFEBBC */
-	--o⋄color⁚co212__blue:    rgb(93, 167, 174); /* #5DA7AE */
-	--o⋄color⁚co212__brown:   rgb(84, 61, 70); /* #543D46 */
-	--o⋄color⁚co212__dark:    rgb(41, 40, 48); /* #292830 */
+	--o⋄color⁚co212__beige:   hsl(42, 100%, 87%); /* #FFEBBC */
+	--o⋄color⁚co212__blue:    HSL(185, 33%, 52%); /* #5DA7AE */
+	--o⋄color⁚co212__brown:   HSL(337, 16%, 28%); /* #543D46 */
+	--o⋄color⁚co212__dark:    HSL(248,  9%, 17%); /* #292830 */
 
-	outline-color: var(--o⋄color⁚co212__beige);
+	/*outline-color: var(--o⋄color⁚co212__beige);*/
 }
 
 
 [data-o-theme="dark--colorhunt212"] {
-	--o⋄color⁚bg--main: var(--o⋄color⁚co212__dark);
-	--o⋄color⁚bg--main--backdrop: rgba(41, 40, 48, .75);
+	/* beige */
+	--o⋄dtoken⁚fg--h: 42;
+	--o⋄dtoken⁚fg--s: 100%;
+	--o⋄dtoken⁚fg--l: 87%;
+	/* dark */
+	--o⋄dtoken⁚bg--h: 248;
+	--o⋄dtoken⁚bg--s: 9%;
+	--o⋄dtoken⁚bg--l: 17%;
 
-	--o⋄color⁚bg--highlight--1: rgba(41, 40, 48, .1);
-	--o⋄color⁚bg--highlight--2: rgba(41, 40, 48, .2);
-
-	--o⋄color⁚fg--main: var(--o⋄color⁚co212__beige);
-	--o⋄color⁚fg--secondary: rgba(255, 235, 188, 0.66);
-	--o⋄color⁚fg--ancillary: rgba(255, 235, 188, 0.33);
+	--o⋄color⁚fg--main:       hsl(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l));
+	--o⋄color⁚fg--secondary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .66);
+	--o⋄color⁚fg--ancillary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .33);
 
 	--o⋄color⁚fg--accent: var(--o⋄color⁚co212__blue);
 
-	/* levels */
-	/*--o⋄color⁚fg--error: hsl(19, 81%, 56%); TODO review*/
+	--o⋄color⁚bg--main:            hsl(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l));
+	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .75);
+
+	--o⋄color⁚bg--highlight--1: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .1);
+	--o⋄color⁚bg--highlight--2: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .2);
+
+	--o⋄color⁚shadow: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .2); /* = fg translucent */
+
 	--o⋄color⁚fg--error: red;
 	--o⋄color⁚fg--warning: var(--o⋄color⁚boz__yellow);
 	--o⋄color⁚fg--info: var(--o⋄color⁚boz__blue);

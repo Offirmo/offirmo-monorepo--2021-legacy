@@ -9,6 +9,7 @@ Concepts
     * basic english
     * https://en.wikipedia.org/wiki/Simplified_Technical_English
     * https://en.wikipedia.org/wiki/Attempto_Controlled_English
+* plain language https://www.plainlanguage.gov/guidelines/audience/
 * most frequent words
   * https://en.wikipedia.org/wiki/Most_common_words_in_English
     * https://en.wikipedia.org/wiki/Swadesh_list
