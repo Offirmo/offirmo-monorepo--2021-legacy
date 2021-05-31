@@ -116,7 +116,7 @@ s, u /* technically valid but used to be used in a deprecated way. Most likely d
 *[bottommargin], *[leftmargin], *[rightmargin], *[topmargin], *[marginheight], *[marginwidth], *[alink], *[link], *[text], *[vlink],
 *[align], *[valign],
 *[hspace], *[vspace],
-*[height], *[width],
+*[height]:not(svg), *[width]:not(svg),
 ul[type],
 ol[type],
 li[type]

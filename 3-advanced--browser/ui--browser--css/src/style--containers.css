@@ -59,3 +59,9 @@
 .o⋄bg-colorꘌbackdrop {
 	background-color: var(--o⋄color⁚bg--main--backdrop);
 }
+
+
+.o⋄bg⁚cover {
+	background-size: cover;
+	background-position: center; /* good default */
+}

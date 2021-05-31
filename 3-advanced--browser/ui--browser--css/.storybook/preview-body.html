@@ -18,7 +18,17 @@
 		if (root_elt) root_elt.classList.add('o⋄top-container')
 
 		const storybook_theme = body_elt.classList.contains('dark') ? 'dark' : 'light'
-		//console.log({storybook_theme})
+		/*console.log({
+			storybook_theme,
+			window: {
+				innerWidth: window.innerWidth,
+				innerHeight: window.innerHeight,
+			},
+		})*/
+		const is_tablet_or_mobile = Math.max(window.innerWidth, window.innerHeight) <= 1112 // cf. storybook-viewports.js
+		if (is_tablet_or_mobile) {
+
+		}
 
 		const offirmo_theme = {
 			'light': 'dark-on-light',

@@ -85,7 +85,7 @@ export function FontEffectsTODO() {
 				Text outlined.
 			</p>
 
-			<div className="omr⋄bg⁚cover" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
+			<div className="o⋄bg⁚cover" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
 				<p className="omr⋄text-with-shadow">
 					Text with shadow.
 				</p>
@@ -279,9 +279,9 @@ export function Controls() {
 
 export function Containers() {
 	return (
-		<div className="o⋄top-container omr⋄bg⁚cover omr⋄font⁚pixantiqua o⋄text-alignꘌcenter" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
+		<div className="o⋄top-container o⋄bg⁚cover omr⋄font⁚pixantiqua o⋄text-alignꘌcenter" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
 
-			<h1>Immersion <code>o⋄top-container omr⋄bg⁚cover"</code></h1>
+			<h1>Immersion <code>o⋄top-container o⋄bg⁚cover"</code></h1>
 
 			<main className="omr⋄font⁚spectral o⋄centered-article" style={{overflowY: 'scroll'}}>
 
@@ -411,9 +411,9 @@ export function Containers() {
 
 export function GameDemo() {
 	return (
-		<div className="o⋄top-container omr⋄bg⁚cover omr⋄font⁚pixantiqua" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
+		<div className="o⋄top-container o⋄bg⁚cover omr⋄font⁚pixantiqua" style={{backgroundImage: `url(` + DemoBgForestGreen + ')' }}>
 
-			<h1>Immersion <code>o⋄top-container omr⋄bg⁚cover"</code></h1>
+			<h1>Immersion <code>o⋄top-container o⋄bg⁚cover"</code></h1>
 
 			<main className="omr⋄font⁚spectral o⋄centered-article" style={{overflowY: 'scroll'}}>
 
