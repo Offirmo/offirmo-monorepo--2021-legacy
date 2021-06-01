@@ -6,9 +6,8 @@ const custom_viewports = {
 	// tablet = 834x1112
 	// common screen sizes https://www.screensizemap.com/
 
-
 	mobileXXS: {
-		name: 'XXS - Very small mobile', // from viewport addon defaults
+		name: 'XXS - Very small mobile 320x568', // from viewport addon defaults
 		styles: {
 			width: '320px',
 			height: '568px',
@@ -16,7 +15,7 @@ const custom_viewports = {
 	},
 
 	mobileXS: {
-		name: 'XS - small mobile (most common)', // ~20% popularity https://screensizemap.com/
+		name: 'XS - small mobile 360x640 (most common)', // ~20% popularity https://screensizemap.com/
 		styles: {
 			width: '360px',
 			height: '640px',
@@ -24,7 +23,7 @@ const custom_viewports = {
 	},
 
 	mobileS: {
-		name: 'S - Small iphone',
+		name: 'S - Small iphone 360x780',
 		styles: {
 			width: '360px',
 			height: '780px',
@@ -34,7 +33,7 @@ const custom_viewports = {
 	// TODO big iPhone
 
 	tabletM: {
-		name: 'M - tablet',
+		name: 'M - tablet 834x1112',
 		styles: {
 			width: '834px',
 			height: '1112px',
@@ -42,7 +41,7 @@ const custom_viewports = {
 	},
 
 	desktopL: {
-		name: 'L - sub HD browser viewport (most common)', // ~11% popularity https://screensizemap.com/
+		name: 'L - sub HD browser viewport 1366x660 (most common)', // ~11% popularity https://screensizemap.com/
 		styles: {
 			width: '1366px',
 			height: '660px', // 768 - 40 - 68
@@ -50,7 +49,7 @@ const custom_viewports = {
 	},
 
 	desktopXL: {
-		name: 'XL - HD browser viewport', // ~8% popularity https://screensizemap.com/
+		name: 'XL - HD browser viewport 1920x972', // ~8% popularity https://screensizemap.com/
 		styles: {
 			width: '1920px',
 			height: '972px', // 1080 - 40 - 68
@@ -58,7 +57,7 @@ const custom_viewports = {
 	},
 
 	desktopXXL: {
-		name: 'XL - 4k browser viewport',
+		name: 'XL - 4k browser viewport 3840x2052',
 		styles: {
 			width: '3840px',
 			height: '2052px', // 2160 - 40 - 68
