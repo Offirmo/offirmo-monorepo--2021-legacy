@@ -15,12 +15,12 @@ body {
 }
 
 .o⋄mobile-design-helper {
-	--mobile-design-helper-color: red;
+	--mobile-design-helper-color: black;
 
 	color: var(--mobile-design-helper-color);
 	position: absolute;
 	transform-origin: 50% 50% 0;
-	opacity: 50%;
+	opacity: 100%;
 	text-align: center;
 }
 .o⋄mobile-design-helper--svg-shape {
@@ -65,9 +65,9 @@ body {
 	}
 }*/
 .o⋄mobile-design-helper--notch {
-
-
 	background-color: var(--mobile-design-helper-color);
+}
+.o⋄mobile-design-helper--notch--portrait {
 	height: var(--height);
 	width: var(--width);
 	border-bottom-left-radius: var(--radius);
@@ -75,6 +75,15 @@ body {
 	left: 50%;
 	transform: translateX(-50%)
 }
+.o⋄mobile-design-helper--notch--landscape {
+	height: var(--width);
+	width: var(--height);
+	border-top-right-radius: var(--radius);
+	border-bottom-right-radius: var(--radius);
+	top: 50%;
+	transform: translateY(-50%)
+}
+
 .o⋄mobile-design-helper--home-indicator {
 	bottom: 8px;
 	background-color: var(--mobile-design-helper-color);

@@ -808,6 +808,9 @@ import iphone12promax_bg_url from './assets/iphone12_428x926_promax.png'
 
 function Notches({ children }) {
 	const { width: viewport_width, height: viewport_height } = useWindowSize()
+	const display_mode: 'portrait' | 'landscape' = viewport_width < viewport_height
+		? 'portrait'
+		: 'landscape'
 
 	const [ viewport_pwidth, viewport_pheight ] = [ viewport_width, viewport_height ].sort()
 	const iphone12mini = {
@@ -818,8 +821,10 @@ function Notches({ children }) {
 		bg_url: iphone12mini_bg_url,
 		inset: {
 			notch: 50,
-			home_indicator__portrait: 34,
-			home_indicator__landscape: 21,
+			home_indicator: {
+				portrait: 34,
+				landscape: 21,
+			},
 		},
 	}
 	const iphone12pro = {
@@ -830,8 +835,10 @@ function Notches({ children }) {
 		bg_url: iphone12pro_bg_url,
 		inset: {
 			notch: 47,
-			home_indicator__portrait: 34,
-			home_indicator__landscape: 21,
+			home_indicator: {
+				portrait: 34,
+				landscape: 21,
+			},
 		},
 	}
 	const iphone12promax = {
@@ -842,12 +849,14 @@ function Notches({ children }) {
 		bg_url: iphone12promax_bg_url,
 		inset: {
 			notch: 47,
-			home_indicator__portrait: 34,
-			home_indicator__landscape: 21,
+			home_indicator: {
+				portrait: 34,
+				landscape: 21,
+			},
 		},
 	}
 
-	const { corner_w, home_indicator_w, bg_url } = (() => {
+	const { corner_w, home_indicator_w, bg_url, inset } = (() => {
 		function distance(aw, ah, bw, bh) {
 			const diag_a = Math.sqrt(aw * aw + ah * ah)
 			const diag_b = Math.sqrt(bw * bw + bh * bh)
@@ -868,14 +877,20 @@ function Notches({ children }) {
 	})()
 	const corner_bezier = corner_w / 18. * 11.
 
-
 	console.log({
+		display_mode,
 		viewport_width, viewport_height,
 		viewport_pwidth, viewport_pheight,
 		corner_w,
 		home_indicator_w,
 		bg_url,
+		inset,
 	})
+
+	document.documentElement.style.setProperty('--safe-area-inset-top', `${display_mode === 'portrait' ? inset.notch : 0}px`)
+	document.documentElement.style.setProperty('--safe-area-inset-right', `${display_mode === 'landscape' ? inset.notch : 0}px`)
+	document.documentElement.style.setProperty('--safe-area-inset-bottom', `${inset.home_indicator[display_mode]}px`)
+	document.documentElement.style.setProperty('--safe-area-inset-left', `${display_mode === 'landscape' ? inset.notch : 0}px`)
 
 	const corner_path = `M 0,0 C 0,0 0,${corner_w + corner_bezier} 0,${corner_w} 0,${corner_w-corner_bezier} ${corner_w-corner_bezier},0 ${corner_w},0 ${corner_w + corner_bezier},0 0,0 0,0 Z`
 	const corner_viewbox = `0 0 ${corner_w + corner_bezier} ${corner_w + corner_bezier}`
@@ -899,7 +914,7 @@ function Notches({ children }) {
 				<path className="o⋄mobile-design-helper--svg-shape" d={corner_path} >╰</path>
 			</svg>
 
-			<div className="o⋄mobile-design-helper o⋄mobile-design-helper--notch">\____/</div>
+			<div className={`o⋄mobile-design-helper o⋄mobile-design-helper--notch o⋄mobile-design-helper--notch--${display_mode}`}>N</div>
 			<div className="o⋄mobile-design-helper o⋄mobile-design-helper--home-indicator" style={{width: home_indicator_w}}>--</div>
 
 		</div>
@@ -908,7 +923,19 @@ function Notches({ children }) {
 
 
 export function SVGTest() {
-	return <>Content</>
+	return <div className="o⋄top-container" style={{
+		backgroundColor: 'red',
+		paddingTop: 'var(--safe-area-inset-top)',
+		paddingRight: 'var(--safe-area-inset-right)',
+		paddingBottom: 'var(--safe-area-inset-bottom)',
+		paddingLeft: 'var(--safe-area-inset-left)',
+	}}>
+		<div className="o⋄top-container" style={{
+			backgroundColor: 'yellow',
+		}}>
+			Content
+		</div>
+	</div>
 }
 SVGTest.parameters = {
 	viewport: {
