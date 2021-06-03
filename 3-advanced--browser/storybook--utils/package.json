@@ -1,16 +1,15 @@
 {
-	"name": "@offirmo-private/storybook--demos",
+	"name": "@offirmo-private/storybook--utils",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
 
 	"peerDependencies": {
+		"prop-types": "^15",
+		"react": "^17"
 	},
 	"dependencies": {
-		"prop-types": "^15",
-		"react": "^17",
-		"react-dom": "^17"
 	},
 
 	"scripts": {
@@ -19,6 +18,9 @@
 	},
 	"devDependencies": {
 		"@storybook/react": "^6",
+		"prop-types": "^15",
+		"react": "^17",
+		"react-dom": "^17",
 		"typescript": "^4"
 	}
 }

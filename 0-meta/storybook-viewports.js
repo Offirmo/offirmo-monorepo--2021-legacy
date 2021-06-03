@@ -1,4 +1,17 @@
 // https://storybook.js.org/docs/react/essentials/viewport
+
+const KNOWN_PHONES = {
+	iphone: {
+		// https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
+		'12': {
+			mini:     { w: 375, h: 812 },
+			standard: { w: 390, h: 844 },
+			pro:      { w: 390, h: 844 },
+			proⵧmax:  { w: 428, h: 926 },
+		},
+	},
+}
+
 const custom_viewports = {
 	// addon defaults =
 	// mobile1 = 320x568
@@ -30,7 +43,27 @@ const custom_viewports = {
 		},
 	},
 
-	// TODO big iPhone
+	iphone12mini: {
+		name: `iphone 12 mini 375x812`,
+		styles: {
+			width: `${KNOWN_PHONES.iphone['12'].mini.w}px`,
+			height: `${KNOWN_PHONES.iphone['12'].mini.h}px`,
+		},
+	},
+	iphone12pro: {
+		name: `iphone 12 pro 390x844`,
+		styles: {
+			width: `${KNOWN_PHONES.iphone['12'].pro.w}px`,
+			height: `${KNOWN_PHONES.iphone['12'].pro.h}px`,
+		},
+	},
+	iphone12promax: {
+		name: `iphone 12 pro max 428x926`,
+		styles: {
+			width: `${KNOWN_PHONES.iphone['12'].proⵧmax.w}px`,
+			height: `${KNOWN_PHONES.iphone['12'].proⵧmax.h}px`,
+		},
+	},
 
 	tabletM: {
 		name: 'M - tablet 834x1112',
