@@ -212,3 +212,8 @@ LTS, maintenance LTS, active LTS https://nodejs.org/en/about/releases/
 https://www.componentdriven.org/
 
 https://softskills.audio/
+
+namespace
+
+RFC https://rfc.fyi/
+

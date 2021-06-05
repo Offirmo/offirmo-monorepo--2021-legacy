@@ -880,7 +880,7 @@ dragons
 -
 -
 
-Sages caches
+Sages cachés
 -
 -
 -
@@ -898,3 +898,5 @@ https://earther.gizmodo.com/melting-ice-in-the-alps-has-revealed-world-war-i-rel
 https://rpg.stackexchange.com/questions/185365/is-there-an-in-universe-reason-why-each-wizard-uses-different-notation-in-their
 
 https://www.bokerusa.com/fixed-blade-knives
+
+names https://www.wgsbn-iau.org/files/Bulletins/V001/WGSBNBull_V001_001.pdf

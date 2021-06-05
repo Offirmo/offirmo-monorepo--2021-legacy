@@ -26,15 +26,15 @@ By default, this stylesheet will activate a page like "mother fucking website".
 	<link rel="stylesheet" type="text/css"
 			href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/ui--browser--css/dist/offirmo-reset%2Butils.css"/>
 	<link rel="stylesheet" type="text/css"
-			href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/ui--browser--css/src/style--theme--lod-colorhunt212.css"/>
+			href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/ui--browser--css/src/style--theme--dark--colorhunt212.css"/>
 ```
 alternatively:
 ```css
 @import 'https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/ui--browser--css/dist/offirmo-reset%2Butils.css';
-@import 'https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/ui--browser--css/src/style--theme--lod-colorhunt212.css';
+@import 'https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/ui--browser--css/src/style--theme--dark--colorhunt212.css';
 
 @import '../../../3-advanced--browser/ui--browser--css/src/style.css';
-@import '../../../3-advanced--browser/ui--browser--css/src/style--theme--lod-colorhunt212.css';
+@import '../../../3-advanced--browser/ui--browser--css/src/style--theme--dark--colorhunt212.css';
 
 ```
 
