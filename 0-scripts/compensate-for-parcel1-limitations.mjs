@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 // using https://github.com/google/zx
 import path from 'node:path'
+import fs from 'node:fs'
 import { lsDirsSync } from '../3-advanced--node/cli-toolbox/fs/extra.js'
 
 /////////////////////
@@ -10,7 +11,6 @@ const MONOREPO_PKG_JSON = require(path.join(MONOREPO_ROOT, 'package.json'))
 
 const CURRENT_PKG_PATH = process.cwd()
 const CURRENT_PKG_JSON = require(path.join(CURRENT_PKG_PATH, 'package.json'))
-//const PKG_NAME = CURRENT_PKG_JSON.name
 
 
 console.log(`🛠  🔻 tweaking node_modules to compensate for some parcel.js v1 limitations…`)
@@ -34,16 +34,22 @@ MONOREPO_MODULE_PATHS.forEach(monorepo_module_path => {
 	}
 	MONOREPO_MODULES.add(PKG_NAME)
 })
-console.log(`🛠  🔸 found a monorepo with ${MONOREPO_MODULES.size} modules across ${MONOREPO_NAMESPACES.size} namespaces (${[...MONOREPO_NAMESPACES.keys()].join(', ')})`)
-console.log({
+
+/*console.log({
 	MONOREPO_ROOT,
 	WORKSPACES_PATH,
 	MONOREPO_MODULE_PATHS,
 	MONOREPO_NAMESPACES,
 	MONOREPO_MODULES,
-	//PKG_NAME,
-	//PKG_NODE_MODULES,
-})
+})*/
+
+console.log(`🛠  🔸 found a monorepo with ${MONOREPO_MODULES.size} modules across ${MONOREPO_NAMESPACES.size} namespaces: ${[...MONOREPO_NAMESPACES.keys()].join(', ')}`)
+if (CURRENT_PKG_JSON.name === MONOREPO_PKG_JSON.name) {
+	console.log(`🛠  🔸 called from: the monorepo root. Optimizing monorepo modules for parcel…`)
+}
+else {
+	throw new Error('NIMP')
+}
 
 /////////////////////
 
@@ -51,15 +57,26 @@ MONOREPO_MODULE_PATHS.forEach(monorepo_module_path => {
 	const NODE_MODULES_PATH = path.join(monorepo_module_path, 'node_modules')
 	const node_module_basenames = lsDirsSync(NODE_MODULES_PATH, { full_path: false })
 	const redundant_basenames = node_module_basenames.filter(d => {
-		if (d === '.bin') return false
+		if (d === '.bin' || d === '.cache') return false
 		if (MONOREPO_NAMESPACES.has(d)) return false
 		if (MONOREPO_MODULES.has(d)) return false
 
 		return true
 	})
-	console.log({
+	/*console.log({
 		monorepo_module_path,
 		redundant_basenames,
+	})*/
+	redundant_basenames.forEach(base => {
+		const abspath = path.join(NODE_MODULES_PATH, base)
+		if (base.startsWith('@')) {
+			const dir_content = lsDirsSync(abspath)
+			dir_content.forEach(abspath => fs.unlinkSync(abspath))
+			fs.rmdirSync(abspath) // should be empty now
+		}
+		else {
+			fs.unlinkSync(abspath)
+		}
 	})
 })
 
@@ -82,3 +99,5 @@ await Promise.all([
 fraction.js
 dequal
 */
+
+console.log(`🛠  🔺 tweaked node_modules to compensate for some parcel.js v1 limitations ✔`)

@@ -45,3 +45,11 @@ underground / sewers
 university
 
 tavern!!
+
+Have a "timeline" of things in progress with the time of end = slot free (see builder's hut)
+
+people first, ppl gaining experience
+
+Entertainment, like friendship, is a fundamental human need; it changes how we feel and gives us common ground. We want to entertain the world. If we succeed, there is more laughter, more empathy, and more joy.
+
+-Netflix Cuture Guide

@@ -34,6 +34,7 @@ Promise.all(cli.input
 			case '…cache':
 				return Promise.all([
 					fs.remove(path.join(PKG_PATH, '.cache')),
+					fs.remove(path.join(PKG_PATH, 'node_modules/.cache')),
 					fs.remove(path.join(PKG_PATH, '.parcel')),
 				])
 

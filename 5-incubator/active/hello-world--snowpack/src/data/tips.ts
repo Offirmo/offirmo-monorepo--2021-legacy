@@ -71,6 +71,8 @@ Join Atlassian community https://click.e.atlassian.com/?qs=983f158187f660f35c48a
 
 https://my.atlassian.com/
 
+https://hello.atlassian.net/wiki/spaces/VPORT/blog/2021/05/18/1134923452/Atlassian%2BPlug-and-Play%2BAI
+
  */
 
 const TIPS__JSW_USAGE: TipsMapping = {
