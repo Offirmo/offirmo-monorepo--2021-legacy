@@ -64,8 +64,8 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist …cache",
 
-		"refresh-loading-template": "offirmo-simple-upgradable-template-apply --template=./node_modules/@offirmo-private/iframe--loading/src/index.html --destination=./src/index.html",
-		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --inputDir=./node_modules/@tbrpg/state",
+		"refresh-loading-template": "offirmo-simple-upgradable-template-apply --template=../../../3-advanced--browser/iframe--loading/src/index.html --destination=./src/index.html",
+		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --inputDir=../../../A-apps--core/the-boring-rpg/state",
 		"build:parcel": "parcel build --no-minify src/*.html --public-url ./",
 		"copy-extra": "cp -f src/*.json src/google*.html dist",
 		"copy-favicons-for-webmanifest": "mkdir -p dist/favicons && cp -rf dist/android-chrome-512x512.*.png dist/favicons/android-chrome-512x512.png",

@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/browserlist-config",
+	"name": "@offirmo-private/browserlist-config",
 	"description": "shareable browserlist config https://github.com/browserslist/browserslist#shareable-configs",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

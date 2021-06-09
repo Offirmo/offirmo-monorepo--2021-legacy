@@ -73,6 +73,7 @@ https://my.atlassian.com/
 
 https://hello.atlassian.net/wiki/spaces/VPORT/blog/2021/05/18/1134923452/Atlassian%2BPlug-and-Play%2BAI
 
+https://hello.atlassian.net/wiki/spaces/CPM/pages/1123388492/Confluence%2Bis%2Bcanceling%2Byour%2Bmeetings.
  */
 
 const TIPS__JSW_USAGE: TipsMapping = {
