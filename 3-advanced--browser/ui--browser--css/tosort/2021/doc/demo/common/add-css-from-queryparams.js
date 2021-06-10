@@ -12,9 +12,9 @@ if (style.startsWith('omr'))
 	style_once({ id: 'style', href: '//localhost:1981/9-oh-my-rpg/view-browser/src/style.css' })
 
 if (style.endsWith('lod'))
-	document.body.dataset.oTheme = 'light-on-dark'
+	document.body.dataset.oTheme = 'dark--default'
 if (style.endsWith('lod--c212'))
-	document.body.dataset.oTheme = 'lod--colorhunt212'
+	document.body.dataset.oTheme = 'dark--colorhunt212'
 
 const bg = searchParams.get('bg_select')
 

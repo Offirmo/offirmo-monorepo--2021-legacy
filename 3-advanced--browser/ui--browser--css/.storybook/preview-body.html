@@ -24,9 +24,9 @@
 		})*/
 
 		const offirmo_theme = {
-			'light': 'dark-on-light',
-			'dark': 'light-on-dark',
-		}[storybook_theme] ?? 'dark-on-light'
+			'light': 'light--default',
+			'dark': 'dark--default',
+		}[storybook_theme] ?? 'light--default'
 		body_elt.dataset['oTheme'] = offirmo_theme
 	}
 	setInterval(refresh, 500)

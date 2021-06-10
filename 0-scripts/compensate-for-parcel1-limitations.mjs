@@ -12,23 +12,29 @@ console.log(`🛠  🔻 tweaking node_modules to compensate for some parcel.js v
 
 function get_pkg_1st_level_dependencies_relpaths(pkg_abs_path) {
 	const NODE_MODULES_PATH = path.join(pkg_abs_path, 'node_modules')
-	const node_module_children_basenames = lsDirsSync(NODE_MODULES_PATH, { full_path: false })
-	return node_module_children_basenames.reduce((acc, basename) => {
-		if (basename === '.bin' || basename === '.cache') return acc
+	try {
+		const node_module_children_basenames = lsDirsSync(NODE_MODULES_PATH, { full_path: false })
+		return node_module_children_basenames.reduce((acc, basename) => {
+			if (basename === '.bin' || basename === '.cache') return acc
 
-		return acc.concat(
-			basename.startsWith('@')
-			? lsDirsSync(path.join(NODE_MODULES_PATH, basename), { full_path: false }).map(b => path.join(basename, b))
-			: [basename]
-		)
-	}, [])
+			return acc.concat(
+				basename.startsWith('@')
+					? lsDirsSync(path.join(NODE_MODULES_PATH, basename), { full_path: false }).map(b => path.join(basename, b))
+					: [basename]
+			)
+		}, [])
+	}
+	catch (err) {
+		if (err.code === 'ENOENT') return []
+		throw err
+	}
 }
 
 /////////////////////
 
 const WHITELIST = [
 	'@offirmo/unit-test-toolbox',
-]
+].sort()
 
 const MONOREPO_ROOT = path.join(__dirname, '..')
 const MONOREPO_PKG_JSON = require(path.join(MONOREPO_ROOT, 'package.json'))
@@ -37,36 +43,39 @@ const CURRENT_PKG_PATH = process.cwd()
 const CURRENT_PKG_JSON = require(path.join(CURRENT_PKG_PATH, 'package.json'))
 
 const MONOREPO_WORKSPACE_RELPATHS = MONOREPO_PKG_JSON.bolt.workspaces.map(p => p.slice(0, -2))
-const MONOREPO_PKG_SRC_ABSPATHS = MONOREPO_WORKSPACE_RELPATHS.reduce((acc, val) => {
+const MONOREPO_SRCPKG_ABSPATHS = MONOREPO_WORKSPACE_RELPATHS.reduce((acc, val) => {
 	const module_dirs = lsDirsSync(path.join(MONOREPO_ROOT, val))
 	acc.push(...module_dirs)
 	return acc
-}, [])
-const MONOREPO_PKG_NAMESPACES = new Set()
-const MONOREPO_PKG_NAMES = new Set()
-const MONOREPO_PKG_SRC_ABSPATHS_BY_PKG_NAME = {}
-MONOREPO_PKG_SRC_ABSPATHS.forEach(monorepo_module_path => {
-	const PKG_JSON = require(path.join(monorepo_module_path, 'package.json'))
+}, []).sort()
+const MONOREPO_SRCPKG_NAMESPACES = new Set()
+let MONOREPO_SRCPKG_NAMES = new Set()
+const MONOREPO_SRCPKG_ABSPATHS_BY_PKG_NAME = {}
+MONOREPO_SRCPKG_ABSPATHS.forEach(monorepo_pkg_path => {
+	const PKG_JSON = require(path.join(monorepo_pkg_path, 'package.json'))
 	const PKG_NAME = PKG_JSON.name
 	const split = PKG_NAME.split('/')
 	if (split.length > 1) {
-		MONOREPO_PKG_NAMESPACES.add(split[0])
+		MONOREPO_SRCPKG_NAMESPACES.add(split[0])
 	}
-	MONOREPO_PKG_SRC_ABSPATHS_BY_PKG_NAME[PKG_NAME] = monorepo_module_path
-	MONOREPO_PKG_NAMES.add(PKG_NAME)
+	MONOREPO_SRCPKG_ABSPATHS_BY_PKG_NAME[PKG_NAME] = monorepo_pkg_path
+	MONOREPO_SRCPKG_NAMES.add(PKG_NAME)
 })
 
-/*console.log({
+// "sort" the set
+MONOREPO_SRCPKG_NAMES = new Set([...MONOREPO_SRCPKG_NAMES].sort())
+
+/*
+console.log({
 	MONOREPO_ROOT,
 	MONOREPO_WORKSPACE_RELPATHS,
-	MONOREPO_PKG_NAMESPACES,
-	//MONOREPO_PKG_NAMES,
-	//MONOREPO_PKG_SRC_ABSPATHS,
-	MONOREPO_PKG_SRC_ABSPATHS_BY_PKG_NAME,
-//	MONOREPO_1ST_LEVEL_DEPS_RELPATH,
+	MONOREPO_SRCPKG_NAMESPACES,
+	MONOREPO_SRCPKG_NAMES,
+	//MONOREPO_SRCPKG_ABSPATHS,
+	MONOREPO_SRCPKG_ABSPATHS_BY_PKG_NAME,
 })*/
 
-console.log(`🛠  🔸 found a monorepo with ${MONOREPO_PKG_NAMES.size} modules across ${MONOREPO_PKG_NAMESPACES.size} namespaces: ${[...MONOREPO_PKG_NAMESPACES.keys()].join(', ')}`)
+console.log(`🛠  🔸 found a monorepo with ${MONOREPO_SRCPKG_NAMES.size} modules across ${MONOREPO_SRCPKG_NAMESPACES.size} namespaces: ${[...MONOREPO_SRCPKG_NAMESPACES.keys()].join(', ')}`)
 if (CURRENT_PKG_JSON.name === MONOREPO_PKG_JSON.name) {
 	console.log(`🛠  🔸 called from: the monorepo root. Optimizing monorepo node_modules…`)
 }
@@ -87,7 +96,7 @@ const stats = {
 
 if (CURRENT_PKG_JSON.name === MONOREPO_PKG_JSON.name) {
 
-	MONOREPO_PKG_NAMESPACES.forEach(ns => {
+	MONOREPO_SRCPKG_NAMESPACES.forEach(ns => {
 		const ns_abspath = path.join(MONOREPO_ROOT, 'node_modules', ns)
 		try {
 			fs.mkdirSync(ns_abspath)
@@ -96,8 +105,8 @@ if (CURRENT_PKG_JSON.name === MONOREPO_PKG_JSON.name) {
 		catch (err) { if (err.code !== 'EEXIST') throw err }
 	})
 
-	Array.from(MONOREPO_PKG_NAMES).forEach(pkg_name => {
-		const pkg_src_abspath = MONOREPO_PKG_SRC_ABSPATHS_BY_PKG_NAME[pkg_name]
+	Array.from(MONOREPO_SRCPKG_NAMES).forEach(pkg_name => {
+		const pkg_src_abspath = MONOREPO_SRCPKG_ABSPATHS_BY_PKG_NAME[pkg_name]
 		const link_path = path.join(MONOREPO_ROOT, 'node_modules', pkg_name)
 		try {
 			fs.symlinkSync(pkg_src_abspath, link_path)
@@ -110,66 +119,79 @@ if (CURRENT_PKG_JSON.name === MONOREPO_PKG_JSON.name) {
 
 /////////////////////
 
-const MONOREPO_1ST_LEVEL_DEPS_RELPATH = get_pkg_1st_level_dependencies_relpaths(MONOREPO_ROOT)
-const CURRENT_PKG_1ST_LEVEL_DEPS_RELPATH = get_pkg_1st_level_dependencies_relpaths(CURRENT_PKG_PATH)
+const MONOREPO_1ST_LEVEL_DEPS‿RELPATH = get_pkg_1st_level_dependencies_relpaths(MONOREPO_ROOT)
+const CURRENT_PKG_1ST_LEVEL_DEPS‿RELPATH = get_pkg_1st_level_dependencies_relpaths(CURRENT_PKG_PATH)
 
+//console.log(JSON.stringify(MONOREPO_1ST_LEVEL_DEPS‿RELPATH))
+/*
 const PARENT_DEPS_RELPATH = CURRENT_PKG_JSON.name === MONOREPO_PKG_JSON.name
-	? MONOREPO_1ST_LEVEL_DEPS_RELPATH
-	: CURRENT_PKG_1ST_LEVEL_DEPS_RELPATH
+	? MONOREPO_1ST_LEVEL_DEPS‿RELPATH
+	: CURRENT_PKG_1ST_LEVEL_DEPS‿RELPATH
+*/
 
-// XXX TODO ALL modules, not just monorepo ones
-MONOREPO_PKG_SRC_ABSPATHS.forEach(monorepo_module_path => {
-	const first_level_dependencies_relpath = get_pkg_1st_level_dependencies_relpaths(monorepo_module_path)
+MONOREPO_1ST_LEVEL_DEPS‿RELPATH.forEach(relpath1 => {
+	//console.log('reviewing deps of ' + relpath1 + '…')
 
-	const redundant_dependencies_relpaths = first_level_dependencies_relpath.filter(relpath => {
+	const module1_abspath = path.join(MONOREPO_ROOT, 'node_modules', relpath1)
+	const second_level_deps‿relpath = get_pkg_1st_level_dependencies_relpaths(module1_abspath)
+
+	const redundant_dependencies‿relpaths = second_level_deps‿relpath.filter(relpath2 => {
+
+		if (!MONOREPO_1ST_LEVEL_DEPS‿RELPATH.includes(relpath2)) return false // obviously
 
 		// NON nodejs
 		// CSS
-		if (relpath.endsWith('.css') || relpath.endsWith('-css')) return false
+		if (relpath2.endsWith('.css') || relpath2.endsWith('-css')) return false
 		// HTML
-		if (relpath.includes('iframe--')) return false
+		if (relpath2.includes('iframe--')) return false
 
 		// Special cases, ex. test tools
-		if (relpath === '.bin' || relpath === '.cache') return false
-		if (WHITELIST.includes(relpath)) return false
+		if (relpath2 === '.bin' || relpath2 === '.cache') return false
+		if (WHITELIST.includes(relpath2)) return false
 
-		return PARENT_DEPS_RELPATH.includes(relpath)
-		//if (MONOREPO_PKG_NAMES.has(relpath)) return false
-		//return true
+		// now we have a candidate...
+		// is it the same version?
+		const is_same_version = (() => {
+			//console.log('  HERE', relpath1, relpath2, MONOREPO_SRCPKG_NAMES.has(relpath2))
+			if (MONOREPO_SRCPKG_NAMES.has(relpath1)) return true // obviously
+
+			// TODO
+			if ([ 'bn.js', 'readable-stream'].includes(relpath2)) return true
+			// we assume false for now
+			return false
+		})()
+
+		//if (!is_same_version) console.log('  TODO compare version of ' + relpath2)
+
+		return is_same_version
 	})
 
 	/*console.log({
-		monorepo_module_path,
-		first_level_dependencies_relpath,
-		redundant_dependencies_relpaths,
+		module1_abspath,
+		second_level_deps‿relpath,
+		redundant_dependencies‿relpaths,
 	})*/
 
-	redundant_dependencies_relpaths.forEach(relpath => {
-		const abspath = path.join(monorepo_module_path, 'node_modules', relpath)
-		fs.unlinkSync(abspath)
+	redundant_dependencies‿relpaths.forEach(relpath => {
+		const abspath = path.join(module1_abspath, 'node_modules', relpath)
+		if (MONOREPO_SRCPKG_NAMES.has(relpath1)) {
+			fs.unlinkSync(abspath)
+			console.log('From ' + module1_abspath + ', Unlinked ' + abspath)
+		} else {
+			// TODO true rm
+			console.log('TODO From ' + module1_abspath + ', delete ' + abspath)
+		}
 		stats.cleaned_redundant_deps++
-		//console.log('From ' + monorepo_module_path + ', Unlinked ' + abspath)
 	})
 })
 
-/*
 cd(MONOREPO_ROOT)
 await Promise.all([
-	// inside own monorepo modules = symlinks
-	$`rm -f 1-stdlib/uuid/node_modules/nanoid`,
-	//$`rm -f 3-advanced--isomorphic/state-utils/node_modules/jsondiffpatch`,
-	//$`rm -f A-apps--core/the-boring-rpg/state--energy/node_modules/fraction.js`,
-
-	// inside other modules = dir
+	// TODO should be automated
 	$`rm -fr node_modules/browserify-rsa/node_modules/bn.js`,
 	$`rm -fr node_modules/browserify-sign/node_modules/bn.js`,
 	$`rm -fr node_modules/browserify-sign/node_modules/readable-stream`,
-	//$`rm -fr node_modules/hash-base/node_modules/readable-stream`,
-])*/
-/*
-fraction.js
-dequal
-*/
+])
 
 console.log(stats)
 console.log(`🛠  🔺 tweaked node_modules to compensate for some parcel.js v1 limitations ✔`)

@@ -12,7 +12,8 @@
 - 😷 chore: bump dependencies
 
 
-## TODO
+## NEXT
+- 😅 fix: the size of the app was once again cut in half! (much faster loading time 🚀)
 - 😅 fix: the scrollbars are now properly styled in Firefox 💅
 - 😷 chore: some internal refactors
 - 😷 chore: bump dependencies
