@@ -6,7 +6,7 @@
 
 		<link rel="preconnect" href="https://tlk.io">
 
-		<style>/************** excerpt from @offirmo-private/view-css *******/
+		<style>/************** excerpt from @offirmo-private/ui--browser--css *******/
 			.o⋄top-container {
 				display: flex;
 				flex-direction: column;
@@ -20,14 +20,14 @@
 				min-height: 0; /* or else min-height may be too big */
 			}
 
-			.o⋄body⁚full-page {
+			.o⋄body⁚full-viewport {
 				max-width: unset;
 				width: 100%; /* avoid lower than max if possible */
 				margin: 0;
 				padding: 0;
 			}
 			/************ debug ************/
-			/*@import "../../../../3-advanced--browser/view-css/src/style--debug.css";
+			/*@import "../../../../3-advanced--browser/ui--browser--css/src/style--debug.css";
 			.o⋄top-container {
 				border-width: 1px;
 			}*/
@@ -91,7 +91,7 @@ window.addEventListener('unhandledrejection', function (evt) {
 });</script>
 	</head>
 
-	<body class="o⋄body⁚full-page o⋄top-container">
+	<body class="o⋄body⁚full-viewport o⋄top-container">
 		<script>//console.log(`[${LIB}] Hello from body`)
 // alter/fix the defaults above according to params
 const state = (() => {
