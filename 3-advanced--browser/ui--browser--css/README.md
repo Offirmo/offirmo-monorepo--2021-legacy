@@ -42,7 +42,7 @@ alternatively:
 There is a special class to unset the defaults:
 ```html
 <html class="o⋄top-container">
-	<body class="o⋄top-container o⋄body⁚full-viewport" data-o-theme="light-on-dark">
+	<body class="o⋄top-container o⋄body⁚full-viewport" data-o-theme="dark--default">
 		…
 ```
 
@@ -94,8 +94,8 @@ Activated through classes:
   * `o⋄rotated⁚270deg`
 
 * data selectors
-  * `data-o-theme="light-on-dark"` (dark-on-light being the default)
-  * `data-o-theme="lod--colorhunt212"`
+  * `data-o-theme="dark--default"` (light--default being the default)
+  * `data-o-theme="dark--colorhunt212"`
 
 There are also variables:
 * theme colors

@@ -7,7 +7,7 @@
 
 /* TODO https://blog.superhuman.com/how-to-design-delightful-dark-themes-7b3da644ff1f
  */
-[data-o-theme="light-on-dark"] {
+[data-o-theme="dark--default"] {
 	/* quasi white */
 	--o⋄dtoken⁚fg--h: 0;
 	--o⋄dtoken⁚fg--s: 0%;

@@ -1,7 +1,7 @@
 @import '../node_modules/@offirmo-private/ui--browser--css/src/style--theme--dark--white-on-black.css';
 
 :root, /* this theme is the default */
-[data-o-theme="dark-on-light"] {
+[data-o-theme="light--default"] {
 	/* TODO redo following LOD212 */
 	--o⋄color⁚quality--poor:      hsl(0, 0%, 62%);
 	--o⋄color⁚quality--common:    hsl(0, 0%, 20%);

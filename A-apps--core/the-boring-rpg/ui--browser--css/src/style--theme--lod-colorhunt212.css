@@ -1,6 +1,6 @@
 @import '../node_modules/@offirmo-private/ui--browser--css/src/style--theme--dark--colorhunt212.css';
 
-[data-o-theme="lod--colorhunt212"] {
+[data-o-theme="dark--colorhunt212"] {
 	--o⋄color⁚quality--poor:      hsl(0, 0%, 62%);
 	--o⋄color⁚quality--common:    hsl(0, 0%, 82%);
 	--o⋄color⁚quality--uncommon:  hsl(85, 88%, 56%);

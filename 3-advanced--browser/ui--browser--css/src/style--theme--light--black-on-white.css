@@ -7,7 +7,7 @@
 
 
 :root, /* this theme is the default */
-[data-o-theme="dark-on-light"] {
+[data-o-theme="light--default"] {
 	/* quasi black */
 	--o⋄dtoken⁚fg--h: 0;
 	--o⋄dtoken⁚fg--s: 0%;
