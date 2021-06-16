@@ -5,6 +5,9 @@
 	"license": "Unlicense",
 	"private": true,
 
+	"source": "src/index.js",
+	"sideEffects": false,
+
 	"peerDependencies": {
 		"prop-types": "^15",
 		"react": "^17"

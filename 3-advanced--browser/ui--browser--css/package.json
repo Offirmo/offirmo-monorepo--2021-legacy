@@ -23,6 +23,7 @@
 		"@fontsource/roboto": "^4",
 		"@fontsource/roboto-condensed": "^4",
 		"@fontsource/roboto-mono": "^4",
+		"@offirmo-private/storybook--utils":"^0",
 		"@storybook/react": "^6",
 		"clean-css-cli": "^5",
 		"cpx": "^1",
