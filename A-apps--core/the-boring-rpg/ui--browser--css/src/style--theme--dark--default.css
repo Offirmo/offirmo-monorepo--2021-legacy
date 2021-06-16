@@ -1,0 +1,17 @@
+@import '../node_modules/@offirmo-private/ui--browser--css/src/style--theme--dark--default.css';
+
+/* light on dark theme */
+[data-o-theme="dark--default"] {
+	/* TODO redo following LOD212 */
+	/* List from https://wow.gamepedia.com/Quality
+	 * some colors taken from https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
+	 * some colors inspired from https://boz.com/
+	 */
+	--o⋄color⁚quality--poor:      var(--o⋄color⁚boz__gray);
+	--o⋄color⁚quality--common:    white;
+	--o⋄color⁚quality--uncommon:  var(--o⋄color⁚boz__green);
+	--o⋄color⁚quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color⁚quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color⁚quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color⁚quality--artifact:  hsl(360, 100%, 64%);
+}

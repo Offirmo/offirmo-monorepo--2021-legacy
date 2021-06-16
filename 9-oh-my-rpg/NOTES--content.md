@@ -900,3 +900,12 @@ https://rpg.stackexchange.com/questions/185365/is-there-an-in-universe-reason-wh
 https://www.bokerusa.com/fixed-blade-knives
 
 names https://www.wgsbn-iau.org/files/Bulletins/V001/WGSBNBull_V001_001.pdf
+
+https://en.wikipedia.org/wiki/The_Four_Sons_of_Aymon
+https://en.wikipedia.org/wiki/Chanson_de_geste
+https://fr.wikipedia.org/wiki/Flamberge
+https://fr.wikipedia.org/wiki/La_Chanson_de_Roland
+https://fr.wikipedia.org/wiki/Durandal
+https://fr.wikipedia.org/wiki/Liste_d%27%C3%A9p%C3%A9es_l%C3%A9gendaires
+
+https://en.wikipedia.org/wiki/Georges_H%C3%A9bert

@@ -1,0 +1,11 @@
+@import '../node_modules/@offirmo-private/ui--browser--css/src/style--theme--dark--colorhunt212.css';
+
+[data-o-theme="dark--colorhunt212"] {
+	--o⋄color⁚quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color⁚quality--common:    hsl(0, 0%, 82%);
+	--o⋄color⁚quality--uncommon:  hsl(85, 88%, 56%);
+	--o⋄color⁚quality--rare:      hsl(221, 78%, 69%);
+	--o⋄color⁚quality--epic:      hsl(296, 100%, 72%);
+	--o⋄color⁚quality--legendary: hsl(39, 100%, 50%);
+	--o⋄color⁚quality--artifact:  hsl(54, 100%, 69%);
+}

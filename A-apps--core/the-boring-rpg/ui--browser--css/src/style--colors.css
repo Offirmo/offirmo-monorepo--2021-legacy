@@ -1,8 +1,0 @@
-/* We are forced to follow our parent's default */
-@import './style--theme--light--default.css';
-
-/* this one is the recommended */
-@import './style--theme--lod-colorhunt212.css';
-
-/* other themes must be imported manually */
-/*@import './style--theme--dark--default.css';*/

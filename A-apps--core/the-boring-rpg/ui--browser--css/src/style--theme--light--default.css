@@ -1,0 +1,13 @@
+@import '../node_modules/@offirmo-private/ui--browser--css/src/style--theme--light--default.css';
+
+:root, /* this theme is the default */
+[data-o-theme="light--default"] {
+	/* TODO redo following LOD212 */
+	--o⋄color⁚quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color⁚quality--common:    hsl(0, 0%, 20%);
+	--o⋄color⁚quality--uncommon: hsl(123, 100%, 39%);
+	--o⋄color⁚quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color⁚quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color⁚quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color⁚quality--artifact:  hsl(360, 100%, 64%);
+}

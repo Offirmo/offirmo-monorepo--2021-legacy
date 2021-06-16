@@ -1,7 +1,7 @@
 
 
 :root {
-	--o⋄scale: 1.0; /* overall scale of the UI, to allow programmatic scaling TODO */
+	--o⋄scale: 1.0; /* overall scale of the UI, to allow programmatic scaling TODO calc(var(--o⋄scale) * XXX);*/
 
 	/* transfer the env() to variables so that
 	 * - we can programmatically read them

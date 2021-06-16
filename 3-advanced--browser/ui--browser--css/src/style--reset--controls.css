@@ -9,7 +9,7 @@
 	outline: none;
 }
 /* 2) and for keyboard users, override everything with
- * a classic ring when focused on any element
+ *    a classic ring when focused on any element
  */
 body.user-is-tabbing *:focus {
 	outline: 5px auto var(--o⋄color⁚fg--accent);

@@ -30,3 +30,6 @@ Existing "alien" languages
 
 Alien fonts
 * https://www.dafont.com/theme.php?cat=701&page=1
+
+symbols
+* https://en.wikipedia.org/wiki/Mason%27s_mark http://freemasonry.bcy.ca/history/marks/marks.html

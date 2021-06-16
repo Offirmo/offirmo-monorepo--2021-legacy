@@ -25,9 +25,6 @@ html                   { box-sizing: border-box; }
 
 html, body {
 	height: 100%;
-	/* TOCHECK
-	 * https://github.com/mike-engel/a11y-css-reset/blob/master/reset.css
-	 */
 	min-height: 100%;
 	width: 100%;
 }
@@ -44,7 +41,7 @@ body {
 	/* adapted from https://perfectmotherfuckingwebsite.com */
 	max-width: var(--o⋄content-recommended-width);
 	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
-	padding: 40px 10px;
+	padding: 40px 10px; /* TODO review */
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color⁚fg--main);
 	background-color: var(--o⋄color⁚bg--main);
@@ -137,4 +134,3 @@ iframe {
 	/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes */
 	border: 0;
 }
-
