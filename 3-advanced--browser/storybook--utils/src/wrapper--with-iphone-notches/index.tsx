@@ -2,7 +2,7 @@ import useWindowSize from '../use-window-size'
 
 import './index.css'
 
-export default function WithIphoneNotches({ children, iphone12mini_bg_url, iphone12pro_bg_url, iphone12promax_bg_url }) {
+export default function WithIphoneNotches({ children, bg_urls = {} }) {
 	const { width: viewport_width, height: viewport_height } = useWindowSize()
 	const display_mode: 'portrait' | 'landscape' = viewport_width < viewport_height
 		? 'portrait'
@@ -14,7 +14,7 @@ export default function WithIphoneNotches({ children, iphone12mini_bg_url, iphon
 		p_h: 812,
 		corner_w: 75, // 46
 		home_indicator_w: 134,
-		bg_url: iphone12mini_bg_url,
+		bg_url: bg_urls.iphone12mini,
 		inset: {
 			notch: 50,
 			home_indicator: {
@@ -28,7 +28,7 @@ export default function WithIphoneNotches({ children, iphone12mini_bg_url, iphon
 		p_h: 844,
 		corner_w: 82,
 		home_indicator_w: 139,
-		bg_url: iphone12pro_bg_url,
+		bg_url: bg_urls.iphone12pro,
 		inset: {
 			notch: 47,
 			home_indicator: {
@@ -42,7 +42,7 @@ export default function WithIphoneNotches({ children, iphone12mini_bg_url, iphon
 		p_h: 926,
 		corner_w: 90, // 55
 		home_indicator_w: 153,
-		bg_url: iphone12promax_bg_url,
+		bg_url: bg_urls.iphone12promax,
 		inset: {
 			notch: 47,
 			home_indicator: {

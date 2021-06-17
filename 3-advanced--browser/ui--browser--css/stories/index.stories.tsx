@@ -791,7 +791,11 @@ export function Experimental() {
 import iphone12mini_bg_url from './assets/iphone12_375x812_mini.png'
 import iphone12pro_bg_url from './assets/iphone12_390x844_pro.png'
 import iphone12promax_bg_url from './assets/iphone12_428x926_promax.png'
-
+const bg_urls = {
+	iphone12mini: iphone12mini_bg_url,
+	iphone12pro: iphone12pro_bg_url,
+	iphone12promax: iphone12promax_bg_url,
+}
 
 export function SVGTest() {
 	return <div className="o⋄top-container" style={{
@@ -816,7 +820,7 @@ SVGTest.parameters = {
 SVGTest.decorators = [
 	(Story) => (
 		<WithBodyFullWidth>
-			<WithIphoneNotches>
+			<WithIphoneNotches bg_urls={bg_urls}>
 				{Story()}
 			</WithIphoneNotches>
 		</WithBodyFullWidth>
