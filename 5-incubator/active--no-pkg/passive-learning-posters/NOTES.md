@@ -8,6 +8,19 @@
   * with connections to classic representation
 *
 
+## Posters
+
+### Dinosaurs
+
+### Modern ships
+https://www.freepik.com/search?format=search&sort=popular&premium=0&query=ships
+
+
+### Antiquity world wonders
+
+https://www.freepik.com/search?format=search&sort=popular&premium=0&query=world+wonders
+https://www.freepik.com/search?dates=any&format=search&from_query=train&page=1&query=train&selection=1&sort=popular&type=vector
+
 ## TODO
 
 * Picture of the year wikipedia https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year
@@ -40,11 +53,11 @@
 * every country
   * famous landmarks https://www.freepik.com/free-vector/world-landmarks-set_3977256.htm#page=1&query=world%20wonders&position=3
 * ancient egypt https://www.freepik.com/free-vector/egypt-symbols-decorative-icons-set_4330500.htm#page=8&position=12
-* boats https://www.freepik.com/free-vector/boats-yachts-sailboats-set_4631663.htm#page=7&position=37
 * stone age https://www.freepik.com/free-vector/stone-age-icons_4426177.htm#page=8&position=14
 * habits
   * chaussures https://www.freepik.com/free-vector/footwear-colored-icons-set_4431156.htm#page=1&position=24
 * medieval https://www.freepik.com/free-vector/medieval-royal-heraldry-cartoon-set_6147634.htm#page=1&query=castle&position=40
+* public holidays
 
 Resources
 * https://www.freepik.com/macrovector-official/
