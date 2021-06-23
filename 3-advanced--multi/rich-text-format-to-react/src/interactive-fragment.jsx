@@ -192,7 +192,7 @@ export class InteractiveRichTextFragment extends Component {
 					show={this.state.show_modal}
 					renderBackdrop={this.render_backdrop}
 				>
-					<div className="o⋄box" style={dialog_style()} >
+					<div className="o⋄box o⋄bg-colorꘌbackdrop" style={dialog_style()} >
 						{detailed}
 						<button onClick={this.on_request_close_modal}>Close</button>
 					</div>

@@ -3,7 +3,7 @@
 	top: 0;
 	right: 0;
 	height: 100%;
-	background-color: var(--color--bg--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 
 	transform: translate3d(500px, 0, 0);
 	transition: transform .25s ease-in-out;

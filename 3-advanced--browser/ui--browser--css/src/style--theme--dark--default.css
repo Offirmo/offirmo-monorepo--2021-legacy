@@ -24,7 +24,7 @@
 	--o⋄color⁚fg--accent: #7AACFE;
 
 	--o⋄color⁚bg--main:            hsl(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l));
-	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .75);
+	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .9);
 
 	--o⋄color⁚bg--highlight--1: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .2);
 	--o⋄color⁚bg--highlight--2: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .4);

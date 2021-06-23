@@ -33,7 +33,7 @@
 	padding: .5em .8em .4em;
 	width: fit-content;
 	/* background only here since we don't want bg between buttons */
-	background-color: var(--color--bg--backdrop);
+	background-color: var(--o⋄color⁚bg--main--backdrop);
 }
 /* redefine active and hover since we altered the bg */
 .chat__choices button:hover {

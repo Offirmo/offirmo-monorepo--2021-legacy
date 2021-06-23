@@ -909,3 +909,4 @@ https://fr.wikipedia.org/wiki/Durandal
 https://fr.wikipedia.org/wiki/Liste_d%27%C3%A9p%C3%A9es_l%C3%A9gendaires
 
 https://en.wikipedia.org/wiki/Georges_H%C3%A9bert
+https://en.wikipedia.org/wiki/List_of_National_Inventors_Hall_of_Fame_inductees

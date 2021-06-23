@@ -187,6 +187,65 @@ export function Semantic() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+import MixedBG from './assets/mixed-colors-background-footage-031575133_iconl.webp'
+
+export function BackdropsBackgrounds() {
+	return (
+		<>
+			<h2>backdrop color</h2>
+			<p>Normal fg text should always be readable on the backdrop color</p>
+
+			<div className='o⋄box' style={{backgroundColor: 'var(--o⋄color⁚bg--main)'}}>
+				<div className='o⋄bg-colorꘌbackdrop'>
+					Normal situation: <code>backgroundColor: var(--o⋄color⁚bg--main)</code>
+				</div>
+			</div>
+
+			<div className='o⋄box' style={{backgroundColor: '#808080'}}>
+				<div className='o⋄bg-colorꘌbackdrop'>
+					Middle: <code>backgroundColor: <a href="https://en.wikipedia.org/wiki/Middle_gray">middle gray</a></code>
+				</div>
+			</div>
+
+			<div className='o⋄box' style={{backgroundColor: 'var(--o⋄color⁚fg--main)'}}>
+				<div className='o⋄bg-colorꘌbackdrop'>
+					Opposite: <code>backgroundColor: var(--o⋄color⁚fg--main)</code>
+				</div>
+			</div>
+
+			<div className='o⋄box o⋄bg⁚cover' style={{backgroundImage: `url(` + MixedBG + ')' }}>
+				<div className='o⋄bg-colorꘌbackdrop'>
+					<code>mixed background bg picture</code>
+				</div>
+			</div>
+
+			<div className='o⋄box' style={{position: 'relative'}}>
+				<div>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				</div>
+				<div className='o⋄bg-colorꘌbackdrop' style={{position: 'absolute', top: 0, padding: '25px 0'}}>
+					Normal + underlying text
+				</div>
+			</div>
+
+			<div className='o⋄box'>
+				<div className='o⋄bg-colorꘌbackdrop' style={{position: 'relative'}}>
+					Dual layers Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+					<div className='o⋄box o⋄bg-colorꘌbackdrop' style={{position: 'absolute', top: 0}}>
+						Normal + Second layer Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</div>
+				</div>
+			</div>
+
+			<h2>Alt background colors</h2>
+			<p>TODO</p>
+		</>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export function Fonts() {
 	// https://en.wikipedia.org/wiki/Pangram
 	const pangram = 'The five boxing wizards jump quickly -> Sphinx of black quartz, judge my vow! Pack my box with five dozen liquor jugs…'
@@ -263,14 +322,14 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 		caption,
 	})
 	return (
-		<table style={ {border: '1px solid var(--o⋄color⁚fg--main)'} }>
-			<caption>{ caption }</caption>
+		<table style={ {border: '1px solid var(--o⋄color⁚fg--main)'} } summary="Table of colors defined as CSS variables">
+			<caption>⬇{ caption }⬇</caption>
 			<thead>
 			<tr>
-				<th>CSS variable</th>
-				<th>name</th>
-				<th>foreground</th>
-				<th>background</th>
+				<th scope='col'>CSS variable</th>
+				<th scope='col'>name</th>
+				<th scope='col'>foreground</th>
+				<th scope='col'>background</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -346,8 +405,6 @@ export function Colors() {
 				radixes={ SEMANTIC_COLORS_VARS_RADIX }
 				caption={ 'Semantic colors from CSS variables' }
 			/>
-
-			<hr/>
 
 			<ColorsAsCSSVariablesTable
 				radixes={ BASE_COLORS_VARS_RADIX }
@@ -773,10 +830,27 @@ export function Experimental() {
 			<p className="o⋄glass">
 				<code>o⋄glass</code>
 			</p>
+
 			<p>
 				<code>o⋄outline</code>
-				<span className="o⋄outline">Test</span>
+
+				<div className='o⋄box' style={{backgroundColor: 'var(--o⋄color⁚bg--main)'}}>
+					<span className="o⋄outline">Test</span>
+				</div>
+
+				<div className='o⋄box' style={{backgroundColor: '#808080'}}>
+					<span className="o⋄outline">Test</span>
+				</div>
+
+				<div className='o⋄box' style={{backgroundColor: 'var(--o⋄color⁚fg--main)'}}>
+					<span className="o⋄outline">Test</span>
+				</div>
+
+				<div className='o⋄box o⋄bg⁚cover' style={{backgroundImage: `url(` + MixedBG + ')' }}>
+					<span className="o⋄outline">Test</span>
+				</div>
 			</p>
+
 			<p>
 				<code>o⋄visually-hidden</code>
 				<span className="o⋄visually-hidden">can't see me</span>

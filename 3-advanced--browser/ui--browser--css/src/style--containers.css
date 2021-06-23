@@ -52,8 +52,7 @@
 
 
 .o⋄box {
-	padding: 1em;
-	/* XXX * 1 ??? */
+	padding: .5em;
 	border: solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color⁚fg--main);
 }
 .o⋄bg-colorꘌbackdrop {

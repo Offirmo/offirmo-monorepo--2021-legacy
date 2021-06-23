@@ -11,7 +11,7 @@ const InfoboxViewM = React.memo(
 		//window.set_number_in_favicon = set_number_in_favicon // debug
 
 		return (
-			<div className="o⋄box">
+			<div className="o⋄box o⋄bg-colorꘌbackdrop">
 				⚡ You can play {energy_float >= 1 ? 'right now!' : `in ${human_time_to_next}`} - Energy: {energy_float}/7<br/>
 				🏆 Achievements: {achievements_completion_pct}%
 			</div>

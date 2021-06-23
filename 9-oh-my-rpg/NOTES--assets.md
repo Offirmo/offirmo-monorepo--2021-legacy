@@ -49,6 +49,10 @@ free items/icons (+ links to others) https://www.deviantart.com/7soul1/art/420-P
 https://fonts.google.com/specimen/Varela+Round
 * exotique https://www.behance.net/gallery/53874837/Carre-Typeface
 
+Comics
+* multi case https://www.dafont.com/fr/lacartoonerie.font
+* mono case https://purastik.net/ames/e.html
+
 
 ### icons
 * https://game-icons.net/
