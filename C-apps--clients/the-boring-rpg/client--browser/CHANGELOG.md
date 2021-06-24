@@ -13,6 +13,8 @@
 
 
 ## NEXT
+
+## v0.67.2
 - 😅 fix: the size of the app was once again cut in half! (much faster loading time 🚀)
 - 😅 fix: the scrollbars are now properly styled in Firefox 💅
 - 😷 chore: some internal refactors
