@@ -1,5 +1,7 @@
 const massive = require('massive')
 
+// 		"massive": "^6",
+
 // postgres://someuser:somepassword@somehost:381/somedatabase
 const connectionString = 'postgres://postgres:@localhost:32768'
 

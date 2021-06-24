@@ -35,6 +35,7 @@ nvm install
 npm i -g yarn
 yarn global add bolt
 bolt
+bolt postinstall
 bolt build
 bolt test
 ```

@@ -29,7 +29,7 @@
 	--o⋄color⁚bg--highlight--1: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .2);
 	--o⋄color⁚bg--highlight--2: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .4);
 
-	--o⋄color⁚shadow: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .2); /* = fg translucent */
+	--o⋄color⁚shadow: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .2);
 
 	--o⋄color⁚fg--error: red;
 	--o⋄color⁚fg--warning: var(--o⋄color⁚boz__yellow);
