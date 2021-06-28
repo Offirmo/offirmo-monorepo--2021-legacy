@@ -8,7 +8,7 @@ export default function WithOffirmoCssSetup({ children }) {
 
 	html_elt.classList.add('o⋄top-container')
 
-	body_elt.classList.add(/*'o⋄body⁚full-viewport',*/ 'o⋄top-container', 'o⋄font⁚fast-and-good-enough')
+	body_elt.classList.add(/*'o⋄body⁚full-viewport',*/ 'o⋄top-container', 'o⋄fontꘌfast-and-good-enough')
 	body_elt.classList.remove('sb-show-main', 'sb-main-padded')
 
 	const root_elt = document.getElementById('root')

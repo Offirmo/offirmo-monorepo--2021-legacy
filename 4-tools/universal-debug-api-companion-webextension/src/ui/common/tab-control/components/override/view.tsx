@@ -189,7 +189,7 @@ export default class OverrideLine extends Component<Props> {
 					return (
 						<Fragment>
 							{is_disabled ? '' : <span
-								className={'o⋄font⁚roboto-condensed override-input-label'}>forced to <b>{`${value}`}</b></span>}
+								className={'o⋄fontꘌroboto-condensed override-input-label'}>forced to <b>{`${value}`}</b></span>}
 							<ToggleStateless
 								{...field_props}
 								size="large"
@@ -215,7 +215,7 @@ export default class OverrideLine extends Component<Props> {
 					return (
 						<Fragment>
 							{is_disabled ? '' :
-								<span className={'o⋄font⁚roboto-condensed override-input-label'}>forced to </span>}
+								<span className={'o⋄fontꘌroboto-condensed override-input-label'}>forced to </span>}
 							<Select
 								{...field_props}
 								isDisabled={is_disabled}

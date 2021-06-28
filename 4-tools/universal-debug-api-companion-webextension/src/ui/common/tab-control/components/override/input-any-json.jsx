@@ -39,13 +39,13 @@ export default class AnyJsonInput extends Component {
 		return (
 			<Fragment>
 				{!isDisabled && <span>forced to </span>}
-				<input type="text" className={`o⋄font⁚roboto-condensed ${has_error ? 'override-input--error' : ''}`}
+				<input type="text" className={`o⋄fontꘌroboto-condensed ${has_error ? 'override-input--error' : ''}`}
 					value={value_sjson}
 					disabled={isDisabled}
 					onChange={this.on_change}
 					ref={this.input}
 				/>
-				<span className="o⋄font⁚roboto-condensed">(JSON)</span>
+				<span className="o⋄fontꘌroboto-condensed">(JSON)</span>
 			</Fragment>
 		)
 	}

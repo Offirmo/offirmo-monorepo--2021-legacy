@@ -24,7 +24,7 @@ const GlobalSwitchVM = React.memo(
 					</span>
 
 					<span className={'override-label'}>
-						Inject the Universal Debug API library into: <span className="o⋄font⁚roboto-condensed">{origin}</span>
+						Inject the Universal Debug API library into: <span className="o⋄fontꘌroboto-condensed">{origin}</span>
 					</span>
 				</div>
 

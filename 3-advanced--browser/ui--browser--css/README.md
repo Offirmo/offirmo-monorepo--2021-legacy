@@ -60,11 +60,11 @@ Activated through classes:
   * `o⋄plain-list`
 
 * Technical classes (like`o⋄key⁚value`):
-  * `o⋄font⁚fast-and-good-enough`
-  * `o⋄font⁚system`
-  * `o⋄font⁚roboto`
-  * `o⋄font⁚roboto-condensed`
-  * `o⋄font⁚roboto-mono`
+  * `o⋄fontꘌfast-and-good-enough`
+  * `o⋄fontꘌsystem`
+  * `o⋄fontꘌroboto`
+  * `o⋄fontꘌroboto-condensed`
+  * `o⋄fontꘌroboto-mono`
 
   * `o⋄color⁚main`
   * `o⋄color⁚secondary`

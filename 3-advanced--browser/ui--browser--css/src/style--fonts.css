@@ -13,24 +13,24 @@
 
 /*********************/
 
-.o⋄font⁚fast-and-good-enough {
+.o⋄fontꘌfast-and-good-enough {
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	/* TODO font size */
 }
 
-.o⋄font⁚system {
+.o⋄fontꘌsystem {
 	font-family: var(--o⋄font-family--system);
 }
 
-.o⋄font⁚roboto {
+.o⋄fontꘌroboto {
 	font-family: var(--o⋄font-family--roboto);
 }
 
-.o⋄font⁚roboto-condensed {
+.o⋄fontꘌroboto-condensed {
 	font-family: var(--o⋄font-family--roboto-condensed);
 }
 
-.o⋄font⁚roboto-mono {
+.o⋄fontꘌroboto-mono {
 	font-family: var(--o⋄font-family--roboto-mono);
 }
 

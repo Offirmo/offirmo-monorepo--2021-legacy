@@ -124,14 +124,14 @@ export function Fonts() {
 			</p>
 			<hr/>
 
-			<p className="o⋄font⁚roboto">
-				Featuring the nice and precise "roboto" font-family (<code>.o⋄font⁚roboto</code>)
+			<p className="o⋄fontꘌroboto">
+				Featuring the nice and precise "roboto" font-family (<code>.o⋄fontꘌroboto</code>)
 				<br/>{ pangram }
 			</p>
 			<hr/>
 
-			<p className="o⋄font⁚roboto-condensed">
-				Featuring the nice and precise "roboto condensed" font-family (<code>.o⋄font⁚roboto-condensed</code>)
+			<p className="o⋄fontꘌroboto-condensed">
+				Featuring the nice and precise "roboto condensed" font-family (<code>.o⋄fontꘌroboto-condensed</code>)
 				<br/>{ pangram }
 			</p>
 		</main>
@@ -161,7 +161,7 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 				const css_var = `--o⋄color⁚` + radix
 				return (
 					<tr key={ radix }>
-						<td className="o⋄font⁚roboto-mono">{ css_var }</td>
+						<td className="o⋄fontꘌroboto-mono">{ css_var }</td>
 						<td>{ radix }</td>
 						{
 							radix.startsWith('bg--')

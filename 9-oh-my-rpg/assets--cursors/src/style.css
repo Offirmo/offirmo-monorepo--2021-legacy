@@ -1,0 +1,5 @@
+.omr⋄cursorꘌsword--standard {
+	/* credits: http://www.rw-designer.com/cursor-detail/79261 CC*/
+	cursor: url('cursor--sword--standard--1.5x.png'), auto !important;
+	cursor: -webkit-image-set(url('cursor--sword--standard--1.5x.png') 1x), auto !important;
+}

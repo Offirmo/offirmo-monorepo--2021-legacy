@@ -111,7 +111,7 @@ export function Normalization() {
 
 export function Semantic() {
 	return (
-		<div className="o⋄font⁚fast-and-good-enough o⋄flow">
+		<div className="o⋄fontꘌfast-and-good-enough o⋄flow">
 			<header>
 				<nav>
 					<ul className="o⋄nav-list">
@@ -252,32 +252,32 @@ export function Fonts() {
 
 	return (
 		<>
-			<p className="o⋄font⁚fast-and-good-enough">
-				Featuring the "fast and good enough" font-family (.o⋄font⁚fast-and-good-enough)
+			<p className="o⋄fontꘌfast-and-good-enough">
+				Featuring the "fast and good enough" font-family (.o⋄fontꘌfast-and-good-enough)
 				<br/>{ pangram }
 			</p>
 			<hr/>
 
-			<p className="o⋄font⁚system">
-				Featuring the "system" font-family (.o⋄font⁚system)
+			<p className="o⋄fontꘌsystem">
+				Featuring the "system" font-family (.o⋄fontꘌsystem)
 				<br/>{ pangram }
 			</p>
 			<hr/>
 
-			<p className="o⋄font⁚roboto">
-				Featuring the nice and precise "roboto" font-family (.o⋄font⁚roboto)
+			<p className="o⋄fontꘌroboto">
+				Featuring the nice and precise "roboto" font-family (.o⋄fontꘌroboto)
 				<br/>{ pangram }
 			</p>
 			<hr/>
 
-			<p className="o⋄font⁚roboto-condensed">
-				Featuring the nice and precise "roboto condensed" font-family (.o⋄font⁚roboto-condensed)
+			<p className="o⋄fontꘌroboto-condensed">
+				Featuring the nice and precise "roboto condensed" font-family (.o⋄fontꘌroboto-condensed)
 				<br/>{ pangram }
 			</p>
 			<hr/>
 
-			<p className="o⋄font⁚roboto-mono">
-				Featuring the code wise "roboto mono" font-family (.o⋄font⁚roboto-mono)
+			<p className="o⋄fontꘌroboto-mono">
+				Featuring the code wise "roboto mono" font-family (.o⋄fontꘌroboto-mono)
 				<br/>{ pangram }
 			</p>
 		</>
@@ -337,7 +337,7 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 				const css_var = `--o⋄color⁚` + radix
 				return (
 					<tr key={ radix }>
-						<td className="o⋄font⁚roboto-mono">{ css_var }</td>
+						<td className="o⋄fontꘌroboto-mono">{ css_var }</td>
 						<td>{ radix }</td>
 						{
 							radix.startsWith('bg--')

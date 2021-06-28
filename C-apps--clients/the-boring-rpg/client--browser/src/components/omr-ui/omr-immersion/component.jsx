@@ -23,7 +23,7 @@ const MainAreaView = React.memo(
 		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 MainAreaView')
 
 		return (
-			<div className="omr⋄content-area o⋄top-container main-area omr⋄cursor⁚sword">
+			<div className="omr⋄content-area o⋄top-container main-area omr⋄cursorꘌsword--standard">
 
 				<Scenery />
 

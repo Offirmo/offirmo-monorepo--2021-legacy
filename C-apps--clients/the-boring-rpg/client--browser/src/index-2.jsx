@@ -18,6 +18,7 @@ import init_netlify from './services/user_account'
 import Root from './components/root'
 
 import './index-2.css'
+import '@oh-my-rpg/assets--cursors/src/style.css'
 
 /////////////////////////////////////////////////
 

@@ -81,7 +81,7 @@ export default class TabControl extends Component {
 
 		const origin = get_origin(app_state)
 		return (
-			<div className="tab-controls o⋄font⁚roboto">
+			<div className="tab-controls o⋄fontꘌroboto">
 				<h1><span className="o⋄character-as-icon">🛠</span> Universal Web Dev Tool</h1>
 				{app_state.tab.id === -1
 					? <LoadingVM />
