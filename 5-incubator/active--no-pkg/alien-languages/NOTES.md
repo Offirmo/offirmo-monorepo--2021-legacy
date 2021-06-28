@@ -33,3 +33,6 @@ Alien fonts
 
 symbols
 * https://en.wikipedia.org/wiki/Mason%27s_mark http://freemasonry.bcy.ca/history/marks/marks.html
+
+
+https://greekreporter.com/2021/05/13/minoan-language-linear-a-linked-to-linear-b-in-groundbreaking-new-research/

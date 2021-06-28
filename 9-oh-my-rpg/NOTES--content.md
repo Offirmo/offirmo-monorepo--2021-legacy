@@ -910,3 +910,45 @@ https://fr.wikipedia.org/wiki/Liste_d%27%C3%A9p%C3%A9es_l%C3%A9gendaires
 
 https://en.wikipedia.org/wiki/Georges_H%C3%A9bert
 https://en.wikipedia.org/wiki/List_of_National_Inventors_Hall_of_Fame_inductees
+https://www.nytimes.com/2021/01/22/well/standing-7-minute-workout.html
+https://science.slashdot.org/story/21/06/16/233201/when-graphs-are-a-matter-of-life-and-death
+https://it.slashdot.org/story/21/06/18/1933233/80-of-orgs-that-paid-the-ransom-were-hit-again-report-finds
+https://gizmodo.com/twitter-rallies-behind-hbo-max-intern-blamed-for-test-e-1847133274
+https://it.slashdot.org/story/21/06/20/1632251/interns-email-goof-at-hbo-max-inspires-hundreds-to-show-support-on-twitter
+https://gru.gq/2020/02/12/forgotten-tricks-of-trench-warfare/
+
+https://en.wikipedia.org/wiki/Serfdom
+
+dutch proverbs https://commons.wikimedia.org/wiki/File:Pieter_Brueghel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg
+
+https://en.wikipedia.org/wiki/File:Plutchik_Dyads.svg
+https://en.wikipedia.org/wiki/File:Plutchik-wheel.svg
+https://en.wikipedia.org/wiki/Contempt
+https://en.wikipedia.org/wiki/Moral_emotions
+https://en.wikipedia.org/wiki/Worldview
+
+
+https://www.famillechretienne.fr/6603/article/manipulateurs-pervers-narcissiques-comment-les-reconnaitre
+* certitude d'être exceptionnel
+* indifférence à la souffrance d'autrui
+  Tous les marqueurs montrent que, depuis plus de cinquante ans, les individus sont en Occident toujours plus narcissiques : l’auto-évaluation permanente, l’individualisme, l’image surdopée de soi, l’incivilité, le culte de l’apparence… Dès lors, la pathologie narcissique devient un marqueur de notre société. L’éducation actuelle la favorise : si vous voulez que votre enfant devienne un tyran, faites-en un prince, dites-lui constamment qu’il est le meilleur, qu’il doit d’abord penser à lui, à son plaisir et à sa réussite. Pablo Picasso fut une PN destructrice et probablement aussi un pervers. Or, le petit Pablito fut non seulement adoré par sa mère, mais fétichisé. En revanche, il ne semble pas qu’une PN puisse apparaître dans une constellation familiale saine.
+  les PN victimaires, et les sauveteurs. Les narcissiques victimaires (à distinguer des victimes authentiques) prolifèrent dans les groupes chrétiens parce que ceux-ci sont généralement chaleureux et ouverts à la compassion. L’entourage du victimaire est alors intégralement mobilisé à son service, culpabilisé de ne pas en faire assez, sans être jamais remercié et sans que le victimaire fasse le moindre effort pour se sortir de sa situation.
+  Et le profil du sauveteur ?
+
+Là encore, distinguons le sauveur du sauveteur. André Frossard disait que l’intégriste est celui qui fait la volonté de Dieu que Dieu le veuille ou non. Eh bien, le sauveteur est celui qui fait le bien de l’autre… que l’autre le veuille ou non ! C’est la personne qui impose son aide – « C’est pour ton bien » ! Jésus, Lui, propose, Il ne s’impose pas : « Que veux-tu que je fasse pour toi ? »
+
+Cinq conseils pour discerner
+1. Si une personne ne reconnaît jamais ses torts, en reconnaît quelques-uns mais ne change pas, voire vous le fait payer, attention ! Peut-être avez-vous affaire à une PN.
+2. Jamais Dieu ne peut demander quelque chose qui s’oppose à la loi morale. Celui qui transgresse n’est assurément pas inspiré par Dieu.
+3. Plus l’identité d’une communauté est forte, plus il est nécessaire de distinguer les « fonctions » : modérateur, accompagnateur spirituel, médecin Toujours bien séparer for interne et for externe.
+4. Toute personne qui exerce une fonction de gouvernement doit connaître les signes principaux de la PN. En cas de doute, elle doit s’informer auprès d’une personne compétente.
+5. Repérer les PN ne suffit pas, il faut aussi et d’abord prendre soin des nombreuses victimes dans l’entourage.  
+
+
+Gaulois
+- https://fr.wikipedia.org/wiki/Gaulois_(langue)
+- https://fr.wikipedia.org/wiki/Tau_gallicum
+
+bondmaid https://www.rd.com/article/oxford-english-dictionary-forgot-word/ https://www.mentalfloss.com/article/523939/time-oxford-english-dictionary-forgot-word
+
+https://www.rd.com/list/almost-extinct-words/

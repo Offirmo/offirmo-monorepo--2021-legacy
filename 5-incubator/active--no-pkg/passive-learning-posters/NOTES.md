@@ -93,6 +93,37 @@ https://en.wikipedia.org/wiki/List_of_National_Inventors_Hall_of_Fame_inductees
 
 Resources
 * Picture of the year wikipedia https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2020
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2019/Results/All
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2018/Results/All
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2017/Results/All
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2016/Results/All
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2015/Results/All
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2014/R2/Results/Candidates/Gallery
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2013/R1/Results/Candidates
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2012/Results/R1/ALL/gallery
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2011/Results/R1/Finalists
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2010/Results/Final
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2009
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2008
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2007
+  https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2006
+
+* https://www.mindat.org/gallery.php?potd=1
 * freepik
   * https://www.freepik.com/macrovector-official/
   * https://www.freepik.com/macrovector
+
+https://www.bbc.com/news/world-europe-57587424 AI helps restore Rembrandt's Night Watch masterpiece
+
+Exemples
+https://www.cdiscount.com/juniors/r-poster+educatif.html
+https://www.cultura.com/dinosaures-3395971600005.html
+https://www.cultura.com/livre/livres-scolaire-parascolaire/posters-educatifs.html?p=1
+https://www.amazon.com.au/Educational-Preschool-Homeschool-Kindergarten-Classroom/dp/B08JKD26FK/
+
+https://www.si.edu/spotlight/backgrounds
+
+https://fr.wikipedia.org/wiki/La_Libert%C3%A9_guidant_le_peuple
+
+https://en.wikipedia.org/wiki/K%C3%A1rm%C3%A1n_line

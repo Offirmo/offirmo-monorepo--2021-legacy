@@ -8,45 +8,34 @@ const sum_up_module = require('sum-up')
 
 const MARKDOWN_OUTPUT = true
 const DISPLAY_CODE = true
-const ROOT_RELATIVE_PATH = '..'
 
-if (!MARKDOWN_OUTPUT) console.log(sum_up_module(require(path.join(ROOT_RELATIVE_PATH, 'package.json'))))
+if (!MARKDOWN_OUTPUT) console.log(sum_up_module(require(path.join('..', 'package.json'))))
 
-const originalRequire = require
-require = function(moduleRef) {
-	if (moduleRef.startsWith('@offirmo/cli-toolbox/'))
-		moduleRef = path.join(ROOT_RELATIVE_PATH, moduleRef.slice(21))
-	return originalRequire(moduleRef)
-}
 
 require('@offirmo/cli-toolbox/stdout/clear-cli')()
 const stylize_string = require('@offirmo/cli-toolbox/string/stylize')
 
+////////////////////////////////////
 
-function demo(moduleName, urlOrModeModuleNames, fn) {
+function demo(toolbox_path, underlying_pkgs, demo_fn) {
 	if (MARKDOWN_OUTPUT)
-		console.log(`\n### ${moduleName}`)
+		console.log(`\n### ${toolbox_path}`)
 	else
-		console.log(`~~~~~~~ ${moduleName} ~~~~~~~`)
+		console.log(`~~~~~~~ ${toolbox_path} ~~~~~~~`)
 
-	urlOrModeModuleNames = Array.isArray(urlOrModeModuleNames) ? urlOrModeModuleNames : [ urlOrModeModuleNames ]
+	underlying_pkgs = Array.isArray(underlying_pkgs) ? underlying_pkgs : [ underlying_pkgs ]
 	console.log('Based on:')
-	urlOrModeModuleNames.forEach(urlOrModeModuleName => {
-		if (urlOrModeModuleName.slice(0, 4) === 'http') {
-			console.log(`See more at ${stylize_string.blue(urlOrModeModuleName)}`)
-		}
-		else {
-			const modulePackage = { json: require(path.join(ROOT_RELATIVE_PATH, 'node_modules', urlOrModeModuleName, 'package.json'))}
-			let resume = '* ' + sum_up_module(modulePackage.json)
-			if (MARKDOWN_OUTPUT) resume = resume.split('\n').join('\n  * ')
-			// TODO add link
-			console.log(resume)
-		}
+	underlying_pkgs.forEach(pkg_name => {
+		const package = { json: require(path.join(pkg_name, 'package.json'))}
+		let resume = '* ' + sum_up_module(package.json)
+		if (MARKDOWN_OUTPUT) resume = resume.split('\n').join('\n  * ')
+		// TODO add link
+		console.log(resume)
 	})
 
 	if (DISPLAY_CODE) {
 		console.log('```js')
-		console.log(fn.toString()
+		console.log(demo_fn.toString()
 			.split('\n')
 			.slice(1, -1) // remove useless 1st and last line
 			.map(s => s.slice(2)) // remove indentation (2x tabs)
@@ -57,20 +46,20 @@ function demo(moduleName, urlOrModeModuleNames, fn) {
 
 	console.log(stylize_string.dim.italic('output:'))
 	if (MARKDOWN_OUTPUT) console.log('```')
-	return Promise.resolve(fn())
+	return Promise.resolve(demo_fn())
 		.then(() => {
 				if (MARKDOWN_OUTPUT) console.log('```')
 			})
 }
 
-let sequence = Promise.resolve()
+////////////////////////////////////
 
+let sequence = Promise.resolve()
 
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'framework/meow',
 	'meow',
-	//'https://github.com/sindresorhus/meow',
 	() => {
 		const meow = require('@offirmo/cli-toolbox/framework/meow')
 
@@ -101,7 +90,7 @@ sequence = sequence.then(() => demo(
 	() => {
 		const json = require('@offirmo/cli-toolbox/fs/json')
 
-		const filepath = path.join(__dirname, ROOT_RELATIVE_PATH, 'package.json')
+		const filepath = path.join(__dirname, '..', 'package.json')
 
 		function process_data({name, version, description, author, license}) {
 			console.log({name, version, description, author, license})
@@ -127,14 +116,14 @@ sequence = sequence.then(() => demo(
 	() => {
 		const fs = require('@offirmo/cli-toolbox/fs/extra')
 
-		const dirs = fs.lsDirsSync(path.join(__dirname, ROOT_RELATIVE_PATH))
+		const dirs = fs.lsDirsSync(path.join(__dirname, '..'))
 		console.log(dirs)
 	}
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'stdout/clear-cli',
-	'https://github.com/sindresorhus/clear-cli',
+	'ansi-escapes',
 	() => {
 		const clearCli = require('@offirmo/cli-toolbox/stdout/clear-cli')
 
@@ -261,7 +250,6 @@ sequence = sequence.then(() => demo(
 sequence = sequence.then(() => demo(
 	'string/boxify',
 	'boxen',
-	//'https://github.com/sindresorhus/boxen',
 	() => {
 		const boxify = require('@offirmo/cli-toolbox/string/boxify')
 

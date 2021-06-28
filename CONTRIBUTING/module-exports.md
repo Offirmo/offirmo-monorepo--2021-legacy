@@ -19,6 +19,7 @@ Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue
 ## Technical details
 
 ### PENDING updates
+- TODO full ES6 https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c#how-can-i-move-my-commonjs-project-to-esm
 - 2021/06? new ES 2020 → 2021
 - 2021/10/26 oldest active LTS node 14 → 16  https://nodejs.org/en/about/releases/
 - ??? webpack release 5 → 6  https://github.com/webpack/webpack/milestones
