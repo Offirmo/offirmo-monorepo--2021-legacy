@@ -11864,7 +11864,7 @@ module.exports.codes = codes;
  * e.g. [HTMLElement] => body > div > input#foo.btn[name=baz]
  * @returns generated DOM path
  */
-function htmlTreeAsString(elem, keyAttr) {
+function htmlTreeAsString(elem, keyAttrs) {
     // try/catch both:
     // - accessing event.target (see getsentry/raven-js#838, #768)
     // - `htmlTreeAsString` because it's complex, and just accessing the DOM incorrectly
@@ -11881,7 +11881,7 @@ function htmlTreeAsString(elem, keyAttr) {
         var nextStr = void 0;
         // eslint-disable-next-line no-plusplus
         while (currentElem && height++ < MAX_TRAVERSE_HEIGHT) {
-            nextStr = _htmlElementAsString(currentElem, keyAttr);
+            nextStr = _htmlElementAsString(currentElem, keyAttrs);
             // bail out if
             // - nextStr is the 'html' element
             // - the length of the string that would be created exceeds MAX_OUTPUT_LEN
@@ -11904,7 +11904,8 @@ function htmlTreeAsString(elem, keyAttr) {
  * e.g. [HTMLElement] => input#foo.btn[name=baz]
  * @returns generated DOM path
  */
-function _htmlElementAsString(el, keyAttr) {
+function _htmlElementAsString(el, keyAttrs) {
+    var _a, _b;
     var elem = el;
     var out = [];
     var className;
@@ -11916,9 +11917,13 @@ function _htmlElementAsString(el, keyAttr) {
         return '';
     }
     out.push(elem.tagName.toLowerCase());
-    var keyAttrValue = keyAttr ? elem.getAttribute(keyAttr) : null;
-    if (keyAttrValue) {
-        out.push("[" + keyAttr + "=\"" + keyAttrValue + "\"]");
+    // Pairs of attribute keys defined in `serializeAttribute` and their values on element.
+    var keyAttrPairs = ((_a = keyAttrs) === null || _a === void 0 ? void 0 : _a.length) ? keyAttrs.filter(function (keyAttr) { return elem.getAttribute(keyAttr); }).map(function (keyAttr) { return [keyAttr, elem.getAttribute(keyAttr)]; })
+        : null;
+    if ((_b = keyAttrPairs) === null || _b === void 0 ? void 0 : _b.length) {
+        keyAttrPairs.forEach(function (keyAttrPair) {
+            out.push("[" + keyAttrPair[0] + "=\"" + keyAttrPair[1] + "\"]");
+        });
     }
     else {
         if (elem.id) {
@@ -24357,7 +24362,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.7.2';
+var SDK_VERSION = '6.8.0';
 //# sourceMappingURL=version.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(8);
@@ -25250,14 +25255,16 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
     /**
      * Add a promise to the queue.
      *
-     * @param task Can be any PromiseLike<T>
+     * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task: PromiseLike<T>`,
+     *        however, Promises were instantly created on the call-site, making them fall through the buffer limit.
      * @returns The original promise.
      */
-    PromiseBuffer.prototype.add = function (task) {
+    PromiseBuffer.prototype.add = function (taskProducer) {
         var _this = this;
         if (!this.isReady()) {
             return syncpromise["a" /* SyncPromise */].reject(new error_SentryError('Not adding Promise due to buffer limit reached.'));
         }
+        var task = taskProducer();
         if (this._buffer.indexOf(task) === -1) {
             this._buffer.push(task);
         }
@@ -25503,51 +25510,53 @@ var base_BaseTransport = /** @class */ (function () {
                 if (!this._buffer.isReady()) {
                     return [2 /*return*/, Promise.reject(new error_SentryError('Not adding Promise due to buffer limit reached.'))];
                 }
-                return [2 /*return*/, this._buffer.add(new Promise(function (resolve, reject) {
-                        if (!_this.module) {
-                            throw new error_SentryError('No module available');
-                        }
-                        var options = _this._getRequestOptions(_this.urlParser(sentryRequest.url));
-                        var req = _this.module.request(options, function (res) {
-                            var statusCode = res.statusCode || 500;
-                            var status = Status.fromHttpCode(statusCode);
-                            res.setEncoding('utf8');
-                            /**
-                             * "Key-value pairs of header names and values. Header names are lower-cased."
-                             * https://nodejs.org/api/http.html#http_message_headers
-                             */
-                            var retryAfterHeader = res.headers ? res.headers['retry-after'] : '';
-                            retryAfterHeader = (Array.isArray(retryAfterHeader) ? retryAfterHeader[0] : retryAfterHeader);
-                            var rlHeader = res.headers ? res.headers['x-sentry-rate-limits'] : '';
-                            rlHeader = (Array.isArray(rlHeader) ? rlHeader[0] : rlHeader);
-                            var headers = {
-                                'x-sentry-rate-limits': rlHeader,
-                                'retry-after': retryAfterHeader,
-                            };
-                            var limited = _this._handleRateLimit(headers);
-                            if (limited)
-                                logger["a" /* logger */].warn("Too many " + sentryRequest.type + " requests, backing off until: " + _this._disabledUntil(sentryRequest.type));
-                            if (status === Status.Success) {
-                                resolve({ status: status });
+                return [2 /*return*/, this._buffer.add(function () {
+                        return new Promise(function (resolve, reject) {
+                            if (!_this.module) {
+                                throw new error_SentryError('No module available');
                             }
-                            else {
-                                var rejectionMessage = "HTTP Error (" + statusCode + ")";
-                                if (res.headers && res.headers['x-sentry-error']) {
-                                    rejectionMessage += ": " + res.headers['x-sentry-error'];
+                            var options = _this._getRequestOptions(_this.urlParser(sentryRequest.url));
+                            var req = _this.module.request(options, function (res) {
+                                var statusCode = res.statusCode || 500;
+                                var status = Status.fromHttpCode(statusCode);
+                                res.setEncoding('utf8');
+                                /**
+                                 * "Key-value pairs of header names and values. Header names are lower-cased."
+                                 * https://nodejs.org/api/http.html#http_message_headers
+                                 */
+                                var retryAfterHeader = res.headers ? res.headers['retry-after'] : '';
+                                retryAfterHeader = (Array.isArray(retryAfterHeader) ? retryAfterHeader[0] : retryAfterHeader);
+                                var rlHeader = res.headers ? res.headers['x-sentry-rate-limits'] : '';
+                                rlHeader = (Array.isArray(rlHeader) ? rlHeader[0] : rlHeader);
+                                var headers = {
+                                    'x-sentry-rate-limits': rlHeader,
+                                    'retry-after': retryAfterHeader,
+                                };
+                                var limited = _this._handleRateLimit(headers);
+                                if (limited)
+                                    logger["a" /* logger */].warn("Too many " + sentryRequest.type + " requests, backing off until: " + _this._disabledUntil(sentryRequest.type));
+                                if (status === Status.Success) {
+                                    resolve({ status: status });
                                 }
-                                reject(new error_SentryError(rejectionMessage));
-                            }
-                            // Force the socket to drain
-                            res.on('data', function () {
-                                // Drain
+                                else {
+                                    var rejectionMessage = "HTTP Error (" + statusCode + ")";
+                                    if (res.headers && res.headers['x-sentry-error']) {
+                                        rejectionMessage += ": " + res.headers['x-sentry-error'];
+                                    }
+                                    reject(new error_SentryError(rejectionMessage));
+                                }
+                                // Force the socket to drain
+                                res.on('data', function () {
+                                    // Drain
+                                });
+                                res.on('end', function () {
+                                    // Drain
+                                });
                             });
-                            res.on('end', function () {
-                                // Drain
-                            });
+                            req.on('error', reject);
+                            req.end(sentryRequest.body);
                         });
-                        req.on('error', reject);
-                        req.end(sentryRequest.body);
-                    }))];
+                    })];
             });
         });
     };
@@ -26599,14 +26608,14 @@ var baseclient_BaseClient = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=baseclient.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/sessionFlusher.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/sessionflusher.js
 
 
 
 /**
  * @inheritdoc
  */
-var sessionFlusher_SessionFlusher = /** @class */ (function () {
+var sessionflusher_SessionFlusher = /** @class */ (function () {
     function SessionFlusher(transport, attrs) {
         var _this = this;
         this.flushTimeout = 60;
@@ -26703,7 +26712,7 @@ var sessionFlusher_SessionFlusher = /** @class */ (function () {
     return SessionFlusher;
 }());
 
-//# sourceMappingURL=sessionFlusher.js.map
+//# sourceMappingURL=sessionflusher.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/client.js
 
 
@@ -26795,7 +26804,7 @@ var client_NodeClient = /** @class */ (function (_super) {
             logger["a" /* logger */].warn('Cannot initialise an instance of SessionFlusher if no release is provided!');
         }
         else {
-            this._sessionFlusher = new sessionFlusher_SessionFlusher(this._backend.getTransport(), {
+            this._sessionFlusher = new sessionflusher_SessionFlusher(this._backend.getTransport(), {
                 release: release,
                 environment: environment,
             });
@@ -28727,21 +28736,31 @@ var metrics_MetricsInstrumentation = /** @class */ (function () {
                 });
             }
             transaction.setMeasurements(this._measurements);
-            if (this._lcpEntry) {
-                logger["a" /* logger */].log('[Measurements] Adding LCP Data');
-                // Capture Properties of the LCP element that contributes to the LCP.
-                if (this._lcpEntry.element) {
-                    transaction.setTag('lcp.element', Object(browser["a" /* htmlTreeAsString */])(this._lcpEntry.element));
-                }
-                if (this._lcpEntry.id) {
-                    transaction.setTag('lcp.id', this._lcpEntry.id);
-                }
-                if (this._lcpEntry.url) {
-                    // Trim URL to the first 200 characters.
-                    transaction.setTag('lcp.url', this._lcpEntry.url.trim().slice(0, 200));
-                }
-                transaction.setTag('lcp.size', this._lcpEntry.size);
+            this._tagMetricInfo(transaction);
+        }
+    };
+    /** Add LCP / CLS data to transaction to allow debugging */
+    MetricsInstrumentation.prototype._tagMetricInfo = function (transaction) {
+        if (this._lcpEntry) {
+            logger["a" /* logger */].log('[Measurements] Adding LCP Data');
+            // Capture Properties of the LCP element that contributes to the LCP.
+            if (this._lcpEntry.element) {
+                transaction.setTag('lcp.element', Object(browser["a" /* htmlTreeAsString */])(this._lcpEntry.element));
             }
+            if (this._lcpEntry.id) {
+                transaction.setTag('lcp.id', this._lcpEntry.id);
+            }
+            if (this._lcpEntry.url) {
+                // Trim URL to the first 200 characters.
+                transaction.setTag('lcp.url', this._lcpEntry.url.trim().slice(0, 200));
+            }
+            transaction.setTag('lcp.size', this._lcpEntry.size);
+        }
+        if (this._clsEntry) {
+            logger["a" /* logger */].log('[Measurements] Adding CLS Data');
+            this._clsEntry.sources.map(function (source, index) {
+                return transaction.setTag("cls.source." + (index + 1), Object(browser["a" /* htmlTreeAsString */])(source.node));
+            });
         }
     };
     /** Starts tracking the Cumulative Layout Shift on the current page. */
@@ -28754,6 +28773,7 @@ var metrics_MetricsInstrumentation = /** @class */ (function () {
             }
             logger["a" /* logger */].log('[Measurements] Adding CLS');
             _this._measurements['cls'] = { value: metric.value };
+            _this._clsEntry = entry;
         });
     };
     /**
