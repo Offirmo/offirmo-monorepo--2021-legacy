@@ -952,3 +952,20 @@ Gaulois
 bondmaid https://www.rd.com/article/oxford-english-dictionary-forgot-word/ https://www.mentalfloss.com/article/523939/time-oxford-english-dictionary-forgot-word
 
 https://www.rd.com/list/almost-extinct-words/
+
+Understanding the 12 Stages of Burnout
+
+Psychologists Herbert Freudenberger and Gail North developed the 12-stage model of burnout that affects so many professionals today:
+* The Compulsion to Prove Oneself:feeling like you constantly have to demonstrate your worth
+* Working Harder:becoming a work “addict”
+* Neglecting Needs:not sleeping or eating well, lack of social interaction
+* Displacement of Conflicts:blaming others or your situation for all of your problems, including your stress level
+* Revision of Values: your friends and family are no longer as important as your work
+* Denial of Emerging Problems: intolerance; perceiving others at work as stupid, lazy, demanding, or undisciplined
+* Withdrawal: avoiding or dreading social interaction, using alcohol or drugs to try to feel relief from stress
+* Odd Behavioral Changes: changes in behavior such as impatience, aggression, and snapping at friends and family
+* Depersonalization:feeling detached – seeing neither yourself nor others as valuable
+* Inner Emptiness: feeling empty inside and to overcome this, looking for activity such as overeating, sex, alcohol, or drugs
+* Depression: feeling lost and unsure, exhausted, future feels bleak and dark
+* Burnout Syndrome: can include total mental and physical collapse; time for full medical attention.
+
