@@ -969,3 +969,6 @@ Psychologists Herbert Freudenberger and Gail North developed the 12-stage model 
 * Depression: feeling lost and unsure, exhausted, future feels bleak and dark
 * Burnout Syndrome: can include total mental and physical collapse; time for full medical attention.
 
+Close to becoming a noble due to achievements = other nobles try to kill
+
+https://upload.wikimedia.org/wikipedia/commons/6/67/Leader%27s_Framework_for_Policing_Protest.gif

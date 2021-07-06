@@ -9,16 +9,17 @@
 - 👋 feature dropped: X
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors
-- 😷 chore: bump dependencies
+- 😷 chore: dependencies bump
 
 
 ## NEXT
 
 ## v0.67.2
+2021/06/30
 - 😅 fix: the size of the app was once again cut in half! (much faster loading time 🚀)
 - 😅 fix: the scrollbars are now properly styled in Firefox 💅
-- 😷 chore: some internal refactors
-- 😷 chore: bump dependencies
+- 😷 chore: some internal refactors (CSS)
+- 😷 chore: dependencies bump
 
 ## v0.67.1
 2021/05/16

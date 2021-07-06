@@ -146,14 +146,14 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 		caption,
 	})
 	return (
-		<table style={ {border: '1px solid var(--o⋄color⁚fg--main)'} }>
-			<caption>{ caption }</caption>
+		<table style={ {border: '1px solid var(--o⋄color⁚fg--main)'} } summary="Table of colors defined as CSS variables">
+			<caption>⬇{ caption }⬇</caption>
 			<thead>
 			<tr>
-				<th>CSS variable</th>
-				<th>name</th>
-				<th>foreground</th>
-				<th>background</th>
+				<th scope='col'>CSS variable</th>
+				<th scope='col'>name</th>
+				<th scope='col'>foreground</th>
+				<th scope='col'>background</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -183,58 +183,22 @@ function ColorsAsCSSVariablesTable({radixes, caption}: { radixes: string[], capt
 
 export function Colors() {
 
-	const SEMANTIC_COLORS_VARS_RADIX = [
-		'fg--main',
-		'fg--secondary',
-		'fg--ancillary',
-
-		'fg--error',
-		'fg--warning',
-		'fg--info',
-		'fg--success',
-
-		'bg--main',
-		'bg--main--backdrop',
-		'bg--highlight--1',
-		'bg--highlight--2',
-
-		'fg--accent',
-	]
-
-	const BASE_COLORS_VARS_RADIX = [
-		'transparent',
-		'darker--10',
-		'darker--20',
-		'darker--90',
-		'lighter--10',
-		'lighter--20',
-		'lighter--90',
-		'boz__gray',
-		'boz__yellow',
-		'boz__pink',
-		'boz__green',
-		'boz__cyan',
-		'boz__blue',
-		'boz__purple',
-		'co212__beige',
-		'co212__blue',
-		'co212__brown',
-		'co212__dark',
+	const QUALITY_COLORS_VARS_RADIX = [
+		'quality--poor',
+		'quality--common',
+		'quality--uncommon',
+		'quality--rare',
+		'quality--epic',
+		'quality--legendary',
+		'quality--artifact',
 	]
 
 	return (
 		<main className="o⋄centered-article">
 
 			<ColorsAsCSSVariablesTable
-				radixes={ SEMANTIC_COLORS_VARS_RADIX }
-				caption={ 'Semantic colors from CSS variables' }
-			/>
-
-			<hr/>
-
-			<ColorsAsCSSVariablesTable
-				radixes={ BASE_COLORS_VARS_RADIX }
-				caption={ 'Base colors from CSS variables = building blocks (do NOT use directly!)' }
+				radixes={ QUALITY_COLORS_VARS_RADIX }
+				caption={ 'Qualities' }
 			/>
 		</main>
 	)

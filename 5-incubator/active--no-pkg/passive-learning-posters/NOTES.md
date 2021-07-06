@@ -47,7 +47,11 @@ https://www.freepik.com/search?format=search&sort=popular&premium=0&query=ships
 
 #### eopchs
 
+
+
 ### History
+Indicative typography https://en.wikipedia.org/wiki/History_of_Western_typography
+
 
 #### stone age
 * stone age https://www.freepik.com/free-vector/stone-age-icons_4426177.htm#page=8&position=14
@@ -113,6 +117,8 @@ Resources
 * freepik
   * https://www.freepik.com/macrovector-official/
   * https://www.freepik.com/macrovector
+* https://esahubble.org/images/archive/top100/
+* https://www.nasa.gov/multimedia/imagegallery/iotd.html
 
 https://www.bbc.com/news/world-europe-57587424 AI helps restore Rembrandt's Night Watch masterpiece
 
@@ -127,3 +133,6 @@ https://www.si.edu/spotlight/backgrounds
 https://fr.wikipedia.org/wiki/La_Libert%C3%A9_guidant_le_peuple
 
 https://en.wikipedia.org/wiki/K%C3%A1rm%C3%A1n_line
+
+https://chandra.harvard.edu/photo/2021/gcenter/index.html
+

@@ -40,15 +40,12 @@ Cross-training
 
 Elven, dwarven Martial arts
 
-Martial arts against wild animals, giant anymals
+Martial arts against wild animals, giant animals
 
 Dragonslayer arts
 
 
-
 Les îles mystérieuses
-
-
 
 Réutiliser les brigands en armée
 
@@ -111,8 +108,6 @@ frameworks
 
 ### à trier
 * https://js13kgames.com/
-* https://phaser.io/
-* https://creativejs.com/2013/06/physically-based-rendering-physics-simulation/
 * pathfinding : https://github.com/prettymuchbryce/easystarjs
 * https://www.sitepoint.com/the-wds-title-sequence-explained-html5-and-css3-in-action/
 * https://www.sitepoint.com/html5-video-cross-browser-fall-backs

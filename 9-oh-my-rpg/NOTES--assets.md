@@ -70,6 +70,7 @@ image resizer https://waifu2x.booru.pics/
 * https://freesound.org/browse/
 * https://soundimage.org/
 * https://deepintheoceansoundtrack.abrams.link/
+* https://entertainment.slashdot.org/story/21/07/04/0121200/to-help-livestreamers-avoid-copyright-violations-riot-games-releases-an-uncopyrighted-album + links
 
 ### soundscapes
 https://www.ambient-mixer.com/

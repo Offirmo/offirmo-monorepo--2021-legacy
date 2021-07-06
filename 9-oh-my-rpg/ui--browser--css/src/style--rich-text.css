@@ -1,0 +1,22 @@
+
+.quality--poor {
+	color: var(--o⋄color⁚quality--poor)
+}
+.quality--common {
+	color: var(--o⋄color⁚quality--common)
+}
+.quality--uncommon {
+	color: var(--o⋄color⁚quality--uncommon)
+}
+.quality--rare {
+	color: var(--o⋄color⁚quality--rare)
+}
+.quality--epic {
+	color: var(--o⋄color⁚quality--epic)
+}
+.quality--legendary {
+	color: var(--o⋄color⁚quality--legendary)
+}
+.quality--artifact {
+	color: var(--o⋄color⁚quality--artifact)
+}

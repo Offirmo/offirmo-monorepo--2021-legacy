@@ -44,7 +44,7 @@ th:not([scope=col]):not([scope=row])
 /************ EMPTY ************/
 
 /* Empty Elements */
-*:empty:not(img):not(hr):not(td):not(iframe)
+*:empty:not(img):not(hr):not(td):not(iframe):not(canvas)
 {
 	/* padding needed to better outline empty = usually 0-sized */
 	padding: 1.5em;

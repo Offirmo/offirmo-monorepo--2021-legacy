@@ -31,3 +31,10 @@ https://public.wmo.int/en/media/news/supplemental-list-of-tropical-cyclone-names
 
 
 - https://fr.wikipedia.org/wiki/Sirona
+
+
+SCP: http://scp-wiki.wikidot.com/object-classes
+Euclid
+Keter
+Thaumiel
+Apollyon

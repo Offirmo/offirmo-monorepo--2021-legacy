@@ -1,13 +1,6 @@
 
 
-Guild level https://en.wikipedia.org/wiki/Academic_grading_in_Japan
-F
-E
-D
-C
-B
-A
-S
+
 
 https://en.wikipedia.org/wiki/Latin_honors
 

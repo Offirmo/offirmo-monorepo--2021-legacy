@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import { ActionType } from '@tbrpg/interfaces'
-import get_sfx_sell_buy from '@oh-my-rpg/audio-browser/src/sfx_sell_buy'
+import get_sfx_sell_buy from '@tbrpg/audio-browser/src/sfx_sell_buy'
 
 import get_game_instance from '../../../services/game-instance-browser'
 import View from './component'

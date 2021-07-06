@@ -2,8 +2,7 @@
 
 import '@storybook/addon-console'
 import VIEWPORTS from '../../../0-meta/storybook-viewports'
-/*import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
-console.log({MINIMAL_VIEWPORTS})*/
+
 
 export const parameters = {
 	actions: {
