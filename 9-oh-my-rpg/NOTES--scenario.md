@@ -1,3 +1,6 @@
+## Pixar summary https://nofilmschool.com/2012/06/22-rules-storytelling-pixar
+> Once upon a time there was ___. Every day, ___. One day ___. Because of that, ___. Because of that, ___. Until finally ___.
+
 ## Snowflake https://www.advancedfictionwriting.com/articles/snowflake-method/
 ### I. one-sentence summary
 ### II. one paragraph summary
@@ -11,11 +14,14 @@
 > The character’s conflict (what prevents him/her from reaching this goal?).
 > The character’s epiphany (what will he/she learn, how will he/she change?
 > A one-paragraph summary of the character’s storyline.
+> Pixar tip: You admire a character for trying more than for their successes.
+> Pixar tip: What is your character good at, comfortable with? Throw the polar opposite at them. Challenge them. How do they deal?
 ### IV. multi-paragraph summary
 > Go back to the summary you wrote in II and expand each sentence into a paragraph.
 > Advice: All but the last paragraph should end in a disaster. The final paragraph should tell how the book ends
 ### V. Write a one-page description for each major character
 > Tip: tells the story from their point of view
+> Pixar tip: Give your characters opinions. Passive/malleable might seem likable to you as you write, but it's poison to the audience.
 ### VI. Expand your one-page plot synopsis into a four-page plot synopsis
 > This is the time to address any major plot issues and get the whole story flowing.
 ### VII. Expand your character descriptions from V into full ‘character charts’.
@@ -29,6 +35,7 @@
 > just need to give each scene a one-line description. For example, 'Mad scientist tests time machine'.
 > A scene will normally occur in one location and will see the characters changing or learning something new.
 > A novel will typically contain between 50 and 100 scenes.
+> Pixar tip: If you were your character, in this situation, how would you feel? Honesty lends credibility to unbelievable situations.
 ### IX. Using the scene list, write a multi-paragraph narrative description of each scene
 ### X. Write your first draft.
 

@@ -35,7 +35,7 @@
 		"@offirmo/deferred": "^4",
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@oh-my-rpg/assets--cursors": "^0",
-		"@oh-my-rpg/audio-browser": "^0",
+		"@tbrpg/audio-browser": "^0",
 		"@oh-my-rpg/rsrc-backgrounds": "^0",
 		"@oh-my-rpg/view-rich-text": "^0",
 		"@online-adventur.es/api-client": "^0",
