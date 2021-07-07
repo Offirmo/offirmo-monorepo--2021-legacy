@@ -1,0 +1,29 @@
+{
+	"name": "@isekai-capitalist/sandbox",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Sandbox to try things",
+	"license": "Unlicense",
+
+	"dependencies": {
+		"@offirmo-private/react-error-boundary": "^0",
+		"@offirmo-private/rich-text-format": "^0",
+		"@offirmo-private/rich-text-format-to-react": "^0",
+		"@offirmo-private/state-utils": "^0",
+		"@offirmo-private/ui--browser--css": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
+		"tiny-invariant": "^1",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js …dist …cache",
+
+		"storybook": "start-storybook -p 9110"
+	},
+	"devDependencies": {
+		"@offirmo-private/storybook--utils":"^0",
+		"@storybook/react": "^6",
+		"npm-run-all": "^4"
+	}
+}
