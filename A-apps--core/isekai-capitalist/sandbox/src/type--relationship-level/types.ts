@@ -11,7 +11,7 @@ export const RelationshipLevel = Enum(
 	'friendsⵧgood',
 
 	'friendsⵧbest',
-	'romantic',
+	'dating',
 	'baseⵧ1',
 	'baseⵧ2',
 	'baseⵧ3',

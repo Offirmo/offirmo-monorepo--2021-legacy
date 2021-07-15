@@ -39,13 +39,42 @@ export function Default() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
-import { SSRRank, render_ssr_rank } from '../src/type--SSR-rank'
+import { SSRRank, render as render_ssr_rank } from '../src/type--SSR-rank'
 
-export function GuildRank() {
+export function TypeGuildRank() {
 	return (
 		<main>
 			{
 				Enum.keys(SSRRank).map(rank => <div key={rank}>Adventurers Guild rank: {to_react(render_ssr_rank(rank))}</div>)
+			}
+		</main>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+import { RelationshipLevel, render as render_relationship_level } from '../src/type--relationship-level'
+
+export function TypeRelationshipLevel() {
+	return (
+		<main>
+			{
+				Enum.keys(RelationshipLevel).map(lvl => <div key={lvl}>Relationship level: {to_react(render_relationship_level(lvl))}</div>)
+			}
+		</main>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+import { create } from '../src/state/reducers'
+import { render } from '../src/state/selectors--rich-text'
+
+export function State() {
+	const state = create()
+
+	return (
+		<main>
+			{
+				to_react(render(state))
 			}
 		</main>
 	)

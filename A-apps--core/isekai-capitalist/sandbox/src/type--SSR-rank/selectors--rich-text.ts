@@ -22,7 +22,7 @@ function _get_decorator(ssr_rank: SSRRank): [ string, string ] {
 }
 
 
-export function render_ssr_rank(ssr_rank: Immutable<SSRRank>, options?: {}): RichText.Document {
+export function render(ssr_rank: Immutable<SSRRank>, options?: {}): RichText.Document {
 	const corresponding_quality = get_corresponding_quality(ssr_rank)
 	const [ decorator_pre, decorator_post ] = _get_decorator(ssr_rank)
 

@@ -1,8 +1,5 @@
 
 
-
-
-export interface Flags {
-
+export interface State {
 
 }

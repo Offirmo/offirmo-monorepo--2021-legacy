@@ -149,7 +149,7 @@ export function intermediate_assemble({ $id, $node, children, classes, component
 			component,
 			{
 				key: generate_react_key({$id, $node}),
-				className: classNames(...classes),
+				...(classes.length && { className: classNames(...classes)}),
 			},
 			children,
 		),
