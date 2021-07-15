@@ -1,5 +1,6 @@
 const RichText = require('..')
 
+/*
 const {
 	DEMO_WEAPON_1,
 	DEMO_WEAPON_2,
@@ -15,6 +16,7 @@ const {
 	render_item_short,
 	//render_item_detailed,
 } = require('../../../9-oh-my-rpg/view-rich-text/dist/src.es2019.cjs')
+*/
 
 /////// parts ///////
 
@@ -123,15 +125,16 @@ const DOC_NPC_01 = {
 	},
 }
 
+/*
 function render_item(i) {
 	return render_item_short(i)
-}
+}*/
 const SUB_UL_ACTIONABLE_ITEMS = {
 	'001': DOC_WEAPON_01,
-	'002': render_item(DEMO_WEAPON_1),
+	/*'002': render_item(DEMO_WEAPON_1),
 	'003': render_item(DEMO_ARMOR_1),
 	'004': render_item(DEMO_WEAPON_2),
-	'005': render_item(DEMO_ARMOR_2),
+	'005': render_item(DEMO_ARMOR_2),*/
 }
 
 /////// COMPLETE DOCS ///////

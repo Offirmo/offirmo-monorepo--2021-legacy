@@ -96,6 +96,7 @@ https://en.wikipedia.org/wiki/List_of_National_Inventors_Hall_of_Fame_inductees
 * public holidays
 
 Resources
+* https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures#Artwork
 * Picture of the year wikipedia https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year
   https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2020
   https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2019/Results/All
