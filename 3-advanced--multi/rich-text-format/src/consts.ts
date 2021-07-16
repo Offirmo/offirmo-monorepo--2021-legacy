@@ -8,14 +8,17 @@ const NODE_TYPE_TO_DISPLAY_MODE: Readonly<{ [k: string]: 'inline' | 'block' }> =
 	'strong': 'inline',
 	'weak': 'inline',
 	'em': 'inline',
+
 	// classics block
 	'block_fragment': 'block',
 	'heading': 'block',
 	'hr': 'block',
 	'ol': 'block',
 	'ul': 'block',
+
 	// special
 	'br': 'inline',
+
 	// internally used, don't mind
 	'li': 'block',
 }

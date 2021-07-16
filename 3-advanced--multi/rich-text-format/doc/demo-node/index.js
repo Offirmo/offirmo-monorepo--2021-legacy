@@ -33,6 +33,7 @@ function demo(wrapped_doc) {
 	console.log(`\n------- ${key} -------`)
 
 	console.log('\n------- to text -------\n' + RichText.to_text(doc))
+
 	if (to_ansi) console.log('\n------- to ansi -------\n' + to_ansi(doc))
 }
 

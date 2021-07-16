@@ -194,7 +194,7 @@ const DOC_DEMO_BASE_TYPES = {
 const DOC_DEMO_ADVANCED_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
-	$content: '{{heading}}Key-value pairs:{{kvdefault}}Actionable items:{{uuid_list}}Done.',
+	$content: '{{heading}}Key-value pairs:{{kvdefault}}Nested list:{{nested_list}}Actionable items:{{uuid_list}}Done.',
 	$sub: {
 		heading: {
 			$type: 'heading',
@@ -206,6 +206,50 @@ const DOC_DEMO_ADVANCED_TYPES = {
 			$hints: {
 				//key_align: left,
 			},
+		},
+		nested_list: {
+			$type: 'ul',
+			$sub: {
+				'foo': {
+					$type: 'inline_fragment',
+					$content: 'fooc: {{sublist}}',
+					$sub: {
+						sublist: {
+							$type: 'ul',
+							$sub: {
+								'foo': {
+									$type: 'inline_fragment',
+									$content: 'fooc',
+									$sub: {},
+								},
+								'bar': {
+									$type: 'inline_fragment',
+									$content: 'barc',
+									$sub: {},
+								},
+								'baz': {
+									$type: 'inline_fragment',
+									$content: 'bazc',
+									$sub: {},
+								},
+							},
+						},
+					},
+				},
+				'bar': {
+					$type: 'inline_fragment',
+					$content: 'barc',
+					$sub: {
+					},
+				},
+				'baz': {
+					$type: 'inline_fragment',
+					$content: 'bazc',
+					$sub: {
+					},
+				},
+			},
+			$hints: {},
 		},
 		uuid_list: {
 			$type: 'ol',

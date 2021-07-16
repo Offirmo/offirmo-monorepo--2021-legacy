@@ -57,8 +57,8 @@ th:not([scope=col]):not([scope=row])
 *[href=""],
 *[id=""],
 *[src=""],
-*[title=""],
-*[summary=""]
+*[summary=""],
+*[title=""]
 {
 	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
 }
