@@ -1,8 +1,9 @@
+import { BaseState } from '@offirmo-private/state-utils'
 
 import { State as FlagsState } from '../state--flags/types'
 import { RelationshipLevel } from '../type--relationship-level/types'
 
-export interface State {
+export interface State /*extends BaseState*/ {
 
 	flags: FlagsState
 

@@ -6,13 +6,19 @@
 	"license": "Unlicense",
 
 	"dependencies": {
+		"@offirmo-private/async-utils": "^0",
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/rich-text-format": "^0",
 		"@offirmo-private/rich-text-format-to-react": "^0",
+		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/state-utils": "^0",
+		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ui--browser--css": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
+		"dequal": "^2",
+		"emittery": "^0.8",
 		"tiny-invariant": "^1",
+		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 
@@ -24,6 +30,7 @@
 	"devDependencies": {
 		"@offirmo-private/storybook--utils":"^0",
 		"@storybook/react": "^6",
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"@offirmo-private/ts-types":"^0"
 	}
 }

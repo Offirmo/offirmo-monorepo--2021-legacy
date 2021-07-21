@@ -87,11 +87,36 @@ export function TypeꓽRelationshipLevel() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+import { State } from '../src/state/types'
 import { create } from '../src/state/reducers'
 import { render } from '../src/state/selectors--rich-text'
+import { create_flux_instance } from '../src/flux/flux'
+import { get_lib_SEC } from '../src/flux/sec'
+import { Immutable } from '@offirmo-private/ts-types/src'
 
 export function StateꓽOverall() {
 	const state = create()
+
+	return (
+		<main>
+			{
+				to_react(render(state))
+			}
+		</main>
+	)
+}
+
+interface Action {}
+export function Game() {
+	const flux = create_flux_instance({
+		SCHEMA_VERSION: undefined,
+		local_storage: window.localStorage,
+		storage_key_radix: 'storybook',
+		migrate_to_latest: (legacy_state: any) => legacy_state as State,
+		create,
+		reduce_action: (state: Immutable<State>, action: Immutable<Action>) => state,
+	})
+	const state = flux.get()
 
 	return (
 		<main>

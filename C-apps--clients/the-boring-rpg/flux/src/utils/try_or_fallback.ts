@@ -1,5 +1,5 @@
 
-export default function try_or_fallback<
+export default function try_getter_or_fallback<
 	Fn extends () => ReturnType<Fn>,
 	T,
 >({

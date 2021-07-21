@@ -972,3 +972,6 @@ Psychologists Herbert Freudenberger and Gail North developed the 12-stage model 
 Close to becoming a noble due to achievements = other nobles try to kill
 
 https://upload.wikimedia.org/wikipedia/commons/6/67/Leader%27s_Framework_for_Policing_Protest.gif
+
+Scrum Values: Commitment, Focus, Openness, Respect, and Courage
+Overall team org: https://scrumguides.org/scrum-guide.html
