@@ -25,6 +25,9 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist …cache",
 
+		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
+
+		"typecheck": "run-s clean build:dev:watch",
 		"storybook": "start-storybook -p 9110"
 	},
 	"devDependencies": {

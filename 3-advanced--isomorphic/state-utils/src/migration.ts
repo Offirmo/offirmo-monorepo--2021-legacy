@@ -15,12 +15,20 @@ import { get_schema_version_loose, get_base_loose } from './selectors'
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+// the overall goal
+export type OverallMigrateToLatest<State> = (
+	SEC: SoftExecutionContext,
+	legacy_state: Immutable<any>,
+	hints: Immutable<any>,
+) => Immutable<State> // output must be immutable as well since we may return the input unchanged
+
+
+// TODO review: useful?
 export interface Libs {
 }
 const LIBS: Libs = {
 }
 
-const get_state_summary = get_base_loose
 
 export type GenericMigration<State = any, OlderState = any> = (
 	SEC: SoftExecutionContext<any, any, any>,
@@ -40,6 +48,7 @@ export type MigrationStep<State = any, OlderState = any> = (
 
 export type LastMigrationStep<State, OlderState = any> = MigrationStep<State, OlderState>
 
+
 export type CleanupStep<State> = (
 	SEC: SoftExecutionContext<any, any, any>,
 	state: Immutable<State>,
@@ -49,6 +58,8 @@ export type CleanupStep<State> = (
 export type SubStatesMigrations = { [key: string]: GenericMigration }
 
 ////////////////////////////////////////////////////////////////////////////////////
+
+const _get_state_summary = get_base_loose
 
 export function generic_migrate_to_latest<State extends AnyOffirmoState>({
 	SEC,
@@ -113,7 +124,7 @@ export function generic_migrate_to_latest<State extends AnyOffirmoState>({
 					//_last_SEC = SEC
 					//console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
 					logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}"…`,
-						get_state_summary(legacy_state)
+						_get_state_summary(legacy_state)
 					)
 					const state = migrate_step(
 						SEC,
@@ -125,7 +136,7 @@ export function generic_migrate_to_latest<State extends AnyOffirmoState>({
 					)
 					assert(!!state, 'migration step should return something')
 					logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}".`,
-						get_state_summary(state)
+						_get_state_summary(state)
 					)
 					//_check_response(SEC, index, 'out')
 					return state
@@ -143,7 +154,7 @@ export function generic_migrate_to_latest<State extends AnyOffirmoState>({
 			}
 
 			logger.info(`${LIB}: schema migration successful.`,
-				get_state_summary(state)
+				_get_state_summary(state)
 			)
 			RSEC.fireAnalyticsEvent('schema_migration.ended')
 		}
@@ -224,7 +235,7 @@ function _migrate_sub_states__bundle(
 				// combo
 				const legacy_sub_state = [ previous_sub_ustate, previous_sub_tstate]
 				logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`,
-					get_state_summary(legacy_sub_state as any)
+					_get_state_summary(legacy_sub_state as any)
 				)
 				;[new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(
 					SEC,
@@ -234,7 +245,7 @@ function _migrate_sub_states__bundle(
 			}
 			else if (sub_u_states_found.has(key)) {
 				logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`,
-					get_state_summary(previous_sub_ustate)
+					_get_state_summary(previous_sub_ustate)
 				)
 				new_sub_ustate = migrate_sub_to_latest(
 					SEC,
@@ -244,7 +255,7 @@ function _migrate_sub_states__bundle(
 			}
 			else if (sub_t_states_found.has(key)) {
 				logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`,
-					get_state_summary(previous_sub_tstate)
+					_get_state_summary(previous_sub_tstate)
 				)
 				new_sub_tstate = migrate_sub_to_latest(
 					SEC,

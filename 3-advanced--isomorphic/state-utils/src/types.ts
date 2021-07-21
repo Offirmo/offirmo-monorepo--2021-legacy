@@ -1,5 +1,7 @@
 //import { JSONAny } from '@offirmo-private/ts-types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
+import { Immutable } from '@offirmo-private/ts-types'
+import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 
 
 // critical for migrations
@@ -62,3 +64,11 @@ export type AnyOffirmoState<
 	U extends BaseUState = BaseUState,
 	T extends BaseTState = BaseTState,
 > = B | U | T | UTBundle<U, T> | BaseRootState<U, T>
+
+export interface BaseAction<Type = string> {
+	type: Type
+	time: TimestampUTCMs
+	expected_revisions: {
+		[k:string]: number
+	}
+}
