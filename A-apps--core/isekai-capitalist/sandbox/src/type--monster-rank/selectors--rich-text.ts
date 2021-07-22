@@ -1,6 +1,7 @@
 import { Immutable } from '@offirmo-private/ts-types'
 import * as RichText from '@offirmo-private/rich-text-format'
 
+/*
 import { get_class__quality } from '../type--quality/selectors--rich-text'
 import { SSRRank } from './types'
 import { get_corresponding_quality } from './selectors'
@@ -32,3 +33,4 @@ export function render_ssr_rank(ssr_rank: Immutable<SSRRank>, options?: {}): Ric
 
 	return $doc
 }
+*/

@@ -2,15 +2,16 @@
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
-import { JSONObject, Storage } from '@offirmo-private/ts-types'
+import { Immutable, JSONObject, Storage } from '@offirmo-private/ts-types'
 import {
+	AnyOffirmoState,
+	BaseAction,
 	fluid_select,
-	Immutable,
 	get_schema_version_loose,
 	get_base_loose,
 	get_revision_loose,
 	UNCLEAR_compare,
-	MigrateToLatest,
+	OverallMigrateToLatest,
 } from '@offirmo-private/state-utils'
 import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
 
@@ -68,16 +69,20 @@ export function _safe_read_parse_and_validate_from_storage<State>(
 
 /////////////////////////////////////////////////
 
-export function create<State, Action>(
+function _cast_as_immutable<T>(t: T): Immutable<T> {
+	return t as any
+}
+
+export function create<State extends AnyOffirmoState, Action extends BaseAction>(
 	SEC: SoftExecutionContext,
 	storage: Storage,
 	storage_keys_radix: string,
-	SCHEMA_VERSION: number | undefined,
-	migrate_to_latest: MigrateToLatest<State>,
+	SCHEMA_VERSION: number,
+	migrate_to_latest: OverallMigrateToLatest<State>,
 	reduce_action: ActionReducer<State, Action>,
 	dispatcher?: Dispatcher<State, Action>,
 ): Store<State, Action> {
-	const LIB = `🗃ⵧ⚫local`
+	const LIB = `⚫ store--local`
 	return SEC.xTry(`creating ${LIB}…`, ({SEC, logger}) => {
 		logger.trace(`[${LIB}].create()…`)
 		const STORAGE_KEYS = get_storage_key(storage_keys_radix)
@@ -114,13 +119,13 @@ export function create<State, Action>(
 			})
 		}
 
-		const emitter = new EventEmitter<{ change: undefined }>()
+		const emitter = new EventEmitter<{ [EMITTER_EVT]: undefined }>()
 
 		/////////////////////////////////////////////////
 		// bkp pipeline
 
-		let bkp__current: Immutable<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, STORAGE_KEYS.bkp_main, _on_error)
-		let bkp__recent: Immutable<State> | undefined = _safe_read_parse_and_validate_from_storage<State>(storage, STORAGE_KEYS.bkp_minor, _on_error)
+		let bkp__current: Immutable<State> | undefined = _cast_as_immutable(_safe_read_parse_and_validate_from_storage<State>(storage, STORAGE_KEYS.bkp_main, _on_error))
+		let bkp__recent: Immutable<State> | undefined = _cast_as_immutable(_safe_read_parse_and_validate_from_storage<State>(storage, STORAGE_KEYS.bkp_minor, _on_error))
 		let bkp__older: Array<Readonly<JSONObject>> = [
 			_safe_read_parse_and_validate_from_storage<any>(storage, STORAGE_KEYS.bkp_major_old, _on_error),
 			_safe_read_parse_and_validate_from_storage<any>(storage, STORAGE_KEYS.bkp_major_older, _on_error),
@@ -137,7 +142,7 @@ export function create<State, Action>(
 				//some_state,
 			})
 
-			assert(get_schema_version_loose(some_state) === (SCHEMA_VERSION || 0), `_enqueue_in_bkp_pipeline(): schema version === ${SCHEMA_VERSION || 0} (current)!`)
+			assert(get_schema_version_loose(some_state) === SCHEMA_VERSION, `_enqueue_in_bkp_pipeline(): schema version === ${SCHEMA_VERSION} (current)!`)
 
 			if (some_state === restored_migrated) {
 				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): echo from restoration, no change ✔`)
@@ -156,7 +161,7 @@ export function create<State, Action>(
 			bkp__current = some_state
 			promises.push(_optimized_store_key_value(STORAGE_KEYS.bkp_main, bkp__current))
 			if (bkp__recent) {
-				if (get_schema_version_loose(bkp__recent) === (SCHEMA_VERSION || 0))
+				if (get_schema_version_loose(bkp__recent) === SCHEMA_VERSION)
 					promises.push(_optimized_store_key_value(STORAGE_KEYS.bkp_minor, bkp__recent))
 				else {
 					// cleanup, we move it to the major pipeline, cf. lines below
@@ -168,7 +173,7 @@ export function create<State, Action>(
 				logger.trace(`[${LIB}] _enqueue_in_bkp_pipeline(): this is the first valuable change, moving restored states along the major bkp pipeline…`)
 			while(recovered_states_unmigrated_ordered_oldest_first.length) {
 				const some_legacy_state = recovered_states_unmigrated_ordered_oldest_first.shift()
-				if (get_schema_version_loose(some_legacy_state) < (SCHEMA_VERSION || 0))
+				if (get_schema_version_loose(some_legacy_state) < SCHEMA_VERSION)
 					promises.push(_enqueue_in_major_bkp_pipeline(some_legacy_state))
 			}
 			await Promise.all(promises)
@@ -278,6 +283,7 @@ export function create<State, Action>(
 			logger.trace(`[${LIB}].set()`, {
 				new_state: get_base_loose(new_state),
 				existing_state: get_base_loose(state as any),
+				has_valuable_difference,
 			})
 
 			if (!state) {

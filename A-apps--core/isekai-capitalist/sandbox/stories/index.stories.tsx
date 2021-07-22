@@ -10,9 +10,11 @@ import WithBodyFullWidth from '@offirmo-private/ui--browser--css/.storybook/wrap
 
 //import { default_viewport__mobile } from '../../../../0-meta/storybook-viewports'
 
+import init_SEC from '../src/services/sec'
 import '@oh-my-rpg/ui--browser--css/src/style.css'
 import './index.css'
 
+init_SEC()
 const LIB = '@isekai-capitalist/sandbox'
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -109,14 +111,15 @@ export function StateꓽOverall() {
 interface Action {}
 export function Game() {
 	const flux = create_flux_instance({
-		SCHEMA_VERSION: undefined,
+		SCHEMA_VERSION: 0,
 		local_storage: window.localStorage,
-		storage_key_radix: 'storybook',
-		migrate_to_latest: (legacy_state: any) => legacy_state as State,
+		storage_key_radix: 'sandboxⵧstorybook',
+		migrate_to_latest: (SEC: any, legacy_state: any) => legacy_state as State,
 		create,
 		reduce_action: (state: Immutable<State>, action: Immutable<Action>) => state,
 	})
 	const state = flux.get()
+	console.log('from flux', {state})
 
 	return (
 		<main>

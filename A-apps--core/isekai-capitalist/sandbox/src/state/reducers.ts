@@ -7,6 +7,9 @@ import { RelationshipLevel } from '../type--relationship-level/types'
 
 export function create(): Immutable<State> {
 	return {
+		schema_version: 0,
+		revision: 0,
+
 		flags: create_flags(),
 
 		character: {

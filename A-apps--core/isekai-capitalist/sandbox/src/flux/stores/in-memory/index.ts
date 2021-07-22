@@ -1,7 +1,9 @@
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
+import { Immutable } from '@offirmo-private/ts-types'
 import {
-	Immutable,
+	AnyOffirmoState,
+	BaseAction,
 	get_revision_loose,
 	fluid_select,
 	get_base_loose,
@@ -14,23 +16,27 @@ import { Store } from '../../types'
 
 const EMITTER_EVT = 'change'
 
-export function create<State, Action>(
+export function create<State extends AnyOffirmoState, Action extends BaseAction>(
 	SEC: SoftExecutionContext,
 	reduce_action: (state: Immutable<State>, action: Immutable<Action>) => Immutable<State>,
 ): Store<State, Action> {
-	const LIB = `🗃ⵧ🔵in-mem`
+	const LIB = `🔵 store--in-mem`
 	return SEC.xTry(`creating ${LIB}…`, ({ logger }) => {
 		logger.trace(`[${LIB}].create()…`)
 
 		let state: Immutable<State> | undefined = undefined
 
-		const emitter = new EventEmitter<{ change: undefined }>()
+		const emitter = new EventEmitter<{ [EMITTER_EVT]: undefined }>()
 
 		/////////////////////////////////////////////////
 
 		function set(new_state: Immutable<State>): void {
 			const has_valuable_difference = !state || fluid_select(new_state).has_valuable_difference_with(state)
-			logger.trace(`[${LIB}].set()`, { state: get_base_loose(new_state), has_valuable_difference })
+			logger.trace(`[${LIB}].set()`, {
+				new_state: get_base_loose(new_state),
+				existing_state: get_base_loose(state as any),
+				has_valuable_difference,
+			})
 
 			if (!state) {
 				logger.trace(`[${LIB}].set(): init ✔`)

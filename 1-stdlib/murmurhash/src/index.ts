@@ -19,7 +19,7 @@ function create(TextEncoder: TextEncoderConstructor = tec) {
 					const bytes = new TextEncoder().encode(str)
 					return MurmurHash3.x64.hash128(bytes)
 				},
-				hash_object_to_128(o: Object): string {
+				hash_object_to_128(o: Readonly<any>): string {
 					const str = stable_stringify(o)
 					const bytes = new TextEncoder().encode(str)
 					return MurmurHash3.x64.hash128(bytes)

@@ -2,6 +2,7 @@ import { getRootSEC, SoftExecutionContext } from '@offirmo-private/soft-executio
 
 import { LIB } from './consts'
 
+// TODO review
 function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext {
 	return (parent || getRootSEC())
 		.createChild()

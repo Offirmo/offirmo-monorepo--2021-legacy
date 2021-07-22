@@ -19,7 +19,7 @@ import { get_schema_version_loose, get_base_loose } from './selectors'
 export type OverallMigrateToLatest<State> = (
 	SEC: SoftExecutionContext,
 	legacy_state: Immutable<any>,
-	hints: Immutable<any>,
+	hints?: Immutable<any>,
 ) => Immutable<State> // output must be immutable as well since we may return the input unchanged
 
 

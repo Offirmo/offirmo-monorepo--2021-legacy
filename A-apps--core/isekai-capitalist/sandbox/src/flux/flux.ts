@@ -6,7 +6,12 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { Immutable, Storage } from '@offirmo-private/ts-types'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { schedule_when_idle_but_not_too_far } from '@offirmo-private/async-utils'
-import { OverallMigrateToLatest, BaseAction } from '@offirmo-private/state-utils'
+import {
+	AnyOffirmoState,
+	OverallMigrateToLatest,
+	BaseAction,
+	get_revision_loose,
+} from '@offirmo-private/state-utils'
 
 
 import { LIB } from './consts'
@@ -22,9 +27,9 @@ const EMITTER_EVT = 'change'
 
 
 // TODO improve logging (too verbose)
-interface CreateParams<State, Action> {
+interface CreateParams<State extends AnyOffirmoState, Action extends BaseAction> {
 	SEC?: SoftExecutionContext
-	SCHEMA_VERSION: number | undefined
+	SCHEMA_VERSION: number
 	local_storage: Storage
 	storage_key_radix: string
 	migrate_to_latest: OverallMigrateToLatest<State>
@@ -33,7 +38,7 @@ interface CreateParams<State, Action> {
 	update_to_now?: (state: Immutable<State>) => Immutable<State>
 	reduce_action: ActionReducer<State, Action>
 }
-function create_flux_instance<State, Action>({
+function create_flux_instance<State extends AnyOffirmoState, Action extends BaseAction>({
 	SEC = get_lib_SEC(),
 	SCHEMA_VERSION,
 	local_storage,
@@ -45,7 +50,7 @@ function create_flux_instance<State, Action>({
 	reduce_action,
 }: CreateParams<State, Action>) {
 	return SEC.xTry('creating flux instance', ({SEC, logger}) => {
-		logger.trace(`${LIB}.create_flux_instance()…`)
+		logger.trace(`[${LIB}].create_flux_instance()…`)
 
 		const emitter = new EventEmitter<{ [EMITTER_EVT]: string }>()
 
@@ -55,12 +60,12 @@ function create_flux_instance<State, Action>({
 		const _dispatcher = create_dispatcher(SEC, SCHEMA_VERSION)
 
 		const in_memory_store = create_store__in_memory(SEC, reduce_action)
-		_dispatcher.register_store(in_memory_store)
+		_dispatcher.register_store(in_memory_store, 'in-mem')
 
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far
 		// the savegame may also be outdated.
-		const persistent_store = create_store__local_storage(
+		const persistent_store = create_store__local_storage<State, Action>(
 			SEC,
 			local_storage,
 			storage_key_radix,
@@ -69,7 +74,7 @@ function create_flux_instance<State, Action>({
 			reduce_action,
 			_dispatcher,
 		)
-		_dispatcher.register_store(persistent_store)
+		_dispatcher.register_store(persistent_store, 'persistent')
 
 		// TODO cloud
 		/*const cloud_store = create_store__cloud_storage(
@@ -125,9 +130,12 @@ function create_flux_instance<State, Action>({
 			// TODO clarify this part
 			const state: Immutable<State> = in_memory_store.get()
 			Object.keys(action.expected_revisions).forEach(sub_state_key => {
+				const sub_state = (state as any)[sub_state_key] || (state as any).u_state[sub_state_key]
+				assert(sub_state, `state should have a sub-state "${sub_state}"`)
+				const current_sub_state_revision: number = sub_state.revision
+				assert(current_sub_state_revision, `sub-state "${sub_state}" should have a revision`)
 				if (action.expected_revisions[sub_state_key] === -1) {
-					action.expected_revisions[sub_state_key] =
-						(state.u_state as any)[sub_state_key].revision
+					action.expected_revisions[sub_state_key] = current_sub_state_revision
 				}
 			})
 
@@ -139,7 +147,7 @@ function create_flux_instance<State, Action>({
 			dispatch,
 			subscribe(id: string, fn: () => void): () => void {
 				const unbind = emitter.on(EMITTER_EVT, (src: string) => {
-					const { revision } = in_memory_store.get().u_state
+					const revision = get_revision_loose(in_memory_store.get())
 					console.log(`🌀 model change #${revision} reported to subscriber "${id}" (source: ${src})`)
 					fn()
 				})
