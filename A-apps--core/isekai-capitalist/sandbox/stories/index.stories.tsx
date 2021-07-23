@@ -89,12 +89,15 @@ export function TypeꓽRelationshipLevel() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+import { Immutable } from '@offirmo-private/ts-types/src'
 import { State } from '../src/state/types'
 import { create } from '../src/state/reducers'
-import { render } from '../src/state/selectors--rich-text'
 import { create_flux_instance } from '../src/flux/flux'
+import { get_available_actions } from '../src/state/actions/selectors'
 import { get_lib_SEC } from '../src/flux/sec'
-import { Immutable } from '@offirmo-private/ts-types/src'
+import { reduce_action } from '../src/state/actions/reducers'
+import { render as render_state } from '../src/state/selectors--rich-text'
+import { render_action } from '../src/state/actions/selectors--rich-text'
 
 export function StateꓽOverall() {
 	const state = create()
@@ -116,16 +119,22 @@ export function Game() {
 		storage_key_radix: 'sandboxⵧstorybook',
 		migrate_to_latest: (SEC: any, legacy_state: any) => legacy_state as State,
 		create,
-		reduce_action: (state: Immutable<State>, action: Immutable<Action>) => state,
+		reduce_action,
 	})
 	const state = flux.get()
 	console.log('from flux', {state})
 
 	return (
 		<main>
-			{
-				to_react(render(state))
-			}
+			<h1>Isekai</h1>
+			<hr />
+			{ to_react(render_state(state)) }
+			<hr />
+			{ get_available_actions(state).map(action => (
+				<button key={action.type} onClick={() => flux.dispatch(action)}>
+					{to_react(render_action(action, state))}
+				</button>
+			)) }
 		</main>
 	)
 }

@@ -76,10 +76,6 @@ function render_party(state: Immutable<State>, options?: {}): RichText.Document 
 
 export function render(state: Immutable<State>, options?: {}): RichText.Document {
 	const $doc = RichText.block_fragment()
-
-		.pushHeading('Isekai')
-		.pushHorizontalRule()
-
 		.pushNode(render_flags(state.flags))
 		.pushHorizontalRule()
 
@@ -87,11 +83,9 @@ export function render(state: Immutable<State>, options?: {}): RichText.Document
 		.pushHorizontalRule()
 
 		.pushNode(render_party(state))
-		.pushHorizontalRule()
-
-		.pushText('✴️ TODO Controls')
 
 		.done()
 
 	return $doc
 }
+""

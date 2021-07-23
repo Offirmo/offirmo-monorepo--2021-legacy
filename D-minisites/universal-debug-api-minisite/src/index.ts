@@ -16,7 +16,7 @@ import {
 	demo_incorrect_logger_invocations,
 	demo_legacy_console,
 	demo_devtools_fonts,
-} from '@offirmo/practical-logger-core/doc/shared-demo')
+} from '@offirmo/practical-logger-core/doc/shared-demo'
 
 //demo_legacy_console()
 
@@ -32,8 +32,8 @@ const demoLogger = getLogger({
 demoLogger.log('hello from demoLogger!', { bar: 42, baz: 33 })
 
 const state = {
-	target: undefined as undefined | 'browser' | 'node' | 'module'
-	last_demo_launched: null as null | string
+	target: undefined as undefined | 'browser' | 'node' | 'module',
+	last_demo_launched: null as null | string,
 }
 
 const target_envs = [

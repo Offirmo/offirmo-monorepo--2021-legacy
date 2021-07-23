@@ -5,6 +5,8 @@ import { create as create_flags } from '../state--flags/reducers'
 import { RelationshipLevel } from '../type--relationship-level/types'
 
 
+/////////////////////
+
 export function create(): Immutable<State> {
 	return {
 		schema_version: 0,
@@ -30,10 +32,10 @@ export function create(): Immutable<State> {
 	}
 }
 
+/////////////////////
 
-
-export interface ExploreAction {
+export interface ExploreParams {
 }
-export function explore(state: Immutable<State>, action: Immutable<ExploreAction>): Immutable<State> {
+export function explore(state: Immutable<State>, params: Immutable<ExploreParams>): Immutable<State> {
 	return state
 }
