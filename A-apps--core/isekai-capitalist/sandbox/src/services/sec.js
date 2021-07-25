@@ -7,7 +7,7 @@ import {
 	decorateWithDetectedEnv,
 } from '@offirmo-private/soft-execution-context-browser'
 
-import { LIB } from './consts'
+import { LIB } from '../consts'
 import logger from './logger'
 
 /////////////////////////////////////////////////

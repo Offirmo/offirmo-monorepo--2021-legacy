@@ -36,14 +36,14 @@ function create_action<Action extends BaseAction>(attributes: Omit<Action, 'time
 	} as Action
 }
 
-export function create_action__explore(time: TimestampUTCMs): ActionExplore {
+export function create_actionꘌexplore(time: TimestampUTCMs): ActionExplore {
 	return create_action<ActionExplore>({
 		type: ActionType.explore,
 		expected_revisions: {},
 	}, time)
 }
 
-function create_action__noop(time: TimestampUTCMs): ActionHack {
+function create_actionꘌnoop(time: TimestampUTCMs): ActionHack {
 	return create_action<ActionHack>({
 		type: ActionType.hack,
 		expected_revisions: {},
@@ -51,7 +51,7 @@ function create_action__noop(time: TimestampUTCMs): ActionHack {
 	}, time)
 }
 
-function create_action__set(state: Immutable<State>, time: TimestampUTCMs): ActionSet {
+function create_actionꘌset(state: Immutable<State> | null, time: TimestampUTCMs): ActionSet {
 	return create_action<ActionSet>({
 		type: ActionType.set,
 		expected_revisions: {},
@@ -63,6 +63,7 @@ function create_action__set(state: Immutable<State>, time: TimestampUTCMs): Acti
 
 export function get_available_actions(state: Immutable<State>, time: TimestampUTCMs = -1): Action[] {
 	return [
-		create_action__explore(time),
+		create_actionꘌexplore(time),
+		create_actionꘌset(null, time),
 	]
 }

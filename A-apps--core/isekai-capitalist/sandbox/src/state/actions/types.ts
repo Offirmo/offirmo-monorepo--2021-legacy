@@ -97,7 +97,7 @@ export interface ActionUpdateToNow extends BaseAction {
 // for ex. restoring a game from cloud or a previous save
 export interface ActionSet extends BaseAction {
 	type: typeof ActionType.set
-	state: Immutable<State>
+	state: Immutable<State> | null // null = create a new one
 	// force: boolean
 }
 

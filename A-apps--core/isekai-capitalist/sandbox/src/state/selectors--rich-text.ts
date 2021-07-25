@@ -23,15 +23,20 @@ function render_flags(state: Immutable<State['flags']>, options?: {}): RichText.
 }
 
 function render_character(state: Immutable<State['character']>, options?: {}): RichText.Document {
+	const level = state.level
+	const expected_experience = (level + 1) * 1000
+	const next_level_ratio = state.experience / expected_experience
+	const power = (level + next_level_ratio) * 10
+
 	const $doc = RichText.block_fragment()
 		.pushHeading('Character')
 		.pushNode(
 			RichText.unordered_list()
 				.pushKeyValue('Level', String(state.level))
-				.pushKeyValue('XP', `${state.experience} / ${(state.level + 1) * 1000}`)
-				.pushKeyValue('Adventurers’ Guild rank', '✴️ TODO')
-				.pushKeyValue('Equipment', '✴️ TODO')
-				.pushKeyValue(RichText.strong().pushText('Overall power').done(), '✴️ TODO')
+				.pushKeyValue('XP', `${state.experience} / ${expected_experience}`)
+				//.pushKeyValue('Adventurers’ Guild rank', '✴️ TODO')
+				//.pushKeyValue('Equipment', '✴️ TODO')
+				.pushKeyValue(RichText.strong().pushText('Overall power').done(), power.toPrecision())
 				.done()
 		)
 
@@ -61,10 +66,11 @@ function render_party(state: Immutable<State>, options?: {}): RichText.Document 
 						.pushText('Heroine')
 						.pushNode(render_relationship__heroine(state.relationships.heroine))
 						.done())
-				.pushKeyValue('Mount', '✴️ TODO')
-				.pushKeyValue('Pet', '✴️ TODO')
-				.pushKeyValue('Pet dragon', '✴️ TODO')
-				.pushKeyValue('Pet Slime(s)', '✴️ TODO')
+				//.pushKeyValue('Mount', '✴️ TODO')
+				//.pushKeyValue('Pet', '✴️ TODO')
+				//.pushKeyValue('Pet dragon', '✴️ TODO')
+				//.pushKeyValue('Pet Slime(s)', '✴️ TODO')
+				.pushKeyValue(RichText.strong().pushText('Overall power').done(), '✴️ TODO')
 				.done()
 		)
 

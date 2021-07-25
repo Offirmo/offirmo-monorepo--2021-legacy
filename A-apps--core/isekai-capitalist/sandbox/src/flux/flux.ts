@@ -20,6 +20,7 @@ import { create as create_dispatcher } from './dispatcher'
 import create_store__local_storage from './stores/local-storage'
 import create_store__in_memory from './stores/in-memory'
 import { get_lib_SEC } from './sec'
+import { finalize_action_if_needed } from '@offirmo-private/state-utils/src'
 //import create_store__cloud_storage from './stores/cloud'
 
 
@@ -113,31 +114,16 @@ function create_flux_instance<State extends AnyOffirmoState, Action extends Base
 
 		////////////////////////////////////
 
-		function dispatch(raw_action: Action) {
-			const action: BaseAction = { ...raw_action as any }
+		function dispatch(action: Immutable<Action>) {
 			if (action.type !== 'update_to_now') console.groupEnd()
 
-			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: ${action.type} ⚡ ———————`)
+			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: "${action.type}" ⚡ ———————`)
 			schedule_when_idle_but_not_too_far(console.groupEnd)
 
 			//logger.trace('current state:', { action: other_fields_for_debug })
+			action = finalize_action_if_needed(action)
 			const { time, ...other_fields_for_debug } = action
-			logger.log('⚡ action dispatched:', { action: other_fields_for_debug })
-
-			// complete "action" object that may be missing some parts
-			action.time = action.time || get_UTC_timestamp_ms()
-
-			// TODO clarify this part
-			const state: Immutable<State> = in_memory_store.get()
-			Object.keys(action.expected_revisions).forEach(sub_state_key => {
-				const sub_state = (state as any)[sub_state_key] || (state as any).u_state[sub_state_key]
-				assert(sub_state, `state should have a sub-state "${sub_state}"`)
-				const current_sub_state_revision: number = sub_state.revision
-				assert(current_sub_state_revision, `sub-state "${sub_state}" should have a revision`)
-				if (action.expected_revisions[sub_state_key] === -1) {
-					action.expected_revisions[sub_state_key] = current_sub_state_revision
-				}
-			})
+			logger.log('⚡ action dispatched:', { ...other_fields_for_debug })
 
 			_dispatcher.dispatch(action)
 		}

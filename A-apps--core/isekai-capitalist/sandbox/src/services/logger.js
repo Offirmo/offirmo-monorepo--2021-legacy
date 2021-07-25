@@ -2,7 +2,7 @@
 
 import { getLogger } from '@offirmo/universal-debug-api-browser'
 
-import { LIB } from './consts'
+import { LIB } from '../consts'
 
 /////////////////////////////////////////////////
 

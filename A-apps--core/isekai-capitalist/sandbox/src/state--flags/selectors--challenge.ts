@@ -5,13 +5,13 @@ import { State } from './types'
 
 
 export function has_saved_the_world(state: Immutable<State>): boolean {
-	return false
+	return state.has_saved_the_world
 }
 export function has_found_their_soulmate(state: Immutable<State>): boolean {
-	return false
+	return state.has_found_their_soulmate
 }
 export function has_improved_civilization(state: Immutable<State>): boolean {
-	return false
+	return state.has_improved_civilization
 }
 
 

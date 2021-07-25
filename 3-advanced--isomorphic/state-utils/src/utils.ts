@@ -1,11 +1,14 @@
 import assert from 'tiny-invariant'
 import icepick from 'icepick'
 import { Immutable, Mutable, ImmutabilityEnforcer } from '@offirmo-private/ts-types'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import {
 	BaseUState,
 	BaseTState,
-	BaseRootState, UTBundle,
+	BaseRootState,
+	UTBundle,
+	BaseAction,
 } from './types'
 import {
 	AnyBaseState,
@@ -156,4 +159,36 @@ export function are_ustate_revision_requirements_met<S extends BaseRootState>(st
 			return false
 	}
 	return true
+}
+
+export function finalize_action_if_needed<State, Action extends BaseAction>(action: Immutable<Action>, state?: Immutable<State>): Immutable<Action> {
+	if (action.time <= 0) {
+		action = {
+			...action,
+			time: get_UTC_timestamp_ms(),
+		}
+	}
+
+	const has_some_blank_expected_revisions = Object.keys(action.expected_revisions).some(sub_state_key => action.expected_revisions[sub_state_key] === -1)
+	if (has_some_blank_expected_revisions) {
+		assert(state, `finalize_action_if_needed(): current state should be provided to finalize some expected revisions`)
+		action = {
+			...action,
+			expected_revisions: Object.keys(action.expected_revisions).reduce((acc, val) => {
+				const sub_state_key = val
+				const sub_state = (state as any)[sub_state_key] || (state as any).u_state[sub_state_key]
+				assert(sub_state, `finalize_action_if_needed(): state should have a sub-state "${sub_state}"`)
+				const current_sub_state_revision: number = sub_state.revision
+				assert(current_sub_state_revision, `sub-state "${sub_state}" should have a revision`)
+
+				if (action.expected_revisions[sub_state_key] === -1) {
+					acc[sub_state_key] = current_sub_state_revision
+				}
+
+				return acc
+			}, {} as BaseAction['expected_revisions'])
+		}
+	}
+
+	return action
 }
