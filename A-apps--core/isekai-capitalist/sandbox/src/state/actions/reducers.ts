@@ -1,33 +1,42 @@
 import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
+import { finalize_action_if_needed } from '@offirmo-private/state-utils'
 
 import { State } from '../types'
 import { Action, ActionType } from './types'
 import {
 	create,
-	randomize_post_create,
-	reduceⵧexplore,
+	randomize_post_create, reduceⵧdo_quest,
+	reduceⵧexplore, reduceⵧguild_rank_up, reduceⵧromance,
 	reduceⵧupdate_to_now,
 } from '../reducers'
 
 /////////////////////
 
-
-
 export function reduce_action(state: Immutable<State>, action: Immutable<Action>): Immutable<State> {
-	assert(action.time > 0, `reduce_action() time should be >0`)
+	action = finalize_action_if_needed(action, state)
 
 	switch(action.type) {
 		/////////////////////
 
 		case ActionType.explore:
 			return reduceⵧexplore(state, action)
+		case ActionType.quest:
+			return reduceⵧdo_quest(state, action)
+		case ActionType.rank_upⵧguild:
+			return reduceⵧguild_rank_up(state, action)
+		case ActionType.romance:
+			return reduceⵧromance(state, action)
 
 		/////////////////////
 
+		case ActionType.update_to_now:
+			return reduceⵧupdate_to_now(
+					state,
+					action.time
+				)
 		case ActionType.set:
 			return action.state || randomize_post_create(create())
-
 		case ActionType.hack:
 			return action.custom_reducer(
 				reduceⵧupdate_to_now( // auto update-to-now for convenience

@@ -8,9 +8,11 @@ import { State } from '../types'
 import {
 	ActionType,
 	Action,
+
 	ActionExplore,
+
 	ActionHack,
-	ActionSet,
+	ActionSet, ActionQuest, ActionRankUpGuild, ActionRomance,
 } from './types'
 
 /////////////////////
@@ -43,6 +45,27 @@ export function create_actionꘌexplore(time: TimestampUTCMs): ActionExplore {
 	}, time)
 }
 
+export function create_actionꘌquest(time: TimestampUTCMs): ActionQuest {
+	return create_action<ActionQuest>({
+		type: ActionType.quest,
+		expected_revisions: {},
+	}, time)
+}
+
+export function create_actionꘌrank_upⵧguild(time: TimestampUTCMs): ActionRankUpGuild {
+	return create_action<ActionRankUpGuild>({
+		type: ActionType.rank_upⵧguild,
+		expected_revisions: {},
+	}, time)
+}
+
+export function create_actionꘌromance(time: TimestampUTCMs): ActionRomance {
+	return create_action<ActionRomance>({
+		type: ActionType.romance,
+		expected_revisions: {},
+	}, time)
+}
+
 function create_actionꘌnoop(time: TimestampUTCMs): ActionHack {
 	return create_action<ActionHack>({
 		type: ActionType.hack,
@@ -64,6 +87,9 @@ function create_actionꘌset(state: Immutable<State> | null, time: TimestampUTCM
 export function get_available_actions(state: Immutable<State>, time: TimestampUTCMs = -1): Action[] {
 	return [
 		create_actionꘌexplore(time),
+		create_actionꘌquest(time),
+		create_actionꘌrank_upⵧguild(time),
+		create_actionꘌromance(time),
 		create_actionꘌset(null, time),
 	]
 }

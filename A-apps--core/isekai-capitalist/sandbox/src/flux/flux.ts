@@ -121,8 +121,7 @@ function create_flux_instance<State extends AnyOffirmoState, Action extends Base
 			schedule_when_idle_but_not_too_far(console.groupEnd)
 
 			//logger.trace('current state:', { action: other_fields_for_debug })
-			action = finalize_action_if_needed(action)
-			const { time, ...other_fields_for_debug } = action
+			const { type, time, expected_revisions, ...other_fields_for_debug } = action
 			logger.log('⚡ action dispatched:', { ...other_fields_for_debug })
 
 			_dispatcher.dispatch(action)

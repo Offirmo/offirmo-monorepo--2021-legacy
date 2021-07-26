@@ -7,13 +7,20 @@ import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamp
 import { State } from '../types'
 import {
 	ExploreParams,
+	QuestParams,
+	GuildRankUpParams,
+	RomanceParams,
 } from '../reducers'
+import { reduceⵧsnowflake as reduceⵧsnowflake__guild } from '../../state--guild-membership/reducers'
 
 /////////////////////
 
 export const ActionType = Enum(
 
 	'explore',
+	'quest',
+	'rank_upⵧguild',
+	'romance',
 
 	/*'equip_item',
 	'sell_item',
@@ -25,9 +32,10 @@ export const ActionType = Enum(
 	'on_start_session',
 	'on_logged_in_refresh',
 	'acknowledge_engagement_msg_seen',*
+*/
 
 	'update_to_now',
-*/
+
 	'set',
 	'hack',
 )
@@ -38,7 +46,15 @@ export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redec
 export interface ActionExplore extends BaseAction, ExploreParams {
 	type: typeof ActionType.explore
 }
-
+export interface ActionQuest extends BaseAction, QuestParams {
+	type: typeof ActionType.quest
+}
+export interface ActionRankUpGuild extends BaseAction, GuildRankUpParams {
+	type: typeof ActionType.rank_upⵧguild
+}
+export interface ActionRomance extends BaseAction, RomanceParams {
+	type: typeof ActionType.romance
+}
 /*
 export interface ActionStartGame extends BaseAction {
 	type: typeof ActionType.start_game
@@ -89,11 +105,12 @@ export interface ActionAcknowledgeEngagementMsgSeen extends BaseAction {
 	type: typeof ActionType.acknowledge_engagement_msg_seen
 	uid: number
 }
+*/
 
 export interface ActionUpdateToNow extends BaseAction {
 	type: typeof ActionType.update_to_now
 }
-*/
+
 // for ex. restoring a game from cloud or a previous save
 export interface ActionSet extends BaseAction {
 	type: typeof ActionType.set
@@ -110,6 +127,9 @@ export interface ActionHack extends BaseAction {
 
 export type Action =
 	| ActionExplore
+	| ActionQuest
+	| ActionRankUpGuild
+	| ActionRomance
 	/*	| ActionStartGame
 		| ActionStartSession
 		| ActionUpdateLoggedInInfos
@@ -119,7 +139,7 @@ export type Action =
 		| ActionRenameAvatar
 		| ActionChangeAvatarClass
 		| ActionRedeemCode
-		| ActionAcknowledgeEngagementMsgSeen
-		| ActionUpdateToNow*/
+		| ActionAcknowledgeEngagementMsgSeen*/
+	| ActionUpdateToNow
 	| ActionSet
 	| ActionHack

@@ -1,6 +1,7 @@
 import { Immutable } from '@offirmo-private/ts-types'
 
 import { State } from './types'
+import { SSRRank } from '../type--SSR-rank'
 
 
 export function create(): Immutable<State> {
@@ -8,9 +9,8 @@ export function create(): Immutable<State> {
 		schema_version: 0,
 		revision: 0,
 
-		has_saved_the_world: false,
-		has_found_their_soulmate: false,
-		has_improved_civilization: false,
+		quest_count: 0,
+		rank: SSRRank.F,
 	}
 }
 
@@ -20,8 +20,6 @@ export function reduceⵧsnowflake(state: Immutable<State>): Immutable<State> {
 		...state,
 		revision: state.revision + 1,
 
-		has_saved_the_world: true,
-		has_found_their_soulmate: true,
-		has_improved_civilization: true,
+		rank: SSRRank.SSR,
 	}
 }

@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useReducer } from 'react'
 import { Story, Meta } from '@storybook/react'
 
 import { Enum } from 'typescript-string-enums'
 import { to_react } from '@offirmo-private/rich-text-format-to-react'
-import { finalize_action_if_needed } from '@offirmo-private/state-utils'
 
 import WithIphoneNotches from '@offirmo-private/storybook--utils/src/wrapper--with-iphone-notches'
 
@@ -127,14 +126,8 @@ export function Game() {
 	})
 	const state = flux.get()
 	console.log('from flux', {state})*/
-	const [ state, set_state ] = useState(randomize_post_create(create()))
+	const [ state, dispatch ] = useReducer(reduce_action, randomize_post_create(create()))
 	console.log('🔄 Game', { state })
-
-	function dispatch(action: Immutable<Action>) {
-		action = finalize_action_if_needed(action, state)
-		const new_state = reduce_action(state, action)
-		set_state(new_state)
-	}
 
 	return (
 		<main>
