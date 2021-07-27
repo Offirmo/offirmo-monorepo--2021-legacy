@@ -12,7 +12,7 @@ import {
 	ActionExplore,
 
 	ActionHack,
-	ActionSet, ActionQuest, ActionRankUpGuild, ActionRomance,
+	ActionSet, ActionQuest, ActionRankUpGuild, ActionRomance, ActionEatFood, ActionTrain,
 } from './types'
 
 /////////////////////
@@ -45,6 +45,13 @@ export function create_actionꘌexplore(time: TimestampUTCMs): ActionExplore {
 	}, time)
 }
 
+export function create_actionꘌtrain(time: TimestampUTCMs): ActionTrain {
+	return create_action<ActionTrain>({
+		type: ActionType.train,
+		expected_revisions: {},
+	}, time)
+}
+
 export function create_actionꘌquest(time: TimestampUTCMs): ActionQuest {
 	return create_action<ActionQuest>({
 		type: ActionType.quest,
@@ -62,6 +69,13 @@ export function create_actionꘌrank_upⵧguild(time: TimestampUTCMs): ActionRan
 export function create_actionꘌromance(time: TimestampUTCMs): ActionRomance {
 	return create_action<ActionRomance>({
 		type: ActionType.romance,
+		expected_revisions: {},
+	}, time)
+}
+
+export function create_actionꘌeat_food(time: TimestampUTCMs): ActionEatFood {
+	return create_action<ActionEatFood>({
+		type: ActionType.eat_delicious_food,
 		expected_revisions: {},
 	}, time)
 }
@@ -90,6 +104,7 @@ export function get_available_actions(state: Immutable<State>, time: TimestampUT
 		create_actionꘌquest(time),
 		create_actionꘌrank_upⵧguild(time),
 		create_actionꘌromance(time),
+		create_actionꘌeat_food(time),
 		create_actionꘌset(null, time),
 	]
 }

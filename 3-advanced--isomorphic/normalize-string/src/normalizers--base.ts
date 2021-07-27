@@ -33,7 +33,7 @@ const ANY_BLANK_REGEXP = /\s+/g
 export const coerce_blanks_to_single_spaces: StringNormalizer = s => s.replace(ANY_BLANK_REGEXP, ' ')
 
 // https://stackoverflow.com/a/19313707/587407
-const ANY_DELIMITER_REGEXP = new RegExp('[-+()*/:? _\.]', 'g')
+const ANY_DELIMITER_REGEXP = new RegExp('[-+()*/:? _\.ⵧ]', 'g')
 export const coerce_delimiters_to_space: StringNormalizer = s => s.replace(ANY_DELIMITER_REGEXP, ' ')
 
 export const convert_spaces_to_camel_case: StringNormalizer = s => s.split(' ').map(capitalize).join('')

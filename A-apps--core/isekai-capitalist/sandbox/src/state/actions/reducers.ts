@@ -6,8 +6,15 @@ import { State } from '../types'
 import { Action, ActionType } from './types'
 import {
 	create,
-	randomize_post_create, reduceⵧdo_quest,
-	reduceⵧexplore, reduceⵧguild_rank_up, reduceⵧromance,
+	randomize_post_create,
+
+	reduceⵧdo_quest,
+	reduceⵧeat_food,
+	reduceⵧexplore,
+	reduceⵧguild_rank_up,
+	reduceⵧromance,
+	reduceⵧtrain,
+
 	reduceⵧupdate_to_now,
 } from '../reducers'
 
@@ -21,12 +28,16 @@ export function reduce_action(state: Immutable<State>, action: Immutable<Action>
 
 		case ActionType.explore:
 			return reduceⵧexplore(state, action)
+		case ActionType.train:
+			return reduceⵧtrain(state, action)
 		case ActionType.quest:
 			return reduceⵧdo_quest(state, action)
 		case ActionType.rank_upⵧguild:
 			return reduceⵧguild_rank_up(state, action)
 		case ActionType.romance:
 			return reduceⵧromance(state, action)
+		case ActionType.eat_delicious_food:
+			return reduceⵧeat_food(state, action)
 
 		/////////////////////
 

@@ -7,6 +7,9 @@ import { State } from './types'
 export function has_saved_the_world(state: Immutable<State>): boolean {
 	return state.has_saved_the_world
 }
+export function has_lived_to_the_fullest(state: Immutable<State>): boolean {
+	return state.has_lived_to_the_fullest
+}
 export function has_found_their_soulmate(state: Immutable<State>): boolean {
 	return state.has_found_their_soulmate
 }

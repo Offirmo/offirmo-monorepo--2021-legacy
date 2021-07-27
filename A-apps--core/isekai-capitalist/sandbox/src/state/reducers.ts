@@ -62,6 +62,16 @@ export function reduceⵧexplore(state: Immutable<State>, params: Immutable<Expl
 	}
 }
 
+export interface TrainParams {}
+export function reduceⵧtrain(state: Immutable<State>, params: Immutable<TrainParams>): Immutable<State> {
+	return {
+		...state,
+		revision: state.revision + 1,
+
+		flags: reduceⵧsnowflake__flags(state.flags),
+	}
+}
+
 export interface QuestParams {}
 export function reduceⵧdo_quest(state: Immutable<State>, params: Immutable<QuestParams>): Immutable<State> {
 	return {
@@ -105,3 +115,14 @@ export function reduceⵧromance(state: Immutable<State>, params: Immutable<Roma
 		},
 	}
 }
+
+export interface EatFoodParams {}
+export function reduceⵧeat_food(state: Immutable<State>, params: Immutable<EatFoodParams>): Immutable<State> {
+	return {
+		...state,
+		revision: state.revision + 1,
+
+		flags: reduceⵧsnowflake__flags(state.flags),
+	}
+}
+

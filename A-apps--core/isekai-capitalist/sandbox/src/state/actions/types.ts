@@ -7,9 +7,11 @@ import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamp
 import { State } from '../types'
 import {
 	ExploreParams,
+	TrainParams,
 	QuestParams,
 	GuildRankUpParams,
 	RomanceParams,
+	EatFoodParams,
 } from '../reducers'
 import { reduceⵧsnowflake as reduceⵧsnowflake__guild } from '../../state--guild-membership/reducers'
 
@@ -18,9 +20,11 @@ import { reduceⵧsnowflake as reduceⵧsnowflake__guild } from '../../state--gu
 export const ActionType = Enum(
 
 	'explore',
+	'train',
 	'quest',
 	'rank_upⵧguild',
 	'romance',
+	'eat_delicious_food',
 
 	/*'equip_item',
 	'sell_item',
@@ -46,6 +50,9 @@ export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redec
 export interface ActionExplore extends BaseAction, ExploreParams {
 	type: typeof ActionType.explore
 }
+export interface ActionTrain extends BaseAction, TrainParams {
+	type: typeof ActionType.train
+}
 export interface ActionQuest extends BaseAction, QuestParams {
 	type: typeof ActionType.quest
 }
@@ -54,6 +61,9 @@ export interface ActionRankUpGuild extends BaseAction, GuildRankUpParams {
 }
 export interface ActionRomance extends BaseAction, RomanceParams {
 	type: typeof ActionType.romance
+}
+export interface ActionEatFood extends BaseAction, EatFoodParams {
+	type: typeof ActionType.eat_delicious_food
 }
 /*
 export interface ActionStartGame extends BaseAction {
@@ -127,9 +137,11 @@ export interface ActionHack extends BaseAction {
 
 export type Action =
 	| ActionExplore
+	| ActionTrain
 	| ActionQuest
 	| ActionRankUpGuild
 	| ActionRomance
+	| ActionEatFood
 	/*	| ActionStartGame
 		| ActionStartSession
 		| ActionUpdateLoggedInInfos
