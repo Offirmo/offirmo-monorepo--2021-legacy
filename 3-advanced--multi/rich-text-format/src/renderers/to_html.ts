@@ -1,3 +1,4 @@
+import memoize_one from 'memoize-one'
 import {
 	NodeType,
 	OnConcatenateStringParams,
@@ -35,6 +36,7 @@ const NODE_TYPE_TO_HTML_ELEMENT: { [k: string]: string } = {
 	[NodeType.block_fragment]: 'div',
 }
 
+const warn_kvp = memoize_one(() => console.warn(`${LIB} TODO KVP`))
 
 const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>, Options> = ({$node, state, sub_state}) => {
 	state.sub_nodes.push($node)
@@ -105,7 +107,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 		if (is_KVP_list($node)) {
 			classes.push('o⋄rich-text⋄list--no-bullet')
 			// TODO rewrite completely
-			console.warn(`${LIB} TODO KVP`)
+			warn_kvp()
 		}
 	}
 

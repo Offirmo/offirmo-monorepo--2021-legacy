@@ -13,7 +13,7 @@ export interface Options {
 	mode: 'simple' | 'detailed'
 }
 export function render(state: Immutable<State>, options: Immutable<Options> = { mode: 'simple' }): RichText.Document {
-	const $rank = render_ssr_rank(state.rank)
+	const $rank = render_ssr_rank(state.rank, { label_for_none: 'not registered'})
 
 	if (options.mode === 'simple') {
 		return RichText.inline_fragment()

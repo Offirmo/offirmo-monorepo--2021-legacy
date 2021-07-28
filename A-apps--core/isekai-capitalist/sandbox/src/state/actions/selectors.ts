@@ -12,8 +12,9 @@ import {
 	ActionExplore,
 
 	ActionHack,
-	ActionSet, ActionQuest, ActionRankUpGuild, ActionRomance, ActionEatFood, ActionTrain,
+	ActionSet, ActionQuest, ActionRankUpGuild, ActionRomance, ActionEatFood, ActionTrain, ActionDefeatMook,
 } from './types'
+import { is_max } from '../../type--SSR-rank'
 
 /////////////////////
 
@@ -80,6 +81,13 @@ export function create_actionꘌeat_food(time: TimestampUTCMs): ActionEatFood {
 	}, time)
 }
 
+export function create_actionꘌdefeat_mook(time: TimestampUTCMs): ActionDefeatMook {
+	return create_action<ActionDefeatMook>({
+		type: ActionType.defeat_mook,
+		expected_revisions: {},
+	}, time)
+}
+
 function create_actionꘌnoop(time: TimestampUTCMs): ActionHack {
 	return create_action<ActionHack>({
 		type: ActionType.hack,
@@ -100,9 +108,10 @@ function create_actionꘌset(state: Immutable<State> | null, time: TimestampUTCM
 
 export function get_available_actions(state: Immutable<State>, time: TimestampUTCMs = -1): Action[] {
 	return [
+		...(is_max(state.mc.guild.rank) ? [] : [create_actionꘌrank_upⵧguild(time)]),
 		create_actionꘌexplore(time),
-		create_actionꘌquest(time),
-		create_actionꘌrank_upⵧguild(time),
+		create_actionꘌdefeat_mook(time),
+		...(state.mc.guild.rank ? [create_actionꘌquest(time)] : []),
 		create_actionꘌromance(time),
 		create_actionꘌeat_food(time),
 		create_actionꘌset(null, time),

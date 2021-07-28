@@ -17,6 +17,7 @@ export function create(): Immutable<State> {
 	}
 }
 
+////////////////////////////////////
 
 export function reduceⵧsnowflake(state: Immutable<State>): Immutable<State> {
 	return {

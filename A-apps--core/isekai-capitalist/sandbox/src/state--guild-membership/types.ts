@@ -4,5 +4,5 @@ import { SSRRank } from '../type--SSR-rank'
 
 export interface State extends BaseState {
 	quest_count: number
-	rank: SSRRank
+	rank: SSRRank | null
 }

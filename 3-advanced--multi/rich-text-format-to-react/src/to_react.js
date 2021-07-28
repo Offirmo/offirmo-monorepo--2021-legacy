@@ -1,3 +1,4 @@
+import memoize_one from 'memoize-one'
 import * as React from 'react'
 import classNames from 'classnames'
 
@@ -17,6 +18,8 @@ export const NODE_TYPE_TO_COMPONENT = {
 export const NODE_TYPE_TO_EXTRA_CLASSES = {
 	[NodeType.weak]: [ 'o⋄color⁚secondary' ],
 }
+
+const warn_kvp = memoize_one(() => console.warn(`${LIB} TODO KVP`))
 
 // a clever key is critically needed in general, but even more critical
 // for lists, whom default keys "1, 2, 3" is dangerous if the list is re-ordered.
@@ -105,7 +108,7 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 
 		if (is_KVP_list($node)) {
 			// TODO rewrite completely
-			console.log(`${LIB} TODO KVP`)
+			warn_kvp()
 			result.classes.push('o⋄rich-text⋄list--no-bullet')
 		}
 	}

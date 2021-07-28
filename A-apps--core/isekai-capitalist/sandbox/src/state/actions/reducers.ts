@@ -6,7 +6,7 @@ import { State } from '../types'
 import { Action, ActionType } from './types'
 import {
 	create,
-	randomize_post_create,
+	randomize_post_create, reduceⵧdefeat_mook,
 
 	reduceⵧdo_quest,
 	reduceⵧeat_food,
@@ -38,22 +38,18 @@ export function reduce_action(state: Immutable<State>, action: Immutable<Action>
 			return reduceⵧromance(state, action)
 		case ActionType.eat_delicious_food:
 			return reduceⵧeat_food(state, action)
+		case ActionType.defeat_mook:
+			return reduceⵧdefeat_mook(state, action)
 
 		/////////////////////
 
 		case ActionType.update_to_now:
-			return reduceⵧupdate_to_now(
-					state,
-					action.time
-				)
+			return reduceⵧupdate_to_now(state, action.time)
 		case ActionType.set:
 			return action.state || randomize_post_create(create())
 		case ActionType.hack:
 			return action.custom_reducer(
-				reduceⵧupdate_to_now( // auto update-to-now for convenience
-					state,
-					action.time
-				)
+				reduceⵧupdate_to_now(state, action.time) // auto update-to-now for convenience
 			)
 
 		/////////////////////

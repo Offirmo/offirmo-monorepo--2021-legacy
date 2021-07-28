@@ -6,13 +6,30 @@ import { State } from '../types'
 import { Action, ActionType } from './types'
 
 
+const TYPE_TO_LABEL: { [type: string]: string } = {
+	[ActionType.explore]: 'Explore the open world',
+	[ActionType.quest]: 'Fulfill a quest from the guild',
+	[ActionType.rank_upⵧguild]: 'Take the guild rank-up exam',
+	[ActionType.romance]: 'Romance the heroine',
+	[ActionType.defeat_mook]: 'Defeat some mook(s)',
+}
+
 export function render_action(action: Immutable<Action>, state: Immutable<State>, options?: {}): RichText.Document {
 	const $doc = RichText.inline_fragment()
 		.pushText((() => {
-			if (action.type === ActionType.set && action.state === null)
-				return 'restart'
+			switch (action.type) {
 
-			return NORMALIZERS.coerce_delimiters_to_space(action.type)
+				// @ts-expect-error
+				case ActionType.set:
+					if (action.state === null) return '[reset game]'
+
+				// @ts-expect-error
+				case ActionType.rank_upⵧguild:
+					if (!state.mc.guild.rank) return 'Register to the Adventurer’s Guild'
+
+				default:
+					return TYPE_TO_LABEL[action.type] || NORMALIZERS.capitalize(NORMALIZERS.coerce_delimiters_to_space(action.type))
+			}
 		})())
 		.done()
 

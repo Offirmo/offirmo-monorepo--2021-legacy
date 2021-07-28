@@ -10,8 +10,8 @@ export interface State extends BaseState {
 
 	flags: FlagsState
 
-	character: {
-		experience: number
+	mc: {
+		xp: number
 		level: number
 		equipment: undefined
 		guild: GuildState

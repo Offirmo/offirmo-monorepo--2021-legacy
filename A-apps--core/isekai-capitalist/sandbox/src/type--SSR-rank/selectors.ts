@@ -2,6 +2,7 @@ import assert from 'tiny-invariant'
 
 import { SSRRank } from './types'
 import { Quality } from '../type--quality/types'
+import { Immutable } from '../../../../../2-foundation/ts-types/src'
 
 
 export function get_corresponding_quality(ssr_rank: SSRRank): Quality {
@@ -31,22 +32,28 @@ const RANKS_ORDERED_INC: SSRRank[] = [
 ]
 const MAX_RANK_INDEX = RANKS_ORDERED_INC.length - 1
 
-function _get_corresponding_index(ssr_rank: SSRRank): number {
+export function get_corresponding_index(ssr_rank: Immutable<SSRRank>): number {
 	return RANKS_ORDERED_INC.indexOf(ssr_rank)
 }
 
-function _get_from_index(ssr_rank_index: number): SSRRank {
+export function get_from_index(ssr_rank_index: number): SSRRank {
 	assert(ssr_rank_index >= 0)
 	assert(ssr_rank_index <= MAX_RANK_INDEX)
 	return RANKS_ORDERED_INC[ssr_rank_index]
 }
 
+export function is_max(ssr_rank: Immutable<SSRRank> | null): boolean {
+	return ssr_rank === SSRRank.SSR
+}
+
 //export function compare(ssr_rank_a, ssr_rank_b)
 
-export function get_next_rank(ssr_rank: SSRRank): SSRRank {
-	return _get_from_index(
+export function get_next(ssr_rank: Immutable<SSRRank> | null): SSRRank {
+	if (!ssr_rank) return SSRRank.F
+
+	return get_from_index(
 		Math.min(
-			_get_corresponding_index(ssr_rank) + 1,
+			get_corresponding_index(ssr_rank) + 1,
 			MAX_RANK_INDEX,
 		)
 	)

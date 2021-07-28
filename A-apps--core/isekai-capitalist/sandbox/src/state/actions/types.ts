@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 import { Immutable } from '@offirmo-private/ts-types'
-import { BaseAction } from '@offirmo-private/state-utils'
+import { BaseAction as _BaseAction } from '@offirmo-private/state-utils'
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
@@ -11,7 +11,7 @@ import {
 	QuestParams,
 	GuildRankUpParams,
 	RomanceParams,
-	EatFoodParams,
+	EatFoodParams, DefeatMookParams,
 } from '../reducers'
 import { reduceⵧsnowflake as reduceⵧsnowflake__guild } from '../../state--guild-membership/reducers'
 
@@ -25,6 +25,7 @@ export const ActionType = Enum(
 	'rank_upⵧguild',
 	'romance',
 	'eat_delicious_food',
+	'defeat_mook',
 
 	/*'equip_item',
 	'sell_item',
@@ -47,23 +48,32 @@ export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redec
 
 /////////////////////
 
-export interface ActionExplore extends BaseAction, ExploreParams {
+export interface BaseAction<T> extends _BaseAction<T> {
+	success_probability?: number // hint for rendering controls
+}
+
+/////////////////////
+
+export interface ActionExplore extends BaseAction<ActionType>, ExploreParams {
 	type: typeof ActionType.explore
 }
-export interface ActionTrain extends BaseAction, TrainParams {
+export interface ActionTrain extends BaseAction<ActionType>, TrainParams {
 	type: typeof ActionType.train
 }
-export interface ActionQuest extends BaseAction, QuestParams {
+export interface ActionQuest extends BaseAction<ActionType>, QuestParams {
 	type: typeof ActionType.quest
 }
-export interface ActionRankUpGuild extends BaseAction, GuildRankUpParams {
+export interface ActionRankUpGuild extends BaseAction<ActionType>, GuildRankUpParams {
 	type: typeof ActionType.rank_upⵧguild
 }
-export interface ActionRomance extends BaseAction, RomanceParams {
+export interface ActionRomance extends BaseAction<ActionType>, RomanceParams {
 	type: typeof ActionType.romance
 }
-export interface ActionEatFood extends BaseAction, EatFoodParams {
+export interface ActionEatFood extends BaseAction<ActionType>, EatFoodParams {
 	type: typeof ActionType.eat_delicious_food
+}
+export interface ActionDefeatMook extends BaseAction<ActionType>, DefeatMookParams {
+	type: typeof ActionType.defeat_mook
 }
 /*
 export interface ActionStartGame extends BaseAction {
@@ -117,12 +127,12 @@ export interface ActionAcknowledgeEngagementMsgSeen extends BaseAction {
 }
 */
 
-export interface ActionUpdateToNow extends BaseAction {
+export interface ActionUpdateToNow extends BaseAction<ActionType> {
 	type: typeof ActionType.update_to_now
 }
 
 // for ex. restoring a game from cloud or a previous save
-export interface ActionSet extends BaseAction {
+export interface ActionSet extends BaseAction<ActionType> {
 	type: typeof ActionType.set
 	state: Immutable<State> | null // null = create a new one
 	// force: boolean
@@ -130,7 +140,7 @@ export interface ActionSet extends BaseAction {
 
 // for debug / hacks = ex. replenishing energy during local tests
 // should never make it to the server!
-export interface ActionHack extends BaseAction {
+export interface ActionHack extends BaseAction<ActionType> {
 	type: typeof ActionType.hack
 	custom_reducer: (state: Immutable<State>) => Immutable<State>
 }
@@ -142,6 +152,7 @@ export type Action =
 	| ActionRankUpGuild
 	| ActionRomance
 	| ActionEatFood
+	| ActionDefeatMook
 	/*	| ActionStartGame
 		| ActionStartSession
 		| ActionUpdateLoggedInInfos

@@ -21,15 +21,30 @@ function _get_decorator(ssr_rank: SSRRank): [ string, string ] {
 	} as {[rank: string]: [string, string]})[ssr_rank]
 }
 
-
-export function render(ssr_rank: Immutable<SSRRank>, options?: {}): RichText.Document {
-	const corresponding_quality = get_corresponding_quality(ssr_rank)
-	const [ decorator_pre, decorator_post ] = _get_decorator(ssr_rank)
+interface RenderOptions {
+	label_for_none: string
+}
+const DEFAULT_RENDER_OPTIONS: Immutable<RenderOptions> = {
+	label_for_none: 'unknown',
+}
+export function render(ssr_rank: Immutable<SSRRank> | null, options?: Immutable<RenderOptions>): RichText.Document {
+	options = {
+		...DEFAULT_RENDER_OPTIONS,
+		...options,
+	}
 
 	const $doc = RichText.inline_fragment()
-		.addClass('rank--ssr', get_class__quality(corresponding_quality))
-		.pushText([decorator_pre, ssr_rank, decorator_post].join(''))
-		.done()
 
-	return $doc
+	if (!ssr_rank) {
+		$doc.addClass('rank--ssr', get_class__quality(Quality.poor))
+		$doc.pushText(options.label_for_none)
+	}
+	else {
+		const corresponding_quality = get_corresponding_quality(ssr_rank)
+		const [ decorator_pre, decorator_post ] = _get_decorator(ssr_rank)
+		$doc.addClass('rank--ssr', get_class__quality(corresponding_quality))
+		$doc.pushText([decorator_pre, ssr_rank, decorator_post].join(''))
+	}
+
+	return $doc.done()
 }

@@ -72,7 +72,12 @@ h1, h2, h3, p {
 /* nicer lists */
 ul, ol {
 	/* instead of fixed */
-	padding-inline-start: 2em;
+	padding-inline-start: 1.4em;
+}
+li > ul,
+li > ol {
+	padding-inline-start: 0;
+	padding-left: 0;
 }
 
 

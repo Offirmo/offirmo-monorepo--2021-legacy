@@ -1,8 +1,10 @@
 import { Immutable } from '@offirmo-private/ts-types'
 
-import { State } from './types'
-import { SSRRank } from '../type--SSR-rank'
+import { get_next, SSRRank } from '../type--SSR-rank'
 
+import { State } from './types'
+
+////////////////////////////////////
 
 export function create(): Immutable<State> {
 	return {
@@ -10,10 +12,26 @@ export function create(): Immutable<State> {
 		revision: 0,
 
 		quest_count: 0,
-		rank: SSRRank.F,
+		rank: null, // not even registered
 	}
 }
 
+////////////////////////////////////
+
+export function reduceⵧrank_up(state: Immutable<State>): Immutable<State> {
+	const next_rank = state.rank ? get_next(state.rank) : SSRRank.F
+	if (next_rank === state.rank)
+		return state // already max
+
+	return {
+		...state,
+		revision: state.revision + 1,
+
+		rank: next_rank,
+	}
+}
+
+////////////////////////////////////
 
 export function reduceⵧsnowflake(state: Immutable<State>): Immutable<State> {
 	return {
@@ -23,3 +41,5 @@ export function reduceⵧsnowflake(state: Immutable<State>): Immutable<State> {
 		rank: SSRRank.SSR,
 	}
 }
+
+////////////////////////////////////

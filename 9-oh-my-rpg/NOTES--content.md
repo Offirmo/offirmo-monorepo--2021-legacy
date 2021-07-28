@@ -87,9 +87,6 @@ https://science.slashdot.org/story/20/02/24/2332241/the-perfect-way-to-cook-frie
 Hunter gatherer
 * https://www.nationalgeographic.com/history/2019/11/7000-year-old-woman-reconstruction-sweden-hunter-gatherer/
 
-Shift to agriculture
-* https://www.nationalgeographic.com/culture/topics/reference/neolithic-agricultural-revolution/
-
 Fall of Roman Empire
 * https://en.wikipedia.org/wiki/Gothic_War_(535%E2%80%93554)
 * https://en.wikipedia.org/wiki/Migration_Period
@@ -102,7 +99,6 @@ SCP
 
 
 ### technologie
-* https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
 * https://rpg.stackexchange.com/questions/30966/realism-of-poisoned-weapons  https://www.dandwiki.com/wiki/SRD%3aPoisons
 * https://history.stackexchange.com/questions/57152/how-did-archers-judge-distance-before-range-finders
 * table https://academia.stackexchange.com/questions/144574/why-do-breakthroughs-in-science-and-research-that-have-enormous-and-obvious-po
@@ -227,7 +223,6 @@ mondes "virtuels" où les sorts sont limités sous peine de faire effondrer le m
 
 https://games.slashdot.org/story/19/11/17/029240/doom-creator-john-romero-explains-whats-wrong-with-todays-shooter-games
 
-
 https://news.slashdot.org/story/19/11/25/1548207/why-536-was-the-worst-year-to-be-alive
 
 https://www.millenium.org/guide/30991.html
@@ -237,7 +232,6 @@ https://www.maxisciences.com/archeologie/les-archeologues-deterrent-une-cite-ant
 https://worldbuilding.stackexchange.com/questions/173864/how-do-i-make-a-writing-system-undecipherable-while-not-intended-as-such-in-wor
 
 https://www.theguardian.com/science/2020/feb/12/scientists-find-evidence-of-ghost-population-of-ancient-humans
-
 
 This includes discrimination—which robs people of the opportunity to fully succeed and benefit from equal opportunity; and human trafficking—coerced labor which strips people of their dignity.
 
@@ -253,17 +247,12 @@ https://albiononline.com/en/news/population-update-may-2020
 
 Recognizing Bullying
 LOOK FOR A PATTERN OF...
-Lack of consideration and empathy for those without power
-
-Disrespectful behavior that is overt or subtle, in public or behind closed doors
-
-Verbal aggression, sarcasm, or psychological manipulation
-
-Unreasonable or constantly changing directives and deadlines
-
-Singling out individuals
-
-“Mobbing,” in which a group of people gang up on an individual
+* Lack of consideration and empathy for those without power
+* Disrespectful behavior that is overt or subtle, in public or behind closed doors
+* Verbal aggression, sarcasm, or psychological manipulation
+* Unreasonable or constantly changing directives and deadlines
+* Singling out individuals
+* “Mobbing,” in which a group of people gang up on an individual
 
 Maria is under pressure to finish a project. She has a strong personality and always puts her work first. She is easily angered when details are missed and struggles to productively handle other people’s mistakes. She is ambitious, eager to be promoted, and values team members who have been around the longest, as they have the most experience. She is wary of new people—not knowing whether she can rely on them makes her very nervous.
 
@@ -396,7 +385,8 @@ https://www.thepathmag.com/quarantine-skill-growth/
 
 https://mailchi.mp/f0d560ea0cc2/printable_sheets
 
-much of it is harder than the work you did before you became a manager. Why, because everything you do now involves people, people who are amazing but messy and always unpredictable.
+much of it is harder than the work you did before you became a manager. Why? because everything
+you do now involves people, people who are amazing but messy and always unpredictable.
 
 https://rpggeek.com/thread/1295985/beast-shapes-druid-level
 https://www.dndbeyond.com/characters/899660
@@ -671,43 +661,26 @@ Great Place to Work® Trust Index© Survey
 
 Books https://twitter.com/shreyas/status/1269827402856665088
 On books, the non-fiction kind:
+1.
 2. Almost nothing in the world can match the ROI of a great book.
-3/
-There is no such thing as a cheap book.
-4/
-Don’t turn book reading into a status game.
-5/
-Books don’t come with a user manual for a reason. You can use them however you like. There are no rules that 𝘮𝘶𝘴𝘵 be followed.
-6/
-Books need not be finished. Develop the skill of not finishing okay books and bad books.
-7/
-A secret for super-learning: Buy many books, start most of them, but finish just a small fraction of them.
-8/
-Books need not be read sequentially.
-9/
-Most people 𝘳𝘦𝘢𝘥  books.
-
-But books have two purposes: they are meant to be 𝘳𝘦𝘢𝘥 AND they are meant to be 𝘶𝘴𝘦𝘥.
-10/
-A good book should be 𝘳𝘦𝘢𝘥  once, but 𝘶𝘴𝘦𝘥  multiple times.
-11/
-When reading a book the first time, you’re doing two distinct jobs: learning from it 𝘢𝘯𝘥  making it more user-friendly for the future-you.
-12/
-Shed the habit of keeping books in pristine condition. Best way to appreciate a good book is to make it look thoroughly tainted by the time you’re done reading it. With underlines, sidenotes, and dogears.
-14/
-You can use a good book (that you’ve already read) in multiple ways:
-
-Got 5 minutes? Skim through underlines on all the pages you’ve dogeared (the best stuff)
-
-15 min? Skim through all underlines
-
-60 min? Carefully read all the underlines & remind yourself why they resonated
-15/
-The types of books you choose to read reveal your true priorities better than your stated priorities.
-16/
-Book consumption is less about time availability & more about the physical setting.
-
-In some settings, it's impossible to read a book e.g., driving, walking. Might as well listen in such settings.
+3. There is no such thing as a cheap book.
+4. Don’t turn book reading into a status game.
+5. Books don’t come with a user manual for a reason. You can use them however you like. There are no rules that 𝘮𝘶𝘴𝘵 be followed.
+6. Books need not be finished. Develop the skill of not finishing okay books and bad books.
+7. A secret for super-learning: Buy many books, start most of them, but finish just a small fraction of them.
+8. Books need not be read sequentially.
+9. Most people 𝘳𝘦𝘢𝘥  books. But books have two purposes: they are meant to be 𝘳𝘦𝘢𝘥 AND they are meant to be 𝘶𝘴𝘦𝘥.
+10. A good book should be 𝘳𝘦𝘢𝘥  once, but 𝘶𝘴𝘦𝘥  multiple times.
+11. When reading a book the first time, you’re doing two distinct jobs: learning from it 𝘢𝘯𝘥  making it more user-friendly for the future-you.
+12. Shed the habit of keeping books in pristine condition. Best way to appreciate a good book is to make it look thoroughly tainted by the time you’re done reading it. With underlines, sidenotes, and dogears.
+13.
+14. You can use a good book (that you’ve already read) in multiple ways:
+    Got 5 minutes? Skim through underlines on all the pages you’ve dogeared (the best stuff)
+    15 min? Skim through all underlines
+    60 min? Carefully read all the underlines & remind yourself why they resonated
+15. The types of books you choose to read reveal your true priorities better than your stated priorities.
+16. Book consumption is less about time availability & more about the physical setting.
+    In some settings, it's impossible to read a book e.g., driving, walking. Might as well listen in such settings.
 
 Good policy: listen to a lot of books, buy & read the best ones (multiple times).
 
@@ -938,11 +911,11 @@ https://www.famillechretienne.fr/6603/article/manipulateurs-pervers-narcissiques
 Là encore, distinguons le sauveur du sauveteur. André Frossard disait que l’intégriste est celui qui fait la volonté de Dieu que Dieu le veuille ou non. Eh bien, le sauveteur est celui qui fait le bien de l’autre… que l’autre le veuille ou non ! C’est la personne qui impose son aide – « C’est pour ton bien » ! Jésus, Lui, propose, Il ne s’impose pas : « Que veux-tu que je fasse pour toi ? »
 
 Cinq conseils pour discerner
-1. Si une personne ne reconnaît jamais ses torts, en reconnaît quelques-uns mais ne change pas, voire vous le fait payer, attention ! Peut-être avez-vous affaire à une PN.
+1. Si une personne ne reconnaît jamais ses torts, en reconnaît quelques-uns mais ne change pas, voire vous le fait payer, attention ! Peut-être avez-vous affaire à une PN.
 2. Jamais Dieu ne peut demander quelque chose qui s’oppose à la loi morale. Celui qui transgresse n’est assurément pas inspiré par Dieu.
-3. Plus l’identité d’une communauté est forte, plus il est nécessaire de distinguer les « fonctions » : modérateur, accompagnateur spirituel, médecin Toujours bien séparer for interne et for externe.
+3. Plus l’identité d’une communauté est forte, plus il est nécessaire de distinguer les « fonctions » : modérateur, accompagnateur spirituel, médecin Toujours bien séparer for interne et for externe.
 4. Toute personne qui exerce une fonction de gouvernement doit connaître les signes principaux de la PN. En cas de doute, elle doit s’informer auprès d’une personne compétente.
-5. Repérer les PN ne suffit pas, il faut aussi et d’abord prendre soin des nombreuses victimes dans l’entourage.  
+5. Repérer les PN ne suffit pas, il faut aussi et d’abord prendre soin des nombreuses victimes dans l’entourage.
 
 
 Gaulois
@@ -954,17 +927,16 @@ bondmaid https://www.rd.com/article/oxford-english-dictionary-forgot-word/ https
 https://www.rd.com/list/almost-extinct-words/
 
 Understanding the 12 Stages of Burnout
-
 Psychologists Herbert Freudenberger and Gail North developed the 12-stage model of burnout that affects so many professionals today:
-* The Compulsion to Prove Oneself:feeling like you constantly have to demonstrate your worth
+* The Compulsion to Prove Oneself: feeling like you constantly have to demonstrate your worth
 * Working Harder:becoming a work “addict”
-* Neglecting Needs:not sleeping or eating well, lack of social interaction
-* Displacement of Conflicts:blaming others or your situation for all of your problems, including your stress level
+* Neglecting Needs: not sleeping or eating well, lack of social interaction
+* Displacement of Conflicts: blaming others or your situation for all of your problems, including your stress level
 * Revision of Values: your friends and family are no longer as important as your work
 * Denial of Emerging Problems: intolerance; perceiving others at work as stupid, lazy, demanding, or undisciplined
 * Withdrawal: avoiding or dreading social interaction, using alcohol or drugs to try to feel relief from stress
 * Odd Behavioral Changes: changes in behavior such as impatience, aggression, and snapping at friends and family
-* Depersonalization:feeling detached – seeing neither yourself nor others as valuable
+* Depersonalization: feeling detached – seeing neither yourself nor others as valuable
 * Inner Emptiness: feeling empty inside and to overcome this, looking for activity such as overeating, sex, alcohol, or drugs
 * Depression: feeling lost and unsure, exhausted, future feels bleak and dark
 * Burnout Syndrome: can include total mental and physical collapse; time for full medical attention.
@@ -975,3 +947,29 @@ https://upload.wikimedia.org/wikipedia/commons/6/67/Leader%27s_Framework_for_Pol
 
 Scrum Values: Commitment, Focus, Openness, Respect, and Courage
 Overall team org: https://scrumguides.org/scrum-guide.html
+
+Vison: “we want to land on the moon”
+Strategy “how the heck do we do that? Rocket? Slingshot? Space elevator? We are picking Rocket!”
+Objectives : “make sure it can get there” “make sure it can get back”
+opportunities : “This engine type looks good”
+
+10 great pleasures https://appliedjung.com/an-internal-singularity/
+1. A Good Coffee
+2. Having a Child
+3. Being in Great Physical Condition
+4. Good Food
+5. Stimulating Conversation
+6. The Performing Arts
+7. Cinema
+8. A Great Book
+9. Travelling
+10. A Happy Home
+The 5 Basic Levels of Life’s Pleasures https://www.yogajournal.com/yoga-101/philosophy/feels-good/
+~ pleasers, going Deeper
+Sensual Pleasures
+The Pleasure of Intimacy
+The Pleasure of Inspiration and Creativity
+The Pleasure of Pure Spirit
+Full Immersion
+
+https://fr.wikipedia.org/wiki/Mont-de-pi%C3%A9t%C3%A9
