@@ -7,9 +7,20 @@ import { State } from './types'
 export function has_saved_the_world(state: Immutable<State>): boolean {
 	return state.has_saved_the_world
 }
-export function has_lived_to_the_fullest(state: Immutable<State>): boolean {
-	return state.has_lived_to_the_fullest
+export function get_fulfillment_ratio(state: Immutable<State['has_lived_to_the_fullest']>): number {
+	const max = Object.keys(state).length
+	const current = Object.keys(state)
+		.reduce((count, k) => {
+			//console.log({ count, k, v: (state as any)[k] })
+			return count + ((state as any)[k] ? 1 : 0)
+		}, 0)
+	//console.log({state, current, max})
+	return current/max
 }
+export function has_lived_to_the_fullest(state: Immutable<State>): boolean {
+	return get_fulfillment_ratio(state.has_lived_to_the_fullest) >= .8
+}
+
 export function has_found_their_soulmate(state: Immutable<State>): boolean {
 	return state.has_found_their_soulmate
 }

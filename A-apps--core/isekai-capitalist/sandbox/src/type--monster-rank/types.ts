@@ -1,5 +1,6 @@
-/* Monster/Ennemies classification
+/* Monster/Enemies classification
 
+https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 
  * Examples:
    - https://tensura.fandom.com/wiki/Rank

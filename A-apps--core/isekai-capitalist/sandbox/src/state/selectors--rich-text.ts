@@ -4,8 +4,7 @@ import * as RichText from '@offirmo-private/rich-text-format'
 import { State } from './types'
 import { render as _render_flags } from '../state--flags/selectors--rich-text'
 import { render as _render_guild_membership } from '../state--guild-membership/selectors--rich-text'
-
-import { RelationshipLevel, render as render_relationship_level } from '../type--relationship-level'
+import { render as _render_relationship } from '../state--relationship/selectors--rich-text'
 
 
 function render_flags(state: Immutable<State['flags']>, options?: {}): RichText.Document {
@@ -38,7 +37,7 @@ function render_character(state: Immutable<State['character']>, options?: {}): R
 						.pushNode(_render_guild_membership(state.guild))
 						.done())*/
 				//.pushKeyValue('Equipment', '✴️ TODO')
-				.pushKeyValue(RichText.strong().pushText('Overall power').done(), power.toPrecision())
+				//.pushKeyValue(RichText.strong().pushText('Overall character power').done(), power.toPrecision())
 				.done()
 		)
 
@@ -47,17 +46,16 @@ function render_character(state: Immutable<State['character']>, options?: {}): R
 	return $doc
 }
 
-function render_relationship__heroine(state: Immutable<State['relationships']['heroine']>, options?: {}): RichText.Document {
+function render_party__heroine(state: Immutable<State['npcs']['heroine']>, options?: {}): RichText.Document {
 	const $doc = RichText.unordered_list()
 		.pushNode(_render_guild_membership(state.guild))
-		.pushKeyValue('Memories', `${state.memories}`)
-		.pushKeyValue('Relationship level', render_relationship_level(state.relationship_level))
+		.pushNode(_render_relationship(state.relationship))
 		.done()
 
 	return $doc
 }
 
-function render_party(state: Immutable<State>, options?: {}): RichText.Document {
+function render_party(state: Immutable<State['npcs']>, options?: {}): RichText.Document {
 	const $doc = RichText.block_fragment()
 
 		.pushHeading('Party')
@@ -67,13 +65,13 @@ function render_party(state: Immutable<State>, options?: {}): RichText.Document 
 				.pushNode(
 					RichText.inline_fragment()
 						.pushText('Heroine')
-						.pushNode(render_relationship__heroine(state.relationships.heroine))
+						.pushNode(render_party__heroine(state.heroine))
 						.done())
 				//.pushKeyValue('Mount', '✴️ TODO')
 				//.pushKeyValue('Pet', '✴️ TODO')
 				//.pushKeyValue('Pet dragon', '✴️ TODO')
 				//.pushKeyValue('Pet Slime(s)', '✴️ TODO')
-				.pushKeyValue(RichText.strong().pushText('Overall power').done(), '✴️ TODO')
+				.pushKeyValue(RichText.strong().pushText('Overall party power').done(), '✴️ TODO')
 				.done()
 		)
 
@@ -85,16 +83,16 @@ function render_party(state: Immutable<State>, options?: {}): RichText.Document 
 
 export function render(state: Immutable<State>, options?: {}): RichText.Document {
 	const $doc = RichText.block_fragment()
+
 		.pushNode(render_flags(state.flags))
 		.pushHorizontalRule()
 
 		.pushNode(render_character(state.character))
 		.pushHorizontalRule()
 
-		.pushNode(render_party(state))
+		.pushNode(render_party(state.npcs))
 
 		.done()
 
 	return $doc
 }
-""

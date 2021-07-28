@@ -2,7 +2,9 @@ import { BaseState } from '@offirmo-private/state-utils'
 
 import { State as FlagsState } from '../state--flags/types'
 import { State as GuildState } from '../state--guild-membership/types'
-import { RelationshipLevel } from '../type--relationship-level/types'
+import { State as RelationshipState } from '../state--relationship/types'
+
+
 
 export interface State extends BaseState {
 
@@ -15,15 +17,12 @@ export interface State extends BaseState {
 		guild: GuildState
 	}
 
-	relationships: {
+	npcs: {
 		heroine: {
-			memories: number
-			relationship_level: RelationshipLevel
-			guild: GuildState
-		}
-		BBEG: {
-
-		}
+			guild: GuildState,
+			relationship: RelationshipState,
+		},
+		BBEG: {},
 	}
 
 }
