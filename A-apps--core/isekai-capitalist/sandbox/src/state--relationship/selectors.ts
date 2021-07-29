@@ -3,6 +3,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { SharedMemoryType, State } from './types'
 
 
+
 export function get_emoji_for_memory_type(type: SharedMemoryType): string {
 	switch (type) {
 		case SharedMemoryType.life_pleasure:
@@ -13,7 +14,7 @@ export function get_emoji_for_memory_type(type: SharedMemoryType): string {
 			return '🍻'
 		case SharedMemoryType.growth:
 			return '🎓'
-		case SharedMemoryType.forgiveness:
+		case SharedMemoryType.intimacy:
 			return '💗'
 		case SharedMemoryType.assistance:
 			return '🤝'

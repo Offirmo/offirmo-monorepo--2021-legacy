@@ -35,7 +35,7 @@ export const SharedMemoryType = Enum(
 	'victory', // big or little
 	'celebration', // after a victory, anniversary...
 	'growth', // shared growth, rite of passage
-	'forgiveness', // after a mistake = psychological safety
+	'intimacy', // increase in level, trust, psychological safety...
 	'assistance', // mental or physical assistance, ex. rescue or emotional support
 	'adventure', // anything else ending as a "good story to tell"
 )

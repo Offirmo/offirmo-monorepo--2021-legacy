@@ -5,12 +5,15 @@ import assert from 'tiny-invariant'
 import { State } from './types'
 import * as FlagsReducers from '../state--flags/reducers'
 import * as GuildMembershipReducers from '../state--guild-membership/reducers'
-import * as RelationshipReducers from '../state--relationship/reducers'
+import { SharedMemoryType } from '../state--relationship/types'
+import * as RelationshipLib from '../state--relationship'
+import { RelationshipLevel } from '../type--relationship-level/types'
+import * as RelationshipLevelLib from '../type--relationship-level'
 
 import { get_required_xp_for_next_level } from './selectors'
 import * as SSRRankLib from '../type--SSR-rank'
 import * as GuildStateLib from '../state--guild-membership/reducers'
-import { SharedMemoryType } from '../state--relationship/types'
+import { get_corresponding_index } from '../type--relationship-level'
 
 
 /////////////////////
@@ -32,7 +35,7 @@ export function create(): Immutable<State> {
 		npcs: {
 			heroine: {
 				guild: GuildMembershipReducers.create(),
-				relationship: RelationshipReducers.create(),
+				relationship: RelationshipLib.create(),
 			},
 			BBEG: {},
 		},
@@ -83,8 +86,31 @@ export function _reduceⵧgain_xp(state: Immutable<State>, params: Immutable<XPG
 	}
 }
 
-export function _reduceⵧmake_memory(state: Immutable<State>, type: SharedMemoryType, emoji?: string): Immutable<State> {
-	return {
+interface MakeMemoryParams extends RelationshipLib.MakeMemoryParams {
+	//active_romance: boolean // active = active intent, passive = things just happened
+						// intent is needed for level increase above a certain point
+}
+export function _reduceⵧmake_memory(state: Immutable<State>, params: Immutable<MakeMemoryParams>): Immutable<State> {
+	let { level } = state.npcs.heroine.relationship
+
+	// auto increase relationship level up to a certain point
+	if (RelationshipLevelLib.get_corresponding_index(level) < RelationshipLevelLib.get_corresponding_index(RelationshipLevel.friendsⵧgood)) {
+		state = {
+			...state,
+
+			npcs: {
+				...state.npcs,
+
+				heroine: {
+					...state.npcs.heroine,
+
+					relationship: RelationshipLib.reduceⵧincrease_level(state.npcs.heroine.relationship),
+				}
+			}
+		}
+	}
+
+	state = {
 		...state,
 
 		npcs: {
@@ -93,13 +119,15 @@ export function _reduceⵧmake_memory(state: Immutable<State>, type: SharedMemor
 			heroine: {
 				...state.npcs.heroine,
 
-				relationship: RelationshipReducers.reduceⵧmake_memory(
+				relationship: RelationshipLib.reduceⵧmake_memory(
 					state.npcs.heroine.relationship,
-
-					{ type, emoji }),
+					params,
+				),
 			}
 		}
 	}
+
+	return state
 }
 
 /////////////////////
@@ -122,7 +150,7 @@ export function reduceⵧsnowflake(state: Immutable<State>): Immutable<State> {
 			heroine: {
 				...state.npcs.heroine,
 				guild: GuildMembershipReducers.reduceⵧsnowflake(state.npcs.heroine.guild),
-				relationship: RelationshipReducers.reduceⵧsnowflake(state.npcs.heroine.relationship),
+				relationship: RelationshipLib.reduceⵧsnowflake(state.npcs.heroine.relationship),
 			},
 		},
 	}
@@ -139,8 +167,10 @@ export function reduceⵧexplore(state: Immutable<State>, params: Immutable<Expl
 			...state,
 			revision: state.revision + 1,
 		}),
-		SharedMemoryType.adventure,
-		Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_ADVENTURE_COUNT],
+		{
+			type: SharedMemoryType.adventure,
+			emoji: Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_ADVENTURE_COUNT],
+		}
 	)
 }
 
@@ -156,8 +186,10 @@ export function reduceⵧdo_quest(state: Immutable<State>, params: Immutable<Que
 			...state,
 			revision: state.revision + 1,
 		}),
-		SharedMemoryType.victory,
-		//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+		{
+			type: SharedMemoryType.victory,
+			//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+		},
 	)
 }
 
@@ -198,8 +230,10 @@ export function reduceⵧguild_rank_up(state: Immutable<State>, params: Immutabl
 				},
 			},
 		},
-		SharedMemoryType.growth,
-		//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+		{
+			type: SharedMemoryType.growth,
+			//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+		},
 	)
 }
 
@@ -209,7 +243,9 @@ export function reduceⵧromance(state: Immutable<State>, params: Immutable<Roma
 			...state,
 			revision: state.revision + 1,
 		},
-		SharedMemoryType.life_pleasure,
+		{
+			type: SharedMemoryType.intimacy,
+		},
 	)
 }
 
@@ -219,7 +255,9 @@ export function reduceⵧeat_food(state: Immutable<State>, params: Immutable<Eat
 			...state,
 			revision: state.revision + 1,
 		},
-		SharedMemoryType.life_pleasure,
+		{
+			type: SharedMemoryType.life_pleasure,
+		}
 	)
 }
 
@@ -230,7 +268,9 @@ export function reduceⵧdefeat_mook(state: Immutable<State>, params: Immutable<
 			...state,
 			revision: state.revision + 1,
 		}),
-		SharedMemoryType.assistance,
-		//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+		{
+			type: SharedMemoryType.assistance,
+			//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+		}
 	)
 }

@@ -16,9 +16,9 @@ const TO_TEXT = {
 	[RelationshipLevel.friendsⵧgood]: 'good friends',
 	[RelationshipLevel.friendsⵧbest]: 'best friends 💚',
 	[RelationshipLevel.dating]: 'dating 💙',
-	[RelationshipLevel.baseⵧ1]: '1st base 💙',
-	[RelationshipLevel.baseⵧ2]: '2nd base 💜💜',
-	[RelationshipLevel.baseⵧ3]: '3rd base 🧡🧡🧡',
+	[RelationshipLevel.intimateⵧ1]: '1st base 💙',
+	[RelationshipLevel.intimateⵧ2]: '2nd base 💜💜',
+	[RelationshipLevel.intimateⵧ3]: '3rd base 🧡🧡🧡',
 }
 export function render(level: Immutable<RelationshipLevel>): RichText.Document {
 	const $doc = RichText.inline_fragment()

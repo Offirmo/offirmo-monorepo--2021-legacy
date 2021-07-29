@@ -1,8 +1,8 @@
 import assert from 'tiny-invariant'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { SSRRank } from './types'
 import { Quality } from '../type--quality/types'
-import { Immutable } from '../../../../../2-foundation/ts-types/src'
 
 
 export function get_corresponding_quality(ssr_rank: SSRRank): Quality {
