@@ -87,14 +87,38 @@ export function _reduceⵧgain_xp(state: Immutable<State>, params: Immutable<XPG
 }
 
 interface MakeMemoryParams extends RelationshipLib.MakeMemoryParams {
-	//active_romance: boolean // active = active intent, passive = things just happened
+	active_romance?: boolean // active = active intent, passive = things just happened
 						// intent is needed for level increase above a certain point
 }
 export function _reduceⵧmake_memory(state: Immutable<State>, params: Immutable<MakeMemoryParams>): Immutable<State> {
 	let { level } = state.npcs.heroine.relationship
 
-	// auto increase relationship level up to a certain point
+	let should_increase_relationship_level = false // so far
+
 	if (RelationshipLevelLib.get_corresponding_index(level) < RelationshipLevelLib.get_corresponding_index(RelationshipLevel.friendsⵧgood)) {
+		// auto increase relationship level up to a certain point
+		should_increase_relationship_level = true
+	}
+	if (params.active_romance) {
+		// increase if conditions are met
+		const has_enough_memories = (state.npcs.heroine.relationship.memories.count / 10) >= RelationshipLevelLib.get_corresponding_index(level)
+		const meets_other_requirements =
+			(RelationshipLevelLib.compare(level, '<', RelationshipLevel.intimateⵧ1)) // below 2nd base is depending on shared memories
+			|| state.flags.has_saved_the_world // above also needs to have saved the world
+		if (has_enough_memories && meets_other_requirements)
+			should_increase_relationship_level = true
+		console.log('_reduceⵧmake_memory', {
+			active_romance: params.active_romance,
+			current_level: level,
+			next_level_index: RelationshipLevelLib.get_corresponding_index(level),
+			mem_index: state.npcs.heroine.relationship.memories.count / 10,
+			has_enough_memories,
+			meets_other_requirements,
+			should_increase_relationship_level,
+		})
+	}
+
+	if (should_increase_relationship_level) {
 		state = {
 			...state,
 
@@ -205,7 +229,7 @@ export function reduceⵧguild_rank_up(state: Immutable<State>, params: Immutabl
 				return true // always
 
 			default:
-				console.log('can_rank_up', { current_rank, ci: SSRRankLib.get_corresponding_index(current_rank) + 1, li: state.mc.level / 10.})
+				//console.log('reduceⵧguild_rank_up', { current_rank, ci: SSRRankLib.get_corresponding_index(current_rank) + 1, li: state.mc.level / 10.})
 				return (SSRRankLib.get_corresponding_index(current_rank) + 1) <= state.mc.level / 10.
 		}
 	})()
@@ -245,6 +269,7 @@ export function reduceⵧromance(state: Immutable<State>, params: Immutable<Roma
 		},
 		{
 			type: SharedMemoryType.intimacy,
+			active_romance: true,
 		},
 	)
 }

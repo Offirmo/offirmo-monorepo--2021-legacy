@@ -14,6 +14,7 @@
 		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
+		"@offirmo-private/ts-utils": "^0",
 		"@offirmo-private/ui--browser--css": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"dequal": "^2",

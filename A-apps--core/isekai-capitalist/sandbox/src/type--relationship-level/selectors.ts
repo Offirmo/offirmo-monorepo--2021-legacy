@@ -1,4 +1,5 @@
 import assert from 'tiny-invariant'
+import { Comparator, compare as _compare } from '@offirmo-private/ts-utils'
 
 import { RelationshipLevel } from './types'
 import { Quality } from '../type--quality/types'
@@ -56,4 +57,9 @@ export function get_next_level(level: RelationshipLevel): RelationshipLevel {
 			MAX_LEVEL_INDEX,
 		)
 	)
+}
+
+export { Comparator } // for convenience
+export function compare(level_a: RelationshipLevel, comparator: Comparator, level_b: RelationshipLevel): boolean {
+	return _compare<RelationshipLevel>(level_a, comparator, level_b, get_corresponding_index)
 }

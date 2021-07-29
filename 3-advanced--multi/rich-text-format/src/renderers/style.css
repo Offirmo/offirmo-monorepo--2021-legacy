@@ -1,29 +1,32 @@
 /* Global considerations for Rich Text display:
  * - must be "terminal-like", since it's supposed to be displayed the same on a console
  * - has only 1 main direction
+ *
  */
 
 .o⋄rich-text div.o⋄rich-text⁚inline {
 	display: inline;
 }
 
+/* nicer lists: copied from @offirmo-private/ui--browser--css
+ */
 .o⋄rich-text ol,
 .o⋄rich-text ul {
-	padding-left: 24px;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+	padding-inline-start: 1.4em;
+}
+.o⋄rich-text li > ul,
+.o⋄rich-text li > ol {
+	padding-inline-start: 0;
+	padding-left: 0;
 }
 
 ol.o⋄rich-text⋄list--no-bullet,
 ul.o⋄rich-text⋄list--no-bullet {
 	list-style-type: none;
-	padding-left: 12px;
 }
 ol.o⋄rich-text⋄list--interactive,
 ul.o⋄rich-text⋄list--interactive {
 	list-style-type: none;
-	padding-left: 0;
 }
 
 button.o⋄rich-text⋄interactive {

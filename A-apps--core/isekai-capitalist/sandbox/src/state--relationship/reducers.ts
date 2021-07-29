@@ -53,7 +53,7 @@ export function reduceⵧmake_memory(state: Immutable<State>, params: Immutable<
 
 		memories: {
 			count: state.memories.count + 1,
-			recent_pipeline: (new_memory_emoji + state.memories.recent_pipeline).slice(0, MEMORY_PIPELINE_LENGTH),
+			recent_pipeline: Array.from(new_memory_emoji + state.memories.recent_pipeline).slice(0, MEMORY_PIPELINE_LENGTH).join(''), // Arry.from to not cut unicode chars
 		},
 		// if common memory, no longer strangers
 		level: state.level === RelationshipLevel.strangers ? RelationshipLevel.acquaintances : state.level,

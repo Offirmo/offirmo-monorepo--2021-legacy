@@ -8,7 +8,7 @@ import {
 	WalkerCallbacks,
 	WalkerReducer,
 } from '../walk'
-import {CheckedNode, Node} from '../types'
+import { CheckedNode, Node } from '../types'
 
 import { is_list, is_link, is_KVP_list, is_uuid_list } from './common'
 
