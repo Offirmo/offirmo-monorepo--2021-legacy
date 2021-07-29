@@ -10,6 +10,7 @@ import * as RelationshipReducers from '../state--relationship/reducers'
 import { get_required_xp_for_next_level } from './selectors'
 import * as SSRRankLib from '../type--SSR-rank'
 import * as GuildStateLib from '../state--guild-membership/reducers'
+import { SharedMemoryType } from '../state--relationship/types'
 
 
 /////////////////////
@@ -73,13 +74,31 @@ export function _reduceⵧgain_xp(state: Immutable<State>, params: Immutable<XPG
 
 	return {
 		...state,
-		revision: state.revision + 1,
 
 		mc: {
 			...state.mc,
 			level,
 			xp,
 		},
+	}
+}
+
+export function _reduceⵧmake_memory(state: Immutable<State>, type: SharedMemoryType, emoji?: string): Immutable<State> {
+	return {
+		...state,
+
+		npcs: {
+			...state.npcs,
+
+			heroine: {
+				...state.npcs.heroine,
+
+				relationship: RelationshipReducers.reduceⵧmake_memory(
+					state.npcs.heroine.relationship,
+
+					{ type, emoji }),
+			}
+		}
 	}
 }
 
@@ -111,9 +130,18 @@ export function reduceⵧsnowflake(state: Immutable<State>): Immutable<State> {
 
 /////////////////////
 
+const EMOJIS_ADVENTURE = '⛰🏰🏝🌋🏞⛪🧙🧝👸🤴🧚'.normalize('NFC')
+const EMOJIS_ADVENTURE_COUNT = Array.from(EMOJIS_ADVENTURE).length // https://mathiasbynens.be/notes/javascript-unicode
 export interface ExploreParams {}
 export function reduceⵧexplore(state: Immutable<State>, params: Immutable<ExploreParams>): Immutable<State> {
-	return _reduceⵧgain_xp(state)
+	return _reduceⵧmake_memory(
+		_reduceⵧgain_xp({
+			...state,
+			revision: state.revision + 1,
+		}),
+		SharedMemoryType.adventure,
+		Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_ADVENTURE_COUNT],
+	)
 }
 
 export interface TrainParams {}
@@ -123,7 +151,14 @@ export function reduceⵧtrain(state: Immutable<State>, params: Immutable<TrainP
 
 export interface QuestParams {}
 export function reduceⵧdo_quest(state: Immutable<State>, params: Immutable<QuestParams>): Immutable<State> {
-	return _reduceⵧgain_xp(state)
+	return _reduceⵧmake_memory(
+		_reduceⵧgain_xp({
+			...state,
+			revision: state.revision + 1,
+		}),
+		SharedMemoryType.victory,
+		//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+	)
 }
 
 export interface GuildRankUpParams {}
@@ -135,48 +170,67 @@ export function reduceⵧguild_rank_up(state: Immutable<State>, params: Immutabl
 	const can_rank_up: boolean = (() => {
 		switch (current_rank) {
 			case null:
-			case SSRRankLib.SSRRank.F:
-				return true
+				return true // always
 
 			default:
-				console.log('can_rank_up', { current_rank, ci: SSRRankLib.get_corresponding_index(current_rank), li: state.mc.level / 10.})
-				return SSRRankLib.get_corresponding_index(current_rank) < state.mc.level / 10.
+				console.log('can_rank_up', { current_rank, ci: SSRRankLib.get_corresponding_index(current_rank) + 1, li: state.mc.level / 10.})
+				return (SSRRankLib.get_corresponding_index(current_rank) + 1) <= state.mc.level / 10.
 		}
 	})()
 
 	if (!can_rank_up)
 		return state // TODO failure message
 
-	return {
-		...state,
-		revision: state.revision + 1,
+	return  _reduceⵧmake_memory({
+			...state,
+			revision: state.revision + 1,
 
-		mc: {
-			...state.mc,
-			guild: GuildStateLib.reduceⵧrank_up(state.mc.guild),
-		},
+			mc: {
+				...state.mc,
+				guild: GuildStateLib.reduceⵧrank_up(state.mc.guild),
+			},
 
-		npcs: {
-			...state.npcs,
-			heroine: {
-				...state.npcs.heroine,
-				guild: GuildStateLib.reduceⵧrank_up(state.npcs.heroine.guild),
+			npcs: {
+				...state.npcs,
+				heroine: {
+					...state.npcs.heroine,
+					guild: GuildStateLib.reduceⵧrank_up(state.npcs.heroine.guild),
+				},
 			},
 		},
-	}
+		SharedMemoryType.growth,
+		//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+	)
 }
 
 export interface RomanceParams {}
 export function reduceⵧromance(state: Immutable<State>, params: Immutable<RomanceParams>): Immutable<State> {
-	return reduceⵧsnowflake(state)
+	return _reduceⵧmake_memory({
+			...state,
+			revision: state.revision + 1,
+		},
+		SharedMemoryType.life_pleasure,
+	)
 }
 
 export interface EatFoodParams {}
 export function reduceⵧeat_food(state: Immutable<State>, params: Immutable<EatFoodParams>): Immutable<State> {
-	return reduceⵧsnowflake(state)
+	return _reduceⵧmake_memory({
+			...state,
+			revision: state.revision + 1,
+		},
+		SharedMemoryType.life_pleasure,
+	)
 }
 
 export interface DefeatMookParams {}
 export function reduceⵧdefeat_mook(state: Immutable<State>, params: Immutable<DefeatMookParams>): Immutable<State> {
-	return _reduceⵧgain_xp(state)
+	return _reduceⵧmake_memory(
+		_reduceⵧgain_xp({
+			...state,
+			revision: state.revision + 1,
+		}),
+		SharedMemoryType.assistance,
+		//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
+	)
 }

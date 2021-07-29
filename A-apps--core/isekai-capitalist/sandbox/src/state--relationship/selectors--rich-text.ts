@@ -19,7 +19,7 @@ export function render(state: Immutable<State>, options: Immutable<Options> = { 
 
 	const $doc = RichText.unordered_list()
 		.pushKeyValue('Relationship level', render_relationship_level(state.level))
-		.pushKeyValue('Memories', `${state.memories.count}` + (state.memories.count ? ` (…${state.memories.recent_pipeline})` : ''))
+		.pushKeyValue('Memories', `${state.memories.count}` + (state.memories.count ? ` (${Array.from(state.memories.recent_pipeline).join(' ')}…)` : ''))
 		.done()
 
 	return $doc
