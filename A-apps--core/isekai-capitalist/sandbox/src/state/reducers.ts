@@ -53,7 +53,8 @@ export function reduceⵧupdate_to_now(state: Immutable<State>, time: TimestampU
 }
 
 function _get_meaningful_xp_gain(state: Immutable<State>): number {
-	return Math.trunc(get_required_xp_for_next_level(state.mc.level) / 20) * 10
+	return get_required_xp_for_next_level(state.mc.level)
+	//return Math.trunc(get_required_xp_for_next_level(state.mc.level) / 20) * 10
 }
 interface XPGainParams {
 	gain: number

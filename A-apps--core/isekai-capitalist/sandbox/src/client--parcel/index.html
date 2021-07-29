@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- html5_006 : WTE micro template -->
+<html lang="en" xml:lang="en" class="o⋄top-container">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Language" content="en" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+		<title>Isekai RPG</title>
+		<meta name="monetization" content="$ilp.uphold.com/26PeD6EzMhYJ">
+
+		<!-- rsrc prio -->
+		<link rel="preload" as="script" href="./index-2.jsx">
+
+		<style type="text/css">
+			/* super early styles while the page is loading */
+		</style>
+
+		<script>
+			const path_segment_after_last_slash = location.pathname.split('/').slice(-1)[0] || ''
+			if (path_segment_after_last_slash) {
+				// current path doesn't end with a trailing slash
+				// that may be an issue if we are located by our parent folder (implicit file)
+				// https://searchfacts.com/url-trailing-slash/
+				// https://ahrefs.com/blog/trailing-slash/
+				const is_last_segment_a_html_file = path_segment_after_last_slash.endsWith('.html') || path_segment_after_last_slash.endsWith('.htm')
+				if (is_last_segment_a_html_file) {
+					// all good ✔
+				} else {
+					// We are located by a folder without a trailing slash.
+					// We are opinionated towards a trailing slash to ease relative references.
+					// Redirect to the version with slash
+					// https://love2dev.com/blog/ways-to-use-javascript-redirect-to-another-page/
+					const new_path = location.pathname + '/'
+					// let's be careful to not loose any part of the URL
+					const new_url =
+						location.origin
+						+ new_path
+						+ location.search
+						+ location.hash
+					location.replace(new_url)
+				}
+			}
+		</script>
+
+		<script>
+			console.groupCollapsed('⚔️🛡💰 Welcome to this browser RPG!!!')
+			console.log({ location, isSecureContext: self.isSecureContext })
+			console.groupEnd()
+			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
+			// (modified)
+			//try { window.ga = window.parent.ga } catch {}
+			window.ga = window.ga || function(){/*console.log('ga2', arguments);*/(window.ga.q=window.ga.q||[]).push(arguments)}
+			window.ga.l = window.ga.l || +new Date
+
+			// GA4
+			window.dataLayer = window.dataLayer || []
+			window.gtag = window.gtag || function gtag (){/*console.log('ga42', arguments);*/(window.dataLayer=window.dataLayer||[]).push(arguments)}
+
+			// no more, see index-2.js
+		</script>
+	</head>
+
+	<body class="o⋄top-container omr⋄cursorꘌsword--standard" data-o-theme="dark--colorhunt212">
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+
+		<div id="root" class="o⋄top-container">
+			Loading…
+		</div>
+	</body>
+
+	<script async importance="high" src="./index-2.jsx"></script>
+</html>
