@@ -46110,272 +46110,124 @@ __exportStar(require("./types"), exports);
 __exportStar(require("./generate"), exports);
 
 exports.TEST_TIMESTAMP_MS = 1234567890; // useful for unit tests
-},{"./types":"jVco","./generate":"s9oI"}],"EiQX":[function(require,module,exports) {
-"use strict";
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.reduceⵧsnowflake = exports.reduceⵧexperience_life_pleasure = exports.create = void 0;
-
-var tiny_invariant_1 = __importDefault(require("tiny-invariant"));
-
-function create() {
-  return {
-    schema_version: 0,
-    revision: 0,
-    has_saved_the_world: false,
-    has_lived_to_the_fullest: {
-      made_a_difference: false,
-      had_good_food: false,
-      has_been_in_great_physical_condition: false,
-      had_stimulating_conversations: false,
-      enjoyed_a_great_book: false,
-      travelled: false,
-      became_an_expert_at_sth: false,
-      had_intimate_life_partner: false,
-      had_children: false,
-      has_had_a_happy_home: false,
-      ruled_the_known_world: false
-    },
-    has_found_their_soulmate: false,
-    has_improved_civilization: false
-  };
-}
-
-exports.create = create;
-
-function reduceⵧexperience_life_pleasure(state, params) {
-  tiny_invariant_1.default(Object.keys(params).every(function (k) {
-    return typeof state.has_lived_to_the_fullest[k] === 'boolean';
-  }), 'param!');
-  return __assign(__assign({}, state), {
-    revision: state.revision + 1,
-    has_lived_to_the_fullest: __assign(__assign({}, state.has_lived_to_the_fullest), params)
-  });
-}
-
-exports.reduceⵧexperience_life_pleasure = reduceⵧexperience_life_pleasure;
-
-function reduceⵧsnowflake(state) {
-  return __assign(__assign({}, state), {
-    revision: state.revision + 1,
-    has_saved_the_world: true,
-    has_found_their_soulmate: true,
-    has_improved_civilization: true,
-    has_lived_to_the_fullest: Object.keys(state.has_lived_to_the_fullest).reduce(function (acc, k) {
-      ;
-      acc[k] = true;
-      return acc;
-    }, __assign({}, state.has_lived_to_the_fullest))
-  });
-}
-
-exports.reduceⵧsnowflake = reduceⵧsnowflake;
-},{"tiny-invariant":"pmON"}],"rOal":[function(require,module,exports) {
+},{"./types":"jVco","./generate":"s9oI"}],"SHRu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SSRRank = void 0;
-/* Guild rank usually used in isekai mangas and games
- * Ref: https://en.wikipedia.org/wiki/Academic_grading_in_Japan
- * Examples:
-   - https://tensura.fandom.com/wiki/Rank
-   - https://tensura.fandom.com/wiki/WN/Rank
-   * Novice -> Beginner -> Intermediate -> Advanced
-
- * See also: https://solo-leveling.fandom.com/wiki/System?commentId=4400000000000001032&replyId=4400000000000002801
- */
+exports.LifeGreatness = void 0;
 
 var typescript_string_enums_1 = require("typescript-string-enums");
-
-exports.SSRRank = typescript_string_enums_1.Enum('F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSR');
 /*
-    [tensura] Rank B and below adventurers aren't famous enough to be known outside their country's borders.
+There are usually 4 common goals for a film’s story. Will your story be about:
+- Winning?
+- Escaping?
+- Stopping something or someone?
+- Retrieving something of value?
 
-    'F', // [Fail, not used in every isekai, should be counted as very weak]
-    // summary: tutorial rank
-    // Guild manual: rank F is the starting rank = training rank,
-    // you can quickly climb to rank E once you demonstrate basic understanding of the guild rules and basic adventuring knowledge
-    // Requirements:
-    // - NONE
 
-    'E', // [NOT present in academic grading but present in mangas/manhwas]
-    // summary: junior rank
-    // Guild manual: rank E is a learning rank,
-    // you should be constantly learning at this stage, asking questions, occasionally joining higher level parties
-    // Requirements:
-    // - guild knowledge exam: E rank
-    // - power: NONE
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: NONE
+We were taught the 3 act structure mirroring the Hero’s Journey popularised by Joseph Campbell in his 1949 work The Hero with a Thousand Faces, where the:
+- 1st Act sets context of the status quo, with an inciting incident that causes the world to change and a call to adventure for the hero.
+- 2nd Act has escalating challenges in the main plot that the hero faces, and the introduction of a secondary plot (e.g. a love story strengthening the main plot) coming full circle in the 3rd Act.
+- 3rd Act results in a resolution, climax or twist that the hero experiences to the point of no return, which results in a new status quo in the world.
 
-    'D', // [average]
-    // summary: middle/common
-    // Guild manual: rank D is one of the main force of adventurers
-    // you should be an efficient member of your party
-    // Requirements:
-    // - guild knowledge: passing D-rank exam
-    // - power: at least TODO
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: NONE
+Dan Harmon (creator of Rick and Morty and Community) has since simplified the theory into 8 steps:
+- Establish a protagonist (You) - A character is in a zone of comfort.
+- Something ain’t quite right (Need) - We learn that things aren’t perfect in our hero’s universe, setting the stage for external conflict.
+- Crossing the Threshold (Go) - They enter an unfamiliar situation, and begin their journey.
+- The Road of Trials (Search) - They adapt to their unfamiliar situation. They gain the skills they’ll need to achieve their goals and return home.
+- Meeting with the Goddess (Find) - They get what they wanted. The Need (number 2) is fulfilled.
+- Pay the Price (Take) - They pay a price for achieving their goal, but a secondary goal is achieved.
+- Bringing it Home (Return) - They cross the return threshold, and come back to where they started.
+- Master of both Worlds (Change) - The protagonist is in control of their situation, having changed.
 
-    'C',
-    // summary: senior/common
-    // Guild manual: rank C is one of the main force of adventurers
-    // you are mentoring the juniors in your party, may start leading your party
-    // Requirements:
-    // - guild knowledge: passing C-rank exam
-    // - power: at least TODO
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: NONE
+A good story always contains conflicts, of which it can be broken down into:
+- External: escalating challenges in the short-term as the world changes - or tactics.
+- Internal: decisions with significant impacts on long-term success - or strategy.
 
-    'B', // [good]
-    // summary: middle/common
-    // Guild manual: rank B is an experienced level
-    // you may coordinate several parties during an outbreak
-    // Requirements:
-    // - guild knowledge: passing B-rank exam
-    // - power: at least TODO
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: at least 2 countries
+Beats
+We analysed the script and were asked to identify the parts where we thought were important.
+This is usually something where there is a change from the status quo - it could be a new character introduced, the meeting of hearts, a power dynamic change between characters or a climax/twist.
+We call this a beat. A short film like this (~10 minutes) will probably have a maximum of 5-6 beats, so we started with around 10+ beats and culled it to 6 core ones.
+Of all the different beats, there will be the heart of the film in one of the beats. If we had to only show one scene, this will be the beat that we will show.
+ */
+// Inspired from:
+// - 10 great pleasures https://appliedjung.com/an-internal-singularity/
+// - The 5 Basic Levels of Life’s Pleasures https://www.yogajournal.com/yoga-101/philosophy/feels-good/
+// - https://en.wikipedia.org/wiki/The_Top_Five_Regrets_of_the_Dying
+// (don't have to tick them all)
 
-    [tensura] Rank A- and above humans are considered "Champions" by Human countries.
 
-    'A', // [very good]
-    // summary: TODO
-    // Guild manual: TODO
-    // Requirements:
-    // - guild knowledge: passing B-rank exam
-    // - power: at least TODO
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: at least TODO countries
-
-    'S', // [max standard, would represent top ~10%]
-    // summary: TODO
-    // Guild manual: TODO
-    // Requirements:
-    // - guild knowledge: passing B-rank exam
-    // - power: at least TODO
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: at least TODO countries
-
-    // non-standard
-    'SS', // "Special"
-    // summary: TODO
-    // Guild manual: TODO
-    // Requirements:
-    // - guild knowledge: passing B-rank exam
-    // - power: at least TODO
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: at least TODO countries
-
-    'SSR', // "Ranked"
-    // summary: TODO
-    // Guild manual: TODO
-    // Requirements:
-    // - guild knowledge: passing B-rank exam
-    // - power: at least TODO
-    // - experience: at least TODO guild experience points
-    // - cross-recognition: at least TODO countries
-
-* rank A can only be granted by agreement from the kingdom
-* rank S and above can only be granted by a collective agreement of the neighboring kindoms
-* rank SS is the top rank,
-*/
-},{"typescript-string-enums":"xSIV"}],"PwHZ":[function(require,module,exports) {
+exports.LifeGreatness = typescript_string_enums_1.Enum( // sorted by Maslow
+// physiological
+'great_food', // or drink
+//'~no_self_pressure', // not worked so hard
+//'let_go_and_be_happy',
+// safety
+'great_physical_condition', 'able_to_defend_oneself', // belongness and love needs
+'a_place_to_call_home', 'good_friends', 'intimacy', // with a partner
+'happy_home', 'children', // esteem needs, prestige, accomplishments
+'being_true_to_oneself', 'making_a_difference', 'being_expert_at_sth', 'improving_the_civilization', // self actualization, full potential, creative activities
+'stimulating_conversation', 'great_book', 'great_art', 'travelling', 'ruling_the_world');
+},{"typescript-string-enums":"xSIV"}],"p2mO":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Quality = void 0;
-/* Classic RPG quality levels
- */
+exports.get_life_experiences_counts = exports.has_saved_the_world = void 0;
 
 var typescript_string_enums_1 = require("typescript-string-enums");
-
-exports.Quality = typescript_string_enums_1.Enum('poor', // very low
-'common', 'uncommon', 'rare', 'epic', 'legendary', 'artifact');
-},{"typescript-string-enums":"xSIV"}],"OFgT":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.get_next = exports.is_max = exports.get_from_index = exports.get_corresponding_index = exports.get_corresponding_quality = void 0;
-
-var tiny_invariant_1 = __importDefault(require("tiny-invariant"));
 
 var types_1 = require("./types");
 
-var types_2 = require("../type--quality/types");
-
-function get_corresponding_quality(ssr_rank) {
-  var _a;
-
-  return (_a = {}, _a[types_1.SSRRank.F] = types_2.Quality.poor, _a[types_1.SSRRank.E] = types_2.Quality.poor, _a[types_1.SSRRank.D] = types_2.Quality.common, _a[types_1.SSRRank.C] = types_2.Quality.common, _a[types_1.SSRRank.B] = types_2.Quality.uncommon, _a[types_1.SSRRank.A] = types_2.Quality.uncommon, _a[types_1.SSRRank.S] = types_2.Quality.rare, _a[types_1.SSRRank.SS] = types_2.Quality.epic, _a[types_1.SSRRank.SSR] = types_2.Quality.legendary, _a)[ssr_rank];
+function has_saved_the_world(state) {
+  return state.has_saved_the_world;
 }
 
-exports.get_corresponding_quality = get_corresponding_quality;
-var RANKS_ORDERED_INC = [types_1.SSRRank.F, types_1.SSRRank.E, types_1.SSRRank.D, types_1.SSRRank.C, types_1.SSRRank.B, types_1.SSRRank.A, types_1.SSRRank.S, types_1.SSRRank.SS, types_1.SSRRank.SSR];
-var MAX_RANK_INDEX = RANKS_ORDERED_INC.length - 1;
+exports.has_saved_the_world = has_saved_the_world;
 
-function get_corresponding_index(ssr_rank) {
-  return RANKS_ORDERED_INC.indexOf(ssr_rank);
+function get_life_experiences_counts(state) {
+  var max = typescript_string_enums_1.Enum.keys(types_1.LifeGreatness).length;
+  var current = typescript_string_enums_1.Enum.keys(types_1.LifeGreatness).reduce(function (count, k) {
+    //console.log({ count, k, v: (state as any)[k] })
+    return count + Math.min(1, state.great_life_experiences_count[k]);
+  }, 0); //console.log({state, current, max})
+
+  return [current, max];
 }
 
-exports.get_corresponding_index = get_corresponding_index;
-
-function get_from_index(ssr_rank_index) {
-  tiny_invariant_1.default(ssr_rank_index >= 0);
-  tiny_invariant_1.default(ssr_rank_index <= MAX_RANK_INDEX);
-  return RANKS_ORDERED_INC[ssr_rank_index];
+exports.get_life_experiences_counts = get_life_experiences_counts;
+/*
+export function get_fulfillment_ratio(state: Immutable<State['has_lived_to_the_fullest']>): number {
+    const max = Object.keys(state).length
+    const current = Object.keys(state)
+        .reduce((count, k) => {
+            //console.log({ count, k, v: (state as any)[k] })
+            return count + ((state as any)[k] ? 1 : 0)
+        }, 0)
+    //console.log({state, current, max})
+    return current/max
+}
+export function has_lived_to_the_fullest(state: Immutable<State>): boolean {
+    return get_fulfillment_ratio(state.has_lived_to_the_fullest) >= .8
 }
 
-exports.get_from_index = get_from_index;
-
-function is_max(ssr_rank) {
-  return ssr_rank === types_1.SSRRank.SSR;
+export function has_found_their_soulmate(state: Immutable<State>): boolean {
+    return state.has_found_their_soulmate
 }
-
-exports.is_max = is_max; //export function compare(ssr_rank_a, ssr_rank_b)
-
-function get_next(ssr_rank) {
-  if (!ssr_rank) return types_1.SSRRank.F;
-  return get_from_index(Math.min(get_corresponding_index(ssr_rank) + 1, MAX_RANK_INDEX));
+export function has_improved_civilization(state: Immutable<State>): boolean {
+    return state.has_improved_civilization
 }
+*/
 
-exports.get_next = get_next;
-},{"tiny-invariant":"pmON","./types":"rOal","../type--quality/types":"PwHZ"}],"Ej72":[function(require,module,exports) {
+/*
+export function has_unraveled_the_mystery(): boolean { throw new Error('NIMP!')}
+export function has_defeated_BBEG(): boolean { throw new Error('NIMP!')}
+export function has_found_their_place_in_the_world(): boolean { throw new Error('NIMP!')}
+*/
+},{"typescript-string-enums":"xSIV","./types":"SHRu"}],"Ej72":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47689,7 +47541,381 @@ Object.defineProperty(exports, "Enum", {
     return typescript_string_enums_1.Enum;
   }
 });
-},{"./renderers/to_debug":"hRvF","./renderers/to_actions":"ZVdZ","./renderers/to_text":"Cojh","./renderers/to_html":"bfpt","./types":"Ej72","./walk":"UsA8","./renderers/common":"c5Km","./utils/builder":"w3mB","typescript-string-enums":"xSIV"}],"d0jE":[function(require,module,exports) {
+},{"./renderers/to_debug":"hRvF","./renderers/to_actions":"ZVdZ","./renderers/to_text":"Cojh","./renderers/to_html":"bfpt","./types":"Ej72","./walk":"UsA8","./renderers/common":"c5Km","./utils/builder":"w3mB","typescript-string-enums":"xSIV"}],"hhbR":[function(require,module,exports) {
+"use strict";
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+var _a;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.render = exports.render_life_fulfillment = void 0;
+
+var tiny_invariant_1 = __importDefault(require("tiny-invariant"));
+
+var RichText = __importStar(require("@offirmo-private/rich-text-format"));
+
+var types_1 = require("./types");
+
+var selectors_1 = require("./selectors");
+
+var MIN_LIFE_GREATNESS_COUNT = 9;
+var GREATNESS_TO_HUMAN = (_a = {}, _a[types_1.LifeGreatness.being_true_to_oneself] = 'is true to oneself', _a[types_1.LifeGreatness.great_food] = 'had great food', //[LifeGreatness.let_go_and_be_happy]: 'allowed themselves to be happy',
+_a[types_1.LifeGreatness.great_physical_condition] = 'is in great physical condition', _a[types_1.LifeGreatness.able_to_defend_oneself] = 'is strong and able to defend oneself', //[LifeGreatness.a_place_to_call_home]: 'has a place to call home',
+_a[types_1.LifeGreatness.good_friends] = 'has good friends', _a[types_1.LifeGreatness.intimacy] = 'has an intimate relationship', //[LifeGreatness.happy_home]: 'has a happy home',
+//[LifeGreatness.children]: 'has raised children',
+_a[types_1.LifeGreatness.making_a_difference] = 'made a difference', _a[types_1.LifeGreatness.being_expert_at_sth] = 'is an expert at something', //[LifeGreatness.improving_the_civilization]: 'improved the civilization',
+//[LifeGreatness.stimulating_conversation]: 'had stimulating conversations',
+//[LifeGreatness.great_book]: 'has read great books',
+//[LifeGreatness.great_art]: 'has seen great art',
+_a[types_1.LifeGreatness.travelling] = 'has travelled', _a);
+
+function render_life_fulfillment(state, options) {
+  var $doc = RichText.unordered_list();
+  Object.keys(GREATNESS_TO_HUMAN).forEach(function (k) {
+    var count = state.great_life_experiences_count[k];
+    tiny_invariant_1.default(typeof count === 'number', "render_life_fulfillment() should have count for \"" + k + "\"!");
+
+    if (count > 0) {
+      $doc.pushKeyValue(GREATNESS_TO_HUMAN[k], 'yes ✅');
+    } else {
+      $doc.pushKeyValue("???", '❌ not yet');
+    }
+  });
+  return $doc.done();
+}
+
+exports.render_life_fulfillment = render_life_fulfillment;
+
+function render(state, options) {
+  var $doc = RichText.unordered_list().pushKeyValue('Has saved the world', selectors_1.has_saved_the_world(state) ? 'yes ✅  ☀️' : '❌ not yet').pushKeyValue('Has lived a new life to the fullest', RichText.inline_fragment().pushText(selectors_1.get_life_experiences_counts(state)[0] >= MIN_LIFE_GREATNESS_COUNT ? 'yes ✅  ☀️' : '❌ not yet').pushNode(render_life_fulfillment(state)).done()).done();
+  return $doc;
+}
+
+exports.render = render;
+},{"tiny-invariant":"pmON","@offirmo-private/rich-text-format":"OZvw","./types":"SHRu","./selectors":"p2mO"}],"EiQX":[function(require,module,exports) {
+"use strict";
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.reduceⵧsave_the_world = exports.reduceⵧexperience_life_greatness = exports.create = void 0;
+
+var tiny_invariant_1 = __importDefault(require("tiny-invariant"));
+
+var typescript_string_enums_1 = require("typescript-string-enums");
+
+var types_1 = require("./types");
+
+function create() {
+  var state = {
+    schema_version: 0,
+    revision: 0,
+    has_saved_the_world: false,
+    great_life_experiences_count: {}
+  };
+  typescript_string_enums_1.Enum.keys(types_1.LifeGreatness).forEach(function (k) {
+    state.great_life_experiences_count[k] = 0;
+  });
+  return state;
+}
+
+exports.create = create;
+
+function reduceⵧexperience_life_greatness(state, params) {
+  var _a;
+
+  tiny_invariant_1.default(typeof state.great_life_experiences_count[params.type] === 'number', 'reduceⵧexperience_life_greatness() param!');
+  return __assign(__assign({}, state), {
+    revision: state.revision + 1,
+    great_life_experiences_count: __assign(__assign({}, state.great_life_experiences_count), (_a = {}, _a[params.type] = state.great_life_experiences_count[params.type] + 1, _a))
+  });
+}
+
+exports.reduceⵧexperience_life_greatness = reduceⵧexperience_life_greatness;
+
+function reduceⵧsave_the_world(state) {
+  return __assign(__assign({}, state), {
+    revision: state.revision + 1,
+    has_saved_the_world: true
+  });
+}
+
+exports.reduceⵧsave_the_world = reduceⵧsave_the_world;
+},{"tiny-invariant":"pmON","typescript-string-enums":"xSIV","./types":"SHRu"}],"DtkS":[function(require,module,exports) {
+"use strict";
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __exportStar = this && this.__exportStar || function (m, exports) {
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+__exportStar(require("./types"), exports);
+
+__exportStar(require("./selectors"), exports);
+
+__exportStar(require("./selectors--rich-text"), exports);
+
+__exportStar(require("./reducers"), exports);
+},{"./types":"SHRu","./selectors":"p2mO","./selectors--rich-text":"hhbR","./reducers":"EiQX"}],"rOal":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SSRRank = void 0;
+/* Guild rank usually used in isekai mangas and games
+ * Ref: https://en.wikipedia.org/wiki/Academic_grading_in_Japan
+ * Examples:
+   - https://tensura.fandom.com/wiki/Rank
+   - https://tensura.fandom.com/wiki/WN/Rank
+   * Novice -> Beginner -> Intermediate -> Advanced
+
+ * See also: https://solo-leveling.fandom.com/wiki/System?commentId=4400000000000001032&replyId=4400000000000002801
+ */
+
+var typescript_string_enums_1 = require("typescript-string-enums");
+
+exports.SSRRank = typescript_string_enums_1.Enum('F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSR');
+/*
+    [tensura] Rank B and below adventurers aren't famous enough to be known outside their country's borders.
+
+    'F', // [Fail, not used in every isekai, should be counted as very weak]
+    // summary: tutorial rank
+    // Guild manual: rank F is the starting rank = training rank,
+    // you can quickly climb to rank E once you demonstrate basic understanding of the guild rules and basic adventuring knowledge
+    // Requirements:
+    // - NONE
+
+    'E', // [NOT present in academic grading but present in mangas/manhwas]
+    // summary: junior rank
+    // Guild manual: rank E is a learning rank,
+    // you should be constantly learning at this stage, asking questions, occasionally joining higher level parties
+    // Requirements:
+    // - guild knowledge exam: E rank
+    // - power: NONE
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: NONE
+
+    'D', // [average]
+    // summary: middle/common
+    // Guild manual: rank D is one of the main force of adventurers
+    // you should be an efficient member of your party
+    // Requirements:
+    // - guild knowledge: passing D-rank exam
+    // - power: at least TODO
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: NONE
+
+    'C',
+    // summary: senior/common
+    // Guild manual: rank C is one of the main force of adventurers
+    // you are mentoring the juniors in your party, may start leading your party
+    // Requirements:
+    // - guild knowledge: passing C-rank exam
+    // - power: at least TODO
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: NONE
+
+    'B', // [good]
+    // summary: middle/common
+    // Guild manual: rank B is an experienced level
+    // you may coordinate several parties during an outbreak
+    // Requirements:
+    // - guild knowledge: passing B-rank exam
+    // - power: at least TODO
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: at least 2 countries
+
+    [tensura] Rank A- and above humans are considered "Champions" by Human countries.
+
+    'A', // [very good]
+    // summary: TODO
+    // Guild manual: TODO
+    // Requirements:
+    // - guild knowledge: passing B-rank exam
+    // - power: at least TODO
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: at least TODO countries
+
+    'S', // [max standard, would represent top ~10%]
+    // summary: TODO
+    // Guild manual: TODO
+    // Requirements:
+    // - guild knowledge: passing B-rank exam
+    // - power: at least TODO
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: at least TODO countries
+
+    // non-standard
+    'SS', // "Special"
+    // summary: TODO
+    // Guild manual: TODO
+    // Requirements:
+    // - guild knowledge: passing B-rank exam
+    // - power: at least TODO
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: at least TODO countries
+
+    'SSR', // "Ranked"
+    // summary: TODO
+    // Guild manual: TODO
+    // Requirements:
+    // - guild knowledge: passing B-rank exam
+    // - power: at least TODO
+    // - experience: at least TODO guild experience points
+    // - cross-recognition: at least TODO countries
+
+* rank A can only be granted by agreement from the kingdom
+* rank S and above can only be granted by a collective agreement of the neighboring kindoms
+* rank SS is the top rank,
+*/
+},{"typescript-string-enums":"xSIV"}],"PwHZ":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Quality = void 0;
+/* Classic RPG quality levels
+ */
+
+var typescript_string_enums_1 = require("typescript-string-enums");
+
+exports.Quality = typescript_string_enums_1.Enum('poor', // very low
+'common', 'uncommon', 'rare', 'epic', 'legendary', 'artifact');
+},{"typescript-string-enums":"xSIV"}],"OFgT":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.get_next = exports.is_max = exports.get_from_index = exports.get_corresponding_index = exports.get_corresponding_quality = void 0;
+
+var tiny_invariant_1 = __importDefault(require("tiny-invariant"));
+
+var types_1 = require("./types");
+
+var types_2 = require("../type--quality/types");
+
+function get_corresponding_quality(ssr_rank) {
+  var _a;
+
+  return (_a = {}, _a[types_1.SSRRank.F] = types_2.Quality.poor, _a[types_1.SSRRank.E] = types_2.Quality.poor, _a[types_1.SSRRank.D] = types_2.Quality.common, _a[types_1.SSRRank.C] = types_2.Quality.common, _a[types_1.SSRRank.B] = types_2.Quality.uncommon, _a[types_1.SSRRank.A] = types_2.Quality.uncommon, _a[types_1.SSRRank.S] = types_2.Quality.rare, _a[types_1.SSRRank.SS] = types_2.Quality.epic, _a[types_1.SSRRank.SSR] = types_2.Quality.legendary, _a)[ssr_rank];
+}
+
+exports.get_corresponding_quality = get_corresponding_quality;
+var RANKS_ORDERED_INC = [types_1.SSRRank.F, types_1.SSRRank.E, types_1.SSRRank.D, types_1.SSRRank.C, types_1.SSRRank.B, types_1.SSRRank.A, types_1.SSRRank.S, types_1.SSRRank.SS, types_1.SSRRank.SSR];
+var MAX_RANK_INDEX = RANKS_ORDERED_INC.length - 1;
+
+function get_corresponding_index(ssr_rank) {
+  if (ssr_rank === null) return 0;
+  return RANKS_ORDERED_INC.indexOf(ssr_rank);
+}
+
+exports.get_corresponding_index = get_corresponding_index;
+
+function get_from_index(ssr_rank_index) {
+  tiny_invariant_1.default(ssr_rank_index >= 0, "SSRRank.get_from_index should be >= 0");
+  tiny_invariant_1.default(ssr_rank_index <= MAX_RANK_INDEX, "SSRRank.get_from_index should be <= max>");
+  return RANKS_ORDERED_INC[ssr_rank_index];
+}
+
+exports.get_from_index = get_from_index;
+
+function is_max(ssr_rank) {
+  return ssr_rank === types_1.SSRRank.SSR;
+}
+
+exports.is_max = is_max; //export function compare(ssr_rank_a, ssr_rank_b)
+
+function get_next(ssr_rank) {
+  if (!ssr_rank) return types_1.SSRRank.F;
+  return get_from_index(Math.min(get_corresponding_index(ssr_rank) + 1, MAX_RANK_INDEX));
+}
+
+exports.get_next = get_next;
+},{"tiny-invariant":"pmON","./types":"rOal","../type--quality/types":"PwHZ"}],"d0jE":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48070,8 +48296,8 @@ function get_corresponding_index(level) {
 exports.get_corresponding_index = get_corresponding_index;
 
 function get_from_index(level_index) {
-  tiny_invariant_1.default(level_index >= 0);
-  tiny_invariant_1.default(level_index <= MAX_LEVEL_INDEX);
+  tiny_invariant_1.default(level_index >= 0, "RelationshipLevel.get_from_index should be >= 0");
+  tiny_invariant_1.default(level_index <= MAX_LEVEL_INDEX, "RelationshipLevel.get_from_index should be <= max>");
   return LEVELS_ORDERED_INC[level_index];
 }
 
@@ -49307,6 +49533,38 @@ var define;
 },{}],"uaeV":[function(require,module,exports) {
 "use strict";
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function () {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -49316,9 +49574,19 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.get_mc_overall_power = exports.get_next_level_xp_completion_ratio = exports.get_required_xp_for_next_level = void 0;
+exports.can_defeat_BBEG = exports.is_ready_to_take_guild_rank_up_exam = exports.get_heroine_relationship_level = exports.get_party_overall_power = exports.get_mc_overall_power = exports.get_next_level_xp_completion_ratio = exports.get_required_xp_for_next_level = exports.get_mc_guild_rank = void 0;
 
 var fraction_js_1 = __importDefault(require("fraction.js"));
+
+var RelationshipLevelLib = __importStar(require("../type--relationship-level"));
+
+var SSRRankLib = __importStar(require("../type--SSR-rank"));
+
+function get_mc_guild_rank(state) {
+  return state.mc.guild.rank;
+}
+
+exports.get_mc_guild_rank = get_mc_guild_rank;
 
 function get_required_xp_for_next_level(level) {
   return (level + 1) * 1000;
@@ -49339,11 +49607,57 @@ exports.get_next_level_xp_completion_ratio = get_next_level_xp_completion_ratio;
 function get_mc_overall_power(state) {
   var level = state.mc.level;
   var next_level_ratio = get_next_level_xp_completion_ratio(state);
-  return Math.trunc(level * 20 + next_level_ratio * 10);
+  var skill_multiplier = Math.pow(SSRRankLib.get_corresponding_index(get_mc_guild_rank(state)), 1.13) / 10.;
+  return (level * 20 + next_level_ratio * 10) * (1 + skill_multiplier);
 }
 
 exports.get_mc_overall_power = get_mc_overall_power;
-},{"fraction.js":"TToH"}],"xLQr":[function(require,module,exports) {
+
+function get_party_overall_power(state) {
+  var mc_power = get_mc_overall_power(state);
+  var heroine_relationship_index = RelationshipLevelLib.get_corresponding_index(get_heroine_relationship_level(state));
+  var party_size = 1 + (heroine_relationship_index > 0 ? 1 : 0);
+  var party_size_bonus = (party_size - 1) / 10;
+  var relationship_bonus = Math.min(Math.max(0, heroine_relationship_index - 3), 5) / 10;
+  var bonus_multiplier = 1 + party_size_bonus + relationship_bonus;
+  /*console.log({
+      mc_power,
+      party_size,
+      heroine_relationship_index,
+      bonus: {
+          party_size: party_size_bonus,
+          relationship: relationship_bonus,
+          xxfinal: bonus_multiplier,
+      },
+  })
+  */
+
+  return mc_power * party_size * bonus_multiplier;
+}
+
+exports.get_party_overall_power = get_party_overall_power;
+
+function get_heroine_relationship_level(state) {
+  return state.npcs.heroine.relationship.level;
+}
+
+exports.get_heroine_relationship_level = get_heroine_relationship_level;
+
+function is_ready_to_take_guild_rank_up_exam(state) {
+  var current_rank = state.mc.guild.rank;
+  if (!current_rank) return true;
+  if (SSRRankLib.is_max(current_rank)) return false;
+  return SSRRankLib.get_corresponding_index(current_rank) + 1 <= state.mc.level / 10.;
+}
+
+exports.is_ready_to_take_guild_rank_up_exam = is_ready_to_take_guild_rank_up_exam;
+
+function can_defeat_BBEG(state) {
+  return !state.flags.has_saved_the_world && get_party_overall_power(state) >= 9000;
+}
+
+exports.can_defeat_BBEG = can_defeat_BBEG;
+},{"fraction.js":"TToH","../type--relationship-level":"Z2Fo","../type--SSR-rank":"UglT"}],"xLQr":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -49401,13 +49715,13 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.reduceⵧdefeat_mook = exports.reduceⵧeat_food = exports.reduceⵧromance = exports.reduceⵧguild_rank_up = exports.reduceⵧdo_quest = exports.reduceⵧtrain = exports.reduceⵧexplore = exports.reduceⵧsnowflake = exports._reduceⵧmake_memory = exports._reduceⵧgain_xp = exports.reduceⵧupdate_to_now = exports.randomize_post_create = exports.create = void 0;
+exports.reduceⵧdefeat_BBEG = exports.reduceⵧdefeat_mook = exports.reduceⵧeat_food = exports.reduceⵧromance = exports.reduceⵧguild_rank_up = exports.reduceⵧdo_quest = exports.reduceⵧtrain = exports.reduceⵧexplore = exports.reduceⵧsnowflake = exports._reduceⵧmake_memory = exports._reduceⵧexperience_life_greatness = exports._reduceⵧgain_xp = exports.reduceⵧupdate_to_now = exports.randomize_post_create = exports.create = void 0;
 
 var timestamps_1 = require("@offirmo-private/timestamps");
 
 var tiny_invariant_1 = __importDefault(require("tiny-invariant"));
 
-var FlagsReducers = __importStar(require("../state--flags/reducers"));
+var FlagsLib = __importStar(require("../state--flags"));
 
 var GuildMembershipReducers = __importStar(require("../state--guild-membership/reducers"));
 
@@ -49419,18 +49733,20 @@ var types_2 = require("../type--relationship-level/types");
 
 var RelationshipLevelLib = __importStar(require("../type--relationship-level"));
 
-var selectors_1 = require("./selectors");
-
 var SSRRankLib = __importStar(require("../type--SSR-rank"));
 
-var GuildStateLib = __importStar(require("../state--guild-membership/reducers")); /////////////////////
+var GuildStateLib = __importStar(require("../state--guild-membership/reducers"));
+
+var types_3 = require("../state--flags/types");
+
+var selectors_1 = require("./selectors"); /////////////////////
 
 
 function create() {
-  return {
+  var state = {
     schema_version: 0,
     revision: 0,
-    flags: FlagsReducers.create(),
+    flags: FlagsLib.create(),
     mc: {
       xp: 0,
       level: 1,
@@ -49444,7 +49760,10 @@ function create() {
       },
       BBEG: {}
     }
-  };
+  }; //state = _reduceⵧexperience_life_greatness(state, LifeGreatness.let_go_and_be_happy)
+
+  state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.being_true_to_oneself);
+  return state;
 }
 
 exports.create = create; /////////////////////
@@ -49493,6 +49812,8 @@ function _reduceⵧgain_xp(state, params) {
       xp_gain -= remaining_required_xp;
       xp = 0;
       level++;
+      if (level === 10) state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.great_physical_condition);
+      if (level === 30) state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.able_to_defend_oneself);
     } else {
       xp += xp_gain;
       xp_gain = 0;
@@ -49509,7 +49830,26 @@ function _reduceⵧgain_xp(state, params) {
 
 exports._reduceⵧgain_xp = _reduceⵧgain_xp;
 
+function _reduceⵧexperience_life_greatness(state, type) {
+  return __assign(__assign({}, state), {
+    flags: FlagsLib.reduceⵧexperience_life_greatness(state.flags, {
+      type: type
+    })
+  });
+}
+
+exports._reduceⵧexperience_life_greatness = _reduceⵧexperience_life_greatness;
+
 function _reduceⵧmake_memory(state, params) {
+  // memory
+  state = __assign(__assign({}, state), {
+    npcs: __assign(__assign({}, state.npcs), {
+      heroine: __assign(__assign({}, state.npcs.heroine), {
+        relationship: RelationshipLib.reduceⵧmake_memory(state.npcs.heroine.relationship, params)
+      })
+    })
+  }); // side effect: may increase the relationship level
+
   var level = state.npcs.heroine.relationship.level;
   var should_increase_relationship_level = false; // so far
 
@@ -49524,18 +49864,18 @@ function _reduceⵧmake_memory(state, params) {
     var meets_other_requirements = RelationshipLevelLib.compare(level, '<', types_2.RelationshipLevel.intimateⵧ1) || state.flags.has_saved_the_world; // above also needs to have saved the world
 
     if (has_enough_memories && meets_other_requirements) should_increase_relationship_level = true;
-    console.log('_reduceⵧmake_memory', {
-      active_romance: params.active_romance,
-      current_level: level,
-      next_level_index: RelationshipLevelLib.get_corresponding_index(level),
-      mem_index: state.npcs.heroine.relationship.memories.count / 10,
-      has_enough_memories: has_enough_memories,
-      meets_other_requirements: meets_other_requirements,
-      should_increase_relationship_level: should_increase_relationship_level
-    });
+    /*console.log('_reduceⵧmake_memory', {
+        active_romance: params.active_romance,
+        current_level: level,
+        next_level_index: RelationshipLevelLib.get_corresponding_index(level),
+        mem_index: state.npcs.heroine.relationship.memories.count / 10,
+        has_enough_memories,
+        meets_other_requirements,
+        should_increase_relationship_level,
+    })*/
   }
 
-  if (should_increase_relationship_level) {
+  if (should_increase_relationship_level && selectors_1.get_heroine_relationship_level(state) !== types_2.RelationshipLevel.intimateⵧ3) {
     state = __assign(__assign({}, state), {
       npcs: __assign(__assign({}, state.npcs), {
         heroine: __assign(__assign({}, state.npcs.heroine), {
@@ -49543,15 +49883,33 @@ function _reduceⵧmake_memory(state, params) {
         })
       })
     });
+    if (selectors_1.get_heroine_relationship_level(state) === types_2.RelationshipLevel.friendsⵧgood) state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.good_friends);
+    if (selectors_1.get_heroine_relationship_level(state) === types_2.RelationshipLevel.intimateⵧ1) state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.intimacy);
+  } // side effect: life greatness
+
+
+  switch (params.type) {
+    case types_1.SharedMemoryType.life_pleasure:
+      state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.great_food);
+      break;
+
+    /*case SharedMemoryType.assistance:
+        state = _reduceⵧexperience_life_greatness(state, LifeGreatness.making_a_difference)
+        break*/
+
+    case types_1.SharedMemoryType.adventure:
+      state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.travelling);
+      break;
+
+    /*case [SharedMemoryType.'victory', // big or little
+            'celebration', // after a victory, anniversary...
+            'growth', // shared growth, rite of passage
+            'adventure', // anything else ending as a "good story to tell"*/
+
+    default:
+      break;
   }
 
-  state = __assign(__assign({}, state), {
-    npcs: __assign(__assign({}, state.npcs), {
-      heroine: __assign(__assign({}, state.npcs.heroine), {
-        relationship: RelationshipLib.reduceⵧmake_memory(state.npcs.heroine.relationship, params)
-      })
-    })
-  });
   return state;
 }
 
@@ -49560,7 +49918,7 @@ exports._reduceⵧmake_memory = _reduceⵧmake_memory; /////////////////////
 function reduceⵧsnowflake(state) {
   return __assign(__assign({}, state), {
     revision: state.revision + 1,
-    flags: FlagsReducers.reduceⵧsnowflake(state.flags),
+    flags: FlagsLib.reduceⵧsave_the_world(state.flags),
     mc: __assign(__assign({}, state.mc), {
       level: 60,
       guild: GuildMembershipReducers.reduceⵧsnowflake(state.mc.guild)
@@ -49608,24 +49966,8 @@ function reduceⵧdo_quest(state, params) {
 exports.reduceⵧdo_quest = reduceⵧdo_quest;
 
 function reduceⵧguild_rank_up(state, params) {
-  var current_rank = state.mc.guild.rank;
-  tiny_invariant_1.default(!SSRRankLib.is_max(current_rank), "reduce\u2D67guild_rank_up() should not be already max");
-
-  var can_rank_up = function () {
-    switch (current_rank) {
-      case null:
-        return true;
-      // always
-
-      default:
-        //console.log('reduceⵧguild_rank_up', { current_rank, ci: SSRRankLib.get_corresponding_index(current_rank) + 1, li: state.mc.level / 10.})
-        return SSRRankLib.get_corresponding_index(current_rank) + 1 <= state.mc.level / 10.;
-    }
-  }();
-
-  if (!can_rank_up) return state; // TODO failure message
-
-  return _reduceⵧmake_memory(__assign(__assign({}, state), {
+  tiny_invariant_1.default(selectors_1.is_ready_to_take_guild_rank_up_exam(state), "reduce\u2D67guild_rank_up() should be ready!");
+  state = __assign(__assign({}, state), {
     revision: state.revision + 1,
     mc: __assign(__assign({}, state.mc), {
       guild: GuildStateLib.reduceⵧrank_up(state.mc.guild)
@@ -49635,10 +49977,12 @@ function reduceⵧguild_rank_up(state, params) {
         guild: GuildStateLib.reduceⵧrank_up(state.npcs.heroine.guild)
       })
     })
-  }), {
-    type: types_1.SharedMemoryType.growth //Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
-
   });
+  state = _reduceⵧmake_memory(state, {
+    type: types_1.SharedMemoryType.growth
+  });
+  if (state.mc.guild.rank === SSRRankLib.SSRRank.S) state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.being_expert_at_sth);
+  return state;
 }
 
 exports.reduceⵧguild_rank_up = reduceⵧguild_rank_up;
@@ -49653,12 +49997,15 @@ function reduceⵧromance(state, params) {
 }
 
 exports.reduceⵧromance = reduceⵧromance;
+var EMOJIS_FOOD_AND_DRINKS = '🍇🥐🥖🧀🥞🥩🍔🍖🥘🥟🥮🍨'.normalize('NFC');
+var EMOJIS_FOOD_AND_DRINKS_COUNT = Array.from(EMOJIS_FOOD_AND_DRINKS).length; // https://mathiasbynens.be/notes/javascript-unicode
 
 function reduceⵧeat_food(state, params) {
   return _reduceⵧmake_memory(__assign(__assign({}, state), {
     revision: state.revision + 1
   }), {
-    type: types_1.SharedMemoryType.life_pleasure
+    type: types_1.SharedMemoryType.life_pleasure,
+    emoji: Array.from(EMOJIS_FOOD_AND_DRINKS)[state.revision % EMOJIS_FOOD_AND_DRINKS_COUNT]
   });
 }
 
@@ -49674,7 +50021,23 @@ function reduceⵧdefeat_mook(state, params) {
 }
 
 exports.reduceⵧdefeat_mook = reduceⵧdefeat_mook;
-},{"@offirmo-private/timestamps":"NYak","tiny-invariant":"pmON","../state--flags/reducers":"EiQX","../state--guild-membership/reducers":"CSOh","../state--relationship/types":"gUCQ","../state--relationship":"kpYK","../type--relationship-level/types":"zF7n","../type--relationship-level":"Z2Fo","./selectors":"uaeV","../type--SSR-rank":"UglT"}],"ju6B":[function(require,module,exports) {
+
+function reduceⵧdefeat_BBEG(state, params) {
+  state = _reduceⵧmake_memory(state, {
+    type: types_1.SharedMemoryType.victory
+  });
+  state = _reduceⵧgain_xp(state, {
+    gain: 100000
+  });
+  state = _reduceⵧexperience_life_greatness(state, types_3.LifeGreatness.making_a_difference);
+  return __assign(__assign({}, state), {
+    revision: state.revision + 1,
+    flags: FlagsLib.reduceⵧsave_the_world(state.flags)
+  });
+}
+
+exports.reduceⵧdefeat_BBEG = reduceⵧdefeat_BBEG;
+},{"@offirmo-private/timestamps":"NYak","tiny-invariant":"pmON","../state--flags":"DtkS","../state--guild-membership/reducers":"CSOh","../state--relationship/types":"gUCQ","../state--relationship":"kpYK","../type--relationship-level/types":"zF7n","../type--relationship-level":"Z2Fo","../type--SSR-rank":"UglT","../state--flags/types":"SHRu","./selectors":"uaeV"}],"ju6B":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49685,7 +50048,7 @@ exports.ActionType = void 0;
 var typescript_string_enums_1 = require("typescript-string-enums"); /////////////////////
 
 
-exports.ActionType = typescript_string_enums_1.Enum('explore', 'train', 'quest', 'rank_upⵧguild', 'romance', 'eat_delicious_food', 'defeat_mook',
+exports.ActionType = typescript_string_enums_1.Enum('explore', 'train', 'quest', 'rank_upⵧguild', 'romance', 'eat_delicious_food', 'defeat_mook', 'defeat_BBEG',
 /*'equip_item',
 'sell_item',
 'rename_avatar',
@@ -49724,13 +50087,15 @@ var __spreadArray = this && this.__spreadArray || function (to, from) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.get_available_actions = exports.create_actionꘌdefeat_mook = exports.create_actionꘌeat_food = exports.create_actionꘌromance = exports.create_actionꘌrank_upⵧguild = exports.create_actionꘌquest = exports.create_actionꘌtrain = exports.create_actionꘌexplore = exports.get_action_types = void 0;
+exports.get_available_actions = exports.create_actionꘌset = exports.create_actionꘌnoop = exports.create_actionꘌdefeat_BBEG = exports.create_actionꘌdefeat_mook = exports.create_actionꘌeat_food = exports.create_actionꘌromance = exports.create_actionꘌrank_upⵧguild = exports.create_actionꘌquest = exports.create_actionꘌtrain = exports.create_actionꘌexplore = exports.get_action_types = void 0;
 
 var typescript_string_enums_1 = require("typescript-string-enums");
 
 var types_1 = require("./types");
 
-var type__SSR_rank_1 = require("../../type--SSR-rank"); /////////////////////
+var selectors_1 = require("../selectors");
+
+var type__relationship_level_1 = require("../../type--relationship-level"); /////////////////////
 // needed for some validations
 
 
@@ -49814,6 +50179,15 @@ function create_actionꘌdefeat_mook(time) {
 
 exports.create_actionꘌdefeat_mook = create_actionꘌdefeat_mook;
 
+function create_actionꘌdefeat_BBEG(time) {
+  return create_action({
+    type: types_1.ActionType.defeat_BBEG,
+    expected_revisions: {}
+  }, time);
+}
+
+exports.create_actionꘌdefeat_BBEG = create_actionꘌdefeat_BBEG;
+
 function create_actionꘌnoop(time) {
   return create_action({
     type: types_1.ActionType.hack,
@@ -49824,25 +50198,29 @@ function create_actionꘌnoop(time) {
   }, time);
 }
 
+exports.create_actionꘌnoop = create_actionꘌnoop;
+
 function create_actionꘌset(state, time) {
   return create_action({
     type: types_1.ActionType.set,
     expected_revisions: {},
     state: state
   }, time);
-} /////////////////////
+}
 
+exports.create_actionꘌset = create_actionꘌset; /////////////////////
 
 function get_available_actions(state, time) {
   if (time === void 0) {
     time = -1;
   }
 
-  return __spreadArray(__spreadArray(__spreadArray(__spreadArray([], type__SSR_rank_1.is_max(state.mc.guild.rank) ? [] : [create_actionꘌrank_upⵧguild(time)]), [create_actionꘌexplore(time), create_actionꘌdefeat_mook(time)]), state.mc.guild.rank ? [create_actionꘌquest(time)] : []), [create_actionꘌromance(time), create_actionꘌeat_food(time), create_actionꘌset(null, time)]);
+  if (selectors_1.get_heroine_relationship_level(state) === type__relationship_level_1.RelationshipLevel.strangers) return [create_actionꘌexplore(time)];
+  return __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], selectors_1.can_defeat_BBEG(state) ? [create_actionꘌdefeat_BBEG(time)] : []), selectors_1.is_ready_to_take_guild_rank_up_exam(state) ? [create_actionꘌrank_upⵧguild(time)] : []), [create_actionꘌexplore(time)]), state.mc.guild.rank ? [create_actionꘌquest(time)] : []), [create_actionꘌdefeat_mook(time), create_actionꘌromance(time), create_actionꘌeat_food(time), create_actionꘌset(null, time)]);
 }
 
 exports.get_available_actions = get_available_actions;
-},{"typescript-string-enums":"xSIV","./types":"ju6B","../../type--SSR-rank":"UglT"}],"RD5U":[function(require,module,exports) {
+},{"typescript-string-enums":"xSIV","./types":"ju6B","../selectors":"uaeV","../../type--relationship-level":"Z2Fo"}],"RD5U":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -56725,6 +57103,9 @@ function reduce_action(state, action) {
 
     case types_1.ActionType.defeat_mook:
       return reducers_1.reduceⵧdefeat_mook(state, action);
+
+    case types_1.ActionType.defeat_BBEG:
+      return reducers_1.reduceⵧdefeat_BBEG(state, action);
     /////////////////////
 
     case types_1.ActionType.update_to_now:
@@ -56745,105 +57126,7 @@ function reduce_action(state, action) {
 }
 
 exports.reduce_action = reduce_action;
-},{"@offirmo-private/state-utils":"K9CM","./types":"ju6B","../reducers":"xLQr"}],"p2mO":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.has_improved_civilization = exports.has_found_their_soulmate = exports.has_lived_to_the_fullest = exports.get_fulfillment_ratio = exports.has_saved_the_world = void 0;
-
-function has_saved_the_world(state) {
-  return state.has_saved_the_world;
-}
-
-exports.has_saved_the_world = has_saved_the_world;
-
-function get_fulfillment_ratio(state) {
-  var max = Object.keys(state).length;
-  var current = Object.keys(state).reduce(function (count, k) {
-    //console.log({ count, k, v: (state as any)[k] })
-    return count + (state[k] ? 1 : 0);
-  }, 0); //console.log({state, current, max})
-
-  return current / max;
-}
-
-exports.get_fulfillment_ratio = get_fulfillment_ratio;
-
-function has_lived_to_the_fullest(state) {
-  return get_fulfillment_ratio(state.has_lived_to_the_fullest) >= .8;
-}
-
-exports.has_lived_to_the_fullest = has_lived_to_the_fullest;
-
-function has_found_their_soulmate(state) {
-  return state.has_found_their_soulmate;
-}
-
-exports.has_found_their_soulmate = has_found_their_soulmate;
-
-function has_improved_civilization(state) {
-  return state.has_improved_civilization;
-}
-
-exports.has_improved_civilization = has_improved_civilization;
-/*
-export function has_unraveled_the_mystery(): boolean { throw new Error('NIMP!')}
-export function has_defeated_BBEG(): boolean { throw new Error('NIMP!')}
-export function has_found_their_place_in_the_world(): boolean { throw new Error('NIMP!')}
-*/
-},{}],"hhbR":[function(require,module,exports) {
-"use strict";
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.render = void 0;
-
-var RichText = __importStar(require("@offirmo-private/rich-text-format"));
-
-var selectors_1 = require("./selectors");
-
-function render(state, options) {
-  var $doc = RichText.unordered_list().pushKeyValue('Has saved the world', selectors_1.has_saved_the_world(state) ? 'yes ✅  ☀️' : '❌ not yet').pushKeyValue('Has found their partner', selectors_1.has_found_their_soulmate(state) ? 'yes ✅  💝' : '❌ not yet').pushKeyValue('Has lived the new life to the fullest', selectors_1.has_lived_to_the_fullest(state) ? 'yes ✅  🎂' : '❌ not yet').pushKeyValue('Has left a legacy', selectors_1.has_improved_civilization(state) ? 'yes ✅  🎁' : '❌ not yet').done();
-  return $doc;
-}
-
-exports.render = render;
-},{"@offirmo-private/rich-text-format":"OZvw","./selectors":"p2mO"}],"TbeN":[function(require,module,exports) {
+},{"@offirmo-private/state-utils":"K9CM","./types":"ju6B","../reducers":"xLQr"}],"TbeN":[function(require,module,exports) {
 "use strict";
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
@@ -56957,6 +57240,8 @@ var selectors__rich_text_3 = require("../state--relationship/selectors--rich-tex
 
 var selectors_1 = require("./selectors");
 
+var RelationshipLevelLib = __importStar(require("../type--relationship-level"));
+
 function render_flags(state, options) {
   var $doc = RichText.block_fragment().pushHeading('Quests').pushNode(selectors__rich_text_1.render(state)).done();
   return $doc;
@@ -56970,31 +57255,32 @@ function render_mc(state, options) {
   var $doc = RichText.block_fragment().pushHeading('Main character').pushNode(RichText.unordered_list().pushKeyValue('Level', String(level)).pushKeyValue('XP', xp + " / " + required_xp).pushKeyValue('Adventurers’ Guild', selectors__rich_text_2.render(state.mc.guild, {
     mode: 'detailed'
   })) //.pushKeyValue('Equipment', '✴️ TODO')
-  .pushKeyValue(RichText.strong().pushText('Overall character power').done(), selectors_1.get_mc_overall_power(state).toPrecision()).done()).done();
+  .pushKeyValue(RichText.strong().pushText('Overall character power').done(), selectors_1.get_mc_overall_power(state).toFixed()).done()).done();
   return $doc;
 }
 
 function render_party__heroine(state, options) {
-  var $doc = RichText.unordered_list().pushNode(selectors__rich_text_2.render(state.guild)).pushNode(selectors__rich_text_3.render(state.relationship)).done();
+  if (state.relationship.level === RelationshipLevelLib.RelationshipLevel.strangers) return RichText.unordered_list().pushKeyValue('???', '(not met yet)').done();
+  var $doc = RichText.unordered_list().pushNode(selectors__rich_text_3.render(state.relationship)).pushNode(selectors__rich_text_2.render(state.guild)).done();
   return $doc;
 }
 
 function render_party(state, options) {
-  var $doc = RichText.block_fragment().pushHeading('Party').pushNode(RichText.unordered_list().pushNode(RichText.inline_fragment().pushText('Heroine').pushNode(render_party__heroine(state.heroine)).done()) //.pushKeyValue('Mount', '✴️ TODO')
+  var $doc = RichText.block_fragment().pushHeading('Party').pushNode(RichText.unordered_list().pushKeyValue('Heroine', render_party__heroine(state.npcs.heroine)) //.pushKeyValue('Mount', '✴️ TODO')
   //.pushKeyValue('Pet', '✴️ TODO')
   //.pushKeyValue('Pet dragon', '✴️ TODO')
   //.pushKeyValue('Pet Slime(s)', '✴️ TODO')
-  .pushKeyValue(RichText.strong().pushText('Overall party power').done(), '✴️ TODO').done()).done();
+  .pushKeyValue(RichText.strong().pushText('Overall party power').done(), selectors_1.get_party_overall_power(state).toFixed()).done()).done();
   return $doc;
 }
 
 function render(state, options) {
-  var $doc = RichText.block_fragment().pushNode(render_flags(state.flags)).pushHorizontalRule().pushNode(render_mc(state)).pushHorizontalRule().pushNode(render_party(state.npcs)).done();
+  var $doc = RichText.block_fragment().pushNode(render_flags(state.flags)).pushHorizontalRule().pushNode(render_mc(state)).pushHorizontalRule().pushNode(render_party(state)).done();
   return $doc;
 }
 
 exports.render = render;
-},{"@offirmo-private/rich-text-format":"OZvw","../state--flags/selectors--rich-text":"hhbR","../state--guild-membership/selectors--rich-text":"TbeN","../state--relationship/selectors--rich-text":"TOty","./selectors":"uaeV"}],"NjWk":[function(require,module,exports) {
+},{"@offirmo-private/rich-text-format":"OZvw","../state--flags/selectors--rich-text":"hhbR","../state--guild-membership/selectors--rich-text":"TbeN","../state--relationship/selectors--rich-text":"TOty","./selectors":"uaeV","../type--relationship-level":"Z2Fo"}],"NjWk":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -57376,7 +57662,7 @@ var RichText = __importStar(require("@offirmo-private/rich-text-format"));
 
 var types_1 = require("./types");
 
-var TYPE_TO_LABEL = (_a = {}, _a[types_1.ActionType.explore] = 'Explore the open world', _a[types_1.ActionType.quest] = 'Fulfill a quest from the guild', _a[types_1.ActionType.rank_upⵧguild] = 'Take the guild rank-up exam', _a[types_1.ActionType.romance] = 'Romance the heroine', _a[types_1.ActionType.defeat_mook] = 'Defeat some mook(s)', _a);
+var TYPE_TO_LABEL = (_a = {}, _a[types_1.ActionType.explore] = 'Explore the world', _a[types_1.ActionType.quest] = 'Fulfill a guild quest', _a[types_1.ActionType.rank_upⵧguild] = 'Take the guild rank-up exam', _a[types_1.ActionType.romance] = 'Romance the heroine', _a[types_1.ActionType.defeat_mook] = 'Defeat some mook(s)', _a);
 
 function render_action(action, state, options) {
   var $doc = RichText.inline_fragment().pushText(function () {
@@ -57512,4 +57798,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   }, /*#__PURE__*/_react.default.createElement(_root.default, null)), document.getElementById('root'));
 });
 },{"react":"ccIB","react-dom":"x9tB","@offirmo-private/react-error-boundary":"arKJ","@offirmo/universal-debug-api-browser":"Vju9","@offirmo-private/async-utils":"oiJd","../services/sec":"f9Qa","./root":"ffkN","./index-2.css":"pYKq","@oh-my-rpg/assets--cursors/src/style.css":"qkXr"}]},{},["CvCW"], null)
-//# sourceMappingURL=index-2.19c683ee.js.map
+//# sourceMappingURL=index-2.8689c8e7.js.map

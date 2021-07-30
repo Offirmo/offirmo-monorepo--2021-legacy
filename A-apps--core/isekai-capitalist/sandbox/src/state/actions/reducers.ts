@@ -6,7 +6,7 @@ import { State } from '../types'
 import { Action, ActionType } from './types'
 import {
 	create,
-	randomize_post_create, reduceⵧdefeat_mook,
+	randomize_post_create, reduceⵧdefeat_BBEG, reduceⵧdefeat_mook,
 
 	reduceⵧdo_quest,
 	reduceⵧeat_food,
@@ -40,6 +40,8 @@ export function reduce_action(state: Immutable<State>, action: Immutable<Action>
 			return reduceⵧeat_food(state, action)
 		case ActionType.defeat_mook:
 			return reduceⵧdefeat_mook(state, action)
+		case ActionType.defeat_BBEG:
+			return reduceⵧdefeat_BBEG(state, action)
 
 		/////////////////////
 

@@ -14,45 +14,41 @@ import {
 	has_improved_civilization,*/
 } from './selectors'
 
+const MIN_LIFE_GREATNESS_COUNT = 9
 
-const GREATNESS_TO_HUMAN = {
+const GREATNESS_TO_HUMAN: { [k:string]: string } = {
+	[LifeGreatness.being_true_to_oneself]: 'is true to oneself',
 	[LifeGreatness.great_food]: 'had great food',
 	//[LifeGreatness.let_go_and_be_happy]: 'allowed themselves to be happy',
 	[LifeGreatness.great_physical_condition]: 'is in great physical condition',
 	[LifeGreatness.able_to_defend_oneself]: 'is strong and able to defend oneself',
-	[LifeGreatness.a_place_to_call_home]: 'has a place to call home',
+	//[LifeGreatness.a_place_to_call_home]: 'has a place to call home',
 	[LifeGreatness.good_friends]: 'has good friends',
 	[LifeGreatness.intimacy]: 'has an intimate relationship',
-	[LifeGreatness.happy_home]: 'has a happy home',
-	[LifeGreatness.children]: 'has raised children',
-	[LifeGreatness.being_true_to_oneself]: 'is true to oneself',
+	//[LifeGreatness.happy_home]: 'has a happy home',
+	//[LifeGreatness.children]: 'has raised children',
 	[LifeGreatness.making_a_difference]: 'made a difference',
 	[LifeGreatness.being_expert_at_sth]: 'is an expert at something',
-	[LifeGreatness.improving_the_civilization]: 'improved the civilization',
-	[LifeGreatness.stimulating_conversation]: 'had stimulating conversations',
-	[LifeGreatness.great_book]: 'has read great books',
-	[LifeGreatness.great_art]: 'has seen great art',
+	//[LifeGreatness.improving_the_civilization]: 'improved the civilization',
+	//[LifeGreatness.stimulating_conversation]: 'had stimulating conversations',
+	//[LifeGreatness.great_book]: 'has read great books',
+	//[LifeGreatness.great_art]: 'has seen great art',
 	[LifeGreatness.travelling]: 'has travelled',
-	[LifeGreatness.ruling_the_world]: 'has ruled the world',
+	//[LifeGreatness.ruling_the_world]: 'has ruled the world',
 }
 export function render_life_fulfillment(state: Immutable<State>, options?: {}): RichText.Document {
 	const $doc = RichText.unordered_list()
 
-	let fulfilled_count = 0
-	Enum.keys(LifeGreatness).forEach(k => {
+	Object.keys(GREATNESS_TO_HUMAN).forEach(k => {
 		const count = state.great_life_experiences_count[k]
 		assert(typeof count === 'number', `render_life_fulfillment() should have count for "${k}"!`)
 		if (count > 0) {
 			$doc.pushKeyValue(GREATNESS_TO_HUMAN[k], 'yes ✅')
-			fulfilled_count++
 		}
-	})
-
-	if (fulfilled_count < 9) {
-		for(let i = fulfilled_count; i < 9; ++i) {
+		else {
 			$doc.pushKeyValue(`???`, '❌ not yet')
 		}
-	}
+	})
 
 	return $doc.done()
 }
@@ -64,7 +60,7 @@ export function render(state: Immutable<State>, options?: {}): RichText.Document
 		.pushKeyValue(
 			'Has lived a new life to the fullest',
 			RichText.inline_fragment()
-				.pushText(get_life_experiences_counts(state)[0] >= 11 ? 'yes ✅  ☀️' : '❌ not yet')
+				.pushText(get_life_experiences_counts(state)[0] >= MIN_LIFE_GREATNESS_COUNT ? 'yes ✅  ☀️' : '❌ not yet')
 				.pushNode(render_life_fulfillment(state))
 				.done()
 		)

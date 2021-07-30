@@ -45,8 +45,8 @@ export function get_corresponding_index(level: RelationshipLevel): number {
 }
 
 export function get_from_index(level_index: number): RelationshipLevel {
-	assert(level_index >= 0)
-	assert(level_index <= MAX_LEVEL_INDEX)
+	assert(level_index >= 0, `RelationshipLevel.get_from_index should be >= 0`)
+	assert(level_index <= MAX_LEVEL_INDEX, `RelationshipLevel.get_from_index should be <= max>`)
 	return LEVELS_ORDERED_INC[level_index]
 }
 

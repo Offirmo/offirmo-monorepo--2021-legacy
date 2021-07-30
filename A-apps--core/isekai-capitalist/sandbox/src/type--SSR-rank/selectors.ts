@@ -32,13 +32,15 @@ const RANKS_ORDERED_INC: SSRRank[] = [
 ]
 const MAX_RANK_INDEX = RANKS_ORDERED_INC.length - 1
 
-export function get_corresponding_index(ssr_rank: Immutable<SSRRank>): number {
+export function get_corresponding_index(ssr_rank: Immutable<SSRRank> | null): number {
+	if (ssr_rank === null) return 0
+
 	return RANKS_ORDERED_INC.indexOf(ssr_rank)
 }
 
 export function get_from_index(ssr_rank_index: number): SSRRank {
-	assert(ssr_rank_index >= 0)
-	assert(ssr_rank_index <= MAX_RANK_INDEX)
+	assert(ssr_rank_index >= 0, `SSRRank.get_from_index should be >= 0`)
+	assert(ssr_rank_index <= MAX_RANK_INDEX, `SSRRank.get_from_index should be <= max>`)
 	return RANKS_ORDERED_INC[ssr_rank_index]
 }
 

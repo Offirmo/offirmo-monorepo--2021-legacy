@@ -53,22 +53,79 @@
 			//try { window.ga = window.parent.ga } catch {}
 			window.ga = window.ga || function(){/*console.log('ga2', arguments);*/(window.ga.q=window.ga.q||[]).push(arguments)}
 			window.ga.l = window.ga.l || +new Date
+			ga('create', 'UA-103238291-2', 'auto')
+			ga('send', 'pageview')
 
 			// GA4
 			window.dataLayer = window.dataLayer || []
 			window.gtag = window.gtag || function gtag (){/*console.log('ga42', arguments);*/(window.dataLayer=window.dataLayer||[]).push(arguments)}
-
-			// no more, see index-2.js
+			gtag('js', new Date())
+			gtag('config', 'G-VG46HT6WBJ')
 		</script>
 	</head>
 
 	<body class="o⋄top-container omr⋄cursorꘌsword--standard" data-o-theme="dark--colorhunt212">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 
-		<div id="root" class="o⋄top-container">
+		<div id="root" class="">
 			Loading…
 		</div>
+
+		<hr>
+	<footer style="padding-bottom: 20px;">
+		Made by <a href="https://www.offirmo.net/">Offirmo</a> 2021/07/30
+		<br>
+		This game is <a href="https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/isekai-capitalist/sandbox/src">open source 🆓</a>
+		<br>
+		<a class="bmc-button" target="_blank"
+			href="https://www.buymeacoffee.com/offirmo">
+			<img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee">
+			<style>
+				.bmc-button img {
+					height: 34px !important;
+					width: 35px !important;
+					margin-bottom: 1px !important;
+					box-shadow: none !important;
+					border: none !important;
+					vertical-align: middle !important;
+				}
+				.bmc-button {
+					padding: 7px 15px 7px 10px !important;
+					line-height: 35px !important;
+					height:51px !important;
+					text-decoration: none !important;
+					display:inline-flex !important;
+					color:#000000 !important;
+					background-color:#FFFFFF !important;
+					border-radius: 5px !important;
+					border: 1px solid transparent !important;
+					font-size: 28px !important;
+					letter-spacing:0.6px !important;
+					box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+					-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+					margin: 0 auto !important;
+					margin-top: 10px !important;
+					font-family:'Cookie', cursive !important;
+					-webkit-box-sizing: border-box !important;
+					box-sizing: border-box !important;
+				}
+				.bmc-button:hover, .bmc-button:active, .bmc-button:focus {
+					-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+					text-decoration: none !important;
+					box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+					/*opacity: 0.85 !important;
+					color: rgba(0, 0, 0, 0.85) !important;
+					 */
+					background-color: #f0f0f0 !important;
+				}
+			</style>
+			<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
+			<span style="margin-left:5px;font-size:28px !important;">Buy me a coffee</span>
+		</a>
+	</footer>
 	</body>
 
 	<script async importance="high" src="./index-2.jsx"></script>
+	<script async src='https://www.google-analytics.com/analytics.js'></script>
+	<script async src='https://www.googletagmanager.com/gtag/js?id=G-VG46HT6WBJ'></script>
 </html>

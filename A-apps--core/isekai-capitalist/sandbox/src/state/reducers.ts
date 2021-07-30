@@ -16,7 +16,7 @@ import { LifeGreatness } from '../state--flags/types'
 import { State } from './types'
 import {
 	get_required_xp_for_next_level,
-	get_heroine_relationship_level,
+	get_heroine_relationship_level, is_ready_to_take_guild_rank_up_exam,
 } from './selectors'
 
 
@@ -157,7 +157,7 @@ export function _reduceⵧmake_memory(state: Immutable<State>, params: Immutable
 			should_increase_relationship_level,
 		})*/
 	}
-	if (should_increase_relationship_level) {
+	if (should_increase_relationship_level && get_heroine_relationship_level(state) !== RelationshipLevel.intimateⵧ3) {
 		state = {
 			...state,
 
@@ -267,49 +267,32 @@ export function reduceⵧdo_quest(state: Immutable<State>, params: Immutable<Que
 
 export interface GuildRankUpParams {}
 export function reduceⵧguild_rank_up(state: Immutable<State>, params: Immutable<GuildRankUpParams>): Immutable<State> {
-	const current_rank = state.mc.guild.rank
+	assert(is_ready_to_take_guild_rank_up_exam(state), `reduceⵧguild_rank_up() should be ready!`)
 
-	assert(!SSRRankLib.is_max(current_rank), `reduceⵧguild_rank_up() should not be already max`)
+	state = {
+		...state,
+		revision: state.revision + 1,
 
-	const can_rank_up: boolean = (() => {
-		switch (current_rank) {
-			case null:
-				return true // always
+		mc: {
+			...state.mc,
+			guild: GuildStateLib.reduceⵧrank_up(state.mc.guild),
+		},
 
-			default:
-				//console.log('reduceⵧguild_rank_up', { current_rank, ci: SSRRankLib.get_corresponding_index(current_rank) + 1, li: state.mc.level / 10.})
-				return (SSRRankLib.get_corresponding_index(current_rank) + 1) <= state.mc.level / 10.
-		}
-	})()
+		npcs: {
+			...state.npcs,
+			heroine: {
+				...state.npcs.heroine,
+				guild: GuildStateLib.reduceⵧrank_up(state.npcs.heroine.guild),
+			},
+		},
+	}
 
-	if (!can_rank_up)
-		return state // TODO failure message
+	state = _reduceⵧmake_memory(state,{ type: SharedMemoryType.growth })
 
-	if (current_rank === SSRRankLib.SSRRank.A) // next = S
+	if (state.mc.guild.rank === SSRRankLib.SSRRank.S)
 		state = _reduceⵧexperience_life_greatness(state, LifeGreatness.being_expert_at_sth)
 
-	return  _reduceⵧmake_memory({
-			...state,
-			revision: state.revision + 1,
-
-			mc: {
-				...state.mc,
-				guild: GuildStateLib.reduceⵧrank_up(state.mc.guild),
-			},
-
-			npcs: {
-				...state.npcs,
-				heroine: {
-					...state.npcs.heroine,
-					guild: GuildStateLib.reduceⵧrank_up(state.npcs.heroine.guild),
-				},
-			},
-		},
-		{
-			type: SharedMemoryType.growth,
-			//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
-		},
-	)
+	return state
 }
 
 export interface RomanceParams {}
@@ -352,4 +335,18 @@ export function reduceⵧdefeat_mook(state: Immutable<State>, params: Immutable<
 			//Array.from(EMOJIS_ADVENTURE)[state.revision % EMOJIS_COUNT],
 		}
 	)
+}
+
+export interface DefeatBBEGParams {}
+export function reduceⵧdefeat_BBEG(state: Immutable<State>, params: Immutable<DefeatBBEGParams>): Immutable<State> {
+	state = _reduceⵧmake_memory( state, { type: SharedMemoryType.victory })
+	state = _reduceⵧgain_xp( state, { gain: 100000 })
+	state = _reduceⵧexperience_life_greatness( state, LifeGreatness.making_a_difference)
+
+	return {
+		...state,
+		revision: state.revision + 1,
+
+		flags: FlagsLib.reduceⵧsave_the_world(state.flags),
+	}
 }

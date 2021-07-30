@@ -11,7 +11,7 @@ import {
 	QuestParams,
 	GuildRankUpParams,
 	RomanceParams,
-	EatFoodParams, DefeatMookParams,
+	EatFoodParams, DefeatMookParams, DefeatBBEGParams,
 } from '../reducers'
 import { reduceⵧsnowflake as reduceⵧsnowflake__guild } from '../../state--guild-membership/reducers'
 
@@ -26,6 +26,7 @@ export const ActionType = Enum(
 	'romance',
 	'eat_delicious_food',
 	'defeat_mook',
+	'defeat_BBEG',
 
 	/*'equip_item',
 	'sell_item',
@@ -74,6 +75,9 @@ export interface ActionEatFood extends BaseAction<ActionType>, EatFoodParams {
 }
 export interface ActionDefeatMook extends BaseAction<ActionType>, DefeatMookParams {
 	type: typeof ActionType.defeat_mook
+}
+export interface ActionDefeatBBEG extends BaseAction<ActionType>, DefeatBBEGParams {
+	type: typeof ActionType.defeat_BBEG
 }
 /*
 export interface ActionStartGame extends BaseAction {
@@ -153,6 +157,7 @@ export type Action =
 	| ActionRomance
 	| ActionEatFood
 	| ActionDefeatMook
+	| ActionDefeatBBEG
 	/*	| ActionStartGame
 		| ActionStartSession
 		| ActionUpdateLoggedInInfos

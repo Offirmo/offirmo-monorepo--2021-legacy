@@ -44,7 +44,7 @@
 
 		"parcel--build": "parcel build --no-minify src/client--parcel/*.html --public-url ./",
 		"parcel--start": "PARCEL_AUTOINSTALL=false parcel src/client--parcel/index.html --out-dir .parcel --no-autoinstall --port 8080",
-		"parcel--dev": "npm-run-all clean --parallel parcel--start",
+		"parcel--dev": "npm-run-all --parallel parcel--start",
 		"build": "npm-run-all clean parcel--build"
 	},
 	"devDependencies": {

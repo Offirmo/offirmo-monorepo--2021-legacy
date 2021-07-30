@@ -1,6 +1,6 @@
 
 html, body {
-	overflow: hidden; /* for case when tooltip overflow up/down */
+/*	overflow: hidden; /* for case when tooltip overflow up/down */
 }
 
 body {
@@ -9,6 +9,8 @@ body {
 	width: fill-available;
 
 	--o⋄font-size--default: 15px;
+	padding-top: 0;
+	padding-bottom: 10px;
 }
 
 .float-container {

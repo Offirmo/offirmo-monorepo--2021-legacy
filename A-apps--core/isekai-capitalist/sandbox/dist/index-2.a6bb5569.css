@@ -1385,7 +1385,7 @@ button {
 
 
 html, body {
-	overflow: hidden; /* for case when tooltip overflow up/down */
+/*	overflow: hidden; /* for case when tooltip overflow up/down */
 }
 
 body {
@@ -1394,6 +1394,8 @@ body {
 	width: fill-available;
 
 	--o⋄font-size--default: 15px;
+	padding-top: 0;
+	padding-bottom: 10px;
 }
 
 .float-container {
@@ -1411,4 +1413,4 @@ body {
 }
 
 
-/*# sourceMappingURL=index-2.006d938f.css.map */
+/*# sourceMappingURL=index-2.a6bb5569.css.map */

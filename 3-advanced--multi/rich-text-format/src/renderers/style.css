@@ -4,6 +4,10 @@
  *
  */
 
+.o⋄rich-text {
+	display: contents;
+}
+
 .o⋄rich-text div.o⋄rich-text⁚inline {
 	display: inline;
 }

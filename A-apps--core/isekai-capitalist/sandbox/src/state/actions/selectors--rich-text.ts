@@ -8,7 +8,7 @@ import { Action, ActionType } from './types'
 
 const TYPE_TO_LABEL: { [type: string]: string } = {
 	[ActionType.explore]: 'Explore the world',
-	[ActionType.quest]: 'Fulfill a quest from the guild',
+	[ActionType.quest]: 'Fulfill a guild quest',
 	[ActionType.rank_upⵧguild]: 'Take the guild rank-up exam',
 	[ActionType.romance]: 'Romance the heroine',
 	[ActionType.defeat_mook]: 'Defeat some mook(s)',
