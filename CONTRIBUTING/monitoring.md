@@ -17,8 +17,9 @@ Monitoring:
 | web surface | status |
 | ----------- | ------ |
 | `https://www.online-adventur.es`**`/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.online-adventur.es.svg)](https://www.online-adventur.es/) |
-| `https://www.online-adventur.es`**`/apps/the-boring-rpg/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.online-adventur.es/apps/the-boring-rpg.svg)](https://www.online-adventur.es/apps/the-boring-rpg) |
-| `https://www.online-adventur.es`**`/apps/the-boring-rpg-preprod/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.online-adventur.es/apps/the-boring-rpg-preprod.svg)](https://www.online-adventur.es/apps/the-boring-rpg-preprod) |
+| `https://www.online-adventur.es`**`/apps/the-boring-rpg/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.online-adventur.es/apps/the-boring-rpg.svg)](https://www.online-adventur.es/apps/the-boring-rpg/) |
+| `https://www.online-adventur.es`**`/apps/the-boring-rpg-preprod/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.online-adventur.es/apps/the-boring-rpg-preprod.svg)](https://www.online-adventur.es/apps/the-boring-rpg-preprod/) |
+| `https://www.online-adventur.es`**`/apps/prototypes/some-isekai/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.online-adventur.es/apps/prototypes/some-isekai.svg)](https://www.online-adventur.es/apps/prototypes/some-isekai/) |
 | `https://www.online-adventur.es`**`/.netlify/functions/hello-world/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.online-adventur.es/.netlify/functions/hello-world.svg)](https://www.online-adventur.es/.netlify/functions/hello-world)
 | `https://online-adventures-prod.herokuapp.com`**`/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/online-adventures-prod.herokuapp.com.svg)](https://online-adventures-prod.herokuapp.com)
 
@@ -64,6 +65,7 @@ Pipelines:
 | `https://www.offirmo.net`**`/blog/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/blog.svg)](https://www.offirmo.net/blog)
 | `https://www.offirmo.net`**`/offirmo-monorepo/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/offirmo-monorepo/.svg)](https://www.offirmo.net/offirmo-monorepo/)
 | `https://www.offirmo.net`**`/offirmo-monorepo/C-apps--clients/the-boring-rpg/client--browser/dist/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/offirmo-monorepo/C-apps--clients/the-boring-rpg/client--browser/dist/.svg)](https://www.offirmo.net/offirmo-monorepo/C-apps--clients/the-boring-rpg/client--browser/dist/)
+| `https://www.offirmo.net`**`/offirmo-monorepo/A-apps--core/isekai-capitalist/sandbox/dist/`** | [![Website](https://img.shields.io/website-up-down-green-red/https/www.offirmo.net/offirmo-monorepo/A-apps--core/isekai-capitalist/sandbox/dist/.svg)](https://www.offirmo.net/offirmo-monorepo/A-apps--core/isekai-capitalist/sandbox/dist/)
 
 Versions
 * TBRPG client ![Custom badge](https://img.shields.io/endpoint?color=orange&url=https%3A%2F%2Fraw.githubusercontent.com%2FOffirmo%2Foffirmo-monorepo%2Fmaster%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_version.json) ![Custom badge](https://img.shields.io/endpoint?color=orange&url=https%3A%2F%2Fraw.githubusercontent.com%2FOffirmo%2Foffirmo-monorepo%2Fmaster%2FC-apps--clients%2Fthe-boring-rpg%2Fclient--browser%2Fdist%2Fbuild_badge_time.json)
