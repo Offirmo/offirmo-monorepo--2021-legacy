@@ -964,6 +964,7 @@ opportunities : “This engine type looks good”
 8. A Great Book
 9. Travelling
 10. A Happy Home
+
 The 5 Basic Levels of Life’s Pleasures https://www.yogajournal.com/yoga-101/philosophy/feels-good/
 ~ pleasers, going Deeper
 Sensual Pleasures
@@ -971,5 +972,13 @@ The Pleasure of Intimacy
 The Pleasure of Inspiration and Creativity
 The Pleasure of Pure Spirit
 Full Immersion
+
+Top five regrets of the dying https://en.wikipedia.org/wiki/The_Top_Five_Regrets_of_the_Dying
+    "I wish I’d had the courage to live a life true to myself, not the life others expected of me."
+    "I wish I hadn’t worked so hard."
+    "I wish I’d had the courage to express my feelings."
+    "I wish I had stayed in touch with my friends."
+    "I wish that I had let myself be happier."
+
 
 https://fr.wikipedia.org/wiki/Mont-de-pi%C3%A9t%C3%A9

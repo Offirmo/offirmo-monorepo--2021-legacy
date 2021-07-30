@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 580);
+/******/ 	return __webpack_require__(__webpack_require__.s = 585);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(97);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(101);
+const ansiStyles = __webpack_require__(100);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(104);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(103);
+} = __webpack_require__(106);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(104);
+		template = __webpack_require__(107);
 	}
 
 	return template(chalk, parts.join(''));
@@ -669,7 +669,427 @@ var SpanStatus;
 /***/ 100:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(60);
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+const wrapAnsi16 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${code + offset}m`;
+};
+
+const wrapAnsi256 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${38 + offset};5;${code}m`;
+};
+
+const wrapAnsi16m = (fn, offset) => (...args) => {
+	const rgb = fn(...args);
+	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
+};
+
+const ansi2ansi = n => n;
+const rgb2rgb = (r, g, b) => [r, g, b];
+
+const setLazyProperty = (object, property, get) => {
+	Object.defineProperty(object, property, {
+		get: () => {
+			const value = get();
+
+			Object.defineProperty(object, property, {
+				value,
+				enumerable: true,
+				configurable: true
+			});
+
+			return value;
+		},
+		enumerable: true,
+		configurable: true
+	});
+};
+
+/** @type {typeof import('color-convert')} */
+let colorConvert;
+const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
+	if (colorConvert === undefined) {
+		colorConvert = __webpack_require__(101);
+	}
+
+	const offset = isBackground ? 10 : 0;
+	const styles = {};
+
+	for (const [sourceSpace, suite] of Object.entries(colorConvert)) {
+		const name = sourceSpace === 'ansi16' ? 'ansi' : sourceSpace;
+		if (sourceSpace === targetSpace) {
+			styles[name] = wrap(identity, offset);
+		} else if (typeof suite === 'object') {
+			styles[name] = wrap(suite[targetSpace], offset);
+		}
+	}
+
+	return styles;
+};
+
+function assembleStyles() {
+	const codes = new Map();
+	const styles = {
+		modifier: {
+			reset: [0, 0],
+			// 21 isn't widely supported and 22 does the same thing
+			bold: [1, 22],
+			dim: [2, 22],
+			italic: [3, 23],
+			underline: [4, 24],
+			inverse: [7, 27],
+			hidden: [8, 28],
+			strikethrough: [9, 29]
+		},
+		color: {
+			black: [30, 39],
+			red: [31, 39],
+			green: [32, 39],
+			yellow: [33, 39],
+			blue: [34, 39],
+			magenta: [35, 39],
+			cyan: [36, 39],
+			white: [37, 39],
+
+			// Bright color
+			blackBright: [90, 39],
+			redBright: [91, 39],
+			greenBright: [92, 39],
+			yellowBright: [93, 39],
+			blueBright: [94, 39],
+			magentaBright: [95, 39],
+			cyanBright: [96, 39],
+			whiteBright: [97, 39]
+		},
+		bgColor: {
+			bgBlack: [40, 49],
+			bgRed: [41, 49],
+			bgGreen: [42, 49],
+			bgYellow: [43, 49],
+			bgBlue: [44, 49],
+			bgMagenta: [45, 49],
+			bgCyan: [46, 49],
+			bgWhite: [47, 49],
+
+			// Bright color
+			bgBlackBright: [100, 49],
+			bgRedBright: [101, 49],
+			bgGreenBright: [102, 49],
+			bgYellowBright: [103, 49],
+			bgBlueBright: [104, 49],
+			bgMagentaBright: [105, 49],
+			bgCyanBright: [106, 49],
+			bgWhiteBright: [107, 49]
+		}
+	};
+
+	// Alias bright black as gray (and grey)
+	styles.color.gray = styles.color.blackBright;
+	styles.bgColor.bgGray = styles.bgColor.bgBlackBright;
+	styles.color.grey = styles.color.blackBright;
+	styles.bgColor.bgGrey = styles.bgColor.bgBlackBright;
+
+	for (const [groupName, group] of Object.entries(styles)) {
+		for (const [styleName, style] of Object.entries(group)) {
+			styles[styleName] = {
+				open: `\u001B[${style[0]}m`,
+				close: `\u001B[${style[1]}m`
+			};
+
+			group[styleName] = styles[styleName];
+
+			codes.set(style[0], style[1]);
+		}
+
+		Object.defineProperty(styles, groupName, {
+			value: group,
+			enumerable: false
+		});
+	}
+
+	Object.defineProperty(styles, 'codes', {
+		value: codes,
+		enumerable: false
+	});
+
+	styles.color.close = '\u001B[39m';
+	styles.bgColor.close = '\u001B[49m';
+
+	setLazyProperty(styles.color, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, false));
+	setLazyProperty(styles.bgColor, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, true));
+
+	return styles;
+}
+
+// Make the export immutable
+Object.defineProperty(module, 'exports', {
+	enumerable: true,
+	get: assembleStyles
+});
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(50)(module)))
+
+/***/ }),
+
+/***/ 101:
+/***/ (function(module, exports, __webpack_require__) {
+
+const conversions = __webpack_require__(59);
+const route = __webpack_require__(103);
+
+const convert = {};
+
+const models = Object.keys(conversions);
+
+function wrapRaw(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		return fn(args);
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+function wrapRounded(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		const result = fn(args);
+
+		// We're assuming the result is an array here.
+		// see notice in conversions.js; don't use box types
+		// in conversion functions.
+		if (typeof result === 'object') {
+			for (let len = result.length, i = 0; i < len; i++) {
+				result[i] = Math.round(result[i]);
+			}
+		}
+
+		return result;
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+models.forEach(fromModel => {
+	convert[fromModel] = {};
+
+	Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
+	Object.defineProperty(convert[fromModel], 'labels', {value: conversions[fromModel].labels});
+
+	const routes = route(fromModel);
+	const routeModels = Object.keys(routes);
+
+	routeModels.forEach(toModel => {
+		const fn = routes[toModel];
+
+		convert[fromModel][toModel] = wrapRounded(fn);
+		convert[fromModel][toModel].raw = wrapRaw(fn);
+	});
+});
+
+module.exports = convert;
+
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
+
+
+/***/ }),
+
+/***/ 103:
+/***/ (function(module, exports, __webpack_require__) {
+
+const conversions = __webpack_require__(59);
 
 /*
 	This function routes a model to all other models.
@@ -770,14 +1190,14 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 101:
+/***/ 104:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const os = __webpack_require__(32);
-const tty = __webpack_require__(74);
-const hasFlag = __webpack_require__(102);
+const tty = __webpack_require__(60);
+const hasFlag = __webpack_require__(105);
 
 const {env} = process;
 
@@ -913,7 +1333,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 102:
+/***/ 105:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -929,7 +1349,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 103:
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -976,7 +1396,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 104:
+/***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1118,7 +1538,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 105:
+/***/ 108:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1126,7 +1546,7 @@ module.exports = (chalk, temporary) => {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const agent_1 = __importDefault(__webpack_require__(167));
+const agent_1 = __importDefault(__webpack_require__(168));
 function createHttpsProxyAgent(opts) {
     return new agent_1.default(opts);
 }
@@ -1139,285 +1559,10 @@ module.exports = createHttpsProxyAgent;
 
 /***/ }),
 
-/***/ 106:
+/***/ 109:
 /***/ (function(module, exports) {
 
 module.exports = require("net");
-
-/***/ }),
-
-/***/ 107:
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
-
-/***/ 108:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * This is the common logic for both the Node.js and web browser
- * implementations of `debug()`.
- */
-
-function setup(env) {
-	createDebug.debug = createDebug;
-	createDebug.default = createDebug;
-	createDebug.coerce = coerce;
-	createDebug.disable = disable;
-	createDebug.enable = enable;
-	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(169);
-	createDebug.destroy = destroy;
-
-	Object.keys(env).forEach(key => {
-		createDebug[key] = env[key];
-	});
-
-	/**
-	* The currently active debug mode names, and names to skip.
-	*/
-
-	createDebug.names = [];
-	createDebug.skips = [];
-
-	/**
-	* Map of special "%n" handling functions, for the debug "format" argument.
-	*
-	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
-	*/
-	createDebug.formatters = {};
-
-	/**
-	* Selects a color for a debug namespace
-	* @param {String} namespace The namespace string for the for the debug instance to be colored
-	* @return {Number|String} An ANSI color code for the given namespace
-	* @api private
-	*/
-	function selectColor(namespace) {
-		let hash = 0;
-
-		for (let i = 0; i < namespace.length; i++) {
-			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
-			hash |= 0; // Convert to 32bit integer
-		}
-
-		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
-	}
-	createDebug.selectColor = selectColor;
-
-	/**
-	* Create a debugger with the given `namespace`.
-	*
-	* @param {String} namespace
-	* @return {Function}
-	* @api public
-	*/
-	function createDebug(namespace) {
-		let prevTime;
-		let enableOverride = null;
-
-		function debug(...args) {
-			// Disabled?
-			if (!debug.enabled) {
-				return;
-			}
-
-			const self = debug;
-
-			// Set `diff` timestamp
-			const curr = Number(new Date());
-			const ms = curr - (prevTime || curr);
-			self.diff = ms;
-			self.prev = prevTime;
-			self.curr = curr;
-			prevTime = curr;
-
-			args[0] = createDebug.coerce(args[0]);
-
-			if (typeof args[0] !== 'string') {
-				// Anything else let's inspect with %O
-				args.unshift('%O');
-			}
-
-			// Apply any `formatters` transformations
-			let index = 0;
-			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
-				// If we encounter an escaped % then don't increase the array index
-				if (match === '%%') {
-					return '%';
-				}
-				index++;
-				const formatter = createDebug.formatters[format];
-				if (typeof formatter === 'function') {
-					const val = args[index];
-					match = formatter.call(self, val);
-
-					// Now we need to remove `args[index]` since it's inlined in the `format`
-					args.splice(index, 1);
-					index--;
-				}
-				return match;
-			});
-
-			// Apply env-specific formatting (colors, etc.)
-			createDebug.formatArgs.call(self, args);
-
-			const logFn = self.log || createDebug.log;
-			logFn.apply(self, args);
-		}
-
-		debug.namespace = namespace;
-		debug.useColors = createDebug.useColors();
-		debug.color = createDebug.selectColor(namespace);
-		debug.extend = extend;
-		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
-
-		Object.defineProperty(debug, 'enabled', {
-			enumerable: true,
-			configurable: false,
-			get: () => enableOverride === null ? createDebug.enabled(namespace) : enableOverride,
-			set: v => {
-				enableOverride = v;
-			}
-		});
-
-		// Env-specific initialization logic for debug instances
-		if (typeof createDebug.init === 'function') {
-			createDebug.init(debug);
-		}
-
-		return debug;
-	}
-
-	function extend(namespace, delimiter) {
-		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
-		newDebug.log = this.log;
-		return newDebug;
-	}
-
-	/**
-	* Enables a debug mode by namespaces. This can include modes
-	* separated by a colon and wildcards.
-	*
-	* @param {String} namespaces
-	* @api public
-	*/
-	function enable(namespaces) {
-		createDebug.save(namespaces);
-
-		createDebug.names = [];
-		createDebug.skips = [];
-
-		let i;
-		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
-		const len = split.length;
-
-		for (i = 0; i < len; i++) {
-			if (!split[i]) {
-				// ignore empty strings
-				continue;
-			}
-
-			namespaces = split[i].replace(/\*/g, '.*?');
-
-			if (namespaces[0] === '-') {
-				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-			} else {
-				createDebug.names.push(new RegExp('^' + namespaces + '$'));
-			}
-		}
-	}
-
-	/**
-	* Disable debug output.
-	*
-	* @return {String} namespaces
-	* @api public
-	*/
-	function disable() {
-		const namespaces = [
-			...createDebug.names.map(toNamespace),
-			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
-		].join(',');
-		createDebug.enable('');
-		return namespaces;
-	}
-
-	/**
-	* Returns true if the given mode name is enabled, false otherwise.
-	*
-	* @param {String} name
-	* @return {Boolean}
-	* @api public
-	*/
-	function enabled(name) {
-		if (name[name.length - 1] === '*') {
-			return true;
-		}
-
-		let i;
-		let len;
-
-		for (i = 0, len = createDebug.skips.length; i < len; i++) {
-			if (createDebug.skips[i].test(name)) {
-				return false;
-			}
-		}
-
-		for (i = 0, len = createDebug.names.length; i < len; i++) {
-			if (createDebug.names[i].test(name)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	* Convert regexp to namespace
-	*
-	* @param {RegExp} regxep
-	* @return {String} namespace
-	* @api private
-	*/
-	function toNamespace(regexp) {
-		return regexp.toString()
-			.substring(2, regexp.toString().length - 2)
-			.replace(/\.\*\?$/, '*');
-	}
-
-	/**
-	* Coerce `val`.
-	*
-	* @param {Mixed} val
-	* @return {Mixed}
-	* @api private
-	*/
-	function coerce(val) {
-		if (val instanceof Error) {
-			return val.stack || val.message;
-		}
-		return val;
-	}
-
-	/**
-	* XXX DO NOT USE. This is a temporary stub function.
-	* XXX It WILL be removed in the next major release.
-	*/
-	function destroy() {
-		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
-	}
-
-	createDebug.enable(createDebug.load());
-
-	return createDebug;
-}
-
-module.exports = setup;
-
 
 /***/ }),
 
@@ -1681,63 +1826,302 @@ function stripUrlQueryAndFragment(urlPath) {
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 110:
+/***/ (function(module, exports) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
+module.exports = require("tls");
 
 /***/ }),
 
-/***/ 124:
+/***/ 111:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ */
+
+function setup(env) {
+	createDebug.debug = createDebug;
+	createDebug.default = createDebug;
+	createDebug.coerce = coerce;
+	createDebug.disable = disable;
+	createDebug.enable = enable;
+	createDebug.enabled = enabled;
+	createDebug.humanize = __webpack_require__(170);
+	createDebug.destroy = destroy;
+
+	Object.keys(env).forEach(key => {
+		createDebug[key] = env[key];
+	});
+
+	/**
+	* The currently active debug mode names, and names to skip.
+	*/
+
+	createDebug.names = [];
+	createDebug.skips = [];
+
+	/**
+	* Map of special "%n" handling functions, for the debug "format" argument.
+	*
+	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+	*/
+	createDebug.formatters = {};
+
+	/**
+	* Selects a color for a debug namespace
+	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @return {Number|String} An ANSI color code for the given namespace
+	* @api private
+	*/
+	function selectColor(namespace) {
+		let hash = 0;
+
+		for (let i = 0; i < namespace.length; i++) {
+			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
+			hash |= 0; // Convert to 32bit integer
+		}
+
+		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
+	}
+	createDebug.selectColor = selectColor;
+
+	/**
+	* Create a debugger with the given `namespace`.
+	*
+	* @param {String} namespace
+	* @return {Function}
+	* @api public
+	*/
+	function createDebug(namespace) {
+		let prevTime;
+		let enableOverride = null;
+		let namespacesCache;
+		let enabledCache;
+
+		function debug(...args) {
+			// Disabled?
+			if (!debug.enabled) {
+				return;
+			}
+
+			const self = debug;
+
+			// Set `diff` timestamp
+			const curr = Number(new Date());
+			const ms = curr - (prevTime || curr);
+			self.diff = ms;
+			self.prev = prevTime;
+			self.curr = curr;
+			prevTime = curr;
+
+			args[0] = createDebug.coerce(args[0]);
+
+			if (typeof args[0] !== 'string') {
+				// Anything else let's inspect with %O
+				args.unshift('%O');
+			}
+
+			// Apply any `formatters` transformations
+			let index = 0;
+			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
+				// If we encounter an escaped % then don't increase the array index
+				if (match === '%%') {
+					return '%';
+				}
+				index++;
+				const formatter = createDebug.formatters[format];
+				if (typeof formatter === 'function') {
+					const val = args[index];
+					match = formatter.call(self, val);
+
+					// Now we need to remove `args[index]` since it's inlined in the `format`
+					args.splice(index, 1);
+					index--;
+				}
+				return match;
+			});
+
+			// Apply env-specific formatting (colors, etc.)
+			createDebug.formatArgs.call(self, args);
+
+			const logFn = self.log || createDebug.log;
+			logFn.apply(self, args);
+		}
+
+		debug.namespace = namespace;
+		debug.useColors = createDebug.useColors();
+		debug.color = createDebug.selectColor(namespace);
+		debug.extend = extend;
+		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
+
+		Object.defineProperty(debug, 'enabled', {
+			enumerable: true,
+			configurable: false,
+			get: () => {
+				if (enableOverride !== null) {
+					return enableOverride;
+				}
+				if (namespacesCache !== createDebug.namespaces) {
+					namespacesCache = createDebug.namespaces;
+					enabledCache = createDebug.enabled(namespace);
+				}
+
+				return enabledCache;
+			},
+			set: v => {
+				enableOverride = v;
+			}
+		});
+
+		// Env-specific initialization logic for debug instances
+		if (typeof createDebug.init === 'function') {
+			createDebug.init(debug);
+		}
+
+		return debug;
+	}
+
+	function extend(namespace, delimiter) {
+		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
+		newDebug.log = this.log;
+		return newDebug;
+	}
+
+	/**
+	* Enables a debug mode by namespaces. This can include modes
+	* separated by a colon and wildcards.
+	*
+	* @param {String} namespaces
+	* @api public
+	*/
+	function enable(namespaces) {
+		createDebug.save(namespaces);
+		createDebug.namespaces = namespaces;
+
+		createDebug.names = [];
+		createDebug.skips = [];
+
+		let i;
+		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+		const len = split.length;
+
+		for (i = 0; i < len; i++) {
+			if (!split[i]) {
+				// ignore empty strings
+				continue;
+			}
+
+			namespaces = split[i].replace(/\*/g, '.*?');
+
+			if (namespaces[0] === '-') {
+				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+			} else {
+				createDebug.names.push(new RegExp('^' + namespaces + '$'));
+			}
+		}
+	}
+
+	/**
+	* Disable debug output.
+	*
+	* @return {String} namespaces
+	* @api public
+	*/
+	function disable() {
+		const namespaces = [
+			...createDebug.names.map(toNamespace),
+			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
+		].join(',');
+		createDebug.enable('');
+		return namespaces;
+	}
+
+	/**
+	* Returns true if the given mode name is enabled, false otherwise.
+	*
+	* @param {String} name
+	* @return {Boolean}
+	* @api public
+	*/
+	function enabled(name) {
+		if (name[name.length - 1] === '*') {
+			return true;
+		}
+
+		let i;
+		let len;
+
+		for (i = 0, len = createDebug.skips.length; i < len; i++) {
+			if (createDebug.skips[i].test(name)) {
+				return false;
+			}
+		}
+
+		for (i = 0, len = createDebug.names.length; i < len; i++) {
+			if (createDebug.names[i].test(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	* Convert regexp to namespace
+	*
+	* @param {RegExp} regxep
+	* @return {String} namespace
+	* @api private
+	*/
+	function toNamespace(regexp) {
+		return regexp.toString()
+			.substring(2, regexp.toString().length - 2)
+			.replace(/\.\*\?$/, '*');
+	}
+
+	/**
+	* Coerce `val`.
+	*
+	* @param {Mixed} val
+	* @return {Mixed}
+	* @api private
+	*/
+	function coerce(val) {
+		if (val instanceof Error) {
+			return val.stack || val.message;
+		}
+		return val;
+	}
+
+	/**
+	* XXX DO NOT USE. This is a temporary stub function.
+	* XXX It WILL be removed in the next major release.
+	*/
+	function destroy() {
+		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+	}
+
+	createDebug.enable(createDebug.load());
+
+	return createDebug;
+}
+
+module.exports = setup;
+
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1795,7 +2179,7 @@ function memoizeOne(resultFn, isEqual) {
 
 /***/ }),
 
-/***/ 125:
+/***/ 128:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -2111,12 +2495,12 @@ LRUMap.prototype.toString = function() {
 
 /***/ }),
 
-/***/ 126:
+/***/ 129:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return registerErrorInstrumentation; });
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(128);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(131);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 /* harmony import */ var _spanstatus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
@@ -2150,7 +2534,63 @@ function errorCallback() {
 
 /***/ }),
 
-/***/ 127:
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 130:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2360,7 +2800,7 @@ function tryDecode(str, decode) {
 
 /***/ }),
 
-/***/ 128:
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2384,7 +2824,7 @@ var misc = __webpack_require__(11);
 var object = __webpack_require__(14);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/stacktrace.js
-var stacktrace = __webpack_require__(55);
+var stacktrace = __webpack_require__(54);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/supports.js
 
@@ -3101,228 +3541,7 @@ function instrumentUnhandledRejection() {
 
 /***/ }),
 
-/***/ 129:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const os = __webpack_require__(32);
-const hasFlag = __webpack_require__(165);
-
-const env = process.env;
-
-let forceColor;
-if (hasFlag('no-color') ||
-	hasFlag('no-colors') ||
-	hasFlag('color=false')) {
-	forceColor = false;
-} else if (hasFlag('color') ||
-	hasFlag('colors') ||
-	hasFlag('color=true') ||
-	hasFlag('color=always')) {
-	forceColor = true;
-}
-if ('FORCE_COLOR' in env) {
-	forceColor = env.FORCE_COLOR.length === 0 || parseInt(env.FORCE_COLOR, 10) !== 0;
-}
-
-function translateLevel(level) {
-	if (level === 0) {
-		return false;
-	}
-
-	return {
-		level,
-		hasBasic: true,
-		has256: level >= 2,
-		has16m: level >= 3
-	};
-}
-
-function supportsColor(stream) {
-	if (forceColor === false) {
-		return 0;
-	}
-
-	if (hasFlag('color=16m') ||
-		hasFlag('color=full') ||
-		hasFlag('color=truecolor')) {
-		return 3;
-	}
-
-	if (hasFlag('color=256')) {
-		return 2;
-	}
-
-	if (stream && !stream.isTTY && forceColor !== true) {
-		return 0;
-	}
-
-	const min = forceColor ? 1 : 0;
-
-	if (process.platform === 'win32') {
-		// Node.js 7.5.0 is the first version of Node.js to include a patch to
-		// libuv that enables 256 color output on Windows. Anything earlier and it
-		// won't work. However, here we target Node.js 8 at minimum as it is an LTS
-		// release, and Node.js 7 is not. Windows 10 build 10586 is the first Windows
-		// release that supports 256 colors. Windows 10 build 14931 is the first release
-		// that supports 16m/TrueColor.
-		const osRelease = os.release().split('.');
-		if (
-			Number(process.versions.node.split('.')[0]) >= 8 &&
-			Number(osRelease[0]) >= 10 &&
-			Number(osRelease[2]) >= 10586
-		) {
-			return Number(osRelease[2]) >= 14931 ? 3 : 2;
-		}
-
-		return 1;
-	}
-
-	if ('CI' in env) {
-		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
-			return 1;
-		}
-
-		return min;
-	}
-
-	if ('TEAMCITY_VERSION' in env) {
-		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
-	}
-
-	if (env.COLORTERM === 'truecolor') {
-		return 3;
-	}
-
-	if ('TERM_PROGRAM' in env) {
-		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
-
-		switch (env.TERM_PROGRAM) {
-			case 'iTerm.app':
-				return version >= 3 ? 3 : 2;
-			case 'Apple_Terminal':
-				return 2;
-			// No default
-		}
-	}
-
-	if (/-256(color)?$/i.test(env.TERM)) {
-		return 2;
-	}
-
-	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-		return 1;
-	}
-
-	if ('COLORTERM' in env) {
-		return 1;
-	}
-
-	if (env.TERM === 'dumb') {
-		return min;
-	}
-
-	return min;
-}
-
-function getSupportLevel(stream) {
-	const level = supportsColor(stream);
-	return translateLevel(level);
-}
-
-module.exports = {
-	supportsColor: getSupportLevel,
-	stdout: getSupportLevel(process.stdout),
-	stderr: getSupportLevel(process.stderr)
-};
-
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, exports) {
-
-module.exports = require("util");
-
-/***/ }),
-
-/***/ 131:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return get_UTC_timestamp_ms; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return get_human_readable_UTC_timestamp_days; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return get_human_readable_UTC_timestamp_minutes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return get_human_readable_UTC_timestamp_seconds; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return get_human_readable_UTC_timestamp_ms; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return get_ISO8601_extended_ms; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return get_ISO8601_simplified_minutes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return get_ISO8601_simplified_day; });
-/////////////////////
-// ex. 1542780045627
-function get_UTC_timestamp_ms(now = new Date()) {
-  return +now;
-} /////////////////////
-// spec:
-// - human readable
-// - as short as possible
-// ex. 20181121
-// assumed side effect of being castable to a number
-
-function get_human_readable_UTC_timestamp_days(now = new Date()) {
-  const YYYY = now.getUTCFullYear();
-  const MM = String(now.getUTCMonth() + 1).padStart(2, '0');
-  const DD = String(now.getUTCDate()).padStart(2, '0');
-  return `${YYYY}${MM}${DD}`;
-} // ex. 20181121_06h00
-
-function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
-  const hh = String(now.getUTCHours()).padStart(2, '0');
-  const mm = String(now.getUTCMinutes()).padStart(2, '0');
-  return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`;
-} // ex. 20190608_04h23m15
-
-function get_human_readable_UTC_timestamp_seconds(now = new Date()) {
-  const ss = String(now.getUTCSeconds()).padStart(2, '0');
-  return get_human_readable_UTC_timestamp_minutes(now) + `m${ss}`;
-} // ex.      20181121_06h00m45s632
-// formerly 20181121_06h00+45.632
-
-function get_human_readable_UTC_timestamp_ms(now = new Date()) {
-  const mmm = String(now.getUTCMilliseconds()).padStart(3, '0');
-  return get_human_readable_UTC_timestamp_seconds(now) + `s${mmm}`;
-} /////////////////////
-// ISO 8601 Extended Format. The format is as follows: YYYY-MM-DDTHH:mm:ss.sssZ
-// https://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
-
-function get_ISO8601_extended_ms(now = new Date()) {
-  return now.toISOString();
-}
-function get_ISO8601_simplified_minutes(now = new Date()) {
-  return get_ISO8601_extended_ms(now).slice(0, 16);
-}
-function get_ISO8601_simplified_day(now = new Date()) {
-  return get_ISO8601_extended_ms(now).slice(0, 10);
-} // fun but unclear
-// https://space.stackexchange.com/questions/36628/utc-timestamp-format-for-launch-vehicles
-
-/*function get_space_timestamp_ms(now: Readonly<Date> = new Date()): string {
-    const YYYY = now.getUTCFullYear()
-    const MM = now.getUTCMonth()
-    const DD = ('0' + now.getUTCDate()).slice(-2)
-    const hh = ('0' + now.getUTCHours()).slice(-2)
-    const mm = ('0' + now.getUTCMinutes()).slice(-2)
-    const ss = ('0' + now.getUTCSeconds()).slice(-2)
-    const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
-
-    return `${DD} ${hh}:${mm}:${ss}.${mmm}`
-}*/
-/////////////////////
-
-/***/ }),
-
-/***/ 132:
+/***/ 133:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3395,11 +3614,11 @@ function fluid_select(stateA) {
 
 /***/ }),
 
-/***/ 133:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var cssKeywords = __webpack_require__(218);
+var cssKeywords = __webpack_require__(219);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -4270,20 +4489,20 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 134:
+/***/ 135:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return generic_migrate_to_latest; });
-/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
 
 
 
-const LIBS = {};
-const get_state_summary = _selectors__WEBPACK_IMPORTED_MODULE_2__[/* get_base_loose */ "a"]; ////////////////////////////////////////////////////////////////////////////////////
+const LIBS = {}; ////////////////////////////////////////////////////////////////////////////////////
 
+const _get_state_summary = _selectors__WEBPACK_IMPORTED_MODULE_2__[/* get_base_loose */ "a"];
 function generic_migrate_to_latest({
   SEC,
   LIB,
@@ -4330,10 +4549,10 @@ function generic_migrate_to_latest({
           const legacy_schema_version = Object(_selectors__WEBPACK_IMPORTED_MODULE_2__[/* get_schema_version_loose */ "g"])(legacy_state); //_last_SEC = SEC
           //console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
 
-          logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}"…`, get_state_summary(legacy_state));
+          logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}"…`, _get_state_summary(legacy_state));
           const state = migrate_step(SEC, legacy_state, hints, previous.bind(null, index + 1), legacy_schema_version, LIBS);
           Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(!!state, 'migration step should return something');
-          logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}".`, get_state_summary(state)); //_check_response(SEC, index, 'out')
+          logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length - index}/${pipeline.length} "${current_step_name}".`, _get_state_summary(state)); //_check_response(SEC, index, 'out')
 
           return state;
         });
@@ -4348,7 +4567,7 @@ function generic_migrate_to_latest({
         throw err;
       }
 
-      logger.info(`${LIB}: schema migration successful.`, get_state_summary(state));
+      logger.info(`${LIB}: schema migration successful.`, _get_state_summary(state));
       RSEC.fireAnalyticsEvent('schema_migration.ended');
     } // migrate sub-reducers if any...
 
@@ -4415,13 +4634,13 @@ function _migrate_sub_states__bundle(SEC, state, sub_states_migrate_to_latest, h
       if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
         // combo
         const legacy_sub_state = [previous_sub_ustate, previous_sub_tstate];
-        logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, get_state_summary(legacy_sub_state));
+        logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, _get_state_summary(legacy_sub_state));
         [new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(SEC, legacy_sub_state, sub_hints);
       } else if (sub_u_states_found.has(key)) {
-        logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, get_state_summary(previous_sub_ustate));
+        logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, _get_state_summary(previous_sub_ustate));
         new_sub_ustate = migrate_sub_to_latest(SEC, previous_sub_ustate, sub_hints);
       } else if (sub_t_states_found.has(key)) {
-        logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, get_state_summary(previous_sub_tstate));
+        logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, _get_state_summary(previous_sub_tstate));
         new_sub_tstate = migrate_sub_to_latest(SEC, previous_sub_tstate, sub_hints);
       } else {
         throw new Error(`Expected sub-state "${key}" was not found!`);
@@ -4483,19 +4702,22 @@ function _migrate_sub_states__base(SEC, state, sub_states_migrate_to_latest, hin
 
 /***/ }),
 
-/***/ 135:
+/***/ 136:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return enforce_immutability; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return get_mutable_copy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return get_mutable_copy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return complete_or_cancel_eager_mutation_propagating_possible_child_mutation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return are_ustate_revision_requirements_met; });
-/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(94);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return finalize_action_if_needed; });
+/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(97);
 /* harmony import */ var icepick__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(icepick__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _offirmo_private_timestamps__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(95);
+/* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
+
 
 
 
@@ -4519,19 +4741,19 @@ function complete_or_cancel_eager_mutation_propagating_possible_child_mutation(p
   if (current === previous) return previous;
   if (current === updated) return previous;
 
-  if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_UTBundle */ "f"])(current)) {
+  if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_UTBundle */ "f"])(current)) {
     // this is a more advanced state
-    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_UTBundle */ "f"])(previous), `${PREFIX}: previous also has bundle data structure!`);
-    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_UTBundle */ "f"])(updated), `${PREFIX}: updated also has bundle data structure!`);
+    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_UTBundle */ "f"])(previous), `${PREFIX}: previous also has bundle data structure!`);
+    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_UTBundle */ "f"])(updated), `${PREFIX}: updated also has bundle data structure!`);
     const final_u_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous[0], current[0], updated === null || updated === void 0 ? void 0 : updated[0]);
     const final_t_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous[1], current[1], updated === null || updated === void 0 ? void 0 : updated[1]);
     if (final_u_state === previous[0] && final_t_state === previous[1]) return previous;
     if (final_u_state === updated[0] && final_t_state === updated[1]) return previous;
     return enforce_immutability([final_u_state, final_t_state]);
-  } else if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_RootState */ "c"])(current)) {
+  } else if (Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_RootState */ "c"])(current)) {
     // this is a more advanced state
-    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_RootState */ "c"])(previous), `${PREFIX}: previous also has root data structure!`);
-    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_RootState */ "c"])(updated), `${PREFIX}: updated also has root data structure!`);
+    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_RootState */ "c"])(previous), `${PREFIX}: previous also has root data structure!`);
+    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_RootState */ "c"])(updated), `${PREFIX}: updated also has root data structure!`);
     const final_u_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous.u_state, current.u_state, updated.u_state, debug_id + '.u_state');
     const final_t_state = complete_or_cancel_eager_mutation_propagating_possible_child_mutation(previous.t_state, current.t_state, updated.t_state, debug_id + '.t_state');
     if (final_u_state === previous.u_state && final_t_state === previous.t_state) return previous;
@@ -4543,9 +4765,9 @@ function complete_or_cancel_eager_mutation_propagating_possible_child_mutation(p
   } //let is_t_state = is_TState(current)
 
 
-  Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_UState */ "e"])(current) || Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_TState */ "d"])(current), `${PREFIX}: current has U/TState data structure!`); // unneeded except for helping TS type inference
+  Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_UState */ "e"])(current) || Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_TState */ "d"])(current), `${PREFIX}: current has U/TState data structure!`); // unneeded except for helping TS type inference
 
-  Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_UState */ "e"])(previous) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_UState */ "e"])(updated) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_UState */ "e"])(current) || Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_TState */ "d"])(previous) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_TState */ "d"])(updated) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_TState */ "d"])(current), `${PREFIX}: current+previous+updated have the same U/TState data structure!`);
+  Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_UState */ "e"])(previous) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_UState */ "e"])(updated) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_UState */ "e"])(current) || Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_TState */ "d"])(previous) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_TState */ "d"])(updated) && Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_TState */ "d"])(current), `${PREFIX}: current+previous+updated have the same U/TState data structure!`);
   Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(previous.revision === updated.revision, `${PREFIX}: previous & updated should have the same revision`);
   Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(current.revision >= previous.revision, `${PREFIX}: current >= previous revision`);
   if (current.revision !== previous.revision) throw new Error(`${PREFIX}: revision already incremented! This call is not needed since you’re sure there was a change!`);
@@ -4556,8 +4778,8 @@ function complete_or_cancel_eager_mutation_propagating_possible_child_mutation(p
   //let has_timestamp_change: boolean | undefined = undefined
 
   for (const k in typed_current) {
-    const previous_has_revision = Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_WithRevision */ "h"])(typed_updated[k]);
-    const current_has_revision = Object(_type_guards__WEBPACK_IMPORTED_MODULE_2__[/* is_WithRevision */ "h"])(typed_current[k]);
+    const previous_has_revision = Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_WithRevision */ "h"])(typed_updated[k]);
+    const current_has_revision = Object(_type_guards__WEBPACK_IMPORTED_MODULE_3__[/* is_WithRevision */ "h"])(typed_current[k]);
     Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(previous_has_revision === current_has_revision, `${PREFIX}/${k}: revisioning should be coherent!`);
 
     if (!current_has_revision) {
@@ -4566,10 +4788,10 @@ function complete_or_cancel_eager_mutation_propagating_possible_child_mutation(p
       Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(typed_updated[k] === typed_current[k], `${PREFIX}/${k}: manual change on Base/UState non-child key seen! This call is not needed since you’re sure there was a change!`);
     }
 
-    const previous_revision = Object(_selectors__WEBPACK_IMPORTED_MODULE_3__[/* get_revision_loose */ "e"])(typed_previous[k]);
-    const updated_revision = Object(_selectors__WEBPACK_IMPORTED_MODULE_3__[/* get_revision_loose */ "e"])(typed_updated[k]);
+    const previous_revision = Object(_selectors__WEBPACK_IMPORTED_MODULE_4__[/* get_revision_loose */ "e"])(typed_previous[k]);
+    const updated_revision = Object(_selectors__WEBPACK_IMPORTED_MODULE_4__[/* get_revision_loose */ "e"])(typed_updated[k]);
     Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(previous_revision === updated_revision, `${PREFIX}/${k}: previous & updated child should have the same revision`);
-    const current_revision = Object(_selectors__WEBPACK_IMPORTED_MODULE_3__[/* get_revision_loose */ "e"])(typed_current[k]);
+    const current_revision = Object(_selectors__WEBPACK_IMPORTED_MODULE_4__[/* get_revision_loose */ "e"])(typed_current[k]);
 
     if (current_revision !== updated_revision) {
       if (current_revision !== updated_revision + 1) {// NO! It may be normal for a sub to have been stimulated more than once,
@@ -4584,7 +4806,7 @@ function complete_or_cancel_eager_mutation_propagating_possible_child_mutation(p
 
   if (!has_child_revision_increment) return previous;
   return enforce_immutability({ ...current,
-    revision: Object(_selectors__WEBPACK_IMPORTED_MODULE_3__[/* get_revision */ "d"])(current) + 1
+    revision: Object(_selectors__WEBPACK_IMPORTED_MODULE_4__[/* get_revision */ "d"])(current) + 1
   });
 } // check if the state is still in the revision we expect
 // ex. for an action, check it's still valid, ex. object already sold?
@@ -4598,6 +4820,36 @@ function are_ustate_revision_requirements_met(state, requirements = {}) {
   }
 
   return true;
+}
+function finalize_action_if_needed(action, state) {
+  if (action.time <= 0) {
+    action = { ...action,
+      time: Object(_offirmo_private_timestamps__WEBPACK_IMPORTED_MODULE_2__[/* get_UTC_timestamp_ms */ "d"])()
+    };
+  }
+
+  const has_some_blank_expected_revisions = Object.keys(action.expected_revisions).some(sub_state_key => action.expected_revisions[sub_state_key] === -1);
+
+  if (has_some_blank_expected_revisions) {
+    Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(state, `finalize_action_if_needed(): current state should be provided to finalize some expected revisions`);
+    action = { ...action,
+      expected_revisions: Object.keys(action.expected_revisions).reduce((acc, val) => {
+        const sub_state_key = val;
+        const sub_state = state[sub_state_key] || state.u_state[sub_state_key];
+        Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(sub_state, `finalize_action_if_needed(): state should have a sub-state "${sub_state}"`);
+        const current_sub_state_revision = sub_state.revision;
+        Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(current_sub_state_revision, `sub-state "${sub_state}" should have a revision`);
+
+        if (action.expected_revisions[sub_state_key] === -1) {
+          acc[sub_state_key] = current_sub_state_revision;
+        }
+
+        return acc;
+      }, {})
+    };
+  }
+
+  return action;
 }
 
 /***/ }),
@@ -4682,7 +4934,7 @@ var Memo = /** @class */ (function () {
 
 //# sourceMappingURL=memo.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/stacktrace.js
-var stacktrace = __webpack_require__(55);
+var stacktrace = __webpack_require__(54);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
 var string = __webpack_require__(29);
@@ -5029,7 +5281,7 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 161:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5445,7 +5697,7 @@ module.exports = Emittery;
 
 /***/ }),
 
-/***/ 165:
+/***/ 166:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5461,7 +5713,7 @@ module.exports = (flag, argv) => {
 
 /***/ }),
 
-/***/ 166:
+/***/ 167:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5473,9 +5725,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(203);
+const Sentry = __webpack_require__(204);
 
-const channel_1 = __webpack_require__(52); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(51); /////////////////////////////////////////////////
 
 
 Sentry.init({
@@ -5520,7 +5772,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 167:
+/***/ 168:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5538,13 +5790,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const net_1 = __importDefault(__webpack_require__(106));
-const tls_1 = __importDefault(__webpack_require__(107));
+const net_1 = __importDefault(__webpack_require__(109));
+const tls_1 = __importDefault(__webpack_require__(110));
 const url_1 = __importDefault(__webpack_require__(22));
 const assert_1 = __importDefault(__webpack_require__(61));
-const debug_1 = __importDefault(__webpack_require__(33));
-const agent_base_1 = __webpack_require__(171);
-const parse_proxy_response_1 = __importDefault(__webpack_require__(173));
+const debug_1 = __importDefault(__webpack_require__(75));
+const agent_base_1 = __webpack_require__(172);
+const parse_proxy_response_1 = __importDefault(__webpack_require__(174));
 const debug = debug_1.default('https-proxy-agent:agent');
 /**
  * The `HttpsProxyAgent` implements an HTTP Agent subclass that connects to
@@ -5707,7 +5959,7 @@ function omit(obj, ...keys) {
 
 /***/ }),
 
-/***/ 168:
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -5964,7 +6216,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(108)(exports);
+module.exports = __webpack_require__(111)(exports);
 
 const {formatters} = module.exports;
 
@@ -5979,175 +6231,6 @@ formatters.j = function (v) {
 		return '[UnexpectedJSONParseError]: ' + error.message;
 	}
 };
-
-
-/***/ }),
-
-/***/ 169:
-/***/ (function(module, exports) {
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var w = d * 7;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isFinite(val)) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'weeks':
-    case 'week':
-    case 'w':
-      return n * w;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (msAbs >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (msAbs >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (msAbs >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return plural(ms, msAbs, d, 'day');
-  }
-  if (msAbs >= h) {
-    return plural(ms, msAbs, h, 'hour');
-  }
-  if (msAbs >= m) {
-    return plural(ms, msAbs, m, 'minute');
-  }
-  if (msAbs >= s) {
-    return plural(ms, msAbs, s, 'second');
-  }
-  return ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, msAbs, n, name) {
-  var isPlural = msAbs >= n * 1.5;
-  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
-}
 
 
 /***/ }),
@@ -6402,14 +6485,183 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 /***/ }),
 
 /***/ 170:
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var w = d * 7;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isFinite(val)) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * w;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (msAbs >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (msAbs >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (msAbs >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return plural(ms, msAbs, d, 'day');
+  }
+  if (msAbs >= h) {
+    return plural(ms, msAbs, h, 'hour');
+  }
+  if (msAbs >= m) {
+    return plural(ms, msAbs, m, 'minute');
+  }
+  if (msAbs >= s) {
+    return plural(ms, msAbs, s, 'second');
+  }
+  return ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, msAbs, n, name) {
+  var isPlural = msAbs >= n * 1.5;
+  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+}
+
+
+/***/ }),
+
+/***/ 171:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(74);
-const util = __webpack_require__(13);
+const tty = __webpack_require__(60);
+const util = __webpack_require__(12);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -6435,7 +6687,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(129);
+	const supportsColor = __webpack_require__(94);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -6643,7 +6895,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(108)(exports);
+module.exports = __webpack_require__(111)(exports);
 
 const {formatters} = module.exports;
 
@@ -6671,7 +6923,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 171:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6680,8 +6932,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const events_1 = __webpack_require__(25);
-const debug_1 = __importDefault(__webpack_require__(33));
-const promisify_1 = __importDefault(__webpack_require__(172));
+const debug_1 = __importDefault(__webpack_require__(75));
+const promisify_1 = __importDefault(__webpack_require__(173));
 const debug = debug_1.default('agent-base');
 function isAgent(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
@@ -6881,7 +7133,7 @@ module.exports = createAgent;
 
 /***/ }),
 
-/***/ 172:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6906,7 +7158,7 @@ exports.default = promisify;
 
 /***/ }),
 
-/***/ 173:
+/***/ 174:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6915,7 +7167,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const debug_1 = __importDefault(__webpack_require__(33));
+const debug_1 = __importDefault(__webpack_require__(75));
 const debug = debug_1.default('https-proxy-agent:parse-proxy-response');
 function parseProxyResponse(socket) {
     return new Promise((resolve, reject) => {
@@ -7309,11 +7561,11 @@ function loadModule(moduleName) {
     return mod;
 }
 //# sourceMappingURL=node.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(75)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(74)(module)))
 
 /***/ }),
 
-/***/ 203:
+/***/ 204:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7713,7 +7965,7 @@ var Status;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
-var esm_scope = __webpack_require__(57);
+var esm_scope = __webpack_require__(56);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
@@ -8134,7 +8386,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.8.0';
+var SDK_VERSION = '6.10.0';
 //# sourceMappingURL=version.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(8);
@@ -8187,7 +8439,7 @@ var error_SentryError = /** @class */ (function (_super) {
 
 //# sourceMappingURL=error.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
-var syncpromise = __webpack_require__(48);
+var syncpromise = __webpack_require__(47);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/transports/noop.js
 
@@ -8549,7 +8801,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(15);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(125);
+var lru = __webpack_require__(128);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -9025,10 +9277,13 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
         return this._limit === undefined || this.length() < this._limit;
     };
     /**
-     * Add a promise to the queue.
+     * Add a promise (representing an in-flight action) to the queue, and set it to remove itself on fulfillment.
      *
-     * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task: PromiseLike<T>`,
-     *        however, Promises were instantly created on the call-site, making them fall through the buffer limit.
+     * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task:
+     *        PromiseLike<T>`, but under that model, Promises were instantly created on the call-site and their executor
+     *        functions therefore ran immediately. Thus, even if the buffer was full, the action still happened. By
+     *        requiring the promise to be wrapped in a function, we can defer promise creation until after the buffer
+     *        limit check.
      * @returns The original promise.
      */
     PromiseBuffer.prototype.add = function (taskProducer) {
@@ -9036,22 +9291,25 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
         if (!this.isReady()) {
             return syncpromise["a" /* SyncPromise */].reject(new error_SentryError('Not adding Promise due to buffer limit reached.'));
         }
+        // start the task and add its promise to the queue
         var task = taskProducer();
         if (this._buffer.indexOf(task) === -1) {
             this._buffer.push(task);
         }
         void task
             .then(function () { return _this.remove(task); })
+            // Use `then(null, rejectionHandler)` rather than `catch(rejectionHandler)` so that we can use `PromiseLike`
+            // rather than `Promise`. `PromiseLike` doesn't have a `.catch` method, making its polyfill smaller. (ES5 didn't
+            // have promises, so TS has to polyfill when down-compiling.)
             .then(null, function () {
             return _this.remove(task).then(null, function () {
-                // We have to add this catch here otherwise we have an unhandledPromiseRejection
-                // because it's a new Promise chain.
+                // We have to add another catch here because `this.remove()` starts a new promise chain.
             });
         });
         return task;
     };
     /**
-     * Remove a promise to the queue.
+     * Remove a promise from the queue.
      *
      * @param task Can be any PromiseLike<T>
      * @returns Removed promise.
@@ -9067,19 +9325,24 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
         return this._buffer.length;
     };
     /**
-     * This will drain the whole queue, returns true if queue is empty or drained.
-     * If timeout is provided and the queue takes longer to drain, the promise still resolves but with false.
+     * Wait for all promises in the queue to resolve or for timeout to expire, whichever comes first.
      *
-     * @param timeout Number in ms to wait until it resolves with false.
+     * @param timeout The time, in ms, after which to resolve to `false` if the queue is still non-empty. Passing `0` (or
+     * not passing anything) will make the promise wait as long as it takes for the queue to drain before resolving to
+     * `true`.
+     * @returns A promise which will resolve to `true` if the queue is already empty or drains before the timeout, and
+     * `false` otherwise
      */
     PromiseBuffer.prototype.drain = function (timeout) {
         var _this = this;
         return new syncpromise["a" /* SyncPromise */](function (resolve) {
+            // wait for `timeout` ms and then resolve to `false` (if not cancelled first)
             var capturedSetTimeout = setTimeout(function () {
                 if (timeout && timeout > 0) {
                     resolve(false);
                 }
             }, timeout);
+            // if all promises resolve in time, cancel the timer and resolve to `true`
             void syncpromise["a" /* SyncPromise */].all(_this._buffer)
                 .then(function () {
                 clearTimeout(capturedSetTimeout);
@@ -9655,7 +9918,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = _this._getProxy('http');
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(105))(proxy)
+            ? new (__webpack_require__(108))(proxy)
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -9676,7 +9939,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(56);
+var external_https_ = __webpack_require__(55);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -9693,7 +9956,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = _this._getProxy('https');
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(105))(proxy)
+            ? new (__webpack_require__(108))(proxy)
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -9829,10 +10092,10 @@ var backend_NodeBackend = /** @class */ (function (_super) {
 
 //# sourceMappingURL=backend.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/session.js
-var esm_session = __webpack_require__(331);
+var esm_session = __webpack_require__(333);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/time.js
-var time = __webpack_require__(38);
+var time = __webpack_require__(37);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
 var string = __webpack_require__(29);
@@ -9949,8 +10212,8 @@ var baseclient_BaseClient = /** @class */ (function () {
     function BaseClient(backendClass, options) {
         /** Array of used integrations. */
         this._integrations = {};
-        /** Number of call being processed */
-        this._processing = 0;
+        /** Number of calls being processed */
+        this._numProcessing = 0;
         this._backend = new backendClass(options);
         this._options = options;
         if (options.dsn) {
@@ -10032,11 +10295,11 @@ var baseclient_BaseClient = /** @class */ (function () {
      */
     BaseClient.prototype.flush = function (timeout) {
         var _this = this;
-        return this._isClientProcessing(timeout).then(function (ready) {
+        return this._isClientDoneProcessing(timeout).then(function (clientFinished) {
             return _this._getBackend()
                 .getTransport()
                 .close(timeout)
-                .then(function (transportFlushed) { return ready && transportFlushed; });
+                .then(function (transportFlushed) { return clientFinished && transportFlushed; });
         });
     };
     /**
@@ -10109,14 +10372,23 @@ var baseclient_BaseClient = /** @class */ (function () {
     BaseClient.prototype._sendSession = function (session) {
         this._getBackend().sendSession(session);
     };
-    /** Waits for the client to be done with processing. */
-    BaseClient.prototype._isClientProcessing = function (timeout) {
+    /**
+     * Determine if the client is finished processing. Returns a promise because it will wait `timeout` ms before saying
+     * "no" (resolving to `false`) in order to give the client a chance to potentially finish first.
+     *
+     * @param timeout The time, in ms, after which to resolve to `false` if the client is still busy. Passing `0` (or not
+     * passing anything) will make the promise wait as long as it takes for processing to finish before resolving to
+     * `true`.
+     * @returns A promise which will resolve to `true` if processing is already done or finishes before the timeout, and
+     * `false` otherwise
+     */
+    BaseClient.prototype._isClientDoneProcessing = function (timeout) {
         var _this = this;
         return new syncpromise["a" /* SyncPromise */](function (resolve) {
             var ticked = 0;
             var tick = 1;
             var interval = setInterval(function () {
-                if (_this._processing == 0) {
+                if (_this._numProcessing == 0) {
                     clearInterval(interval);
                     resolve(true);
                 }
@@ -10214,6 +10486,10 @@ var baseclient_BaseClient = /** @class */ (function () {
         if (event.contexts && event.contexts.trace) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             normalized.contexts.trace = event.contexts.trace;
+        }
+        var _a = this.getOptions()._experiments, _experiments = _a === void 0 ? {} : _a;
+        if (_experiments.ensureNoCircularStructures) {
+            return Object(object["d" /* normalize */])(normalized);
         }
         return normalized;
     };
@@ -10347,12 +10623,12 @@ var baseclient_BaseClient = /** @class */ (function () {
      */
     BaseClient.prototype._process = function (promise) {
         var _this = this;
-        this._processing += 1;
+        this._numProcessing += 1;
         void promise.then(function (value) {
-            _this._processing -= 1;
+            _this._numProcessing -= 1;
             return value;
         }, function (reason) {
-            _this._processing -= 1;
+            _this._numProcessing -= 1;
             return reason;
         });
     };
@@ -10843,10 +11119,10 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(37);
+var external_domain_ = __webpack_require__(36);
 
 // EXTERNAL MODULE: external "util"
-var external_util_ = __webpack_require__(13);
+var external_util_ = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/console.js
 
@@ -11092,7 +11368,7 @@ var http_Http = /** @class */ (function () {
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(56);
+            var httpsModule = __webpack_require__(55);
             Object(object["c" /* fill */])(httpsModule, 'get', wrappedHandlerMaker);
             Object(object["c" /* fill */])(httpsModule, 'request', wrappedHandlerMaker);
         }
@@ -11734,9 +12010,6 @@ function init(options) {
             options.autoSessionTracking = false;
         }
     }
-    if (options.autoSessionTracking === undefined) {
-        options.autoSessionTracking = false;
-    }
     if (options.environment === undefined && process.env.SENTRY_ENVIRONMENT) {
         options.environment = process.env.SENTRY_ENVIRONMENT;
     }
@@ -11902,7 +12175,7 @@ var tslib_tslib_es6 = __webpack_require__(1);
 var hubextensions = __webpack_require__(27);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/idletransaction.js
-var idletransaction = __webpack_require__(35);
+var idletransaction = __webpack_require__(34);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/spanstatus.js
 var spanstatus = __webpack_require__(10);
@@ -11962,22 +12235,19 @@ var browser = __webpack_require__(81);
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var bindReporter = function (callback, metric, po, observeAllUpdates) {
+var bindReporter = function (callback, metric, reportAllChanges) {
     var prevValue;
-    return function () {
-        if (po && metric.isFinal) {
-            po.disconnect();
-        }
+    return function (forceReport) {
         if (metric.value >= 0) {
-            if (observeAllUpdates || metric.isFinal || document.visibilityState === 'hidden') {
+            if (forceReport || reportAllChanges) {
                 metric.delta = metric.value - (prevValue || 0);
-                // Report the metric if there's a non-zero delta, if the metric is
-                // final, or if no previous value exists (which can happen in the case
-                // of the document becoming hidden when the metric value is 0).
+                // Report the metric if there's a non-zero delta or if no previous
+                // value exists (which can happen in the case of the document becoming
+                // hidden when the metric value is 0).
                 // See: https://github.com/GoogleChrome/web-vitals/issues/14
-                if (metric.delta || metric.isFinal || prevValue === undefined) {
-                    callback(metric);
+                if (metric.delta || prevValue === undefined) {
                     prevValue = metric.value;
+                    callback(metric);
                 }
             }
         }
@@ -12001,12 +12271,12 @@ var bindReporter = function (callback, metric, po, observeAllUpdates) {
  * limitations under the License.
  */
 /**
- * Performantly generate a unique, 27-char string by combining the current
- * timestamp with a 13-digit random number.
+ * Performantly generate a unique, 30-char string by combining a version
+ * number, the current timestamp with a 13-digit number integer.
  * @return {string}
  */
 var generateUniqueID = function () {
-    return Date.now() + "-" + (Math.floor(Math.random() * (9e12 - 1)) + 1e12);
+    return "v2-" + Date.now() + "-" + (Math.floor(Math.random() * (9e12 - 1)) + 1e12);
 };
 //# sourceMappingURL=generateUniqueID.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/web-vitals/lib/initMetric.js
@@ -12027,14 +12297,12 @@ var generateUniqueID = function () {
  */
 
 var initMetric = function (name, value) {
-    if (value === void 0) { value = -1; }
     return {
         name: name,
-        value: value,
+        value: (value !== null && value !== void 0 ? value : -1),
         delta: 0,
         entries: [],
         id: generateUniqueID(),
-        isFinal: false,
     };
 };
 //# sourceMappingURL=initMetric.js.map
@@ -12065,6 +12333,11 @@ var initMetric = function (name, value) {
 var observe = function (type, callback) {
     try {
         if (PerformanceObserver.supportedEntryTypes.includes(type)) {
+            // More extensive feature detect needed for Firefox due to:
+            // https://github.com/GoogleChrome/web-vitals/issues/142
+            if (type === 'first-input' && !('PerformanceEventTiming' in self)) {
+                return;
+            }
             var po = new PerformanceObserver(function (l) { return l.getEntries().map(callback); });
             po.observe({ type: type, buffered: true });
             return po;
@@ -12092,30 +12365,20 @@ var observe = function (type, callback) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var isUnloading = false;
-var listenersAdded = false;
-var onPageHide = function (event) {
-    isUnloading = !event.persisted;
-};
-var addListeners = function () {
-    addEventListener('pagehide', onPageHide);
-    // `beforeunload` is needed to fix this bug:
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=987409
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    addEventListener('beforeunload', function () { });
-};
 var onHidden = function (cb, once) {
-    if (once === void 0) { once = false; }
-    if (!listenersAdded) {
-        addListeners();
-        listenersAdded = true;
-    }
-    addEventListener('visibilitychange', function (_a) {
-        var timeStamp = _a.timeStamp;
-        if (document.visibilityState === 'hidden') {
-            cb({ timeStamp: timeStamp, isUnloading: isUnloading });
+    var onHiddenOrPageHide = function (event) {
+        if (event.type === 'pagehide' || document.visibilityState === 'hidden') {
+            cb(event);
+            if (once) {
+                removeEventListener('visibilitychange', onHiddenOrPageHide, true);
+                removeEventListener('pagehide', onHiddenOrPageHide, true);
+            }
         }
-    }, { capture: true, once: once });
+    };
+    addEventListener('visibilitychange', onHiddenOrPageHide, true);
+    // Some browsers have buggy implementations of visibilitychange,
+    // so we use pagehide in addition, just to be safe.
+    addEventListener('pagehide', onHiddenOrPageHide, true);
 };
 //# sourceMappingURL=onHidden.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/web-vitals/getCLS.js
@@ -12139,32 +12402,52 @@ var onHidden = function (cb, once) {
 
 
 var getCLS = function (onReport, reportAllChanges) {
-    if (reportAllChanges === void 0) { reportAllChanges = false; }
     var metric = initMetric('CLS', 0);
     var report;
+    var sessionValue = 0;
+    var sessionEntries = [];
     var entryHandler = function (entry) {
         // Only count layout shifts without recent user input.
-        if (!entry.hadRecentInput) {
-            metric.value += entry.value;
-            metric.entries.push(entry);
-            report();
+        // TODO: Figure out why entry can be undefined
+        if (entry && !entry.hadRecentInput) {
+            var firstSessionEntry = sessionEntries[0];
+            var lastSessionEntry = sessionEntries[sessionEntries.length - 1];
+            // If the entry occurred less than 1 second after the previous entry and
+            // less than 5 seconds after the first entry in the session, include the
+            // entry in the current session. Otherwise, start a new session.
+            if (sessionValue &&
+                sessionEntries.length !== 0 &&
+                entry.startTime - lastSessionEntry.startTime < 1000 &&
+                entry.startTime - firstSessionEntry.startTime < 5000) {
+                sessionValue += entry.value;
+                sessionEntries.push(entry);
+            }
+            else {
+                sessionValue = entry.value;
+                sessionEntries = [entry];
+            }
+            // If the current session value is larger than the current CLS value,
+            // update CLS and the entries contributing to it.
+            if (sessionValue > metric.value) {
+                metric.value = sessionValue;
+                metric.entries = sessionEntries;
+                if (report) {
+                    report();
+                }
+            }
         }
     };
     var po = observe('layout-shift', entryHandler);
     if (po) {
-        report = bindReporter(onReport, metric, po, reportAllChanges);
-        onHidden(function (_a) {
-            var isUnloading = _a.isUnloading;
+        report = bindReporter(onReport, metric, reportAllChanges);
+        onHidden(function () {
             po.takeRecords().map(entryHandler);
-            if (isUnloading) {
-                metric.isFinal = true;
-            }
-            report();
+            report(true);
         });
     }
 };
 //# sourceMappingURL=getCLS.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/web-vitals/lib/getFirstHidden.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/web-vitals/lib/getVisibilityWatcher.js
 /*
  * Copyright 2020 Google LLC
  *
@@ -12181,27 +12464,33 @@ var getCLS = function (onReport, reportAllChanges) {
  * limitations under the License.
  */
 
-var firstHiddenTime;
-var getFirstHidden = function () {
-    if (firstHiddenTime === undefined) {
+var firstHiddenTime = -1;
+var initHiddenTime = function () {
+    return document.visibilityState === 'hidden' ? 0 : Infinity;
+};
+var trackChanges = function () {
+    // Update the time if/when the document becomes hidden.
+    onHidden(function (_a) {
+        var timeStamp = _a.timeStamp;
+        firstHiddenTime = timeStamp;
+    }, true);
+};
+var getVisibilityWatcher = function () {
+    if (firstHiddenTime < 0) {
         // If the document is hidden when this code runs, assume it was hidden
         // since navigation start. This isn't a perfect heuristic, but it's the
         // best we can do until an API is available to support querying past
         // visibilityState.
-        firstHiddenTime = document.visibilityState === 'hidden' ? 0 : Infinity;
-        // Update the time if/when the document becomes hidden.
-        onHidden(function (_a) {
-            var timeStamp = _a.timeStamp;
-            return (firstHiddenTime = timeStamp);
-        }, true);
+        firstHiddenTime = initHiddenTime();
+        trackChanges();
     }
     return {
-        get timeStamp() {
+        get firstHiddenTime() {
             return firstHiddenTime;
         },
     };
 };
-//# sourceMappingURL=getFirstHidden.js.map
+//# sourceMappingURL=getVisibilityWatcher.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/web-vitals/getFID.js
 /*
  * Copyright 2020 Google LLC
@@ -12223,82 +12512,28 @@ var getFirstHidden = function () {
 
 
 
-var getFID = function (onReport) {
+var getFID = function (onReport, reportAllChanges) {
+    var visibilityWatcher = getVisibilityWatcher();
     var metric = initMetric('FID');
-    var firstHidden = getFirstHidden();
+    var report;
     var entryHandler = function (entry) {
         // Only report if the page wasn't hidden prior to the first input.
-        if (entry.startTime < firstHidden.timeStamp) {
+        if (report && entry.startTime < visibilityWatcher.firstHiddenTime) {
             metric.value = entry.processingStart - entry.startTime;
             metric.entries.push(entry);
-            metric.isFinal = true;
-            report();
+            report(true);
         }
     };
     var po = observe('first-input', entryHandler);
-    var report = bindReporter(onReport, metric, po);
     if (po) {
+        report = bindReporter(onReport, metric, reportAllChanges);
         onHidden(function () {
             po.takeRecords().map(entryHandler);
             po.disconnect();
         }, true);
     }
-    else {
-        if (window.perfMetrics && window.perfMetrics.onFirstInputDelay) {
-            window.perfMetrics.onFirstInputDelay(function (value, event) {
-                // Only report if the page wasn't hidden prior to the first input.
-                if (event.timeStamp < firstHidden.timeStamp) {
-                    metric.value = value;
-                    metric.isFinal = true;
-                    metric.entries = [
-                        {
-                            entryType: 'first-input',
-                            name: event.type,
-                            target: event.target,
-                            cancelable: event.cancelable,
-                            startTime: event.timeStamp,
-                            processingStart: event.timeStamp + value,
-                        },
-                    ];
-                    report();
-                }
-            });
-        }
-    }
 };
 //# sourceMappingURL=getFID.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/web-vitals/lib/whenInput.js
-/*
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-var inputPromise;
-var whenInput = function () {
-    if (!inputPromise) {
-        inputPromise = new Promise(function (r) {
-            return ['scroll', 'keydown', 'pointerdown'].map(function (type) {
-                addEventListener(type, r, {
-                    once: true,
-                    passive: true,
-                    capture: true,
-                });
-            });
-        });
-    }
-    return inputPromise;
-};
-//# sourceMappingURL=whenInput.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/web-vitals/getLCP.js
 /*
  * Copyright 2020 Google LLC
@@ -12320,11 +12555,10 @@ var whenInput = function () {
 
 
 
-
+var reportedMetricIDs = {};
 var getLCP = function (onReport, reportAllChanges) {
-    if (reportAllChanges === void 0) { reportAllChanges = false; }
+    var visibilityWatcher = getVisibilityWatcher();
     var metric = initMetric('LCP');
-    var firstHidden = getFirstHidden();
     var report;
     var entryHandler = function (entry) {
         // The startTime attribute returns the value of the renderTime if it is not 0,
@@ -12332,27 +12566,32 @@ var getLCP = function (onReport, reportAllChanges) {
         var value = entry.startTime;
         // If the page was hidden prior to paint time of the entry,
         // ignore it and mark the metric as final, otherwise add the entry.
-        if (value < firstHidden.timeStamp) {
+        if (value < visibilityWatcher.firstHiddenTime) {
             metric.value = value;
             metric.entries.push(entry);
         }
-        else {
-            metric.isFinal = true;
+        if (report) {
+            report();
         }
-        report();
     };
     var po = observe('largest-contentful-paint', entryHandler);
     if (po) {
-        report = bindReporter(onReport, metric, po, reportAllChanges);
-        var onFinal = function () {
-            if (!metric.isFinal) {
+        report = bindReporter(onReport, metric, reportAllChanges);
+        var stopListening_1 = function () {
+            if (!reportedMetricIDs[metric.id]) {
                 po.takeRecords().map(entryHandler);
-                metric.isFinal = true;
-                report();
+                po.disconnect();
+                reportedMetricIDs[metric.id] = true;
+                report(true);
             }
         };
-        void whenInput().then(onFinal);
-        onHidden(onFinal, true);
+        // Stop listening after input. Note: while scrolling is an input that
+        // stop LCP observation, it's unreliable since it can be programmatically
+        // generated. See: https://github.com/GoogleChrome/web-vitals/issues/75
+        ['keydown', 'click'].forEach(function (type) {
+            addEventListener(type, stopListening_1, { once: true, capture: true });
+        });
+        onHidden(stopListening_1, true);
     }
 };
 //# sourceMappingURL=getLCP.js.map
@@ -12390,14 +12629,14 @@ var metrics_MetricsInstrumentation = /** @class */ (function () {
         logger["a" /* logger */].log('[Tracing] Adding & adjusting spans using Performance API');
         var timeOrigin = Object(utils["d" /* msToSec */])(time["a" /* browserPerformanceTimeOrigin */]);
         var entryScriptSrc;
-        if (metrics_global.document) {
+        if (metrics_global.document && metrics_global.document.scripts) {
             // eslint-disable-next-line @typescript-eslint/prefer-for-of
-            for (var i = 0; i < document.scripts.length; i++) {
+            for (var i = 0; i < metrics_global.document.scripts.length; i++) {
                 // We go through all scripts on the page and look for 'data-entry'
                 // We remember the name and measure the time between this script finished loading and
                 // our mark 'sentry-tracing-init'
-                if (document.scripts[i].dataset.entry === 'true') {
-                    entryScriptSrc = document.scripts[i].src;
+                if (metrics_global.document.scripts[i].dataset.entry === 'true') {
+                    entryScriptSrc = metrics_global.document.scripts[i].src;
                     break;
                 }
             }
@@ -12430,9 +12669,9 @@ var metrics_MetricsInstrumentation = /** @class */ (function () {
                         tracingInitMarkStartTime = startTimestamp;
                     }
                     // capture web vitals
-                    var firstHidden = getFirstHidden();
+                    var firstHidden = getVisibilityWatcher();
                     // Only report if the page wasn't hidden prior to the web vital.
-                    var shouldRecord = entry.startTime < firstHidden.timeStamp;
+                    var shouldRecord = entry.startTime < firstHidden.firstHiddenTime;
                     if (entry.name === 'first-paint' && shouldRecord) {
                         logger["a" /* logger */].log('[Measurements] Adding FP');
                         _this._measurements['fp'] = { value: entry.startTime };
@@ -12507,6 +12746,11 @@ var metrics_MetricsInstrumentation = /** @class */ (function () {
                     startTimestamp: this._measurements['mark.fid'].value,
                 });
             }
+            // If FCP is not recorded we should not record the cls value
+            // according to the new definition of CLS.
+            if (!('fcp' in this._measurements)) {
+                delete this._measurements.cls;
+            }
             transaction.setMeasurements(this._measurements);
             this._tagMetricInfo(transaction);
         }
@@ -12528,9 +12772,10 @@ var metrics_MetricsInstrumentation = /** @class */ (function () {
             }
             transaction.setTag('lcp.size', this._lcpEntry.size);
         }
-        if (this._clsEntry) {
+        // See: https://developer.mozilla.org/en-US/docs/Web/API/LayoutShift
+        if (this._clsEntry && this._clsEntry.sources) {
             logger["a" /* logger */].log('[Measurements] Adding CLS Data');
-            this._clsEntry.sources.map(function (source, index) {
+            this._clsEntry.sources.forEach(function (source, index) {
                 return transaction.setTag("cls.source." + (index + 1), Object(browser["a" /* htmlTreeAsString */])(source.node));
             });
         }
@@ -12538,6 +12783,9 @@ var metrics_MetricsInstrumentation = /** @class */ (function () {
     /** Starts tracking the Cumulative Layout Shift on the current page. */
     MetricsInstrumentation.prototype._trackCLS = function () {
         var _this = this;
+        // See:
+        // https://web.dev/evolving-cls/
+        // https://web.dev/cls-web-tooling/
         getCLS(function (metric) {
             var entry = metric.entries.pop();
             if (!entry) {
@@ -12729,7 +12977,7 @@ function isMeasurementValue(value) {
 }
 //# sourceMappingURL=metrics.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/instrument.js + 1 modules
-var instrument = __webpack_require__(128);
+var instrument = __webpack_require__(131);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/esm/browser/request.js
 
@@ -12814,7 +13062,7 @@ function fetchCallback(handlerData, shouldCreateSpan, spans) {
         var span = activeTransaction.startChild({
             data: Object(tslib_tslib_es6["a" /* __assign */])(Object(tslib_tslib_es6["a" /* __assign */])({}, handlerData.fetchData), { type: 'fetch' }),
             description: handlerData.fetchData.method + " " + handlerData.fetchData.url,
-            op: 'http',
+            op: 'http.client',
         });
         handlerData.fetchData.__span = span.spanId;
         spans[span.spanId] = span;
@@ -12871,7 +13119,7 @@ function xhrCallback(handlerData, shouldCreateSpan, spans) {
         var span = activeTransaction.startChild({
             data: Object(tslib_tslib_es6["a" /* __assign */])(Object(tslib_tslib_es6["a" /* __assign */])({}, xhr.data), { type: 'xhr', method: xhr.method, url: xhr.url }),
             description: xhr.method + " " + xhr.url,
-            op: 'http',
+            op: 'http.client',
         });
         handlerData.xhr.__sentry_xhr_span_id__ = span.spanId;
         spans[handlerData.xhr.__sentry_xhr_span_id__] = span;
@@ -13566,7 +13814,7 @@ Object(hubextensions["a" /* addExtensionMethods */])();
 
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/cookie/index.js
-var cookie = __webpack_require__(127);
+var cookie = __webpack_require__(130);
 
 // EXTERNAL MODULE: external "os"
 var external_os_ = __webpack_require__(32);
@@ -13878,7 +14126,8 @@ function requestHandler(options) {
                 var client = currentHub.getClient();
                 if (isAutoSessionTrackingEnabled(client)) {
                     setImmediate(function () {
-                        if (client) {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                        if (client && client._captureRequestSession) {
                             // Calling _captureRequestSession to capture request session at the end of the request by incrementing
                             // the correct SessionAggregates bucket i.e. crashed, errored or exited
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -13973,7 +14222,7 @@ if (esm_carrier.__SENTRY__) {
 
 /***/ }),
 
-/***/ 207:
+/***/ 208:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13984,15 +14233,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.use_middlewares_with_error_safety_net = exports.DEFAULT_RESPONSE_BODY = void 0;
 
-const tslib_1 = __webpack_require__(92);
+const tslib_1 = __webpack_require__(93);
 
-__webpack_require__(208);
+__webpack_require__(209);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(6));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(5));
 
-const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(95));
+const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(98));
 
-const timestamps_1 = __webpack_require__(47);
+const timestamps_1 = __webpack_require__(38);
 
 const soft_execution_context_1 = __webpack_require__(39);
 
@@ -14000,11 +14249,11 @@ const state_utils_1 = __webpack_require__(43);
 
 const api_interface_1 = __webpack_require__(69);
 
-const async_utils_1 = __webpack_require__(222);
+const async_utils_1 = __webpack_require__(223);
 
-const sentry_1 = __webpack_require__(166);
+const sentry_1 = __webpack_require__(167);
 
-const channel_1 = __webpack_require__(52);
+const channel_1 = __webpack_require__(51);
 
 const utils_1 = __webpack_require__(71); ////////////////////////////////////
 // note: deducted from the overall running budget
@@ -14368,7 +14617,7 @@ async function _run_mw_chain({
 
 /***/ }),
 
-/***/ 208:
+/***/ 209:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14378,18 +14627,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const tslib_1 = __webpack_require__(92);
+const tslib_1 = __webpack_require__(93);
 
 const soft_execution_context_1 = __webpack_require__(39); //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 
-const soft_execution_context_node_1 = __webpack_require__(209);
+const soft_execution_context_node_1 = __webpack_require__(210);
 
 const consts_1 = __webpack_require__(40);
 
-const channel_1 = __webpack_require__(52);
+const channel_1 = __webpack_require__(51);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(210)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(211)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -14443,7 +14692,7 @@ if (ENV !== "production") {
 
 /***/ }),
 
-/***/ 209:
+/***/ 210:
 /***/ (function(module, exports, __webpack_require__) {
 
 const os = __webpack_require__(32);
@@ -14500,7 +14749,7 @@ function _force_set_level_of_uda_default_logger(suggestedLevel) {
       try {
         const {
           getLogger
-        } = __webpack_require__(59);
+        } = __webpack_require__(58);
 
         logger = getLogger({
           suggestedLevel
@@ -14532,7 +14781,7 @@ module.exports = { ...__webpack_require__(39),
 
 /***/ }),
 
-/***/ 210:
+/***/ 211:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14542,11 +14791,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const universal_debug_api_node_1 = __webpack_require__(59);
+const universal_debug_api_node_1 = __webpack_require__(58);
 
 const consts_1 = __webpack_require__(40);
 
-const channel_1 = __webpack_require__(52); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(51); /////////////////////////////////////////////////
 
 
 const logger = universal_debug_api_node_1.getLogger({
@@ -14565,16 +14814,16 @@ exports.default = logger;
 
 /***/ }),
 
-/***/ 211:
+/***/ 212:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(212);
-exports.stringify = __webpack_require__(213);
+exports.parse = __webpack_require__(213);
+exports.stringify = __webpack_require__(214);
 
 
 /***/ }),
 
-/***/ 212:
+/***/ 213:
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -14854,7 +15103,7 @@ module.exports = function (source, reviver) {
 
 /***/ }),
 
-/***/ 213:
+/***/ 214:
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -15015,7 +15264,7 @@ module.exports = function (value, replacer, space) {
 
 /***/ }),
 
-/***/ 214:
+/***/ 215:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15032,7 +15281,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone$1; });
 /* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(72);
 /* harmony import */ var diff_match_patch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(diff_match_patch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(93);
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(96);
 /* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -17759,7 +18008,7 @@ function clone$1() {
 
 /***/ }),
 
-/***/ 215:
+/***/ 216:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17778,12 +18027,12 @@ module.exports = function (str) {
 
 /***/ }),
 
-/***/ 216:
+/***/ 217:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {
-const colorConvert = __webpack_require__(217);
+const colorConvert = __webpack_require__(218);
 
 const wrapAnsi16 = (fn, offset) => function () {
 	const code = fn.apply(colorConvert, arguments);
@@ -17948,15 +18197,15 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(51)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(50)(module)))
 
 /***/ }),
 
-/***/ 217:
+/***/ 218:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(133);
-var route = __webpack_require__(219);
+var conversions = __webpack_require__(134);
+var route = __webpack_require__(220);
 
 var convert = {};
 
@@ -18037,7 +18286,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 218:
+/***/ 219:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18197,10 +18446,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ 219:
+/***/ 22:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 220:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(133);
+var conversions = __webpack_require__(134);
 
 /*
 	this function routes a model to all other models.
@@ -18301,14 +18557,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 22:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 220:
+/***/ 221:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18444,7 +18693,7 @@ module.exports = (chalk, tmp) => {
 
 /***/ }),
 
-/***/ 221:
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18455,7 +18704,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.require_http_method = exports.HttpMethod = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(12);
+const typescript_string_enums_1 = __webpack_require__(13);
 
 const consts_1 = __webpack_require__(40);
 
@@ -18503,7 +18752,7 @@ exports.require_http_method = require_http_method;
 
 /***/ }),
 
-/***/ 222:
+/***/ 223:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18534,7 +18783,7 @@ __webpack_require__.d(__webpack_exports__, "asap_but_out_of_current_event_loop",
 __webpack_require__.d(__webpack_exports__, "dezalgo", function() { return /* reexport */ dezalgo; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
-var tiny_invariant_esm = __webpack_require__(6);
+var tiny_invariant_esm = __webpack_require__(5);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
 var src_es2019 = __webpack_require__(18);
@@ -18734,13 +18983,13 @@ __webpack_require__.d(__webpack_exports__, "f", function() { return /* binding *
 var tslib_es6 = __webpack_require__(2);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/session.js
-var esm_session = __webpack_require__(331);
+var esm_session = __webpack_require__(333);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(11);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/time.js
-var time = __webpack_require__(38);
+var time = __webpack_require__(37);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(8);
@@ -18749,7 +18998,7 @@ var logger = __webpack_require__(8);
 var node = __webpack_require__(20);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
-var esm_scope = __webpack_require__(57);
+var esm_scope = __webpack_require__(56);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 1 modules
 var object = __webpack_require__(14);
@@ -19395,12 +19644,12 @@ function setHubOnCarrier(carrier, hub) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addExtensionMethods; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _sentry_hub__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
-/* harmony import */ var _sentry_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(58);
+/* harmony import */ var _sentry_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(57);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(20);
-/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(126);
-/* harmony import */ var _idletransaction__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(35);
-/* harmony import */ var _transaction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(36);
+/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(129);
+/* harmony import */ var _idletransaction__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(34);
+/* harmony import */ var _transaction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(35);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(4);
 
 
@@ -19628,7 +19877,7 @@ function addExtensionMethods() {
     Object(_errors__WEBPACK_IMPORTED_MODULE_5__[/* registerErrorInstrumentation */ "a"])();
 }
 //# sourceMappingURL=hubextensions.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(75)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(74)(module)))
 
 /***/ }),
 
@@ -19640,7 +19889,7 @@ function addExtensionMethods() {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Span; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(38);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(37);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
 /* harmony import */ var _spanstatus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
 
@@ -20077,24 +20326,7 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 33:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Detect Electron renderer / nwjs process, which is node, but we should
- * treat as a browser.
- */
-
-if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(168);
-} else {
-	module.exports = __webpack_require__(170);
-}
-
-
-/***/ }),
-
-/***/ 331:
+/***/ 333:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20127,7 +20359,7 @@ var RequestSessionStatus;
 
 /***/ }),
 
-/***/ 35:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20135,11 +20367,11 @@ var RequestSessionStatus;
 /* unused harmony export IdleTransactionSpanRecorder */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return IdleTransaction; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(38);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
 /* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(28);
 /* harmony import */ var _spanstatus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
-/* harmony import */ var _transaction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(36);
+/* harmony import */ var _transaction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(35);
 
 
 
@@ -20406,7 +20638,7 @@ function clearActiveTransaction(hub) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20552,14 +20784,14 @@ var Transaction = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ 37:
+/***/ 36:
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
 
-/***/ 38:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20717,7 +20949,36 @@ var browserPerformanceTimeOrigin = (function () {
     return dateNow;
 })();
 //# sourceMappingURL=time.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(75)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(74)(module)))
+
+/***/ }),
+
+/***/ 38:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEST_TIMESTAMP_MS", function() { return TEST_TIMESTAMP_MS; });
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(95);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["f"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["h"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_extended_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_day", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+
+
+const TEST_TIMESTAMP_MS = 1234567890; // useful for unit tests
 
 /***/ }),
 
@@ -20772,7 +21033,7 @@ const LIB = 'soft-execution-context';
 const INTERNAL_PROP = '_SEC';
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(161);
+var emittery = __webpack_require__(162);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -21113,7 +21374,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(131);
+var generate = __webpack_require__(95);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/error-utils/dist/src.es2019/util--normalize.js
 var util_normalize = __webpack_require__(83);
@@ -21704,9 +21965,10 @@ __webpack_require__.d(__webpack_exports__, "UNCLEAR_get_difference", function() 
 __webpack_require__.d(__webpack_exports__, "UNCLEAR_compare", function() { return /* reexport */ UNCLEAR_compare; });
 __webpack_require__.d(__webpack_exports__, "generic_migrate_to_latest", function() { return /* reexport */ migration["a" /* generic_migrate_to_latest */]; });
 __webpack_require__.d(__webpack_exports__, "enforce_immutability", function() { return /* reexport */ utils["c" /* enforce_immutability */]; });
-__webpack_require__.d(__webpack_exports__, "get_mutable_copy", function() { return /* reexport */ utils["d" /* get_mutable_copy */]; });
+__webpack_require__.d(__webpack_exports__, "get_mutable_copy", function() { return /* reexport */ utils["e" /* get_mutable_copy */]; });
 __webpack_require__.d(__webpack_exports__, "complete_or_cancel_eager_mutation_propagating_possible_child_mutation", function() { return /* reexport */ utils["b" /* complete_or_cancel_eager_mutation_propagating_possible_child_mutation */]; });
 __webpack_require__.d(__webpack_exports__, "are_ustate_revision_requirements_met", function() { return /* reexport */ utils["a" /* are_ustate_revision_requirements_met */]; });
+__webpack_require__.d(__webpack_exports__, "finalize_action_if_needed", function() { return /* reexport */ utils["d" /* finalize_action_if_needed */]; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/type-guards.js
 var type_guards = __webpack_require__(3);
@@ -21715,16 +21977,16 @@ var type_guards = __webpack_require__(3);
 var selectors = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/selectors--fluid.js
-var selectors_fluid = __webpack_require__(132);
+var selectors_fluid = __webpack_require__(133);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
-var tiny_invariant_esm = __webpack_require__(6);
+var tiny_invariant_esm = __webpack_require__(5);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(12);
+var dist = __webpack_require__(13);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/memoize-one/dist/memoize-one.esm.js
-var memoize_one_esm = __webpack_require__(124);
+var memoize_one_esm = __webpack_require__(127);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/dequal/dist/index.mjs
 var has = Object.prototype.hasOwnProperty;
@@ -21817,7 +22079,7 @@ function dequal(foo, bar) {
 
 
 
-const jsondiffpatch = __webpack_require__(214);
+const jsondiffpatch = __webpack_require__(215);
 
 
  ////////////////////////////////////
@@ -21927,10 +22189,10 @@ function UNCLEAR_compare(a, b) {
   return UNCLEAR_get_difference__full(a, b).direction;
 }
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/migration.js
-var migration = __webpack_require__(134);
+var migration = __webpack_require__(135);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/utils.js
-var utils = __webpack_require__(135);
+var utils = __webpack_require__(136);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/state-utils/dist/src.es2019/index.js
 
@@ -22025,42 +22287,13 @@ const {
   overrideHook,
   addDebugCommand
 } = instance;
+ // types & sub-types, for convenience
 
-// types & sub-types, for convenience
 
 
 /***/ }),
 
 /***/ 47:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEST_TIMESTAMP_MS", function() { return TEST_TIMESTAMP_MS; });
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(131);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["f"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["h"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_extended_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_day", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-
-
-const TEST_TIMESTAMP_MS = 1234567890; // useful for unit tests
-
-/***/ }),
-
-/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22269,7 +22502,29 @@ var SyncPromise = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 51:
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var isProduction = "production" === 'production';
+var prefix = 'Invariant failed';
+function invariant(condition, message) {
+    if (condition) {
+        return;
+    }
+    if (isProduction) {
+        throw new Error(prefix);
+    }
+    throw new Error(prefix + ": " + (message || ''));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (invariant);
+
+
+/***/ }),
+
+/***/ 50:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -22298,7 +22553,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22309,7 +22564,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CHANNEL = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(12);
+const typescript_string_enums_1 = __webpack_require__(13);
 
 const api_interface_1 = __webpack_require__(69); /////////////////////////////////////////////////
 
@@ -22327,7 +22582,7 @@ exports.CHANNEL = (() => {
 
 /***/ }),
 
-/***/ 54:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22354,7 +22609,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 55:
+/***/ 54:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22380,14 +22635,14 @@ function getFunctionName(fn) {
 
 /***/ }),
 
-/***/ 56:
+/***/ 55:
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
 
-/***/ 57:
+/***/ 56:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22395,8 +22650,8 @@ module.exports = require("https");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addGlobalEventProcessor; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(38);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(48);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(37);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
 
 
@@ -22844,7 +23099,7 @@ function addGlobalEventProcessor(callback) {
 
 /***/ }),
 
-/***/ 58:
+/***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22860,189 +23115,7 @@ var TransactionSamplingMethod;
 
 /***/ }),
 
-/***/ 580:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.handler = void 0;
-/*
-process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
-*/
-
-__webpack_require__(59);
-
-const runner_1 = __webpack_require__(207);
-
-const require_http_method_1 = __webpack_require__(221);
-
-const test_failure_1 = __webpack_require__(581); ////////////////////////////////////
-
-
-async function _handler(SEC, event, context, response, next) {
-  response.statusCode = 200;
-  if (response.body === runner_1.DEFAULT_RESPONSE_BODY) response.body = JSON.stringify('Test error handling default response (no error)!');
-}
-
-const handler = (event, badly_typed_context) => {
-  return runner_1.use_middlewares_with_error_safety_net(event, badly_typed_context, [require_http_method_1.require_http_method([require_http_method_1.HttpMethod.GET]), test_failure_1.test_failure, _handler]);
-};
-
-exports.handler = handler;
-
-/***/ }),
-
-/***/ 581:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.test_failure = exports.FailureMode = void 0;
-
-const tslib_1 = __webpack_require__(92);
-
-const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(124));
-
-const typescript_string_enums_1 = __webpack_require__(12);
-
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(6));
-
-const consts_1 = __webpack_require__(40);
-
-const utils_1 = __webpack_require__(71); ////////////////////////////////////
-
-
-exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'assertion-sync', 'throw-sync', 'throw-sync-non-error', 'throw-async', 'timeout', 'rejection', 'unhandled-rejection', 'bad-status-code', 'non-json-stringified-body', 'non-stringified-body', 'non-stringifiable-body', 'no-response-set'); ////////////////////////////////////
-
-async function test_failure(SEC, event, context, response, next) {
-  const mode = event.queryStringParameters && event.queryStringParameters.mode || undefined;
-  const {
-    logger
-  } = SEC.getInjectedDependencies();
-  tiny_invariant_1.default(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one and only one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
-  logger.info('[MW test_failure] will cause failure:', mode);
-  const initial_unset_body = response.body; // starts with a response manually set to a success,
-  // to check that an error will overwrite it properly
-
-  response.statusCode = 200;
-  response.body = JSON.stringify('XXX You should NOT see that, there should be an error!');
-  const get_test_err = memoize_one_1.default(() => utils_1.create_error(`TEST ${mode}!`, {
-    statusCode: 555
-  }, SEC));
-
-  switch (mode) {
-    case undefined:
-      response.statusCode = consts_1.HTTP_STATUS_CODE.error.client.bad_request;
-      response.body = 'Error: Failure test: Please provide a failure mode: ' + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', ');
-      break;
-
-    case exports.FailureMode['none']:
-      response.statusCode = 200;
-      response.body = JSON.stringify('All good, test of no error');
-      await next();
-      break;
-
-    case exports.FailureMode['manual']:
-      // bad idea (should throw instead) but possible
-      response.statusCode = get_test_err().statusCode;
-      response.body = get_test_err().message;
-      break;
-
-    case exports.FailureMode['assertion-sync']:
-      tiny_invariant_1.default(false, get_test_err().message);
-    //break
-
-    case exports.FailureMode['throw-sync']:
-      throw get_test_err();
-
-    case exports.FailureMode['throw-sync-non-error']:
-      throw get_test_err().message;
-    // baad! throwing a string!
-
-    case exports.FailureMode['throw-async']:
-      return new Promise(() => {
-        setTimeout(() => {
-          throw get_test_err();
-        }, 100);
-      });
-
-    case exports.FailureMode['timeout']:
-      return new Promise(() => {// no resolution
-      });
-
-    case exports.FailureMode['rejection']:
-      return Promise.reject(get_test_err());
-
-    case exports.FailureMode['unhandled-rejection']:
-      Promise.reject(get_test_err()); // unhandled
-      // pretend otherwise OK
-      // (already done, see above)
-
-      await next();
-      return;
-
-    case exports.FailureMode['bad-status-code']:
-      delete response.body;
-      response.statusCode = 'foo';
-      break;
-
-    case exports.FailureMode['non-stringified-body']:
-      response.statusCode = 200; // eventually, decided to support this, too convenient
-      // = won't result in an error
-      // see also next case
-
-      response.body = {
-        foo: 42
-      };
-      break;
-
-    case exports.FailureMode['non-stringifiable-body']:
-      // auto-stringification ust be possible
-      const foo = {
-        val: 42
-      };
-      foo.foo = foo;
-      response.statusCode = 200;
-      response.body = {
-        recurse: foo //'this can’t be stringified!': 2n,
-
-      };
-      break;
-
-    case exports.FailureMode['non-json-stringified-body']:
-      response.statusCode = 200; // body should always be JSON.parse()-able
-
-      response.body = "this is bad!";
-      break;
-
-    case exports.FailureMode['no-response-set']:
-      // pretend we didn't set the body
-      response.body = initial_unset_body;
-      break;
-
-    default:
-      // should have been caught earlier
-      throw new Error('Should never happen!');
-  }
-}
-
-exports.test_failure = test_failure;
-
-/***/ }),
-
-/***/ 59:
+/***/ 58:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24056,40 +24129,200 @@ const {
   overrideHook: src_es2019_overrideHook,
   addDebugCommand: src_es2019_addDebugCommand
 } = instance;
+ // types
 
-// types
 
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 585:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-var isProduction = "production" === 'production';
-var prefix = 'Invariant failed';
-function invariant(condition, message) {
-    if (condition) {
-        return;
-    }
-    if (isProduction) {
-        throw new Error(prefix);
-    }
-    throw new Error(prefix + ": " + (message || ''));
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handler = void 0;
+/*
+process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
+*/
+
+__webpack_require__(58);
+
+const runner_1 = __webpack_require__(208);
+
+const require_http_method_1 = __webpack_require__(222);
+
+const test_failure_1 = __webpack_require__(586); ////////////////////////////////////
+
+
+async function _handler(SEC, event, context, response, next) {
+  response.statusCode = 200;
+  if (response.body === runner_1.DEFAULT_RESPONSE_BODY) response.body = JSON.stringify('Test error handling default response (no error)!');
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (invariant);
+const handler = (event, badly_typed_context) => {
+  return runner_1.use_middlewares_with_error_safety_net(event, badly_typed_context, [require_http_method_1.require_http_method([require_http_method_1.HttpMethod.GET]), test_failure_1.test_failure, _handler]);
+};
 
+exports.handler = handler;
 
 /***/ }),
 
-/***/ 60:
+/***/ 586:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.test_failure = exports.FailureMode = void 0;
+
+const tslib_1 = __webpack_require__(93);
+
+const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(127));
+
+const typescript_string_enums_1 = __webpack_require__(13);
+
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(5));
+
+const consts_1 = __webpack_require__(40);
+
+const utils_1 = __webpack_require__(71); ////////////////////////////////////
+
+
+exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'assertion-sync', 'throw-sync', 'throw-sync-non-error', 'throw-async', 'timeout', 'rejection', 'unhandled-rejection', 'bad-status-code', 'non-json-stringified-body', 'non-stringified-body', 'non-stringifiable-body', 'no-response-set'); ////////////////////////////////////
+
+async function test_failure(SEC, event, context, response, next) {
+  const mode = event.queryStringParameters && event.queryStringParameters.mode || undefined;
+  const {
+    logger
+  } = SEC.getInjectedDependencies();
+  tiny_invariant_1.default(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one and only one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
+  logger.info('[MW test_failure] will cause failure:', mode);
+  const initial_unset_body = response.body; // starts with a response manually set to a success,
+  // to check that an error will overwrite it properly
+
+  response.statusCode = 200;
+  response.body = JSON.stringify('XXX You should NOT see that, there should be an error!');
+  const get_test_err = memoize_one_1.default(() => utils_1.create_error(`TEST ${mode}!`, {
+    statusCode: 555
+  }, SEC));
+
+  switch (mode) {
+    case undefined:
+      response.statusCode = consts_1.HTTP_STATUS_CODE.error.client.bad_request;
+      response.body = 'Error: Failure test: Please provide a failure mode: ' + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', ');
+      break;
+
+    case exports.FailureMode['none']:
+      response.statusCode = 200;
+      response.body = JSON.stringify('All good, test of no error');
+      await next();
+      break;
+
+    case exports.FailureMode['manual']:
+      // bad idea (should throw instead) but possible
+      response.statusCode = get_test_err().statusCode;
+      response.body = get_test_err().message;
+      break;
+
+    case exports.FailureMode['assertion-sync']:
+      tiny_invariant_1.default(false, get_test_err().message);
+    //break
+
+    case exports.FailureMode['throw-sync']:
+      throw get_test_err();
+
+    case exports.FailureMode['throw-sync-non-error']:
+      throw get_test_err().message;
+    // baad! throwing a string!
+
+    case exports.FailureMode['throw-async']:
+      return new Promise(() => {
+        setTimeout(() => {
+          throw get_test_err();
+        }, 100);
+      });
+
+    case exports.FailureMode['timeout']:
+      return new Promise(() => {// no resolution
+      });
+
+    case exports.FailureMode['rejection']:
+      return Promise.reject(get_test_err());
+
+    case exports.FailureMode['unhandled-rejection']:
+      Promise.reject(get_test_err()); // unhandled
+      // pretend otherwise OK
+      // (already done, see above)
+
+      await next();
+      return;
+
+    case exports.FailureMode['bad-status-code']:
+      delete response.body;
+      response.statusCode = 'foo';
+      break;
+
+    case exports.FailureMode['non-stringified-body']:
+      response.statusCode = 200; // eventually, decided to support this, too convenient
+      // = won't result in an error
+      // see also next case
+
+      response.body = {
+        foo: 42
+      };
+      break;
+
+    case exports.FailureMode['non-stringifiable-body']:
+      // auto-stringification ust be possible
+      const foo = {
+        val: 42
+      };
+      foo.foo = foo;
+      response.statusCode = 200;
+      response.body = {
+        recurse: foo //'this can’t be stringified!': 2n,
+
+      };
+      break;
+
+    case exports.FailureMode['non-json-stringified-body']:
+      response.statusCode = 200; // body should always be JSON.parse()-able
+
+      response.body = "this is bad!";
+      break;
+
+    case exports.FailureMode['no-response-set']:
+      // pretend we didn't set the body
+      response.body = initial_unset_body;
+      break;
+
+    default:
+      // should have been caught earlier
+      throw new Error('Should never happen!');
+  }
+}
+
+exports.test_failure = test_failure;
+
+/***/ }),
+
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(99);
+const cssKeywords = __webpack_require__(102);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -24930,6 +25163,13 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
+/***/ 60:
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+
 /***/ 61:
 /***/ (function(module, exports) {
 
@@ -24958,7 +25198,7 @@ __webpack_require__.d(__webpack_exports__, "create_server_response_body__data", 
 __webpack_require__.d(__webpack_exports__, "is_server_response_body", function() { return /* reexport */ is_server_response_body; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(12);
+var dist = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/consts.js
  /////////////////////////////////////////////////
@@ -25065,7 +25305,7 @@ function is_server_response_body(body) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return get_last_user_activity_timestamp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return get_last_user_activity_timestamp_loose; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return get_base_loose; });
-/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _type_guards__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
  // "loose" =
@@ -25227,7 +25467,7 @@ exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean
 
 const http_1 = __webpack_require__(44);
 
-const error_utils_1 = __webpack_require__(54);
+const error_utils_1 = __webpack_require__(53);
 
 const consts_1 = __webpack_require__(40); // TODO extern
 
@@ -27562,13 +27802,6 @@ module.exports['DIFF_EQUAL'] = DIFF_EQUAL;
 /***/ 74:
 /***/ (function(module, exports) {
 
-module.exports = require("tty");
-
-/***/ }),
-
-/***/ 75:
-/***/ (function(module, exports) {
-
 module.exports = function(originalModule) {
 	if (!originalModule.webpackPolyfill) {
 		var module = Object.create(originalModule);
@@ -27593,6 +27826,23 @@ module.exports = function(originalModule) {
 	}
 	return module;
 };
+
+
+/***/ }),
+
+/***/ 75:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Detect Electron renderer / nwjs process, which is node, but we should
+ * treat as a browser.
+ */
+
+if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
+	module.exports = __webpack_require__(169);
+} else {
+	module.exports = __webpack_require__(171);
+}
 
 
 /***/ }),
@@ -28015,7 +28265,7 @@ function isInstanceOf(wat, base) {
 
 /***/ }),
 
-/***/ 92:
+/***/ 93:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28287,16 +28537,230 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
 
 /***/ }),
 
-/***/ 93:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const escapeStringRegexp = __webpack_require__(215);
-const ansiStyles = __webpack_require__(216);
-const stdoutColor = __webpack_require__(129).stdout;
+const os = __webpack_require__(32);
+const hasFlag = __webpack_require__(166);
 
-const template = __webpack_require__(220);
+const env = process.env;
+
+let forceColor;
+if (hasFlag('no-color') ||
+	hasFlag('no-colors') ||
+	hasFlag('color=false')) {
+	forceColor = false;
+} else if (hasFlag('color') ||
+	hasFlag('colors') ||
+	hasFlag('color=true') ||
+	hasFlag('color=always')) {
+	forceColor = true;
+}
+if ('FORCE_COLOR' in env) {
+	forceColor = env.FORCE_COLOR.length === 0 || parseInt(env.FORCE_COLOR, 10) !== 0;
+}
+
+function translateLevel(level) {
+	if (level === 0) {
+		return false;
+	}
+
+	return {
+		level,
+		hasBasic: true,
+		has256: level >= 2,
+		has16m: level >= 3
+	};
+}
+
+function supportsColor(stream) {
+	if (forceColor === false) {
+		return 0;
+	}
+
+	if (hasFlag('color=16m') ||
+		hasFlag('color=full') ||
+		hasFlag('color=truecolor')) {
+		return 3;
+	}
+
+	if (hasFlag('color=256')) {
+		return 2;
+	}
+
+	if (stream && !stream.isTTY && forceColor !== true) {
+		return 0;
+	}
+
+	const min = forceColor ? 1 : 0;
+
+	if (process.platform === 'win32') {
+		// Node.js 7.5.0 is the first version of Node.js to include a patch to
+		// libuv that enables 256 color output on Windows. Anything earlier and it
+		// won't work. However, here we target Node.js 8 at minimum as it is an LTS
+		// release, and Node.js 7 is not. Windows 10 build 10586 is the first Windows
+		// release that supports 256 colors. Windows 10 build 14931 is the first release
+		// that supports 16m/TrueColor.
+		const osRelease = os.release().split('.');
+		if (
+			Number(process.versions.node.split('.')[0]) >= 8 &&
+			Number(osRelease[0]) >= 10 &&
+			Number(osRelease[2]) >= 10586
+		) {
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
+		}
+
+		return 1;
+	}
+
+	if ('CI' in env) {
+		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+			return 1;
+		}
+
+		return min;
+	}
+
+	if ('TEAMCITY_VERSION' in env) {
+		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+	}
+
+	if (env.COLORTERM === 'truecolor') {
+		return 3;
+	}
+
+	if ('TERM_PROGRAM' in env) {
+		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				return version >= 3 ? 3 : 2;
+			case 'Apple_Terminal':
+				return 2;
+			// No default
+		}
+	}
+
+	if (/-256(color)?$/i.test(env.TERM)) {
+		return 2;
+	}
+
+	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+		return 1;
+	}
+
+	if ('COLORTERM' in env) {
+		return 1;
+	}
+
+	if (env.TERM === 'dumb') {
+		return min;
+	}
+
+	return min;
+}
+
+function getSupportLevel(stream) {
+	const level = supportsColor(stream);
+	return translateLevel(level);
+}
+
+module.exports = {
+	supportsColor: getSupportLevel,
+	stdout: getSupportLevel(process.stdout),
+	stderr: getSupportLevel(process.stderr)
+};
+
+
+/***/ }),
+
+/***/ 95:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return get_UTC_timestamp_ms; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return get_human_readable_UTC_timestamp_days; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return get_human_readable_UTC_timestamp_minutes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return get_human_readable_UTC_timestamp_seconds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return get_human_readable_UTC_timestamp_ms; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return get_ISO8601_extended_ms; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return get_ISO8601_simplified_minutes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return get_ISO8601_simplified_day; });
+/////////////////////
+// ex. 1542780045627
+function get_UTC_timestamp_ms(now = new Date()) {
+  return +now;
+} /////////////////////
+// spec:
+// - human readable
+// - as short as possible
+// ex. 20181121
+// assumed side effect of being castable to a number
+
+function get_human_readable_UTC_timestamp_days(now = new Date()) {
+  const YYYY = now.getUTCFullYear();
+  const MM = String(now.getUTCMonth() + 1).padStart(2, '0');
+  const DD = String(now.getUTCDate()).padStart(2, '0');
+  return `${YYYY}${MM}${DD}`;
+} // ex. 20181121_06h00
+
+function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
+  const hh = String(now.getUTCHours()).padStart(2, '0');
+  const mm = String(now.getUTCMinutes()).padStart(2, '0');
+  return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`;
+} // ex. 20190608_04h23m15
+
+function get_human_readable_UTC_timestamp_seconds(now = new Date()) {
+  const ss = String(now.getUTCSeconds()).padStart(2, '0');
+  return get_human_readable_UTC_timestamp_minutes(now) + `m${ss}`;
+} // ex.      20181121_06h00m45s632
+// formerly 20181121_06h00+45.632
+
+function get_human_readable_UTC_timestamp_ms(now = new Date()) {
+  const mmm = String(now.getUTCMilliseconds()).padStart(3, '0');
+  return get_human_readable_UTC_timestamp_seconds(now) + `s${mmm}`;
+} /////////////////////
+// ISO 8601 Extended Format. The format is as follows: YYYY-MM-DDTHH:mm:ss.sssZ
+// https://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
+
+function get_ISO8601_extended_ms(now = new Date()) {
+  return now.toISOString();
+}
+function get_ISO8601_simplified_minutes(now = new Date()) {
+  return get_ISO8601_extended_ms(now).slice(0, 16);
+}
+function get_ISO8601_simplified_day(now = new Date()) {
+  return get_ISO8601_extended_ms(now).slice(0, 10);
+} // fun but unclear
+// https://space.stackexchange.com/questions/36628/utc-timestamp-format-for-launch-vehicles
+
+/*function get_space_timestamp_ms(now: Readonly<Date> = new Date()): string {
+    const YYYY = now.getUTCFullYear()
+    const MM = now.getUTCMonth()
+    const DD = ('0' + now.getUTCDate()).slice(-2)
+    const hh = ('0' + now.getUTCHours()).slice(-2)
+    const mm = ('0' + now.getUTCMinutes()).slice(-2)
+    const ss = ('0' + now.getUTCSeconds()).slice(-2)
+    const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
+
+    return `${DD} ${hh}:${mm}:${ss}.${mmm}`
+}*/
+/////////////////////
+
+/***/ }),
+
+/***/ 96:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const escapeStringRegexp = __webpack_require__(216);
+const ansiStyles = __webpack_require__(217);
+const stdoutColor = __webpack_require__(94).stdout;
+
+const template = __webpack_require__(221);
 
 const isSimpleWindowsTerm = process.platform === 'win32' && !(process.env.TERM || '').toLowerCase().startsWith('xterm');
 
@@ -28523,7 +28987,7 @@ module.exports.default = module.exports; // For TypeScript
 
 /***/ }),
 
-/***/ 94:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28888,10 +29352,10 @@ if (false) {}
 
 /***/ }),
 
-/***/ 95:
+/***/ 98:
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(211);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(212);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -28974,426 +29438,6 @@ var objectKeys = Object.keys || function (obj) {
         if (has.call(obj, key)) keys.push(key);
     }
     return keys;
-};
-
-
-/***/ }),
-
-/***/ 97:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {
-
-const wrapAnsi16 = (fn, offset) => (...args) => {
-	const code = fn(...args);
-	return `\u001B[${code + offset}m`;
-};
-
-const wrapAnsi256 = (fn, offset) => (...args) => {
-	const code = fn(...args);
-	return `\u001B[${38 + offset};5;${code}m`;
-};
-
-const wrapAnsi16m = (fn, offset) => (...args) => {
-	const rgb = fn(...args);
-	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
-};
-
-const ansi2ansi = n => n;
-const rgb2rgb = (r, g, b) => [r, g, b];
-
-const setLazyProperty = (object, property, get) => {
-	Object.defineProperty(object, property, {
-		get: () => {
-			const value = get();
-
-			Object.defineProperty(object, property, {
-				value,
-				enumerable: true,
-				configurable: true
-			});
-
-			return value;
-		},
-		enumerable: true,
-		configurable: true
-	});
-};
-
-/** @type {typeof import('color-convert')} */
-let colorConvert;
-const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
-	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(98);
-	}
-
-	const offset = isBackground ? 10 : 0;
-	const styles = {};
-
-	for (const [sourceSpace, suite] of Object.entries(colorConvert)) {
-		const name = sourceSpace === 'ansi16' ? 'ansi' : sourceSpace;
-		if (sourceSpace === targetSpace) {
-			styles[name] = wrap(identity, offset);
-		} else if (typeof suite === 'object') {
-			styles[name] = wrap(suite[targetSpace], offset);
-		}
-	}
-
-	return styles;
-};
-
-function assembleStyles() {
-	const codes = new Map();
-	const styles = {
-		modifier: {
-			reset: [0, 0],
-			// 21 isn't widely supported and 22 does the same thing
-			bold: [1, 22],
-			dim: [2, 22],
-			italic: [3, 23],
-			underline: [4, 24],
-			inverse: [7, 27],
-			hidden: [8, 28],
-			strikethrough: [9, 29]
-		},
-		color: {
-			black: [30, 39],
-			red: [31, 39],
-			green: [32, 39],
-			yellow: [33, 39],
-			blue: [34, 39],
-			magenta: [35, 39],
-			cyan: [36, 39],
-			white: [37, 39],
-
-			// Bright color
-			blackBright: [90, 39],
-			redBright: [91, 39],
-			greenBright: [92, 39],
-			yellowBright: [93, 39],
-			blueBright: [94, 39],
-			magentaBright: [95, 39],
-			cyanBright: [96, 39],
-			whiteBright: [97, 39]
-		},
-		bgColor: {
-			bgBlack: [40, 49],
-			bgRed: [41, 49],
-			bgGreen: [42, 49],
-			bgYellow: [43, 49],
-			bgBlue: [44, 49],
-			bgMagenta: [45, 49],
-			bgCyan: [46, 49],
-			bgWhite: [47, 49],
-
-			// Bright color
-			bgBlackBright: [100, 49],
-			bgRedBright: [101, 49],
-			bgGreenBright: [102, 49],
-			bgYellowBright: [103, 49],
-			bgBlueBright: [104, 49],
-			bgMagentaBright: [105, 49],
-			bgCyanBright: [106, 49],
-			bgWhiteBright: [107, 49]
-		}
-	};
-
-	// Alias bright black as gray (and grey)
-	styles.color.gray = styles.color.blackBright;
-	styles.bgColor.bgGray = styles.bgColor.bgBlackBright;
-	styles.color.grey = styles.color.blackBright;
-	styles.bgColor.bgGrey = styles.bgColor.bgBlackBright;
-
-	for (const [groupName, group] of Object.entries(styles)) {
-		for (const [styleName, style] of Object.entries(group)) {
-			styles[styleName] = {
-				open: `\u001B[${style[0]}m`,
-				close: `\u001B[${style[1]}m`
-			};
-
-			group[styleName] = styles[styleName];
-
-			codes.set(style[0], style[1]);
-		}
-
-		Object.defineProperty(styles, groupName, {
-			value: group,
-			enumerable: false
-		});
-	}
-
-	Object.defineProperty(styles, 'codes', {
-		value: codes,
-		enumerable: false
-	});
-
-	styles.color.close = '\u001B[39m';
-	styles.bgColor.close = '\u001B[49m';
-
-	setLazyProperty(styles.color, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, false));
-	setLazyProperty(styles.color, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, false));
-	setLazyProperty(styles.color, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, false));
-	setLazyProperty(styles.bgColor, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, true));
-	setLazyProperty(styles.bgColor, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, true));
-	setLazyProperty(styles.bgColor, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, true));
-
-	return styles;
-}
-
-// Make the export immutable
-Object.defineProperty(module, 'exports', {
-	enumerable: true,
-	get: assembleStyles
-});
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(51)(module)))
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports, __webpack_require__) {
-
-const conversions = __webpack_require__(60);
-const route = __webpack_require__(100);
-
-const convert = {};
-
-const models = Object.keys(conversions);
-
-function wrapRaw(fn) {
-	const wrappedFn = function (...args) {
-		const arg0 = args[0];
-		if (arg0 === undefined || arg0 === null) {
-			return arg0;
-		}
-
-		if (arg0.length > 1) {
-			args = arg0;
-		}
-
-		return fn(args);
-	};
-
-	// Preserve .conversion property if there is one
-	if ('conversion' in fn) {
-		wrappedFn.conversion = fn.conversion;
-	}
-
-	return wrappedFn;
-}
-
-function wrapRounded(fn) {
-	const wrappedFn = function (...args) {
-		const arg0 = args[0];
-
-		if (arg0 === undefined || arg0 === null) {
-			return arg0;
-		}
-
-		if (arg0.length > 1) {
-			args = arg0;
-		}
-
-		const result = fn(args);
-
-		// We're assuming the result is an array here.
-		// see notice in conversions.js; don't use box types
-		// in conversion functions.
-		if (typeof result === 'object') {
-			for (let len = result.length, i = 0; i < len; i++) {
-				result[i] = Math.round(result[i]);
-			}
-		}
-
-		return result;
-	};
-
-	// Preserve .conversion property if there is one
-	if ('conversion' in fn) {
-		wrappedFn.conversion = fn.conversion;
-	}
-
-	return wrappedFn;
-}
-
-models.forEach(fromModel => {
-	convert[fromModel] = {};
-
-	Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
-	Object.defineProperty(convert[fromModel], 'labels', {value: conversions[fromModel].labels});
-
-	const routes = route(fromModel);
-	const routeModels = Object.keys(routes);
-
-	routeModels.forEach(toModel => {
-		const fn = routes[toModel];
-
-		convert[fromModel][toModel] = wrapRounded(fn);
-		convert[fromModel][toModel].raw = wrapRaw(fn);
-	});
-});
-
-module.exports = convert;
-
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = {
-	"aliceblue": [240, 248, 255],
-	"antiquewhite": [250, 235, 215],
-	"aqua": [0, 255, 255],
-	"aquamarine": [127, 255, 212],
-	"azure": [240, 255, 255],
-	"beige": [245, 245, 220],
-	"bisque": [255, 228, 196],
-	"black": [0, 0, 0],
-	"blanchedalmond": [255, 235, 205],
-	"blue": [0, 0, 255],
-	"blueviolet": [138, 43, 226],
-	"brown": [165, 42, 42],
-	"burlywood": [222, 184, 135],
-	"cadetblue": [95, 158, 160],
-	"chartreuse": [127, 255, 0],
-	"chocolate": [210, 105, 30],
-	"coral": [255, 127, 80],
-	"cornflowerblue": [100, 149, 237],
-	"cornsilk": [255, 248, 220],
-	"crimson": [220, 20, 60],
-	"cyan": [0, 255, 255],
-	"darkblue": [0, 0, 139],
-	"darkcyan": [0, 139, 139],
-	"darkgoldenrod": [184, 134, 11],
-	"darkgray": [169, 169, 169],
-	"darkgreen": [0, 100, 0],
-	"darkgrey": [169, 169, 169],
-	"darkkhaki": [189, 183, 107],
-	"darkmagenta": [139, 0, 139],
-	"darkolivegreen": [85, 107, 47],
-	"darkorange": [255, 140, 0],
-	"darkorchid": [153, 50, 204],
-	"darkred": [139, 0, 0],
-	"darksalmon": [233, 150, 122],
-	"darkseagreen": [143, 188, 143],
-	"darkslateblue": [72, 61, 139],
-	"darkslategray": [47, 79, 79],
-	"darkslategrey": [47, 79, 79],
-	"darkturquoise": [0, 206, 209],
-	"darkviolet": [148, 0, 211],
-	"deeppink": [255, 20, 147],
-	"deepskyblue": [0, 191, 255],
-	"dimgray": [105, 105, 105],
-	"dimgrey": [105, 105, 105],
-	"dodgerblue": [30, 144, 255],
-	"firebrick": [178, 34, 34],
-	"floralwhite": [255, 250, 240],
-	"forestgreen": [34, 139, 34],
-	"fuchsia": [255, 0, 255],
-	"gainsboro": [220, 220, 220],
-	"ghostwhite": [248, 248, 255],
-	"gold": [255, 215, 0],
-	"goldenrod": [218, 165, 32],
-	"gray": [128, 128, 128],
-	"green": [0, 128, 0],
-	"greenyellow": [173, 255, 47],
-	"grey": [128, 128, 128],
-	"honeydew": [240, 255, 240],
-	"hotpink": [255, 105, 180],
-	"indianred": [205, 92, 92],
-	"indigo": [75, 0, 130],
-	"ivory": [255, 255, 240],
-	"khaki": [240, 230, 140],
-	"lavender": [230, 230, 250],
-	"lavenderblush": [255, 240, 245],
-	"lawngreen": [124, 252, 0],
-	"lemonchiffon": [255, 250, 205],
-	"lightblue": [173, 216, 230],
-	"lightcoral": [240, 128, 128],
-	"lightcyan": [224, 255, 255],
-	"lightgoldenrodyellow": [250, 250, 210],
-	"lightgray": [211, 211, 211],
-	"lightgreen": [144, 238, 144],
-	"lightgrey": [211, 211, 211],
-	"lightpink": [255, 182, 193],
-	"lightsalmon": [255, 160, 122],
-	"lightseagreen": [32, 178, 170],
-	"lightskyblue": [135, 206, 250],
-	"lightslategray": [119, 136, 153],
-	"lightslategrey": [119, 136, 153],
-	"lightsteelblue": [176, 196, 222],
-	"lightyellow": [255, 255, 224],
-	"lime": [0, 255, 0],
-	"limegreen": [50, 205, 50],
-	"linen": [250, 240, 230],
-	"magenta": [255, 0, 255],
-	"maroon": [128, 0, 0],
-	"mediumaquamarine": [102, 205, 170],
-	"mediumblue": [0, 0, 205],
-	"mediumorchid": [186, 85, 211],
-	"mediumpurple": [147, 112, 219],
-	"mediumseagreen": [60, 179, 113],
-	"mediumslateblue": [123, 104, 238],
-	"mediumspringgreen": [0, 250, 154],
-	"mediumturquoise": [72, 209, 204],
-	"mediumvioletred": [199, 21, 133],
-	"midnightblue": [25, 25, 112],
-	"mintcream": [245, 255, 250],
-	"mistyrose": [255, 228, 225],
-	"moccasin": [255, 228, 181],
-	"navajowhite": [255, 222, 173],
-	"navy": [0, 0, 128],
-	"oldlace": [253, 245, 230],
-	"olive": [128, 128, 0],
-	"olivedrab": [107, 142, 35],
-	"orange": [255, 165, 0],
-	"orangered": [255, 69, 0],
-	"orchid": [218, 112, 214],
-	"palegoldenrod": [238, 232, 170],
-	"palegreen": [152, 251, 152],
-	"paleturquoise": [175, 238, 238],
-	"palevioletred": [219, 112, 147],
-	"papayawhip": [255, 239, 213],
-	"peachpuff": [255, 218, 185],
-	"peru": [205, 133, 63],
-	"pink": [255, 192, 203],
-	"plum": [221, 160, 221],
-	"powderblue": [176, 224, 230],
-	"purple": [128, 0, 128],
-	"rebeccapurple": [102, 51, 153],
-	"red": [255, 0, 0],
-	"rosybrown": [188, 143, 143],
-	"royalblue": [65, 105, 225],
-	"saddlebrown": [139, 69, 19],
-	"salmon": [250, 128, 114],
-	"sandybrown": [244, 164, 96],
-	"seagreen": [46, 139, 87],
-	"seashell": [255, 245, 238],
-	"sienna": [160, 82, 45],
-	"silver": [192, 192, 192],
-	"skyblue": [135, 206, 235],
-	"slateblue": [106, 90, 205],
-	"slategray": [112, 128, 144],
-	"slategrey": [112, 128, 144],
-	"snow": [255, 250, 250],
-	"springgreen": [0, 255, 127],
-	"steelblue": [70, 130, 180],
-	"tan": [210, 180, 140],
-	"teal": [0, 128, 128],
-	"thistle": [216, 191, 216],
-	"tomato": [255, 99, 71],
-	"turquoise": [64, 224, 208],
-	"violet": [238, 130, 238],
-	"wheat": [245, 222, 179],
-	"white": [255, 255, 255],
-	"whitesmoke": [245, 245, 245],
-	"yellow": [255, 255, 0],
-	"yellowgreen": [154, 205, 50]
 };
 
 
