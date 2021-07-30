@@ -1,3 +1,4 @@
+import { Enum } from 'typescript-string-enums'
 import { BaseState } from '@offirmo-private/state-utils'
 
 /*
@@ -32,32 +33,53 @@ We analysed the script and were asked to identify the parts where we thought wer
 This is usually something where there is a change from the status quo - it could be a new character introduced, the meeting of hearts, a power dynamic change between characters or a climax/twist.
 We call this a beat. A short film like this (~10 minutes) will probably have a maximum of 5-6 beats, so we started with around 10+ beats and culled it to 6 core ones.
 Of all the different beats, there will be the heart of the film in one of the beats. If we had to only show one scene, this will be the beat that we will show.
-
-
-
  */
 
-export interface LifeGreatPleasures {
-	// Inspired from:
-	// - 10 great pleasures https://appliedjung.com/an-internal-singularity/
-	// - The 5 Basic Levels of Life’s Pleasures https://www.yogajournal.com/yoga-101/philosophy/feels-good/
-	// (don't have to tick them all)
-	made_a_difference: boolean
-	had_good_food: boolean
-	has_been_in_great_physical_condition: boolean
-	had_stimulating_conversations: boolean
-	enjoyed_a_great_book: boolean
-	travelled: boolean
-	became_an_expert_at_sth: boolean
-	had_intimate_life_partner: boolean
-	had_children: boolean
-	has_had_a_happy_home: boolean
-	ruled_the_known_world: boolean
-}
+// Inspired from:
+// - 10 great pleasures https://appliedjung.com/an-internal-singularity/
+// - The 5 Basic Levels of Life’s Pleasures https://www.yogajournal.com/yoga-101/philosophy/feels-good/
+// - https://en.wikipedia.org/wiki/The_Top_Five_Regrets_of_the_Dying
+// (don't have to tick them all)
+export const LifeGreatness = Enum(
+	// sorted by Maslow
+
+	// physiological
+	'great_food', // or drink
+	//'~no_self_pressure', // not worked so hard
+	//'let_go_and_be_happy',
+
+	// safety
+	'great_physical_condition',
+	'able_to_defend_oneself',
+
+	// belongness and love needs
+	'a_place_to_call_home',
+	'good_friends',
+	'intimacy', // with a partner
+	'happy_home',
+	'children',
+
+	// esteem needs, prestige, accomplishments
+	'being_true_to_oneself',
+	'making_a_difference',
+	'being_expert_at_sth',
+	'improving_the_civilization',
+
+	// self actualization, full potential, creative activities
+	'stimulating_conversation',
+	'great_book',
+	'great_art',
+	'travelling',
+	'ruling_the_world',
+)
+export type LifeGreatness = Enum<typeof LifeGreatness> // eslint-disable-line no-redeclare
+
+
 
 export interface State extends BaseState {
 	has_saved_the_world: boolean
-	has_lived_to_the_fullest: LifeGreatPleasures
-	has_found_their_soulmate: boolean
-	has_improved_civilization: boolean
+
+	great_life_experiences_count: {
+		[k: string]: number // LifeGreatness
+	}
 }

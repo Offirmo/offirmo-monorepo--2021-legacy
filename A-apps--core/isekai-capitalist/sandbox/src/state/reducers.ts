@@ -2,28 +2,32 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import assert from 'tiny-invariant'
 
-import { State } from './types'
-import * as FlagsReducers from '../state--flags/reducers'
+import * as FlagsLib from '../state--flags'
 import * as GuildMembershipReducers from '../state--guild-membership/reducers'
 import { SharedMemoryType } from '../state--relationship/types'
 import * as RelationshipLib from '../state--relationship'
 import { RelationshipLevel } from '../type--relationship-level/types'
 import * as RelationshipLevelLib from '../type--relationship-level'
-
-import { get_required_xp_for_next_level } from './selectors'
 import * as SSRRankLib from '../type--SSR-rank'
 import * as GuildStateLib from '../state--guild-membership/reducers'
 import { get_corresponding_index } from '../type--relationship-level'
+import { LifeGreatness } from '../state--flags/types'
+
+import { State } from './types'
+import {
+	get_required_xp_for_next_level,
+	get_heroine_relationship_level,
+} from './selectors'
 
 
 /////////////////////
 
 export function create(): Immutable<State> {
-	return {
+	let state = {
 		schema_version: 0,
 		revision: 0,
 
-		flags: FlagsReducers.create(),
+		flags: FlagsLib.create(),
 
 		mc: {
 			xp: 0,
@@ -40,6 +44,11 @@ export function create(): Immutable<State> {
 			BBEG: {},
 		},
 	}
+
+	//state = _reduceⵧexperience_life_greatness(state, LifeGreatness.let_go_and_be_happy)
+	state = _reduceⵧexperience_life_greatness(state, LifeGreatness.being_true_to_oneself)
+
+	return state
 }
 
 /////////////////////
@@ -69,6 +78,10 @@ export function _reduceⵧgain_xp(state: Immutable<State>, params: Immutable<XPG
 			xp_gain -= remaining_required_xp
 			xp = 0
 			level++
+			if (level === 10)
+				state = _reduceⵧexperience_life_greatness(state, LifeGreatness.great_physical_condition)
+			if (level === 30)
+				state = _reduceⵧexperience_life_greatness(state, LifeGreatness.able_to_defend_oneself)
 		}
 		else {
 			xp += xp_gain
@@ -87,54 +100,21 @@ export function _reduceⵧgain_xp(state: Immutable<State>, params: Immutable<XPG
 	}
 }
 
+export function _reduceⵧexperience_life_greatness(state: Immutable<State>, type: LifeGreatness): Immutable<State> {
+	return {
+		...state,
+
+		flags: FlagsLib.reduceⵧexperience_life_greatness(state.flags, { type }),
+	}
+}
+
 interface MakeMemoryParams extends RelationshipLib.MakeMemoryParams {
 	active_romance?: boolean // active = active intent, passive = things just happened
 						// intent is needed for level increase above a certain point
 }
 export function _reduceⵧmake_memory(state: Immutable<State>, params: Immutable<MakeMemoryParams>): Immutable<State> {
-	let { level } = state.npcs.heroine.relationship
 
-	let should_increase_relationship_level = false // so far
-
-	if (RelationshipLevelLib.get_corresponding_index(level) < RelationshipLevelLib.get_corresponding_index(RelationshipLevel.friendsⵧgood)) {
-		// auto increase relationship level up to a certain point
-		should_increase_relationship_level = true
-	}
-	if (params.active_romance) {
-		// increase if conditions are met
-		const has_enough_memories = (state.npcs.heroine.relationship.memories.count / 10) >= RelationshipLevelLib.get_corresponding_index(level)
-		const meets_other_requirements =
-			(RelationshipLevelLib.compare(level, '<', RelationshipLevel.intimateⵧ1)) // below 2nd base is depending on shared memories
-			|| state.flags.has_saved_the_world // above also needs to have saved the world
-		if (has_enough_memories && meets_other_requirements)
-			should_increase_relationship_level = true
-		console.log('_reduceⵧmake_memory', {
-			active_romance: params.active_romance,
-			current_level: level,
-			next_level_index: RelationshipLevelLib.get_corresponding_index(level),
-			mem_index: state.npcs.heroine.relationship.memories.count / 10,
-			has_enough_memories,
-			meets_other_requirements,
-			should_increase_relationship_level,
-		})
-	}
-
-	if (should_increase_relationship_level) {
-		state = {
-			...state,
-
-			npcs: {
-				...state.npcs,
-
-				heroine: {
-					...state.npcs.heroine,
-
-					relationship: RelationshipLib.reduceⵧincrease_level(state.npcs.heroine.relationship),
-				}
-			}
-		}
-	}
-
+	// memory
 	state = {
 		...state,
 
@@ -152,6 +132,73 @@ export function _reduceⵧmake_memory(state: Immutable<State>, params: Immutable
 		}
 	}
 
+	// side effect: may increase the relationship level
+	let { level } = state.npcs.heroine.relationship
+	let should_increase_relationship_level = false // so far
+	if (RelationshipLevelLib.get_corresponding_index(level) < RelationshipLevelLib.get_corresponding_index(RelationshipLevel.friendsⵧgood)) {
+		// auto increase relationship level up to a certain point
+		should_increase_relationship_level = true
+	}
+	if (params.active_romance) {
+		// increase if conditions are met
+		const has_enough_memories = (state.npcs.heroine.relationship.memories.count / 10) >= RelationshipLevelLib.get_corresponding_index(level)
+		const meets_other_requirements =
+			(RelationshipLevelLib.compare(level, '<', RelationshipLevel.intimateⵧ1)) // below 2nd base is depending on shared memories
+			|| state.flags.has_saved_the_world // above also needs to have saved the world
+		if (has_enough_memories && meets_other_requirements)
+			should_increase_relationship_level = true
+		/*console.log('_reduceⵧmake_memory', {
+			active_romance: params.active_romance,
+			current_level: level,
+			next_level_index: RelationshipLevelLib.get_corresponding_index(level),
+			mem_index: state.npcs.heroine.relationship.memories.count / 10,
+			has_enough_memories,
+			meets_other_requirements,
+			should_increase_relationship_level,
+		})*/
+	}
+	if (should_increase_relationship_level) {
+		state = {
+			...state,
+
+			npcs: {
+				...state.npcs,
+
+				heroine: {
+					...state.npcs.heroine,
+
+					relationship: RelationshipLib.reduceⵧincrease_level(state.npcs.heroine.relationship),
+				}
+			}
+		}
+		if (get_heroine_relationship_level(state) === RelationshipLevel.friendsⵧgood)
+			state = _reduceⵧexperience_life_greatness(state, LifeGreatness.good_friends)
+		if (get_heroine_relationship_level(state) === RelationshipLevel.intimateⵧ1)
+			state = _reduceⵧexperience_life_greatness(state, LifeGreatness.intimacy)
+	}
+
+	// side effect: life greatness
+	switch (params.type) {
+		case SharedMemoryType.life_pleasure:
+			state = _reduceⵧexperience_life_greatness(state, LifeGreatness.great_food)
+			break
+
+		/*case SharedMemoryType.assistance:
+			state = _reduceⵧexperience_life_greatness(state, LifeGreatness.making_a_difference)
+			break*/
+
+		case SharedMemoryType.adventure:
+			state = _reduceⵧexperience_life_greatness(state, LifeGreatness.travelling)
+			break
+
+		/*case [SharedMemoryType.'victory', // big or little
+				'celebration', // after a victory, anniversary...
+				'growth', // shared growth, rite of passage
+				'adventure', // anything else ending as a "good story to tell"*/
+		default:
+			break
+	}
+
 	return state
 }
 
@@ -162,7 +209,7 @@ export function reduceⵧsnowflake(state: Immutable<State>): Immutable<State> {
 		...state,
 		revision: state.revision + 1,
 
-		flags: FlagsReducers.reduceⵧsnowflake(state.flags),
+		flags: FlagsLib.reduceⵧsave_the_world(state.flags),
 
 		mc: {
 			...state.mc,
@@ -238,6 +285,9 @@ export function reduceⵧguild_rank_up(state: Immutable<State>, params: Immutabl
 	if (!can_rank_up)
 		return state // TODO failure message
 
+	if (current_rank === SSRRankLib.SSRRank.A) // next = S
+		state = _reduceⵧexperience_life_greatness(state, LifeGreatness.being_expert_at_sth)
+
 	return  _reduceⵧmake_memory({
 			...state,
 			revision: state.revision + 1,
@@ -275,6 +325,8 @@ export function reduceⵧromance(state: Immutable<State>, params: Immutable<Roma
 	)
 }
 
+const EMOJIS_FOOD_AND_DRINKS = '🍇🥐🥖🧀🥞🥩🍔🍖🥘🥟🥮🍨'.normalize('NFC')
+const EMOJIS_FOOD_AND_DRINKS_COUNT = Array.from(EMOJIS_FOOD_AND_DRINKS).length // https://mathiasbynens.be/notes/javascript-unicode
 export interface EatFoodParams {}
 export function reduceⵧeat_food(state: Immutable<State>, params: Immutable<EatFoodParams>): Immutable<State> {
 	return _reduceⵧmake_memory({
@@ -283,6 +335,7 @@ export function reduceⵧeat_food(state: Immutable<State>, params: Immutable<Eat
 		},
 		{
 			type: SharedMemoryType.life_pleasure,
+			emoji: Array.from(EMOJIS_FOOD_AND_DRINKS)[state.revision % EMOJIS_FOOD_AND_DRINKS_COUNT],
 		}
 	)
 }

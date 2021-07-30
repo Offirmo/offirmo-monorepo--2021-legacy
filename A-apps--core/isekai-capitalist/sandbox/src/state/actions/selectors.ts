@@ -110,8 +110,8 @@ export function get_available_actions(state: Immutable<State>, time: TimestampUT
 	return [
 		...(is_max(state.mc.guild.rank) ? [] : [create_actionꘌrank_upⵧguild(time)]),
 		create_actionꘌexplore(time),
-		create_actionꘌdefeat_mook(time),
 		...(state.mc.guild.rank ? [create_actionꘌquest(time)] : []),
+		create_actionꘌdefeat_mook(time),
 		create_actionꘌromance(time),
 		create_actionꘌeat_food(time),
 		create_actionꘌset(null, time),
