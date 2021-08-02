@@ -15,11 +15,10 @@
 
 In alphabetical order:
 * `@atlaskit/*` requires work to upgrade
-  * replace with formix?
+  * replace with formix? or mantine?
 * `@types/node` we rightfully target the oldest active LTS, should be ignored
 * `parcel-bundler` should be upgraded to v2 according to https://github.com/parcel-bundler/parcel/issues/5943#issuecomment-789080294
   * 2021/04 blocked by issues
-* `pg` there is a breaking change that we can't overcome yet through our ORM (knex) TODO https://github.com/brianc/node-postgres/blob/master/CHANGELOG.md#pg810   https://github.com/knex/knex/blob/master/UPGRADING.md
 * `styled-components` old version required by @atlaskit
 
 

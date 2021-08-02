@@ -138,7 +138,9 @@ export function use_middlewares_with_error_safety_net(
 		//body.side.latest_news = body.side.latest_news || []
 
 		// add meta
-		body.meta.processing_time_ms = get_UTC_timestamp_ms() - SESSION_START_TIME_MS
+		const now_tms = get_UTC_timestamp_ms()
+		body.meta.now_tms = now_tms
+		body.meta.processing_time_ms = now_tms - SESSION_START_TIME_MS
 		body.meta.request_summary = `${event.httpMethod.toUpperCase()}:${event.path}`
 
 		// finally stringify

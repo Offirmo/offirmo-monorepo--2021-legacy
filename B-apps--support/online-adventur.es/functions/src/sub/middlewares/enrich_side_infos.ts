@@ -30,10 +30,11 @@ export default async function enrich_side_infos(
 
 	const body: OAServerResponseBody<any> = response.body as any
 
-	const realm = 'tbrpg' // we have only one so far! No need to parse anything.
-	switch (realm) {
+	const app_id = 'tbrpg' // we have only one so far! No need to parse anything.
+	switch (app_id) {
 		case 'tbrpg': {
-			body.side.tbrpg = {
+			body.side.app = {
+				app_id,
 				VERSION,
 				NUMERIC_VERSION,
 				latest_news: [],
@@ -41,7 +42,7 @@ export default async function enrich_side_infos(
 			break
 		}
 		default:
-			throw new Error(`unknown realm "${realm}"!`)
+			throw new Error(`unknown realm "${app_id}"!`)
 	}
 
 	//body.side

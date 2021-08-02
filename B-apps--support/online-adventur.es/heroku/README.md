@@ -53,6 +53,7 @@ heroku addons --app online-adventures-staging
 ```
 
 Node version (need a recent deploy!)
+- 2021/08/03 seen 14.17.4
 - 2021/06/25 seen 14.17.1
 - 2021/03/30 seen 14.16
 - 2021/01/04 seen 14.15.4

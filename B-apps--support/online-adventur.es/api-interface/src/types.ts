@@ -10,12 +10,13 @@ export const ReleaseChannel = Enum(
 export type ReleaseChannel = Enum<typeof ReleaseChannel> // eslint-disable-line no-redeclar
 
 
-// nominal response assuming no errors
+// nominal response **assuming no errors**
 export interface OAResponse<T> {
 	data: T, // note: flat denormalized data or graph? Graph seems to be preferred ATM
 
 	side: {
-		tbrpg?: { // TODO improve w/ no mention of a particular app
+		app?: { // the corresponding "app" that handled this request (if any)
+			app_id: string // check, just in case
 			VERSION: string
 			NUMERIC_VERSION: number
 			latest_news: any[] // TODO refine this
@@ -32,7 +33,7 @@ export interface OAServerResponseBody<T> extends Omit<OAResponse<T>, "data"> {
 	v: number,
 
 	// either error or data, not both
-	data?: T, // note: flat denormalized data or graph? Graph seems to be preferred ATM
+	data?: T, // see OAResponse
 	error?: { // if present, may be forwarded (thrown) on reception
 		message: string
 		// no stack trace, can be too big and a security issue
@@ -41,9 +42,10 @@ export interface OAServerResponseBody<T> extends Omit<OAResponse<T>, "data"> {
 		// TODO some kind of details?
 	}
 
-	// technical data, should not make it to the final caller
+	// technical data, should not make it to the final caller (OR SHOULD THEY? TODO review)
 	meta: {
 		// stats, uuid, debug, etc.
+		now_tms?: number
 		processing_time_ms?: number
 		request_summary?: string // infos on the request that triggered this
 		// also seen: copyright etc.

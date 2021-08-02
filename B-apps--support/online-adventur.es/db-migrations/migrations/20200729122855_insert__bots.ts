@@ -1,5 +1,5 @@
 const assert = require('assert')
-import * as Knex from 'knex'
+import { Knex } from 'knex'
 
 import { NORMALIZERS} from '@offirmo-private/normalize-string'
 

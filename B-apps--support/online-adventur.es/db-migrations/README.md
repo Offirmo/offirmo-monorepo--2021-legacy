@@ -8,6 +8,7 @@ for ex.
 * user avatar_url: if not explicitly set, stay empty (will be inferred)
 
 We target the current heroku PostgreSQL addon version:
+* 12.7 (2021/08/03)
 * 12.6 (2021/05/02)
 * 12.4 (2020/11/10)
 * 12.3 (2020/07/17)

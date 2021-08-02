@@ -6,8 +6,8 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"XXXengines": {
-		"node": "12.x // NO! 1) we can't restrict node version != root version, breaks bolt :-( 2) we don't have control on the heroku node selection, can't restrict too much."
+	"[COMMENTED]engines": {
+		"node": "12.x // NO! 1) we can't restrict node version != root version, breaks bolt! 2) we don't have control on the heroku node selection, can't restrict too much."
 	},
 	"main": "dist/src.es2019.cjs/index.js",
 

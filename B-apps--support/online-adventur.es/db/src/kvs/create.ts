@@ -1,4 +1,3 @@
-import Knex from 'knex'
 import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
 

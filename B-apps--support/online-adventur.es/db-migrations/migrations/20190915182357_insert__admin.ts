@@ -1,4 +1,4 @@
-import * as Knex from 'knex'
+import { Knex } from 'knex'
 import { NORMALIZERS} from '@offirmo-private/normalize-string'
 
 import { NAME as USERS_TABLE } from './20190915112614_create__users'

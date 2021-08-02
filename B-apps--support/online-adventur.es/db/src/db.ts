@@ -1,5 +1,5 @@
 import tiny_singleton from '@offirmo/tiny-singleton'
-import Knex from 'knex'
+import { knex } from 'knex'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
 import logger from './utils/logger'
@@ -26,7 +26,7 @@ export function get_connection_string(): string {
 export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: number} = {}) => {
 	logger.trace('get_db() called')
 
-	const db = Knex({
+	const db = knex({
 		client: 'pg',
 		connection: get_connection_string(),
 		debug: Boolean(overrideHook('knex-debug', true)), // TODO change default and improve the coercion
