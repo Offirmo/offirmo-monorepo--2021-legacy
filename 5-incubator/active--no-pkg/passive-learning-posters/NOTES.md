@@ -137,3 +137,8 @@ https://en.wikipedia.org/wiki/K%C3%A1rm%C3%A1n_line
 
 https://chandra.harvard.edu/photo/2021/gcenter/index.html
 
+https://www.flickr.com/photos/thom_astro/51338892758/in/photostream/
+https://www.forbes.com/sites/jamiecartereurope/2021/07/24/see-7-jaw-dropping-new-photos-of-jupiter-taken-this-week-by-nasas-juno/
+http://mentallandscape.com/C_CatalogVenus.htm
+
+https://publicdomainreview.org/

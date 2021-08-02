@@ -17,3 +17,10 @@ SECRET class = civilization builder
 
 Shift to agriculture
 * https://www.nationalgeographic.com/culture/topics/reference/neolithic-agricultural-revolution/
+
+https://www.sciencemag.org/news/2021/06/these-ancient-weights-helped-create-europe-s-first-free-market-more-3000-years-ago
+
+https://www.britannica.com/topic/domestic-system
+https://www.britannica.com/topic/factory-system
+https://www.britannica.com/technology/assembly-line
+https://www.britannica.com/topic/history-of-work-organization-648000/The-craft-guilds
