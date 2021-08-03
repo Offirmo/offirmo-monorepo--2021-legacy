@@ -29,7 +29,7 @@
 		"@offirmo/practical-logger-types": "^3",
 		"chalk": "^4",
 		"indent-string": "^5",
-		"size-limit": "^4"
+		"size-limit": "^5"
 	},
 
 	"scripts": {
@@ -50,7 +50,7 @@
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^7",
-		"@size-limit/preset-small-lib": "^4",
+		"@size-limit/preset-small-lib": "^5",
 		"@types/node": "^14",
 		"np": "^7",
 		"npm-run-all": "^4"

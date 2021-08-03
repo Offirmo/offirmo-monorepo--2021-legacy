@@ -48,10 +48,10 @@
 	"devDependencies": {
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/unit-test-toolbox": "^7",
-		"@size-limit/preset-small-lib": "^4",
+		"@size-limit/preset-small-lib": "^5",
 		"np": "^7",
 		"npm-run-all": "^4",
-		"size-limit": "^4"
+		"size-limit": "^5"
 	},
 
 	"files": [

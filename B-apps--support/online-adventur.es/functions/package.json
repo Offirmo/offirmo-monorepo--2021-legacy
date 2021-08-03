@@ -76,10 +76,10 @@
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^7",
 		"@online-adventur.es/api-client": "^0",
-		"@size-limit/file": "^4",
+		"@size-limit/file": "^5",
 		"@types/aws-lambda": "^8",
 		"netlify-lambda": "^2",
 		"npm-run-all": "^4",
-		"size-limit": "^4"
+		"size-limit": "^5"
 	}
 }

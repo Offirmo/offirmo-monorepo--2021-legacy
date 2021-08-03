@@ -82,7 +82,7 @@
 	},
 	"devDependencies": {
 		"@offirmo-private/simple-upgradable-template": "^0",
-		"@size-limit/file": "^4",
+		"@size-limit/file": "^5",
 		"npm-run-all": "^4"
 	},
 	"commentedDependencies": {

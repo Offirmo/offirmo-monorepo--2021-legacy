@@ -42,10 +42,10 @@
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 	"devDependencies": {
-		"@size-limit/preset-small-lib": "^4",
+		"@size-limit/preset-small-lib": "^5",
 		"np": "^7",
 		"npm-run-all": "^4",
-		"size-limit": "^4"
+		"size-limit": "^5"
 	},
 
 	"files": [

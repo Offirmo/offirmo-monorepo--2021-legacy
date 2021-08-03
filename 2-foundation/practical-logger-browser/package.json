@@ -50,7 +50,7 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@offirmo/unit-test-toolbox": "^7",
-		"@size-limit/preset-small-lib": "^4",
+		"@size-limit/preset-small-lib": "^5",
 		"np": "^7",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"

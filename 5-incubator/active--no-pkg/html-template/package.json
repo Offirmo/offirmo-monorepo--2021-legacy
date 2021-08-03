@@ -28,7 +28,7 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@offirmo-private/simple-upgradable-template": "^0",
-		"@size-limit/preset-small-lib": "^4",
+		"@size-limit/preset-small-lib": "^5",
 		"npm-run-all": "^4",
 		"typescript": "^4"
 	}

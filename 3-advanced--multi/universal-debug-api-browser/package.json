@@ -38,9 +38,9 @@
 
 	"devDependencies": {
 		"@babel/core": "^7",
-		"@size-limit/preset-small-lib": "^4",
+		"@size-limit/preset-small-lib": "^5",
 		"npm-run-all": "^4",
-		"size-limit": "^4"
+		"size-limit": "^5"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
