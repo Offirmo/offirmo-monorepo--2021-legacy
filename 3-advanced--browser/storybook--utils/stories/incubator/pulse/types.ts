@@ -13,11 +13,12 @@ export interface PulseOptions {
 	visual: boolean // means that we don't need pulse if app is not visible
 	cloud: boolean  // means that we don't need pulse if app is no network
 
-	min_period_ms: number // BEST EFFORT since will be sampled from requestAnimationFrame anyway
+	ideal_period_ms: number // BEST EFFORT since will be sampled from requestAnimationFrame anyway
 }
 
 export interface State {
 	logger: Console
+	min_period_ms: number
 	subscriptions: {
 		[id: string]: {
 			options: PulseOptions

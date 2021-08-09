@@ -12,6 +12,7 @@ import {
 export function create(): Immutable<State> {
 	return {
 		logger: console,
+		min_period_ms: Infinity,
 		subscriptions: {},
 	}
 }
@@ -21,6 +22,7 @@ export function subscribe_to_pulse(state: Immutable<State>, id: string, callback
 
 	return {
 		...state,
+		min_period_ms: Math.min(options.ideal_period_ms, state.min_period_ms),
 
 		subscriptions: {
 			...state.subscriptions,
