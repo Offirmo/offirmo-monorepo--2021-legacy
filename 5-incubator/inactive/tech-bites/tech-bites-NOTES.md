@@ -20,6 +20,10 @@ Senior Dev tips!
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
 
+rollback
+
+hotfix
+
 https://itnext.io/deployment-maturity-levels-feab55c20d04
 
 https://xyproblem.info/

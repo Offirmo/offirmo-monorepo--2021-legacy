@@ -974,13 +974,17 @@ The Pleasure of Pure Spirit
 Full Immersion
 
 Top five regrets of the dying https://en.wikipedia.org/wiki/The_Top_Five_Regrets_of_the_Dying
-    "I wish I’d had the courage to live a life true to myself, not the life others expected of me."
-    "I wish I hadn’t worked so hard."
-    "I wish I’d had the courage to express my feelings."
-    "I wish I had stayed in touch with my friends."
-    "I wish that I had let myself be happier."
+* "I wish I’d had the courage to live a life true to myself, not the life others expected of me."
+* "I wish I hadn’t worked so hard."
+* "I wish I’d had the courage to express my feelings."
+* "I wish I had stayed in touch with my friends."
+* "I wish that I had let myself be happier."
 
 
 https://fr.wikipedia.org/wiki/Mont-de-pi%C3%A9t%C3%A9
 
 https://www.atlasobscura.com/articles/angampora-sri-lanka-martial-art
+
+I like the Batman analogy.
+Proficiency is how many tools they have in the tool belt.
+Performance is how well they’ve used them to “Save the day” ;P
