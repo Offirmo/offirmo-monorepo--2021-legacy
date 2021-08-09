@@ -1,3 +1,3 @@
 
-export * from './sugar'
+export * from './singleton'
 export * from './selectors'

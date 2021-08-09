@@ -18,12 +18,14 @@ function _log(state: Immutable<State>, log_line: string): Immutable<State> {
 		text: log_line
 	}
 
-	const first_log = state.log[0]
-	const recent_logs = state.log.slice(-1 * MAX_LOG_LINES)
+	let recent_logs = [...state.log]
+	const first_log = recent_logs.slice(0, 1)
 	recent_logs.shift()
-	if (state.log.length === MAX_LOG_LINES) {
+	recent_logs = recent_logs.slice(-1 * MAX_LOG_LINES + 1)
+
+	if (state.log.length >= MAX_LOG_LINES) {
 		recent_logs[0] = {
-			date: first_log.date,
+			date: first_log[0].date,
 			text: '(…)',
 		}
 	}
@@ -31,7 +33,7 @@ function _log(state: Immutable<State>, log_line: string): Immutable<State> {
 	return {
 		...state,
 		log: [
-			...(first_log ? [ first_log ] : []),
+			...first_log,
 			...recent_logs,
 			new_log,
 		],
@@ -46,7 +48,7 @@ export function create(): Immutable<State> {
 
 		cloud_sync_state: {},
 		log: [],
-	}, 'page loaded')
+	}, 'init (page loaded)')
 }
 
 export function log_anything(state: Immutable<State>, log_line: string): Immutable<State> {
@@ -56,21 +58,26 @@ export function log_anything(state: Immutable<State>, log_line: string): Immutab
 	}
 	return _log(state, log_line)
 }
-
+/*
 export function on_visibility_change(state: Immutable<State>): Immutable<State> {
 	state = {
 		...state,
 		revision: state.revision + 1,
 	}
-	return _log(state, 'visibility changed to: ' + is_browser_page_visible())
+	return _log(state, '⚡️visibility changed to: ' + is_browser_page_visible())
 }
-
+/*
 export function on_network_connectivity_change(state: Immutable<State>): Immutable<State> {
 	state = {
 		...state,
 		revision: state.revision + 1,
 	}
-	return _log(state, 'network connectivity changed to: ' + is_browser_connected_to_a_network())
+	return _log(state, '⚡️network connectivity changed to: ' + is_browser_connected_to_a_network())
+}*/
+
+// alias for clarity
+export function report_shared_state_change(state: Immutable<State>, log_line: string): Immutable<State> {
+	return log_anything(state, log_line)
 }
 
 export function report_data_not_synced_with_the_cloud(state: Immutable<State>, id: string): Immutable<State> {

@@ -1,4 +1,6 @@
 
+export type Callback = (tms: number, id?: string) => void
+
 export type PulseFrequency =
 	// all those frequencies are BEST EFFORT
 	// since they will be sampled from requestAnimationFrame anyway
@@ -8,7 +10,10 @@ export type PulseFrequency =
 	| 'cloudᝍsync' // lower freq, the frequency we check for cloud updates
 
 export interface PulseOptions {
-	frequency: PulseFrequency
+	visual: boolean // means that we don't need pulse if app is not visible
+	cloud: boolean  // means that we don't need pulse if app is no network
+
+	min_period_ms: number // BEST EFFORT since will be sampled from requestAnimationFrame anyway
 }
 
 export interface State {
@@ -16,6 +21,7 @@ export interface State {
 	subscriptions: {
 		[id: string]: {
 			options: PulseOptions
+			callback: Callback
 			last_call_tms: number
 		}
 	}

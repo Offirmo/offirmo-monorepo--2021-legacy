@@ -1,2 +1,2 @@
 
-export * from './sugar'
+export * from './singleton'

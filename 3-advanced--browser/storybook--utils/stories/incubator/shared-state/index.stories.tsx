@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Story, Meta } from '@storybook/react'
 
-import { get_sugar, render } from '.'
+import { get_singleton, render } from '.'
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -16,7 +16,7 @@ export default {
 ////////////////////////////////////////////////////////////////////////////////////
 
 export function Default() {
-	const lib = get_sugar()
+	const lib = get_singleton()
 	const [ state, set_state ] = useState(lib.get())
 
 	function on_state_change() {

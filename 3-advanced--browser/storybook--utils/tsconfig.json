@@ -1,7 +1,7 @@
 {
 	"extends": "../../0-meta/tsconfig.json",
 	"compilerOptions": {
-		"lib": [ "DOM" ],
+		"lib": [ "ES2019", "DOM" ],
 		"importHelpers": false,
 		"noEmitHelpers": false
 	},
