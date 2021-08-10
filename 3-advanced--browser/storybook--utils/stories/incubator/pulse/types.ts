@@ -18,7 +18,9 @@ export interface PulseOptions {
 
 export interface State {
 	logger: Console
-	min_period_ms: number
+
+	tms_last_activity_check: number
+
 	subscriptions: {
 		[id: string]: {
 			options: PulseOptions
@@ -26,4 +28,12 @@ export interface State {
 			last_call_tms: number
 		}
 	}
+
+	_cache: {
+		min_period_ms: number
+	}
+
+	// debug
+	pulse_count: number
+	tms_last_activity: number
 }

@@ -55,7 +55,7 @@ export const get_singleton = memoize_one(function _create_shared_state_singleton
 			const unbind = emitter.on(EMITTER_EVT, (src: string) => {
 				callback()
 			})
-			assert(emitter.listenerCount() <= MAX_SUBSCRIBERS_COUNT, `shared state singleton: too many subscribes, is there a leak?`)
+			assert(emitter.listenerCount() <= MAX_SUBSCRIBERS_COUNT, `shared state singleton: too many subscribes, is there a leak? (${debug_id})`)
 			return () => {
 				//console.log(`shared state singleton UNsubscribed: ${debug_id}`)
 				unbind()

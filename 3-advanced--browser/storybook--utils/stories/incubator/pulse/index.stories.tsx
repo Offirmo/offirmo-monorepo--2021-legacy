@@ -178,17 +178,17 @@ class AdvancedComponent extends React.Component {
 			let time_last_iteration: number = 0
 
 			const on_pulse = (now_tms: number, id?: string) => {
-				console.log(`Pulse "${id}" received: #${count} / ${now_tms} (+${ ((now_tms - time_last_iteration) / 1000.).toFixed(3) }s)`)
+				//console.log(`Pulse "${id}" received: #${count} / ${now_tms} (+${ ((now_tms - time_last_iteration) / 1000.).toFixed(3) }s)`)
 				time_last_iteration = now_tms
 				count++
 				this.setState({millis_ms: now_tms})
 			}
 
-			/*this.unsubs.push(lib.subscribe_to_pulse('Pulse/storybook/advanced--milliseconds', on_pulse, {
+			this.unsubs.push(lib.subscribe_to_pulse('Pulse/storybook/advanced--milliseconds', on_pulse, {
 				visual: true,
 				cloud: false,
 				ideal_period_ms: 1,
-			}))*/
+			}))
 		})()
 	}
 
@@ -196,14 +196,18 @@ class AdvancedComponent extends React.Component {
 	render () {
 		console.log('~~ render')
 		return (
-			<p>
-				Demo of pulse<br/>
-				started on {get_hour_minute_sec_formatter()(this.start_ms)}
+			<>
+				<p>
+					Demo of pulse<br/>
+					started on {get_hour_minute_sec_formatter()(this.start_ms)}
+				</p>
 				<hr/>
-				milliseconds = {this.state.millis_ms}<br/>
-				seconds = {get_hour_minute_sec_formatter()(this.state.seconds_ms)}<br/>
-				minutes = {get_hour_minute_formatter()(this.state.minutes_ms)}<br/>
-			</p>
+				<p>
+					milliseconds = {this.state.millis_ms}<br/>
+					seconds = {get_hour_minute_sec_formatter()(this.state.seconds_ms)}<br/>
+					minutes = {get_hour_minute_formatter()(this.state.minutes_ms)}<br/>
+				</p>
+			</>
 		)
 	}
 
@@ -218,7 +222,7 @@ class AdvancedComponent extends React.Component {
 }
 
 export function Advanced() {
-	console.log('Advanced render…')
+	console.log('Pulse/storybook/advanced render…')
 
 	return (<AdvancedComponent />)
 }
