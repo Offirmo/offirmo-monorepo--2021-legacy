@@ -138,7 +138,7 @@
 		"react-overlays": "^4",
 		"react-portal-tooltip": "^2",
 		"react-router-dom": "^5",
-		"react-swipeable-views": "^0.13",
+		"react-swipeable-views": "^0.14",
 		"semver": "^7",
 		"strip-ansi": "^6",
 		"styled-components": "^3",
@@ -151,7 +151,7 @@
 		"username": "^5",
 		"webextension-polyfill-ts": "^0",
 		"write-json-file": "^4",
-		"zx": "^2"
+		"zx": "^3"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7",
