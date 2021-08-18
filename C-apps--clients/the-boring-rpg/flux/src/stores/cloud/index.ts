@@ -190,13 +190,14 @@ export function create(
 				try {
 					const { data, side } = result
 
-					if (side.tbrpg) {
-						if (side.tbrpg.NUMERIC_VERSION > NUMERIC_VERSION) {
+					if (side.app) {
+						assert(side.app.app_id === 'tbrpg', `cloud response app_id ${side.app.app_id} should === tbrpg`)
+						if (side.app.NUMERIC_VERSION > NUMERIC_VERSION) {
 							if (!update_suggested) {
 								update_suggested = true
 
 								const current_version = NUMERIC_VERSION
-								const new_version = side.tbrpg.NUMERIC_VERSION
+								const new_version = side.app.NUMERIC_VERSION
 								const is_major = new_version < 1
 									? (new_version - current_version) >= 0.01
 									: (new_version - current_version) >= 1
@@ -219,7 +220,7 @@ export function create(
 									}
 								}*/
 							}
-						} else if (side.tbrpg.latest_news.length) {
+						} else if (side.app.latest_news.length) {
 							// TODO handle
 						}
 					}
