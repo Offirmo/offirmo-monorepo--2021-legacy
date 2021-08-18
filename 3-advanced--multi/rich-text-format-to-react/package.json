@@ -20,7 +20,7 @@
 		"@offirmo-private/rich-text-format": "^0",
 		"classnames": "^2",
 		"memoize-one": "^5",
-		"react-overlays": "^4",
+		"react-overlays": "^5",
 		"react-portal-tooltip": "^2"
 	},
 

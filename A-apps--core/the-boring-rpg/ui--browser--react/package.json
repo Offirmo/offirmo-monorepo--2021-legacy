@@ -18,7 +18,7 @@
 		"@offirmo-private/react-error-boundary": "^0",
 		"@tbrpg/ui--browser--css": "^0",
 		"classnames": "^2",
-		"react-burger-menu": "^2",
+		"react-burger-menu": "^3",
 		"react-notification-system": "^0.4",
 		"tiny-invariant": "^1"
 	},
