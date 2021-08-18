@@ -230,3 +230,12 @@ https://skamille.medium.com/an-incomplete-list-of-skills-senior-engineers-need-b
 tuckman model
 
 http://www.gotw.ca/publications/concurrency-ddj.htm
+
+Elon Musk engineering process
+https://www.youtube.com/watch?v=t705r8ICkRw
+"The most common error of a smart engineer is to optimize something that should not exist."
+It’s all about simplicity.
+
+
+
+https://www.youtube.com/watch?v=SA8ZBJWo73E

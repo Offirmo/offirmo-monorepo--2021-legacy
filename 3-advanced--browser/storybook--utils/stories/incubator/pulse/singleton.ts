@@ -11,7 +11,7 @@ import {
 } from '../shared-state'
 
 import { Callback, PulseOptions, State } from './types'
-import { LIB, DEBUG, MAX_FPS } from './consts'
+import { LIB, DEBUG, DEFAULT_MAX_FPS } from './consts'
 import {
 	consider_pulse,
 	create,
@@ -21,8 +21,7 @@ import {
 
 ////////////////////////////////////
 
-const MAX_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MAX_FPS)
-//const MIN_PULSE_INTERVAL_S = 60 // ex. for a background tab for cloud
+const MAX_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / DEFAULT_MAX_FPS)
 const MAX_RAF_ITERATIONS = 0 //1000 // debug
 
 ////////////////////////////////////
@@ -39,9 +38,8 @@ export const get_singleton = memoize_one(function _create_shared_state_sugar() {
 	const shared_state_singleton = get_shared_state_singleton()
 
 	;(state.logger.debug || state.logger.info)('⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡ instantiating pulse generator singleton ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡', {
-		MAX_FPS,
+		DEFAULT_MAX_FPS,
 		MAX_FPS_FRAME_PERIOD_MS,
-		//MIN_PULSE_INTERVAL_S,
 		MAX_RAF_ITERATIONS,
 	})
 
@@ -50,7 +48,7 @@ export const get_singleton = memoize_one(function _create_shared_state_sugar() {
 	let animation_frames_count = 0
 	let first_elapsed_from_origin_ms = 0
 	let last_elapsed_from_origin_ms = 0
-	const DEBUG_AF = false
+	const DEBUG_AF = DEBUG
 	function _on_animation_frame(elapsed_from_origin_ms: number) {
 		animation_frames_count++
 
@@ -68,10 +66,6 @@ export const get_singleton = memoize_one(function _create_shared_state_sugar() {
 		if (DEBUG_AF) console.log(`[${LIB}] in animationFrame callback #${animation_frames_count} T=${elapsed_from_origin_ms} / ${now_tms}`)
 
 		state = consider_pulse(state, _get_browser_state(), now_tms, 'AF')
-
-		/*console.log('framerate = ', frames_count / (elapsed_since_last_activation_ms / 1000.))
-		frames_count = 0
-		tms_last_activation = now_tms - (now_tms % state.min_period_ms)*/
 
 		if (MAX_RAF_ITERATIONS && animation_frames_count >= MAX_RAF_ITERATIONS) {
 			const total_elapsed_ms = elapsed_from_origin_ms - first_elapsed_from_origin_ms
@@ -93,51 +87,6 @@ export const get_singleton = memoize_one(function _create_shared_state_sugar() {
 		}
 	}
 
-
-	/*
-	let frames_count: number = 0
-	let step_count: number = 0
-	let tms_1st_step: number = 0
-	let tms_last_step: number = 0
-	let time_last_step: number = 0
-	let tms_last_activation = 0
-
-	function step(origin: string, _time?: number) { // ignore the param in favor of a full timestamp
-		step_count++
-
-
-		////////////
-
-		if (MAX_RAF_ITERATIONS && frames_count >= MAX_RAF_ITERATIONS) {
-			const elapsed_ms = now_tms - tms_1st_step
-			if (frames_count === MAX_RAF_ITERATIONS) {
-				// It's OBVIOUSLY debug
-				state.logger.warn(`[${LIB}] stopping requestAnimationFrame for safety`, {
-					tms_1st_iteration: tms_1st_step,
-					now_tms,
-					elapsed_ms,
-				})
-				state.logger.log(`[${LIB}] measured overall fps =`, 1000 * MAX_RAF_ITERATIONS / elapsed_ms)
-			}
-		}
-		else {
-			if (!is_browser_page_visible()) {
-				if (DEBUG) state.logger.log(`[${LIB}] pausing requestAnimationFrame since not visible`)
-			}
-			else if (state.min_period_ms === Infinity) {
-				// no requested pulse
-			}
-			else if (!origin.startsWith('raf')) {
-				// this step was not called by RAF, no need to reschedule
-			}
-			else {
-				//console.log('calling RAF')
-				const id = window.requestAnimationFrame(_rafn_step)
-				//console.log('RAFN', id)
-			}
-		}
-	}*/
-
 	schedule_when_idle_but_not_too_far(() => {
 		// we use Animation Frame for a smooth, adaptable framerate…
 		if (DEBUG) state.logger.debug('⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡ starting requestAnimationFrame loop ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡')
@@ -150,6 +99,7 @@ export const get_singleton = memoize_one(function _create_shared_state_sugar() {
 			state = consider_pulse(state, _get_browser_state(), now_tms, 'shared state')
 		}, 'pulse singleton')
 
+		// TODO review is it useful?
 		//intervalId = setInterval(step, MIN_FPS_FRAME_PERIOD_MS)
 	})
 

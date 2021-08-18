@@ -178,18 +178,18 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 
 			if (!skip_constructor) {
 				try {
-					const p = Object.getPrototypeOf(obj)
-					if (p && p.constructor && p.constructor.name) {
+					const proto = Object.getPrototypeOf(obj)
+					if (proto && proto.constructor && proto.constructor.name) {
 						// can we do better?
-						if (p.constructor !== Object) {
+						if (proto.constructor !== Object) {
 							return o.stylize_syntax('new ')
-								+ ((globalThis as any)[p.constructor.name] === p.constructor
-									? o.stylize_global(p.constructor.name)
-									: o.stylize_user(p.constructor.name)
+								+ ((globalThis as any)[proto.constructor.name] === proto.constructor
+									? o.stylize_global(proto.constructor.name)
+									: o.stylize_user(proto.constructor.name)
 								)
 								+ o.stylize_syntax('(')
 								+ (() => {
-									switch (p.constructor.name) {
+									switch (proto.constructor.name) {
 										// all primitives that can be an Object
 										case 'String':
 											return o.prettify_string(obj as string, st)
@@ -216,7 +216,7 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 
 										// other
 										default:
-											if (p.constructor.name.endsWith('Error')) {
+											if (proto.constructor.name.endsWith('Error')) {
 												const err: Error = obj as any
 												// no need to pretty print it as copy/pastable to code,
 												// 99.9% chance that's not what we want here

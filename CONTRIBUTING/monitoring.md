@@ -11,7 +11,7 @@ Monitoring:
 * uptime + perfs: https://onlineornot.com/app/pages
 * Sentry: [Backend](https://sentry.io/organizations/offirmo/issues/?project=1772719) | [Frontend -- TBRPG](https://sentry.io/organizations/offirmo/issues/?project=1235383)
 * functions log: https://app.netlify.com/sites/online-adventures/functions
-* Analytics: [UA](https://analytics.google.com/analytics/web/#/report/content-event-overview/a103238291w176401989p175259321/_u.date00=20210101&_u.date01=20210131&_u.date10=20201201&_u.date11=20201231)
+* Analytics: [UA](https://analytics.google.com/analytics/web/#/report/content-event-overview/a103238291w176401989p175259321/_u.dateOption=last30days&_u.hasComparison=true/) | [GA4](https://analytics.google.com/analytics/web/#/p263458304/reports/explorer?params=_u..nav%3Dmaui%26_u.dateOption%3Dlast30Days%26_u.comparisonOption%3DlastPeriodMdw&r=top-events&ruid=top-events,games,games-engagement&collectionId=games)
 
 
 | web surface | status |

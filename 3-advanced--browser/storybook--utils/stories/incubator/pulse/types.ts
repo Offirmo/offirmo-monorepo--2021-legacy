@@ -1,6 +1,7 @@
 
 export type Callback = (tms: number, id?: string) => void
 
+/*
 export type PulseFrequency =
 	// all those frequencies are BEST EFFORT
 	// since they will be sampled from requestAnimationFrame anyway
@@ -8,6 +9,7 @@ export type PulseFrequency =
 	| 'framerate' // asap, for graphical updates
 	| 'minute' // lower freq, for ex. displaying a clock
 	| 'cloudᝍsync' // lower freq, the frequency we check for cloud updates
+*/
 
 export interface PulseOptions {
 	visual: boolean // means that we don't need pulse if app is not visible
@@ -18,6 +20,8 @@ export interface PulseOptions {
 
 export interface State {
 	logger: Console
+
+	max_fps: number
 
 	tms_last_activity_check: number
 

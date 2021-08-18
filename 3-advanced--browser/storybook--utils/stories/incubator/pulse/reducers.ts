@@ -7,11 +7,13 @@ import {
 	PulseOptions,
 	Callback,
 } from './types'
-import { LIB, DEBUG, MIN_PERIOD_MS } from './consts'
+import { LIB, DEBUG, DEFAULT_MAX_FPS } from './consts'
 
 ////////////////////////////////////
 
 function _get_updated_cache(state: Immutable<State>): State['_cache'] {
+	const MIN_PERIOD_MS = Math.trunc(1000. / state.max_fps)
+
 	return {
 		min_period_ms: Math.max(
 			MIN_PERIOD_MS,
@@ -28,6 +30,8 @@ function _get_updated_cache(state: Immutable<State>): State['_cache'] {
 export function create(): Immutable<State> {
 	return {
 		logger: console,
+
+		max_fps: DEFAULT_MAX_FPS,
 
 		subscriptions: {},
 

@@ -226,3 +226,16 @@ export function Advanced() {
 
 	return (<AdvancedComponent />)
 }
+
+export function Context() {
+	console.log('Pulse/storybook/context render…')
+
+	let state = 0
+	const StateContext = React.createContext(0)
+
+	return (
+		<StateContext.Provider value={count}>
+			<Toolbar />
+		</StateContext.Provider>
+	);
+}
