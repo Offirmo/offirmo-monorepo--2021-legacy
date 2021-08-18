@@ -2,13 +2,14 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [chore] [breaking] bumped deps: mocha 9, sinon 11
 * ...
 
 ## v7.0.0
 2021/01/03
-* [major][breaking] now requiring the oldest node LTS = 14 (may still work with older ones, just not supported)
-* [major][fix] major bump of chai-fetch-mock because of a conflict with sinon-chai (which [I reported](https://github.com/gakimball/chai-fetch-mock/issues/3))
-* [feat][fix] Optionally, the init script will now initialize a node SEC/UDA environment if those are available
+* [chore] [breaking] now requiring the oldest node LTS = 14 (may still work with older ones, just not supported)
+* [fix] [breaking] major bump of chai-fetch-mock because of a conflict with sinon-chai (which [I reported](https://github.com/gakimball/chai-fetch-mock/issues/3))
+* [feat]+[fix] Optionally, the init script will now initialize a node SEC/UDA environment if those are available
    This happens only in my monorepo thus I silenced an existing warning (fix)
 * [doc] improved README and some comments
 * [chore] removed the "engines" requirement on node version since we *may* work with older versions
