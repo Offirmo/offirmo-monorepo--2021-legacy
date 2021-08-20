@@ -271,4 +271,5 @@ itㆍshouldㆍmigrateㆍcorrectly.skip = function(options) {
 module.exports = {
 	itㆍshouldㆍmigrateㆍcorrectly,
 	get_advanced_json_diff: base_get_json_diff,
+	TEST_TIMESTAMP_MS,
 }

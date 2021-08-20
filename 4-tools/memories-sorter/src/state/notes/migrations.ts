@@ -45,18 +45,13 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 		schema_version: 2,
 	}
 
-	throw new Error('NIMP!')
+	throw new Error('migrate_to_2x NIMP!')
 
 	return state
 }
 
 const migrate_to_1: MigrationStep<StateForMigration, any> = (SEC, legacy_state, hints, next, legacy_schema_version) => {
-	throw new Error('NIMP!')
-
-	return {
-		...legacy_state,
-		schema_version: 1,
-	}
+	throw new Error('migrate_to_1 NIMP!')
 }
 
 /////////////////////

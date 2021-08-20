@@ -7,6 +7,7 @@ import {
 	get_human_readable_UTC_timestamp_seconds,
 	get_human_readable_UTC_timestamp_minutes,
 	get_human_readable_UTC_timestamp_days,
+	TEST_TIMESTAMP_MS,
 } from '.'
 
 declare const console: any
@@ -30,18 +31,16 @@ describe('@offirmo-private/timestamps', function() {
 		})
 
 		describe('testability', function () {
-			const TEST_DATE_MS = 1234567890
-
 			it('should allow passing a forced time', function() {
-				const date = new Date(TEST_DATE_MS)
-				expect(Number(date)).to.equal(TEST_DATE_MS)
+				const date = new Date(TEST_TIMESTAMP_MS)
+				expect(Number(date)).to.equal(TEST_TIMESTAMP_MS)
 				const stamp = get_UTC_timestamp_ms(date)
-				expect(stamp).to.equal(TEST_DATE_MS)
+				expect(stamp).to.equal(TEST_TIMESTAMP_MS)
 			})
 
 			context('when using sinon', function() {
 				beforeEach(function () {
-					this.clock = sinon.useFakeTimers(TEST_DATE_MS)
+					this.clock = sinon.useFakeTimers(TEST_TIMESTAMP_MS)
 				})
 				afterEach(function () {
 					this.clock.restore()
@@ -50,11 +49,11 @@ describe('@offirmo-private/timestamps', function() {
 				it('should be affected by useFakeTimers()', function() {
 					// test sinon itself
 					const date = new Date()
-					expect(Number(date)).to.equal(TEST_DATE_MS)
+					expect(Number(date)).to.equal(TEST_TIMESTAMP_MS)
 
 					// and us
 					const stamp = get_UTC_timestamp_ms()
-					expect(stamp).to.equal(TEST_DATE_MS)
+					expect(stamp).to.equal(TEST_TIMESTAMP_MS)
 				})
 			})
 		})

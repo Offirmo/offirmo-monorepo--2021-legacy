@@ -12,13 +12,13 @@ import { create } from '.'
 
 
 describe.only(`${LIB} - migration`, function() {
-	const TEST_DATE_MS = 1234567890
+	/*const TEST_DATE_MS = 1234567890
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers(TEST_DATE_MS)
 	})
 	afterEach(function () {
 		this.clock.restore()
-	})
+	})*/
 
 	describe('migration of a new state', function() {
 
@@ -26,7 +26,7 @@ describe.only(`${LIB} - migration`, function() {
 			use_hints: false,
 			//can_update_snapshots: true, // uncomment temporarily to update the snapshots
 			SCHEMA_VERSION,
-			LATEST_EXPECTED_DATA: enforce_immutability<any>(create('test')),
+			LATEST_EXPECTED_DATA: () => enforce_immutability<any>(create('test')),
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/notes/migrations_of_blank_state_specs'),
 			describe, context, it, expect,
