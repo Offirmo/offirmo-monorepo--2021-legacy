@@ -988,3 +988,7 @@ https://www.atlasobscura.com/articles/angampora-sri-lanka-martial-art
 I like the Batman analogy.
 Proficiency is how many tools they have in the tool belt.
 Performance is how well they’ve used them to “Save the day” ;P
+
+https://acoup.blog/resources-for-world-builders/ +++
+
+https://www.nhm.ac.uk/discover/sea-monsters-inspiration-serpents-mermaids-the-kraken.html

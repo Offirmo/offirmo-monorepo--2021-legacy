@@ -1,0 +1,39 @@
+{
+	"_comment": "This data is from @offirmo/photo-sorter https://github.com/Offirmo/offirmo-monorepo/tree/master/5-incubator/active/photos-sorter",
+	"schema_version": 1,
+	"revision": 0,
+	"last_user_action_tms": 1613965853218,
+	"encountered_files": {
+
+		"1a78788de0e03b60824166b7e17a86668c052067655c54842c0abcb484c2ab93": {
+			"original": {
+				"basename": "Image from iOS (15).jpg",
+				"parent_path": "",
+				"fs_birthtime_ms": 1571961828388
+			},
+			"currently_known_as": "Image from iOS (15).jpg"
+		},
+
+		"ce6b3d3128a28331db2a25c42671a3793af557454165aa5a1d56c71160cb291c": {
+			"original": {
+				"basename": "IMG_1474.JPG",
+				"parent_path": "",
+				"fs_birthtime_ms": 1566873905000,
+				"exif_orientation": 6
+			},
+			"currently_known_as": "MM2019-08-27_12h45m05s158_IMG_1474.jpg",
+			"renaming_source": "exif"
+		},
+
+		"fb7b013a830e451de2dfc444d5eaa9af9f67e1eb7f542a422d835cd3123d5e29": {
+			"original": {
+				"basename": "MM2020-01-01_17h57m29s625_IMG_8763.jpg",
+				"parent_path": "2020/20200101 - life",
+				"fs_birthtime_ms": 1581630576844,
+				"is_fs_birthtime_assessed_reliable": false
+			},
+			"currently_known_as": "MM2020-01-01_17h57m29s625_IMG_8763.jpg"
+		},
+	},
+	"known_modifications_new_to_old": {}
+}

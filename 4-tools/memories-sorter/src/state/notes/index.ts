@@ -1,37 +1,24 @@
 import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { BaseState, WithLastUserInvestmentTimestamp, get_mutable_copy } from '@offirmo-private/state-utils'
+import { get_mutable_copy } from '@offirmo-private/state-utils'
 import stylize_string from 'chalk'
 
-import logger from '../services/logger'
-import {
-	PersistedNotes as FileNotes,
-	State as FileState,
-	get_hash,
-	merge_notes,
-} from './file'
-import { FileHash } from '../services/hash'
+import logger from '../../services/logger'
+import { FileHash } from '../../services/hash'
 import {
 	get_human_readable_timestamp_auto,
 	create_better_date_from_utc_tms,
-} from '../services/better-date'
-import { is_normalized_media_basename } from '../services/name_parser'
-import { get_params } from '../params'
+} from '../../services/better-date'
+import {
+	PersistedNotes as FileNotes,
+	merge_notes,
+} from '../file'
 
-////////////////////////////////////
+import { LIB, SCHEMA_VERSION } from './consts'
+import { State } from './types'
 
-const LIB = '📃'
-const SCHEMA_VERSION = 1
-
-// DESIGN NOTE: the idea is to NOT have a duplication of info
-// However since we don't control the order of file discovery in the explore phase,
-// there'll be a temporary redundancy which will be corrected in the consolidation phase
-export interface State extends BaseState, WithLastUserInvestmentTimestamp {
-	_comment: string
-	encountered_files: { [oldest_hash: string]: FileNotes }
-	known_modifications_new_to_old: { [newer_hash: string]: string }
-}
+export { State } from './types'
 
 ///////////////////// ACCESSORS /////////////////////
 

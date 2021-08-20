@@ -50,7 +50,7 @@ const migrate_to_3x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 	return state
 }
 
-const migrate_to_2: LastMigrationStep<StateForMigration, any> = (SEC, legacy_state, hints, next, legacy_schema_version) => {
+const migrate_to_2: MigrationStep<StateForMigration, any> = (SEC, legacy_state, hints, next, legacy_schema_version) => {
 	return {
 		...legacy_state,
 		schema_version: 2,

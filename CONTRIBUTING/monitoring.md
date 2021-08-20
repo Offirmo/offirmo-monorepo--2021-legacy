@@ -25,14 +25,14 @@ Monitoring:
 
 | module | version | build time |
 | ------ | ------- | ---------- |
-| webapp -- TBRPG | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_time.json)
-| webapp -- TBRPG preprod | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_time.json)
-| support -- API ([functions](https://app.netlify.com/sites/online-adventures/functions)) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
-| support -- DB ([heroku pipeline](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98), [rsrc](https://dashboard.heroku.com/apps/online-adventures-prod/resources)) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Fversion) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Ftime)
+| webapp -- TBRPG | [![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_version.json)](https://www.online-adventur.es/apps/the-boring-rpg/build_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg%2Fbuild_badge_time.json)
+| webapp -- TBRPG preprod | [![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_version.json)](https://www.online-adventur.es/apps/the-boring-rpg-preprod/build_badge_version.json) | ![Custom badge](https://img.shields.io/endpoint?color=yellow&url=https%3A%2F%2Fwww.online-adventur.es%2Fapps%2Fthe-boring-rpg-preprod%2Fbuild_badge_time.json)
+| support -- API ([functions](https://app.netlify.com/sites/online-adventures/functions)) | [![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Fversion)](https://www.online-adventur.es/.netlify/functions/badges/version) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fwww.online-adventur.es%2F.netlify%2Ffunctions%2Fbadges%2Ftime)
+| support -- DB ([heroku pipeline](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98), [rsrc](https://dashboard.heroku.com/apps/online-adventures-prod/resources)) | [![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Fversion)](https://online-adventures-prod.herokuapp.com/badges/version) | ![Custom badge](https://img.shields.io/endpoint?color=green&url=https%3A%2F%2Fonline-adventures-prod.herokuapp.com%2Fbadges%2Ftime)
 
 No-code
 * [Tag Manager](https://tagmanager.google.com/)
-* TODO graphql?
+* TODO graphql? CMS?
 
 
 

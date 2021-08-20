@@ -46,6 +46,22 @@ export const get_singleton = memoize_one(function _create_shared_state_singleton
 		}
 		emitter.emit(EMITTER_EVT, `pageshow`)
 	})
+	window.addEventListener('pagehide', (event) => {
+		state = log_anything(state, `[⚡️pagehide] persisted = ${event.persisted}`)
+	})
+
+	window.addEventListener('beforeunload', (event) => {
+		state = log_anything(state, `[⚡️beforeunload]`)
+		// A function that returns `true` if the page has unsaved changes.
+		/*if (pageHasUnsavedChanges()) {
+			event.preventDefault();
+			return event.returnValue = 'Are you sure you want to exit?';
+		}*/
+	}, {capture: true})
+
+	window.addEventListener('unload', (event) => {
+		state = log_anything(state, `[⚡️unload]`)
+	})
 
 
 	return {

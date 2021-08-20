@@ -39,6 +39,8 @@ const get_hour_minute_sec_formatter = memoize_one(function _get_date_formatter()
 	return intl_date_formatter.format
 })
 
+////////////////////////////////////////////////////////////////////////////////////
+
 export function Default() {
 	console.log('render…')
 	const lib = get_singleton()
@@ -118,6 +120,26 @@ export function Default() {
 		</main>
 	)
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+
+interface State {
+	minutes_ms: number
+	seconds_ms: number
+	millis_ms: number
+}
+
+export function View({ state }: {state: State}) {
+	return (
+		<p>
+			milliseconds = {state.millis_ms}<br/>
+			seconds = {get_hour_minute_sec_formatter()(state.seconds_ms)}<br/>
+			minutes = {get_hour_minute_formatter()(state.minutes_ms)}<br/>
+		</p>
+	)
+}
+
+
 
 class AdvancedComponent extends React.Component {
 	state = {
@@ -202,6 +224,7 @@ class AdvancedComponent extends React.Component {
 					started on {get_hour_minute_sec_formatter()(this.start_ms)}
 				</p>
 				<hr/>
+				<View
 				<p>
 					milliseconds = {this.state.millis_ms}<br/>
 					seconds = {get_hour_minute_sec_formatter()(this.state.seconds_ms)}<br/>
@@ -230,12 +253,17 @@ export function Advanced() {
 export function Context() {
 	console.log('Pulse/storybook/context render…')
 
-	let state = 0
+
 	const StateContext = React.createContext(0)
+
+	const lib = get_singleton()
+
+	let count = 0
+
 
 	return (
 		<StateContext.Provider value={count}>
-			<Toolbar />
+			TODO
 		</StateContext.Provider>
 	);
 }
