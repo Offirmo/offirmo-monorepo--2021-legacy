@@ -4,7 +4,7 @@ import { expect } from 'chai'
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_json_difference, enforce_immutability } from '@offirmo-private/state-utils'
 
-import { LIB } from '../consts'
+import { LIB } from '../../consts'
 import {
 	FileId,
 	PersistedNotes,
@@ -24,7 +24,7 @@ import {
 	on_info_read__fs_stats,
 	on_info_read__hash,
 	on_notes_recovered, is_confident_in_date_enough_to__fix_fs, is_confident_in_date_enough_to__sort,
-} from './file'
+} from '.'
 import {
 	_get_exif_datetime,
 	create_better_date,
@@ -32,18 +32,18 @@ import {
 	get_embedded_timezone,
 	get_human_readable_timestamp_auto,
 	get_timestamp_utc_ms_from,
-} from '../services/better-date'
+} from '../../services/better-date'
 import {
 	is_normalized_media_basename
-} from '../services/name_parser'
-import { ALL_MEDIA_DEMOS } from '../__test_shared/real_files'
+} from '../../services/name_parser'
+import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
 import {
 	get_test_single_file_state_generator,
 	REAL_CREATION_DATE‿EXIF,
 	REAL_CREATION_DATE‿TMS,
 	REAL_CREATION_DATE‿HRTS,
 	BAD_CREATION_DATE_CANDIDATE‿TMS,
-} from '../__test_shared/utils'
+} from '../../__test_shared/utils'
 
 /////////////////////
 

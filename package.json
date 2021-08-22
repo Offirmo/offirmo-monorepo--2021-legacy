@@ -112,7 +112,7 @@
 		"micro-memoize": "^4",
 		"moment": "^2",
 		"moment-business": "^3",
-		"moment-parseformat": "^3",
+		"moment-parseformat": "^4",
 		"moment-timezone": "^0.5",
 		"murmurhash3js-revisited": "^3",
 		"nanoid": "^3",
