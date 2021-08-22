@@ -5,21 +5,21 @@ import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import { DIGIT_PROTECTION_SEPARATOR } from '../consts'
-import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
-import { get_params, Params } from '../params'
-import { is_year, is_compact_date, is_digit } from '../services/matchers'
-import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder_basename } from '../services/name_parser'
-import logger from '../services/logger'
-import * as BetterDateLib from '../services/better-date'
+import { DIGIT_PROTECTION_SEPARATOR } from '../../consts'
+import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
+import { get_params, Params } from '../../params'
+import { is_year, is_compact_date, is_digit } from '../../services/matchers'
+import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder_basename } from '../../services/name_parser'
+import logger from '../../services/logger'
+import * as BetterDateLib from '../../services/better-date'
 import {
 	add_days_to_simple_date,
 	BetterDate,
 	get_compact_date,
 	get_debug_representation,
-} from '../services/better-date'
-import * as File from './file'
-import { FsReliability, NeighborHints } from './file'
+} from '../../services/better-date'
+import * as File from '../file'
+import { FsReliability, NeighborHints } from '../file'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 ////////////////////////////////////

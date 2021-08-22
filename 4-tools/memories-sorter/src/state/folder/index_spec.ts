@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { LIB } from '../consts'
+import { LIB } from '../../consts'
 import {
 	State,
 	is_current_basename_intentful_of_event_start,
@@ -9,21 +9,21 @@ import {
 	create,
 	on_subfile_found,
 	on_subfile_primary_infos_gathered,
-} from './folder'
-import * as File from './file'
+} from '.'
+import * as File from '../file'
 
-import { ALL_MEDIA_DEMOS } from '../__test_shared/real_files'
+import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
 import {
 	has_all_infos_for_extracting_the_creation_date,
 	on_info_read__exif,
 	on_info_read__fs_stats,
 	on_info_read__hash, on_info_read__current_neighbors_primary_hints, on_notes_recovered,
-} from './file'
+} from '../file'
 
 /////////////////////
 
 describe(`${LIB} - folder state`, function() {
-/*
+
 	describe('selectors', function() {
 
 		describe('get_ideal_basename', function () {
@@ -214,5 +214,5 @@ describe(`${LIB} - folder state`, function() {
 				})
 			})
 		})
-	})*/
+	})
 })
