@@ -3,9 +3,9 @@ import path from 'path'
 
 import { Immutable } from '@offirmo-private/ts-types'
 
-import { get_test_single_file_DB_state_generator } from '../__test_shared/utils'
-import { LIB, NOTES_BASENAME_SUFFIX_LC } from '../consts'
-import * as Notes from './notes'
+import { get_test_single_file_DB_state_generator } from '../../__test_shared/utils'
+import { LIB, NOTES_BASENAME_SUFFIX_LC } from '../../consts'
+import * as Notes from '../notes'
 import {
 	clean_up_duplicates,
 	create,
@@ -27,10 +27,10 @@ import {
 	on_hash_computed,
 	on_notes_found,
 	to_string,
-} from './db'
-import { create_better_date, _get_exif_datetime, get_timestamp_utc_ms_from } from '../services/better-date'
-import * as File from './file'
-import * as Folder from './folder'
+} from '.'
+import { create_better_date, _get_exif_datetime, get_timestamp_utc_ms_from } from '../../services/better-date'
+import * as File from '../file'
+import * as Folder from '../folder'
 
 /////////////////////
 

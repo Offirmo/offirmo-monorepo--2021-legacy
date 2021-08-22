@@ -23,24 +23,24 @@ import {
 	EXIF_POWERED_FILE_EXTENSIONS_LC,
 	NOTES_BASENAME_SUFFIX_LC,
 	DIGIT_PROTECTION_SEPARATOR,
-} from '../consts'
+} from '../../consts'
 import {
 	Basename,
 	RelativePath,
 	SimpleYYYYMMDD,
 	TimeZone,
-} from '../types'
-import { Params, get_params } from '../params'
-import logger from '../services/logger'
+} from '../../types'
+import { Params, get_params } from '../../params'
+import logger from '../../services/logger'
 import {
 	FsStatsSubset,
 	get_most_reliable_birthtime_from_fs_stats,
-} from '../services/fs_stats'
+} from '../../services/fs_stats'
 import {
 	get_best_creation_date_from_exif,
 	get_creation_timezone_from_exif,
 	get_orientation_from_exif,
-} from '../services/exif'
+} from '../../services/exif'
 import {
 	ParseResult,
 	get_file_basename_copy_index,
@@ -50,7 +50,7 @@ import {
 	is_processed_media_basename,
 	parse_file_basename,
 	pathㆍparse_memoized,
-} from '../services/name_parser'
+} from '../../services/name_parser'
 import {
 	BetterDate,
 	BetterDateMembers,
@@ -63,9 +63,9 @@ import {
 	get_debug_representation,
 	create_better_date_obj, get_members,
 	DAY_IN_MILLIS,
-} from '../services/better-date'
-import { FileHash } from '../services/hash'
-import { is_digit } from '../services/matchers'
+} from '../../services/better-date'
+import { FileHash } from '../../services/hash'
+import { is_digit } from '../../services/matchers'
 
 /////////////////////////////////////////////////
 
