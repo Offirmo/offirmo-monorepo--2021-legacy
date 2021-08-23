@@ -8,7 +8,7 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 export const Type = Enum(
 	'root',
-	'inbox',
+	'inbox', // not really needed but nice
 
 	'year',
 	'event', // by default
@@ -16,7 +16,7 @@ export const Type = Enum(
 	'overlapping_event', // used to be an event but other folders are overlapping it (or duplicate)
 	'cant_recognize',
 	'cant_autosort',
-	'unknown', // anything else that can't be an event
+	'unknown', // anything else that can't be an event, ex. TODO
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
 
@@ -27,7 +27,7 @@ export interface State {
 	type: Type
 	reason_for_demotion_from_event: null | string
 
-	// XXX data loop by having the files using the folder then the folder using the files??
+	// TODO review data loop by having the files using the folder then the folder using the files??
 
 	// Date ranges from children
 	children_date_ranges: {
@@ -37,7 +37,7 @@ export interface State {
 		from_fs_current: {
 			begin: undefined | TimestampUTCMs
 			end: undefined | TimestampUTCMs
-		},
+		}
 
 		// after 1st pass
 		// EARLY/BASIC/PRIMARY range of the RELIABLE media files currently in this folder (without hints or notes)
@@ -46,7 +46,7 @@ export interface State {
 		from_primary_current: {
 			begin: undefined | BetterDate
 			end: undefined | BetterDate
-		},
+		}
 
 		// after 2nd pass
 		// FINAL range of the media files currently in this folder
@@ -54,7 +54,7 @@ export interface State {
 		from_primary_final: {
 			begin: undefined | BetterDate
 			end: undefined | BetterDate
-		},
+		}
 	}
 
 	// if this folder is an event, what is the range assigned to it? (may be arbitrarily set)
