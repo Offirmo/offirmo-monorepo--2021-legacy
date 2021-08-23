@@ -1,5 +1,4 @@
 import path from 'path'
-import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
@@ -8,104 +7,44 @@ import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { DIGIT_PROTECTION_SEPARATOR } from '../../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
 import { get_params, Params } from '../../params'
-import { is_year, is_compact_date, is_digit } from '../../services/matchers'
+import { is_year, is_digit } from '../../services/matchers'
 import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder_basename } from '../../services/name_parser'
 import logger from '../../services/logger'
 import * as BetterDateLib from '../../services/better-date'
 import {
-	add_days_to_simple_date,
 	BetterDate,
 	get_compact_date,
 	get_debug_representation,
 } from '../../services/better-date'
 import * as File from '../file'
 import { FsReliability, NeighborHints } from '../file'
-import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
-////////////////////////////////////
-
-const LIB = '📂'
-
-export const Type = Enum(
-	'root',
-	'inbox',
-
-	'year',
-	'event', // by default
-
-	'overlapping_event', // used to be an event but other folders are overlapping it (or duplicate)
-	'cant_recognize',
-	'cant_autosort',
-	'unknown', // anything else that can't be an event
-)
-export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
-
-function _get_special_folder_final_base(type: Type): Basename {
-	return `- ${type}`
-}
-export const SPECIAL_FOLDER__INBOX__BASENAME = _get_special_folder_final_base(Type.inbox)
-export const SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME = _get_special_folder_final_base(Type.cant_autosort)
-export const SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME = _get_special_folder_final_base(Type.cant_recognize)
-export const SPECIAL_FOLDERS__BASENAMES = [
+import {
+	LIB,
 	SPECIAL_FOLDER__INBOX__BASENAME,
 	SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
 	SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME,
-]
+	SPECIAL_FOLDERS__BASENAMES,
+} from './consts'
+import {
+	FolderId,
+	Type,
+	State,
+} from './types'
 
-export type FolderId = RelativePath
+////////////////////////////////////
 
-export interface State {
-	id: FolderId
-	type: Type
-	reason_for_demotion_from_event: null | string
-
-	// XXX data loop by having the files using the folder then the folder using the files??
-
-	// Date ranges from children
-	children_date_ranges: {
-		// ALL can be null if no children TODO review
-
-		// needed to assess whether the fs data looks reliable in this folder
-		from_fs_current: {
-			begin: undefined | TimestampUTCMs
-			end: undefined | TimestampUTCMs
-		},
-
-		// after 1st pass
-		// EARLY/BASIC/PRIMARY range of the RELIABLE media files currently in this folder (without hints or notes)
-		// This is used to hint the files and help them confirm their FS birthtime
-		// needed to discriminate whether an hypothetical basename date is an event or a backup
-		from_primary_current: {
-			begin: undefined | BetterDate
-			end: undefined | BetterDate
-		},
-
-		// after 2nd pass
-		// FINAL range of the media files currently in this folder
-		// This happens after the files got the hints + notes restored
-		from_primary_final: {
-			begin: undefined | BetterDate
-			end: undefined | BetterDate
-		},
-	}
-
-	// if this folder is an event, what is the range assigned to it? (may be arbitrarily set)
-	event_range: {
-		begin: undefined | BetterDate
-		end: undefined | BetterDate
-	}
-
-	children_fs_reliability_count: {
-		'unknown': number,
-		'unreliable': number,
-		'reliable': number,
-	}
-
-	// intermediate data for internal assertions
-	children_count: number,
-	children_pass_1_count: number,
-	children_pass_2_count: number,
+export {
+	LIB,
+	SPECIAL_FOLDER__INBOX__BASENAME,
+	SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
+	SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME,
+	SPECIAL_FOLDERS__BASENAMES,
+	FolderId,
+	Type,
+	State,
 }
+
 
 ///////////////////// ACCESSORS /////////////////////
 
