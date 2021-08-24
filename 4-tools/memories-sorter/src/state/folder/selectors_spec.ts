@@ -11,8 +11,9 @@ import {
 
 import {
 	get_ideal_basename,
-	get_depth,
+	get_depth, get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
 } from './selectors'
+import { create_better_date_from_symd } from '../../services/better-date'
 
 
 
@@ -22,29 +23,35 @@ describe(`${LIB} - folder state`, function() {
 
 	describe('selectors', function() {
 
-		describe('get_ideal_basename', function () {
+		describe('get_ideal_basename()', function () {
 
-			it('should work', () => {
-				type TCIdeal = { [k: string]: string }
-				const TEST_CASES: TCIdeal = {
-					'foo': '20001231 - foo',
-					'20140803 - holidays': '20140803 - holidays',
-					'- inbox': '- inbox',
-					'20011125 - 00- voyage à Paris - 2001': '20011125 - x00- voyage à Paris - 2001' // explicit date + unicode (seen BUG strange unicode destruction) + "x" protection needed
-				}
-				Object.keys(TEST_CASES).forEach(tc => {
+			type TCIdeal = { [k: string]: string }
+			const TEST_CASES: TCIdeal = {
+				'foo':   '20001231 - foo',
+				'20140803 - holidays':    '20140803 - holidays',
+				'- inbox':   '- inbox',
+				'20011125 - 00- voyage à Paris - 2001':   '20011125 - x00- voyage à Paris - 2001' // explicit date + unicode (seen BUG strange unicode destruction) + "x" protection needed
+			}
+			Object.keys(TEST_CASES).forEach(tc => {
+				it(`should work by taking the event range (manual or auto-generated) -- ${tc}`, () => {
 					let state: State = create(tc)
-					if (!state.event_begin_date_symd)
-						state.event_begin_date_symd = state.event_end_date_symd = 20001231
+					const has_date_in_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state) !== null
+
+					//console.log(tc, { state }, get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state))
+					if (!has_date_in_basename) {
+						expect(() => get_ideal_basename(state), tc).to.throw('event range should have a start')
+						state.event_range.begin = state.event_range.begin = create_better_date_from_symd(20001231, 'tz:auto')
+					}
+
 					//console.log(state)
 					expect(get_ideal_basename(state), tc).to.equal(TEST_CASES[tc])
 				})
 			})
 
-			it('should priorise explicit event date over basename hint', () => {
+			/*it('should priorise explicit event date over basename hint', () => {
 				let state: State = create('20140803 - holidays')
 				//console.log(state)
-				state.event_begin_date_symd = state.event_end_date_symd = 20001231
+				state.event_range.begin = state.event_range.begin = create_better_date_from_symd(20001231, 'tz:auto')
 				//console.log(state)
 				expect(get_ideal_basename(state)).to.equal('20001231 - holidays')
 			})
@@ -73,7 +80,7 @@ describe(`${LIB} - folder state`, function() {
 				state = on_subfile_primary_infos_gathered(state, subfile_state)
 				//console.log(state)
 				expect(get_ideal_basename(state)).to.equal('20011206 - x01- St. Nicolas')
-			})
+			})*/
 		})
 
 		describe('get_depth()', function() {

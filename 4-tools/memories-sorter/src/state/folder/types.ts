@@ -27,13 +27,21 @@ export interface State {
 	type: Type
 	reason_for_demotion_from_event: null | string
 
+	// if this folder is an event, what is the range assigned to it?
+	// (not inferred, may be arbitrarily set)
+	event_range: {
+		begin: undefined | BetterDate
+		end: undefined | BetterDate
+	}
+
 	// TODO review data loop by having the files using the folder then the folder using the files??
 
-	// Date ranges from children
-	children_date_ranges: {
-		// ALL can be null if no children TODO review
+	// various creation date ranges from children:
+	children_bcd_ranges: {
+		// ALL can be null if no children TODO review or undefined?
 
-		// needed to assess whether the fs data looks reliable in this folder
+		// after 1st pass
+		// info needed to assess whether the fs info looks reliable in this folder
 		from_fs_current: {
 			begin: undefined | TimestampUTCMs
 			end: undefined | TimestampUTCMs
@@ -57,12 +65,7 @@ export interface State {
 		}
 	}
 
-	// if this folder is an event, what is the range assigned to it? (may be arbitrarily set)
-	event_range: {
-		begin: undefined | BetterDate
-		end: undefined | BetterDate
-	}
-
+	// after 1st pass
 	children_fs_reliability_count: {
 		'unknown': number,
 		'unreliable': number,
@@ -70,7 +73,7 @@ export interface State {
 	}
 
 	// intermediate data for internal assertions
-	children_count: number,
-	children_pass_1_count: number,
-	children_pass_2_count: number,
+	children_count: number, // initial fs exploration
+	children_pass_1_count: number, // fs exploration
+	children_pass_2_count: number, // consolidation
 }

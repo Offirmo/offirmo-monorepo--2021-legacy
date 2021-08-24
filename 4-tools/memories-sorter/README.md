@@ -4,6 +4,16 @@
 
 ## Contributing
 
+### concepts
+* exif = good but not 100% reliable
+  * ex. low precision
+  * ex. WhatsApp messing up
+* timezones, ex. lunch time in another country should be 12h
+* "primary infos" = directly read from the current file = name + exif + fs...
+* fs has no timezone...
+* folder date could be the event but also the backup date...
+* TODO should we be afraid of hash collisions?
+
 ### generic principles
 
 * info should never be redundant, should have a single place
@@ -22,13 +32,15 @@ Date will always be improved by FS if the FS matches
 
 
 ### Phases
-1. **exploration** the file system will be recursively explored at the given location
-1. **consolidation** once all the files are explored, we can now consolidate the data,
-	ex. merging notes and inferring folder types from their content
-1. **de-duplication** files sharing the same hash will be assessed and only the best copy we'll be kept
-1. **in-place normalization**
-1. **sorting**
-1. **cleanup**
+1. **FS exploration** the "root" folder is recursively explored
+   1. all "memory" files have their "primary" infos read: hash, fs and exif (if any)
+   2. all "notes" are migrated and merged into one big repo
+2. **consolidation** once all the files are explored, we can now consolidate the data,
+   ex. merging notes and inferring folder types from their content
+3. **de-duplication** files sharing the same hash will be assessed and only the best copy we'll be kept
+4. **in-place normalization**
+5. **sorting**
+6. **cleanup**
 
 ### State & actions
 

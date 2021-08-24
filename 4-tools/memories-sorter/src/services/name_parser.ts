@@ -838,6 +838,6 @@ export function is_normalized_event_folder_relpath(relpath: RelativePath): boole
 	return get_folder_relpath_normalisation_version(relpath) === RELATIVE_PATH_NORMALIZATION_VERSION
 }
 
-export function is_processed_event_folder_basename(basename: Basename): boolean {
+export function is_folder_basename__matching_a_processed_event_format(basename: Basename): boolean {
 	return get_folder_basename_normalisation_version(basename) !== undefined
 }

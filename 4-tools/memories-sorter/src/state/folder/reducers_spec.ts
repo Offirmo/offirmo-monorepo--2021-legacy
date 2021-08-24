@@ -23,23 +23,86 @@ import {
 /////////////////////
 
 describe(`${LIB} - folder state`, function() {
-	/*
+
 	describe('reducers', function() {
 
 		describe('create()', function () {
 
-			it('should infer the date ranges', () => {
+			it('should NOT infer the date ranges at start (waiting to discriminate from an event and a backup)', () => {
 				let state = create('holiday 2018-09-04')
-				expect(state.children_begin_date_symd, 'children begin').to.be.undefined
-				expect(state.children_end_date_symd, 'children end').to.be.undefined
-				expect(state.event_begin_date_symd, 'inferred event begin').to.equal(20180904)
-				expect(state.event_end_date_symd, 'inferred event end').to.equal(20180904)
+
+				Object.keys(state.children_bcd_ranges).forEach(_range_key => {
+					const range_key = _range_key as any as  keyof State['children_bcd_ranges']
+					expect(state.children_bcd_ranges[range_key].begin, `children_bcd_ranges.${range_key}.begin`).to.be.undefined
+					expect(state.children_bcd_ranges[range_key].end, `children_bcd_ranges.${range_key}.end`).to.be.undefined
+				})
+				expect(state.event_range.begin, 'event begin').to.be.undefined
+				expect(state.event_range.end, 'event end').to.be.undefined
+			})
+		})
+
+		describe('on_subfile_found()', function() {
+
+			it('should count non-meta children', () => {
+				let state = create('foo')
+				expect(state.children_count).to.equal(0)
+
+				state = on_subfile_found(state, File.create('bar.png'))
+				expect(state.children_count).to.equal(1)
 			})
 		})
 
 		describe('on_subfile_primary_infos_gathered()', function () {
-			//before(() => ALL_MEDIA_DEMOS[0].get_state())
 
+			it.only('should gather primary info', async () => {
+				let state = create('foo')
+				expect(state.children_count).to.equal(0)
+
+				let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+				state = on_subfile_found(state, file_state)
+
+				state = on_subfile_primary_infos_gathered(state, file_state)
+			})
+		})
+
+		describe('on_fs_exploration_done()', function() {
+
+			context('when the folder basename does NOT contains a date', function() {
+
+				it('should NOT init the event range, EVEN if there are children', () => {
+					let state = create('foo')
+
+					let subfile_state = File.create('MM20181130.png')
+					state = on_subfile_found(state, subfile_state)
+
+					state = on_subfile_primary_infos_gathered(state, subfile_state)
+				})
+			})
+
+			context('when the folder basename contains a date', function() {
+
+				context('when there are children', function() {
+
+				})
+
+				context('when there are NO children', function() {
+
+					context('when the folder name refers to a backup', function () {
+
+						it('should NOT init the event range')
+					})
+
+					context('when the folder name looks like an event', function () {
+
+						it('should init the event range')
+					})
+
+				})
+			})
+		})
+
+		describe('on_subfile_all_infos_gathered()', function() {
+			/*
 			context('when no event range', function() {
 
 				it('should set the date range', async () => {
@@ -139,7 +202,7 @@ describe(`${LIB} - folder state`, function() {
 					})
 				})
 			})
+			*/
 		})
 	})
-	*/
 })

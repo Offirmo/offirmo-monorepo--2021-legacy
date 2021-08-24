@@ -20,7 +20,7 @@ import {
 	get_digit_pattern,
 	get_media_basename_normalisation_version, is_processed_media_basename, is_normalized_media_basename,
 	get_folder_relpath_normalisation_version, is_normalized_event_folder_relpath,
-	get_folder_basename_normalisation_version, is_processed_event_folder_basename,
+	get_folder_basename_normalisation_version, is_folder_basename__matching_a_processed_event_format,
 } from './name_parser'
 import {
 	get_human_readable_timestamp_auto,
@@ -441,7 +441,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 	})
 
-	describe('get_folder_basename_normalisation_version(), is_processed_event_folder_basename()', function() {
+	describe('get_folder_basename_normalisation_version(), is_folder_basename__matching_a_processed_event_format()', function() {
 		const T: { [k: string]: undefined | number } = {
 			// v1
 			'20070101 - foo'                 : 1,
@@ -459,7 +459,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			it(`should work for "${basename}"`, () => {
 				expect(get_folder_basename_normalisation_version(basename))
 					.to.equal(T[basename])
-				expect(is_processed_event_folder_basename(basename))
+				expect(is_folder_basename__matching_a_processed_event_format(basename))
 					.to.equal(T[basename] !== undefined)
 			})
 		})

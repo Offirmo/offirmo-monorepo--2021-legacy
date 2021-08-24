@@ -7,7 +7,7 @@ import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { DIGIT_PROTECTION_SEPARATOR } from '../../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
 import { is_year, is_digit } from '../../services/matchers'
-import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_processed_event_folder_basename } from '../../services/name_parser'
+import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_folder_basename__matching_a_processed_event_format } from '../../services/name_parser'
 import * as BetterDateLib from '../../services/better-date'
 import { BetterDate, get_compact_date } from '../../services/better-date'
 import { FsReliability, NeighborHints } from '../file'
@@ -52,10 +52,10 @@ export function get_current_basename‿parsed(state: Immutable<State>): Immutabl
 	return parse_folder_basename(get_basename(state))
 }
 
-export function is_pass_1_done(state: Immutable<State>): boolean {
+export function is_data_gathering_pass_1_done(state: Immutable<State>): boolean {
 	return state.children_pass_1_count === state.children_count
 }
-export function is_pass_2_done(state: Immutable<State>): boolean {
+export function is_data_gathering_pass_2_done(state: Immutable<State>): boolean {
 	return state.children_pass_2_count === state.children_count
 }
 
@@ -67,7 +67,7 @@ export function get_reliable_children_range(state: Immutable<State>): null | [ S
 }
 */
 function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
-	assert(is_pass_1_done(state), `${LIB} _get_children_fs_reliability() pass 1 should be done`)
+	assert(is_data_gathering_pass_1_done(state), `${LIB} _get_children_fs_reliability() pass 1 should be done`)
 	assert(
 		state.children_count === 0
 		+ state.children_fs_reliability_count['unknown']
@@ -133,7 +133,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 }
 
 // TODO memoize
-export function get_event_start_from_basename(state: Immutable<State>): null | Immutable<BetterDate> {
+export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
 	const current_basename = get_basename(state)
 
 	if (current_basename.length < 12) {
@@ -147,20 +147,23 @@ export function get_event_start_from_basename(state: Immutable<State>): null | I
 
 	// TODO review: should we return null if range too big?
 
-	// a dated folder can indicate either
-	// - the date of an event = date of the beginning of the file range
-	// - the date of a backup = date of the END of the file range
+	// reminder: a dated folder can indicate either
+	// - the date of an EVENT = date of the beginning of the file range
+	// - the date of a BACKUP = date of the END of the file range
+	// we need extra info to discriminate between the two options
 
-	// attempt to cross check with the children date range
-	assert(is_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
+	// try to cross-reference with the children date range = best source of info
 	const { begin, end } = (() => {
-		if (state.children_date_ranges.from_primary_final.begin && is_pass_2_done(state)) {
-			return state.children_date_ranges.from_primary_final
+		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
+
+		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primary_final.begin) {
+			return state.children_bcd_ranges.from_primary_final
 		}
 
-		return state.children_date_ranges.from_primary_current
+		return state.children_bcd_ranges.from_primary_current
 	})()
 	if (!!begin && !!end) {
+		// we have a range, let's cross-reference…
 		const date__from_basename‿symd = BetterDateLib.get_compact_date(parsed.date, 'tz:embedded')
 
 		// TODO use the best available data?
@@ -172,44 +175,45 @@ export function get_event_start_from_basename(state: Immutable<State>): null | I
 			return parsed.date
 		}
 		else if (date__from_basename‿symd >= date_range_end‿symd) {
-			// clearly a backup date
+			// clearly a backup date, ignore it
 			return null
 		}
 		else {
 			// strange situation, let's investigate...
-			throw new Error('get_event_start_from_basename() NIMP1')
+			throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP1')
 		}
 	}
 
-	if (is_processed_event_folder_basename(current_basename)) {
+	// we have no range, let's try something else…
+	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
 		// this looks very very much like an event
 		// TODO check parent is year as well?
 		return parsed.date
 	}
 
 	if (parsed.meaningful_part.toLowerCase().includes('backup')) {
-		// clear message
+		// clearly not an event
 		return null
 	}
 
 	// can't really tell...
 	console.error({
 		current_basename,
-		ip: is_processed_event_folder_basename(current_basename),
+		ip: is_folder_basename__matching_a_processed_event_format(current_basename),
 		pmp: parsed.meaningful_part,
 	})
-	throw new Error('get_event_start_from_basename() NIMP2')
+	throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP2')
 }
 
 export function is_current_basename_intentful_of_event_start(state: Immutable<State>): boolean {
-	return get_event_start_from_basename(state) !== null
+	return get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state) !== null
 }
 
 export function get_neighbor_primary_hints(state: Immutable<State>): Immutable<NeighborHints> {
-	assert(is_pass_1_done(state), `get_neighbor_primary_hints() pass 1 should be complete`)
+	assert(is_data_gathering_pass_1_done(state), `get_neighbor_primary_hints() pass 1 should be complete`)
 
 	return {
-		parent_folder_bcd: get_event_start_from_basename(state),
+		parent_folder_bcd: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state),
 		fs_bcd_assessed_reliability: _get_children_fs_reliability(state),
 	}
 }

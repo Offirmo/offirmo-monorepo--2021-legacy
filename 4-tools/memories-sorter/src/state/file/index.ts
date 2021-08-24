@@ -681,7 +681,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 		'get_best_creation_date_meta__from_current_data() has_all_infos_for_extracting_the_creation_date()'
 	)
 
-	assert(!state.current_neighbor_hints, `get_best_creation_date_meta__from_current_data() ???`)
+	assert(!state.current_neighbor_hints, `get_best_creation_date_meta__from_current_data() should NOT have neighbor_hints yet`)
 
 	const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
 	const bcd__from_fs__current = create_better_date_from_utc_tms(bcd__from_fs__current‿tms, 'tz:auto')
@@ -1074,7 +1074,7 @@ export function is_confident_in_date_enough_to__sort(state: Immutable<State>): b
 	return _is_confident_in_date(state, 'secondary')
 }
 
-export function get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(state: Immutable<State>): FsReliability {
+export function get_bcd__from_fs__current__reliability_according_to_other_trustable_current_primary_date_sources(state: Immutable<State>): FsReliability {
 	const bcd__from_fs__current‿tms = get_creation_date__from_fs_stats__current‿tms(state)
 	const bcd__from_fs__current = create_better_date_from_utc_tms(bcd__from_fs__current‿tms, 'tz:auto')
 
@@ -1096,7 +1096,7 @@ export function get_current_fs_date_reliability_according_to_other_trustable_cur
 		return 'unknown'
 	}
 
-	logger.log('⚠️ get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources() yielding FALSE', {
+	logger.log('⚠️ get_bcd__from_fs__current__reliability_according_to_other_trustable_current_primary_date_sources() yielding FALSE', {
 		id: state.id,
 		bcd__from_fs__current: get_debug_representation(bcd__from_fs__current‿tms),
 		bcd__from_exif: get_debug_representation(bcd__from_exif),
@@ -1115,7 +1115,7 @@ function _get_current_fs_assessed_reliability(
 	assert(neighbor_hints, `_get_current_fs_assessed_reliability() should be called with neighbor hints`)
 
 	// first look at ourself
-	const self_assessed_reliability = get_current_fs_date_reliability_according_to_other_trustable_current_primary_date_sources(state)
+	const self_assessed_reliability = get_bcd__from_fs__current__reliability_according_to_other_trustable_current_primary_date_sources(state)
 	if (self_assessed_reliability !== 'unknown') {
 		logger.trace(`_get_current_fs_assessed_reliability() current fs reliability has been assessed to "${self_assessed_reliability}" from self`)
 		return self_assessed_reliability
