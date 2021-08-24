@@ -1,19 +1,12 @@
 import { expect } from 'chai'
-import path from 'path'
 
-import { Immutable } from '@offirmo-private/ts-types'
-
-import { get_test_single_file_DB_state_generator } from '../../__test_shared/utils'
 import { LIB, NOTES_BASENAME_SUFFIX_LC } from '../../consts'
 import * as Notes from '../notes'
 import {
 	clean_up_duplicates,
 	create,
-	is_folder_existing,
-	is_file_existing,
 	discard_all_pending_actions,
 	get_first_pending_action,
-	get_ideal_file_relative_path,
 	get_past_and_present_notes,
 	get_pending_actions,
 	normalize_files_in_place,
@@ -30,7 +23,6 @@ import {
 } from '.'
 import { create_better_date, _get_exif_datetime, get_timestamp_utc_ms_from } from '../../services/better-date'
 import * as File from '../file'
-import * as Folder from '../folder'
 
 /////////////////////
 

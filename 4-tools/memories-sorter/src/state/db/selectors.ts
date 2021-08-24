@@ -2,17 +2,13 @@ import path from 'path'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
-import { Tags } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
 import { prettify_json } from '@offirmo-private/prettify-any'
-import { get_base_loose, enforce_immutability } from '@offirmo-private/state-utils'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB as APP } from '../../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../../types'
-import { Action, ActionType } from '../actions'
-import * as Actions from '../actions'
-import { FileHash } from '../../services/hash'
-import { FsStatsSubset } from '../../services/fs_stats'
+import { Action } from '../actions'
 import { get_file_basename_without_copy_index } from '../../services/name_parser'
 import {
 	get_compact_date,
@@ -26,7 +22,7 @@ import * as Folder from '../folder'
 import * as File from '../file'
 import * as Notes from '../notes'
 import { FolderId } from '../folder'
-import { FileId, PersistedNotes } from '../file'
+import { FileId } from '../file'
 import { get_params } from '../../params'
 
 import { LIB } from './consts'
