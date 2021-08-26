@@ -28,9 +28,9 @@ describe(`${LIB} - file (state)`, function() {
 		describe('real files', function() {
 			this.timeout(5000) // actual file loading and parsing
 
-			ALL_MEDIA_DEMOS.forEach(({ data: MEDIA_DEMO, get_state }, index) => {
+			ALL_MEDIA_DEMOS.forEach(({ data: MEDIA_DEMO, get_phase1_state }, index) => {
 				it(`should work - #${index+1}: "${MEDIA_DEMO.BASENAME}"`, async () => {
-					let state = await get_state()
+					let state = await get_phase1_state()
 
 					expect(get_current_basename(state)).to.equal(MEDIA_DEMO.BASENAME)
 					expect(get_current_parent_folder_id(state)).to.equal('.')

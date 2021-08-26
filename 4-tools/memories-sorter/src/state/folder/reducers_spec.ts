@@ -1,24 +1,29 @@
 import { expect } from 'chai'
 
 import { LIB } from '../../consts'
+
+import * as File from '../file'
+
 import {
 	State,
+} from './types'
+import {
 	is_current_basename_intentful_of_event_start,
 	get_ideal_basename,
 	get_depth,
+	get_event_begin_date‿symd,
+	get_event_end_date‿symd,
+} from './selectors'
+import {
 	create,
 	on_subfile_found,
 	on_subfile_primary_infos_gathered,
-} from '.'
-import * as File from '../file'
+	on_fs_exploration_done,
+} from './reducers'
+
 
 import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
-import {
-	has_all_infos_for_extracting_the_creation_date,
-	on_info_read__exif,
-	on_info_read__fs_stats,
-	on_info_read__hash, on_info_read__current_neighbors_primary_hints, on_notes_recovered,
-} from '../file'
+
 
 /////////////////////
 
@@ -54,28 +59,39 @@ describe(`${LIB} - folder state`, function() {
 
 		describe('on_subfile_primary_infos_gathered()', function () {
 
-			it.only('should gather primary info', async () => {
+			it('should aggregate primary info', async () => {
 				let state = create('foo')
-				expect(state.children_count).to.equal(0)
 
-				let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+				let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 				state = on_subfile_found(state, file_state)
+				expect(state.children_pass_1_count).to.equal(0)
+				expect(state.children_fs_reliability_count).to.deep.equal({ unknown: 0, unreliable: 0, reliable: 0 })
 
 				state = on_subfile_primary_infos_gathered(state, file_state)
+				expect(state.children_pass_1_count).to.equal(1)
+				expect(state.children_fs_reliability_count).to.deep.equal({ unknown: 0, unreliable: 0, reliable: 1 })
+
+				expect(state.children_bcd_ranges.from_fs_current.begin).to.be.ok
+				expect(state.children_bcd_ranges.from_fs_current.end).to.be.ok
+				expect(state.children_bcd_ranges.from_primary_current.begin).to.be.ok
+				expect(state.children_bcd_ranges.from_primary_current.end).to.be.ok
 			})
 		})
 
-		describe('on_fs_exploration_done()', function() {
+		describe.only('on_fs_exploration_done()', function() {
 
 			context('when the folder basename does NOT contains a date', function() {
 
-				it('should NOT init the event range, EVEN if there are children', () => {
+				it('should NOT init the event range (YET), EVEN if there are children', async () => {
 					let state = create('foo')
 
-					let subfile_state = File.create('MM20181130.png')
-					state = on_subfile_found(state, subfile_state)
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+					state = on_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
 
-					state = on_subfile_primary_infos_gathered(state, subfile_state)
+					state = on_fs_exploration_done(state)
+					expect(state.event_range.begin).to.be.undefined
+					expect(state.event_range.end).to.be.undefined
 				})
 			})
 
@@ -83,20 +99,66 @@ describe(`${LIB} - folder state`, function() {
 
 				context('when there are children', function() {
 
+					context('when the cross-referencing hints at a backup', function () {
+
+						it('should NOT init the event range', async () => {
+							let state = create('2018-11-23 iphone 12')
+
+							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test
+							let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+							state = on_subfile_found(state, file_state)
+							state = on_subfile_primary_infos_gathered(state, file_state)
+
+							state = on_fs_exploration_done(state)
+							expect(state.event_range.begin).to.be.undefined
+							expect(state.event_range.end).to.be.undefined
+						})
+					})
+
+					context('when the cross-referencing hints at an event', function () {
+
+						it('should init the event range with the basename date', async () => {
+							let state = create('holidays in cool place 2018-09-03')
+
+							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test
+							let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+							state = on_subfile_found(state, file_state)
+							state = on_subfile_primary_infos_gathered(state, file_state)
+
+							state = on_fs_exploration_done(state)
+							expect(state.event_range.begin).to.be.ok
+							expect(state.event_range.end).to.be.ok
+							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
+							expect(get_event_end_date‿symd(state)).to.equal(20180903)
+						})
+					})
 				})
 
 				context('when there are NO children', function() {
 
 					context('when the folder name refers to a backup', function () {
 
-						it('should NOT init the event range')
+						it('should NOT init the event range', async () => {
+							let state = create('20181105 - backup iphone')
+
+							state = on_fs_exploration_done(state)
+							expect(state.event_range.begin).to.be.undefined
+							expect(state.event_range.end).to.be.undefined
+						})
 					})
 
 					context('when the folder name looks like an event', function () {
 
-						it('should init the event range')
-					})
+						it('should init the event range', async () => {
+							let state = create('20180903 - some holiday')
 
+							state = on_fs_exploration_done(state)
+							expect(state.event_range.begin).to.be.ok
+							expect(state.event_range.end).to.be.ok
+							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
+							expect(get_event_end_date‿symd(state)).to.equal(20180903)
+						})
+					})
 				})
 			})
 		})
@@ -108,7 +170,7 @@ describe(`${LIB} - folder state`, function() {
 				it('should set the date range', async () => {
 					let state = create('foo')
 
-					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 					state = on_subfile_found(state, file_state)
 					state = on_subfile_primary_infos_gathered(state, file_state)
 
@@ -127,7 +189,7 @@ describe(`${LIB} - folder state`, function() {
 					expect(state.event_begin_date_symd, 'inferred event begin').to.equal(20180904)
 					expect(state.event_end_date_symd, 'inferred event end').to.equal(20180904)
 
-					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 					state = on_subfile_found(state, file_state)
 					state = on_subfile_primary_infos_gathered(state, file_state)
 
@@ -144,7 +206,7 @@ describe(`${LIB} - folder state`, function() {
 					expect(state.event_end_date_symd).to.equal(20180904)
 					expect(is_current_basename_intentful_of_event_start(state)).to.be.true
 
-					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 					state = on_subfile_found(state, file_state)
 					state = on_subfile_primary_infos_gathered(state, file_state)
 
@@ -158,7 +220,7 @@ describe(`${LIB} - folder state`, function() {
 					expect(state.event_begin_date_symd).to.equal(20180902)
 					expect(state.event_end_date_symd).to.equal(20180902)
 
-					let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 					state = on_subfile_found(state, file_state)
 					state = on_subfile_primary_infos_gathered(state, file_state)
 
@@ -175,7 +237,7 @@ describe(`${LIB} - folder state`, function() {
 					it('should demote', async () => {
 						let state = create('holiday 20180704')
 
-						let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+						let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 						state = on_subfile_found(state, file_state)
 						state = on_subfile_primary_infos_gathered(state, file_state)
 
@@ -192,7 +254,7 @@ describe(`${LIB} - folder state`, function() {
 					it('should not demote but cap the range', async () => {
 						let state = create('20180704 - holiday')
 
-						let file_state = await ALL_MEDIA_DEMOS[0].get_state()
+						let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 						state = on_subfile_found(state, file_state)
 						state = on_subfile_primary_infos_gathered(state, file_state)
 

@@ -185,15 +185,15 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	}
 
 	// we have no range, let's try something else…
+	if (parsed.meaningful_part.toLowerCase().includes('backup')) {
+		// clearly not an event
+		return null
+	}
+
 	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
 		// this looks very very much like an event
 		// TODO check parent is year as well?
 		return parsed.date
-	}
-
-	if (parsed.meaningful_part.toLowerCase().includes('backup')) {
-		// clearly not an event
-		return null
 	}
 
 	// can't really tell...

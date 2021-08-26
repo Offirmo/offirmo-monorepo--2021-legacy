@@ -19,7 +19,7 @@ import {
 } from '../services/better-date'
 import {
 	PersistedNotes,
-	FsReliability,
+	FsReliability, NeighborHints,
 } from '../state/file'
 import * as File from '../state/file'
 import * as DB from '../state/db'
@@ -29,7 +29,14 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { FsStatsSubset } from '../services/fs_stats'
 
 
-export async function load_real_media_file(abs_path: string, state: Immutable<File.State> = File.create(path.parse(abs_path).base), recovered_notes: null | Immutable<PersistedNotes> = null): Promise<Immutable<File.State>> {
+export async function load_real_media_file(
+	abs_path: string,
+	phase2?: null | {
+		neighbor_hints?: null | Immutable<NeighborHints>
+		recovered_notes?: null | Immutable<PersistedNotes>
+	},
+	state: Immutable<File.State> = File.create(path.parse(abs_path).base),
+): Promise<Immutable<File.State>> {
 	expect(File.is_media_file(state)).to.be.true
 	expect(File.is_exif_powered_media_file(state)).to.be.true
 
@@ -52,14 +59,24 @@ export async function load_real_media_file(abs_path: string, state: Immutable<Fi
 			})
 	])
 
-	state = File.on_info_read__current_neighbors_primary_hints(state, {
-		parent_folder_bcd: null,
-		fs_bcd_assessed_reliability: 'unknown',
-	})
+	if (phase2) {
 
-	state = File.on_notes_recovered(state, recovered_notes)
+		if (phase2.neighbor_hints !== undefined) {
+			state = File.on_info_read__current_neighbors_primary_hints(state, phase2.neighbor_hints ?? {
+				parent_folder_bcd: null,
+				fs_bcd_assessed_reliability: 'unknown',
+			})
+		}
 
-	expect(File.has_all_infos_for_extracting_the_creation_date(state, {})).to.be.true
+		if (phase2.recovered_notes !== undefined) {
+			state = File.on_notes_recovered(state, phase2.recovered_notes)
+		}
+	}
+
+	expect(File.has_all_infos_for_extracting_the_creation_date(state, {
+		require_neighbors_hints: phase2?.neighbor_hints !== undefined,
+		require_notes: phase2?.recovered_notes !== undefined,
+	})).to.be.true
 
 	return enforce_immutability(state)
 }

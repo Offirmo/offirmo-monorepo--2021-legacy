@@ -3,6 +3,7 @@ import path from 'path'
 import memoize_once from 'memoize-one'
 import { Immutable } from '@offirmo-private/ts-types'
 import { expect } from 'chai'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import { AbsolutePath, Basename, SimpleYYYYMMDD, ISODateString, RelativePath, TimeZone } from '../../types'
 import { _UNSAFE_CURRENT_SYSTEM_TIMEZONE } from '../../params'
@@ -13,9 +14,12 @@ import {
 	get_best_creation_date_compact,
 	get_best_creation_year,
 	get_ideal_basename,
-	DateConfidence,
+	DateConfidence, NeighborHints, PersistedNotes,
 } from '../../state/file'
-import { get_embedded_timezone, get_human_readable_timestamp_auto } from '../../services/better-date'
+import {
+	get_embedded_timezone,
+	get_human_readable_timestamp_auto,
+} from '../../services/better-date'
 
 /////////////////////////////////////////////////
 
@@ -44,8 +48,14 @@ interface MediaDemo {
 	IDEAL_BASENAME: Basename
 }
 
-async function _get_demo_state(MEDIA: MediaDemo): Promise<Immutable<State>> {
-	const ↆstate = load_real_media_file(MEDIA.ABS_PATH)
+async function _get_demo_state(
+	MEDIA: MediaDemo,
+	phase2?: null | {
+		neighbor_hints?: null | Immutable<NeighborHints>
+		recovered_notes?: null | Immutable<PersistedNotes>
+	}
+): Promise<Immutable<State>> {
+	const ↆstate = load_real_media_file(MEDIA.ABS_PATH, phase2)
 	ↆstate.then(state => {
 		expect(get_best_creation_year(state)).to.equal(MEDIA.YEAR)
 		expect(get_best_creation_date_compact(state)).to.equal(MEDIA.DATE__COMPACT)
@@ -205,29 +215,29 @@ export const MEDIA_DEMO_06: MediaDemo = {
 
 /////////////////////////////////////////////////
 
-export const ALL_MEDIA_DEMOS: Array<{ data: MediaDemo, get_state: () => ReturnType<typeof load_real_media_file>}> = [
+export const ALL_MEDIA_DEMOS: Array<{ data: MediaDemo, get_phase1_state: () => ReturnType<typeof load_real_media_file>}> = [
 	{
 		data: MEDIA_DEMO_01,
-		get_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_01)),
+		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_01)),
 	},
 	{
 		data: MEDIA_DEMO_02,
-		get_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_02)),
+		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_02)),
 	},
 	{
 		data: MEDIA_DEMO_03,
-		get_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_03)),
+		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_03)),
 	},
 	{
 		data: MEDIA_DEMO_04,
-		get_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_04)),
+		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_04)),
 	},
 	{
 		data: MEDIA_DEMO_05,
-		get_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_05)),
+		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_05)),
 	},
 	{
 		data: MEDIA_DEMO_06,
-		get_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_06)),
+		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_06)),
 	},
 ]
