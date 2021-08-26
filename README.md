@@ -38,7 +38,7 @@ Tools
 
 * WARNING: If present, an individual package's license overrides the root one!
 * WARNING: the code is free but not the *marketing efforts*, i.e. you are free to copy but must reasonably change the name if competing
-* by default: [`UNLICENSE`](https://unlicense.org/) so far.
+* by default: [`Unlicense`](https://unlicense.org/) so far.
 
 The general principle is that I want to give back,
 and I don't mind people reusing my code and creating jobs / value from it even without crediting me.
@@ -52,7 +52,7 @@ That's why I'm looking into [CC0](https://creativecommons.org/publicdomain/zero/
 I'm not an expert in licenses, so my work is **implicitly dual-licensed** as fully private for my own use.
 This is to allow me to change the license in the future if deemed needed.
 ```
-                  UNLICENSE branch, may stop being updated at some point
+                  Unlicense branch, may stop being updated at some point
                   /
 private version ------------------ (forever living private branch)
                       \

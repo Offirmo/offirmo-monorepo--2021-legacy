@@ -78,7 +78,7 @@ describe(`${LIB} - folder state`, function() {
 			})
 		})
 
-		describe.only('on_fs_exploration_done()', function() {
+		describe('on_fs_exploration_done()', function() {
 
 			context('when the folder basename does NOT contains a date', function() {
 
