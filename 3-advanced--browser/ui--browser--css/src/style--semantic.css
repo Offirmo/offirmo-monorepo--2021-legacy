@@ -18,8 +18,6 @@
 
 .o⋄nav-list {
 	list-style-type: none;
-	padding: 0;
-	margin: 0;
 
 	/* helps if we want to do fancy positioning
 	 * ex. combine with .o⋄flex--centered-content

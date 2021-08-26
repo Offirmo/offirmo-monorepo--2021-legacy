@@ -28,8 +28,6 @@
 .o⋄body⁚full-viewport {
 	max-width: unset;
 	width: 100%; /* avoid lower than max if possible */
-	margin: 0;
-	padding: 0;
 }
 
 .o⋄border⁚default {
