@@ -1,6 +1,7 @@
 ***See all sibling files***
 
 ## Introduction
+
 Welcome to this repo and thanks for considering to contribute!
 
 This repo is a monorepo managed through [bolt](https://github.com/boltpkg/bolt)
@@ -15,6 +16,7 @@ It aggregates most of my (Offirmo) personal projects, including:
 
 
 ## Principles
+
 Unless it's more convenient for some reasons, this repo strives to adhere to those principles:
 - readable code
   - TypeScript https://www.typescriptlang.org/
@@ -27,6 +29,7 @@ Unless it's more convenient for some reasons, this repo strives to adhere to tho
 
 
 ## Installation
+
 I use macOS 10.15 [](update marker) but should work on any unix-like system.
 
 This set of command will build everything: (required as there are dependencies between modules)
@@ -35,7 +38,8 @@ nvm install
 npm i -g yarn
 yarn global add bolt
 bolt
-bolt postinstall
+bolt xpostinstall
+bolt xpostinstall    # <- yes, one more time
 bolt build
 bolt test
 ```

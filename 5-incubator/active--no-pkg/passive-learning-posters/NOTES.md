@@ -13,10 +13,15 @@
 ### Vehicles
 
 #### water
+* See [poster](vehicles--water--flat/NOTES.md)
+* …
+
 https://www.freepik.com/search?format=search&sort=popular&premium=0&query=ships
 
 #### land
-…
+* See [poster](vehicles--ground--trains/NOTES.md)
+* …
+
 #### air
 …
 #### space
@@ -118,6 +123,7 @@ Resources
 * freepik
   * https://www.freepik.com/macrovector-official/
   * https://www.freepik.com/macrovector
+  * https://www.freepik.com/brgfx/  +++
 * https://esahubble.org/images/archive/top100/
 * https://www.nasa.gov/multimedia/imagegallery/iotd.html
 
