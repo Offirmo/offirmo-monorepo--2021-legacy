@@ -52,7 +52,7 @@ import {
 } from '@offirmo/error-utils'
 ```
 
-Note that `COMMON_ERROR_FIELDS_EXTENDED` contains private properties,
+Note that `COMMON_ERROR_FIELDS_EXTENDED` contains private properties of my utilities,
 but since they are optional and have rare names, there shouldn't be any conflict.
 
 ### Exposed types: error interface with more properties
@@ -97,7 +97,7 @@ err.details = {
 }
 ```
 
-### Utility: normalize anything into a true, writable Error object
+### Utility: normalize anything into a true Error object
 
 Normalize anything into a true, normal error.
 
@@ -108,9 +108,11 @@ Even Error-like objects are sometime fancy:
 - seen: frozen
 - seen: non-enumerable props
 
-So we want to ensure a true, safe, writable error object.
+So we want to ensure a true (has the shape), safe error object.
 
-**NOTE:** will *always* recreate the error
+**writable version: `{ alwaysRecreate: true }`**
+- sometimes we want to further decorate the error object, hence the need for writable version = a copy (for immutability)
+- **NOTE:** will *always* recreate the error
 
 
 ```typescript
@@ -119,8 +121,21 @@ import { normalizeError } from '@offirmo/error-utils'
 try {
 	...(unreliable code)
 }
-catch (err_like) {
-	throw normalizeError(err_like)
+catch (_err) {
+	const err = normalizeError(_err)
+	if (err.message === '...') {
+		// ...
+	}
+	throw err
+}
+
+try {
+...(unreliable code)
+}
+catch (_err) {
+  const err = normalizeError(_err, { alwaysRecreate: true })
+  err.statusCode = 500
+  throw err
 }
 ```
 

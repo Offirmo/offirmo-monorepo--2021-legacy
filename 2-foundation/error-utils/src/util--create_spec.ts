@@ -7,9 +7,9 @@ import {
 	COMMON_ERROR_FIELDS_EXTENDED,
 } from './fields'
 
+import { XXError } from './types'
+
 import { createError } from './util--create'
-import { normalizeError } from './util--normalize'
-import {XXError} from './types'
 
 
 describe(`common-error-fields - utils`, () => {
@@ -110,25 +110,6 @@ describe(`common-error-fields - utils`, () => {
 					expect(expected, k).to.have.property(k)
 				})
 			})
-		})
-
-	})
-
-	describe('normalizeError', () => {
-
-		it('should work and preserve the constructor', () => {
-			let xerr: any = new TypeError('foo!')
-			xerr.details = {
-				foo: 42
-			}
-			xerr = deep_freeze<any>(xerr)
-
-			const nerr = normalizeError(xerr)
-
-			;([...COMMON_ERROR_FIELDS_EXTENDED] as Array<keyof XXError>).forEach(f => {
-				expect(nerr[f]).to.deep.equal(xerr[f])
-			})
-			expect(Object.getPrototypeOf(nerr)).to.equal(Object.getPrototypeOf(xerr))
 		})
 	})
 })

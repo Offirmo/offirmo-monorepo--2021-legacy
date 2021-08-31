@@ -26,7 +26,7 @@ const PLUGIN = {
 			createCatcher({
 				debugId,
 				decorators: [
-					normalizeError,
+					err => normalizeError(err, { alwaysRecreate: true }),
 					err => SEC._decorateErrorWithLogicalStack(err),
 					err => SEC._decorateErrorWithDetails(err),
 				],
