@@ -68,7 +68,7 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Im
 		// TODO migrate items
 	}
 	catch (err) {
-		if (err.message.includes('more recent')) {
+		if (err instanceof Error && err.message.includes('more recent')) {
 			// don't touch a more recent savegame!
 			throw err
 		}

@@ -31,8 +31,8 @@ export const handler: NetlifyHandler = async (
 	try {
 		netlify_user_data = get_netlify_user_data(context)
 	}
-	catch (err) {
-		netlify_user_data = { err: { message: err.message } }
+	catch (err: any) {
+		netlify_user_data = { err: { message: err?.message } }
 	}
 
 
@@ -40,8 +40,12 @@ export const handler: NetlifyHandler = async (
 		badly_typed_context,
 		event,
 		derived: {
-			get_key_from_path: (() => { try { return get_key_from_path(event, { expected_segment_count: null })} catch (err) { return err.message }})(),
-			get_id_from_path: (() => { try { return get_id_from_path(event, { expected_segment_count: null })} catch (err) { return err.message }})(),
+			get_key_from_path: (() => { try {
+				return get_key_from_path(event, { expected_segment_count: null })
+			} catch (err: any) { return err?.message }})(),
+			get_id_from_path: (() => { try {
+				return get_id_from_path(event, { expected_segment_count: null })
+			} catch (err: any) { return err?.message }})(),
 		},
 		netlify_user_data,
 		build,

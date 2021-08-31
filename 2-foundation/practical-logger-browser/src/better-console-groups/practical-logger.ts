@@ -198,7 +198,7 @@ function install({ uncollapse_level = 'warn', lazy = true, original_console = co
 	PATCHED_METHODS.forEach(method => {
 		if (patched.has(method)) return
 
-		console[method] = better_output.bind(null, ORIGINAL_METHODS[method], false)
+		;(console as any as { [k: string]: Console['log'] })[method] = better_output.bind(null, ORIGINAL_METHODS[method], false)
 		patched.add(method)
 	})
 }

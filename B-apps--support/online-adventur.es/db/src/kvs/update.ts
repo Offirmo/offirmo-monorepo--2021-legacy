@@ -184,13 +184,13 @@ export async function sync_kv_entry<T>(
 		return params.value
 	}
 	catch (err) {
-		const existing_value_with_precedence = err?.details?.[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]
+		const existing_value_with_precedence = (err as any)?.details?.[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB]
 		if (existing_value_with_precedence) {
 			logger.log('⭅ intelligently sync’ed a KV entry ❎')
 			return existing_value_with_precedence
 		}
 
-		logger.error('⭅ FAILED to intelligently sync a KV entry ❌', { b: Boolean(err[SPECIAL_ERROR_ATTRIBUTE__LATEST_FROM_DB])})
+		logger.error('⭅ FAILED to intelligently sync a KV entry ❌')
 		throw err
 	}
 }

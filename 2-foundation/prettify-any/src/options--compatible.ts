@@ -88,7 +88,7 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 				+ o.stylize_syntax(')')
 		}
 		catch (err) {
-			return o.stylize_error(`[error prettifying:${err.message}/ps]`)
+			return o.stylize_error(`[error prettifying:${(err as any)?.message}/ps]`)
 		}
 	},
 
@@ -151,7 +151,7 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 			}
 		}
 		catch (err) {
-			return o.stylize_error(`[error prettifying:${err.message}/ppn]`)
+			return o.stylize_error(`[error prettifying:${(err as any)?.message}/ppn]`)
 		}
 	},
 	prettify_object: (obj: Object, st: State, { skip_constructor = false } = {}) => {
@@ -172,7 +172,7 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 					}
 				}
 				catch (err) {
-					return o.stylize_error(`[error prettifying:${err.message}/po.g]`)
+					return o.stylize_error(`[error prettifying:${(err as any)?.message}/po.g]`)
 				}
 			}
 
@@ -234,7 +234,7 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 					}
 				}
 				catch (err) {
-					return o.stylize_error(`[error prettifying:${err.message}/po.c]`)
+					return o.stylize_error(`[error prettifying:${(err as any)?.message}/po.c]`)
 				}
 			}
 
@@ -271,7 +271,7 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 				+ o.stylize_syntax('}')
 		}
 		catch (err) {
-			return o.stylize_error(`[error prettifying:${err.message}/po]`)
+			return o.stylize_error(`[error prettifying:${(err as any)?.message}/po]`)
 		}
 	},
 
@@ -315,7 +315,7 @@ export const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 			}
 		}
 		catch (err) {
-			return o.stylize_error(`[error prettifying:${err.message}/pa]`)
+			return o.stylize_error(`[error prettifying:${(err as any)?.message}/pa]`)
 		}
 	},
 }

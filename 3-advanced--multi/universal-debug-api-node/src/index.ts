@@ -47,7 +47,7 @@ root.v1 = ((existing) => {
 		if (minVersion !== candidate._!.minor)
 			ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`)
 	} catch (err) {
-		ownLogger.warn(err)
+		ownLogger.warn(err as any)
 	}
 
 	ownLogger.log('as a candidate, discarding myself: existing is good enough ✅')
