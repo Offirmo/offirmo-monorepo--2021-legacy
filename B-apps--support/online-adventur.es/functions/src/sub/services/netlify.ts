@@ -1,3 +1,4 @@
+import { normalizeError } from '@offirmo/error-utils'
 import { Users } from '@offirmo-private/db'
 
 import {
@@ -40,7 +41,8 @@ export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData 
 	try {
 		_ensure_netlify_logged_in(context)
 	}
-	catch (err) {
+	catch (_err) {
+		const err = normalizeError(_err)
 		err.statusCode = HTTP_STATUS_CODE.error.client.unauthorized
 		if (err.message.includes('No/bad/outdated token') && CHANNEL === 'dev') {
 			// pretend

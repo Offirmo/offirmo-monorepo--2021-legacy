@@ -1,4 +1,5 @@
 import { Immutable } from '@offirmo-private/ts-types'
+import { normalizeError } from '@offirmo/error-utils'
 import { get_db, Users, get_connection_string } from '@offirmo-private/db'
 
 import { HEADER_IMPERSONATE } from '@online-adventur.es/api-interface'
@@ -57,7 +58,8 @@ export async function require_authenticated(
 
 			await next()
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			if (err.message.includes('Knex: Timeout acquiring a connection')) {
 				err.statusCode = err.statusCode || 500
 				logger.error('Can’t reach the db?!', { connection: get_connection_string() })

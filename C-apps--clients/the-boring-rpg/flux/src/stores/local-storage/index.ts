@@ -2,6 +2,7 @@
 import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import stable_stringify from 'json-stable-stringify'
+import { normalizeError } from '@offirmo/error-utils'
 import { JSONObject, Storage } from '@offirmo-private/ts-types'
 import {
 	fluid_select,
@@ -104,7 +105,8 @@ export function create(
 					try {
 						resolve(_store_key_value(key, json))
 					}
-					catch (err) {
+					catch (_err) {
+						const err = normalizeError(_err)
 						reject(err)
 					}
 				})
@@ -264,7 +266,8 @@ export function create(
 				}
 			}
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(err)
 		}
 

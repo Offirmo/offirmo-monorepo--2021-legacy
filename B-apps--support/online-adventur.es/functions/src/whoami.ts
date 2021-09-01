@@ -1,5 +1,7 @@
 //process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
 //process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
+import { normalizeError } from '@offirmo/error-utils'
+
 process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
@@ -38,7 +40,8 @@ async function _handler(
 		const { p_user, user } = SEC.getInjectedDependencies()
 		who_am_i['3-DB_result'] = p_user
 		who_am_i['4-final_result'] = user
-	} catch (err) {
+	} catch (_err) {
+		const err = normalizeError(_err)
 		who_am_i.err = {
 			message: err.message,
 			stack: err.stack,

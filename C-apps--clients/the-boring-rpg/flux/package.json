@@ -26,6 +26,7 @@
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/deferred": "^4",
+		"@offirmo/error-utils": "^0",
 		"@offirmo/globalthis-ponyfill": "^3",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/state-engagement": "^0",

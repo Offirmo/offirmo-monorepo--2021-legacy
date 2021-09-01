@@ -1,3 +1,4 @@
+import { normalizeError } from '@offirmo/error-utils'
 
 export default function try_getter_or_fallback<
 	Fn extends () => ReturnType<Fn>,
@@ -14,8 +15,8 @@ export default function try_getter_or_fallback<
 	try {
 		return code()
 	}
-	catch (err) {
-		on_error(err)
+	catch (_err) {
+		on_error(normalizeError(_err))
 		return fallback
 	}
 }

@@ -2,6 +2,7 @@ import assert from 'tiny-invariant'
 import EventEmitter from 'emittery'
 import debounce from 'lodash/debounce'
 import stable_stringify from 'json-stable-stringify'
+import { normalizeError } from '@offirmo/error-utils'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { Immutable, Storage } from '@offirmo-private/ts-types'
@@ -267,12 +268,14 @@ export function create(
 						logger.verbose(`[${LIB}] _sync_with_cloud() = we are in sync with the cloud ✔`)
 					}
 				}
-				catch (err) {
+				catch (_err) {
+					const err = normalizeError(_err)
 					_on_error(err)
 					/* swallow */
 				}
 			}
-			catch (err) {
+			catch (_err) {
+				const err = normalizeError(_err)
 				is_sync_in_flight = false
 				cloud_sync_state = on_network_error(cloud_sync_state, err)
 			}
