@@ -109,6 +109,65 @@ export function Normalization() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export function NormalizationAdvanced() {
+	return (
+		<>
+			<div>
+				<h1>The five boxing wizards jump quickly</h1>
+				<h2>Sphinx of black quartz, judge my vow!</h2>
+				<h3>Pack my box with five dozen liquor jugs!</h3>
+
+				<ul>
+					<li>Foo</li>
+					<li>Bar</li>
+					<li>Deeper:
+						<ul>
+							<li>Deep Foo</li>
+							<li>Deep Bar</li>
+							<li>Deeper:
+								<ul>
+									<li>Deep Deep Foo</li>
+									<li>Deep Deep Bar</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+				<ol>
+					<li>Foo</li>
+					<li>Bar</li>
+					<li>Deeper:
+						<ol>
+							<li>Deep Foo</li>
+							<li>Deep Bar</li>
+							<li>Deeper:
+								<ol>
+									<li>Deep Deep Foo</li>
+									<li>Deep Deep Bar</li>
+								</ol>
+							</li>
+						</ol>
+					</li>
+				</ol>
+
+				<details>
+					<summary>Details: expand me...</summary>
+					<p>Hello, world!
+						<details>
+							<summary>Details: expand me...</summary>
+							<p>Hello, world!</p>
+						</details>
+					</p>
+				</details>
+
+			</div>
+		</>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export function Semantic() {
 	return (
 		<div className="o⋄fontꘌfast-and-good-enough o⋄flow">

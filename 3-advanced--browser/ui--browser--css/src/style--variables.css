@@ -5,7 +5,7 @@
 
 	/* transfer the env() to variables so that
 	 * - we can programmatically read them
-	 * - we can override them
+	 * - we can override them (carefully)
 	 * Of course only the var() version must be used in the framework.
 	 */
 	--safe-area-inset-top:    env(safe-area-inset-top,    0px);

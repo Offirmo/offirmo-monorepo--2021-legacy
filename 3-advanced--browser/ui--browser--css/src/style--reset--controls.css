@@ -16,12 +16,14 @@ body.user-is-tabbing *:focus {
 }
 
 
+
 /************ buttons ************
  * https://css-tricks.com/overriding-default-button-styles/
  * https://fvsch.com/code/styling-buttons/
  */
 
-/* Derived from "button 8" from
+
+/* Simple styling derived from "button 8" from
  * https://fdossena.com/?p=html5cool/buttons/i.frag
  */
 button {
@@ -51,6 +53,7 @@ button:active {
 	background-color: var(--o⋄color⁚bg--highlight--2);
 	border-color: var(--o⋄color⁚fg--accent);
 }
+
 
 /************ progress ************/
 
@@ -86,6 +89,7 @@ progress::-ms-fill {
 	background-color: var(--o⋄color⁚progress-bar);
 	border: 0;
 }
+
 
 /************ scroll bars ************/
 

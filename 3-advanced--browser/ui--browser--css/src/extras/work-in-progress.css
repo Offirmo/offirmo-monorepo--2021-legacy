@@ -13,27 +13,6 @@
 	border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
-/******* Typography *******/
-.o⋄outline {
-	/* not recommended but supported...
-	https://webkit.org/blog/85/introducing-text-stroke/
-	https://css-tricks.com/almanac/properties/t/text-stroke/
-	https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-stroke
-	 */
-	/*-webkit-text-stroke: 1.5px #db3333; /* TODO relative + vars */
-
-	--color: var(--o⋄color⁚bg--main--backdrop);
-
-	text-shadow:
-		 1px  1px 0 var(--color),
-		 1px -1px 0 var(--color),
-		-1px  1px 0 var(--color),
-		-1px -1px 0 var(--color),
-		 1px  0px 0 var(--color),
-		 0px  1px 0 var(--color),
-		-1px  0px 0 var(--color),
-		 0px -1px 0 var(--color);
-}
 
 
 

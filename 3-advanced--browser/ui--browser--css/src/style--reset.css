@@ -24,11 +24,13 @@ html                   { box-sizing: border-box; }
 /*********************/
 
 /* https://css-tricks.com/reset-all-margins-padding/
+ * https://mxstbr.com/thoughts/margin
  */
+/* TODO review
 * {
 	margin: 0;
 	padding: 0;
-}
+}*/
 
 /*********************/
 
@@ -78,13 +80,14 @@ h1, h2, h3, p {
 /* nicer lists */
 ul, ol {
 	/* instead of fixed */
-	padding-inline-start: 1.4em;
+	padding-inline-start: 1.3em;
 }
+/* TODO review, that prevents nested lists...
 li > ul,
 li > ol {
-	padding-inline-start: 0;
-	padding-left: 0;
-}
+	xxpadding-inline-start: 0;
+	xxpadding-left: 0;
+}*/
 
 
 /* nicer collapsibles */

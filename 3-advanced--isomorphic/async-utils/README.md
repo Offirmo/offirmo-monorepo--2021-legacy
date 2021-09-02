@@ -37,7 +37,7 @@ TODO Cancellation tokens?
 "@offirmo-private/async-utils": "^0",
 ```
 ```ts
-import { asap_but_not_synchronous } from '@offirmo-private/async-utils'
+import { asap_but_not_synchronous, dezalgo } from '@offirmo-private/async-utils'
 import { asap_but_out_of_current_event_loop } from '@offirmo-private/async-utils'
 import { asap_but_out_of_immediate_execution } from '@offirmo-private/async-utils'
 import { schedule_when_idle_but_within_human_perception } from '@offirmo-private/async-utils'

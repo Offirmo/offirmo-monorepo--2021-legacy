@@ -31,5 +31,5 @@ export function asap_but_out_of_current_event_loop(callback: VoidFunction): void
 
 // https://blog.izs.me/2013/08/designing-apis-for-asynchrony
 export function dezalgo(callback: VoidFunction): VoidFunction {
-	return () => queueMicrotask(callback)
+	return () => asap_but_not_synchronous(callback)
 }

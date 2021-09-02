@@ -1,5 +1,4 @@
 import { Story, Meta } from '@storybook/react'
-import styled from 'styled-components'
 
 import { default_viewport__mobile } from '../../../0-meta/storybook-viewports'
 
@@ -81,7 +80,7 @@ export function FontEffectsTODO() {
 				Text glowing gold.
 			</p>
 
-			<p className="omr⋄text⁚outlined">
+			<p className="o⋄outline">
 				Text outlined.
 			</p>
 
@@ -94,7 +93,7 @@ export function FontEffectsTODO() {
 					Text glowing gold.
 				</p>
 
-				<p className="omr⋄text⁚outlined">
+				<p className="o⋄outline">
 					Text outlined.
 				</p>
 			</div>

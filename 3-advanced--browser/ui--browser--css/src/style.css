@@ -8,8 +8,8 @@
 @import './style--colors.css';
 @import './style--themes.css';
 @import './style--containers.css';
+@import './style--containers--debug.css';
 @import './style--fonts.css';
 @import './style--semantic.css';
 @import './style--technical.css';
 @import './style--misc.css';
-@import './style--debug.css';
