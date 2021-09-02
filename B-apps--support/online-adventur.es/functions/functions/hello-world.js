@@ -744,7 +744,7 @@ exports.BUILD_DATE = exports.NUMERIC_VERSION = exports.VERSION = void 0; // THIS
 exports.VERSION = '0.0.1';
 exports.NUMERIC_VERSION = 0.0001; // for easy comparisons
 
-exports.BUILD_DATE = '20210818_07h11';
+exports.BUILD_DATE = '20210902_06h12';
 
 /***/ }),
 
@@ -755,7 +755,7 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 52:
+/***/ 53:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -1135,6 +1135,8 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     return o.stylize_suspicious(String(u));
   },
   prettify_symbol: (s, st) => {
+    var _a;
+
     const {
       o
     } = st;
@@ -1142,7 +1144,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     try {
       return '' + o.stylize_global('Symbol') + o.stylize_syntax('(') + (s.description ? o.prettify_string(s.description, st) : '') + o.stylize_syntax(')');
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/ps]`);
+      return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/ps]`);
     }
   },
   // objects
@@ -1187,6 +1189,8 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     .join(o.stylize_syntax(',')) + o.stylize_syntax(']');
   },
   prettify_property_name: (p, st) => {
+    var _a;
+
     const {
       o
     } = st;
@@ -1207,12 +1211,14 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
           return o.stylize_syntax('[') + o.prettify_symbol(p, st) + o.stylize_syntax(']');
       }
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/ppn]`);
+      return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/ppn]`);
     }
   },
   prettify_object: (obj, st, {
     skip_constructor = false
   } = {}) => {
+    var _a, _b, _c;
+
     if (DEBUG) console.log('prettify_object', obj);
     const {
       o
@@ -1232,7 +1238,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
 
           }
         } catch (err) {
-          return o.stylize_error(`[error prettifying:${err.message}/po.g]`);
+          return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/po.g]`);
         }
       }
 
@@ -1295,7 +1301,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
             }
           }
         } catch (err) {
-          return o.stylize_error(`[error prettifying:${err.message}/po.c]`);
+          return o.stylize_error(`[error prettifying:${(_b = err) === null || _b === void 0 ? void 0 : _b.message}/po.c]`);
         }
       }
 
@@ -1324,12 +1330,14 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
         return o.prettify_property_name(k, st) + o.stylize_syntax(': ') + o.prettify_any(v, st);
       }).join(o.stylize_syntax(',')) + o.stylize_syntax('}');
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/po]`);
+      return o.stylize_error(`[error prettifying:${(_c = err) === null || _c === void 0 ? void 0 : _c.message}/po]`);
     }
   },
 
   // root
   prettify_any(any, st) {
+    var _a;
+
     if (DEBUG) console.log('prettify_any', any);
     const {
       o
@@ -1374,7 +1382,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
           return `[unsupported type:${typeof any}]`;
       }
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/pa]`);
+      return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/pa]`);
     }
   }
 
@@ -1419,11 +1427,13 @@ function create_state(options) {
 }
 
 function prettify_any(js, options = {}) {
+  var _a;
+
   try {
     const st = create_state(get_options(options));
     return st.o.prettify_any(js, st);
   } catch (err) {
-    return `[error prettifying:${err.message}]`;
+    return `[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}]`;
   }
 }
 function prettify_json(js, options = {}) {
@@ -2865,7 +2875,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(52)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53)(module)))
 
 /***/ }),
 

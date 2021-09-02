@@ -5337,7 +5337,7 @@ exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.i
 
 const Sentry = __webpack_require__(197);
 
-const channel_1 = __webpack_require__(53); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(54); /////////////////////////////////////////////////
 
 
 Sentry.init({
@@ -7243,7 +7243,7 @@ var Status;
     Status["RateLimit"] = "rate_limit";
     /** The event could not be processed. */
     Status["Invalid"] = "invalid";
-    /** A server-side error ocurred during submission. */
+    /** A server-side error occurred during submission. */
     Status["Failed"] = "failed";
 })(Status || (Status = {}));
 // eslint-disable-next-line @typescript-eslint/no-namespace, import/export
@@ -7694,7 +7694,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.11.0';
+var SDK_VERSION = '6.12.0';
 //# sourceMappingURL=version.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(8);
@@ -7747,7 +7747,7 @@ var error_SentryError = /** @class */ (function (_super) {
 
 //# sourceMappingURL=error.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
-var syncpromise = __webpack_require__(47);
+var syncpromise = __webpack_require__(48);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/transports/noop.js
 
@@ -9209,7 +9209,7 @@ function eventToSentryRequest(event, api) {
 }
 //# sourceMappingURL=request.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(43);
+var external_http_ = __webpack_require__(44);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -10369,10 +10369,10 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
     /** JSDoc */
     InboundFilters.prototype._getLastValidUrl = function (frames) {
         if (frames === void 0) { frames = []; }
-        var _a;
+        var _a, _b;
         for (var i = frames.length - 1; i >= 0; i--) {
             var frame = frames[i];
-            if (((_a = frame) === null || _a === void 0 ? void 0 : _a.filename) !== '<anonymous>') {
+            if (((_a = frame) === null || _a === void 0 ? void 0 : _a.filename) !== '<anonymous>' && ((_b = frame) === null || _b === void 0 ? void 0 : _b.filename) !== '[native code]') {
                 return frame.filename || null;
             }
         }
@@ -10685,7 +10685,7 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var wrappedHandlerMaker = _createWrappedRequestMethodFactory(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(43);
+        var httpModule = __webpack_require__(44);
         Object(object["c" /* fill */])(httpModule, 'get', wrappedHandlerMaker);
         Object(object["c" /* fill */])(httpModule, 'request', wrappedHandlerMaker);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
@@ -11937,10 +11937,10 @@ var metrics_global = Object(misc["f" /* getGlobalObject */])();
 /** Class tracking metrics  */
 var metrics_MetricsInstrumentation = /** @class */ (function () {
     function MetricsInstrumentation() {
-        var _a;
+        var _a, _b;
         this._measurements = {};
         this._performanceCursor = 0;
-        if (!Object(node["b" /* isNodeEnv */])() && ((_a = metrics_global) === null || _a === void 0 ? void 0 : _a.performance)) {
+        if (!Object(node["b" /* isNodeEnv */])() && ((_a = metrics_global) === null || _a === void 0 ? void 0 : _a.performance) && ((_b = metrics_global) === null || _b === void 0 ? void 0 : _b.document)) {
             if (metrics_global.performance.mark) {
                 metrics_global.performance.mark('sentry-tracing-init');
             }
@@ -12801,21 +12801,29 @@ function instrumentMiddlewares(router, methods) {
 
 /** Tracing integration for node-postgres package */
 var postgres_Postgres = /** @class */ (function () {
-    function Postgres() {
+    function Postgres(options) {
+        if (options === void 0) { options = {}; }
         /**
          * @inheritDoc
          */
         this.name = Postgres.id;
+        this._usePgNative = !!options.usePgNative;
     }
     /**
      * @inheritDoc
      */
     Postgres.prototype.setupOnce = function (_, getCurrentHub) {
+        var _a;
         var pkg = Object(node["c" /* loadModule */])('pg');
         if (!pkg) {
             logger["a" /* logger */].error('Postgres Integration was unable to require `pg` package.');
             return;
         }
+        if (this._usePgNative && !((_a = pkg.native) === null || _a === void 0 ? void 0 : _a.Client)) {
+            logger["a" /* logger */].error("Postgres Integration was unable to access 'pg-native' bindings.");
+            return;
+        }
+        var Client = (this._usePgNative ? pkg.native : pkg).Client;
         /**
          * function (query, callback) => void
          * function (query, params, callback) => void
@@ -12823,7 +12831,7 @@ var postgres_Postgres = /** @class */ (function () {
          * function (query, params) => Promise
          * function (pg.Cursor) => pg.Cursor
          */
-        Object(object["c" /* fill */])(pkg.Client.prototype, 'query', function (orig) {
+        Object(object["c" /* fill */])(Client.prototype, 'query', function (orig) {
             return function (config, values, callback) {
                 var _a, _b, _c;
                 var scope = getCurrentHub().getScope();
@@ -13876,15 +13884,14 @@ const tslib_1 = __webpack_require__(90);
 
 __webpack_require__(202);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(5));
-
-const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(94));
+const tiny_invariant_1 = (0, tslib_1.__importDefault)(__webpack_require__(5));
+const json_stable_stringify_1 = (0, tslib_1.__importDefault)(__webpack_require__(94));
 
 const timestamps_1 = __webpack_require__(38);
 
 const soft_execution_context_1 = __webpack_require__(39);
 
-const state_utils_1 = __webpack_require__(42);
+const state_utils_1 = __webpack_require__(43);
 
 const api_interface_1 = __webpack_require__(67);
 
@@ -13892,7 +13899,7 @@ const async_utils_1 = __webpack_require__(216);
 
 const sentry_1 = __webpack_require__(159);
 
-const channel_1 = __webpack_require__(53);
+const channel_1 = __webpack_require__(54);
 
 const utils_1 = __webpack_require__(69); ////////////////////////////////////
 // note: deducted from the overall running budget
@@ -13911,15 +13918,15 @@ function _get_body_debug_representation(body) {
   if (!body) return String(body);
 
   if (body.v && body.data) {
-    if (state_utils_1.is_revisioned(body.data)) {
+    if ((0, state_utils_1.is_revisioned)(body.data)) {
       body = { ...body,
         data: {
-          '[DEBUG]': state_utils_1.get_base_loose(body.data)
+          '[DEBUG]': (0, state_utils_1.get_base_loose)(body.data)
         }
       };
     }
-  } else if (state_utils_1.is_revisioned(body)) body = {
-    '[DEBUG]': state_utils_1.get_base_loose(body)
+  } else if ((0, state_utils_1.is_revisioned)(body)) body = {
+    '[DEBUG]': (0, state_utils_1.get_base_loose)(body)
   };
 
   if (typeof body !== 'string') {
@@ -13937,11 +13944,11 @@ function _get_response_debug_representation(response) {
 } ////////////////////////////////////
 
 
-function use_middlewares_with_error_safety_net(event, badly_typed_context, middlewares, SEC = soft_execution_context_1.getRootSEC()) {
+function use_middlewares_with_error_safety_net(event, badly_typed_context, middlewares, SEC = (0, soft_execution_context_1.getRootSEC)()) {
   console.log('\n\n\n\n' + Array.from({
     length: 100
   }, () => '→').join(' '));
-  const SESSION_START_TIME_MS = timestamps_1.get_UTC_timestamp_ms();
+  const SESSION_START_TIME_MS = (0, timestamps_1.get_UTC_timestamp_ms)();
   return SEC.xTry('MWRunner', ({
     SEC,
     logger
@@ -13960,20 +13967,20 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
     console.warn('FYI MWRunner promise rejected with:', err);
     throw err;
   }).then(response => {
-    tiny_invariant_1.default(response.statusCode >= 200, `status code is >= 200! (${response.statusCode})`);
-    tiny_invariant_1.default(response.statusCode < 300, `status code is < 300! (${response.statusCode})`);
+    (0, tiny_invariant_1.default)(response.statusCode >= 200, `status code is >= 200! (${response.statusCode})`);
+    (0, tiny_invariant_1.default)(response.statusCode < 300, `status code is < 300! (${response.statusCode})`);
 
     try {
       response.body = JSON.parse(response.body);
     } catch {}
 
-    if (!api_interface_1.is_server_response_body(response.body)) response.body = api_interface_1.create_server_response_body__data(response.body);
+    if (!(0, api_interface_1.is_server_response_body)(response.body)) response.body = (0, api_interface_1.create_server_response_body__data)(response.body);
     return response;
   }).catch(err => {
     const response = {
       statusCode: err.statusCode || 500,
       headers: {},
-      body: api_interface_1.create_server_response_body__error(err) // temporarily passing as string
+      body: (0, api_interface_1.create_server_response_body__error)(err) // temporarily passing as string
 
     };
     return response;
@@ -13982,7 +13989,7 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
     //body.side.latest_news = body.side.latest_news || []
     // add meta
 
-    const now_tms = timestamps_1.get_UTC_timestamp_ms();
+    const now_tms = (0, timestamps_1.get_UTC_timestamp_ms)();
     body.meta.now_tms = now_tms;
     body.meta.processing_time_ms = now_tms - SESSION_START_TIME_MS;
     body.meta.request_summary = `${event.httpMethod.toUpperCase()}:${event.path}`; // finally stringify
@@ -13996,7 +14003,7 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
     console.warn('FYI Overall promise rejected with:', err);
     throw err;
   }).finally(() => {
-    console.log(`FYI processed in ${(timestamps_1.get_UTC_timestamp_ms() - SESSION_START_TIME_MS) / 1000.}s`);
+    console.log(`FYI processed in ${((0, timestamps_1.get_UTC_timestamp_ms)() - SESSION_START_TIME_MS) / 1000.}s`);
   });
 }
 
@@ -14005,7 +14012,7 @@ exports.use_middlewares_with_error_safety_net = use_middlewares_with_error_safet
 function _run_with_safety_net(SEC, event, context, middlewares) {
   var _a;
 
-  return SEC.xPromiseTry((((_a = event === null || event === void 0 ? void 0 : event.httpMethod) === null || _a === void 0 ? void 0 : _a.toUpperCase()) || '???') + '/' + (utils_1.loosely_get_clean_path(event) || '???'), ({
+  return SEC.xPromiseTry((((_a = event === null || event === void 0 ? void 0 : event.httpMethod) === null || _a === void 0 ? void 0 : _a.toUpperCase()) || '???') + '/' + ((0, utils_1.loosely_get_clean_path)(event) || '???'), ({
     SEC
   }) => SEC.xNewPromise('⓵ ', ({
     SEC,
@@ -14013,10 +14020,10 @@ function _run_with_safety_net(SEC, event, context, middlewares) {
   }, resolve, reject) => {
     const PREFIX = 'MR1';
     logger.log(`[${PREFIX}] Starting handling: ${event.httpMethod.toUpperCase()} ${event.path}…`, {
-      time: timestamps_1.get_UTC_timestamp_ms(),
+      time: (0, timestamps_1.get_UTC_timestamp_ms)(),
       mw_count: middlewares.length
     });
-    tiny_invariant_1.default(middlewares.length >= 1, `[${PREFIX}] please provide some middlewares!`);
+    (0, tiny_invariant_1.default)(middlewares.length >= 1, `[${PREFIX}] please provide some middlewares!`);
     let timeout_id = null;
     let is_emitter_waiting = false;
 
@@ -14042,7 +14049,7 @@ function _run_with_safety_net(SEC, event, context, middlewares) {
         logger.info(`([${PREFIX}] this error will be reported to sentry)`);
 
         try {
-          await sentry_1.on_error(err);
+          await (0, sentry_1.on_error)(err);
         } catch (err) {
           console.error(`XXX [${PREFIX}] huge error in the error handler itself! XXX`);
         }
@@ -14123,7 +14130,7 @@ async function _run_mw_chain({
     const {
       logger
     } = SEC.getInjectedDependencies();
-    tiny_invariant_1.default(mw_index >= 0 && mw_index < middlewares.length, 'mw_index in range');
+    (0, tiny_invariant_1.default)(mw_index >= 0 && mw_index < middlewares.length, 'mw_index in range');
     let {
       statusCode,
       body
@@ -14161,7 +14168,7 @@ async function _run_mw_chain({
           }
         } else {
           try {
-            json_stable_stringify_1.default(body); // TODO deep compare to check for un-stringifiable stufff??
+            (0, json_stable_stringify_1.default)(body); // TODO deep compare to check for un-stringifiable stufff??
           } catch {
             throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set a non-JSON-stringified body that can’t be fixed automatically!`);
           }
@@ -14228,10 +14235,10 @@ async function _run_mw_chain({
   let pseudo_err = null;
 
   if (statusCode >= 300) {
-    tiny_invariant_1.default(last_manual_error_call_SEC, 'non-OK status should have caused a corresponding SEC to be memorized'); // todo enhance non-stringified?
+    (0, tiny_invariant_1.default)(last_manual_error_call_SEC, 'non-OK status should have caused a corresponding SEC to be memorized'); // todo enhance non-stringified?
 
     const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error');
-    pseudo_err = utils_1.create_error(is_body_err_message ? body : statusCode, {
+    pseudo_err = (0, utils_1.create_error)(is_body_err_message ? body : statusCode, {
       statusCode
     }, last_manual_error_call_SEC);
   }
@@ -14242,12 +14249,12 @@ async function _run_mw_chain({
 
   if (typeof body !== 'string') {
     logger.debug(`[${PREFIX}] stringifying automatically…`);
-    body = json_stable_stringify_1.default(body);
+    body = (0, json_stable_stringify_1.default)(body);
   } // give time to unhandled rejections to be detected. not 100% reliable, of course, depending on the delay to reject.
   // Seen: works ok in dev, doesn't work in prod (caught during processing but to late)
 
 
-  await async_utils_1.end_of_current_event_loop();
+  await (0, async_utils_1.end_of_current_event_loop)();
   logger.trace(`[${PREFIX}] Returning from the chain of ${middlewares.length} middlewares.`);
   return {
     statusCode,
@@ -14277,17 +14284,16 @@ const soft_execution_context_node_1 = __webpack_require__(203);
 
 const consts_1 = __webpack_require__(40);
 
-const channel_1 = __webpack_require__(53);
+const channel_1 = __webpack_require__(54);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(204)); /////////////////////
+const logger_1 = (0, tslib_1.__importDefault)(__webpack_require__(204)); /////////////////////
 
-
-const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
+const SEC = (0, soft_execution_context_1.getRootSEC)().setLogicalStack({
   module: consts_1.APP
 }).injectDependencies({
   logger: logger_1.default
 });
-soft_execution_context_node_1.decorateWithDetectedEnv(SEC);
+(0, soft_execution_context_node_1.decorateWithDetectedEnv)(SEC);
 SEC.injectDependencies({
   CHANNEL: channel_1.CHANNEL //	VERSION,
 
@@ -14313,8 +14319,8 @@ SEC.emitter.on('analytics', function onAnalytics({
 
 process.listeners('uncaughtException').forEach(l => process.off('uncaughtException', l));
 process.listeners('unhandledRejection').forEach(l => process.off('unhandledRejection', l));
-soft_execution_context_node_1.listenToUncaughtErrors();
-soft_execution_context_node_1.listenToUnhandledRejections();
+(0, soft_execution_context_node_1.listenToUncaughtErrors)();
+(0, soft_execution_context_node_1.listenToUnhandledRejections)();
 SEC.xTry('SEC/init', ({
   logger
 }) => {
@@ -14436,10 +14442,10 @@ const universal_debug_api_node_1 = __webpack_require__(60);
 
 const consts_1 = __webpack_require__(40);
 
-const channel_1 = __webpack_require__(53); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(54); /////////////////////////////////////////////////
 
 
-const logger = universal_debug_api_node_1.getLogger({
+const logger = (0, universal_debug_api_node_1.getLogger)({
   name: consts_1.APP,
   suggestedLevel: channel_1.CHANNEL === 'dev' ? 'silly' : 'warning'
 });
@@ -17845,7 +17851,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(52)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53)(module)))
 
 /***/ }),
 
@@ -18352,7 +18358,7 @@ const consts_1 = __webpack_require__(40);
 const utils_1 = __webpack_require__(69); ////////////////////////////////////
 
 
-exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS'); ////////////////////////////////////
+exports.HttpMethod = (0, typescript_string_enums_1.Enum)('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS'); ////////////////////////////////////
 
 function require_http_method(allowed_methods) {
   const _require_http_method = async (SEC, event, context, response, next) => {
@@ -18369,7 +18375,7 @@ function require_http_method(allowed_methods) {
       }
 
       if (!allowed_methods.includes(http_method)) {
-        throw utils_1.create_error(consts_1.HTTP_STATUS_CODE.error.client.method_not_allowed, {
+        throw (0, utils_1.create_error)(consts_1.HTTP_STATUS_CODE.error.client.method_not_allowed, {
           expected: allowed_methods.join(','),
           received: http_method
         }, SEC);
@@ -18548,7 +18554,7 @@ function asap_but_out_of_current_event_loop(callback) {
 } // https://blog.izs.me/2013/08/designing-apis-for-asynchrony
 
 function dezalgo(callback) {
-  return () => queueMicrotask(callback);
+  return () => asap_but_not_synchronous(callback);
 }
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--isomorphic/async-utils/dist/src.es2019/index.js
 
@@ -21122,7 +21128,9 @@ const error_handling_PLUGIN = {
     }, err) {
       createCatcher({
         debugId,
-        decorators: [util_normalize["a" /* normalizeError */], err => SEC._decorateErrorWithLogicalStack(err), err => SEC._decorateErrorWithDetails(err)],
+        decorators: [err => Object(util_normalize["b" /* normalizeError */])(err, {
+          alwaysRecreate: true
+        }), err => SEC._decorateErrorWithLogicalStack(err), err => SEC._decorateErrorWithDetails(err)],
         onError: shouldRethrow ? null : err => SEC.emitter.emit('final-error', {
           SEC,
           err: cleanTemp(err)
@@ -21586,7 +21594,36 @@ exports.HTTP_STATUS_CODE = {
 
 /***/ }),
 
-/***/ 42:
+/***/ 41:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "STRICT_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QUASI_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS_EXTENDED", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(81);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createError", function() { return _util_create__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+
+/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(82);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasErrorShape", function() { return _util_normalize__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeError", function() { return _util_normalize__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21865,14 +21902,14 @@ var utils = __webpack_require__(129);
 
 /***/ }),
 
-/***/ 43:
+/***/ 44:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21953,7 +21990,7 @@ const {
 
 /***/ }),
 
-/***/ 47:
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22184,7 +22221,7 @@ function invariant(condition, message) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 53:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -22213,7 +22250,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22239,33 +22276,6 @@ exports.CHANNEL = (() => {
   if (process.env.AWS_SECRET_ACCESS_KEY) return api_interface_1.ReleaseChannel.prod;
   return  false ? undefined : api_interface_1.ReleaseChannel.prod;
 })();
-
-/***/ }),
-
-/***/ 55:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "STRICT_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["d"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QUASI_STANDARD_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS_EXTENDED", function() { return _fields__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-/* harmony import */ var _util_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(81);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createError", function() { return _util_create__WEBPACK_IMPORTED_MODULE_1__["a"]; });
-
-/* harmony import */ var _util_normalize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(82);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeError", function() { return _util_normalize__WEBPACK_IMPORTED_MODULE_2__["a"]; });
-
-
-
-
-
 
 /***/ }),
 
@@ -22302,7 +22312,7 @@ async function _handler(SEC, event, context, response, next) {
 }
 
 const handler = (event, badly_typed_context) => {
-  return runner_1.use_middlewares_with_error_safety_net(event, badly_typed_context, [require_http_method_1.require_http_method([require_http_method_1.HttpMethod.GET]), test_failure_1.test_failure, _handler]);
+  return (0, runner_1.use_middlewares_with_error_safety_net)(event, badly_typed_context, [(0, require_http_method_1.require_http_method)([require_http_method_1.HttpMethod.GET]), test_failure_1.test_failure, _handler]);
 };
 
 exports.handler = handler;
@@ -22322,32 +22332,32 @@ exports.test_failure = exports.FailureMode = void 0;
 
 const tslib_1 = __webpack_require__(90);
 
-const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(119));
+const memoize_one_1 = (0, tslib_1.__importDefault)(__webpack_require__(119));
 
 const typescript_string_enums_1 = __webpack_require__(12);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(5));
+const tiny_invariant_1 = (0, tslib_1.__importDefault)(__webpack_require__(5));
 
 const consts_1 = __webpack_require__(40);
 
 const utils_1 = __webpack_require__(69); ////////////////////////////////////
 
 
-exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'assertion-sync', 'throw-sync', 'throw-sync-non-error', 'throw-async', 'timeout', 'rejection', 'unhandled-rejection', 'bad-status-code', 'non-json-stringified-body', 'non-stringified-body', 'non-stringifiable-body', 'no-response-set'); ////////////////////////////////////
+exports.FailureMode = (0, typescript_string_enums_1.Enum)('none', 'manual', 'assertion-sync', 'throw-sync', 'throw-sync-non-error', 'throw-async', 'timeout', 'rejection', 'unhandled-rejection', 'bad-status-code', 'non-json-stringified-body', 'non-stringified-body', 'non-stringifiable-body', 'no-response-set'); ////////////////////////////////////
 
 async function test_failure(SEC, event, context, response, next) {
   const mode = event.queryStringParameters && event.queryStringParameters.mode || undefined;
   const {
     logger
   } = SEC.getInjectedDependencies();
-  tiny_invariant_1.default(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one and only one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
+  (0, tiny_invariant_1.default)(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one and only one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
   logger.info('[MW test_failure] will cause failure:', mode);
   const initial_unset_body = response.body; // starts with a response manually set to a success,
   // to check that an error will overwrite it properly
 
   response.statusCode = 200;
   response.body = JSON.stringify('XXX You should NOT see that, there should be an error!');
-  const get_test_err = memoize_one_1.default(() => utils_1.create_error(`TEST ${mode}!`, {
+  const get_test_err = (0, memoize_one_1.default)(() => (0, utils_1.create_error)(`TEST ${mode}!`, {
     statusCode: 555
   }, SEC));
 
@@ -22370,7 +22380,7 @@ async function test_failure(SEC, event, context, response, next) {
       break;
 
     case exports.FailureMode['assertion-sync']:
-      tiny_invariant_1.default(false, get_test_err().message);
+      (0, tiny_invariant_1.default)(false, get_test_err().message);
     //break
 
     case exports.FailureMode['throw-sync']:
@@ -22493,7 +22503,7 @@ module.exports = require("https");
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(37);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(48);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
 
 
@@ -23268,6 +23278,8 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     return o.stylize_suspicious(String(u));
   },
   prettify_symbol: (s, st) => {
+    var _a;
+
     const {
       o
     } = st;
@@ -23275,7 +23287,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     try {
       return '' + o.stylize_global('Symbol') + o.stylize_syntax('(') + (s.description ? o.prettify_string(s.description, st) : '') + o.stylize_syntax(')');
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/ps]`);
+      return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/ps]`);
     }
   },
   // objects
@@ -23320,6 +23332,8 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
     .join(o.stylize_syntax(',')) + o.stylize_syntax(']');
   },
   prettify_property_name: (p, st) => {
+    var _a;
+
     const {
       o
     } = st;
@@ -23340,12 +23354,14 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
           return o.stylize_syntax('[') + o.prettify_symbol(p, st) + o.stylize_syntax(']');
       }
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/ppn]`);
+      return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/ppn]`);
     }
   },
   prettify_object: (obj, st, {
     skip_constructor = false
   } = {}) => {
+    var _a, _b, _c;
+
     if (DEBUG) console.log('prettify_object', obj);
     const {
       o
@@ -23365,7 +23381,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
 
           }
         } catch (err) {
-          return o.stylize_error(`[error prettifying:${err.message}/po.g]`);
+          return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/po.g]`);
         }
       }
 
@@ -23428,7 +23444,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
             }
           }
         } catch (err) {
-          return o.stylize_error(`[error prettifying:${err.message}/po.c]`);
+          return o.stylize_error(`[error prettifying:${(_b = err) === null || _b === void 0 ? void 0 : _b.message}/po.c]`);
         }
       }
 
@@ -23457,12 +23473,14 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
         return o.prettify_property_name(k, st) + o.stylize_syntax(': ') + o.prettify_any(v, st);
       }).join(o.stylize_syntax(',')) + o.stylize_syntax('}');
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/po]`);
+      return o.stylize_error(`[error prettifying:${(_c = err) === null || _c === void 0 ? void 0 : _c.message}/po]`);
     }
   },
 
   // root
   prettify_any(any, st) {
+    var _a;
+
     if (DEBUG) console.log('prettify_any', any);
     const {
       o
@@ -23507,7 +23525,7 @@ const DEFAULTS_PRETTIFY_OPTIONS = {
           return `[unsupported type:${typeof any}]`;
       }
     } catch (err) {
-      return o.stylize_error(`[error prettifying:${err.message}/pa]`);
+      return o.stylize_error(`[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}/pa]`);
     }
   }
 
@@ -23552,11 +23570,13 @@ function create_state(options) {
 }
 
 function prettify_any(js, options = {}) {
+  var _a;
+
   try {
     const st = create_state(get_options(options));
     return st.o.prettify_any(js, st);
   } catch (err) {
-    return `[error prettifying:${err.message}]`;
+    return `[error prettifying:${(_a = err) === null || _a === void 0 ? void 0 : _a.message}]`;
   }
 }
 function prettify_json(js, options = {}) {
@@ -24861,7 +24881,7 @@ const SERVER_RESPONSE_VERSION = 1;
 
 const ReleaseChannel = Object(dist["Enum"])('prod', 'staging', 'dev');
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-placeholder/dist/src.es2019/index.js + 2 modules
-var src_es2019 = __webpack_require__(44);
+var src_es2019 = __webpack_require__(45);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/B-apps--support/online-adventur.es/api-interface/dist/src.es2019/utils.js
 
@@ -24949,9 +24969,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get_id_from_path = exports.get_key_from_path = exports.loosely_get_clean_path = exports.get_relevant_path_segments = exports.create_error = void 0;
 
-const http_1 = __webpack_require__(43);
+const http_1 = __webpack_require__(44);
 
-const error_utils_1 = __webpack_require__(55);
+const error_utils_1 = __webpack_require__(41);
 
 const consts_1 = __webpack_require__(40); // TODO extern
 
@@ -24965,7 +24985,7 @@ function create_error(message, details = {}, SEC) {
   } //console.log('CE', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
 
 
-  const err = SEC ? SEC.createError(String(message), details) : error_utils_1.createError(String(message), details);
+  const err = SEC ? SEC.createError(String(message), details) : (0, error_utils_1.createError)(String(message), details);
   err.framesToPop++;
   return err;
 }
@@ -27712,9 +27732,45 @@ function createError(message, attributes = {}, ctor = Error) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return normalizeError; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return hasErrorShape; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return normalizeError; });
 /* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
- // Normalize any thrown object into a true, normal error.
+
+const DEBUG = false;
+const WARN = true;
+
+const _demo_error = new Error('[Test!]');
+
+function hasErrorShape(err_like) {
+  if (typeof (err_like === null || err_like === void 0 ? void 0 : err_like.message) !== 'string' || !(err_like === null || err_like === void 0 ? void 0 : err_like.message)) {
+    DEBUG && console.error('hasErrorShape() BAD message', {
+      type: typeof (err_like === null || err_like === void 0 ? void 0 : err_like.message),
+      expected_type: typeof (_demo_error === null || _demo_error === void 0 ? void 0 : _demo_error.message),
+      err_like
+    });
+    return false;
+  }
+
+  if (typeof (err_like === null || err_like === void 0 ? void 0 : err_like.name) !== 'string' || !(err_like === null || err_like === void 0 ? void 0 : err_like.name)) {
+    DEBUG && console.error('hasErrorShape() BAD name', {
+      type: typeof (err_like === null || err_like === void 0 ? void 0 : err_like.name),
+      expected_type: typeof (_demo_error === null || _demo_error === void 0 ? void 0 : _demo_error.name),
+      err_like
+    });
+    return false;
+  }
+
+  if (typeof (err_like === null || err_like === void 0 ? void 0 : err_like.stack) !== 'string') {
+    DEBUG && console.error('hasErrorShape() BAD stack', {
+      type: typeof (err_like === null || err_like === void 0 ? void 0 : err_like.stack),
+      expected_type: typeof (_demo_error === null || _demo_error === void 0 ? void 0 : _demo_error.stack),
+      err_like
+    });
+    return false;
+  }
+
+  return true;
+} // Normalize any thrown object into a true, normal error.
 // NOTE: will *always* recreate the error. TODO evaluate if possible to improve?
 // Anything can be thrown: undefined, string, number...
 // But that's obviously not a good practice.
@@ -27724,20 +27780,83 @@ function createError(message, attributes = {}, ctor = Error) {
 // - seen: non-enumerable props
 // So we want to ensure a true, safe, writable error object.
 
-function normalizeError(err_like = {}) {
-  var _a, _b; // Yes, we always re-create in case
+function normalizeError(err_like = undefined, {
+  alwaysRecreate = false
+} = {}) {
+  const has_minimal_error_shape = hasErrorShape(err_like);
+
+  if (has_minimal_error_shape && !alwaysRecreate) {
+    // shortcut for most of the time
+    return err_like;
+  }
+
+  if (!has_minimal_error_shape) {
+    WARN && console.warn(`WARNING: normalizeError() saw a non-Error thing thrown!`, {
+      err_like
+    });
+  }
+
+  if (err_like === undefined || err_like === null) {
+    // we can't get prototype from those, shortcut it:
+    return new Error(`[non-error: "${err_like}" thrown!]`);
+  } // just for a clearer message
 
 
-  const p = Object.getPrototypeOf(err_like); // should we restrict to global standard constructors? TBD
+  if (typeof err_like === 'string') {
+    return new Error(`[non-error of type "${typeof err_like}" thrown: "${err_like}"!]`);
+  } else if (typeof err_like !== 'object') {
+    // we can't get prototype from those, shortcut it:
+    return new Error(`[non-error of type "${typeof err_like}" thrown!]`);
+  }
 
-  const constructor = ((_b = (_a = p === null || p === void 0 ? void 0 : p.constructor) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.endsWith('Error')) ? p.constructor : Error; // https://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
+  try {
+    const should_recreate = alwaysRecreate || !has_minimal_error_shape;
+    const true_err = should_recreate ? (() => {
+      const true_err = (() => {
+        var _a, _b, _c;
 
-  const true_err = new (Function.prototype.bind.call(constructor, null, err_like.message || `(non-error caught: "${err_like}")`))(); // properly attach fields if they exist
+        let message = ((_a = err_like) === null || _a === void 0 ? void 0 : _a.message // even no error shape may have a message prop
+        ) ? String(err_like.message) : `[object with no error shape thrown!]`;
 
-  _fields__WEBPACK_IMPORTED_MODULE_0__[/* COMMON_ERROR_FIELDS_EXTENDED */ "b"].forEach(prop => {
-    if (err_like[prop]) true_err[prop] = err_like[prop];
-  });
-  return true_err;
+        try {
+          const current_prototype = Object.getPrototypeOf(err_like); // should we restrict to global standard constructors? TBD
+
+          const wanted_constructor = ((_c = (_b = current_prototype === null || current_prototype === void 0 ? void 0 : current_prototype.constructor) === null || _b === void 0 ? void 0 : _b.name) === null || _c === void 0 ? void 0 : _c.endsWith('Error')) ? current_prototype.constructor : Error; // https://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
+
+          const candidate = new (Function.prototype.bind.call(wanted_constructor, null, message))();
+          if (!hasErrorShape(candidate)) throw new Error('[re-created but still !has_minimal_error_shape: will be caught below]');
+          return candidate;
+        } catch (_err) {
+          DEBUG && console.error('NE1', _err); // the constructor didn't work or didn't yield a proper error, fallback to a normal, safe Error
+
+          const true_err = new Error(message);
+          return true_err;
+        }
+      })(); // properly re-attach fields if they exist
+
+
+      _fields__WEBPACK_IMPORTED_MODULE_0__[/* COMMON_ERROR_FIELDS_EXTENDED */ "b"].forEach(prop => {
+        if (prop === 'message' || prop === 'name') {
+          // those props are from the constructor, don't copy them
+          return;
+        }
+
+        if (err_like[prop]) {
+          // TODO consider deep copies?
+          true_err[prop] = err_like[prop];
+        }
+      });
+      return true_err;
+    })() : err_like;
+    return true_err;
+  } catch (_err) {
+    DEBUG && console.error('NE2', _err);
+    WARN && console.warn(`WARNING: normalizeError() saw a dangerous thing thrown!`, {
+      err_like
+    }); // if we're here, that means that err_like is *very* fancy, better not probe out further.
+
+    return new Error(`[non-error: <fancy object> thrown!]`);
+  }
 }
 
 /***/ }),
@@ -29115,7 +29234,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(52)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53)(module)))
 
 /***/ }),
 
