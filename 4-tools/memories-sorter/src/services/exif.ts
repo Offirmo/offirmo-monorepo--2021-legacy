@@ -1,4 +1,5 @@
 import assert from 'tiny-invariant'
+import { normalizeError } from '@offirmo/error-utils'
 import { Tags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable, HashOf } from '@offirmo-private/ts-types'
 
@@ -135,7 +136,8 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 		assert(+date, `_get_valid_exifdate_field("${field}") has correct shape (2)`)
 		assert(+date < +now_legacy, `_get_valid_exifdate_field("${field}") value is ok compared to now`) // seen when recent photo and wrong default timezone => photo in the future
 	}
-	catch (err) {
+	catch (_err) {
+		const err = normalizeError(_err)
 		logger.fatal('error reading EXIF date', { SourceFile, field, klass: exiftool_date.constructor.name, date_object: exiftool_date, err })
 		err.message = 'error reading EXIF date: ' + err.message
 		throw err

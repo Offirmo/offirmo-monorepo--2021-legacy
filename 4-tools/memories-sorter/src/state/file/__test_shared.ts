@@ -1,5 +1,6 @@
 const { deepStrictEqual: assert_deepStrictEqual } = require('assert').strict
 
+import { normalizeError } from '@offirmo/error-utils'
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_json_difference } from '@offirmo-private/state-utils'
 
@@ -30,7 +31,8 @@ export function expectㆍfileㆍstatesㆍNOTㆍdeepㆍequal(s1: Immutable<State>
 	try {
 		expectㆍfileㆍstatesㆍdeepㆍequal(s1, s2, false)
 	}
-	catch (err) {
+	catch (_err) {
+		const err = normalizeError(_err)
 		if (err.message.includes('Expected values to be strictly deep-equal'))
 			return
 

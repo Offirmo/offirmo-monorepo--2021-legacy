@@ -7,6 +7,7 @@ import json from '@offirmo/cli-toolbox/fs/json'
 import { Immutable } from '@offirmo-private/ts-types'
 import { exiftool } from 'exiftool-vendored'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
+import { normalizeError } from '@offirmo/error-utils'
 
 import { Basename, RelativePath } from '../types'
 import { NOTES_BASENAME_SUFFIX_LC } from '../consts'
@@ -145,7 +146,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 			await Promise.all(pending_tasks)
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.explore_folder, err, { id })
 		}
 	}
@@ -159,7 +161,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			logger.trace(`- got fs stats data for "${id}"…`)
 			db = DB.on_fs_stats_read(db, id, get_relevant_fs_stats_subset(stats))
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.query_fs_stats, err, { id })
 		}
 	}
@@ -173,7 +176,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			logger.trace(`- got exif data for "${id}"…`)
 			db = DB.on_exif_read(db, id, exif_data)
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.query_exif, err, { id })
 		}
 	}
@@ -188,7 +192,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			logger.trace(`- got hash for "${id}""`, { hash })
 			db = DB.on_hash_computed(db, id, hash!)
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.hash, err, { id })
 		}
 	}
@@ -202,7 +207,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			assert(data?.schema_version, 'load_notes()')
 			db = DB.on_notes_found(db, data)
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.load_notes, err, { path })
 		}
 	}
@@ -244,7 +250,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				}
 			}
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.ensure_folder, err, { id })
 		}
 	}
@@ -265,7 +272,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				db = DB.on_file_deleted(db, id)
 			}
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.delete_file, err, { id })
 		}
 	}
@@ -289,7 +297,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 					throw err
 			}
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.persist_notes, err, { folder_path })
 		}
 	}
@@ -389,7 +398,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				try {
 					fs_extra.moveSync(abs_path_current, abs_path_target)
 					db = DB.on_file_moved(db, id, target_id)
-				} catch (err) {
+				}
+				catch (_err) {
+					const err = normalizeError(_err)
 					if (err.message.includes('Source and destination must not be the same')) {
 						// this may happens for unicode normalization or case-sensitivity of the underlying FS
 						assert(NORMALIZERS.normalize_unicode(id.toLowerCase()) === NORMALIZERS.normalize_unicode(target_id.toLowerCase()), 'expecting real identity')
@@ -466,7 +477,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 			_intelligently_normalize_file_basename_sync(id, target_folder_id)
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.move_file_to_ideal_location, err, { id })
 		}
 	}
@@ -499,7 +511,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 			_intelligently_normalize_file_basename_sync(id)
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.normalize_file, err, { id })
 		}
 	}
@@ -526,7 +539,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				}
 			}
 		}
-		catch (err) {
+		catch (_err) {
+			const err = normalizeError(_err)
 			_on_error(ActionType.delete_folder_if_empty, err, { id })
 		}
 	}

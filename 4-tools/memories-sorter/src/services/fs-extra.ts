@@ -1,3 +1,4 @@
+import { normalizeError } from '@offirmo/error-utils'
 import { checkPathsSync as throw_if_identical_sync } from 'fs-extra/lib/util/stat.js'
 
 let fs: any // TODO fix untyping
@@ -15,7 +16,8 @@ export function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePat
 		throw_if_identical_sync(abs_path_a, abs_path_b)
 		return false
 	}
-	catch (err) {
+	catch (_err) {
+		const err = normalizeError(_err)
 		if (err.message.includes('Source and destination must not be the same'))
 			return true
 	}
