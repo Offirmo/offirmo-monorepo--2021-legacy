@@ -12,7 +12,7 @@ import {
 } from './better-date'
 
 import { ALL_MEDIA_DEMOS } from '../__test_shared/real_files'
-
+import '../__test_shared/mocha_spec'
 
 /////////////////////
 

@@ -22,7 +22,7 @@ import {
 import {
 	get_timestamp_utc_ms_from,
 	get_debug_representation,
-	get_members,
+	get_members_for_serialization,
 } from '../../services/better-date'
 
 import { LIB } from './consts'
@@ -207,7 +207,7 @@ export function on_info_read__current_neighbors_primary_hints(
 				...state.notes.historical,
 				neighbor_hints: {
 					parent_folder_bcd: neighbor_hints.parent_folder_bcd
-						? get_members(neighbor_hints.parent_folder_bcd)
+						? get_members_for_serialization(neighbor_hints.parent_folder_bcd)
 						: undefined,
 					fs_bcd_assessed_reliability: our_current_fs_bcd_assessed_reliability,
 				}

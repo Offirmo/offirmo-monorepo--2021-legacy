@@ -9,8 +9,8 @@ import {
 	create_better_date_from_ExifDateTime,
 	get_debug_representation,
 	get_embedded_timezone,
-	is_same_date_with_potential_tz_difference,
-	is_within_24h,
+	are_same_tms_date_with_potential_tz_difference,
+	are_tms_within_24h_of_each_other,
 } from './better-date'
 import logger from './logger'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
@@ -205,7 +205,7 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 			Math.floor(candidate_dateⳇtms/1000.) === Math.floor(min_dateⳇtms/1000.)
 			&& min_has_millis
 			&& !candidate_has_millis
-		const are_within_24h = is_within_24h(candidate_dateⳇtms, min_dateⳇtms)
+		const are_within_24h = are_tms_within_24h_of_each_other(candidate_dateⳇtms, min_dateⳇtms)
 		DEBUG && console.log(`  - comparing to acc:`, {
 			candidate_date_tms: candidate_dateⳇtms,
 			min_date_tms: min_dateⳇtms,
@@ -334,7 +334,7 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 
 	// we have candidates, let's cross-check them
 	if (date_from_CreationDate𖾚exif) {
-		if (!is_same_date_with_potential_tz_difference(
+		if (!are_same_tms_date_with_potential_tz_difference(
 			get_timestamp_ms_from_ExifDateTime(candidate_date𖾚exif),
 			get_timestamp_ms_from_ExifDateTime(date_from_CreationDate𖾚exif),
 		)) {
@@ -356,7 +356,7 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 		// HOWEVER the file date happens to be correct. Attempt to fix the exif date that way...
 
 		if (earliest_date_from_fs𖾚exif && earliest_date_from_fs𖾚exif.tzoffsetMinutes !== undefined
-			&& is_same_date_with_potential_tz_difference(get_timestamp_ms_from_ExifDateTime(earliest_date_from_fs𖾚exif), get_timestamp_ms_from_ExifDateTime(candidate_date𖾚exif))) {
+			&& are_same_tms_date_with_potential_tz_difference(get_timestamp_ms_from_ExifDateTime(earliest_date_from_fs𖾚exif), get_timestamp_ms_from_ExifDateTime(candidate_date𖾚exif))) {
 			// perfect, the FS date is perfectly matching + has a tz
 			candidate_date𖾚exif = earliest_date_from_fs𖾚exif
 			const bd = create_better_date_from_ExifDateTime(candidate_date𖾚exif)

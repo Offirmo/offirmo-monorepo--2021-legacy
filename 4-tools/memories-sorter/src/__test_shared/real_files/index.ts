@@ -1,13 +1,15 @@
 import path from 'path'
 
 import memoize_once from 'memoize-one'
+import micro_memoize from 'micro-memoize'
 import { Immutable } from '@offirmo-private/ts-types'
 import { expect } from 'chai'
 import { enforce_immutability } from '@offirmo-private/state-utils'
+import { utimes } from 'utimes'
 
 import { AbsolutePath, Basename, SimpleYYYYMMDD, ISODateString, RelativePath, TimeZone } from '../../types'
 import { _UNSAFE_CURRENT_SYSTEM_TIMEZONE } from '../../params'
-import { load_real_media_file } from '../utils'
+import { load_real_media_file as _load_real_media_file } from '../utils'
 import {
 	State,
 	get_best_creation_date,
@@ -20,6 +22,7 @@ import {
 	get_embedded_timezone,
 	get_human_readable_timestamp_auto,
 } from '../../services/better-date'
+import * as File from '../../state/file'
 
 /////////////////////////////////////////////////
 
@@ -48,22 +51,53 @@ interface MediaDemo {
 	IDEAL_BASENAME: Basename
 }
 
+const load_real_media_file = micro_memoize(_load_real_media_file, {
+	maxSize: Number.MAX_SAFE_INTEGER,
+})
+
 async function _get_demo_state(
 	MEDIA: MediaDemo,
-	phase2?: null | {
-		neighbor_hints?: null | Immutable<NeighborHints>
-		recovered_notes?: null | Immutable<PersistedNotes>
+	phase2?: {
+		neighbor_hints: null | Immutable<NeighborHints>
+		recovered_notes: null | Immutable<PersistedNotes>
 	}
 ): Promise<Immutable<State>> {
-	const ↆstate = load_real_media_file(MEDIA.ABS_PATH, phase2)
-	ↆstate.then(state => {
-		expect(get_best_creation_year(state)).to.equal(MEDIA.YEAR)
-		expect(get_best_creation_date_compact(state)).to.equal(MEDIA.DATE__COMPACT)
-		expect(get_embedded_timezone(get_best_creation_date(state))).to.deep.equal(MEDIA.FINAL_TZ)
-		expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal(MEDIA.DATE__HUMAN_AUTO)
-		expect(get_ideal_basename(state)).to.equal(MEDIA.IDEAL_BASENAME)
-	})
-	return ↆstate
+	let state = await load_real_media_file(MEDIA.ABS_PATH)
+
+	expect(File.is_media_file(state)).to.be.true
+
+	if (phase2) {
+		state = File.on_info_read__current_neighbors_primary_hints(state, phase2.neighbor_hints ?? {
+			parent_folder_bcd: null,
+			fs_bcd_assessed_reliability: 'unknown',
+		})
+
+		state = File.on_notes_recovered(state, phase2.recovered_notes)
+	}
+
+	if (!phase2) {
+		expect(File.has_all_infos_for_extracting_the_creation_date(state, {
+			require_neighbors_hints: false,
+			require_notes: false,
+		})).to.be.true
+
+		const bcd_meta = File.get_best_creation_date_meta__from_current_data(state)
+
+	}
+	else {
+		expect(File.has_all_infos_for_extracting_the_creation_date(state, {
+			require_neighbors_hints: true,
+			require_notes: true,
+		})).to.be.true
+
+		expect(get_best_creation_year(state), 'bcy').to.equal(MEDIA.YEAR)
+		expect(get_best_creation_date_compact(state), 'compact').to.equal(MEDIA.DATE__COMPACT)
+		expect(get_embedded_timezone(get_best_creation_date(state)), 'tz').to.deep.equal(MEDIA.FINAL_TZ)
+		expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'auto').to.deep.equal(MEDIA.DATE__HUMAN_AUTO)
+		expect(get_ideal_basename(state), 'ideal basename').to.equal(MEDIA.IDEAL_BASENAME)
+	}
+
+	return enforce_immutability(state)
 }
 
 const MEDIA_DEMO_01_basename = 'exif_date_cn_exif_gps.jpg'
@@ -206,38 +240,53 @@ export const MEDIA_DEMO_06: MediaDemo = {
 	YEAR: 2020,
 	DATE__COMPACT: 20200321,
 	DATE__HUMAN_AUTO: '2020-03-21_11h37m40',
-	CONFIDENCE: 'junk', // undefined reliability = we ~trust fs but not enough for a rename
+	CONFIDENCE: 'secondary', // undefined reliability = we ~trust fs but not enough for a rename
 
 	IDEAL_BASENAME: MEDIA_DEMO_06_basename, // no change bc no reliable data
 }
+utimes(
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_06_basename),
+	1584751060000 // 2020-03-21_11h37m40 local
+)
+
 
 // TODO add the horrible whatsapp video
 
 /////////////////////////////////////////////////
 
-export const ALL_MEDIA_DEMOS: Array<{ data: MediaDemo, get_phase1_state: () => ReturnType<typeof load_real_media_file>}> = [
+export const ALL_MEDIA_DEMOS: Array<{
+	data: MediaDemo,
+	get_phase1_state: () => ReturnType<typeof load_real_media_file>,
+	get_phase2_state: () => ReturnType<typeof load_real_media_file>,
+}> = [
 	{
 		data: MEDIA_DEMO_01,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_01)),
+		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_01, { neighbor_hints: null, recovered_notes: null })),
 	},
 	{
 		data: MEDIA_DEMO_02,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_02)),
+		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_02, { neighbor_hints: null, recovered_notes: null })),
 	},
 	{
 		data: MEDIA_DEMO_03,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_03)),
+		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_03, { neighbor_hints: null, recovered_notes: null })),
 	},
 	{
 		data: MEDIA_DEMO_04,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_04)),
+		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_04, { neighbor_hints: null, recovered_notes: null })),
 	},
 	{
 		data: MEDIA_DEMO_05,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_05)),
+		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_05, { neighbor_hints: null, recovered_notes: null })),
 	},
 	{
 		data: MEDIA_DEMO_06,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_06)),
+		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_06, { neighbor_hints: null, recovered_notes: null })),
 	},
 ]

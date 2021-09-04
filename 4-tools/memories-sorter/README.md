@@ -5,6 +5,30 @@
 ## Contributing
 
 ### concepts
+* "better date" is our own date representation (currently a wrapper around luxon)
+  * this is the default type for dates, unless explicitly stated
+* "processed" vs "non-processed". Files "processed" by this tool will be recognizable, notably by their specially crafted name
+* "historical" vs "original" (aka. original non processed) we can never be sure that we have the original file. Hence "historical"
+   = oldest known version, using hints such as: more recent file (FS) but with a non-processed name? then this name must be closer to the original.
+* "primary" source = infos from the file itself and only it (+ maybe notes about a past version of it)
+                     this is the preferred source for the date
+* "secondary" source = info from outside the file, for ex. the parent folder name or the reliability of sibling files
+                       this source "disappear" once the file is auto-sorted, hence we save it in "historical"
+* "confidence" in date = either
+  * primary    -> high confidence, we'll rename the file
+  * secondary  -> lower confidence, we'll move the file but not rename it
+  * junk       -> very low confidence, so low we don't even dare to move the file
+  * even while being a primary info, FS date is not enough to reach "primary" unless confirmed by other sources
+* "matching" dates are "matching" if they are equal:
+  * strictly
+  * or equal with different hours (tz) within 24h
+  * or equal within precision ex.  12h37 "matches" 12h37:35_123
+  * see `are_dates_matching_while_disregarding_tz_and_precision()`
+* "fs reliability" = an estimation of the file system date reliability. Fs dates are unreliable,
+                  but if we see all siblings having their FS date corroborated by EXIF or the parent folder name,
+                  we may decide to trust the non-EXIF files as well
+* "oldest known" vs. "original" We try to
+* "junk" source = primary and secondary are not reliable, but we still provide a date (better than nothing)
 * exif = good but not 100% reliable
   * ex. low precision
   * ex. WhatsApp messing up
@@ -23,11 +47,11 @@
 
 Date algorithm:
 1. Manual, if present
-1. EXIF if present
-1. basename
-1. FS but ONLY IF CONFIRMED by other hints
+2. EXIF if present
+3. basename (if not canonical)
+4. FS but ONLY IF CONFIRMED by other hints
 
-Date will always be improved by FS if the FS matches
+Dates will always be improved by FS if the FS matches
 
 
 

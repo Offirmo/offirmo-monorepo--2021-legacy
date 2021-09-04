@@ -9,7 +9,7 @@ import {
 	get_human_readable_timestamp_millis,
 	get_human_readable_timestamp_minutes,
 	get_human_readable_timestamp_seconds,
-	get_members,
+	get_members_for_serialization,
 	get_timestamp_utc_ms_from,
 	get_embedded_timezone,
 
@@ -168,10 +168,10 @@ describe('Better Date', function() {
 			})
 		})
 
-		describe('get_members()', function() {
+		describe('get_members_for_serialization()', function() {
 
 			it('should work', () => {
-				const members = get_members(TEST_DATE)
+				const members = get_members_for_serialization(TEST_DATE)
 				const reconstructed = create_better_date_obj(members)
 				assertㆍBetterDateㆍdeepㆍequal(TEST_DATE, reconstructed)
 			})

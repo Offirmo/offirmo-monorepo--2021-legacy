@@ -4,6 +4,7 @@ import { normalizeError } from '@offirmo/error-utils'
 import { Immutable } from '@offirmo-private/ts-types'
 import { get_json_difference } from '@offirmo-private/state-utils'
 
+import '../../__test_shared/mocha_spec'
 import { State } from './types'
 
 

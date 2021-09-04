@@ -134,7 +134,7 @@ export function get_year(date: Immutable<BetterDate>): number {
 }
 
 // serializable version
-export function get_members(date: Immutable<BetterDate>): BetterDateMembers {
+export function get_members_for_serialization(date: Immutable<BetterDate>): BetterDateMembers {
 	return {
 		year: date._lx.year,
 		month: date._lx.month,
@@ -158,6 +158,19 @@ export function _get_exif_datetime(date: Immutable<BetterDate>): ExifDateTime {
 		date._lx.second,
 		date._lx.millisecond,
 	)
+}
+
+export function get_debug_representation(date: Immutable<BetterDate> | TimestampUTCMs | undefined | null): string {
+	if (date === undefined)
+		return '[undefined date]'
+
+	if (date === null)
+		return '[null date]'
+
+	if (typeof date === 'number')
+		return `<TimestampUTCMs>(${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(date, 'tz:auto'), 'tz:embedded')}/${date})`
+
+	return `<BetterDate>(${get_human_readable_timestamp_auto(date, 'tz:embedded')}/${get_timestamp_utc_ms_from(date)})`
 }
 
 /////////// Comparisons / operators
@@ -200,6 +213,69 @@ export function max(date_a: Immutable<BetterDate>, date_b: Immutable<BetterDate>
 	const cmp = compare_utc(date_a, date_b)
 
 	return cmp <= 0 ? date_b : date_a
+}
+
+
+export const HOUR_IN_MILLIS = 60 * 60 * 1000
+export const DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS
+export function are_tms_within_24h_of_each_other(tms1: TimestampUTCMs, tms2: TimestampUTCMs): boolean {
+	return Math.abs(tms1 - tms2) < DAY_IN_MILLIS
+}
+export function are_same_tms_date_with_potential_tz_difference(tms1: TimestampUTCMs, tms2: TimestampUTCMs): boolean {
+	if (!are_tms_within_24h_of_each_other(tms1, tms2))
+		return false
+
+	const sub_hour_1 = tms1 % HOUR_IN_MILLIS
+	const sub_hour_2 = tms2 % HOUR_IN_MILLIS
+	if (sub_hour_1 === sub_hour_2)
+		return true
+
+	// allow a little bit of lag (seen 5s FRWF9408.MP4 and 7s on IMAG0430.jpg)
+	if (Math.abs(sub_hour_1 - sub_hour_2) <= 10 * 1000)
+		return true
+
+	/*console.warn(`are_same_tms_date_with_potential_tz_difference() yielding close FALSE`, {
+		tms1,
+		tms2,
+		sub_hour_1,
+		sub_hour_2,
+		diff: Math.abs(sub_hour_1 - sub_hour_2),
+	})*/
+
+	return false
+}
+
+export function are_dates_matching_while_disregarding_tz_and_precision(d1: Immutable<BetterDate>, d2: Immutable<BetterDate>, debug_id?: string): boolean {
+	const tms1 = get_timestamp_utc_ms_from(d1)
+	const tms2 = get_timestamp_utc_ms_from(d2)
+
+	const auto1 = get_human_readable_timestamp_auto(d1, 'tz:embedded')
+	const auto2 = get_human_readable_timestamp_auto(d2, 'tz:embedded')
+
+	const is_tms_matching = are_same_tms_date_with_potential_tz_difference(tms1, tms2)
+
+	const [ longest, shortest ] = auto1.length >= auto2.length
+		? [ auto1, auto2 ]
+		: [ auto2, auto1 ]
+	const is_matching_with_different_precisions = longest.startsWith(shortest)
+
+	if (!is_tms_matching && !is_matching_with_different_precisions) {
+		if (debug_id) {
+			logger.warn(`are_dates_matching_while_disregarding_tz_and_precision() yielded FALSE`, {
+				id: debug_id,
+				auto1,
+				auto2,
+				tms1,
+				tms2,
+				is_tms_matching,
+				is_matching_with_different_precisions,
+				diff_s: Math.abs(tms2 - tms1) / 1000.,
+			})
+		}
+		return false
+	}
+
+	return true
 }
 
 ////////////////////////////////////
@@ -454,51 +530,9 @@ export function assertㆍBetterDateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2
 	}
 }
 
-export const HOUR_IN_MILLIS = 60 * 60 * 1000
-export const DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS
-export function is_within_24h(tms1: TimestampUTCMs, tms2: TimestampUTCMs): boolean {
-	return Math.abs(tms1 - tms2) < DAY_IN_MILLIS
-}
-export function is_same_date_with_potential_tz_difference(tms1: TimestampUTCMs, tms2: TimestampUTCMs): boolean {
-	if (!is_within_24h(tms1, tms2))
-		return false
-
-	const sub_hour_1 = tms1 % HOUR_IN_MILLIS
-	const sub_hour_2 = tms2 % HOUR_IN_MILLIS
-	if (sub_hour_1 === sub_hour_2)
-		return true
-
-	// allow a little bit of lag (seen 5s FRWF9408.MP4 and 7s on IMAG0430.jpg)
-	if (Math.abs(sub_hour_1 - sub_hour_2) <= 10 * 1000)
-		return true
-
-	/*console.warn(`is_same_date_with_potential_tz_difference() yielding close FALSE`, {
-		tms1,
-		tms2,
-		sub_hour_1,
-		sub_hour_2,
-		diff: Math.abs(sub_hour_1 - sub_hour_2),
-	})*/
-
-	return false
-}
-
 export function _clean_debug(date: Immutable<BetterDate>): Immutable<BetterDate> {
 	return {
 		...date,
 		_debug: null,
 	}
-}
-
-export function get_debug_representation(date: Immutable<BetterDate> | TimestampUTCMs | undefined | null): string {
-	if (date === undefined)
-		return '[undefined date]'
-
-	if (date === null)
-		return '[null date]'
-
-	if (typeof date === 'number')
-		return `<TimestampUTCMs>(${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(date, 'tz:auto'), 'tz:embedded')}/${date})`
-
-	return `<BetterDate>(${get_human_readable_timestamp_auto(date, 'tz:embedded')}/${get_timestamp_utc_ms_from(date)})`
 }

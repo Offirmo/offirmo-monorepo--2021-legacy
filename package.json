@@ -149,6 +149,7 @@
 		"tslib": "^2",
 		"typescript-string-enums": "^1",
 		"username": "^5",
+		"utimes": "^4",
 		"webextension-polyfill-ts": "^0",
 		"write-json-file": "^4",
 		"zx": "^3"

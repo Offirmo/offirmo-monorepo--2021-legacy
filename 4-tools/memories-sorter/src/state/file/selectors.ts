@@ -49,10 +49,11 @@ import {
 	create_better_date_from_utc_tms,
 	create_better_date_from_ExifDateTime,
 	get_timestamp_utc_ms_from,
-	is_same_date_with_potential_tz_difference,
+	are_same_tms_date_with_potential_tz_difference,
 	get_debug_representation,
-	create_better_date_obj, get_members,
+	create_better_date_obj, get_members_for_serialization,
 	DAY_IN_MILLIS,
+	are_dates_matching_while_disregarding_tz_and_precision,
 } from '../../services/better-date'
 import { FileHash } from '../../services/hash'
 import { is_digit } from '../../services/matchers'
@@ -263,7 +264,7 @@ function _get_creation_date__from_exif(state: Immutable<State>): BetterDate | un
 	})
 	return bcd
 }
-function _get_creation_date__from_fs_stats__oldest_known‿tms(state: Immutable<State>): TimestampUTCMs {
+function _get_creation_date__from_fs__oldest_known‿tms(state: Immutable<State>): TimestampUTCMs {
 	assert(state.are_notes_restored, `_get_creation_date_from_original_fs_stats() needs notes restored`)
 	// TODO one day ignore if we implement FS normalization & historical basename is processed
 	return state.notes.historical.fs_bcd_tms
@@ -272,7 +273,7 @@ export function get_creation_date__from_fs_stats__current‿tms(state: Immutable
 	assert(state.current_fs_stats, 'get_creation_date__from_fs_stats__current‿tms() fs stats collected')
 	return get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
-function _get_creation_date__from_basename__original(state: Immutable<State>): BetterDate | undefined {
+function _get_creation_date__from_basename_np__oldest_known(state: Immutable<State>): BetterDate | undefined {
 	assert(state.are_notes_restored, `_get_creation_date_from_original_basename() needs notes restored`)
 
 	const oldest_known_basename = get_oldest_known_basename(state)
@@ -289,7 +290,7 @@ function _get_creation_date__from_basename__original(state: Immutable<State>): B
 	const parsed = get_oldest_known_basename‿parsed(state)
 	return parsed.date
 }
-function _get_creation_date__from_basename__current_non_processed(state: Immutable<State>): BetterDate | undefined {
+function _get_creation_date__from_basename_np__current(state: Immutable<State>): BetterDate | undefined {
 	if (!is_processed_media_basename(get_current_basename(state))) {
 		const parsed = get_current_basename‿parsed(state)
 		if (parsed.date)
@@ -298,16 +299,16 @@ function _get_creation_date__from_basename__current_non_processed(state: Immutab
 
 	return undefined
 }
-function _get_creation_date__from_basename__whatever_non_processed(state: Immutable<State>): BetterDate | undefined {
+function _get_creation_date__from_basename_np__any(state: Immutable<State>): BetterDate | undefined {
 	if (!is_processed_media_basename(get_oldest_known_basename(state))) {
 		const parsed = get_oldest_known_basename‿parsed(state)
 		if (parsed.date)
 			return parsed.date
 	}
 
-	return _get_creation_date__from_basename__current_non_processed(state)
+	return _get_creation_date__from_basename_np__current(state)
 }
-function _get_creation_date__from_basename__whatever_already_processed(state: Immutable<State>): BetterDate | undefined {
+function _get_creation_date__from_basename_p__any(state: Immutable<State>): BetterDate | undefined {
 	if (is_processed_media_basename(get_oldest_known_basename(state)))
 		return get_oldest_known_basename‿parsed(state).date!
 
@@ -317,7 +318,7 @@ function _get_creation_date__from_basename__whatever_already_processed(state: Im
 	return undefined
 }
 // junk
-function _get_creation_date__from_parent_folder__original(state: Immutable<State>): BetterDate | undefined {
+function _get_creation_date__from_parent_folder__oldest_known(state: Immutable<State>): BetterDate | undefined {
 	assert(state.are_notes_restored, `_get_creation_date__from_parent_folder__original() needs notes restored`)
 
 	if (is_processed_media_basename(get_oldest_known_basename(state))) {
@@ -340,44 +341,11 @@ function _get_creation_date__from_parent_folder__current(state: Immutable<State>
 	return undefined
 }
 function _get_creation_date__from_parent_folder__any(state: Immutable<State>): BetterDate | undefined {
-	const bcd_original = _get_creation_date__from_parent_folder__original(state)
+	const bcd_original = _get_creation_date__from_parent_folder__oldest_known(state)
 	if (bcd_original)
 		return bcd_original
 
 	return _get_creation_date__from_parent_folder__current(state)
-}
-// misc
-function _are_dates_matching_while_disregarding_tz_and_precision(d1: Immutable<BetterDate>, d2: Immutable<BetterDate>, debug_id?: string): boolean {
-	const tms1 = get_timestamp_utc_ms_from(d1)
-	const tms2 = get_timestamp_utc_ms_from(d2)
-
-	const auto1 = get_human_readable_timestamp_auto(d1, 'tz:embedded')
-	const auto2 = get_human_readable_timestamp_auto(d2, 'tz:embedded')
-
-	const is_tms_matching = is_same_date_with_potential_tz_difference(tms1, tms2)
-
-	const [ longest, shortest ] = auto1.length >= auto2.length
-		? [ auto1, auto2 ]
-		: [ auto2, auto1 ]
-	const is_matching_with_different_precisions = longest.startsWith(shortest)
-
-	if (!is_tms_matching && !is_matching_with_different_precisions) {
-		if (debug_id) {
-			logger.warn(`_is_matching() yielded FALSE`, {
-				id: debug_id,
-				auto1,
-				auto2,
-				tms1,
-				tms2,
-				is_tms_matching,
-				is_matching_with_different_precisions,
-				diff_s: Math.abs(tms2 - tms1) / 1000.,
-			})
-		}
-		return false
-	}
-
-	return true
 }
 // all together
 export type DateConfidence = 'primary' // reliable data coming from the file itself = we can match to event and rename
@@ -415,28 +383,32 @@ interface BestDate {
 }
 
 // for stability, we try to rely on the oldest known data first and foremost.
-// Note that historical !== original
+// Note that oldest known !== original
 // (ideally this func should NOT rely on anything else than TRULY ORIGINAL data)
 // TODO UT
-export function get_best_creation_date_meta__from_historical_data(state: Immutable<State>, PARAMS = get_params()): BestDate {
+export function get_best_creation_date_meta__from_oldest_known_data(state: Immutable<State>, PARAMS = get_params()): BestDate {
 	logger.trace(`get_best_creation_date_meta__from_historical_data()`, { id: state.id })
 
 	assert(
-		has_all_infos_for_extracting_the_creation_date(state, {}),
-		'get_best_creation_date_meta__from_historical_data() has_all_infos_for_extracting_the_creation_date()'
+		has_all_infos_for_extracting_the_creation_date(state, {
+			require_neighbors_hints: false,
+			require_notes: true,
+		}),
+		'get_best_creation_date_meta__from_oldest_known_data() has_all_infos_for_extracting_the_creation_date()'
 	)
 
-	// TODO when implementing FS normalization, may not be original and should be discarded
-	const bcd__from_fs__oldest_known‿tms = _get_creation_date__from_fs_stats__oldest_known‿tms(state)
+	// Reminder: may not be the original, many things may have caused a FS date change (incl. our own FS normalization)
+	const bcd__from_fs__oldest_known‿tms = _get_creation_date__from_fs__oldest_known‿tms(state)
 	const bcd__from_fs__oldest_known = create_better_date_from_utc_tms(bcd__from_fs__oldest_known‿tms, 'tz:auto')
 	assert(bcd__from_fs__oldest_known‿tms === get_timestamp_utc_ms_from(bcd__from_fs__oldest_known), `oldest fs tms back and forth stability`)
 
 	const result: BestDate = {
+		// so far. safe, init values
 		candidate: bcd__from_fs__oldest_known,
 		source: 'original_fs',
 		confidence: 'junk',
 		from_historical: true,
-		is_fs_matching: false, // init value
+		is_fs_matching: false,
 	}
 
 	/////// PRIMARY SOURCES ///////
@@ -444,11 +416,11 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	// some good cameras put the date in the file name
 	// however it's usually only precise up to the day,
 	// so we'll try to get a more precise one from EXIF or FS if matching
-	const bcd__from_basename__original: BetterDate | undefined = _get_creation_date__from_basename__original(state)
+	const bcd__from_basename__original: BetterDate | undefined = _get_creation_date__from_basename_np__oldest_known(state)
 
 	// strongest source
 	const bcd__from_exif = _get_creation_date__from_exif(state)
-	logger.trace('get_best_creation_date_meta__from_historical_data() trying EXIF…', {
+	logger.trace('get_best_creation_date_meta__from_oldest_known_data() trying EXIF…', {
 		has_candidate: !!bcd__from_exif,
 		data: state.current_exif_data,
 	})
@@ -457,7 +429,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 		result.candidate = bcd__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		if (bcd__from_basename__original) {
 			// cross check
@@ -465,15 +437,15 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 			const auto_from_basename = get_human_readable_timestamp_auto(bcd__from_basename__original, 'tz:embedded')
 
 			if (auto_from_candidate.startsWith(auto_from_basename)) {
-				// perfect match + EXIF more precise
+				// perfect match, keep EXIF more precise
 			}
-			else if (_are_dates_matching_while_disregarding_tz_and_precision(bcd__from_basename__original, result.candidate)) {
-				// good enough, keep EXIF
+			else if (are_dates_matching_while_disregarding_tz_and_precision(bcd__from_basename__original, result.candidate)) {
+				// good enough, keep EXIF more precise
 				// TODO evaluate in case of timezone?
 			}
 			else {
 				// this is suspicious, report it
-				logger.warn(`get_best_creation_date_meta__from_historical_data() EXIF/historical-basename discrepancy`, {
+				logger.warn(`get_best_creation_date_meta__from_historical_data() EXIF vs. historical-basename discrepancy`, {
 					oldest_known_basename: get_oldest_known_basename(state),
 					diff: Math.abs(get_timestamp_utc_ms_from(bcd__from_exif) - get_timestamp_utc_ms_from(bcd__from_basename__original)),
 					id: state.id,
@@ -488,12 +460,12 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	}
 
 	// second most authoritative source
-	logger.trace('get_best_creation_date_meta__from_historical_data() trying original basename (non processed)…')
+	logger.trace('get_best_creation_date_meta__from_oldest_known_data() trying original basename (non processed)…')
 	if (bcd__from_basename__original) {
 		result.candidate = bcd__from_basename__original
 		result.source = 'original_basename_np'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(bcd__from_fs__oldest_known, 'tz:embedded')
@@ -520,7 +492,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	}
 
 	// FS is ok as PRIMARY if confirmed by some primary hints
-	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as primary (if reliable)…', {
+	logger.trace('get_best_creation_date_meta__from_oldest_known_data() trying FS as primary (if reliable)…', {
 		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
 		neighbor_hints: {
 			fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
@@ -542,7 +514,7 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 	/////// SECONDARY SOURCES ///////
 	// TODO review is that even useful?
 
-	logger.trace('get_best_creation_date_meta__from_historical_data() trying FS as secondary (if reliability unknown)…', {
+	logger.trace('get_best_creation_date_meta__from_oldest_known_data() trying FS as secondary (if reliability unknown)…', {
 		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
 		fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
 	})
@@ -560,8 +532,8 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 
 	/* TODO review needed? partially redundant with the above
 	// worst secondary choice
-	const bcd__from_parent_folder__original = _get_creation_date__from_parent_folder__original(state)
-	logger.trace('get_best_creation_date_meta__from_historical_data() trying parent folder…', {
+	const bcd__from_parent_folder__original = _get_creation_date__from_parent_folder__oldest_known(state)
+	logger.trace('get_best_creation_date_meta__from_oldest_known_data() trying parent folder…', {
 		date__from_parent_folder__original: bcd__from_parent_folder__original,
 	})
 	if (bcd__from_parent_folder__original) {
@@ -570,9 +542,9 @@ export function get_best_creation_date_meta__from_historical_data(state: Immutab
 		result.candidate = bcd__from_parent_folder__original
 		result.source = 'original_env_hints'
 		result.confidence = 'secondary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_date_meta__from_oldest_known_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}*/
 
@@ -623,7 +595,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 	// some good cameras put the date in the file name
 	// however it's usually only precise up to the day,
 	// so we'll try to get a more precise one from EXIF or FS if matching
-	const bcd__from_basename__current_non_processed: BetterDate | undefined = _get_creation_date__from_basename__current_non_processed(state)
+	const bcd__from_basename__current_non_processed: BetterDate | undefined = _get_creation_date__from_basename_np__current(state)
 
 	// strongest source
 	const bcd__from_exif = _get_creation_date__from_exif(state)
@@ -633,7 +605,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 		result.candidate = bcd__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
 
 		if (bcd__from_basename__current_non_processed) {
 			const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
@@ -642,7 +614,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			if (auto_from_candidate.startsWith(auto_from_np_basename)) {
 				// perfect match + EXIF more precise
 			}
-			else if (_are_dates_matching_while_disregarding_tz_and_precision(bcd__from_basename__current_non_processed, result.candidate)) {
+			else if (are_dates_matching_while_disregarding_tz_and_precision(bcd__from_basename__current_non_processed, result.candidate)) {
 				// good enough, keep EXIF
 				// TODO evaluate in case of timezone?
 			}
@@ -669,7 +641,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 		result.candidate = bcd__from_basename__current_non_processed
 		result.source = 'current_basename_np'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(bcd__from_fs__current, 'tz:embedded')
@@ -752,7 +724,7 @@ export function get_best_creation_date_meta__from_current_data(state: Immutable<
 			result.candidate = date__from_parent_folder__current
 			result.source = 'current_env_hints'
 			result.confidence = 'secondary'
-			result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
+			result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
 
 			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
 			return result
@@ -778,7 +750,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		'get_best_creation_date_meta() has_all_infos_for_extracting_the_creation_date()'
 	)
 
-	const bcd__from_fs__oldest_known‿tms = _get_creation_date__from_fs_stats__oldest_known‿tms(state)
+	const bcd__from_fs__oldest_known‿tms = _get_creation_date__from_fs__oldest_known‿tms(state)
 	const bcd__from_fs__oldest_known = create_better_date_from_utc_tms(bcd__from_fs__oldest_known‿tms, 'tz:auto')
 	assert(bcd__from_fs__oldest_known‿tms === get_timestamp_utc_ms_from(bcd__from_fs__oldest_known), `original fs tms back and forth stability`)
 
@@ -801,7 +773,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 
 	// then rely on original data as much as possible
 	logger.trace('get_best_creation_date_meta() trying historical data…')
-	const meta__from_historical = get_best_creation_date_meta__from_historical_data(state, PARAMS)
+	const meta__from_historical = get_best_creation_date_meta__from_oldest_known_data(state, PARAMS)
 	if (meta__from_historical.confidence === 'primary') {
 		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_historical.candidate)} from historical data result ✔ (primary)`)
 		return meta__from_historical
@@ -810,7 +782,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	// some good cameras put the date in the file name
 	// however it's usually only precise up to the day,
 	// so we'll try to get a more precise one from EXIF or FS if matching
-	const bcd__from_basename__whatever_non_processed: BetterDate | undefined = _get_creation_date__from_basename__whatever_non_processed(state)
+	const bcd__from_basename__whatever_non_processed: BetterDate | undefined = _get_creation_date__from_basename_np__any(state)
 
 	// strongest source after "manual"
 	// TODO review = redundant with historical??
@@ -821,7 +793,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.candidate = bcd__from_exif
 		result.source = 'exif'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		if (bcd__from_basename__whatever_non_processed) {
 			const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
@@ -830,7 +802,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 			if (auto_from_candidate.startsWith(auto_from_np_basename)) {
 				// perfect match + EXIF more precise
 			}
-			else if (_are_dates_matching_while_disregarding_tz_and_precision(bcd__from_basename__whatever_non_processed, result.candidate)) {
+			else if (are_dates_matching_while_disregarding_tz_and_precision(bcd__from_basename__whatever_non_processed, result.candidate)) {
 				// good enough, keep EXIF
 				// TODO evaluate in case of timezone?
 			}
@@ -857,7 +829,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.candidate = bcd__from_basename__whatever_non_processed
 		result.source = 'some_basename_np'
 		result.confidence = 'primary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 		const auto_from_fs = get_human_readable_timestamp_auto(bcd__from_fs__oldest_known, 'tz:embedded')
@@ -900,13 +872,13 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 	// since we only normalize on primary source of trust,
 	// we trust our past self which may have had more info at the time
 	// XXX how about algorithm fix?? TODO review
-	const date__from_basename__whatever_processed = _get_creation_date__from_basename__whatever_already_processed(state)
+	const date__from_basename__whatever_processed = _get_creation_date__from_basename_p__any(state)
 	logger.trace('get_best_creation_date_meta() trying whatever date even already processed…', { has_candidate: !!date__from_basename__whatever_processed })
 	if (date__from_basename__whatever_processed) {
 		result.candidate = date__from_basename__whatever_processed
 		result.source = 'some_basename_p'
 		result.confidence = 'secondary' // since we can't guarantee that it's truely from original
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		// normalized is already super precise, no need to refine with FS
 		// TODO review what if algo improvement?
@@ -922,7 +894,7 @@ export const get_best_creation_date_meta = micro_memoize(function get_best_creat
 		result.candidate = date__from_parent_folder__any
 		result.source = 'current_env_hints'
 		result.confidence = 'secondary'
-		result.is_fs_matching = _are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
@@ -1005,13 +977,13 @@ export function get_bcd__from_fs__current__reliability_according_to_other_trusta
 
 	const bcd__from_exif = _get_creation_date__from_exif(state)
 	if (bcd__from_exif) {
-		if (_are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, bcd__from_exif, state.id))
+		if (are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, bcd__from_exif, state.id))
 			return 'reliable'
 	}
 
-	const bcd__from_basename__current_non_processed = _get_creation_date__from_basename__current_non_processed(state)
+	const bcd__from_basename__current_non_processed = _get_creation_date__from_basename_np__current(state)
 	if(bcd__from_basename__current_non_processed) {
-		if (_are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, bcd__from_basename__current_non_processed, state.id))
+		if (are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, bcd__from_basename__current_non_processed, state.id))
 			return 'reliable'
 	}
 
