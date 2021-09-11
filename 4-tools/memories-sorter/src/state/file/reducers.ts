@@ -35,7 +35,7 @@ import {
 } from './types'
 import {
 	is_exif_powered_media_file,
-	_get_current_fs_assessed_reliability,
+	_get_current_fs_reliability_according_to_own_and_env,
 	get_current_extension‿normalized,
 	get_current_basename,
 	get_oldest_known_basename,
@@ -45,6 +45,7 @@ import {
 	get_best_creation_date,
 	get_creation_date__from_fs_stats__current‿tms,
 } from './selectors'
+import * as NeighborHintsLib from './sub/neighbor-hints/selectors'
 
 ////////////////////////////////////
 
@@ -187,16 +188,13 @@ export function on_info_read__current_neighbors_primary_hints(
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
-		neighbor_hints: {
-			parent_folder_bcd: get_debug_representation(neighbor_hints.parent_folder_bcd),
-			fs_bcd_assessed_reliability: neighbor_hints.fs_bcd_assessed_reliability,
-		},
+		neighbor_hints: NeighborHintsLib.get_debug_representation(neighbor_hints),
 	})
 
 	assert(!state.current_neighbor_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
 	assert(!state.are_notes_restored, `on_info_read__current_neighbors_primary_hints() should be called BEFORE notes restoration ${state.id}`)
 
-	const our_current_fs_bcd_assessed_reliability: FsReliability = _get_current_fs_assessed_reliability(state, PARAMS, neighbor_hints)
+	const our_current_fs_bcd_assessed_reliability: FsReliability = _get_current_fs_reliability_according_to_own_and_env(state, PARAMS, neighbor_hints)
 
 	state = {
 		...state,

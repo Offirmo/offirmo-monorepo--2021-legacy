@@ -1,21 +1,19 @@
 import { expect } from 'chai'
 
 import { LIB } from '../../consts'
-import * as File from '../file'
+import { create_better_date_from_symd } from '../../services/better-date'
 
 import { State } from './types'
 import {
 	create,
-	on_subfile_primary_infos_gathered,
 } from './reducers'
 
 import {
 	get_ideal_basename,
 	get_depth, get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
 } from './selectors'
-import { create_better_date_from_symd } from '../../services/better-date'
 
-
+import './__test_shared'
 
 /////////////////////
 

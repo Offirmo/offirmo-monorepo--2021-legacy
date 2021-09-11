@@ -20,14 +20,11 @@ import { FsStatsSubset } from '../../services/fs_stats'
 import { BetterDate, BetterDateMembers } from '../../services/better-date'
 import { FileHash } from '../../services/hash'
 
+import { FsReliability, NeighborHints } from './sub/neighbor-hints/types'
+
 /////////////////////////////////////////////////
 
-export type FsReliability = 'reliable' | 'unreliable' | 'unknown'
-
-export interface NeighborHints {
-	parent_folder_bcd: null | BetterDate // we can't interpret it ourselves, for ex. can't discriminate between an event date and a backup date
-	fs_bcd_assessed_reliability: FsReliability
-}
+export * from './sub/neighbor-hints/types'
 
 // Data that we'll destroy/modify but is worth keeping
 export interface HistoricalData {

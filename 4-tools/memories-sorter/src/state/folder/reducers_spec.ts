@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { LIB } from '../../consts'
-
+import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
 import * as File from '../file'
 
 import {
@@ -21,8 +21,8 @@ import {
 	on_fs_exploration_done,
 } from './reducers'
 
+import './__test_shared'
 
-import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
 
 
 /////////////////////
@@ -69,7 +69,15 @@ describe(`${LIB} - folder state`, function() {
 
 				state = on_subfile_primary_infos_gathered(state, file_state)
 				expect(state.children_pass_1_count).to.equal(1)
-				expect(state.children_fs_reliability_count).to.deep.equal({ unknown: 0, unreliable: 0, reliable: 1 })
+				// in whatever combination:
+				expect(state.children_fs_reliability_count.unknown).to.be.at.least(0)
+				expect(state.children_fs_reliability_count.unreliable).to.be.at.least(0)
+				expect(state.children_fs_reliability_count.reliable).to.be.at.least(0)
+				expect(
+					state.children_fs_reliability_count.unknown
+					+ state.children_fs_reliability_count.unreliable
+					+ state.children_fs_reliability_count.reliable
+				).to.deep.equal(1)
 
 				expect(state.children_bcd_ranges.from_fs_current.begin).to.be.ok
 				expect(state.children_bcd_ranges.from_fs_current.end).to.be.ok

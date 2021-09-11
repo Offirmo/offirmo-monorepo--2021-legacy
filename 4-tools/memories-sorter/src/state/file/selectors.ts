@@ -274,19 +274,34 @@ export function get_creation_date__from_fs_stats__current‿tms(state: Immutable
 	return get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date__from_basename_np__oldest_known(state: Immutable<State>): BetterDate | undefined {
-	assert(state.are_notes_restored, `_get_creation_date_from_original_basename() needs notes restored`)
+	assert(state.are_notes_restored, `_get_creation_date__from_basename_np__oldest_known() needs notes restored`)
 
 	const oldest_known_basename = get_oldest_known_basename(state)
 
 	if (is_processed_media_basename(oldest_known_basename)) {
 		// this is not the original basename, we lost the info...
-		logger.warn(`_get_creation_date_from_original_basename() reporting loss of the original basename`, {
+		logger.warn(`_get_creation_date__from_basename_np__oldest_known() reporting loss of the original basename`, {
 			id: state.id,
 			oldest_known_basename,
 		})
 		return undefined
 	}
 
+	const parsed = get_oldest_known_basename‿parsed(state)
+	return parsed.date
+}
+function _get_creation_date__from_basename_p__oldest_known(state: Immutable<State>): BetterDate | undefined {
+	assert(state.are_notes_restored, `_get_creation_date__from_basename_p__oldest_known() needs notes restored`)
+
+	const oldest_known_basename = get_oldest_known_basename(state)
+
+	if (!is_processed_media_basename(oldest_known_basename)) {
+		// cool, ideal case of still knowing the original basename
+		return undefined
+	}
+
+	// we lost the original basename
+	// use this info with caution, since earlier versions of this tool may have had a bad algorithm
 	const parsed = get_oldest_known_basename‿parsed(state)
 	return parsed.date
 }
@@ -299,6 +314,16 @@ function _get_creation_date__from_basename_np__current(state: Immutable<State>):
 
 	return undefined
 }
+function _get_creation_date__from_basename_p__current(state: Immutable<State>): BetterDate | undefined {
+	if (is_processed_media_basename(get_current_basename(state))) {
+		const parsed = get_current_basename‿parsed(state)
+		if (parsed.date)
+			return parsed.date
+	}
+
+	return undefined
+}
+/*
 function _get_creation_date__from_basename_np__any(state: Immutable<State>): BetterDate | undefined {
 	if (!is_processed_media_basename(get_oldest_known_basename(state))) {
 		const parsed = get_oldest_known_basename‿parsed(state)
@@ -316,7 +341,7 @@ function _get_creation_date__from_basename_p__any(state: Immutable<State>): Bett
 		return get_current_basename‿parsed(state).date!
 
 	return undefined
-}
+}*/
 // junk
 function _get_creation_date__from_parent_folder__oldest_known(state: Immutable<State>): BetterDate | undefined {
 	assert(state.are_notes_restored, `_get_creation_date__from_parent_folder__original() needs notes restored`)
@@ -387,7 +412,7 @@ interface BestDate {
 // (ideally this func should NOT rely on anything else than TRULY ORIGINAL data)
 // TODO UT
 export function get_best_creation_date_meta__from_oldest_known_data(state: Immutable<State>, PARAMS = get_params()): BestDate {
-	logger.trace(`get_best_creation_date_meta__from_historical_data()`, { id: state.id })
+	logger.trace(`get_best_creation_date_meta__from_oldest_known_data()`, { id: state.id })
 
 	assert(
 		has_all_infos_for_extracting_the_creation_date(state, {

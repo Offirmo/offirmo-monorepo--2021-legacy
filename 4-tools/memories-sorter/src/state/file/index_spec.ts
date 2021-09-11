@@ -19,6 +19,8 @@ import {
 import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
 
 
+import './__test_shared'
+
 /////////////////////
 
 describe(`${LIB} - file (state)`, function() {
