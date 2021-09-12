@@ -40,10 +40,10 @@ import {
 	get_current_basename,
 	get_oldest_known_basename,
 	get_ideal_basename,
-	get_best_creation_date_meta,
+	get_best_creation_date‿meta,
 	get_current_parent_folder_id,
 	get_best_creation_date,
-	get_creation_date__from_fs_stats__current‿tms,
+	get_creation_dateⵧfrom_fsⵧcurrent‿tms,
 } from './selectors'
 import * as NeighborHintsLib from './sub/neighbor-hints/selectors'
 
@@ -204,9 +204,9 @@ export function on_info_read__current_neighbors_primary_hints(
 			historical: {
 				...state.notes.historical,
 				neighbor_hints: {
-					parent_folder_bcd: neighbor_hints.parent_folder_bcd
+					/* TODO restore parent_folder_bcd: neighbor_hints.parent_folder_bcd
 						? get_members_for_serialization(neighbor_hints.parent_folder_bcd)
-						: undefined,
+						: undefined,*/
 					fs_bcd_assessed_reliability: our_current_fs_bcd_assessed_reliability,
 				}
 			},
@@ -270,7 +270,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 
 	const previous_basename = get_current_basename(state)
 	const ideal_basename = get_ideal_basename(state)
-	const meta = get_best_creation_date_meta(state)
+	const meta = get_best_creation_date‿meta(state)
 
 	state =  {
 		...state,
@@ -399,8 +399,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		}
 
 		// still equal so far, try to discriminate with another criteria
-		const selected__current_fs_creation_date_tms = get_creation_date__from_fs_stats__current‿tms(selected_state)
-		const candidate__current_fs_creation_date_tms = get_creation_date__from_fs_stats__current‿tms(candidate_state)
+		const selected__current_fs_creation_date_tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(selected_state)
+		const candidate__current_fs_creation_date_tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(candidate_state)
 		if (selected__current_fs_creation_date_tms !== candidate__current_fs_creation_date_tms) {
 			reasons.add('current_fs_creation_date')
 			//console.log('different best_creation_date', selected__best_creation_date_tms, candidate__best_creation_date_tms)

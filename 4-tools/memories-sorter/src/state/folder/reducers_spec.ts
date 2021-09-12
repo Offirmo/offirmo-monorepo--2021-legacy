@@ -81,8 +81,8 @@ describe(`${LIB} - folder state`, function() {
 
 				expect(state.children_bcd_ranges.from_fs_current.begin).to.be.ok
 				expect(state.children_bcd_ranges.from_fs_current.end).to.be.ok
-				expect(state.children_bcd_ranges.from_primary_current.begin).to.be.ok
-				expect(state.children_bcd_ranges.from_primary_current.end).to.be.ok
+				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin).to.be.ok
+				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end).to.be.ok
 			})
 		})
 

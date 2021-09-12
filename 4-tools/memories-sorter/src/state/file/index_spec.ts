@@ -3,9 +3,9 @@ import { expect } from 'chai'
 import { LIB } from '../../consts'
 import {
 	get_best_creation_date,
-	get_best_creation_date_compact,
-	get_best_creation_date_meta,
-	get_best_creation_year,
+	get_best_creation_date‿compact,
+	get_best_creation_date‿meta,
+	get_best_creation_date__year,
 	get_current_basename,
 	get_current_parent_folder_id,
 	get_ideal_basename,
@@ -49,11 +49,11 @@ describe(`${LIB} - file (state)`, function() {
 
 					expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded')).to.deep.equal(MEDIA_DEMO.DATE__HUMAN_AUTO)
 
-					expect(get_best_creation_year(state), 'bcy').to.equal(MEDIA_DEMO.YEAR)
-					expect(get_best_creation_date_compact(state), 'compact').to.equal(MEDIA_DEMO.DATE__COMPACT)
+					expect(get_best_creation_date__year(state), 'bcy').to.equal(MEDIA_DEMO.YEAR)
+					expect(get_best_creation_date‿compact(state), 'compact').to.equal(MEDIA_DEMO.DATE__COMPACT)
 					expect(get_embedded_timezone(get_best_creation_date(state)), 'tz').to.deep.equal(MEDIA_DEMO.FINAL_TZ)
 
-					const bcd_meta = get_best_creation_date_meta(state)
+					const bcd_meta = get_best_creation_date‿meta(state)
 					console.log(bcd_meta)
 					expect(bcd_meta.confidence, 'confidence').to.equal(MEDIA_DEMO.CONFIDENCE)
 					expect(is_confident_in_date_enough_to__fix_fs(state)).to.equal(MEDIA_DEMO.CONFIDENCE === 'primary')

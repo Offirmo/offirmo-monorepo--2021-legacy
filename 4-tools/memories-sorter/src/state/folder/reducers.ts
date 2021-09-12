@@ -13,9 +13,9 @@ import * as File from '../file'
 
 import {
 	LIB,
-	SPECIAL_FOLDER__INBOX__BASENAME,
-	SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
-	SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME,
+	SPECIAL_FOLDERⵧINBOX__BASENAME,
+	SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME,
+	SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME,
 } from './consts'
 import {
 	FolderId,
@@ -38,9 +38,9 @@ function _get_starting_folder_type_from_path(id: FolderId, pathㆍparsed: path.P
 
 	const depth = get_depth(pathㆍparsed)
 
-	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__INBOX__BASENAME) return Type.inbox
-	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME) return Type.cant_autosort
-	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME) return Type.cant_recognize
+	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDERⵧINBOX__BASENAME) return Type.inbox
+	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME) return Type.cant_autosort
+	if (depth === 0 && pathㆍparsed.base === SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME) return Type.cant_recognize
 	if (depth === 0 && is_year(pathㆍparsed.base)) return Type.year
 
 	return Type.event // for starter, may be demoted later
@@ -65,17 +65,17 @@ export function create(id: RelativePath): Immutable<State> {
 
 		children_bcd_ranges: {
 
-			from_fs_current: {
+			from_fsⵧcurrent: {
 				begin: undefined,
 				end: undefined,
 			},
 
-			from_primary_current: {
+			from_primaryⵧcurrentⵧphase_1: {
 				begin: undefined,
 				end: undefined,
 			},
 
-			from_primary_final: {
+			from_primaryⵧfinal: {
 				begin: undefined,
 				end: undefined,
 			},
@@ -117,12 +117,12 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	}
 
 	//////////// consolidate: reliability
-	const file_bcd__from_fs_current__reliability = File.get_bcd__from_fs__current__reliability_according_to_other_trustable_current_primary_date_sources(file_state)
-	if (file_bcd__from_fs_current__reliability === 'unreliable') {
-		logger.warn(`⚠️ File "${file_state.id}" fs bcd reliability has been estimated as UNRELIABLE`)
+	const file_bcd__reliabilityⵧfrom_fsⵧcurrent = File.get_creation_date__reliability_according_to_other_trustable_current_primary_date_sourcesⵧfrom_fsⵧcurrent(file_state)
+	if (file_bcd__reliabilityⵧfrom_fsⵧcurrent === 'unreliable') {
+		logger.warn(`⚠️ File "${file_state.id}" fs bcd reliability has been estimated as UNRELIABLE after phase 1`)
 	}
 
-	const key = String(file_bcd__from_fs_current__reliability) as keyof State['children_fs_reliability_count']
+	const key = String(file_bcd__reliabilityⵧfrom_fsⵧcurrent) as keyof State['children_fs_reliability_count']
 	state = {
 		...state,
 		children_fs_reliability_count: {
@@ -132,28 +132,28 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	}
 
 	//////////// consolidate: date range -- fs current
-	const file_bcd__from_fs_current‿tms = File.get_creation_date__from_fs_stats__current‿tms(file_state)
+	const file_bcdⵧfrom_fsⵧcurrent‿tms = File.get_creation_dateⵧfrom_fsⵧcurrent‿tms(file_state)
 
-	const new_children_begin_date__fs_current = Math.min(
-			state.children_bcd_ranges.from_fs_current.begin ?? Infinity,
-			file_bcd__from_fs_current‿tms
+	const new_children_begin_dateⵧfrom_fsⵧcurrent = Math.min(
+			state.children_bcd_ranges.from_fsⵧcurrent.begin ?? Infinity,
+			file_bcdⵧfrom_fsⵧcurrent‿tms
 		)
-	const new_children_end_date__fs_current = Math.max(
-		state.children_bcd_ranges.from_fs_current.end ?? 0,
-		file_bcd__from_fs_current‿tms
+	const new_children_end_dateⵧfrom_fsⵧcurrent = Math.max(
+		state.children_bcd_ranges.from_fsⵧcurrent.end ?? 0,
+		file_bcdⵧfrom_fsⵧcurrent‿tms
 	)
 
-	if (new_children_begin_date__fs_current === state.children_bcd_ranges.from_fs_current.begin
-		&& new_children_end_date__fs_current === state.children_bcd_ranges.from_fs_current.end) {
+	if (new_children_begin_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent.begin
+		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent.end) {
 		// no change
 	} else {
 		logger.verbose(
-			`${ LIB } updating folder’s children's "bcd fs current" date range`,
+			`${ LIB } updating folder’s children's "bcd ⵧ from fs ⵧ current" date range`,
 			{
 				id: state.id,
-				file_bcd__from_fs_current: file_bcd__from_fs_current‿tms,
-				new_children_begin_date__fs_current,
-				new_children_end_date__fs_current,
+				file_bcdⵧfrom_fsⵧcurrent‿tms,
+				new_children_begin_dateⵧfrom_fsⵧcurrent,
+				new_children_end_dateⵧfrom_fsⵧcurrent,
 			}
 		)
 
@@ -162,31 +162,31 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 
 			children_bcd_ranges: {
 				...state.children_bcd_ranges,
-				from_fs_current: {
-					begin: new_children_begin_date__fs_current,
-					end: new_children_end_date__fs_current,
+				from_fsⵧcurrent: {
+					begin: new_children_begin_dateⵧfrom_fsⵧcurrent,
+					end: new_children_end_dateⵧfrom_fsⵧcurrent,
 				},
 			}
 		}
 	}
 
 	//////////// consolidate: date range -- primary current
-	const file_meta_bcd__from_primary_current = File.get_best_creation_date_meta__from_current_data(file_state)
-	if (file_meta_bcd__from_primary_current.confidence !== 'primary') {
+	const file_bcdⵧfrom_primaryⵧcurrent_meta = File.get_best_creation_dateⵧfrom_current_data‿meta(file_state)
+	if (file_bcdⵧfrom_primaryⵧcurrent_meta.confidence !== 'primary') {
 		// low confidence = don't act on that
 	}
 	else {
-		const file_bcd__from_primary_current = file_meta_bcd__from_primary_current.candidate
+		const file_bcd__from_primary_current = file_bcdⵧfrom_primaryⵧcurrent_meta.candidate
 
-		const new_children_begin_date__primary_current = state.children_bcd_ranges.from_primary_current.begin
-			? BetterDateLib.min(state.children_bcd_ranges.from_primary_current.begin, file_bcd__from_primary_current)
+		const new_children_begin_date__primary_current = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin
+			? BetterDateLib.min(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin, file_bcd__from_primary_current)
 			: file_bcd__from_primary_current
-		const new_children_end_date__primary_current = state.children_bcd_ranges.from_primary_current.end
-			? BetterDateLib.max(state.children_bcd_ranges.from_primary_current.end, file_bcd__from_primary_current)
+		const new_children_end_date__primary_current = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end
+			? BetterDateLib.max(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end, file_bcd__from_primary_current)
 			: file_bcd__from_primary_current
 
-		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_current, state.children_bcd_ranges.from_primary_current.begin)
-			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_current, state.children_bcd_ranges.from_primary_current.end)) {
+		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_current, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin)
+			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_current, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end)) {
 			// no change
 		} else {
 			logger.verbose(
@@ -204,7 +204,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 
 				children_bcd_ranges: {
 					...state.children_bcd_ranges,
-					from_primary_current: {
+					from_primaryⵧcurrentⵧphase_1: {
 						begin: new_children_begin_date__primary_current,
 						end: new_children_end_date__primary_current,
 					},
@@ -260,22 +260,22 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 	}
 
 	//////////// consolidate: date range -- primary final
-	const file_meta_bcd = File.get_best_creation_date_meta(file_state)
+	const file_meta_bcd = File.get_best_creation_date‿meta(file_state)
 	if (file_meta_bcd.confidence !== 'primary') {
 		// low confidence = don't act on that
 	}
 	else {
 		const file_bcd__primary_final = file_meta_bcd.candidate
 
-		const new_children_begin_date__primary_final = state.children_bcd_ranges.from_primary_final.begin
-			? BetterDateLib.min(state.children_bcd_ranges.from_primary_final.begin, file_bcd__primary_final)
+		const new_children_begin_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal.begin
+			? BetterDateLib.min(state.children_bcd_ranges.from_primaryⵧfinal.begin, file_bcd__primary_final)
 			: file_bcd__primary_final
-		const new_children_end_date__primary_final = state.children_bcd_ranges.from_primary_final.end
-			? BetterDateLib.max(state.children_bcd_ranges.from_primary_final.end, file_bcd__primary_final)
+		const new_children_end_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal.end
+			? BetterDateLib.max(state.children_bcd_ranges.from_primaryⵧfinal.end, file_bcd__primary_final)
 			: file_bcd__primary_final
 
-		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_final, state.children_bcd_ranges.from_primary_final.begin)
-			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.children_bcd_ranges.from_primary_final.end)) {
+		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal.begin)
+			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal.end)) {
 			// no change
 		} else {
 			logger.verbose(
@@ -292,7 +292,7 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 				...state,
 				children_bcd_ranges: {
 					...state.children_bcd_ranges,
-					from_primary_final: {
+					from_primaryⵧfinal: {
 						begin: new_children_begin_date__primary_final,
 						end: new_children_end_date__primary_final,
 					},

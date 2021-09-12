@@ -169,14 +169,14 @@ describe(`${LIB} - DB (root) state`, function() {
 
 						// however that doesn't impact the "ideal" name
 						expect(get_ideal_file_relative_path(state, file_id_a)).to.equal(path.join(
-							//Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME, // due to not dated, not event
+							//Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME, // due to not dated, not event
 							//'foo',
 							'2016',
 							'20161119 - weekend',
 							'bar.png',
 						))
 						expect(get_ideal_file_relative_path(state, file_id_b)).to.equal(path.join(
-							//Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME, // due to not dated, not event
+							//Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME, // due to not dated, not event
 							//'foo',
 							'2016',
 							'20161119 - weekend',
@@ -196,7 +196,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when already well placed -- in cantsort', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
+							stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
 						})
 
 						it('should stay stable', () => {
@@ -204,10 +204,10 @@ describe(`${LIB} - DB (root) state`, function() {
 							const file_id = stategen.get_file_id()
 
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-								Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
+								Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME,
 								'foo.png'
 							))
 						})
@@ -244,10 +244,10 @@ describe(`${LIB} - DB (root) state`, function() {
 							const file_id = stategen.get_file_id()
 
 							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basename__current) // THIS TEST
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence, 'pr2').to.equal('secondary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence, 'pr2').to.equal('secondary') // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-								Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
+								Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME,
 								'foo.png',
 							))
 						})
@@ -278,7 +278,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							expect(File.is_confident_in_date_enough_to__sort(state.files[file_id])).to.be.false // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
-								Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
+								Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME,
 								'hello',
 								'foo.png',
 							))
@@ -305,7 +305,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							const file_id = stategen.get_file_id()
 
 							//
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
@@ -318,14 +318,14 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when NOT already well placed -- in cantsort', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
+							stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
 						})
 
 						it('should move to an event folder', () => {
 							let state = stategen.create_state()
 							const file_id = stategen.get_file_id()
 
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
@@ -345,7 +345,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							let state = stategen.create_state()
 							const file_id = stategen.get_file_id()
 
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basename__current) // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
@@ -366,7 +366,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							let state = stategen.create_state()
 							const file_id = stategen.get_file_id()
 
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
@@ -386,7 +386,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							let state = stategen.create_state()
 							const file_id = stategen.get_file_id()
 
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basename__current) // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
@@ -416,7 +416,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							let state = stategen.create_state()
 							const file_id = stategen.get_file_id()
 
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('primary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('primary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal(EXPECTED_IDEAL_BASENAME) // THIS TEST
 
 							// stable
@@ -437,7 +437,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							let state = stategen.create_state()
 							let file_id = stategen.get_file_id()
 
-							expect(File.get_best_creation_date_meta(state.files[file_id]).confidence).to.equal('primary') // THIS TEST
+							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('primary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(stategen.inputs.file.basename__current) // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal(EXPECTED_IDEAL_BASENAME) // THIS TEST
 

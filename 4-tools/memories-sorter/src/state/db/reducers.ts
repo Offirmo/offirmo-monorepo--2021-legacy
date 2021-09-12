@@ -355,7 +355,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 		const consolidated_neighbor_hints = Folder.get_neighbor_primary_hints(folder_state)
 		logger.info(`Folder "${folder_state.id}" neighbor hints have been consolidated`, consolidated_neighbor_hints)
 
-		const reliability = consolidated_neighbor_hints.fs_bcd_assessed_reliability
+		const reliability = File.NeighborHintsLib.get_fs_reliability(consolidated_neighbor_hints)
 		const log_func = (reliability === 'unreliable')
 			? logger.error
 			: (reliability === 'unknown')
@@ -672,13 +672,13 @@ export function normalize_files_in_place(state: Immutable<State>): Immutable<Sta
 export function ensure_structural_dirs_are_present(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} ensure_structural_dirs_are_present()…`)
 
-	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__INBOX__BASENAME))
-	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME))
-	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME))
+	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDERⵧINBOX__BASENAME))
+	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME))
+	state = _enqueue_action(state, Actions.create_action_ensure_folder(Folder.SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME))
 
 	const years = new Set<number>()
 	get_all_media_files(state).forEach(file_state => {
-		const year = File.get_best_creation_year(file_state)
+		const year = File.get_best_creation_date__year(file_state)
 		years.add(year)
 	})
 	for(const y of years) {
@@ -713,7 +713,7 @@ export function delete_empty_folders_recursively(state: Immutable<State>, target
 		.filter(folder_state => Folder.get_depth(folder_state) === target_depth)
 
 	folder_states_at_depth.forEach(folder_state => {
-		if (folder_state.id === Folder.SPECIAL_FOLDER__INBOX__BASENAME) return
+		if (folder_state.id === Folder.SPECIAL_FOLDERⵧINBOX__BASENAME) return
 
 		state = _enqueue_action(state, Actions.create_action_delete_folder_if_empty(folder_state.id))
 	})

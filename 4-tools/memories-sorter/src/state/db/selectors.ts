@@ -116,7 +116,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	const current_parent_folder_id: FolderId = File.get_current_parent_folder_id(file_state)
 	assert(is_folder_existing(state, current_parent_folder_id), `get_ideal_file_relative_folder() current parent folder exists "${current_parent_folder_id}"`)
 	const top_parent_id: FolderId = File.get_current_top_parent_folder_id(file_state)
-	const is_top_parent_special = Folder.SPECIAL_FOLDERS__BASENAMES.includes(top_parent_id)
+	const is_top_parent_special = Folder.SPECIAL_FOLDERS_BASENAMES.includes(top_parent_id)
 	const current_parent_folder_state = state.folders[current_parent_folder_id]
 
 	logger.trace(`✴️ get_ideal_file_relative_folder() processing…`, {
@@ -145,7 +145,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			// UNLESS the file date doesn't match the current folder (happens with force-dated folders with big ranges = ex. a 6 month iphone import)
 			const date_for_matching_an_event: SimpleYYYYMMDD = (() => {
 				if (File.is_confident_in_date_enough_to__sort(file_state))
-					return File.get_best_creation_date_compact(file_state)
+					return File.get_best_creation_date‿compact(file_state)
 
 				return Folder.get_event_begin_date‿symd(current_parent_folder_state)
 			})()
@@ -170,7 +170,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 				DEBUG && console.log(`✴️ ${id} in overlapping`, {
 					confidence_to_sort: File.is_confident_in_date_enough_to__sort(file_state),
-					file_date: File.get_best_creation_date_compact(file_state),
+					file_date: File.get_best_creation_date‿compact(file_state),
 					date_for_finding_suitable_event: date_for_matching_an_event,
 				})
 				return path.join(year, event_folder_base)
@@ -186,9 +186,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	if (!File.is_media_file(file_state)) {
 		let target_split_path = File.get_current_relative_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
-			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME
+			target_split_path[0] = Folder.SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME
 		else
-			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME)
+			target_split_path.unshift(Folder.SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME)
 		logger.warn(`✴️ !media = Unfortunately can't manage to recognize a file :-(`, {
 			id,
 			parent_folder_type: current_parent_folder_state.type,
@@ -204,9 +204,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 		let target_split_path = File.get_current_relative_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
-			target_split_path[0] = Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME
+			target_split_path[0] = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
 		else
-			target_split_path.unshift(Folder.SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME)
+			target_split_path.unshift(Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME)
 		DEBUG && console.log(`✴️ ${id} really not confident`)
 		logger.warn(`✴️ !confident = Unfortunately really not confident about sorting the file :-(`, {
 			id,
@@ -216,9 +216,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	}
 
 	// file is a media + we have reasonable confidence
-	const year = String(File.get_best_creation_year(file_state))
+	const year = String(File.get_best_creation_date__year(file_state))
 	const event_folder_base = ((): string => {
-		const compact_date = File.get_best_creation_date_compact(file_state)
+		const compact_date = File.get_best_creation_date‿compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
 		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_matching_event‿symd(state.folders[fid], compact_date))
 		if (compatible_event_folder_id) {

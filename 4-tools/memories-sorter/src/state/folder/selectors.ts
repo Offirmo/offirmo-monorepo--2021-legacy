@@ -14,9 +14,9 @@ import { FsReliability, NeighborHints } from '../file'
 
 import {
 	LIB,
-	SPECIAL_FOLDER__INBOX__BASENAME,
-	SPECIAL_FOLDER__CANT_AUTOSORT__BASENAME,
-	SPECIAL_FOLDER__CANT_RECOGNIZE__BASENAME,
+	SPECIAL_FOLDERⵧINBOX__BASENAME,
+	SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME,
+	SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME,
 } from './consts'
 import {
 	FolderId,
@@ -156,11 +156,11 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	const { begin, end } = (() => {
 		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
 
-		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primary_final.begin) {
-			return state.children_bcd_ranges.from_primary_final
+		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal.begin) {
+			return state.children_bcd_ranges.from_primaryⵧfinal
 		}
 
-		return state.children_bcd_ranges.from_primary_current
+		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
 	})()
 	if (!!begin && !!end) {
 		// we have a range, let's cross-reference…
@@ -213,7 +213,7 @@ export function get_neighbor_primary_hints(state: Immutable<State>): Immutable<N
 	assert(is_data_gathering_pass_1_done(state), `get_neighbor_primary_hints() pass 1 should be complete`)
 
 	return {
-		parent_folder_bcd: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state),
+		// TODO parent_folder_bcd: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state),
 		fs_bcd_assessed_reliability: _get_children_fs_reliability(state),
 	}
 }

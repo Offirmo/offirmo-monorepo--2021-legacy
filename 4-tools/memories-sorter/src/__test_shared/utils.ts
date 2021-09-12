@@ -181,7 +181,8 @@ export function get_test_single_file_state_generator() {
 
 		// simulate consolidation
 		state = File.on_info_read__current_neighbors_primary_hints(state, {
-			parent_folder_bcd: inputs.hints_from_reliable_neighbors__current__parent_folder_bcd,
+			// TODO fix
+			//parent_folder_bcd: inputs.hints_from_reliable_neighbors__current__parent_folder_bcd,
 			fs_bcd_assessed_reliability: inputs.hints_from_reliable_neighbors__current__fs_reliability,
 		})
 

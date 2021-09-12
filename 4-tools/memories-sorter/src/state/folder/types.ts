@@ -11,12 +11,12 @@ export const Type = Enum(
 	'inbox', // not really needed but nice
 
 	'year',
-	'event', // by default
+	'event', // by default until proven otherwise
 
 	'overlapping_event', // used to be an event but other folders are overlapping it (or duplicate)
 	'cant_recognize',
 	'cant_autosort',
-	'unknown', // anything else that can't be an event, ex. TODO
+	'unknown', // anything else that can't be an event, ex. TODO ???
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
 
@@ -34,15 +34,13 @@ export interface State {
 		end: undefined | BetterDate
 	}
 
-	// TODO review data loop by having the files using the folder then the folder using the files??
-
 	// various creation date ranges from children:
 	children_bcd_ranges: {
 		// ALL can be null if no children TODO review or undefined?
 
 		// after 1st pass
 		// info needed to assess whether the fs info looks reliable in this folder
-		from_fs_current: {
+		from_fsⵧcurrent: {
 			begin: undefined | TimestampUTCMs
 			end: undefined | TimestampUTCMs
 		}
@@ -51,15 +49,15 @@ export interface State {
 		// EARLY/BASIC/PRIMARY range of the RELIABLE media files currently in this folder (without hints or notes)
 		// This is used to hint the files and help them confirm their FS birthtime
 		// needed to discriminate whether an hypothetical basename date is an event or a backup
-		from_primary_current: {
+		from_primaryⵧcurrentⵧphase_1: {
 			begin: undefined | BetterDate
 			end: undefined | BetterDate
 		}
 
 		// after 2nd pass
 		// FINAL range of the media files currently in this folder
-		// This happens after the files got the hints + notes restored
-		from_primary_final: {
+		// This happens after the files got their notes restored + our hints
+		from_primaryⵧfinal: {
 			begin: undefined | BetterDate
 			end: undefined | BetterDate
 		}

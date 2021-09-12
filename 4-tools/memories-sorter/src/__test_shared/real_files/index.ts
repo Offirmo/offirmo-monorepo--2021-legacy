@@ -13,8 +13,8 @@ import { load_real_media_file as _load_real_media_file } from '../utils'
 import {
 	State,
 	get_best_creation_date,
-	get_best_creation_date_compact,
-	get_best_creation_year,
+	get_best_creation_date‿compact,
+	get_best_creation_date__year,
 	get_ideal_basename,
 	DateConfidence, NeighborHints, PersistedNotes,
 } from '../../state/file'
@@ -68,7 +68,7 @@ async function _get_demo_state(
 
 	if (phase2) {
 		state = File.on_info_read__current_neighbors_primary_hints(state, phase2.neighbor_hints ?? {
-			parent_folder_bcd: null,
+			//parent_folder_bcd: null, TODO
 			fs_bcd_assessed_reliability: 'unknown',
 		})
 
@@ -81,7 +81,7 @@ async function _get_demo_state(
 			require_notes: false,
 		})).to.be.true
 
-		const bcd_meta = File.get_best_creation_date_meta__from_current_data(state)
+		const bcd_meta = File.get_best_creation_dateⵧfrom_current_data‿meta(state)
 
 	}
 	else {
@@ -90,8 +90,8 @@ async function _get_demo_state(
 			require_notes: true,
 		})).to.be.true
 
-		expect(get_best_creation_year(state), 'bcy').to.equal(MEDIA.YEAR)
-		expect(get_best_creation_date_compact(state), 'compact').to.equal(MEDIA.DATE__COMPACT)
+		expect(get_best_creation_date__year(state), 'bcy').to.equal(MEDIA.YEAR)
+		expect(get_best_creation_date‿compact(state), 'compact').to.equal(MEDIA.DATE__COMPACT)
 		expect(get_embedded_timezone(get_best_creation_date(state)), 'tz').to.deep.equal(MEDIA.FINAL_TZ)
 		expect(get_human_readable_timestamp_auto(get_best_creation_date(state), 'tz:embedded'), 'auto').to.deep.equal(MEDIA.DATE__HUMAN_AUTO)
 		expect(get_ideal_basename(state), 'ideal basename').to.equal(MEDIA.IDEAL_BASENAME)
