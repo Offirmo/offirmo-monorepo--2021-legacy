@@ -1,7 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
 import { RelativePath } from '../../types'
-import { BetterDate } from '../../services/better-date'
+import { BetterDate, DateRange } from '../../services/better-date'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 ////////////////////////////////////

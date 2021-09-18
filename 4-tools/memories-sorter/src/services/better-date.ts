@@ -56,6 +56,11 @@ export interface BetterDate {
 	_lx: LuxonDateTime // hidden underlying implementation, abstracted to allow replacement
 }
 
+export interface DateRange<DateType = BetterDate> {
+	begin: DateType
+	end: DateType
+}
+
 ////////////////////////////////////
 // Selectors
 

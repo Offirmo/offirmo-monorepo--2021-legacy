@@ -61,6 +61,7 @@ Dates will always be improved by FS if the FS matches
    2. all "notes" are migrated and merged into one big repo
 2. **consolidation** once all the files are explored, we can now consolidate the data,
    ex. merging notes and inferring folder types from their content
+   THIS PART IS TRICKY
 3. **de-duplication** files sharing the same hash will be assessed and only the best copy we'll be kept
 4. **in-place normalization**
 5. **sorting**

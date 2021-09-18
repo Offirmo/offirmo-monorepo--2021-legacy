@@ -257,7 +257,7 @@ export function get_test_single_file_DB_state_generator() {
 					[inputs.file.hash__current]: _get_auto_notes(inputs.file),
 				}
 			}
-			state = DB.on_notes_found(state, notes)
+			state = DB.on_note_file_found(state, notes)
 		}
 
 		state = DB.on_fs_exploration_done_consolidate_data_and_backup_originals(state)

@@ -62,6 +62,9 @@ Comics
 ### tosort
 homme préhisto https://www.instagram.com/tombjorklundart/
 image resizer https://waifu2x.booru.pics/
+https://commons.wikimedia.org/wiki/File:Adolphe_Millot_champignons-pour_tous.jpg
+https://archive.org/details/lelaroussepourto02laro/page/n9/mode/2up?ref=ol&view=theater
+
 ...
 
 

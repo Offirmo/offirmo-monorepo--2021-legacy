@@ -110,6 +110,10 @@ export function is_notes(state: Immutable<State>): boolean {
 	return get_current_basename(state).endsWith(NOTES_BASENAME_SUFFIX_LC)
 }
 
+export function has_neighbor_hints(state: Immutable<State>): boolean {
+	return state.current_neighbor_hints !== undefined
+}
+
 ///////
 
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
@@ -139,13 +143,13 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 
 	const is_note = is_notes(state)
 
-	const is_exif_available_if_needed   = state.current_exif_data      !== undefined
+	const is_exif_available_or_null     = state.current_exif_data      !== undefined
 	const are_fs_stats_read             = state.current_fs_stats       !== undefined
 	const is_current_hash_computed      = state.current_hash           !== undefined
-	const are_neighbors_hints_collected = state.current_neighbor_hints !== undefined
+	const are_neighbors_hints_collected = has_neighbor_hints(state)
 	const { are_notes_restored } = state
 
-	const is_exif_requirement_met = is_exif_available_if_needed
+	const is_exif_requirement_met = is_exif_available_or_null
 	const is_fs_stats_requirement_met = are_fs_stats_read
 	const is_neighbor_hints_requirement_met = are_neighbors_hints_collected || !require_neighbors_hints
 	const is_current_hash_requirement_met = is_current_hash_computed || !require_notes || is_note
@@ -166,7 +170,7 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 			},
 			data: {
 				is_note,
-				is_exif_available_if_needed,
+				is_exif_available_if_needed: is_exif_available_or_null,
 				are_fs_stats_read,
 				is_current_hash_computed,
 				are_neighbors_hints_collected,
@@ -948,7 +952,7 @@ export function get_creation_date__reliability_according_to_other_trustable_curr
 	const bcdⵧfrom_fsⵧcurrent‿tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)
 	const bcdⵧfrom_fsⵧcurrent = create_better_date_from_utc_tms(bcdⵧfrom_fsⵧcurrent‿tms, 'tz:auto')
 
-	// TODO when we start doing FS normalization, detect that and return undefined
+	// TODO when we start doing FS normalization, detect it and return undefined
 
 	const bcdⵧfrom_exif = _get_creation_dateⵧfrom_exif(state)
 	if (bcdⵧfrom_exif) {

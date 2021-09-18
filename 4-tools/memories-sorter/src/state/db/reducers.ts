@@ -115,6 +115,8 @@ function _register_folder(state: Immutable<State>, id: FolderId): Immutable<Stat
 	return state
 }
 
+////////
+
 export function on_folder_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_folder_found(…)`, { parent_id, sub_id, id })
@@ -127,7 +129,6 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 	return state
 }
 
-// TODO review splitted file id
 export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_file_found(…)`, { parent_id, sub_id, id })
@@ -184,7 +185,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 }
 
 // called by Actions.create_action_load_notes initiated by on_file_found
-export function on_notes_found(state: Immutable<State>, raw_data: any): Immutable<State> {
+export function on_note_file_found(state: Immutable<State>, raw_data: any): Immutable<State> {
 	logger.trace(`${LIB} on_notes_found(…)`, { base: get_base_loose(raw_data) })
 	logger.verbose(`${LIB} found previous notes about the files`)
 
@@ -252,6 +253,8 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 
 	return state
 }
+
+///////
 
 export function on_file_moved(state: Immutable<State>, id: RelativePath, target_id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} on_file_moved(…)`, { id, target_id })
@@ -496,7 +499,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 
 	// files are now fully informed:
 	// 1. primary, current data
-	// 2. current neighbor hints
+	// 2. current neighbor hints XXX TODO review!!!
 	// 3. historical data from notes
 	// Time to flow back the data into the folders to inform the event-ness and the event range
 

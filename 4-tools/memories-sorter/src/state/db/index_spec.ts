@@ -18,7 +18,7 @@ import {
 	on_fs_exploration_done_consolidate_data_and_backup_originals,
 	on_fs_stats_read,
 	on_hash_computed,
-	on_notes_found,
+	on_note_file_found,
 	to_string,
 } from '.'
 import { create_better_date, _get_exif_datetime, get_timestamp_utc_ms_from } from '../../services/better-date'
@@ -253,7 +253,7 @@ describe(`${LIB} - DB (root) state`, function() {
 					mtimeMs:     +Date.now(),
 					ctimeMs:     +Date.now(),
 				})*/
-				state = on_notes_found(state, persisted_notes) // #5
+				state = on_note_file_found(state, persisted_notes) // #5
 				expect(get_pending_actions(state), 'after load data 2').to.have.lengthOf(0)
 
 				state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)

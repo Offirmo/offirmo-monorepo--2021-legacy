@@ -205,7 +205,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const abs_path = DB.get_absolute_path(db, path)
 			const data = await json.read(abs_path)
 			assert(data?.schema_version, 'load_notes()')
-			db = DB.on_notes_found(db, data)
+			db = DB.on_note_file_found(db, data)
 		}
 		catch (_err) {
 			const err = normalizeError(_err)

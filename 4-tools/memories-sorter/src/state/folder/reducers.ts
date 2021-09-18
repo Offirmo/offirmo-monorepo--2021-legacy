@@ -26,7 +26,7 @@ import {
 	get_depth,
 	is_data_gathering_pass_1_done,
 	get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
-	is_current_basename_intentful_of_event_start,
+	is_current_basename_intentful_of_event_start, has_data_gathering_pass_2_started,
 } from './selectors'
 
 ////////////////////////////////////

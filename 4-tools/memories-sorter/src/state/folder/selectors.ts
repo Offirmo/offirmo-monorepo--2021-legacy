@@ -55,6 +55,9 @@ export function get_current_basename‿parsed(state: Immutable<State>): Immutabl
 export function is_data_gathering_pass_1_done(state: Immutable<State>): boolean {
 	return state.children_pass_1_count === state.children_count
 }
+export function has_data_gathering_pass_2_started(state: Immutable<State>): boolean {
+	return state.children_pass_2_count > 0
+}
 export function is_data_gathering_pass_2_done(state: Immutable<State>): boolean {
 	return state.children_pass_2_count === state.children_count
 }

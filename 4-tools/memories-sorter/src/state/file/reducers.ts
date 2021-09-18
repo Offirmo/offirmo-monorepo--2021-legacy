@@ -45,7 +45,7 @@ import {
 	get_best_creation_date,
 	get_creation_dateⵧfrom_fsⵧcurrent‿tms,
 } from './selectors'
-import * as NeighborHintsLib from './sub/neighbor-hints/selectors'
+import * as NeighborHintsLib from './sub/neighbor-hints'
 
 ////////////////////////////////////
 

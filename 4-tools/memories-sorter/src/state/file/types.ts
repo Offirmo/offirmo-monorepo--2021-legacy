@@ -17,10 +17,9 @@ import {
 	SimpleYYYYMMDD,
 } from '../../types'
 import { FsStatsSubset } from '../../services/fs_stats'
-import { BetterDate, BetterDateMembers } from '../../services/better-date'
 import { FileHash } from '../../services/hash'
 
-import { FsReliability, NeighborHints } from './sub/neighbor-hints/types'
+import { HistoricalNeighborHints, NeighborHints } from './sub/neighbor-hints/types'
 
 /////////////////////////////////////////////////
 
@@ -42,10 +41,7 @@ export interface HistoricalData {
 	fs_bcd_tms: TimestampUTCMs // TODO migration
 
 	// from neighbors
-	neighbor_hints: {
-		fs_bcd_assessed_reliability: FsReliability
-		parent_folder_bcd?: BetterDateMembers
-	}
+	neighbor_hints: HistoricalNeighborHints
 
 	// from exif bc. we'll change it in the future
 	exif_orientation?: number
