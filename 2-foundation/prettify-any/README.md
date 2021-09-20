@@ -39,6 +39,4 @@ dump_prettified_any('hello', {foo}, {outline: true, indent: 3})
 
 Note: was formerly using prettyjson and got inspired by it.
 "prettyjson": "^1"
-"@types/prettyjson": "^0.0.29",
-
-
+"@types/prettyjson": "^0.0.30",
