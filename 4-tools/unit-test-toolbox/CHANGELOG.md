@@ -2,7 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [chore] [breaking] bumped deps: mocha 9, sinon 11
+* [chore] [breaking] bumped deps: mocha 9, sinon 11 + types
 * ...
 
 ## v7.0.0
