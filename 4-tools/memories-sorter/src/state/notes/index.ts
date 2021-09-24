@@ -154,7 +154,7 @@ export function on_file_notes_recovered(state: Immutable<State>, current_hash: F
 export function on_file_modified(state: Immutable<State>, previous_hash: string, current_hash: string): Immutable<State> {
 	logger.trace(`${LIB} on_file_modified(…)`, { previous_hash, current_hash })
 
-	throw new Error('NIMP')
+	throw new Error('NIMP on_file_modified!')
 }
 
 ///////////////////// DEBUG /////////////////////

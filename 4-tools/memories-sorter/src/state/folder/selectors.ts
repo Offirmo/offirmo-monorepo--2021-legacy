@@ -215,7 +215,7 @@ export function get_neighbor_primary_hints(state: Immutable<State>): Immutable<N
 
 	let hints = FileLib.NeighborHintsLib.create()
 
-	throw new Error('NIMP!')
+	throw new Error('NIMP get_neighbor_primary_hints!')
 
 /*	return {
 		// TODO parent_folder_bcd: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state),

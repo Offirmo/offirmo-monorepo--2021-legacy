@@ -5,9 +5,13 @@ import { NeighborHints } from './types'
 
 export function create(): NeighborHints {
 	// safest possible
-	throw new Error('NIMP!')
+	return {
+
+	}
 }
 
-export function _create_ut(): NeighborHints {
-	throw new Error('NIMP!')
+export function _createⵧfor_ut(): NeighborHints {
+	return {
+
+	}
 }

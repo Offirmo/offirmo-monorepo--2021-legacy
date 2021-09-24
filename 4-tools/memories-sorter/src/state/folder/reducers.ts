@@ -225,7 +225,7 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 	if (state.event_range)
 		return state // duplicate call, ignore
 
-	throw new Error('NIMP!')
+	throw new Error('NIMP on_fs_exploration_done!')
 	/*xxx
 	const event_begin_from_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
 	if (event_begin_from_folder_basename) {
