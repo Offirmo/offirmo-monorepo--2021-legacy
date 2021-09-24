@@ -38,11 +38,9 @@ describe(`${LIB} - folder state`, function() {
 
 				Object.keys(state.children_bcd_ranges).forEach(_range_key => {
 					const range_key = _range_key as any as  keyof State['children_bcd_ranges']
-					expect(state.children_bcd_ranges[range_key].begin, `children_bcd_ranges.${range_key}.begin`).to.be.undefined
-					expect(state.children_bcd_ranges[range_key].end, `children_bcd_ranges.${range_key}.end`).to.be.undefined
+					expect(state.children_bcd_ranges[range_key], `children_bcd_ranges.${range_key}`).to.be.undefined
 				})
-				expect(state.event_range.begin, 'event begin').to.be.undefined
-				expect(state.event_range.end, 'event end').to.be.undefined
+				expect(state.event_range, 'event range').to.be.undefined
 			})
 		})
 
@@ -79,10 +77,10 @@ describe(`${LIB} - folder state`, function() {
 					+ state.children_fs_reliability_count.reliable
 				).to.deep.equal(1)
 
-				expect(state.children_bcd_ranges.from_fs_current.begin).to.be.ok
-				expect(state.children_bcd_ranges.from_fs_current.end).to.be.ok
-				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin).to.be.ok
-				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end).to.be.ok
+				expect(state.children_bcd_ranges.from_fsⵧcurrent?.begin).to.be.ok
+				expect(state.children_bcd_ranges.from_fsⵧcurrent?.end).to.be.ok
+				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin).to.be.ok
+				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end).to.be.ok
 			})
 		})
 
@@ -98,8 +96,7 @@ describe(`${LIB} - folder state`, function() {
 					state = on_subfile_primary_infos_gathered(state, file_state)
 
 					state = on_fs_exploration_done(state)
-					expect(state.event_range.begin).to.be.undefined
-					expect(state.event_range.end).to.be.undefined
+					expect(state.event_range).to.be.undefined
 				})
 			})
 
@@ -118,8 +115,7 @@ describe(`${LIB} - folder state`, function() {
 							state = on_subfile_primary_infos_gathered(state, file_state)
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range.begin).to.be.undefined
-							expect(state.event_range.end).to.be.undefined
+							expect(state.event_range).to.be.undefined
 						})
 					})
 
@@ -134,8 +130,8 @@ describe(`${LIB} - folder state`, function() {
 							state = on_subfile_primary_infos_gathered(state, file_state)
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range.begin).to.be.ok
-							expect(state.event_range.end).to.be.ok
+							expect(state.event_range?.begin).to.be.ok
+							expect(state.event_range?.end).to.be.ok
 							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
 							expect(get_event_end_date‿symd(state)).to.equal(20180903)
 						})
@@ -150,8 +146,7 @@ describe(`${LIB} - folder state`, function() {
 							let state = create('20181105 - backup iphone')
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range.begin).to.be.undefined
-							expect(state.event_range.end).to.be.undefined
+							expect(state.event_range).to.be.undefined
 						})
 					})
 
@@ -161,8 +156,8 @@ describe(`${LIB} - folder state`, function() {
 							let state = create('20180903 - some holiday')
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range.begin).to.be.ok
-							expect(state.event_range.end).to.be.ok
+							expect(state.event_range?.begin).to.be.ok
+							expect(state.event_range?.end).to.be.ok
 							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
 							expect(get_event_end_date‿symd(state)).to.equal(20180903)
 						})

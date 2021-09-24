@@ -145,17 +145,6 @@ describe('Better Date', function() {
 				expect(stamp.length).to.equal(23)
 				expect(stamp).to.equal('2003-04-05_06h07m08s009')
 			})
-
-			it('should properly ignore the timezone')/* => { no longer needed ATM
-				const date1 = create_better_date_compat(2019,11,16,20,38,8,123)
-				expect(get_human_readable_timestamp_auto(date1, 'tz:embedded'), 'd1').to.equal('2019-12-16_20h38m08s123')
-				//expect(get_human_readable_timestamp_auto(date1, 'tz:xxx'), 'd2').to.equal('2019-12-16_20h38m08s123')
-				throw new Error('NIMP!')
-
-				// is that even a real case?
-				const date2 = new Date('2019-12-16T09:38:08.123Z')
-				expect(get_human_readable_timestamp_auto(date2), 'd2').to.equal('2019-12-16_09h38m08s123')
-			})*/
 		})
 
 		describe('_get_exif_datetime', function () {

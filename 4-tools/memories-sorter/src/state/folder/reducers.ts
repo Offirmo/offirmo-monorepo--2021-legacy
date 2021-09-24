@@ -65,26 +65,14 @@ export function create(id: RelativePath): Immutable<State> {
 
 		children_bcd_ranges: {
 
-			from_fsⵧcurrent: {
-				begin: undefined,
-				end: undefined,
-			},
+			from_fsⵧcurrent: undefined,
 
-			from_primaryⵧcurrentⵧphase_1: {
-				begin: undefined,
-				end: undefined,
-			},
+			from_primaryⵧcurrentⵧphase_1: undefined,
 
-			from_primaryⵧfinal: {
-				begin: undefined,
-				end: undefined,
-			},
+			from_primaryⵧfinal: undefined,
 		},
 
-		event_range: {
-			begin: undefined,
-			end: undefined,
-		},
+		event_range: undefined,
 
 		children_fs_reliability_count: {
 			'unknown': 0,
@@ -117,7 +105,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	}
 
 	//////////// consolidate: reliability
-	const file_bcd__reliabilityⵧfrom_fsⵧcurrent = File.get_creation_date__reliability_according_to_other_trustable_current_primary_date_sourcesⵧfrom_fsⵧcurrent(file_state)
+	const file_bcd__reliabilityⵧfrom_fsⵧcurrent = File.get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources(file_state)
 	if (file_bcd__reliabilityⵧfrom_fsⵧcurrent === 'unreliable') {
 		logger.warn(`⚠️ File "${file_state.id}" fs bcd reliability has been estimated as UNRELIABLE after phase 1`)
 	}
@@ -135,16 +123,16 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	const file_bcdⵧfrom_fsⵧcurrent‿tms = File.get_creation_dateⵧfrom_fsⵧcurrent‿tms(file_state)
 
 	const new_children_begin_dateⵧfrom_fsⵧcurrent = Math.min(
-			state.children_bcd_ranges.from_fsⵧcurrent.begin ?? Infinity,
+			state.children_bcd_ranges.from_fsⵧcurrent?.begin ?? Infinity,
 			file_bcdⵧfrom_fsⵧcurrent‿tms
 		)
 	const new_children_end_dateⵧfrom_fsⵧcurrent = Math.max(
-		state.children_bcd_ranges.from_fsⵧcurrent.end ?? 0,
+		state.children_bcd_ranges.from_fsⵧcurrent?.end ?? 0,
 		file_bcdⵧfrom_fsⵧcurrent‿tms
 	)
 
-	if (new_children_begin_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent.begin
-		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent.end) {
+	if (new_children_begin_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent?.begin
+		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent?.end) {
 		// no change
 	} else {
 		logger.verbose(
@@ -171,22 +159,23 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	}
 
 	//////////// consolidate: date range -- primary current
-	const file_bcdⵧfrom_primaryⵧcurrent_meta = File.get_best_creation_dateⵧfrom_current_data‿meta(file_state)
-	if (file_bcdⵧfrom_primaryⵧcurrent_meta.confidence !== 'primary') {
+	assert(!File.has_neighbor_hints(file_state), `on_subfile_primary_infos_gathered() should not have neighbor hints yet`)
+	const file_bcdⵧfrom_primaryⵧcurrent‿meta = File.get_best_creation_dateⵧfrom_current_data‿meta(file_state)
+	if (file_bcdⵧfrom_primaryⵧcurrent‿meta.confidence !== 'primary') {
 		// low confidence = don't act on that
 	}
 	else {
-		const file_bcd__from_primary_current = file_bcdⵧfrom_primaryⵧcurrent_meta.candidate
+		const file_bcd__from_primary_current = file_bcdⵧfrom_primaryⵧcurrent‿meta.candidate
 
-		const new_children_begin_date__primary_current = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin
+		const new_children_begin_dateⵧfrom_primaryⵧcurrent = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin
 			? BetterDateLib.min(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin, file_bcd__from_primary_current)
 			: file_bcd__from_primary_current
-		const new_children_end_date__primary_current = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end
+		const new_children_end_dateⵧfrom_primaryⵧcurrent = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end
 			? BetterDateLib.max(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end, file_bcd__from_primary_current)
 			: file_bcd__from_primary_current
 
-		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_current, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin)
-			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_current, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end)) {
+		if (BetterDateLib.is_deep_equal(new_children_begin_dateⵧfrom_primaryⵧcurrent, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin)
+			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
 			// no change
 		} else {
 			logger.verbose(
@@ -194,8 +183,8 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 				{
 					id: state.id,
 					file_bcd__from_primary_current,
-					new_children_begin_date__primary_current,
-					new_children_end_date__primary_current,
+					new_children_begin_dateⵧfrom_primaryⵧcurrent,
+					new_children_end_dateⵧfrom_primaryⵧcurrent,
 				}
 			)
 
@@ -205,8 +194,8 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 				children_bcd_ranges: {
 					...state.children_bcd_ranges,
 					from_primaryⵧcurrentⵧphase_1: {
-						begin: new_children_begin_date__primary_current,
-						end: new_children_end_date__primary_current,
+						begin: new_children_begin_dateⵧfrom_primaryⵧcurrent,
+						end: new_children_end_dateⵧfrom_primaryⵧcurrent,
 					},
 				}
 			}
@@ -225,17 +214,19 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	return state
 }
 
+// used to init the event range.
 // is automatically called by on_subfile_primary_infos_gathered()
-// but still useful on its own for unit tests
+// but exposed for unit tests + in case of empty dirs.
 // TODO call it for empty dirs?
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
 	assert(is_data_gathering_pass_1_done(state), `on_fs_exploration_done() pass 1 should be done!`)
-	assert(state.children_pass_2_count === 0, `on_fs_exploration_done() pass 2 should NOT be started!`)
+	assert(!has_data_gathering_pass_2_started(state), `on_fs_exploration_done() pass 2 should NOT have started!`)
 
-	if (state.event_range.begin)
-		return state // nothing to do, already set
+	if (state.event_range)
+		return state // duplicate call, ignore
 
-	// init the event range
+	throw new Error('NIMP!')
+	/*xxx
 	const event_begin_from_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
 	if (event_begin_from_folder_basename) {
 		state = {
@@ -248,7 +239,7 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 		}
 	}
 
-	return state
+	return state*/
 }
 
 export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
@@ -260,22 +251,22 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 	}
 
 	//////////// consolidate: date range -- primary final
-	const file_meta_bcd = File.get_best_creation_date‿meta(file_state)
-	if (file_meta_bcd.confidence !== 'primary') {
+	const file_bcd‿meta = File.get_best_creation_date‿meta(file_state)
+	if (file_bcd‿meta.confidence !== 'primary') {
 		// low confidence = don't act on that
 	}
 	else {
-		const file_bcd__primary_final = file_meta_bcd.candidate
+		const file_bcd__primary_final = file_bcd‿meta.candidate
 
-		const new_children_begin_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal.begin
+		const new_children_begin_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal?.begin
 			? BetterDateLib.min(state.children_bcd_ranges.from_primaryⵧfinal.begin, file_bcd__primary_final)
 			: file_bcd__primary_final
-		const new_children_end_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal.end
+		const new_children_end_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal?.end
 			? BetterDateLib.max(state.children_bcd_ranges.from_primaryⵧfinal.end, file_bcd__primary_final)
 			: file_bcd__primary_final
 
-		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal.begin)
-			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal.end)) {
+		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal?.begin)
+			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal?.end)) {
 			// no change
 		} else {
 			logger.verbose(
@@ -303,19 +294,19 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 
 	//////////// consolidate: event date range
 	if (state.type === Type.event) {
-		if (file_meta_bcd.confidence !== 'primary') {
+		if (file_bcd‿meta.confidence !== 'primary') {
 			// low confidence = don't act on that
 		}
 		else {
-			const file_bcd = file_meta_bcd.candidate
+			const file_bcd = file_bcd‿meta.candidate
 			const event_begin_from_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
 
 			const new_event_begin_date = event_begin_from_folder_basename
 				? event_begin_from_folder_basename // always have priority if present
-				: state.event_range.begin
+				: state.event_range?.begin
 					? BetterDateLib.min(state.event_range.begin, file_bcd)
 					: file_bcd
-			let new_event_end_date = state.event_range.end
+			let new_event_end_date = state.event_range?.end
 				? BetterDateLib.max(state.event_range.end, file_bcd)
 				: file_bcd
 
@@ -323,8 +314,8 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 			const is_range_too_big = BetterDateLib.compare_utc(new_event_end_date, capped_end_date) > 0
 			new_event_end_date = BetterDateLib.min(new_event_end_date, capped_end_date)
 
-			if (BetterDateLib.is_deep_equal(new_event_begin_date, state.event_range.begin)
-				&& BetterDateLib.is_deep_equal(new_event_end_date, state.event_range.end)) {
+			if (BetterDateLib.is_deep_equal(new_event_begin_date, state.event_range?.begin)
+				&& BetterDateLib.is_deep_equal(new_event_end_date, state.event_range?.end)) {
 				// no change
 			} else {
 				if (is_range_too_big && !is_current_basename_intentful_of_event_start(state)) {
@@ -383,12 +374,12 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 
 export function on_overlap_clarified(state: Immutable<State>, target_end_date‿symd: SimpleYYYYMMDD, PARAMS = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_overlap_clarified(…)`, {
-		prev_end_date: state.event_range.end,
+		prev_end_date: state.event_range?.end,
 		new_end_date‿symd: target_end_date‿symd,
 	})
 
 	assert(state.type === Type.event, `on_overlap_clarified() should be called on an event`)
-	assert(state.event_range.begin, `on_overlap_clarified() should be called on a dated event`)
+	assert(state.event_range?.begin, `on_overlap_clarified() should be called on a dated event`)
 
 	const end_date = BetterDateLib.create_better_date_from_symd(target_end_date‿symd, 'tz:auto')
 	const capped_end_date = BetterDateLib.add_days(state.event_range.begin, PARAMS.max_event_durationⳇₓday)
@@ -423,10 +414,7 @@ export function demote_to_unknown(state: Immutable<State>, reason: string): Immu
 		...state,
 		type: Type.unknown,
 		reason_for_demotion_from_event: reason,
-		event_range: {
-			begin: undefined,
-			end: undefined,
-		},
+		event_range: undefined,
 	}
 }
 

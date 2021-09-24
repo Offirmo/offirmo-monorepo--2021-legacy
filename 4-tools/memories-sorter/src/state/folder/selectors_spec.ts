@@ -38,7 +38,12 @@ describe(`${LIB} - folder state`, function() {
 					//console.log(tc, { state }, get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state))
 					if (!has_date_in_basename) {
 						expect(() => get_ideal_basename(state), tc).to.throw('event range should have a start')
-						state.event_range.begin = state.event_range.begin = create_better_date_from_symd(20001231, 'tz:auto')
+
+						state.event_range = {
+							...state.event_range,
+							begin: create_better_date_from_symd(20001231, 'tz:auto'),
+							end:   create_better_date_from_symd(20001231, 'tz:auto'),
+						}
 					}
 
 					//console.log(state)

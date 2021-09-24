@@ -129,9 +129,10 @@ describe(`${LIB} - file (state)`, function() {
 							parent_path: 'original_parent_path',
 							fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
 							neighbor_hints: {
-								fs_bcd_assessed_reliability: 'unknown',
-								parent_folder_bcd: undefined,
-							},
+								'TODO': 'todo',
+								//fs_bcd_assessed_reliability: 'unknown',
+								//parent_folder_bcd: undefined,
+							} as any,
 							exif_orientation: undefined,
 							trailing_extra_bytes_cleaned: undefined,
 						},

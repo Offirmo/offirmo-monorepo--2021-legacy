@@ -21,8 +21,6 @@ import {
 } from '../../services/name_parser'
 import {
 	get_timestamp_utc_ms_from,
-	get_debug_representation,
-	get_members_for_serialization,
 } from '../../services/better-date'
 
 import { LIB } from './consts'
@@ -69,11 +67,7 @@ export function create(id: FileId): Immutable<State> {
 				parent_path: parsed_path.dir,
 
 				fs_bcd_tms: get_UTC_timestamp_ms(), // so far
-				neighbor_hints: {
-					// so far
-					parent_folder_bcd: undefined,
-					fs_bcd_assessed_reliability: 'unreliable',
-				},
+				neighbor_hints: NeighborHintsLib.get_historical_representation(NeighborHintsLib.create()),
 
 				exif_orientation: undefined,
 				trailing_extra_bytes_cleaned: undefined,
@@ -188,7 +182,7 @@ export function on_info_read__current_neighbors_primary_hints(
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
-		neighbor_hints: NeighborHintsLib.get_debug_representation(neighbor_hints),
+		neighbor_hints: NeighborHintsLib.to_string(neighbor_hints),
 	})
 
 	assert(!state.current_neighbor_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
@@ -203,12 +197,7 @@ export function on_info_read__current_neighbors_primary_hints(
 			...state.notes,
 			historical: {
 				...state.notes.historical,
-				neighbor_hints: {
-					/* TODO restore parent_folder_bcd: neighbor_hints.parent_folder_bcd
-						? get_members_for_serialization(neighbor_hints.parent_folder_bcd)
-						: undefined,*/
-					fs_bcd_assessed_reliability: our_current_fs_bcd_assessed_reliability,
-				}
+				neighbor_hints: NeighborHintsLib.get_historical_representation(neighbor_hints),
 			},
 		},
 	}

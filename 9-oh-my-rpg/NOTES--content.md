@@ -992,3 +992,8 @@ Performance is how well they’ve used them to “Save the day” ;P
 https://acoup.blog/resources-for-world-builders/ +++
 
 https://www.nhm.ac.uk/discover/sea-monsters-inspiration-serpents-mermaids-the-kraken.html
+
+The Trust Triangle
+* Authenticity: I experience the real you
+* Logic: I believe your reasoning and judgement
+* Empathy: I believe you care about me and my success

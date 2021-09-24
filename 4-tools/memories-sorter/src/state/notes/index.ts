@@ -17,6 +17,7 @@ import {
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
+import { get_historical_fs_reliability } from '../file/sub/neighbor-hints'
 
 export { State } from './types'
 
@@ -192,9 +193,10 @@ export function to_string(state: Immutable<State>): string {
 function notes_to_string(notes: Immutable<FileNotes>): string {
 	let str = ''
 
-	const fs_birthtime_reliability = notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'unknown'
+	const historical_fs_reliability = get_historical_fs_reliability(notes.historical.neighbor_hints, notes.historical.fs_bcd_tms)
+	const reliability_icon = historical_fs_reliability === 'unknown'
 		? '❓'
-		: notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'reliable'
+		: historical_fs_reliability === 'reliable'
 			? '✅'
 			: '❌'
 	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(
@@ -202,7 +204,7 @@ function notes_to_string(notes: Immutable<FileNotes>): string {
 			notes.historical.parent_path,
 			notes.historical.basename,
 		].filter(e => !!e).join('/')
-	)}" 📅(fs)${fs_birthtime_reliability}${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.historical.fs_bcd_tms, 'tz:auto'), 'tz:embedded')}`
+	)}" 📅(fs)${reliability_icon}${get_human_readable_timestamp_auto(create_better_date_from_utc_tms(notes.historical.fs_bcd_tms, 'tz:auto'), 'tz:embedded')}`
 
 	return str
 }

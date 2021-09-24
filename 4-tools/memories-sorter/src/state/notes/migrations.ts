@@ -109,9 +109,10 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 				subkeys = subkeys.filter(k => k !== 'exif_orientation')
 			}
 			if (subkeys.includes('is_fs_birthtime_assessed_reliable')) {
-				migrated_notes.historical.neighbor_hints.fs_bcd_assessed_reliability =
+				throw new Error('NIMP notes mig!')
+				/*migrated_notes.historical.neighbor_hints.fs_bcd_assessed_reliability =
 					legacy_file_notes.original.is_fs_birthtime_assessed_reliable ? 'reliable' : 'unknown'
-				subkeys = subkeys.filter(k => k !== 'is_fs_birthtime_assessed_reliable')
+				subkeys = subkeys.filter(k => k !== 'is_fs_birthtime_assessed_reliable')*/
 			}
 
 			console.assert(

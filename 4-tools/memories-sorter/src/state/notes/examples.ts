@@ -26,7 +26,7 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 				'parent_path': '',
 				'fs_bcd_tms': 1571961828388,
 				'neighbor_hints': {
-					'fs_bcd_assessed_reliability': 'unknown'
+					//'fs_bcd_assessed_reliability': 'unknown'
 				},
 			},
 			// user data

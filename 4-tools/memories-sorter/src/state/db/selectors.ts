@@ -271,7 +271,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 }
 
 export function get_past_and_present_notes(state: Immutable<State>, folder_path?: RelativePath): Immutable<Notes.State> {
-	assert(!folder_path, `get_past_and_present_notes() by folder = NIMP!`)
+	assert(!folder_path, `get_past_and_present_notes() by folder = TODO!`)
 
 	let result = enforce_immutability(Notes.create('for persisting', state.extra_notes))
 

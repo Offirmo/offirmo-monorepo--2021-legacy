@@ -5,7 +5,6 @@ import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
-import { enforce_immutability } from '@offirmo-private/state-utils'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
@@ -39,7 +38,7 @@ import {
 	is_normalized_event_folder_relpath,
 	is_processed_media_basename,
 	parse_file_basename,
-	pathㆍparse_memoized,
+	pathㆍparse_memoized, is_folder_basename__matching_a_processed_event_format, parse_folder_basename,
 } from '../../services/name_parser'
 import {
 	BetterDate,
@@ -53,7 +52,7 @@ import {
 	get_debug_representation,
 	create_better_date_obj, get_members_for_serialization,
 	DAY_IN_MILLIS,
-	are_dates_matching_while_disregarding_tz_and_precision,
+	are_dates_matching_while_disregarding_tz_and_precision, DateRange,
 } from '../../services/better-date'
 import { FileHash } from '../../services/hash'
 import { is_digit } from '../../services/matchers'
@@ -66,6 +65,99 @@ import {
 	PersistedNotes,
 	FsReliability,
 } from './types'
+import * as NeighborHintsLib from './sub/neighbor-hints'
+
+////////////////////////////////////
+
+
+// not necessarily an "event"
+/*
+export function get_expected_date_range_from_folder_basename_if_any(folder_path‿rel: RelativePath): null | DateRange {
+	const folder_path‿pparsed = pathㆍparse_memoized(folder_path‿rel)
+	const folder_basename = folder_path‿pparsed.base
+
+	if (folder_basename.length < 12) {
+		// must be big enough, just a year won't do
+		return null
+	}
+
+	const basename‿parsed = parse_folder_basename(folder_basename)
+	if (!basename‿parsed.date)
+		return null
+
+	// TODO review: should we return null if range too big?
+
+	// reminder: a dated folder can indicate either
+	// - the date of an EVENT = date of the beginning of the file range
+	// - the date of a BACKUP = date of the END of the file range
+	// we need extra info to discriminate between the two options
+
+	// try to cross-reference with the children date range = best source of info
+	const { begin, end } = (() => {
+		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
+
+		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
+			return state.children_bcd_ranges.from_primaryⵧfinal
+		}
+
+		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1!
+	})()
+	if (!!begin && !!end) {
+		// we have a range, let's cross-reference…
+		const date__from_basename‿symd = BetterDateLib.get_compact_date(basename‿parsed.date, 'tz:embedded')
+
+		// TODO use the best available data?
+		const date_range_begin‿symd = BetterDateLib.get_compact_date(begin, 'tz:embedded')
+		const date_range_end‿symd = BetterDateLib.get_compact_date(end, 'tz:embedded')
+
+		if (date__from_basename‿symd <= date_range_begin‿symd) {
+			// clearly a beginning date
+			return basename‿parsed.date
+		}
+		else if (date__from_basename‿symd >= date_range_end‿symd) {
+			// clearly a backup date, ignore it
+			return null
+		}
+		else {
+			// strange situation, let's investigate...
+			throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP1')
+		}
+	}
+
+	// we have no range, let's try something else…
+	if (basename‿parsed.meaningful_part.toLowerCase().includes('backup')) {
+		// clearly not an event
+		return null
+	}
+
+	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
+		// this looks very very much like an event
+		// TODO check parent is year as well?
+		return basename‿parsed.date
+	}
+
+	// can't really tell...
+	console.error({
+		current_basename,
+		ip: is_folder_basename__matching_a_processed_event_format(current_basename),
+		pmp: basename‿parsed.meaningful_part,
+	})
+	throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP2')
+}
+
+export function get_expected_date_range_from_folder({
+		folder_path‿rel,
+		rangeⵧfrom_fsⵧcurrent,
+		rangeⵧfrom_primaryⵧcurrentⵧphase_1,
+}: {
+	folder_path‿rel: RelativePath
+	rangeⵧfrom_fsⵧcurrent: DateRange<TimestampUTCMs> // can't be null since there is at least the current file!
+	rangeⵧfrom_primaryⵧcurrentⵧphase_1: undefined | DateRange
+}): DateRange {
+
+	xxx
+}
+*/
 
 ////////////////////////////////////
 
@@ -216,7 +308,7 @@ function _get_creation_dateⵧfrom_manual(state: Immutable<State>): BetterDate |
 	if (state.notes.manual_date === undefined)
 		return undefined
 
-	throw new Error('NIMP manual date!')
+	throw new Error('NIMP feature: manual date!')
 }
 function _get_creation_dateⵧfrom_exif‿edt(state: Immutable<State>): ExifDateTime | undefined {
 	const { id, current_exif_data } = state
@@ -367,19 +459,9 @@ function _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state: Immutable
 function _get_creation_dateⵧfrom_parent_folderⵧcurrent(state: Immutable<State>): BetterDate | undefined {
 	assert(state.current_neighbor_hints, `_get_creation_date__from_parent_folder__current() needs neighbor hints`)
 
-	throw new Error('NIMP _get_creation_dateⵧfrom_parent_folderⵧcurrent()')
-/*	if(state.current_neighbor_hints.parent_folder_bcd)
-		return state.current_neighbor_hints.parent_folder_bcd
-
-	return undefined*/
+	return NeighborHintsLib.get_bcd(state.current_neighbor_hints)
 }
-/*function _get_creation_date__from_parent_folder__any(state: Immutable<State>): BetterDate | undefined {
-	const bcd_original = _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state)
-	if (bcd_original)
-		return bcd_original
 
-	return _get_creation_dateⵧfrom_parent_folderⵧcurrent(state)
-}*/
 // all together
 export type DateConfidence =
 	| 'primary' // reliable data coming from the file itself = we can match to an event and rename
@@ -527,14 +609,12 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 
 	// FS is ok as PRIMARY if confirmed by some primary hints
 	// TODO rework!
+	const fs__reliabilityⵧaccording_to_env = NeighborHintsLib.get_historical_fs_reliability(state.notes.historical, bcd__from_fs__oldest_known‿tms)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying FS as primary (if reliable)…', {
 		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
-		neighbor_hints: {
-			fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
-			//parent_folder_bcd: get_debug_representation(state.notes.historical.neighbor_hints.parent_folder_bcd && create_better_date_obj(state.notes.historical.neighbor_hints.parent_folder_bcd)),
-		},
+		fs__reliabilityⵧaccording_to_env,
 	})
-	if (state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'reliable') {
+	if (fs__reliabilityⵧaccording_to_env === 'reliable') {
 		result.candidate = bcd__from_fs__oldest_known
 		result.source = 'original_fs+original_env_hints'
 		result.confidence = 'primary'
@@ -571,9 +651,9 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying FS as secondary (if reliability unknown)…', {
 		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
-		fs_bcd_assessed_reliability: state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability,
+		fs__reliabilityⵧaccording_to_env,
 	})
-	if (state.notes.historical.neighbor_hints.fs_bcd_assessed_reliability === 'unknown') {
+	if (fs__reliabilityⵧaccording_to_env === 'unknown') {
 		// not that bad
 		// we won't rename the file, but good enough to match to an event
 		result.candidate = bcd__from_fs__oldest_known
@@ -727,7 +807,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 		const current_fs_reliability = _get_current_fs_reliability_according_to_own_and_env(state)
 		logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying FS as primary (if reliable)…', {
 			bcd__from_fs__current: get_debug_representation(bcd__from_fs__current),
-			//current_neighbor_hints: state.current_neighbor_hints,
+			current_neighbor_hints: NeighborHintsLib.to_string(state.current_neighbor_hints),
 			current_fs_reliability,
 			expected: 'reliable'
 		})
@@ -766,7 +846,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 
 	// borderline secondary/junk
 	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying env hints…', {
-		current_neighbor_hints: state.current_neighbor_hints
+		current_neighbor_hints: NeighborHintsLib.to_string(state.current_neighbor_hints),
 	})
 	if (state.current_neighbor_hints) {
 
@@ -843,7 +923,7 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 	const bcd__from_manual = _get_creation_dateⵧfrom_manual(state)
 	logger.trace('get_best_creation_date‿meta() trying manual…')
 	if (bcd__from_manual) {
-		throw new Error('NIMP use manual!')
+		throw new Error('NIMP feature: manual date!')
 	}
 
 	// then rely on original data as much as possible
@@ -948,7 +1028,7 @@ export function is_confident_in_date_enough_to__sort(state: Immutable<State>): b
 	return _is_confident_in_date(state, 'secondary')
 }
 
-export function get_creation_date__reliability_according_to_other_trustable_current_primary_date_sourcesⵧfrom_fsⵧcurrent(state: Immutable<State>): FsReliability {
+export function get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources(state: Immutable<State>): FsReliability {
 	const bcdⵧfrom_fsⵧcurrent‿tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)
 	const bcdⵧfrom_fsⵧcurrent = create_better_date_from_utc_tms(bcdⵧfrom_fsⵧcurrent‿tms, 'tz:auto')
 
@@ -989,61 +1069,38 @@ export function _get_current_fs_reliability_according_to_own_and_env(
 	assert(neighbor_hints, `_get_current_fs_assessed_reliability() should be called with neighbor hints`)
 
 	// first look at ourself
-	const self_assessed_reliability = get_creation_date__reliability_according_to_other_trustable_current_primary_date_sourcesⵧfrom_fsⵧcurrent(state)
+	const self_assessed_reliability = get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources(state)
 	if (self_assessed_reliability !== 'unknown') {
 		logger.trace(`_get_current_fs_assessed_reliability() current fs reliability has been assessed to "${self_assessed_reliability}" from self`)
 		return self_assessed_reliability
 	}
-	// TODO re-implement
-	return 'unknown'
 
-	//throw new Error(`NIMP _get_current_fs_assessed_reliability()`)
+	// unclear reliability so far, let's try to infer one from our neighbors
+	const bcdⵧfrom_fsⵧcurrent‿tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)
+	const bcdⵧfrom_fsⵧcurrent = create_better_date_from_utc_tms(bcdⵧfrom_fsⵧcurrent‿tms, 'tz:auto')
 
-	/*
-	// unknown reliability so far, let's try to infer one from our neighbors
-	const bcd__from_fs__current‿tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)
-
-	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
-	if (bcd__from_parent_folder__current) {
-		const bcd__from_parent_folder__current‿tms = get_timestamp_utc_ms_from(bcd__from_parent_folder__current)
-
-		if (bcd__from_fs__current‿tms >= bcd__from_parent_folder__current‿tms
-			&& bcd__from_fs__current‿tms < (bcd__from_parent_folder__current‿tms + PARAMS.max_event_durationⳇₓday * DAY_IN_MILLIS)) {
-			// ok, looks like an event folder configuration
-			logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "reliable" from our fs + parent folder bcd`)
-			return 'reliable'
-		}
+	if (NeighborHintsLib.is_matching_parent_folder_expected_date_range(neighbor_hints, bcdⵧfrom_fsⵧcurrent)) {
+		logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "reliable" from our fs + parent folder date range`)
+		return 'reliable'
 	}
 
 	// still unknown
-	const folder_fs_bcd_assessed_reliability = neighbor_hints.fs_bcd_assessed_reliability
-	switch(folder_fs_bcd_assessed_reliability) {
+	const siblings_fs_bcd_assessed_reliability = NeighborHintsLib.get_fs_reliability(neighbor_hints)
+	switch(siblings_fs_bcd_assessed_reliability) {
 		case 'reliable':
-			logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "reliable" from parent reliability=reliable`)
+			logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "reliable" from parent reliability=reliable, assuming ours is reliable as well`)
 			return 'reliable'
 		case 'unreliable':
-		// NO! Don't allow a single bad file to pollute an entire folder
-		// ok we're not reliable, but can't say that we're unreliable
-		// fallthrough
+			// NO! Don't allow a single bad file to pollute an entire folder
+			// ok we're not "reliable", but can't say that we're unreliable
+			// fallthrough
 		default:
 			// fallthrough
 			break
 	}
 
-	// TODO evaluate if needed?
-	if (date_range_from_reliable_neighbors‿tms) {
-		const tms__from_original_reliable_neighbors__begin = date_range_from_reliable_neighbors‿tms[0]
-		const tms__from_original_reliable_neighbors__end = date_range_from_reliable_neighbors‿tms[1]
-
-		// TODO allow a little bit of margin?
-		if (bcd__from_fs__current‿tms >= tms__from_original_reliable_neighbors__begin
-			&& bcd__from_fs__current‿tms <= tms__from_original_reliable_neighbors__end) {
-			return 'reliable'
-		}
-	}
-
 	logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "unknown" from fallback`)
-	return 'unknown'*/
+	return 'unknown'
 }
 
 // TODO export function should_normalize(...) if older norm etc. Or should be in ideal basename?

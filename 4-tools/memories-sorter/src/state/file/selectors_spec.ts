@@ -19,15 +19,13 @@ import {
 	get_timestamp_utc_ms_from,
 } from '../../services/better-date'
 import {
-	is_normalized_media_basename
-} from '../../services/name_parser'
-import {
 	get_test_single_file_state_generator,
 	REAL_CREATION_DATE‿EXIF,
 	REAL_CREATION_DATE‿TMS,
 	REAL_CREATION_DATE‿HRTS,
 	BAD_CREATION_DATE_CANDIDATE‿TMS,
 } from '../../__test_shared/utils'
+import * as NeighborHintsLib from './sub/neighbor-hints'
 
 import './__test_shared'
 
@@ -358,10 +356,8 @@ describe.only(`${LIB} - file (state)`, function() {
 					if (is_exif_powered_media_file(state))
 						state = on_info_read__exif(state, {} as any)
 					state = on_info_read__hash(state, '1234')
-					state = on_info_read__current_neighbors_primary_hints(state, {
-						//parent_folder_bcd: null, TODO
-						fs_bcd_assessed_reliability: 'unknown',
-					})
+					const neighbor_hints = NeighborHintsLib.create()
+					state = on_info_read__current_neighbors_primary_hints(state, neighbor_hints)
 
 					state = on_notes_recovered(state, {
 						currently_known_as: CURRENT_BASENAME,
@@ -377,10 +373,7 @@ describe.only(`${LIB} - file (state)`, function() {
 							basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',
 							parent_path: 'foo',
 							fs_bcd_tms: creation_date_ms,
-							neighbor_hints: {
-								parent_folder_bcd: undefined,
-								fs_bcd_assessed_reliability: 'unknown',
-							},
+							neighbor_hints: NeighborHintsLib.get_historical_representation(neighbor_hints),
 						}
 					})
 					expect(get_ideal_basename(state), CURRENT_BASENAME).to.equal(CURRENT_BASENAME)
@@ -401,10 +394,7 @@ describe.only(`${LIB} - file (state)`, function() {
 					if (is_exif_powered_media_file(state))
 						state = on_info_read__exif(state, {} as any)
 					state = on_info_read__hash(state, '1234')
-					state = on_info_read__current_neighbors_primary_hints(state, {
-						//parent_folder_bcd: null, TODO
-						fs_bcd_assessed_reliability: 'unknown',
-					})
+					state = on_info_read__current_neighbors_primary_hints(state, NeighborHintsLib.create())
 
 					state = on_notes_recovered(state, null)
 

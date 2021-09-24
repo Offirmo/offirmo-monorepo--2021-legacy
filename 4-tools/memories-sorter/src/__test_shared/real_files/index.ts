@@ -22,7 +22,7 @@ import {
 	get_embedded_timezone,
 	get_human_readable_timestamp_auto,
 } from '../../services/better-date'
-import * as File from '../../state/file'
+import * as FileLib from '../../state/file'
 
 /////////////////////////////////////////////////
 
@@ -64,28 +64,27 @@ async function _get_demo_state(
 ): Promise<Immutable<State>> {
 	let state = await load_real_media_file(MEDIA.ABS_PATH)
 
-	expect(File.is_media_file(state)).to.be.true
+	expect(FileLib.is_media_file(state)).to.be.true
 
 	if (phase2) {
-		state = File.on_info_read__current_neighbors_primary_hints(state, phase2.neighbor_hints ?? {
-			//parent_folder_bcd: null, TODO
-			fs_bcd_assessed_reliability: 'unknown',
-		})
+		state = FileLib.on_info_read__current_neighbors_primary_hints(state,
+			phase2.neighbor_hints ?? FileLib.NeighborHintsLib.create()
+		)
 
-		state = File.on_notes_recovered(state, phase2.recovered_notes)
+		state = FileLib.on_notes_recovered(state, phase2.recovered_notes)
 	}
 
 	if (!phase2) {
-		expect(File.has_all_infos_for_extracting_the_creation_date(state, {
+		expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, {
 			require_neighbors_hints: false,
 			require_notes: false,
 		})).to.be.true
 
-		const bcd_meta = File.get_best_creation_dateⵧfrom_current_data‿meta(state)
+		const bcd_meta = FileLib.get_best_creation_dateⵧfrom_current_data‿meta(state)
 
 	}
 	else {
-		expect(File.has_all_infos_for_extracting_the_creation_date(state, {
+		expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, {
 			require_neighbors_hints: true,
 			require_notes: true,
 		})).to.be.true

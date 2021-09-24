@@ -6,20 +6,17 @@ import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { DIGIT_PROTECTION_SEPARATOR } from '../../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
-import { is_year, is_digit } from '../../services/matchers'
+import { is_digit } from '../../services/matchers'
 import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_folder_basename__matching_a_processed_event_format } from '../../services/name_parser'
 import * as BetterDateLib from '../../services/better-date'
 import { BetterDate, get_compact_date } from '../../services/better-date'
 import { FsReliability, NeighborHints } from '../file'
+import * as FileLib from '../file'
 
 import {
 	LIB,
-	SPECIAL_FOLDERⵧINBOX__BASENAME,
-	SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME,
-	SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME,
 } from './consts'
 import {
-	FolderId,
 	Type,
 	State,
 } from './types'
@@ -90,13 +87,13 @@ function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 
 export function get_event_begin_date(state: Immutable<State>): Immutable<BetterDate> {
 	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_starting_date() should be an ~event`)
-	assert(state.event_range.begin, `${LIB} get_starting_date() should have a start date`)
+	assert(state.event_range?.begin, `${LIB} get_starting_date() should have a start date`)
 
-	return state.event_range.begin
+	return state.event_range?.begin
 }
 export function get_event_end_date(state: Immutable<State>): Immutable<BetterDate> {
 	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_end_date() should be an ~event`)
-	assert(state.event_range.end, `${LIB} get_event_end_date() should have a end date`)
+	assert(state.event_range?.end, `${LIB} get_event_end_date() should have a end date`)
 
 	return state.event_range.end
 }
@@ -118,7 +115,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 	if (state.type !== Type.event)
 		return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(current_basename))
 
-	assert(state.event_range.begin, 'get_ideal_basename() event range should have a start')
+	assert(state.event_range?.begin, 'get_ideal_basename() event range should have a start')
 
 	let meaningful_part = get_current_basename‿parsed(state).meaningful_part
 	if (is_digit(meaningful_part[0])) {
@@ -134,6 +131,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 		)
 	)
 }
+
 
 // TODO memoize
 export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
@@ -159,11 +157,11 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	const { begin, end } = (() => {
 		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
 
-		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal.begin) {
+		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
 			return state.children_bcd_ranges.from_primaryⵧfinal
 		}
 
-		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
+		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1!
 	})()
 	if (!!begin && !!end) {
 		// we have a range, let's cross-reference…
@@ -215,10 +213,14 @@ export function is_current_basename_intentful_of_event_start(state: Immutable<St
 export function get_neighbor_primary_hints(state: Immutable<State>): Immutable<NeighborHints> {
 	assert(is_data_gathering_pass_1_done(state), `get_neighbor_primary_hints() pass 1 should be complete`)
 
-	return {
+	let hints = FileLib.NeighborHintsLib.create()
+
+	throw new Error('NIMP!')
+
+/*	return {
 		// TODO parent_folder_bcd: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state),
 		fs_bcd_assessed_reliability: _get_children_fs_reliability(state),
-	}
+	}*/
 }
 
 export function is_matching_event‿symd(state: Immutable<State>, date_symd: SimpleYYYYMMDD): boolean {
@@ -256,7 +258,7 @@ export function to_string(state: Immutable<State>) {
 	str += stylize_string.yellow.bold(` "${id}"`)
 
 	if (type === Type.event || type === Type.overlapping_event) {
-		const { begin: event_begin_date, end: event_end_date } = state.event_range
+		const { begin: event_begin_date, end: event_end_date } = state.event_range || {}
 		str += ` 📅 ${BetterDateLib.get_human_readable_timestamp_days(event_begin_date!, 'tz:embedded')} → ${BetterDateLib.get_human_readable_timestamp_days(event_end_date!, 'tz:embedded')}`
 	}
 	else if (state.reason_for_demotion_from_event) {

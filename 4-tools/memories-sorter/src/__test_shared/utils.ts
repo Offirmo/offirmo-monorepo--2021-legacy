@@ -19,9 +19,9 @@ import {
 } from '../services/better-date'
 import {
 	PersistedNotes,
-	FsReliability, NeighborHints,
+	FsReliability,
 } from '../state/file'
-import * as File from '../state/file'
+import * as FileLib from '../state/file'
 import * as DB from '../state/db'
 import * as Notes from '../state/notes'
 import { Basename } from '../types'
@@ -31,31 +31,31 @@ import { FsStatsSubset } from '../services/fs_stats'
 
 export async function load_real_media_file(
 	abs_path: string,
-	state: Immutable<File.State> = File.create(path.parse(abs_path).base),
-): Promise<Immutable<File.State>> {
-	expect(File.is_media_file(state)).to.be.true
-	expect(File.is_exif_powered_media_file(state)).to.be.true
+	state: Immutable<FileLib.State> = FileLib.create(path.parse(abs_path).base),
+): Promise<Immutable<FileLib.State>> {
+	expect(FileLib.is_media_file(state)).to.be.true
+	expect(FileLib.is_exif_powered_media_file(state)).to.be.true
 
 	await Promise.all([
 		hasha.fromFile(abs_path, {algorithm: 'sha256'})
 			.then(hash => {
-				expect(File.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 1').to.be.false
+				expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 1').to.be.false
 				assert(hash, 'should have hash')
-				state = File.on_info_read__hash(state, hash)
+				state = FileLib.on_info_read__hash(state, hash)
 			}),
 		util.promisify(fs.stat)(abs_path)
 			.then(stats => {
-				expect(File.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 2').to.be.false
-				state = File.on_info_read__fs_stats(state, stats)
+				expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 2').to.be.false
+				state = FileLib.on_info_read__fs_stats(state, stats)
 			}),
 		exiftool.read(abs_path)
 			.then(exif_data => {
-				expect(File.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 3').to.be.false
-				state = File.on_info_read__exif(state, exif_data)
+				expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 3').to.be.false
+				state = FileLib.on_info_read__exif(state, exif_data)
 			})
 	])
 
-	expect(File.has_all_infos_for_extracting_the_creation_date(state, {
+	expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, {
 		require_neighbors_hints: false,
 		require_notes: false,
 	})).to.be.true
@@ -104,7 +104,7 @@ const DEFAULT_FILE_INPUTS = {
 	// TODO one day other historical fields (hints)
 }
 
-function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): File.FileId {
+function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
 	return path.join(...[
 			//...inputs.parent_relpath__current.split('/'),
 			inputs.parent_relpath__current,
@@ -127,10 +127,7 @@ function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
 			basename: inputs.autoǃbasename__historical ?? 'original' + path.parse(inputs.basename__current).ext, // extensions should match,
 			parent_path: 'original_parent_path',
 			fs_bcd_tms: inputs.autoǃdate__fs_ms__historical ?? BAD_CREATION_DATE_CANDIDATE‿TMS,
-			neighbor_hints: {
-				parent_folder_bcd: undefined,
-				fs_bcd_assessed_reliability: 'unknown',
-			},
+			neighbor_hints: FileLib.NeighborHintsLib.get_historical_representation(FileLib.NeighborHintsLib.create()),
 		},
 	}
 }
@@ -168,28 +165,28 @@ export function get_test_single_file_state_generator() {
 		})
 	}
 
-	function create_test_file_state(): Immutable<File.State> {
+	function create_test_file_state(): Immutable<FileLib.State> {
 		//console.log('create_test_file_state()', inputs)
 		const id = _get_file_id(inputs)
-		let state = File.create(id)
+		let state = FileLib.create(id)
 
-		state = File.on_info_read__fs_stats(state, _get_auto_fs_stats(inputs))
-		if (File.is_exif_powered_media_file(state)) {
-			state = File.on_info_read__exif(state, _get_auto_exif_data(inputs))
+		state = FileLib.on_info_read__fs_stats(state, _get_auto_fs_stats(inputs))
+		if (FileLib.is_exif_powered_media_file(state)) {
+			state = FileLib.on_info_read__exif(state, _get_auto_exif_data(inputs))
 		}
-		state = File.on_info_read__hash(state, inputs.hash__current)
+		state = FileLib.on_info_read__hash(state, inputs.hash__current)
 
 		// simulate consolidation
-		state = File.on_info_read__current_neighbors_primary_hints(state, {
+		state = FileLib.on_info_read__current_neighbors_primary_hints(state, FileLib.NeighborHintsLib._create_ut(
 			// TODO fix
 			//parent_folder_bcd: inputs.hints_from_reliable_neighbors__current__parent_folder_bcd,
-			fs_bcd_assessed_reliability: inputs.hints_from_reliable_neighbors__current__fs_reliability,
-		})
+			//fs_bcd_assessed_reliability: inputs.hints_from_reliable_neighbors__current__fs_reliability,
+		))
 
 		let notes: null | Immutable<PersistedNotes> = inputs.notes === 'auto'
 			? _get_auto_notes(inputs)
 			: inputs.notes
-		state = File.on_notes_recovered(state, notes)
+		state = FileLib.on_notes_recovered(state, notes)
 
 		return state
 	}
@@ -218,7 +215,7 @@ export function get_test_single_file_DB_state_generator() {
 		inputs.file = { ...DEFAULT_FILE_INPUTS }
 	}
 
-	function get_file_id(): File.FileId {
+	function get_file_id(): FileLib.FileId {
 		return _get_file_id(inputs.file)
 	}
 
@@ -227,7 +224,7 @@ export function get_test_single_file_DB_state_generator() {
 
 		let state = DB.create('root')
 
-		function _get_file_state(): Immutable<File.State> {
+		function _get_file_state(): Immutable<FileLib.State> {
 			return state.files[file_id]
 		}
 
@@ -243,7 +240,7 @@ export function get_test_single_file_DB_state_generator() {
 
 		state = DB.on_hash_computed(state, file_id, inputs.file.hash__current)
 		state = DB.on_fs_stats_read(state, file_id, _get_auto_fs_stats(inputs.file))
-		if (File.is_exif_powered_media_file(_get_file_state())) {
+		if (FileLib.is_exif_powered_media_file(_get_file_state())) {
 			state = DB.on_exif_read(state, file_id, _get_auto_exif_data(inputs.file))
 		}
 
