@@ -6,12 +6,10 @@ import { NeighborHints } from './types'
 export function create(): NeighborHints {
 	// safest possible
 	return {
-
+		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: 'unknown',
 	}
 }
 
 export function _createⵧfor_ut(): NeighborHints {
-	return {
-
-	}
+	return create() // so far
 }

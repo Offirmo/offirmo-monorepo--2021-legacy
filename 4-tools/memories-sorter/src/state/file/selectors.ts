@@ -609,7 +609,7 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 
 	// FS is ok as PRIMARY if confirmed by some primary hints
 	// TODO rework!
-	const fs__reliabilityⵧaccording_to_env = NeighborHintsLib.get_historical_fs_reliability(state.notes.historical, bcd__from_fs__oldest_known‿tms)
+	const fs__reliabilityⵧaccording_to_env = NeighborHintsLib.get_historical_fs_reliability(state.notes.historical.neighbor_hints, bcd__from_fs__oldest_known‿tms)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying FS as primary (if reliable)…', {
 		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
 		fs__reliabilityⵧaccording_to_env,
@@ -727,7 +727,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 
 	// some good cameras put the date in the file name
 	// however it's usually only precise up to the day,
-	// so we'll try to get a more precise one from EXIF or FS if matching
+	// so we'll still try to get a more precise one from EXIF or FS if matching
 	const bcd__from_basename_np__current: BetterDate | undefined = _get_creation_dateⵧfrom_basename_npⵧcurrent(state)
 
 	// strongest source
@@ -740,6 +740,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 		result.confidence = 'primary'
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
 
+		// cross-check the date from basename if any
 		if (bcd__from_basename_np__current) {
 			const auto_from_candidate = get_human_readable_timestamp_auto(result.candidate, 'tz:embedded')
 			const auto_from_np_basename = get_human_readable_timestamp_auto(bcd__from_basename_np__current, 'tz:embedded')

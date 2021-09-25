@@ -11,7 +11,7 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps/src'
 ///////////////////// Current /////////////////////
 
 export function get_fs_reliability(state: Immutable<NeighborHints>): any {
-	throw new Error('NIMP get_fs_reliability')
+	return state.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1
 }
 
 export function get_bcd(state: Immutable<NeighborHints>): undefined | BetterDate {
@@ -23,7 +23,8 @@ export function get_bcd(state: Immutable<NeighborHints>): undefined | BetterDate
 }
 
 export function is_matching_parent_folder_expected_date_range(state: Immutable<NeighborHints>, candidate: Immutable<BetterDate>): boolean {
-	throw new Error('NIMP is_matching_parent_folder_expected_date_range')
+	return false
+//	throw new Error('NIMP is_matching_parent_folder_expected_date_range')
 /*
 const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
 if (bcd__from_parent_folder__current) {
@@ -41,10 +42,13 @@ export function to_string(state: undefined | Immutable<NeighborHints>): any {
 	if (!state)
 		return undefined
 
-	if (Object.keys(state).length !== 0)
+	if (Object.keys(state).length !== 1)
 		throw new Error('NIMP to_string!')
 
-	return '<NeighborHints>'
+	const { bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1 } = state
+	return {
+		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
+	}
 
 	/*return {
 		'TODO': 'rework',
@@ -56,15 +60,16 @@ export function to_string(state: undefined | Immutable<NeighborHints>): any {
 ///////////////////// historical /////////////////////
 
 export function get_historical_representation(state: Immutable<NeighborHints>): HistoricalNeighborHints {
-	if (Object.keys(state).length !== 0)
+	if (Object.keys(state).length !== 1)
 		throw new Error('NIMP get_historical_representation!')
 
 	return {
+		fs_reliability: state.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
 	}
 }
 
 export function get_historical_fs_reliability(state: Immutable<HistoricalNeighborHints>, candidate‿tms: TimestampUTCMs): FsReliability {
-	throw new Error('NIMP get_historical_fs_reliability')
+	return state.fs_reliability
 	/*
 	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
 	if (bcd__from_parent_folder__current) {
@@ -79,7 +84,9 @@ export function get_historical_fs_reliability(state: Immutable<HistoricalNeighbo
 }
 
 export function to_stringⵧhistorical(state: Immutable<HistoricalNeighborHints>): any {
-	if (Object.keys(state).length !== 0)
+	if (Object.keys(state).length !== 1)
 		throw new Error('NIMP to_stringⵧhistorical!')
+
+	const { fs_reliability } = state
 
 	return '<HistoricalNeighborHints>'}

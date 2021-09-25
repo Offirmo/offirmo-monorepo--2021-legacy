@@ -2,8 +2,10 @@ import { Immutable, enforce_immutability } from '@offirmo-private/state-utils'
 
 import { SCHEMA_VERSION } from './consts'
 import { State } from './types'
-import { PersistedNotes as FileNotes } from '../file'
-import { Basename, SimpleYYYYMMDD } from '../../types'
+import {
+	DEMO_STATE as DEMO_NEIGHBOR_HINTS,
+	DEMO_STATEⵧHISTORICAL as DEMO_NEIGHBOR_HINTSⵧHISTORICAL,
+} from '../file/sub/neighbor-hints/examples'
 
 /////////////////////
 
@@ -26,7 +28,7 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 				'parent_path': '',
 				'fs_bcd_tms': 1571961828388,
 				'neighbor_hints': {
-					//'fs_bcd_assessed_reliability': 'unknown'
+					fs_reliability: 'unknown',
 				},
 			},
 			// user data
@@ -46,7 +48,7 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 				'parent_path': '',
 				'fs_bcd_tms': 1566873905000,
 				'neighbor_hints': {
-					'fs_bcd_assessed_reliability': 'unreliable'
+					fs_reliability: 'unreliable'
 				},
 				'exif_orientation': 6
 			},
@@ -68,7 +70,7 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 				'parent_path': '2003/88- St Gilles',
 				'fs_bcd_tms': 1052375074000,
 				'neighbor_hints': {
-					'fs_bcd_assessed_reliability': 'reliable'
+					fs_reliability: 'reliable'
 				}
 			},
 
@@ -89,7 +91,7 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 				parent_path: '2020/20200101 - life',
 				fs_bcd_tms: 1581630576844,
 				'neighbor_hints': {
-					'fs_bcd_assessed_reliability': 'unknown'
+					fs_reliability: 'unknown'
 				},
 			},
 

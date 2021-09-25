@@ -60,7 +60,7 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 
 	Object.keys(legacy_state.encountered_files).forEach(hash => {
 		const legacy_file_notes: any = legacy_state.encountered_files[hash]
-		const migrated_notes = {
+		const migrated_notes: FileNotes = {
 			deleted: undefined,
 			starred: undefined,
 			manual_date: undefined,
@@ -72,13 +72,13 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 				parent_path: '',
 				fs_bcd_tms: 0,
 				neighbor_hints: {
-					fs_bcd_assessed_reliability: 'unknown',
-					parent_folder_bcd: undefined,
+					fs_reliability: 'unknown',
+					//parent_folder_bcd: undefined,
 				},
 				exif_orientation: undefined,
 				trailing_extra_bytes_cleaned: undefined,
 			},
-		} as FileNotes
+		}
 
 		let keys = Object.keys(legacy_file_notes)
 		if (keys.includes('currently_known_as')) {

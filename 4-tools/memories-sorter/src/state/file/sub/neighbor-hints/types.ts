@@ -10,7 +10,7 @@ export type FsReliability = 'reliable' | 'unreliable' | 'unknown'
  * 2. as a junk, what bcd can we use if we really don't have any other better source?
  */
 export interface NeighborHints {
-	//bcd__from_fs__reliability__assessed_from_phase1: FsReliability
+	bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: FsReliability
 	//expected_bcd_range: undefined | DateRange // can be either an event (begin + X) or a backup (begin - X) depending on the hints
 	//fallback_junk_bcd: undefined | BetterDate
 }
@@ -19,7 +19,7 @@ export interface NeighborHints {
  * What do we need?
  */
 export interface HistoricalNeighborHints {
-	//fs_bcd_assessed_reliability: FsReliability
+	fs_reliability: FsReliability
 	//expected_bcd_range: undefined | DateRange<BetterDateMembers>
 	//fallback_bcd: undefined | BetterDateMembers
 }
