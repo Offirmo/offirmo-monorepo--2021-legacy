@@ -1,7 +1,7 @@
 const path = require('path')
 
 const { /*trim, replace,*/ capitalize } = require('lodash')
-const { dump_prettified_any } = require('@offirmo-private/prettify-any')
+const { dump_prettified_any, prettify_json } = require('@offirmo-private/prettify-any')
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 const fs = require('@offirmo/cli-toolbox/fs/extra')
 
@@ -75,7 +75,10 @@ author_dirs.forEach(author_dir => {
 
 	if (display_mode !== 'dump') {
 		console.log('\n-------')
-		console.log('discovered author dir:', { dir: path.basename(author_dir)})
+		console.log('discovered author dir:', {
+			dir: path.basename(author_dir),
+			humanized: author_name,
+		})
 	}
 
 	if (!AUTHORS_BY_NAME[author_name]) {
@@ -100,12 +103,14 @@ author_dirs.forEach(author_dir => {
 	const author = authors_by_dir[author_dir]
 
 	const artwork_paths = fs.lsFilesSync(author_dir)
+		.filter(d => !d.toLowerCase().includes('/readme.'))
+		.filter(d => !d.toLowerCase().includes('/licence.'))
 		.filter(d => !d.endsWith('/.DS_Store'))
 
 	artwork_paths.forEach(artwork_path => {
 		if (display_mode !== 'dump') {
 			console.log('\n-------')
-			console.log('discovered artwork:', {path: artwork_path})
+			console.log('discovered artwork:', { path: artwork_path })
 		}
 
 		let display_name = humanize(
@@ -116,15 +121,15 @@ author_dirs.forEach(author_dir => {
 			.trim()
 
 		let background = {
-			author: `AUTHORS_BY_NAME['${author.display_name}'],`,
-			source: `'TODO',`,
-			display_name: `'${display_name}',`,
-			keywords: `[],`,
-			css_class: '\'tbrpg⋄bg-image⁚' + [
+			author: `AUTHORS_BY_NAME['${author.display_name}']`,
+			source: `TODO`,
+			display_name: display_name,
+			keywords: [],
+			css_class: 'tbrpg⋄bg-image⁚' + [
 				author.display_name.toLowerCase().split(' ').join('_'),
 				display_name.toLowerCase().split(' ').join('_'),
-			].join('-') + `',`,
-			position_pct: `{ x: 50, y: 50 },`,
+			].join('-'),
+			position_pct: { x: 50, y: 50 },
 		}
 
 		// find it in known bg
@@ -136,10 +141,10 @@ author_dirs.forEach(author_dir => {
 			existing_bg.found = true
 			background = {
 				...background,
-				source: `'${existing_bg.source}',`,
-				keywords: `[ '` + existing_bg.keywords.join(`', '`) + `' ],`,
-				position_pct: `${JSON.stringify(existing_bg.position_pct)},`,
-				position_pct_alt: `${JSON.stringify(existing_bg.position_pct_alt)},`,
+				source: existing_bg.source,
+				keywords: [ ...existing_bg.keywords ],
+				position_pct: existing_bg.position_pct,
+				position_pct_alt: existing_bg.position_pct_alt,
 			}
 		}
 
@@ -152,8 +157,10 @@ author_dirs.forEach(author_dir => {
 				)
 				/* fallthrough */
 			case 'dump':
-				dump_prettified_any('\n{', background)
-				console.log('},')
+				//console.log('{')
+				//console.log(prettify_json(background))
+				console.log(background)
+				//console.log('},')
 				break
 			default:
 				break

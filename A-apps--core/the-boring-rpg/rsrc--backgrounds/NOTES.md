@@ -2,16 +2,14 @@
 
 
 ## Free
-* https://www.artbreeder.com/browse
-
 
 ## TODO Buy?
 
-### Commision
+### Commission
 * https://krita.org/en/item/interview-with-albert-weand/
 
 ### shutterstock
-TODO royalty free shutterstock
+$$$ but royalty free shutterstock
 * https://www.shutterstock.com/collections/271302517-fa4bebc6
 * https://www.shutterstock.com/collections/293167150-1e6db5f9
 
@@ -85,18 +83,10 @@ Story
   * https://www.shutterstock.com/image-vector/luxury-old-library-interior-night-dark-1754772767
 
 
-
-
-
-
-
 ### misc
 
 https://mobilegamegraphics.com/product-category/all_products/backgrounds/
 * https://mobilegamegraphics.com/product/fantasy-backgrounds-pack/
-
-https://www.gamedevmarket.net/asset/background-pack-100-pictures/
-*
 
 
 ## TOSORT
@@ -115,7 +105,6 @@ TODO https://www.iamag.co/category/inspiration-2/cg-gallery-art-inspiration/
 Sources:
 * https://krita-artists.org/tag/fantasy
 * https://krita-artists.org/tag/landscape
-
 
 
 https://krita-artists.org/t/the-valley-of-waterfalls/4080
@@ -138,7 +127,6 @@ TODO https://felgo.com/game-resources/16-sites-featuring-free-game-graphics
 
 Collab?
 - https://www.artstation.com/gxr
-
 
 
 Progression

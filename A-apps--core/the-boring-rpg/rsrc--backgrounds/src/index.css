@@ -18,6 +18,12 @@
 }
 
 
+.tbrpg⋄bg-image⁚albert_weand-adventurers {
+	background-image: url('rsrc/licensed/Albert_Weand/adventurers.jpg');
+	background-position: 50% 50%;
+}
+
+
 .tbrpg⋄bg-image⁚andreas_rocha-ar_nat_village {
 	background-image: url('rsrc/license-pending/Andreas_Rocha/andreas-rocha-ar-nat-village.jpg');
 	background-position: 79% 20%;
@@ -372,6 +378,12 @@
 }
 
 
+.tbrpg⋄bg-image⁚digital_moons-forest_blue {
+	background-image: url('rsrc/licensed/Digital_Moons/forest--blue.png');
+	background-position: 50% 50%;
+}
+
+
 .tbrpg⋄bg-image⁚dmitry_kremiansky-a_secret_place_alps {
 	background-image: url('rsrc/license-pending/Dmitry_Kremiansky/dmitry-kremiansky-a_secret_place_alps.jpg');
 	background-position: 47% 30%;
@@ -525,6 +537,12 @@
 .tbrpg⋄bg-image⁚julius_camenzind-snowcapped_environment {
 	background-image: url('rsrc/license-pending/Julius_Camenzind/snowcapped_environment-julius_camenzind.jpg');
 	background-position: 74% 50%;
+}
+
+
+.tbrpg⋄bg-image⁚lisadikaprio-sunny {
+	background-image: url('rsrc/licensed/LisadiKaprio/sunny.png');
+	background-position: 50% 50%;
 }
 
 

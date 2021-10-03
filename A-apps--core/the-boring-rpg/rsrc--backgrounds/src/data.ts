@@ -10,6 +10,10 @@ const AUTHORS: Readonly<Author>[] = [
 		url: 'https://www.artstation.com/maihope',
 	},
 	{
+		display_name: 'Albert Weand',
+		url: 'https://www.artstation.com/aweand',
+	},
+	{
 		display_name: 'Andreas Rocha',
 		url: 'https://www.artstation.com/andreasrocha',
 	},
@@ -24,6 +28,10 @@ const AUTHORS: Readonly<Author>[] = [
 	{
 		display_name: 'Daniel Alekow',
 		url: 'https://www.artstation.com/memod',
+	},
+	{
+		display_name: 'Digital Moons',
+		url: 'https://digitalmoons.itch.io/',
 	},
 	{
 		display_name: 'Dmitry Kremiansky',
@@ -48,6 +56,10 @@ const AUTHORS: Readonly<Author>[] = [
 	{
 		display_name: 'Julius Camenzind',
 		url: 'https://www.artstation.com/juliuscamenzind',
+	},
+	{
+		display_name: 'Lisadikaprio',
+		url: 'https://lisadikaprio.itch.io/',
 	},
 	{
 		display_name: 'Raphael Lacoste',
@@ -113,6 +125,16 @@ const ELEMENTS: Readonly<Background>[] = [
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚ahmed_maihope-the_apple_thief',
 		position_pct:     {"x":26,"y":50},
+		position_pct_alt: undefined,
+	},
+
+	{
+		author: AUTHORS_BY_NAME['Albert Weand'],
+		source: 'https://www.offirmo.net/open-source/adventurers/index.html',
+		display_name: 'Adventurers',
+		css_class: 'tbrpg⋄bg-image⁚albert_weand-adventurers',
+		keywords: [ '' ],
+		position_pct: { x: 50, y: 50 },
 		position_pct_alt: undefined,
 	},
 
@@ -308,7 +330,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:           AUTHORS_BY_NAME['Andreas Rocha'],
-		source:           'https://www.instagram.com/p/Bco4R3jgJhR/?utm_source=ig_web_button_share_sheet',
+		source:           'https://www.instagram.com/p/Bco4R3jgJhR/',
 		display_name:     'Humble Abode',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-humble_abode',
@@ -448,7 +470,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:           AUTHORS_BY_NAME['Andreas Rocha'],
-		source:           'https://www.instagram.com/p/BcmGYYkAeD9/?utm_source=ig_web_button_share_sheet',
+		source:           'https://www.instagram.com/p/BcmGYYkAeD9/',
 		display_name:     'The Emissary',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_emissary',
@@ -704,6 +726,15 @@ const ELEMENTS: Readonly<Background>[] = [
 		css_class:        'tbrpg⋄bg-image⁚daniel_alekow-inside_caerleon',
 		position_pct:     {"x":48,"y":50},
 		position_pct_alt: undefined,
+	},
+
+	{
+		author: AUTHORS_BY_NAME['Digital Moons'],
+		source: 'https://digitalmoons.itch.io/parallax-forest-background',
+		display_name: 'Forest Blue',
+		keywords: [],
+		css_class: 'tbrpg⋄bg-image⁚digital_moons-forest_blue',
+		position_pct: { x: 50, y: 50 }
 	},
 
 	{
@@ -964,6 +995,15 @@ const ELEMENTS: Readonly<Background>[] = [
 		css_class:        'tbrpg⋄bg-image⁚julius_camenzind-snowcapped_environment',
 		position_pct:     {"x":74,"y":50},
 		position_pct_alt: undefined,
+	},
+
+	{
+		author: AUTHORS_BY_NAME['Lisadikaprio'],
+		source: 'https://lisadikaprio.itch.io/sunny-and-rainy-skies-2-backgrounds\n',
+		display_name: 'Sunny',
+		keywords: [],
+		css_class: 'tbrpg⋄bg-image⁚lisadikaprio-sunny',
+		position_pct: { x: 50, y: 50 }
 	},
 
 	{

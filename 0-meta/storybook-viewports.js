@@ -22,6 +22,7 @@ const custom_viewports = {
 	mobileXXS: {
 		name: 'XXS - Very small mobile 320x568', // from viewport addon defaults
 		styles: {
+			// ratio 1.77
 			width: '320px',
 			height: '568px',
 		},
@@ -30,6 +31,7 @@ const custom_viewports = {
 	mobileXS: {
 		name: 'XS - small mobile 360x640 (most common)', // ~20% popularity https://screensizemap.com/
 		styles: {
+			// ratio 1.78
 			width: '360px',
 			height: '640px',
 		},
@@ -38,6 +40,7 @@ const custom_viewports = {
 	mobileS: {
 		name: 'S - Small iphone 360x780',
 		styles: {
+			// ratio 1.22
 			width: '360px',
 			height: '780px',
 		},
@@ -46,6 +49,7 @@ const custom_viewports = {
 	iphone12mini: {
 		name: `iphone 12 mini 375x812`,
 		styles: {
+			// ratio 2.16
 			width: `${KNOWN_PHONES.iphone['12'].mini.w}px`,
 			height: `${KNOWN_PHONES.iphone['12'].mini.h}px`,
 		},
@@ -53,6 +57,7 @@ const custom_viewports = {
 	iphone12pro: {
 		name: `iphone 12 pro 390x844`,
 		styles: {
+			// ratio 2.16
 			width: `${KNOWN_PHONES.iphone['12'].pro.w}px`,
 			height: `${KNOWN_PHONES.iphone['12'].pro.h}px`,
 		},
@@ -60,6 +65,7 @@ const custom_viewports = {
 	iphone12promax: {
 		name: `iphone 12 pro max 428x926`,
 		styles: {
+			// ratio 2.16
 			width: `${KNOWN_PHONES.iphone['12'].proⵧmax.w}px`,
 			height: `${KNOWN_PHONES.iphone['12'].proⵧmax.h}px`,
 		},
@@ -68,6 +74,7 @@ const custom_viewports = {
 	tabletM: {
 		name: 'M - tablet 834x1112',
 		styles: {
+			// ratio 1.33
 			width: '834px',
 			height: '1112px',
 		},

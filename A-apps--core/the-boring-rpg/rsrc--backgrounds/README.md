@@ -1,9 +1,9 @@
 
 ```
+yarn dev
 yarn sync
 yarn sync review
+yarn demo
 ```
 
 paid: https://mobilegamegraphics.com/product/fantasy-backgrounds-pack/
-paid: https://www.gamedevmarket.net/asset/background-pack-100-pictures/
-

@@ -1001,3 +1001,9 @@ The Trust Triangle
 dependable
 hard working
 competent
+
+https://collider.com/marvel-villains-ranked/
+
+https://scottbarrykaufman.com/the-anatomy-of-assholes/
+https://blogs.scientificamerican.com/beautiful-minds/the-dark-core-of-personality/
+http://www.darkfactor.org/
