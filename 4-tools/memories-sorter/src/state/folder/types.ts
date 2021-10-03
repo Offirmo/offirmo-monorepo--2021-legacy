@@ -29,26 +29,26 @@ export interface State {
 
 	// if this folder is an event, what is the range assigned to it?
 	// (not inferred, may be arbitrarily set)
-	event_range: undefined | DateRange
+	event_range: undefined | null | DateRange
 
 	// various creation date ranges from children:
 	children_bcd_ranges: {
-		// ALL can be null if no children TODO review or undefined?
+		// ALL can be empty if no children
 
 		// after 1st pass
 		// info needed to assess whether the fs info looks reliable in this folder
-		from_fsⵧcurrent: undefined | DateRange<TimestampUTCMs>
+		from_fsⵧcurrent: undefined | null | DateRange<TimestampUTCMs>
 
 		// after 1st pass
 		// EARLY/BASIC/PRIMARY range of the RELIABLE media files currently in this folder (without hints or notes)
 		// This is used to hint the files and help them confirm their FS birthtime
 		// needed to discriminate whether an hypothetical basename date is an event or a backup
-		from_primaryⵧcurrentⵧphase_1: undefined | DateRange
+		from_primaryⵧcurrentⵧphase_1: undefined | null | DateRange
 
 		// after 2nd pass
 		// FINAL range of the media files currently in this folder
 		// This happens after the files got their notes restored + our hints
-		from_primaryⵧfinal: undefined | DateRange
+		from_primaryⵧfinal: undefined | null | DateRange
 	}
 
 	// after 1st pass

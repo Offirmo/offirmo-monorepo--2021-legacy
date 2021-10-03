@@ -997,3 +997,7 @@ The Trust Triangle
 * Authenticity: I experience the real you
 * Logic: I believe your reasoning and judgement
 * Empathy: I believe you care about me and my success
+
+dependable
+hard working
+competent

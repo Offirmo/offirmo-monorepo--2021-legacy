@@ -1,12 +1,20 @@
 import { Immutable } from '@offirmo-private/ts-types'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 import { NeighborHints, HistoricalNeighborHints, FsReliability } from './types'
 import {
 	BetterDate,
+	DateRange,
+	BetterDateMembers,
 	get_debug_representation as get_better_date_debug_representation,
 	get_timestamp_utc_ms_from,
 } from '../../../../services/better-date'
-import { TimestampUTCMs } from '@offirmo-private/timestamps/src'
+
+/////////////////////
+
+export function get_expected_bcd_range(): undefined | DateRange {
+	throw new Error('NIMP NeighborHints get_expected_bcd_range()')
+}
 
 ///////////////////// Current /////////////////////
 

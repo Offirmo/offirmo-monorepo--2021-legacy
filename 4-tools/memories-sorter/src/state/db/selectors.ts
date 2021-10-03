@@ -151,7 +151,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			})()
 
 			let compatible_event_folder_id = get_all_event_folder_ids(state)
-				.find(fid => Folder.is_matching_event‿symd(state.folders[fid], date_for_matching_an_event))
+				.find(fid => Folder.is_date_matching_this_event‿symd(state.folders[fid], date_for_matching_an_event))
 			if (!compatible_event_folder_id) {
 				// can happen if the folder is force-dated
 				// but the file date is reliable and don't match
@@ -220,7 +220,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	const event_folder_base = ((): string => {
 		const compact_date = File.get_best_creation_date‿compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
-		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_matching_event‿symd(state.folders[fid], compact_date))
+		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_date_matching_this_event‿symd(state.folders[fid], compact_date))
 		if (compatible_event_folder_id) {
 			DEBUG && console.log(`✴️ ${id} found existing compatible event folder:`, compatible_event_folder_id)
 			return Folder.get_ideal_basename(state.folders[compatible_event_folder_id])

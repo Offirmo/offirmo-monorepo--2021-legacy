@@ -118,7 +118,7 @@ describe.only(`${LIB} - file (state)`, function() {
 
 					context('when NOT having a date from a NP basename', function () {
 
-						context.skip('when having STRONG hints -- from parent folder basename', function() {
+						context('when having STRONG hints -- from parent folder basename', function() {
 							beforeEach(() => {
 								stategen.inputs.parent_relpath__current = '2017/20171010 - holiday at the beach'
 								stategen.inputs.hints_from_reliable_neighbors__current__parent_folder_bcd = create_better_date_obj({
@@ -174,7 +174,7 @@ describe.only(`${LIB} - file (state)`, function() {
 							})
 						})
 
-						context.skip('when having STRONG hints -- from reliable neighbors only', function() {
+						context('when having STRONG hints -- from reliable neighbors only', function() {
 							beforeEach(() => {
 								stategen.inputs.date__fs_ms__current = REAL_CREATION_DATE‿TMS
 								//hints_from_reliable_neighbors__current__range = [ 20171010, 20171022 ] // XXX

@@ -31,8 +31,12 @@ export function get_current_path‿pparsed(state: Immutable<State>): Immutable<p
 	return pathㆍparse_memoized(get_current_relative_path(state))
 }
 
-export function get_basename(state: Immutable<State>): Basename {
+export function get_current_basename(state: Immutable<State>): Basename {
 	return get_current_path‿pparsed(state).base
+}
+
+export function get_current_basename‿parsed(state: Immutable<State>): Immutable<ParseResult> {
+	return parse_folder_basename(get_current_basename(state))
 }
 
 export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): number {
@@ -45,10 +49,6 @@ export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): 
 		: 0
 }
 
-export function get_current_basename‿parsed(state: Immutable<State>): Immutable<ParseResult> {
-	return parse_folder_basename(get_basename(state))
-}
-
 export function is_data_gathering_pass_1_done(state: Immutable<State>): boolean {
 	return state.children_pass_1_count === state.children_count
 }
@@ -59,13 +59,6 @@ export function is_data_gathering_pass_2_done(state: Immutable<State>): boolean 
 	return state.children_pass_2_count === state.children_count
 }
 
-/*
-export function get_reliable_children_range(state: Immutable<State>): null | [ SimpleYYYYMMDD, SimpleYYYYMMDD ] {
-	const { children_begin_date, children_end_date } = state
-	if (!children_begin_date || !children_end_date_symd) return null
-	return [ children_begin_date_symd, children_end_date_symd ]
-}
-*/
 function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 	assert(is_data_gathering_pass_1_done(state), `${LIB} _get_children_fs_reliability() pass 1 should be done`)
 	assert(
@@ -110,7 +103,7 @@ export function get_event_end_date‿symd(state: Immutable<State>): SimpleYYYYMM
 }
 
 export function get_ideal_basename(state: Immutable<State>): Basename {
-	const current_basename = get_basename(state)
+	const current_basename = get_current_basename(state)
 
 	if (state.type !== Type.event)
 		return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(current_basename))
@@ -133,9 +126,9 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 }
 
 
-// TODO memoize
+// TODO review + memoize
 export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
-	const current_basename = get_basename(state)
+	const current_basename = get_current_basename(state)
 
 	if (current_basename.length < 12) {
 		// must be big enough, just a year won't do
@@ -223,7 +216,7 @@ export function get_neighbor_primary_hints(state: Immutable<State>): Immutable<N
 	}*/
 }
 
-export function is_matching_event‿symd(state: Immutable<State>, date_symd: SimpleYYYYMMDD): boolean {
+export function is_date_matching_this_event‿symd(state: Immutable<State>, date_symd: SimpleYYYYMMDD): boolean {
 	assert(state.type === Type.event, `${LIB} is_matching_event‿symd() should be an event`)
 
 	const begin_date‿symd = get_event_begin_date‿symd(state)

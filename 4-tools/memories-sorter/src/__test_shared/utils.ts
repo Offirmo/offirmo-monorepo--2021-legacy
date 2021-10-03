@@ -88,14 +88,15 @@ const BAD_CREATION_DATE_CANDIDATE‿SYMD = get_compact_date(BAD_CREATION_DATE_CA
 
 const DEFAULT_FILE_INPUTS = {
 	// everything bad / undated by default, so that the tests must override those
-	parent_relpath__current: 'foo',
-	basename__current: 'bar.jpg',
+	parent_pathⵧcurrent‿relative: 'foo',
+	basenameⵧcurrent: 'bar.jpg',
 
-	date__fs_ms__current: BAD_CREATION_DATE_CANDIDATE‿TMS, // always exist
-	date__exif: BAD_CREATION_DATE_CANDIDATE‿EXIF as null | typeof REAL_CREATION_DATE‿EXIF,
-	hash__current: 'hash01',
-	hints_from_reliable_neighbors__current__fs_reliability: 'unknown' as FsReliability,
-	hints_from_reliable_neighbors__current__parent_folder_bcd: null as null | BetterDate,
+	dateⵧfsⵧcurrent‿tms: BAD_CREATION_DATE_CANDIDATE‿TMS, // always exist
+	dateⵧexif: BAD_CREATION_DATE_CANDIDATE‿EXIF as null | typeof REAL_CREATION_DATE‿EXIF,
+	hashⵧcurrent: 'hash01',
+	neighbor_hints__fs_reliability_shortcut: 'unknown' as FsReliability,
+	//hints_from_reliable_neighbors__current__fs_reliability: 'unknown' as FsReliability,
+	//hints_from_reliable_neighbors__current__parent_folder_bcd: null as null | BetterDate,
 
 	notes: null as null | 'auto' | Immutable<PersistedNotes>,
 	// won't be used unless notes = auto
@@ -106,9 +107,9 @@ const DEFAULT_FILE_INPUTS = {
 
 function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
 	return path.join(...[
-			//...inputs.parent_relpath__current.split('/'),
-			inputs.parent_relpath__current,
-			inputs.basename__current,
+			//...inputs.parent_pathⵧcurrent‿relative.split('/'),
+			inputs.parent_pathⵧcurrent‿relative,
+			inputs.basenameⵧcurrent,
 		].filter(x => !!x) as string[])
 }
 function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
@@ -124,30 +125,33 @@ function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
 		best_date_afawk_symd: undefined, // TODO?
 
 		historical: {
-			basename: inputs.autoǃbasename__historical ?? 'original' + path.parse(inputs.basename__current).ext, // extensions should match,
+			basename: inputs.autoǃbasename__historical ?? 'original' + path.parse(inputs.basenameⵧcurrent).ext, // extensions should match,
 			parent_path: 'original_parent_path',
 			fs_bcd_tms: inputs.autoǃdate__fs_ms__historical ?? BAD_CREATION_DATE_CANDIDATE‿TMS,
-			neighbor_hints: FileLib.NeighborHintsLib.get_historical_representation(FileLib.NeighborHintsLib.create()),
+			neighbor_hints: (() => {
+				throw new Error('NIMP _get_auto_notes nh!')
+				//FileLib.NeighborHintsLib.get_historical_representation(FileLib.NeighborHintsLib.create())
+			})(),
 		},
 	}
 }
 function _get_auto_fs_stats(inputs: typeof DEFAULT_FILE_INPUTS): FsStatsSubset {
 	return {
-		birthtimeMs: inputs.date__fs_ms__current,
-		atimeMs:     inputs.date__fs_ms__current + 10000,
-		mtimeMs:     inputs.date__fs_ms__current + 10000,
-		ctimeMs:     inputs.date__fs_ms__current + 10000,
+		birthtimeMs: inputs.dateⵧfsⵧcurrent‿tms,
+		atimeMs:     inputs.dateⵧfsⵧcurrent‿tms + 10000,
+		mtimeMs:     inputs.dateⵧfsⵧcurrent‿tms + 10000,
+		ctimeMs:     inputs.dateⵧfsⵧcurrent‿tms + 10000,
 	}
 }
 function _get_auto_exif_data(inputs: typeof DEFAULT_FILE_INPUTS): EXIFTags {
 	const exif_data = {
 		SourceFile: _get_file_id(inputs),
-		...(inputs.date__exif && {
+		...(inputs.dateⵧexif && {
 			// may be exif powered without the info we need
-			'CreateDate': inputs.date__exif,
-			//'DateTimeOriginal': inputs.date__exif,
-			//'DateTimeGenerated': inputs.date__exif,
-			//'MediaCreateDate': inputs.date__exif,
+			'CreateDate': inputs.dateⵧexif,
+			//'DateTimeOriginal': inputs.dateⵧexif,
+			//'DateTimeGenerated': inputs.dateⵧexif,
+			//'MediaCreateDate': inputs.dateⵧexif,
 		} as EXIFTags),
 	}
 	//console.log('_get_auto_exif_data() EXIFTags', exif_data)
@@ -174,14 +178,15 @@ export function get_test_single_file_state_generator() {
 		if (FileLib.is_exif_powered_media_file(state)) {
 			state = FileLib.on_info_read__exif(state, _get_auto_exif_data(inputs))
 		}
-		state = FileLib.on_info_read__hash(state, inputs.hash__current)
+		state = FileLib.on_info_read__hash(state, inputs.hashⵧcurrent)
 
 		// simulate consolidation
-		state = FileLib.on_info_read__current_neighbors_primary_hints(state, FileLib.NeighborHintsLib._createⵧfor_ut(
-			// TODO fix
-			//parent_folder_bcd: inputs.hints_from_reliable_neighbors__current__parent_folder_bcd,
-			//fs_bcd_assessed_reliability: inputs.hints_from_reliable_neighbors__current__fs_reliability,
-		))
+		state = FileLib.on_info_read__current_neighbors_primary_hints(
+			state,
+			FileLib.NeighborHintsLib._createⵧfor_ut(
+				inputs.neighbor_hints__fs_reliability_shortcut,
+			)
+		)
 
 		let notes: null | Immutable<PersistedNotes> = inputs.notes === 'auto'
 			? _get_auto_notes(inputs)
@@ -229,7 +234,7 @@ export function get_test_single_file_DB_state_generator() {
 		}
 
 		state = DB.on_folder_found(state, '', '.')
-		const parent_splitted = inputs.file.parent_relpath__current.split('/')
+		const parent_splitted = inputs.file.parent_pathⵧcurrent‿relative.split('/')
 		for (let i = 0; i < parent_splitted.length; ++i) {
 			const parent_subpath = path.join(...parent_splitted.slice(0, i))
 			const basename = path.join(...parent_splitted.slice(i, i+1))
@@ -238,7 +243,7 @@ export function get_test_single_file_DB_state_generator() {
 
 		state = DB.on_file_found(state, '.', file_id)
 
-		state = DB.on_hash_computed(state, file_id, inputs.file.hash__current)
+		state = DB.on_hash_computed(state, file_id, inputs.file.hashⵧcurrent)
 		state = DB.on_fs_stats_read(state, file_id, _get_auto_fs_stats(inputs.file))
 		if (FileLib.is_exif_powered_media_file(_get_file_state())) {
 			state = DB.on_exif_read(state, file_id, _get_auto_exif_data(inputs.file))
@@ -251,7 +256,7 @@ export function get_test_single_file_DB_state_generator() {
 				...notes,
 				encountered_files: {
 					...notes.encountered_files,
-					[inputs.file.hash__current]: _get_auto_notes(inputs.file),
+					[inputs.file.hashⵧcurrent]: _get_auto_notes(inputs.file),
 				}
 			}
 			state = DB.on_note_file_found(state, notes)

@@ -266,6 +266,7 @@ export function are_dates_matching_while_disregarding_tz_and_precision(d1: Immut
 
 	if (!is_tms_matching && !is_matching_with_different_precisions) {
 		if (debug_id) {
+			/* TODO review
 			logger.warn(`are_dates_matching_while_disregarding_tz_and_precision() yielded FALSE`, {
 				id: debug_id,
 				auto1,
@@ -276,6 +277,7 @@ export function are_dates_matching_while_disregarding_tz_and_precision(d1: Immut
 				is_matching_with_different_precisions,
 				diff_s: Math.abs(tms2 - tms1) / 1000.,
 			})
+			 */
 		}
 		return false
 	}
