@@ -129,13 +129,13 @@ const ELEMENTS: Readonly<Background>[] = [
 	},
 
 	{
-		author: AUTHORS_BY_NAME['Albert Weand'],
-		source: 'https://www.offirmo.net/open-source/adventurers/index.html',
-		display_name: 'Adventurers',
-		css_class: 'tbrpg⋄bg-image⁚albert_weand-adventurers',
-		keywords: [ '' ],
-		position_pct: { x: 50, y: 50 },
-		position_pct_alt: undefined,
+		author:           AUTHORS_BY_NAME['Albert Weand'],
+		source:           'https://www.offirmo.net/open-source/adventurers/index.html',
+		display_name:     'Adventurers',
+		css_class:        'tbrpg⋄bg-image⁚albert_weand-adventurers',
+		keywords:         [ '' ],
+		position_pct:     { x: 36, y: 99 },
+		position_pct_alt: { x: 87, y: 1 },
 	},
 
 	{
@@ -729,12 +729,12 @@ const ELEMENTS: Readonly<Background>[] = [
 	},
 
 	{
-		author: AUTHORS_BY_NAME['Digital Moons'],
-		source: 'https://digitalmoons.itch.io/parallax-forest-background',
-		display_name: 'Forest Blue',
-		keywords: [],
-		css_class: 'tbrpg⋄bg-image⁚digital_moons-forest_blue',
-		position_pct: { x: 50, y: 50 }
+		author:           AUTHORS_BY_NAME['Digital Moons'],
+		source:           'https://digitalmoons.itch.io/parallax-forest-background',
+		display_name:     'Forest Blue',
+		keywords:         [],
+		css_class:        'tbrpg⋄bg-image⁚digital_moons-forest_blue',
+		position_pct:     { x: 33, y: 10 }
 	},
 
 	{
@@ -998,12 +998,12 @@ const ELEMENTS: Readonly<Background>[] = [
 	},
 
 	{
-		author: AUTHORS_BY_NAME['Lisadikaprio'],
-		source: 'https://lisadikaprio.itch.io/sunny-and-rainy-skies-2-backgrounds\n',
-		display_name: 'Sunny',
-		keywords: [],
-		css_class: 'tbrpg⋄bg-image⁚lisadikaprio-sunny',
-		position_pct: { x: 50, y: 50 }
+		author:           AUTHORS_BY_NAME['Lisadikaprio'],
+		source:           'https://lisadikaprio.itch.io/sunny-and-rainy-skies-2-backgrounds\n',
+		display_name:     'Sunny',
+		keywords:         [],
+		css_class:        'tbrpg⋄bg-image⁚lisadikaprio-sunny',
+		position_pct:     { x: 30, y: 70 }
 	},
 
 	{

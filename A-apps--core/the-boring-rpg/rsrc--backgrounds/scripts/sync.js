@@ -53,7 +53,7 @@ const authors_by_dir = {}
 
 ////////////////////////////////////
 
-const LAST_KNOWN_BG_COUNT = 114 - 16
+const LAST_KNOWN_BG_COUNT = 137
 const ROOT_DIR_1 = 'src/rsrc/license-pending'
 const ROOT_DIR_2 = 'src/rsrc/licensed'
 const author_dirs = [

@@ -13,6 +13,8 @@
 
 
 ## NEXT
+- 😍 feature: 3 new backgrounds (now totalling 137!)
+
 
 ## v0.67.2
 2021/06/30
