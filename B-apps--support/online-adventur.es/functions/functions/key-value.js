@@ -61725,7 +61725,7 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 const VERSION = '0.67.3';
 const NUMERIC_VERSION = 0.6703; // for easy comparisons
 
-const BUILD_DATE = '20210924_12h16';
+const BUILD_DATE = '20211004_03h11';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
@@ -62685,6 +62685,11 @@ const POOL_SIZE_MULTIPLIER = 32
 let pool, poolOffset
 
 let nanoid_random = bytes => {
+  fillPool(bytes)
+  return pool.subarray(poolOffset - bytes, poolOffset)
+}
+
+let fillPool = bytes => {
   if (!pool || pool.length < bytes) {
     pool = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER)
     external_crypto_default.a.randomFillSync(pool)
@@ -62693,10 +62698,7 @@ let nanoid_random = bytes => {
     external_crypto_default.a.randomFillSync(pool)
     poolOffset = 0
   }
-
-  let res = pool.subarray(poolOffset, poolOffset + bytes)
   poolOffset += bytes
-  return res
 }
 
 let customRandom = (alphabet, size, getRandom) => {
@@ -62737,16 +62739,15 @@ let customRandom = (alphabet, size, getRandom) => {
 let customAlphabet = (alphabet, size) => customRandom(alphabet, size, nanoid_random)
 
 let nanoid = (size = 21) => {
-  let bytes = nanoid_random(size)
+  fillPool(size)
   let id = ''
-  // A compact alternative for `for (let i = 0; i < size; i++)`.
-  while (size--) {
+  for (let i = poolOffset - size; i < poolOffset; i++) {
     // It is incorrect to use bytes exceeding the alphabet size.
     // The following mask reduces the random byte in the 0-255 value
     // range to the 0-63 value range. Therefore, adding hacks, such
     // as empty string fallback or magic numbers, is unneccessary because
     // the bitmask trims bytes down to the alphabet size.
-    id += urlAlphabet[bytes[size] & 63]
+    id += urlAlphabet[pool[i] & 63]
   }
   return id
 }
