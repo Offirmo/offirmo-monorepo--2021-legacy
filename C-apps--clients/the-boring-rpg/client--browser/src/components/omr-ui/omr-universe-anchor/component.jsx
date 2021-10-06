@@ -8,9 +8,9 @@ const OMRUniverseAnchorView = React.memo(
 		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 OMRUniverseAnchorView')
 
 		return (
-			<div className="o⋄flex--row" onClick={onClick}>
+			<div className="o⋄flex--directionꘌrow" onClick={onClick}>
 				<span className="icomoon-user status⁚avatar--icon" />
-				<div className="status⁚avatar--details o⋄flex--column">
+				<div className="status⁚avatar--details o⋄flex--directionꘌcolumn">
 					<span>{name}</span>
 					<span className="status⁚avatar--klass">{klass} L.{level}</span>
 				</div>

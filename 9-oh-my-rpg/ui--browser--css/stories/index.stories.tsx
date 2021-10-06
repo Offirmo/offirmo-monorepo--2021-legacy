@@ -53,8 +53,8 @@ export function Default() {
 			<p>
 				<strong>emphasized text</strong>{' '}
 				Normal text{' '}
-				<span className="o⋄color⁚secondary">secondary text</span>{' '}
-				<span className="o⋄color⁚ancillary">ancillary text</span>{' '}
+				<span className="o⋄colorꘌsecondary">secondary text</span>{' '}
+				<span className="o⋄colorꘌancillary">ancillary text</span>{' '}
 				<a href=".">link</a>
 			</p>
 

@@ -44,7 +44,7 @@ th:not([scope=col]):not([scope=row])
 /************ EMPTY ************/
 
 /* Empty Elements */
-*:empty:not(img):not(hr):not(td):not(iframe):not(canvas)
+*:empty:not(canvas):not(iframe):not(img):not(input):not(hr):not(textarea):not(td)
 {
 	/* padding needed to better outline empty = usually 0-sized */
 	padding: 1.5em;
@@ -107,16 +107,18 @@ strike,
 tt,
 xmp,
 s, u /* technically valid but used to be used in a deprecated way. Most likely deprecated usage ;) */
+input[type="datetime"] /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime */
 {
 	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
 }
 
 /* Deprecated Attributes */
-*[background], *[bgcolor], *[clear], *[color], *[compact], *[noshade], *[nowrap], *[size], *[start],
-*[bottommargin], *[leftmargin], *[rightmargin], *[topmargin], *[marginheight], *[marginwidth], *[alink], *[link], *[text], *[vlink],
+*[background], *[bgcolor], *[clear], *[color], *[compact], *[noshade], *[nowrap], *[start],
+*[bottommargin], *[leftmargin], *[rightmargin], *[topmargin], *[marginheight], *[marginwidth],
+*[alink], *[link], *[vlink], *[text],
 *[align], *[valign],
 *[hspace], *[vspace],
-*[height]:not(svg), *[width]:not(svg),
+*[size], *[height]:not(svg), *[width]:not(svg),
 ul[type],
 ol[type],
 li[type]
@@ -125,10 +127,10 @@ li[type]
 }
 
 /* Proposed Deprecated Elements */
-input[type="button"] /* TODO reference */
+/* (none afaik)
 {
 	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
-}
+}*/
 
 /* Proposed Deprecated Attributes */
 /* TODO reference */
@@ -136,7 +138,7 @@ input[type="button"] /* TODO reference */
 a[target],
 table[cellpadding],
 table[cellspacing],
-*[name]
+*[name]:not(form):not(input)
 {
 	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
 }

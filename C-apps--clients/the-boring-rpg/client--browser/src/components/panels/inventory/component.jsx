@@ -14,7 +14,7 @@ const InventoryPanelViewM = React.memo(
 		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 InventoryPanelView')
 
 		return (
-			<div className="o⋄top-container tbrpg-panel tbrpg-panel--inventory o⋄flex--column">
+			<div className="o⋄top-container tbrpg-panel tbrpg-panel--inventory o⋄flex--directionꘌcolumn">
 				<div className="panel-top-content o⋄flex-element--nogrow o⋄bg-colorꘌbackdrop">
 					{rich_text_to_react(render_full_inventory(inventory, wallet))}
 				</div>

@@ -1003,6 +1003,7 @@ hard working
 competent
 
 https://collider.com/marvel-villains-ranked/
+https://en.wikipedia.org/wiki/Neapolitan_Novels
 
 https://scottbarrykaufman.com/the-anatomy-of-assholes/
 https://blogs.scientificamerican.com/beautiful-minds/the-dark-core-of-personality/

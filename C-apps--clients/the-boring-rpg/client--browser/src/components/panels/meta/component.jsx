@@ -165,7 +165,7 @@ const MetaPanelViewM = React.memo(
 		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 MetaPanelView', {statistics, navigate_to_savegame_editor})
 
 		return (
-			<div className="tbrpg-panel o⋄flex--column">
+			<div className="tbrpg-panel o⋄flex--directionꘌcolumn">
 				<hr/>
 				<NetlifyWidget />
 				<hr/>
@@ -173,7 +173,7 @@ const MetaPanelViewM = React.memo(
 					{rich_text_to_react(render_meta(statistics))}
 				</div>
 				<hr/>
-				<div className="o⋄flex-element--grow o⋄overflow-y⁚auto">
+				<div className="o⋄flex-element--grow o⋄overflow-yꘌauto">
 					<ErrorBoundary name={'chat:meta'}>
 						<Chat gen_next_step={gen_next_step(navigate_to_savegame_editor)} />
 					</ErrorBoundary>
@@ -184,4 +184,3 @@ const MetaPanelViewM = React.memo(
 )
 
 export default MetaPanelViewM
-

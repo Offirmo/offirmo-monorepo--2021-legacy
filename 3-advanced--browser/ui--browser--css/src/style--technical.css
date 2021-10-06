@@ -15,11 +15,11 @@
 
 /******* flex *******/
 
-.o⋄flex--row {
+.o⋄flex--directionꘌrow {
 	display: flex;
 	flex-direction: row;
 }
-.o⋄flex--column {
+.o⋄flex--directionꘌcolumn {
 	display: flex;
 	flex-direction: column;
 }
@@ -39,25 +39,24 @@
 }
 
 
-.o⋄padꘌ0 {
+.o⋄paddingꘌnone {
 	padding: 0;
 }
-/* TODO should we really use px? */
-.o⋄padꘌ5 {
-	padding: 5px;
+.o⋄paddingꘌsmall {
+	padding: .3em;
 }
-.o⋄padꘌ7 {
-	padding: 7px;
+.o⋄paddingꘌmedium {
+	padding: .7em;
 }
 
 
-.o⋄marginꘌ0 {
+.o⋄marginꘌnone {
 	margin: 0;
 }
 
 /******* container utils *******/
 
-.o⋄overflow-y⁚auto {
+.o⋄overflow-yꘌauto {
 	overflow-y: auto;
 }
 
@@ -68,10 +67,10 @@
 }
 */
 
-.o⋄width⁚100pc {
+.o⋄widthꘌ100pc {
 	width: 100%;
 }
-.o⋄height⁚100pc {
+.o⋄heightꘌ100pc {
 	height: 100%;
 }
 

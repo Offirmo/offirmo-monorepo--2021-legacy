@@ -16,13 +16,14 @@ Direct: http://localhost:1981/3-advanced--browser/ui--browser--css/doc/demo--bas
 
 Dynamic Color Theme With CSS Vars https://codepen.io/una/pen/VJMBbx/
 Dynamic color theming https://una.im/css-color-theming/
+https://www.smashingmagazine.com/2021/09/simplifying-form-styles-accent-color/
 
 ## notes
 
-reset db https://browserdefaultstyles.com/
+database of default styles: https://browserdefaultstyles.com/
 
 ### Other resets
-
+normalize.css
 
 ### Other design systems
 
@@ -68,7 +69,7 @@ TODO hue based https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a
 
 Good tools:
 * https://www.cssportal.com/css-color-converter/
-* https://picular.co/quality
+* the color of anything https://picular.co/quality
 
 
 /* TODO temporary class to transition themes smoothly

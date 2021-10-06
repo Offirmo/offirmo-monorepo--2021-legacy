@@ -74,12 +74,7 @@ progress.o⋄animated::-ms-fill {
 }
 
 
-/* https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/
- * https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/
- */
-.o⋄flow > * + * {
-	margin-top: 1em;
-}
+
 
 /* https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886 */
 .o⋄shadow {

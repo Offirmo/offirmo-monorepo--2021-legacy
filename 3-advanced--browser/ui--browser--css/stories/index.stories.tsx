@@ -30,9 +30,9 @@ export default {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function Default() {
+export function Intro() {
 	return (
-		<main>
+		<main className="o⋄children-spacing⁚flow">
 			<h1>{ LIB }</h1>
 			<h2>a CSS micro framework</h2>
 
@@ -47,8 +47,8 @@ export function Default() {
 			<p>
 				<strong>emphasized text</strong>{' '}
 				Normal text{' '}
-				<span className="o⋄color⁚secondary">secondary text</span>{' '}
-				<span className="o⋄color⁚ancillary">ancillary text</span>{' '}
+				<span className="o⋄colorꘌsecondary">secondary text</span>{' '}
+				<span className="o⋄colorꘌancillary">ancillary text</span>{' '}
 				<a href=".">link</a>{' '}
 			</p>
 
@@ -65,10 +65,10 @@ export function Default() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function Normalization() {
+export function ResetꓽBase() {
 	return (
 		<>
-			<div>
+			<div className="o⋄children-spacing⁚flow">
 				<h1>The five boxing wizards jump quickly</h1>
 				<h2>Sphinx of black quartz, judge my vow!</h2>
 				<h3>Pack my box with five dozen liquor jugs!</h3>
@@ -109,10 +109,197 @@ export function Normalization() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function NormalizationAdvanced() {
+export function ResetꓽControls() {
 	return (
 		<>
-			<div>
+			<form action="" className="o⋄children-spacing⁚flow">
+				<table summary="dev">
+
+					<tr>
+						<td>
+							input type = button
+						</td>
+						<td>
+							<input type="button" name="button" value="Button" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = checkbox
+						</td>
+						<td>
+							<input type="checkbox" name="checkbox" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = color
+						</td>
+						<td>
+							<input type="color" name="color" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = date
+						</td>
+						<td>
+							<input type="date" name="date" data-form-type="date" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = email
+						</td>
+						<td>
+							<input type="email" name="email" data-form-type="email" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = file
+						</td>
+						<td>
+							<input type="file" accept="image/*, text/*" name="file" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = number
+						</td>
+						<td>
+							<input type="number" name="number" data-form-type="other" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = password
+						</td>
+						<td>
+							<input type="password" name="password" data-form-type="password" value="xxx"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = radio
+						</td>
+						<td>
+							<input type="radio" name="radio" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = range
+						</td>
+						<td>
+							<input type="range" name="range" min="0" max="25" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = tel
+						</td>
+						<td>
+							<input type="tel" name="tel" data-form-type="phone" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = text
+						</td>
+						<td>
+							<input type="text" name="text" data-form-type="other" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = time
+						</td>
+						<td>
+							<input type="time" name="time" data-form-type="other" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							input type = url
+						</td>
+						<td>
+							<input type="url" name="url" data-form-type="other" />
+						</td>
+					</tr>
+				</table>
+
+
+				<fieldset>
+					<legend>Fieldset</legend>
+					<div className="form__group">
+						<input type="checkbox" id="berries_1" value="strawberries" name="berries" />
+							<label htmlFor="berries_1">Strawberries</label>
+					</div>
+					<div className="form__group">
+						<input type="checkbox" id="berries_2" value="blueberries" name="berries" />
+							<label htmlFor="berries_2">Blueberries</label>
+					</div>
+					<div className="form__group">
+						<input type="checkbox" id="berries_3" value="bananas" name="berries" />
+							<label htmlFor="berries_3">Bananas (yes, they are berries)</label>
+					</div>
+					<div className="form__group">
+						<input type="checkbox" id="berries_4" value="blackberries" name="berries" />
+							<label htmlFor="berries_4">Blackberries</label>
+					</div>
+					<div className="form__group">
+						<input type="checkbox" id="berries_5" value="loganberries" name="berries" />
+							<label htmlFor="berries_5">Loganberries</label>
+					</div>
+				</fieldset>
+
+				<label>
+					<input type="radio" name="foo" id="optionsRadios1" value="option1" />
+						Option three is disabled
+				</label>
+
+				<label>
+					<input type="radio" name="foo" id="optionsRadios2" value="option2" />
+						Option three is disabled
+				</label>
+
+				<textarea rows="3"></textarea>
+
+				<select>
+					Select
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+				</select>
+
+				<button type="submit">Submit</button>
+			</form>
+		</>
+	)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export function ResetꓽMoreRare() {
+	return (
+		<>
+			<div className="o⋄children-spacing⁚flow">
 				<h1>The five boxing wizards jump quickly</h1>
 				<h2>Sphinx of black quartz, judge my vow!</h2>
 				<h3>Pack my box with five dozen liquor jugs!</h3>
@@ -168,23 +355,23 @@ export function NormalizationAdvanced() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function Semantic() {
+export function DemoꓽSemantic() {
 	return (
-		<div className="o⋄fontꘌfast-and-good-enough o⋄flow">
+		<div className="o⋄fontꘌfast-and-good-enough o⋄children-spacing⁚flow">
 			<header>
 				<nav>
 					<ul className="o⋄nav-list">
-						<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Home</a></li>
-						<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav1</a></li>
-						<li className="o⋄text-noselect o⋄color⁚secondary"><a href=".">Nav2</a></li>
+						<li className="o⋄text-noselect o⋄colorꘌsecondary"><a href=".">Home</a></li>
+						<li className="o⋄text-noselect o⋄colorꘌsecondary"><a href=".">Nav1</a></li>
+						<li className="o⋄text-noselect o⋄colorꘌsecondary"><a href=".">Nav2</a></li>
 					</ul>
 				</nav>
 			</header>
 
-			<hr className="o⋄border-color⁚ancillary"/>
+			<hr className="o⋄border-colorꘌancillary"/>
 
-			<main>
-				<article>
+			<main className="o⋄children-spacing⁚flow">
+				<article className="o⋄children-spacing⁚flow">
 					<h1>The five boxing wizards jump quickly</h1>
 					Posted <time dateTime="2017-01-01">1y ago</time>.
 					<figure>
@@ -227,15 +414,15 @@ export function Semantic() {
 				</aside>
 			</main>
 
-			<hr className="o⋄border-color⁚ancillary"/>
+			<hr className="o⋄border-colorꘌancillary"/>
 
 			<footer>
 				bla bla copyright links
 				<nav>
 					<ul className="o⋄nav-list o⋄flex--centered-content">
-						<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./try">Try all products</a></li>
-						<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./privacy-policy">Privacy policy</a></li>
-						<li className="o⋄text-noselect o⋄color⁚secondary"><a href="./customer-agreement">Terms of service</a>
+						<li className="o⋄text-noselect o⋄colorꘌsecondary"><a href="./try">Try all products</a></li>
+						<li className="o⋄text-noselect o⋄colorꘌsecondary"><a href="./privacy-policy">Privacy policy</a></li>
+						<li className="o⋄text-noselect o⋄colorꘌsecondary"><a href="./customer-agreement">Terms of service</a>
 						</li>
 					</ul>
 				</nav>
@@ -309,35 +496,50 @@ export function Fonts() {
 	// https://en.wikipedia.org/wiki/Pangram
 	const pangram = 'The five boxing wizards jump quickly -> Sphinx of black quartz, judge my vow! Pack my box with five dozen liquor jugs…'
 
+	const FontModifiers = <>
+
+		<strong>strong</strong>&nbsp;
+		<em>emphasized</em>&nbsp;
+		Font style:
+		<ul>
+			{['100', 'lighter', 'normal', 'bold', 'bolder', '900'].map(fw => <li style={{fontWeight: fw}}>{fw}</li>)}
+		</ul>
+	</>
+
 	return (
 		<>
 			<p className="o⋄fontꘌfast-and-good-enough">
 				Featuring the "fast and good enough" font-family (.o⋄fontꘌfast-and-good-enough)
 				<br/>{ pangram }
+				<br/>{FontModifiers}
 			</p>
 			<hr/>
 
 			<p className="o⋄fontꘌsystem">
 				Featuring the "system" font-family (.o⋄fontꘌsystem)
 				<br/>{ pangram }
+				<br/>{FontModifiers}
 			</p>
 			<hr/>
 
 			<p className="o⋄fontꘌroboto">
 				Featuring the nice and precise "roboto" font-family (.o⋄fontꘌroboto)
 				<br/>{ pangram }
+				<br/>{FontModifiers}
 			</p>
 			<hr/>
 
 			<p className="o⋄fontꘌroboto-condensed">
 				Featuring the nice and precise "roboto condensed" font-family (.o⋄fontꘌroboto-condensed)
 				<br/>{ pangram }
+				<br/>{FontModifiers}
 			</p>
 			<hr/>
 
 			<p className="o⋄fontꘌroboto-mono">
 				Featuring the code wise "roboto mono" font-family (.o⋄fontꘌroboto-mono)
 				<br/>{ pangram }
+				<br/>{FontModifiers}
 			</p>
 		</>
 	)
@@ -488,7 +690,7 @@ export function Controls() {
 			</p>
 
 			Nicer scrollbars by default
-			<div className="o⋄border⁚default" style={{
+			<div className="o⋄border⁚default o⋄paddingꘌsmall" style={{
 				height: '200px',
 				overflowY: 'scroll',
 			}}>
@@ -543,11 +745,10 @@ export function Containers() {
 				This is a box
 			</div>
 
-			<div style={{
+			<div className="o⋄paddingꘌsmall" style={{
 				backgroundSize: 'cover',
 				backgroundPosition: 'center',
 				backgroundImage: `url(https://placekitten.com/1024/512)`,
-				padding: '5px',
 				margin: '5px 0',
 			}}>
 				<p className="o⋄bg-colorꘌbackdrop">
@@ -557,8 +758,8 @@ export function Containers() {
 
 			<hr />
 
-			Default border <code>o⋄border⁚default</code> + y-scroll <code>o⋄overflow-y⁚auto</code>
-			<div className="o⋄border⁚default o⋄overflow-y⁚auto" style={{height: '100px'}}>
+			Default border <code>o⋄border⁚default</code> + y-scroll <code>o⋄overflow-yꘌauto</code>
+			<div className="o⋄border⁚default o⋄overflow-yꘌauto" style={{height: '100px'}}>
 				<p>Hi</p>
 				<p>Hi</p>
 				<p>Hi</p>
@@ -573,8 +774,8 @@ export function Containers() {
 			</div>
 
 			<p>
-				img with 100% width: <code>o⋄width⁚100pc</code>
-				<img alt="cute kitten" className="o⋄width⁚100pc" src="https://placekitten.com/1024/512" />
+				img with 100% width: <code>o⋄widthꘌ100pc</code>
+				<img alt="cute kitten" className="o⋄widthꘌ100pc" src="https://placekitten.com/1024/512" />
 			</p>
 
 			<hr />
@@ -590,7 +791,7 @@ export function Containers() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export function AppDemo() {
+export function DemoꓽApp() {
 	return (
 		<div className="o⋄top-container">
 
@@ -598,7 +799,7 @@ export function AppDemo() {
 				[header]
 			</header>
 
-			<main className="o⋄overflow-y⁚auto">
+			<main className="o⋄overflow-yꘌauto">
 
 				<p>
 					Ai! laurië lantar lassi súrinen,
@@ -721,12 +922,12 @@ export function AppDemo() {
 		</div>
 	)
 }
-AppDemo.parameters = {
+DemoꓽApp.parameters = {
 	viewport: {
 		defaultViewport: default_viewport__mobile,
 	},
 }
-AppDemo.decorators = [
+DemoꓽApp.decorators = [
 	(Story) => (
 		<WithBodyFullWidth>
 			{Story()}
@@ -865,8 +1066,8 @@ export function Debug() {
 			<p>
 				<strong>emphasized text</strong> &nbsp;
 				Normal text &nbsp;
-				<span className="o⋄color⁚secondary">secondary text</span> &nbsp;
-				<span className="o⋄color⁚ancillary">ancillary text</span> &nbsp;
+				<span className="o⋄colorꘌsecondary">secondary text</span> &nbsp;
+				<span className="o⋄colorꘌancillary">ancillary text</span> &nbsp;
 				<a href=".">link</a>
 			</p>
 

@@ -66,24 +66,24 @@ Activated through classes:
   * `o⋄fontꘌroboto-condensed`
   * `o⋄fontꘌroboto-mono`
 
-  * `o⋄color⁚main`
-  * `o⋄color⁚secondary`
-  * `o⋄color⁚ancillary`
+  * `o⋄colorꘌmain`
+  * `o⋄colorꘌsecondary`
+  * `o⋄colorꘌancillary`
 
-  * `o⋄padꘌ0`
-  * `o⋄padꘌ5`
-  * `o⋄padꘌ7`
-  * `o⋄marginꘌ0`
+  * `o⋄paddingꘌnone`
+  * `o⋄paddingꘌsmall`
+  * `o⋄paddingꘌmedium`
+  * `o⋄marginꘌnone`
 
-  * `o⋄flex--row`
-  * `o⋄flex--column`
+  * `o⋄flex--directionꘌrow`
+  * `o⋄flex--directionꘌcolumn`
   * `o⋄flex--centered-content`
   * `o⋄flex-element--nogrow`
   * `o⋄flex-element--grow`
 
   * `o⋄text-alignꘌcenter`
-  * `o⋄overflow-y⁚auto`
-  * `o⋄height⁚100pc`
+  * `o⋄overflow-yꘌauto`
+  * `o⋄heightꘌ100pc`
 
   * `.o⋄border⁚default`
 

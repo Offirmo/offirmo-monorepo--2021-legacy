@@ -16,7 +16,7 @@ export const NODE_TYPE_TO_COMPONENT = {
 }
 
 export const NODE_TYPE_TO_EXTRA_CLASSES = {
-	[NodeType.weak]: [ 'o⋄color⁚secondary' ],
+	[NodeType.weak]: [ 'o⋄colorꘌsecondary' ],
 }
 
 const warn_kvp = memoize_one(() => console.warn(`${LIB} TODO KVP`))

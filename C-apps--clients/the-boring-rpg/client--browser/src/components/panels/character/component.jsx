@@ -132,13 +132,13 @@ export default class CharacterPanelView extends PureComponent {
 		const { avatar } = this.props
 
 		return (
-			<div className="tbrpg-panel tbrpg-panel--character o⋄flex--column">
+			<div className="tbrpg-panel tbrpg-panel--character o⋄flex--directionꘌcolumn">
 				{this.state.mobile_keyboard_likely_present
 					? '(temporarily hidden while you type on mobile)'
 					: <div className="panel-top-content o⋄flex-element--nogrow o⋄bg-colorꘌbackdrop">
 						{rich_text_to_react(render_character_sheet(avatar))}
 					</div>}
-				<div className="o⋄flex-element--grow o⋄overflow-y⁚auto">
+				<div className="o⋄flex-element--grow o⋄overflow-yꘌauto">
 					<ErrorBoundary name={'chat:character'}>
 						<Chat
 							gen_next_step={gen_next_step()}

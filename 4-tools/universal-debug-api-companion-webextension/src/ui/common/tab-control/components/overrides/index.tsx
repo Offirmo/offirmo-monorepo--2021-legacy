@@ -45,8 +45,8 @@ class Overrides extends Component {
 
 			return (
 				<Fragment>
-					<p className="o⋄color⁚secondary">No known overrides for this origin so far. Suggestions:</p>
-					<ol className="o⋄color⁚secondary">
+					<p className="o⋄colorꘌsecondary">No known overrides for this origin so far. Suggestions:</p>
+					<ol className="o⋄colorꘌsecondary">
 						{!should_inject_the_lib(app_state) && <li>Ensure the injection is enabled (switch above)</li>}
 						{status !== TabState.SpecSyncStatus['active-and-up-to-date'] && <li>Reload the page</li>}
 						<li>Use some in your code and reload</li>

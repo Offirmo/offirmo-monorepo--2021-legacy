@@ -71,7 +71,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 			is_inline = true
 			break
 		case 'weak':
-			classes.push('o⋄color⁚secondary')
+			classes.push('o⋄colorꘌsecondary')
 			is_inline = true
 			break
 		case 'inline_fragment':

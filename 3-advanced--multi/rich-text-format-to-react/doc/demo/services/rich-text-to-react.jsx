@@ -28,7 +28,7 @@ function on_node_exit(params, options) {
 				<React.Fragment>
 					{base}
 					<p>additional info</p>
-					<p className="o⋄color⁚ancillary">piece of lore</p>
+					<p className="o⋄colorꘌancillary">piece of lore</p>
 					<button>foo</button>
 					<button>bar</button>
 				</React.Fragment>

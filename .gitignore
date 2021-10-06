@@ -17,11 +17,12 @@ node_modules
 ## standard dist
 **/dist/src.es2019/
 **/dist/src.es2019.cjs/
+## pre-build heroku for convenience
+!B-apps--support/online-adventur.es/heroku/dist/src.es2019.cjs/
 ## non-standard dist
 4-tools/universal-debug-api-companion-webextension/dist/
 #B-apps--support/online-adventur.es/functions/functions -> NO, to make them available in staging!
-## pre-build heroku for convenience
-!B-apps--support/online-adventur.es/heroku/dist/src.es2019.cjs/
+
 ## misc
 #...
 

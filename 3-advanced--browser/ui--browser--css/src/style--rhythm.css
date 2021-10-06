@@ -1,0 +1,10 @@
+
+/* https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/
+ * https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/
+ */
+.o⋄children-spacing⁚flow {
+	--flow-space: .75em;
+}
+.o⋄children-spacing⁚flow > * + * {
+	margin: var(--flow-space) 0;
+}

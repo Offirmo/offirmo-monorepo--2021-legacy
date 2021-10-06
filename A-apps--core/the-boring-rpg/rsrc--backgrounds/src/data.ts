@@ -12,6 +12,8 @@ const AUTHORS: Readonly<Author>[] = [
 	{
 		display_name: 'Albert Weand',
 		url: 'https://www.artstation.com/aweand',
+		// https://antologiapma.gumroad.com/
+
 	},
 	{
 		display_name: 'Andreas Rocha',

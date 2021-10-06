@@ -26,7 +26,7 @@ const NotEligibleVM = React.memo(
 			<Fragment>
 				<p>This tab is not eligible.</p>
 				<p>Only normal, correctly loaded, non-local web pages can be manipulated.</p>
-				<p className="o⋄color⁚secondary">
+				<p className="o⋄colorꘌsecondary">
 					If you think this is a mistake,
 					please <a href="https://github.com/Offirmo/offirmo-monorepo/issues" target="_blank">report here</a>.
 				</p>
@@ -43,7 +43,7 @@ const NotInstalledVM = React.memo(
 				<p>Maybe you just installed the extension? Or the page failed to load?</p>
 				<p>Try to reload:</p>
 				<ReloadButton />
-				<p className="o⋄color⁚secondary">
+				<p className="o⋄colorꘌsecondary">
 					If you think this is a mistake,
 					please <a href="https://github.com/Offirmo/offirmo-monorepo/issues" target="_blank">report here</a>.
 				</p>
@@ -91,7 +91,7 @@ export default class TabControl extends Component {
 							? <NotInstalledVM/>
 							: <ControlsVM />
 				}
-				<small className="o⋄color⁚ancillary tab-debug-info">Tab #{app_state.tab.id} {origin}</small>
+				<small className="o⋄colorꘌancillary tab-debug-info">Tab #{app_state.tab.id} {origin}</small>
 			</div>
 		)
 	}

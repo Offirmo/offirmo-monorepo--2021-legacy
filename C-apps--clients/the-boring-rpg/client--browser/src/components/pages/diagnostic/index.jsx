@@ -27,7 +27,7 @@ export default class PageDiagnostic extends Component {
 	render = () => {
 		console.log('🔄 PageDiagnostic')
 		return (
-			<div className="o⋄padꘌ7">
+			<div className="o⋄paddingꘌmedium">
 				<button onClick={() => this.setState({})}>Refresh</button>
 				<h1>Diagnostic area</h1>
 				<pre>

@@ -117,8 +117,8 @@ export default class PageSavegameEditorView extends Component {
 		if (window.oᐧextra.flagꓽdebug_render) console.log('🔄 PageSavegameEditorView')
 
 		return (
-			<div className="o⋄top-container o⋄padꘌ0 page--savegame">
-				<div className="o⋄flex--row o⋄padꘌ7">
+			<div className="o⋄top-container o⋄paddingꘌnone page--savegame">
+				<div className="o⋄flex--directionꘌrow o⋄paddingꘌmedium">
 					<h2>Savegame editor</h2>
 					<button onClick={this.props.navigate_home}>Back to game</button>
 					{ /* <button onClick={this.onRefresh}>Refresh</button> */ }

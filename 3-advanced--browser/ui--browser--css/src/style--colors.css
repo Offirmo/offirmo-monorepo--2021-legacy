@@ -35,18 +35,18 @@
 	--o⋄color⁚boz__purple:   hsl(269, 83%, 77%);
 }
 
-.o⋄color⁚main {
+.o⋄colorꘌmain {
 	color: var(--o⋄color⁚fg--main);
 }
 
-.o⋄color⁚secondary {
+.o⋄colorꘌsecondary {
 	color: var(--o⋄color⁚fg--secondary);
 }
 
-.o⋄color⁚ancillary {
+.o⋄colorꘌancillary {
 	color: var(--o⋄color⁚fg--ancillary);
 }
 
-.o⋄border-color⁚ancillary {
+.o⋄border-colorꘌancillary {
 	border-color: var(--o⋄color⁚fg--ancillary);
 }

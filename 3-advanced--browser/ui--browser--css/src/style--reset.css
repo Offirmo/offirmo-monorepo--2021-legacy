@@ -2,9 +2,6 @@
 /*********************/
 
 :root {
-	--o⋄border--thickness: 1px;
-	--o⋄font-size--default: 14px;
-	--o⋄content-recommended-width: 650px; /* a suggested good max width for text content. Taken from https://bettermotherfuckingwebsite.com/ */
 }
 
 /* apply a natural box layout model to all elements, but allowing components to change
@@ -26,11 +23,10 @@ html                   { box-sizing: border-box; }
 /* https://css-tricks.com/reset-all-margins-padding/
  * https://mxstbr.com/thoughts/margin
  */
-/* TODO review
 * {
 	margin: 0;
 	padding: 0;
-}*/
+}
 
 /*********************/
 
@@ -46,10 +42,13 @@ html {
 }
 
 body {
+	padding: .7em; /* good default, cancel it explicitly if needed */
+
 	/* adapted from https://perfectmotherfuckingwebsite.com */
 	max-width: var(--o⋄content-recommended-width);
 	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
-	padding: 40px 10px; /* TODO review */
+
+	/* defaults, overrides welcome */
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color⁚fg--main);
 	background-color: var(--o⋄color⁚bg--main);
@@ -62,44 +61,54 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-	line-height: 1.6; /* 1.5 also suggested */
+	line-height: var(--o⋄line-height--default);
 	font-size: var(--o⋄font-size--default);
 }
 
 /* Note that h4~h6 are smaller than p! usage not recommended */
+
 h1, h2, h3 {
-	/* https://perfectmotherfuckingwebsite.com/ */
-	line-height: 1.2;
+	/* line-height: 1.2;/* https://perfectmotherfuckingwebsite.com/ */
 }
 h1, h2, h3, p {
-	/* because they are too big by default */
-	margin: .7em 0;
+	margin: 0; /* cancel normalize.css. Please use a flow/rhythm class instead! */
+}
+h1 {
+	font-size: calc(var(--o⋄font-size--default) * var(--o⋄header-scale-ratio));
+}
+h2 {
+	font-size: calc(var(--o⋄font-size--default) * (1 + ((var(--o⋄header-scale-ratio) - 1) * .66)));
+}
+h3 {
+	font-size: calc(var(--o⋄font-size--default) * (1 + ((var(--o⋄header-scale-ratio) - 1) * .33)));
 }
 
 
 /* nicer lists */
 ul, ol {
 	/* instead of fixed */
-	padding-inline-start: 1.3em;
+	padding-inline-start: 1.5em; /* nice and aligns with a <details> */
 }
-/* TODO review, that prevents nested lists...
-li > ul,
-li > ol {
-	xxpadding-inline-start: 0;
-	xxpadding-left: 0;
-}*/
 
 
 /* nicer collapsibles */
 details {
 	border: dashed var(--o⋄border--thickness) transparent;
-	padding-left: .8em;
+	padding-left: .4em;
+}
+details summary {
+	/* https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/ */
+	cursor: pointer;
+}
+details summary > * {
+	/* https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/ */
+	display: inline;
 }
 details[open] {
 	border-color: var(--o⋄color⁚fg--main);
 }
 details > *:nth-child(n+2) { /* assuming the 1st child is the <summary> */
-	padding-left: 1.1em;
+	padding-left: 1.05em;
 }
 
 /* nicer */
