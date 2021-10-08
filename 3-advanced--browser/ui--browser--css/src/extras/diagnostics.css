@@ -44,7 +44,7 @@ th:not([scope=col]):not([scope=row])
 /************ EMPTY ************/
 
 /* Empty Elements */
-*:empty:not(canvas):not(iframe):not(img):not(input):not(hr):not(textarea):not(td)
+*:empty:not(canvas):not(iframe):not(img):not(input):not(hr):not(textarea):not(td):not([data-dashlanecreated="true"])
 {
 	/* padding needed to better outline empty = usually 0-sized */
 	padding: 1.5em;

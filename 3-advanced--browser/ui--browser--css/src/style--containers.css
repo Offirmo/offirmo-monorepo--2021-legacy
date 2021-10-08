@@ -30,6 +30,15 @@
 	width: 100%; /* avoid lower than max if possible */
 }
 
+.o⋄input-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.o⋄input-container input[type="checkbox"], .o⋄input-container input[type="radio"] {
+	margin-right: .3em;
+}
+
 .o⋄border⁚default {
 	border: solid var(--o⋄border--thickness) var(--o⋄color⁚fg--main);
 }

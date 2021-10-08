@@ -21,7 +21,8 @@
 	--o⋄color⁚fg--secondary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .66);
 	--o⋄color⁚fg--ancillary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .33);
 
-	--o⋄color⁚fg--accent: #7AACFE;
+	--o⋄color⁚fg--accent: var(--o⋄color⁚fg--main);
+	--o⋄color⁚fg--activity-outline: #7AACFE;
 
 	--o⋄color⁚bg--main:            hsl(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l));
 	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .9);

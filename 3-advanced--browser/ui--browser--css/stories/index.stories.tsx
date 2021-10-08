@@ -120,7 +120,10 @@ export function ResetꓽControls() {
 							input type = button
 						</td>
 						<td>
-							<input type="button" name="button" value="Button" />
+							<div className="o⋄input-container">
+								click here
+								<input type="button" name="button" value="Button" />
+							</div>
 						</td>
 					</tr>
 
@@ -129,7 +132,12 @@ export function ResetꓽControls() {
 							input type = checkbox
 						</td>
 						<td>
-							<input type="checkbox" name="checkbox" />
+							<div className="o⋄input-container">
+								<input type="checkbox" name="checkbox" /> deselected
+							</div>
+							<div className="o⋄input-container">
+								<input type="checkbox" name="checkbox" checked={true}/> selected
+							</div>
 						</td>
 					</tr>
 
@@ -156,7 +164,10 @@ export function ResetꓽControls() {
 							input type = email
 						</td>
 						<td>
-							<input type="email" name="email" data-form-type="email" />
+							<div className="o⋄input-container">
+								<label>Enter your email</label>
+								<input type="email" name="email" data-form-type="email" />
+							</div>
 						</td>
 					</tr>
 
@@ -165,7 +176,10 @@ export function ResetꓽControls() {
 							input type = file
 						</td>
 						<td>
-							<input type="file" accept="image/*, text/*" name="file" />
+							<div className="o⋄input-container">
+								<label>Select a file</label>
+								<input type="file" accept="image/*, text/*" name="file" />
+							</div>
 						</td>
 					</tr>
 
@@ -244,38 +258,49 @@ export function ResetꓽControls() {
 
 
 				<fieldset>
-					<legend>Fieldset</legend>
-					<div className="form__group">
+					<legend>Fieldset checkbox</legend>
+
+					<div className="o⋄input-container">
 						<input type="checkbox" id="berries_1" value="strawberries" name="berries" />
-							<label htmlFor="berries_1">Strawberries</label>
+						<label htmlFor="berries_1">Strawberries</label>
 					</div>
-					<div className="form__group">
-						<input type="checkbox" id="berries_2" value="blueberries" name="berries" />
-							<label htmlFor="berries_2">Blueberries</label>
+					<div className="o⋄input-container">
+						<input type="checkbox" id="berries_2" value="blueberries" name="berries" checked={true}/>
+						<label htmlFor="berries_2">Blueberries</label>
 					</div>
-					<div className="form__group">
+					<div className="o⋄input-container">
 						<input type="checkbox" id="berries_3" value="bananas" name="berries" />
-							<label htmlFor="berries_3">Bananas (yes, they are berries)</label>
+						<label htmlFor="berries_3">Bananas (yes, they are berries)</label>
 					</div>
-					<div className="form__group">
-						<input type="checkbox" id="berries_4" value="blackberries" name="berries" />
-							<label htmlFor="berries_4">Blackberries</label>
+					<div className="o⋄input-container">
+						<input type="checkbox" id="berries_4" value="blackberries" name="berries" checked={true}/>
+						<label htmlFor="berries_4">Blackberries</label>
 					</div>
-					<div className="form__group">
+					<div className="o⋄input-container">
 						<input type="checkbox" id="berries_5" value="loganberries" name="berries" />
-							<label htmlFor="berries_5">Loganberries</label>
+						<label htmlFor="berries_5">Loganberries</label>
 					</div>
 				</fieldset>
 
-				<label>
-					<input type="radio" name="foo" id="optionsRadios1" value="option1" />
-						Option three is disabled
-				</label>
+				<fieldset>
+					<legend>Fieldset radio</legend>
 
-				<label>
-					<input type="radio" name="foo" id="optionsRadios2" value="option2" />
-						Option three is disabled
-				</label>
+					<div className="o⋄input-container">
+						<input type="radio" id="kraken" name="monster" />
+						<label htmlFor="kraken">Kraken</label><br/>
+					</div>
+
+					<div className="o⋄input-container">
+						<input type="radio" id="sasquatch" name="monster" checked={true}/>
+						<label htmlFor="sasquatch">Sasquatch</label><br/>
+					</div>
+
+					<div className="o⋄input-container">
+						<input type="radio" id="mothman" name="monster" />
+						<label htmlFor="mothman">Mothman</label>
+					</div>
+
+				</fieldset>
 
 				<textarea rows="3"></textarea>
 

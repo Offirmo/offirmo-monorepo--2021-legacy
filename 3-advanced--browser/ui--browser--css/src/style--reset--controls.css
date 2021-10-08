@@ -12,7 +12,7 @@
  *    a classic ring when focused on any element
  */
 body.user-is-tabbing *:focus {
-	outline: 5px auto var(--o⋄color⁚fg--accent);
+	outline: 5px auto var(--o⋄color⁚fg--activity-outline);
 }
 
 
@@ -51,7 +51,7 @@ button:hover {
 }
 button:active {
 	background-color: var(--o⋄color⁚bg--highlight--2);
-	border-color: var(--o⋄color⁚fg--accent);
+	border-color: var(--o⋄color⁚fg--activity-outline);
 }
 
 

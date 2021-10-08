@@ -52,6 +52,7 @@ body {
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color⁚fg--main);
 	background-color: var(--o⋄color⁚bg--main);
+	accent-color: var(--o⋄color⁚fg--accent); /* https://web.dev/accent-color/ https://www.smashingmagazine.com/2021/09/simplifying-form-styles-accent-color/ */
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility; /* challenge about perf: https://marco.org/2012/11/15/text-rendering-optimize-legibility
@@ -138,7 +139,7 @@ a:visited {
 }
 a:hover,
 a:active {
-	color: var(--o⋄color⁚fg--accent);
+	color: var(--o⋄color⁚fg--activity-outline);
 }
 
 

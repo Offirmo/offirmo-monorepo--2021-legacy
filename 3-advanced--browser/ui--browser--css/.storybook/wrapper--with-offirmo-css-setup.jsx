@@ -26,5 +26,5 @@ export default function WithOffirmoCssSetup({
 	const root_elt = document.getElementById('root')
 	if (root_elt) root_elt.classList.add('o⋄top-container')
 
-	return <WithAutoDarkMode light_theme_id={light_theme_id} dark_theme_id={dark_theme_id}>{children}</WithAutoDarkMode>
+	return <WithAutoDarkMode light_theme_ids={[light_theme_id]} dark_theme_ids={[dark_theme_id]}>{children}</WithAutoDarkMode>
 }

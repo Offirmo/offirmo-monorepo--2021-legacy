@@ -4,9 +4,9 @@
 
 :root {
 	--o⋄color⁚co212__beige:   hsl(42, 100%, 87%); /* #FFEBBC */
-	--o⋄color⁚co212__blue:    HSL(185, 33%, 52%); /* #5DA7AE */
-	--o⋄color⁚co212__brown:   HSL(337, 16%, 28%); /* #543D46 */
-	--o⋄color⁚co212__dark:    HSL(248,  9%, 17%); /* #292830 */
+	--o⋄color⁚co212__blue:    hsl(185, 33%, 52%); /* #5DA7AE */
+	--o⋄color⁚co212__brown:   hsl(337, 16%, 28%); /* #543D46 */
+	--o⋄color⁚co212__dark:    hsl(248,  9%, 17%); /* #292830 */
 
 	/*outline-color: var(--o⋄color⁚co212__beige);*/
 }
@@ -26,7 +26,8 @@
 	--o⋄color⁚fg--secondary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .66);
 	--o⋄color⁚fg--ancillary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .33);
 
-	--o⋄color⁚fg--accent: var(--o⋄color⁚co212__blue);
+	--o⋄color⁚fg--accent: var(--o⋄color⁚fg--main);
+	--o⋄color⁚fg--activity-outline: var(--o⋄color⁚co212__blue);
 
 	--o⋄color⁚bg--main:            hsl(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l));
 	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .9);

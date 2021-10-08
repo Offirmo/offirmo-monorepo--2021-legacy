@@ -106,7 +106,7 @@ There are also variables:
   * `--o⋄color⁚fg--main`
   * `--o⋄color⁚fg--secondary`
   * `--o⋄color⁚fg--ancillary`
-  * `--o⋄color⁚fg--accent`
+  * `--o⋄color⁚fg--activity-outline`
 * modifier colors (but better use the theme colors!)
   * `--o⋄color⁚darker--10`
   * `--o⋄color⁚darker--20`

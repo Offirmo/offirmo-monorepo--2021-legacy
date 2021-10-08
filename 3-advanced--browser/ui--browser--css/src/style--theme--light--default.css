@@ -21,7 +21,8 @@
 	--o⋄color⁚fg--secondary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .66); /* ex. date an article was published */
 	--o⋄color⁚fg--ancillary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .33); /* ex. copyright notice in a footer */
 
-	--o⋄color⁚fg--accent: #7AACFE; /* accent on tab, seldom used */
+	--o⋄color⁚fg--accent: var(--o⋄color⁚fg--main);
+	--o⋄color⁚fg--activity-outline: #7AACFE; /* accent on tab, seldom used */
 
 	--o⋄color⁚bg--main:            hsl(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l));
 	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .9); /* for modals, tooltips etc. tried and tested, 0.9 is the best, see stories */
