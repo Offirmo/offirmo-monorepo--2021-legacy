@@ -15,6 +15,7 @@ body.user-is-tabbing *:focus {
 	outline: 5px auto var(--o⋄color⁚fg--activity-outline);
 }
 
+/* TODO style more controls http://filamentgroup.github.io/select-css/demo/ */
 
 
 /************ buttons ************

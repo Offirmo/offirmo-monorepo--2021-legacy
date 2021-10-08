@@ -32,11 +32,11 @@ function style_fn_bgcolor(base, { isDisabled, isSelected }) {
 		backgroundColor: isDisabled
 			? 'var(--o⋄color⁚bg--main)'
 			: isSelected
-				? 'var(--o⋄color⁚fg--accent)'
+				? 'var(--o⋄color⁚fg--activity-outline)'
 				: 'var(--o⋄color⁚bg--main)',
 		':hover': {
 			...base[':hover'],
-			backgroundColor: 'var(--o⋄color⁚fg--accent)',
+			backgroundColor: 'var(--o⋄color⁚fg--activity-outline)',
 		},
 		//cursor: isDisabled ? 'not-allowed' : 'default',
 	}
