@@ -141,7 +141,7 @@ const callbacks: Partial<WalkerCallbacks<State, Options>> = {
 }
 
 function to_html($doc: Node, options: Options = DEFAULT_OPTIONS): string {
-	return '<div class="o⋄rich-text">\n	' + walk<State, Options>($doc, callbacks, options).str + '\n</div>\n'
+	return '<div class="o⋄rich-text o⋄children-spacing⁚flow">\n	' + walk<State, Options>($doc, callbacks, options).str + '\n</div>\n'
 }
 
 export { callbacks, to_html }

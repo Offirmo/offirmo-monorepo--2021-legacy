@@ -363,6 +363,23 @@ export function ResetꓽMoreRare() {
 					</li>
 				</ol>
 
+				<ul className="o⋄children-spacing⁚flow">
+					<li className="o⋄children-spacing⁚flow">Foo</li>
+					<li className="o⋄children-spacing⁚flow">Bar</li>
+					<li className="o⋄children-spacing⁚flow">Deeper:
+						<ul className="o⋄children-spacing⁚flow">
+							<li className="o⋄children-spacing⁚flow">Deep Foo</li>
+							<li className="o⋄children-spacing⁚flow">Deep Bar</li>
+							<li className="o⋄children-spacing⁚flow">Deeper:
+								<ul className="o⋄children-spacing⁚flow">
+									<li>Deep Deep Foo</li>
+									<li>Deep Deep Bar</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
 				<details>
 					<summary>Details: expand me...</summary>
 					<p>Hello, world!
@@ -372,6 +389,21 @@ export function ResetꓽMoreRare() {
 						</details>
 					</p>
 				</details>
+
+				<p>p#1</p>
+				<p>p#2</p>
+				<hr />
+				<p>p#3</p>
+
+				<div>
+					(div with no flow)
+					<p>p#1 in a div</p>
+					<p>p#2 in a div</p>
+					<hr />
+					<p>p#3 in a div</p>
+				</div>
+
+				<hr />
 
 			</div>
 		</>

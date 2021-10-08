@@ -61725,7 +61725,7 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 const VERSION = '0.67.3';
 const NUMERIC_VERSION = 0.6703; // for easy comparisons
 
-const BUILD_DATE = '20211004_03h11';
+const BUILD_DATE = '20211008_10h30';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';

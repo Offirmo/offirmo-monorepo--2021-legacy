@@ -87,7 +87,7 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 		//console.groupEnd()
 	}
 
-	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []))
+	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []), 'o⋄children-spacing⁚flow')
 
 	if (is_list($node)) {
 		result.classes.push('o⋄rich-text⋄list')
@@ -229,7 +229,7 @@ export function to_react(doc, callback_overrides = {}, options = {}) {
 
 	return React.createElement('div', {
 		key: options.key || 'rich-text-format-to-react--root',
-		className: 'o⋄rich-text',
+		className: 'o⋄rich-text o⋄children-spacing⁚flow',
 	}, content)
 }
 

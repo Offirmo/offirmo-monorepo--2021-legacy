@@ -16,21 +16,23 @@
  */
 .o⋄rich-text ol,
 .o⋄rich-text ul {
-	padding-inline-start: 1.4em;
+	padding-inline-start: 1.5em;
 }
-.o⋄rich-text li > ul,
+/*.o⋄rich-text li > ul,
 .o⋄rich-text li > ol {
 	padding-inline-start: 0;
 	padding-left: 0;
-}
+}*/
 
 ol.o⋄rich-text⋄list--no-bullet,
 ul.o⋄rich-text⋄list--no-bullet {
 	list-style-type: none;
+	/* still keep some padding start */
 }
 ol.o⋄rich-text⋄list--interactive,
 ul.o⋄rich-text⋄list--interactive {
 	list-style-type: none;
+	padding-inline-start: 0;
 }
 
 button.o⋄rich-text⋄interactive {
