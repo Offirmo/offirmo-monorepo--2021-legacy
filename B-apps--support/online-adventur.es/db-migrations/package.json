@@ -24,7 +24,6 @@
 		"new": "knex migrate:make TODO -x ts"
 	},
 	"devDependencies": {
-		"@types/node": "^14",
 		"npm-run-all": "^4"
 	}
 }

@@ -43,7 +43,6 @@
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^7",
 		"@offirmo/universal-debug-api-node": "^0",
-		"@types/node": "^14",
 		"npm-run-all": "^4",
 		"typescript": "^4"
 	}
