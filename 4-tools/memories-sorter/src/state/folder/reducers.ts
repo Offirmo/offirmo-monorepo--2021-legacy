@@ -7,7 +7,7 @@ import { get_params, Params } from '../../params'
 import { pathㆍparse_memoized } from '../../services/name_parser'
 import logger from '../../services/logger'
 import * as BetterDateLib from '../../services/better-date'
-import { get_debug_representation } from '../../services/better-date'
+import { DateRange, get_debug_representation } from '../../services/better-date'
 import { is_year } from '../../services/matchers'
 import * as File from '../file'
 
@@ -214,10 +214,10 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	return state
 }
 
-// used to init the event range.
-// is automatically called by on_subfile_primary_infos_gathered()
-// but exposed for unit tests + in case of empty dirs.
-// TODO call it for empty dirs?
+// used to consolidate some infos after discovering the FS.
+// - It is automatically called by on_subfile_primary_infos_gathered()
+// - it is exposed for unit tests + in case of empty dirs (TODO review + call it for empty dirs?)
+// - hence it should support being called multiple times
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
 	assert(is_data_gathering_pass_1_done(state), `on_fs_exploration_done() pass 1 should be done!`)
 	assert(!has_data_gathering_pass_2_started(state), `on_fs_exploration_done() pass 2 should NOT have started!`)

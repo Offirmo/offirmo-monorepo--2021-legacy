@@ -13,6 +13,9 @@ export interface NeighborHints {
 	bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: FsReliability
 	//expected_bcd_range: undefined | DateRange // can be either an event (begin + X) or a backup (begin - X) depending on the hints
 	//fallback_junk_bcd: undefined | BetterDate
+
+	// if present (for unit tests), this prop will override any estimation of FS reliability
+	_unit_test_shortcut?: FsReliability
 }
 
 /* An alternate version that'll be stored in the notes.
