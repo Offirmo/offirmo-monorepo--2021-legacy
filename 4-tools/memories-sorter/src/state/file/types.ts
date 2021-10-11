@@ -81,5 +81,6 @@ export interface State {
 	current_neighbor_hints: undefined | NeighborHints
 
 	are_notes_restored: boolean // needed to check if restoration happened
+	restored_notes_were_null: undefined | boolean // TODO is it useful?
 	notes: PersistedNotes
 }

@@ -45,10 +45,10 @@ describe(`${LIB} - file (state)`, function() {
 				const parent_relpath = splitted.join('/')
 
 				const stategen = get_test_single_file_state_generator()
-				stategen.inputs.basename__current = basename
-				stategen.inputs.parent_relpath__current = parent_relpath ?? stategen.inputs.parent_relpath__current
-				stategen.inputs.date__fs_ms__current = get_timestamp_utc_ms_from(time)
-				stategen.inputs.date__exif = _get_exif_datetime(time)
+				stategen.inputs.basenameⵧcurrent = basename
+				stategen.inputs.parent_pathⵧcurrent‿relative = parent_relpath ?? stategen.inputs.parent_pathⵧcurrent‿relative
+				stategen.inputs.dateⵧfsⵧcurrent‿tms = get_timestamp_utc_ms_from(time)
+				stategen.inputs.dateⵧexif = _get_exif_datetime(time)
 				stategen.inputs.notes = 'auto'
 				stategen.inputs.autoǃdate__fs_ms__historical = get_timestamp_utc_ms_from(EARLIER_CREATION_DATE)
 

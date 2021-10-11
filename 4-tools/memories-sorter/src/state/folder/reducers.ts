@@ -222,8 +222,19 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 	assert(is_data_gathering_pass_1_done(state), `on_fs_exploration_done() pass 1 should be done!`)
 	assert(!has_data_gathering_pass_2_started(state), `on_fs_exploration_done() pass 2 should NOT have started!`)
 
-	if (state.event_range)
-		return state // duplicate call, ignore
+	const { children_count } = state
+	if (children_count === 0) {
+		state = {
+			...state,
+			children_bcd_ranges: {
+				...state.children_bcd_ranges,
+				from_fsⵧcurrent: null,
+				from_primaryⵧcurrentⵧphase_1: null,
+				from_primaryⵧfinal: null,
+			},
+		}
+	}
+
 
 	throw new Error('NIMP on_fs_exploration_done!')
 	/*xxx

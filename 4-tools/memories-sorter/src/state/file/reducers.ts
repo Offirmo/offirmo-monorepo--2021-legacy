@@ -61,13 +61,14 @@ export function create(id: FileId): Immutable<State> {
 		current_neighbor_hints: undefined,
 
 		are_notes_restored: false,
+		restored_notes_were_null: undefined,
 		notes: {
 			historical: {
 				basename: parsed_path.base,
 				parent_path: parsed_path.dir,
 
 				fs_bcd_tms: get_UTC_timestamp_ms(), // so far
-				neighbor_hints: NeighborHintsLib.get_historical_representation(NeighborHintsLib.create()),
+				neighbor_hints: NeighborHintsLib.get_historical_representation(NeighborHintsLib.create(), 0),
 
 				exif_orientation: undefined,
 				trailing_extra_bytes_cleaned: undefined,
@@ -188,8 +189,6 @@ export function on_info_read__current_neighbors_primary_hints(
 	assert(!state.current_neighbor_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)
 	assert(!state.are_notes_restored, `on_info_read__current_neighbors_primary_hints() should be called BEFORE notes restoration ${state.id}`)
 
-	const our_current_fs_bcd_assessed_reliability: FsReliability = _get_current_fs_reliability_according_to_own_and_env(state, PARAMS, neighbor_hints)
-
 	state = {
 		...state,
 		current_neighbor_hints: neighbor_hints,
@@ -197,7 +196,7 @@ export function on_info_read__current_neighbors_primary_hints(
 			...state.notes,
 			historical: {
 				...state.notes.historical,
-				neighbor_hints: NeighborHintsLib.get_historical_representation(neighbor_hints),
+				neighbor_hints: NeighborHintsLib.get_historical_representation(neighbor_hints, get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)),
 			},
 		},
 	}
@@ -214,7 +213,7 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 		// seen in very rare cases
 		// - manual copy/paste for test where a media and a non-media file have the same hash
 		// - strange case = collision???
-		console.error('PENDING ERROR BELOW', state)
+		console.error('??? PENDING ERROR BELOW', state)
 	}
 	assert(!state.are_notes_restored, `on_notes_recovered() should not be called several times`)
 
@@ -232,6 +231,7 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 	state = {
 		...state,
 		are_notes_restored: true,
+		restored_notes_were_null: recovered_notes === null,
 		notes: {
 			...state.notes,
 			...recovered_notes,

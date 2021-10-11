@@ -1,7 +1,7 @@
 export * from './types'
 export * from './selectors'
 
-import { NeighborHints } from './types'
+import { FsReliability, NeighborHints } from './types'
 
 export function create(): NeighborHints {
 	// safest possible
@@ -10,6 +10,8 @@ export function create(): NeighborHints {
 	}
 }
 
-export function _createⵧfor_ut(): NeighborHints {
-	return create() // so far
+export function _createⵧfor_ut(reliability_shortcut?: FsReliability): NeighborHints {
+	let state = create() // so far
+	state._unit_test_shortcut = reliability_shortcut
+	return state
 }

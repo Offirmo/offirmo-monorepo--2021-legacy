@@ -50,29 +50,47 @@ export function to_string(state: undefined | Immutable<NeighborHints>): any {
 	if (!state)
 		return undefined
 
-	if (Object.keys(state).length !== 1)
-		throw new Error('NIMP to_string!')
+	let result = '[hints:'
 
-	const { bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1 } = state
-	return {
+	const {
 		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
+		_unit_test_shortcut,
+	} = state
+
+	if (_unit_test_shortcut) {
+		result += 'force:' + _unit_test_shortcut
+	}
+	else {
+		if (Object.keys(state).length !== 1)
+			throw new Error('NIMP to_string!')
 	}
 
-	/*return {
-		'TODO': 'rework',
-		//parent_folder_bcd: get_better_date_debug_representation(neighbor_hints.parent_folder_bcd),
-		//fs_bcd_assessed_reliability: state.fs_bcd_assessed_reliability,
-	}*/
+	result += ']'
+
+	return result
 }
 
 ///////////////////// historical /////////////////////
 
-export function get_historical_representation(state: Immutable<NeighborHints>): HistoricalNeighborHints {
-	if (Object.keys(state).length !== 1)
-		throw new Error('NIMP get_historical_representation!')
+export function get_historical_representation(state: Immutable<NeighborHints>, fs_bcd‿tms: TimestampUTCMs): HistoricalNeighborHints {
+	const { _unit_test_shortcut, bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1, ...unhandled } = state
+
+	if (_unit_test_shortcut) {
+		return {
+			fs_reliability: _unit_test_shortcut,
+		}
+	}
+
+	if (Object.keys(unhandled).length > 0)
+		throw new Error('get_historical_representation() needs update!')
+
+	if (bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1 !== 'unknown') {
+		console.log(state, fs_bcd‿tms)
+		throw new Error('NIMP get_historical_representation()')
+	}
 
 	return {
-		fs_reliability: state.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
+		fs_reliability: 'unknown',
 	}
 }
 

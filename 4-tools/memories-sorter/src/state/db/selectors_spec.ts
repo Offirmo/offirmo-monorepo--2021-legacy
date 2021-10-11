@@ -99,13 +99,13 @@ describe(`${LIB} - DB (root) state`, function() {
 			const stategen = get_test_single_file_DB_state_generator()
 			beforeEach(() => {
 				stategen.reset()
-				stategen.inputs.file.date__fs_ms__current = CREATION_DATE_MS
+				stategen.inputs.file.dateⵧfsⵧcurrent‿tms = CREATION_DATE_MS
 			})
 
 			describe('copy markers handling', function() {
 
 				it('should remove copy markers', () => {
-					stategen.inputs.file.basename__current = 'bar - copie 3.xyz'
+					stategen.inputs.file.basenameⵧcurrent = 'bar - copie 3.xyz'
 
 					let state = stategen.create_state()
 					const file_id = stategen.get_file_id()
@@ -191,12 +191,12 @@ describe(`${LIB} - DB (root) state`, function() {
 				// TODO how to simulate junk?
 				context.skip('when confident in the date up to JUNK', function() {
 					beforeEach(() => {
-						stategen.inputs.file.basename__current = 'foo.png' // png = without EXIF = not confident
+						stategen.inputs.file.basenameⵧcurrent = 'foo.png' // png = without EXIF = not confident
 					})
 
 					context('when already well placed -- in cantsort', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
 						})
 
 						it('should stay stable', () => {
@@ -216,7 +216,7 @@ describe(`${LIB} - DB (root) state`, function() {
 					context('when already well placed -- in an event folder', function () {
 						beforeEach(() => {
 							//stategen.inputs.extra_parent = '2017'
-							stategen.inputs.file.parent_relpath__current = '2017/20171020 - something'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '2017/20171020 - something'
 						})
 
 						it('should stay stable', () => {
@@ -236,14 +236,14 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when NOT already well placed -- in a special folder', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = '- inbox'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '- inbox'
 						})
 
 						it('should swap the special folder to "cantsort" while preserving the base and path', () => {
 							let state = stategen.create_state()
 							const file_id = stategen.get_file_id()
 
-							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basename__current) // THIS TEST
+							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basenameⵧcurrent) // THIS TEST
 							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence, 'pr2').to.equal('secondary') // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
@@ -288,15 +288,15 @@ describe(`${LIB} - DB (root) state`, function() {
 
 				context('when confident in the date up to SECONDARY', function() {
 					beforeEach(() => {
-						stategen.inputs.file.date__exif = null
-						stategen.inputs.file.basename__current = 'foo.png' // png = without EXIF = not confident
+						stategen.inputs.file.dateⵧexif = null
+						stategen.inputs.file.basenameⵧcurrent = 'foo.png' // png = without EXIF = not confident
 					})
 
 					context('when already well placed -- in an event folder (manually sorted) REDUNDANT', function () {
 						beforeEach(() => {
 							// TODO review deletion of this UT
-							stategen.inputs.file.parent_relpath__current = '2016/20161119 - something'
-							stategen.inputs.file.date__fs_ms__current = 1234 // to downgrade confidence
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '2016/20161119 - something'
+							stategen.inputs.file.dateⵧfsⵧcurrent‿tms = 1234 // to downgrade confidence
 						})
 
 						it('should stay stable', () => {
@@ -318,7 +318,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when NOT already well placed -- in cantsort', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
 						})
 
 						it('should move to an event folder', () => {
@@ -338,7 +338,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when NOT already well placed -- in a special folder', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = '- inbox'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '- inbox'
 						})
 
 						it('should move to an event folder', () => {
@@ -346,7 +346,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							const file_id = stategen.get_file_id()
 
 							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
-							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basename__current) // THIS TEST
+							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basenameⵧcurrent) // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 								'2016',
@@ -359,7 +359,7 @@ describe(`${LIB} - DB (root) state`, function() {
 					context('when NOT already well placed -- in an OTHER event folder than the bcd (manually sorted)', function () {
 						beforeEach(() => {
 							//stategen.inputs.extra_parent = '2017'
-							stategen.inputs.file.parent_relpath__current = '2017/20171020 - something'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '2017/20171020 - something'
 						})
 
 						it('should stay stable', () => {
@@ -379,7 +379,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when NOT already well placed -- in a random other folder', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = 'hello'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = 'hello'
 						})
 
 						it('should move to an event folder', () => {
@@ -387,7 +387,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							const file_id = stategen.get_file_id()
 
 							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
-							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basename__current) // THIS TEST
+							expect(File.get_ideal_basename(state.files[file_id]), 'pr1').to.equal(stategen.inputs.file.basenameⵧcurrent) // THIS TEST
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
 								'2016',
@@ -402,14 +402,14 @@ describe(`${LIB} - DB (root) state`, function() {
 				context('when confident in the date up to PRIMARY', function() {
 					const EXPECTED_IDEAL_BASENAME = 'MM2016-11-20_12h12m00s012_hi.jpg'
 					beforeEach(() => {
-						stategen.inputs.file.basename__current = 'hi.jpg' // jpg = confidence will come from EXIF
-						stategen.inputs.file.date__exif = _get_exif_datetime(CREATION_DATE)
+						stategen.inputs.file.basenameⵧcurrent = 'hi.jpg' // jpg = confidence will come from EXIF
+						stategen.inputs.file.dateⵧexif = _get_exif_datetime(CREATION_DATE)
 					})
 
 					context('when already well placed -- normalized', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = '2016/20161119 - nice weekend'
-							stategen.inputs.file.basename__current = EXPECTED_IDEAL_BASENAME
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '2016/20161119 - nice weekend'
+							stategen.inputs.file.basenameⵧcurrent = EXPECTED_IDEAL_BASENAME
 						})
 
 						it('should stay stable', () => {
@@ -430,7 +430,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when already well placed -- not normalized', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = '2016/20161119 - nice weekend'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '2016/20161119 - nice weekend'
 						})
 
 						it('should stay stable except for the basename', () => {
@@ -438,13 +438,13 @@ describe(`${LIB} - DB (root) state`, function() {
 							let file_id = stategen.get_file_id()
 
 							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('primary') // THIS TEST
-							expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(stategen.inputs.file.basename__current) // THIS TEST
+							expect(File.get_ideal_basename(state.files[file_id])).not.to.equal(stategen.inputs.file.basenameⵧcurrent) // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal(EXPECTED_IDEAL_BASENAME) // THIS TEST
 
 							state = normalize_files_in_place(state)
 							const expected_next_id = path.join(
 								//stategen.inputs.extra_parent!,
-								stategen.inputs.file.parent_relpath__current,
+								stategen.inputs.file.parent_pathⵧcurrent‿relative,
 								EXPECTED_IDEAL_BASENAME,
 							)
 							state = on_file_moved(state, file_id, expected_next_id)
@@ -506,8 +506,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when NOT already well placed -- WRONGLY normalized', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = '2017/20171020 - unrelated event'
-							stategen.inputs.file.basename__current = 'MM2017-10-20_05h01m44s625_hi.jpg'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '2017/20171020 - unrelated event'
+							stategen.inputs.file.basenameⵧcurrent = 'MM2017-10-20_05h01m44s625_hi.jpg'
 						})
 
 						it('should be moved to the correct location and renormalized', () => {
@@ -536,7 +536,7 @@ describe(`${LIB} - DB (root) state`, function() {
 
 					context('when NOT already well placed -- not normalized', function () {
 						beforeEach(() => {
-							stategen.inputs.file.parent_relpath__current = '2017/20171020 - unrelated event'
+							stategen.inputs.file.parent_pathⵧcurrent‿relative = '2017/20171020 - unrelated event'
 						})
 
 						it('should be moved to the correct location and normalized', () => {
