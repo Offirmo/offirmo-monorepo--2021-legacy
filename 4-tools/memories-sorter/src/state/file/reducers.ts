@@ -201,6 +201,8 @@ export function on_info_read__current_neighbors_primary_hints(
 		},
 	}
 
+	//console.log('on_info_read__current_neighbors_primary_hints', neighbor_hints, state.notes.historical.neighbor_hints)
+
 	return state
 }
 

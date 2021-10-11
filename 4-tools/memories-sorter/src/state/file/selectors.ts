@@ -470,7 +470,7 @@ export type DateConfidence =
 interface BestDate {
 	candidate: BetterDate
 	source: `${'exif' | 'basename_np' | 'fs' | 'basename_p' | 'parent'}ⵧ${'current' | 'oldest'}${'' | '+fs' | `+neighbor${'✔' | '?' | '✖'}`}`
-	sourceV1:
+	sourceV1: // TODO remove
 	// primary
 		| 'manual'
 
@@ -612,7 +612,6 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 	}
 
 	// FS is ok as PRIMARY if confirmed by some primary hints
-	// TODO rework!
 	const fs__reliabilityⵧaccording_to_env = NeighborHintsLib.get_historical_fs_reliability(state.notes.historical.neighbor_hints, bcd__from_fs__oldest_known‿tms)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying FS as primary (if reliable)…', {
 		bcd__from_fs__oldest_known: get_debug_representation(bcd__from_fs__oldest_known),
