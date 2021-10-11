@@ -5718,7 +5718,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.13.2';
+var SDK_VERSION = '6.13.3';
 //# sourceMappingURL=version.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(8);
@@ -12719,7 +12719,7 @@ function traceHeaders() {
  */
 function sample(transaction, options, samplingContext) {
     // nothing to do if tracing is not enabled
-    if (!Object(_utils__WEBPACK_IMPORTED_MODULE_8__[/* hasTracingEnabled */ "c"])()) {
+    if (!Object(_utils__WEBPACK_IMPORTED_MODULE_8__[/* hasTracingEnabled */ "c"])(options)) {
         transaction.sampled = false;
         return transaction;
     }
@@ -13703,7 +13703,7 @@ var Transaction = /** @class */ (function (_super) {
      */
     Transaction.prototype.finish = function (endTimestamp) {
         var _this = this;
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         // This transaction is already finished, so we should not flush it again.
         if (this.endTimestamp !== undefined) {
             return undefined;
@@ -13717,8 +13717,8 @@ var Transaction = /** @class */ (function (_super) {
         if (this.sampled !== true) {
             // At this point if `sampled !== true` we want to discard the transaction.
             _sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* logger */ "a"].log('[Tracing] Discarding transaction because its trace was not chosen to be sampled.');
-            (_c = (_a = this._hub
-                .getClient()) === null || _a === void 0 ? void 0 : (_b = _a.getTransport()).recordLostEvent) === null || _c === void 0 ? void 0 : _c.call(_b, _sentry_types__WEBPACK_IMPORTED_MODULE_2__[/* Outcome */ "a"].SampleRate, 'transaction');
+            (_e = (_c = (_a = this._hub
+                .getClient()) === null || _a === void 0 ? void 0 : (_b = _a).getTransport) === null || _c === void 0 ? void 0 : (_d = _c.call(_b)).recordLostEvent) === null || _e === void 0 ? void 0 : _e.call(_d, _sentry_types__WEBPACK_IMPORTED_MODULE_2__[/* Outcome */ "a"].SampleRate, 'transaction');
             return undefined;
         }
         var finishedSpans = this.spanRecorder ? this.spanRecorder.spans.filter(function (s) { return s !== _this && s.endTimestamp; }) : [];

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.5.1 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.6.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -8,15 +8,16 @@
 		<meta http-equiv="Content-Language" content="en">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-		<!-- OT⋄CUSTOM BEGIN meta description -->
+		<!-- OT⋄CUSTOM BEGIN meta & open graph description -->
+		<title>The Boring RPG</title>
 		<meta name="description" content="(Browser game) The simplest RPG ever!">
 		<meta name="keywords" content="game, incremental, fantasy, rpg">
 		<meta name="author" content="Offirmo">
+		<meta property="og:title" content="The Boring RPG, a browser game">
+		<meta property="og:url" content="https://www.online-adventur.es/apps/the-boring-rpg/">
+		<meta property="og:image" content="https://www.online-adventur.es/apps/the-boring-rpg/for-open-graph.jpg">
 		<meta name="monetization" content="$ilp.uphold.com/26PeD6EzMhYJ">
-		<!-- OT⋄CUSTOM END meta description -->
-
-		<!-- TODO make it OK for sharing on social medias! -->
-		<title>Loading…</title>
+		<!-- OT⋄CUSTOM END meta & open graph description -->
 
 		<!-- OT⋄CUSTOM BEGIN favicons -->
 		<!-- https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df -->
@@ -66,7 +67,7 @@ window.ga.l = window.ga.l ?? +new Date*/
 }*/</script>
 		<!-- OT⋄CUSTOM END head miscs -->
 		<style>:root {
-				--bg: black;
+				--bg: black; /* pure black to look good on smartphones */
 				--fg: hsl(0, 0%, 98%);
 				--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
 			}
@@ -109,11 +110,19 @@ window.ga.l = window.ga.l ?? +new Date*/
 				position: absolute;
 				width: 100%;
 				background-color: var(--bg);
+
+				/* prep for optional background image */
+				background-size: cover;
+				background-position: center; /* default */
 			}
 			#loader > div {
 				margin: auto;
+				margin-bottom: 5%;
 				text-align: center;
 				font-size: x-large;
+				background-color: rgba(0, 0, 0, .5);
+				padding: 1em;
+				border-radius: .3em;
 			}
 
 			/* OT⋄CUSTOM BEGIN early styles */
@@ -226,6 +235,7 @@ let state = {
     // flat for easy merging
     bg_color: 'black',
     fg_color: 'hsl(0, 0%, 98%)',
+    bg_picture: null,
     // TODO font, bg picture etc.
     app_queryparams: [// TODO explain???
     user_settings.app_queryparams, user_settings.app_url && new URLSearchParams(user_settings.app_url.split('?')[1]).toString(), new URLSearchParams(location.search).toString()].filter(s => !!s).join('&'),
@@ -307,16 +317,18 @@ if (window[PROP]) {
       expected_rsrc_count,
       bg_color,
       fg_color,
-      ...others
+      bg_picture,
+      ...unrecognized
     } = {}) {
-      if (Object.keys(others).length > 0) logger.error(`[IL] configure_loader() unknown params:`, others);
+      if (Object.keys(unrecognized).length > 0) logger.error(`[IL] configure_loader() unrecognized params:`, unrecognized);
 
       try {
         localStorage.setItem(LS_KEY_CACHED_CONFIG, JSON.stringify({
           legend,
           expected_rsrc_count,
           bg_color,
-          fg_color
+          fg_color,
+          bg_picture
         }));
       } catch {}
 
@@ -324,11 +336,13 @@ if (window[PROP]) {
       expected_rsrc_count = expected_rsrc_count || state.settings.expected_rsrc_count;
       bg_color = bg_color || state.settings.bg_color;
       fg_color = fg_color || state.settings.fg_color;
+      bg_picture = bg_picture || state.settings.bg_picture;
       state = update_settings(state, {
         legend,
         expected_rsrc_count,
         bg_color,
-        fg_color
+        fg_color,
+        bg_picture
       });
       render(state, 'configure');
     },
@@ -444,6 +458,14 @@ function render(state, caller) {
 
   document.documentElement.style.setProperty('--fg', state.settings.fg_color);
   document.documentElement.style.setProperty('--bg', state.settings.bg_color);
+
+  if (state.settings.bg_picture) {
+    const [url, positionX = '50%', positionY = '50%'] = state.settings.bg_picture;
+    elt_loader.style.backgroundImage = url;
+    elt_loader.style.backgroundPositionX = positionX;
+    elt_loader.style.backgroundPositionY = positionY;
+  }
+
   let sub_frame_title = null;
 
   try {
@@ -487,7 +509,7 @@ window.addEventListener('message', ({
   source
 }) => {
   if (!data[PROP]) return;
-  logger.log(`[IL] 📥 PM ["${prop}"] received`, data[PROP]);
+  logger.log(`[IL] 📥 PM ["${PROP}"] received`, data[PROP]);
   const {
     method,
     args

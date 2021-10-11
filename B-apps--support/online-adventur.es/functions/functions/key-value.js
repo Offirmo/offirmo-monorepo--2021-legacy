@@ -3410,7 +3410,7 @@ function traceHeaders() {
  */
 function sample(transaction, options, samplingContext) {
     // nothing to do if tracing is not enabled
-    if (!Object(_utils__WEBPACK_IMPORTED_MODULE_8__[/* hasTracingEnabled */ "c"])()) {
+    if (!Object(_utils__WEBPACK_IMPORTED_MODULE_8__[/* hasTracingEnabled */ "c"])(options)) {
         transaction.sampled = false;
         return transaction;
     }
@@ -5072,7 +5072,7 @@ var Transaction = /** @class */ (function (_super) {
      */
     Transaction.prototype.finish = function (endTimestamp) {
         var _this = this;
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         // This transaction is already finished, so we should not flush it again.
         if (this.endTimestamp !== undefined) {
             return undefined;
@@ -5086,8 +5086,8 @@ var Transaction = /** @class */ (function (_super) {
         if (this.sampled !== true) {
             // At this point if `sampled !== true` we want to discard the transaction.
             _sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* logger */ "a"].log('[Tracing] Discarding transaction because its trace was not chosen to be sampled.');
-            (_c = (_a = this._hub
-                .getClient()) === null || _a === void 0 ? void 0 : (_b = _a.getTransport()).recordLostEvent) === null || _c === void 0 ? void 0 : _c.call(_b, _sentry_types__WEBPACK_IMPORTED_MODULE_2__[/* Outcome */ "a"].SampleRate, 'transaction');
+            (_e = (_c = (_a = this._hub
+                .getClient()) === null || _a === void 0 ? void 0 : (_b = _a).getTransport) === null || _c === void 0 ? void 0 : (_d = _c.call(_b)).recordLostEvent) === null || _e === void 0 ? void 0 : _e.call(_d, _sentry_types__WEBPACK_IMPORTED_MODULE_2__[/* Outcome */ "a"].SampleRate, 'transaction');
             return undefined;
         }
         var finishedSpans = this.spanRecorder ? this.spanRecorder.spans.filter(function (s) { return s !== _this && s.endTimestamp; }) : [];
@@ -26245,7 +26245,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.13.2';
+var SDK_VERSION = '6.13.3';
 //# sourceMappingURL=version.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(8);
@@ -61722,10 +61722,10 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/build.js
 // THIS FILE IS AUTO GENERATED!
-const VERSION = '0.67.3';
-const NUMERIC_VERSION = 0.6703; // for easy comparisons
+const VERSION = '0.68.1';
+const NUMERIC_VERSION = 0.6801; // for easy comparisons
 
-const BUILD_DATE = '20211008_10h30';
+const BUILD_DATE = '20211011_05h17';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
@@ -62664,31 +62664,15 @@ var external_crypto_ = __webpack_require__(124);
 var external_crypto_default = /*#__PURE__*/__webpack_require__.n(external_crypto_);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/nanoid/url-alphabet/index.js
-// This alphabet uses `A-Za-z0-9_-` symbols. The genetic algorithm helped
-// optimize the gzip compression for this alphabet.
 let urlAlphabet =
   'ModuleSymbhasOwnPr-0123456789ABCDEFGHNRVfgctiUvz_KqYTJkLxpZXIjQW'
-
 
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/nanoid/index.js
 
 
-
-
-// It is best to make fewer, larger requests to the crypto module to
-// avoid system call overhead. So, random numbers are generated in a
-// pool. The pool is a Buffer that is larger than the initial random
-// request size by this multiplier. The pool is enlarged if subsequent
-// requests exceed the maximum buffer size.
-const POOL_SIZE_MULTIPLIER = 32
+const POOL_SIZE_MULTIPLIER = 128
 let pool, poolOffset
-
-let nanoid_random = bytes => {
-  fillPool(bytes)
-  return pool.subarray(poolOffset - bytes, poolOffset)
-}
-
 let fillPool = bytes => {
   if (!pool || pool.length < bytes) {
     pool = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER)
@@ -62700,58 +62684,34 @@ let fillPool = bytes => {
   }
   poolOffset += bytes
 }
-
+let nanoid_random = bytes => {
+  fillPool(bytes)
+  return pool.subarray(poolOffset - bytes, poolOffset)
+}
 let customRandom = (alphabet, size, getRandom) => {
-  // First, a bitmask is necessary to generate the ID. The bitmask makes bytes
-  // values closer to the alphabet size. The bitmask calculates the closest
-  // `2^31 - 1` number, which exceeds the alphabet size.
-  // For example, the bitmask for the alphabet size 30 is 31 (00011111).
   let mask = (2 << (31 - Math.clz32((alphabet.length - 1) | 1))) - 1
-  // Though, the bitmask solution is not perfect since the bytes exceeding
-  // the alphabet size are refused. Therefore, to reliably generate the ID,
-  // the random bytes redundancy has to be satisfied.
-
-  // Note: every hardware random generator call is performance expensive,
-  // because the system call for entropy collection takes a lot of time.
-  // So, to avoid additional system calls, extra bytes are requested in advance.
-
-  // Next, a step determines how many random bytes to generate.
-  // The number of random bytes gets decided upon the ID size, mask,
-  // alphabet size, and magic number 1.6 (using 1.6 peaks at performance
-  // according to benchmarks).
   let step = Math.ceil((1.6 * mask * size) / alphabet.length)
-
   return () => {
     let id = ''
     while (true) {
       let bytes = getRandom(step)
-      // A compact alternative for `for (let i = 0; i < step; i++)`.
       let i = step
       while (i--) {
-        // Adding `|| ''` refuses a random byte that exceeds the alphabet size.
         id += alphabet[bytes[i] & mask] || ''
         if (id.length === size) return id
       }
     }
   }
 }
-
 let customAlphabet = (alphabet, size) => customRandom(alphabet, size, nanoid_random)
-
 let nanoid = (size = 21) => {
   fillPool(size)
   let id = ''
   for (let i = poolOffset - size; i < poolOffset; i++) {
-    // It is incorrect to use bytes exceeding the alphabet size.
-    // The following mask reduces the random byte in the 0-255 value
-    // range to the 0-63 value range. Therefore, adding hacks, such
-    // as empty string fallback or magic numbers, is unneccessary because
-    // the bitmask trims bytes down to the alphabet size.
     id += urlAlphabet[pool[i] & 63]
   }
   return id
 }
-
 
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/uuid/dist/src.es2019/generate.js
