@@ -7,24 +7,4 @@
 @import './style--themes.css';
 @import './style--fonts.css';
 @import './style--rich-text.css';
-
-/*
-@import './style--fonts-effects.css';
-@import './style--backgrounds.css';
-@import './style--colors.css';
-@import './style--containers.css';
-@import './style--cursors.css';
-@import './style--icomoon.css';
-@import './style--ui.css';
-*/
-/*
-.o⋄top-container {
-	border-width: 1px;
-}
-*/
-
-/*
-.test .masked-element image {
-	mask: url(#mask1);
-}
-*/
+@import './style--misc.css';

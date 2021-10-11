@@ -136,7 +136,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Adventurers',
 		css_class:        'tbrpg⋄bg-image⁚albert_weand-adventurers',
 		keywords:         [ '' ],
-		position_pct:     { x: 36, y: 99 },
+		position_pct:     { x: 38, y: 99 },
 		position_pct_alt: { x: 87, y: 1 },
 	},
 

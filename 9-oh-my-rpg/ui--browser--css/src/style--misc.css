@@ -1,0 +1,9 @@
+
+.omr⋄full-size-fixed-layer {
+	display: block;
+	position: fixed;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}

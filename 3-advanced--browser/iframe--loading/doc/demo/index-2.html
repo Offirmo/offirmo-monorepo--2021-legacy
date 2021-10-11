@@ -15,7 +15,7 @@
 	<!-- thank you https://realfavicongenerator.net/ -->
 	<meta name="theme-color" content="#543d46">
 
-	<link rel="stylesheet" href="../../../../A-apps--core/the-boring-rpg/ui--browser/src/style.css">
+	<link rel="stylesheet" href="../../../../9-oh-my-rpg/ui--browser--css/src/style.css">
 
 	<script>
 		/*console.log(`[I2] hello`, {
@@ -24,7 +24,7 @@
 		window.onload = () => console.log('[I2] GlobalEventHandlers.onload')*/
 	</script>
 
-	<style type="text/css">
+	<style>
 		html {
 			--o⋄color⁚co212__brown:  #543D46;
 			--o⋄color⁚co212__beige:  #FFEBBC;
@@ -33,20 +33,21 @@
 			background-color: var(--o⋄color⁚co212__brown);
 			color: var(--o⋄color⁚co212__beige);
 			font-family: var(--o⋄font-family--fast_and_good_enough);
+			background-image: url(./adventurers_1920x1080_progressive.jpg);
 		}
 	</style>
 </head>
 
-<body class="o⋄top-container o⋄body⁚full-viewport omr⋄font⁚pixantiqua omr⋄cursorꘌsword--standard" data-o-theme="dark--colorhunt212">
+<body class="o⋄top-container o⋄paddingꘌnone o⋄body⁚full-viewport omr⋄font⁚pixantiqua omr⋄cursorꘌsword--standard" data-o-theme="dark--colorhunt212">
 
 <div id="root" class="o⋄top-container">
 
-	<div class="omr⋄full-size-fixed-layer omr⋄bg-image⁚tiled-marble_black">
+	<div class="omr⋄full-size-fixed-layer">
 		<div class="omr⋄full-size-fixed-layer o⋄bg⁚cover" style="background-image: url(./albert-weand-pueblo.jpg);">
 		</div>
 	</div>
 
-	<div class="omr⋄full-size-fixed-layer">
+	<div class="omr⋄full-size-fixed-layer o⋄paddingꘌmedium">
 		Some content...
 		<button onclick="console.log('clicked', Date.now())">click me!</button>
 	</div>

@@ -35,7 +35,11 @@ init_SEC()
 get_loader().configure({
 	bg_color: 'rgb(84, 61, 70)',
 	fg_color: 'rgb(255, 235, 188)',
-	legend: 'The Boring RPG, reborn'
+	legend: 'The Boring RPG, reborn',
+	bg_picture: [
+		window.getComputedStyle(document.querySelector('html')).backgroundImage,
+		'38%', '99%',
+	],
 })
 
 setTextEncoder(TextEncoder)

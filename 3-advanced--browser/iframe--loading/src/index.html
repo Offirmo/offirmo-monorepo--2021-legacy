@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.5.0 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.6.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -8,16 +8,14 @@
 		<meta http-equiv="Content-Language" content="en" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-		<!-- OT⋄CUSTOM BEGIN meta description -->
+		<!-- OT⋄CUSTOM BEGIN meta & open graph description -->
 		<!--
+		<title>Loading…</title>
 		<meta name="description" content="blah blah">
 		<meta name="keywords" content="HTML, CSS, JavaScript">
 		<meta name="author" content="John Smith">
 		-->
-		<!-- OT⋄CUSTOM END meta description -->
-
-		<!-- TODO make it OK for sharing on social medias! -->
-		<title>Loading…</title>
+		<!-- OT⋄CUSTOM END meta & open graph description -->
 
 		<!-- OT⋄CUSTOM BEGIN favicons -->
 		<!-- See:
@@ -34,10 +32,9 @@
 		<!-- OT⋄CUSTOM END favicons -->
 
 		<!-- OT⋄CUSTOM head miscs -->
-
-		<style type="text/css">
+		<style>
 			:root {
-				--bg: black;
+				--bg: black; /* pure black to look good on smartphones */
 				--fg: hsl(0, 0%, 98%);
 				--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
 			}
@@ -80,11 +77,19 @@
 				position: absolute;
 				width: 100%;
 				background-color: var(--bg);
+
+				/* prep for optional background image */
+				background-size: cover;
+				background-position: center; /* default */
 			}
 			#loader > div {
 				margin: auto;
+				margin-bottom: 5%;
 				text-align: center;
 				font-size: x-large;
+				background-color: rgba(0, 0, 0, .5);
+				padding: 1em;
+				border-radius: .3em;
 			}
 
 			/* OT⋄CUSTOM early styles */
@@ -179,6 +184,7 @@
 				// flat for easy merging
 				bg_color: 'black',
 				fg_color: 'hsl(0, 0%, 98%)',
+				bg_picture: null,
 				// TODO font, bg picture etc.
 				app_queryparams: [
 					// TODO explain???
@@ -271,15 +277,16 @@
 		} else {
 			// TODO useful? always postmessage?
 			window[PROP] = {
-				configure({legend, expected_rsrc_count, bg_color, fg_color, ...others} = {}) {
-					if (Object.keys(others).length > 0) logger.error(`[IL] configure_loader() unknown params:`, others)
+				configure({legend, expected_rsrc_count, bg_color, fg_color, bg_picture, ...unrecognized} = {}) {
+					if (Object.keys(unrecognized).length > 0) logger.error(`[IL] configure_loader() unrecognized params:`, unrecognized)
 
 					try {
 						localStorage.setItem(LS_KEY_CACHED_CONFIG, JSON.stringify({
 							legend,
 							expected_rsrc_count,
 							bg_color,
-							fg_color
+							fg_color,
+							bg_picture,
 						}))
 					} catch {}
 
@@ -287,12 +294,14 @@
 					expected_rsrc_count = expected_rsrc_count || state.settings.expected_rsrc_count
 					bg_color = bg_color || state.settings.bg_color
 					fg_color = fg_color || state.settings.fg_color
+					bg_picture = bg_picture || state.settings.bg_picture
 
 					state = update_settings(state, {
 						legend,
 						expected_rsrc_count,
 						bg_color,
 						fg_color,
+						bg_picture,
 					})
 					render(state, 'configure')
 				},
@@ -410,6 +419,13 @@
 				state.settings.bg_color
 			)
 
+			if (state.settings.bg_picture) {
+				const [ url, positionX = '50%', positionY = '50%' ] = state.settings.bg_picture
+				elt_loader.style.backgroundImage = url
+				elt_loader.style.backgroundPositionX = positionX
+				elt_loader.style.backgroundPositionY = positionY
+			}
+
 			let sub_frame_title = null
 			try { sub_frame_title = sub_frame_window.document.title } catch {}
 			window.document.title = sub_frame_title || state.settings.legend || ''
@@ -451,7 +467,7 @@
 		window.addEventListener('message', ({data, origin, source}) => {
 			if (!data[PROP]) return
 
-			logger.log(`[IL] 📥 PM ["${prop}"] received`, data[PROP])
+			logger.log(`[IL] 📥 PM ["${PROP}"] received`, data[PROP])
 			const { method, args } = data[PROP]
 			window[PROP][method](...args)
 		}, false)
