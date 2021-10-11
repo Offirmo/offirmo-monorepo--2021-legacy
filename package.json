@@ -9,7 +9,7 @@
 
 	"heroku-run-build-script": false,
 	"engines": {
-		"node": "14.x"
+		"node": "16.x"
 	},
 
 	"scripts": {
@@ -189,7 +189,7 @@
 		"@types/luxon": "^1",
 		"@types/mocha": "^9",
 		"@types/netlify-identity-widget": "^1",
-		"@types/node": "^14",
+		"@types/node": "^16",
 		"@types/prettyjson": "^0.0.30",
 		"@types/prop-types": "^15",
 		"@types/react": "^17",
