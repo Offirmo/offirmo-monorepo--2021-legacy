@@ -61722,10 +61722,10 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/build.js
 // THIS FILE IS AUTO GENERATED!
-const VERSION = '0.68.1';
-const NUMERIC_VERSION = 0.6801; // for easy comparisons
+const VERSION = '0.68.2';
+const NUMERIC_VERSION = 0.6802; // for easy comparisons
 
-const BUILD_DATE = '20211011_05h17';
+const BUILD_DATE = '20211011_16h06';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
