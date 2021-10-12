@@ -17,10 +17,12 @@
 		## https://docs.netlify.com/configure-builds/manage-dependencies/#yarn
 		## won't use the latest, such a pain (seen 2020/11)
 		## can't use semver, such a pain
-		YARN_VERSION = "1.22.10"
+		## [](update marker)
+		YARN_VERSION = "1.22.15"
 		## https://www.netlify.com/docs/functions/#javascript-runtime-settings
 		## https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
 		## NOTE: this doesn't seem to take effect. Unsure about which runtime is selected
+		## [](update marker)
 		#AWS_LAMBDA_JS_RUNTIME = "nodejs12.x"
 
 

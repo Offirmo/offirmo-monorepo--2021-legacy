@@ -52,10 +52,12 @@ heroku config --app online-adventures-staging
 heroku addons --app online-adventures-staging
 ```
 
-Node version (need a recent deploy!)
+Node version (need a recent deploy!) [](update marker)
+- 2021/10/12 seen 16.11.0
 - 2021/08/03 seen 14.17.4
 - 2021/06/25 seen 14.17.1
 - 2021/03/30 seen 14.16
 - 2021/01/04 seen 14.15.4
 - 2020/11/02 seen 14.15
 - 2020/09/06 seen 12.18.3 = latest 12.x
+Adjust it into [.babelrc](update marker) !

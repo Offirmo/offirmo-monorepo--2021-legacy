@@ -21,9 +21,14 @@ doc:
   * [netlify-lambda](https://github.com/netlify/netlify-lambda)
 * https://www.netlify.com/docs/functions/
   * Selecting the JS runtime: https://www.netlify.com/docs/functions/#javascript-runtime-settings
-    * see the root netlify.toml
+    * mirroring AWS lambda runtimes https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
+    * see the root netlify.toml (no netlify.toml on online-adventur.es)
     * see Netlify UI build variables
-  * Versions seen (real-time from /echo)
+    * Adjust it into [.babelrc](update marker)
+    * Adjust it into [.nvmrc](update marker)
+  * Versions seen (real-time from /echo) [](update marker)
+    * 2021/10/12 seen 14.17.4 (14x required)
+    * 2021/10/12 seen 12.22.4 (12.x manually required due to pg issue)
     * 2020/11/2 seen 12.18.4 (12.x manually required due to pg issue)
     * 2020/09/22 seen 12.18.3
     * 2020/08 seen 12.18.2
