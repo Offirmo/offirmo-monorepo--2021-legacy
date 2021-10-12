@@ -1,5 +1,6 @@
 import tiny_singleton from '@offirmo/tiny-singleton'
 import { knex } from 'knex'
+//import { parse } from 'pg-connection-string'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
 import logger from './utils/logger'

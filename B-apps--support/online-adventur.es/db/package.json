@@ -27,6 +27,7 @@
 		"knex": "^0.95",
 		"memoize-one": "^5",
 		"pg": "^8",
+		"pg-connection-string": "^2",
 		"tiny-invariant": "^1"
 	},
 

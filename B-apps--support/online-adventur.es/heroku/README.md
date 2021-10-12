@@ -14,11 +14,13 @@ heroku apps
 heroku buildpacks:add --app online-adventures-staging heroku/nodejs
 heroku buildpacks:add --app online-adventures-staging https://github.com/heroku/heroku-buildpack-multi-procfile
 heroku config:set     --app online-adventures-staging PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
+heroku config:set     --app online-adventures-staging PGSSLMODE=no-verify ## https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-node-js
 
 ## PROD
 ## no buildpack heroku/nodejs for PROD (reason?)
 heroku buildpacks:add --app online-adventures-prod https://github.com/heroku/heroku-buildpack-multi-procfile
 heroku config:set     --app online-adventures-prod PROCFILE=B-apps--support/online-adventur.es/heroku/Procfile
+heroku config:set     --app online-adventures-prod PGSSLMODE=no-verify ## https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-node-js
 ```
 
 ### PostGres
