@@ -1008,3 +1008,5 @@ https://en.wikipedia.org/wiki/Neapolitan_Novels
 https://scottbarrykaufman.com/the-anatomy-of-assholes/
 https://blogs.scientificamerican.com/beautiful-minds/the-dark-core-of-personality/
 http://www.darkfactor.org/
+
+https://embrace-yourself-embrace-the-world.com/2018/08/26/what-is-the-iceberg-theory/

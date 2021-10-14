@@ -503,7 +503,7 @@ interface BestDate {
 // Note that oldest known !== original
 // (ideally this func should NOT rely on anything else than TRULY ORIGINAL data)
 export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
-	logger.trace(`get_best_creation_date_meta__from_oldest_known_data()`, { id: state.id })
+	logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta()`, { id: state.id })
 
 	assert(
 		has_all_infos_for_extracting_the_creation_date(state, {
@@ -573,7 +573,7 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 			}
 		}
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -607,7 +607,7 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -624,7 +624,7 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 		result.confidence = 'primary'
 		result.is_fs_matching = true
 
-		logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -650,7 +650,7 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 		// normalized is already super precise, no need to refine with FS
 		// TODO see if we can migrate by detecting algo improvement?
 
-		logger.trace(`get_best_creation_date_meta__from_oldest_known_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -696,17 +696,15 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 	assert(result.confidence === 'junk')
 	result.is_fs_matching = true // obviously
 
-	logger.trace(`get_best_creation_date_meta__from_historical_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+	logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() defaulted to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 	return result
 }
-
-// TODO on a first encounter, __from_historical_data and __from_current_data should return the same!!!
 
 // used on 1st stage consolidation => it should be able to work without hints and notes
 // info may be overriden by notes later
 // useful for files we encounter for the first time
 export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
-	logger.trace(`_get_best_creation_date_meta__from_current_data()`, { id: state.id })
+	logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta()`, { id: state.id })
 
 	assert(
 		has_all_infos_for_extracting_the_creation_date(state, {
@@ -773,7 +771,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 			}
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -807,7 +805,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 			// FS is notoriously unreliable, don't care when compared to this better source
 		}
 
-		logger.trace(`_get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -829,7 +827,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 			result.confidence = 'primary'
 			result.is_fs_matching = true
 
-			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+			logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 			return result
 		}
 	}
@@ -843,7 +841,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 	// we trust our past self which may have had more info at the time
 	// however we don't entirely trust (ex. old algorithm with bugs), so the confidence is downgraded to secondary
 	const date__from_basename_p__current = _get_creation_dateⵧfrom_basename_pⵧcurrent(state)
-	logger.trace('get_best_creation_date‿meta() trying current basename date if already processed…', { has_candidate: !!date__from_basename_p__current })
+	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying current basename date if already processed…', { has_candidate: !!date__from_basename_p__current })
 	if (date__from_basename_p__current) {
 		result.candidate = date__from_basename_p__current
 		result.sourceV1 = 'some_basename_p'
@@ -853,7 +851,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 
 		// normalized is already super precise, no need to refine with FS
 
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+		logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
 	}
 
@@ -877,7 +875,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 			result.confidence = 'secondary'
 			result.is_fs_matching = true
 
-			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
+			logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 			return result
 		}
 
@@ -893,7 +891,7 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 			result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
 			assert(!result.is_fs_matching, `get_best_creation_date_meta__from_current_data() if FS matches why wasn't it taken as source??`)
 
-			logger.trace(`get_best_creation_date_meta__from_current_data() resolved to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
+			logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
 			return result
 		}
 	}
@@ -904,13 +902,14 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 	assert(result.sourceV1 === 'current_fs')
 	assert(result.confidence === 'junk')
 
+	logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() defaulted to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
 	return result
 }
 
 // Best creation date overall
 // mixes the best info from historical and current + takes into account "manual"
 export const get_best_creation_date‿meta = micro_memoize(function get_best_creation_date_meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
-	logger.trace(`get_best_creation_date_meta()`, { id: state.id })
+	logger.trace(`get_best_creation_date‿meta()`, { id: state.id })
 
 	assert(
 		has_all_infos_for_extracting_the_creation_date(state, {
@@ -946,19 +945,19 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 	logger.trace('get_best_creation_date‿meta() trying historical data…')
 	const meta__from_oldest_known = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state, PARAMS)
 	if (meta__from_oldest_known.confidence === 'primary') {
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_oldest_known.candidate)} from ${result.source} of oldest data result ✔ (primary)`)
+		logger.trace(`get_best_creation_date‿meta() resolved to ${get_debug_representation(meta__from_oldest_known.candidate)} from ${result.source} of oldest data result ✔ (primary)`)
 		return meta__from_oldest_known
 	}
 
 	// strongest source after "manual"
 	// BUT redundant with "oldest known"
 	const bcd__from_exif = _get_creation_dateⵧfrom_exif(state)
-	assert(!bcd__from_exif, `get_best_creation_date_meta() EXIF should have already been covered by "oldest known"`)
+	assert(!bcd__from_exif, `get_best_creation_date‿meta() EXIF should have already been covered by "oldest known"`)
 
 	logger.trace('get_best_creation_date‿meta() trying current data…')
 	const meta__from_current = get_best_creation_dateⵧfrom_current_data‿meta(state, PARAMS)
 	if (meta__from_current.confidence === 'primary') {
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_current.candidate)} from ${result.source} of current data result ✔ (primary)`)
+		logger.trace(`get_best_creation_date‿meta() resolved to ${get_debug_representation(meta__from_current.candidate)} from ${result.source} of current data result ✔ (primary)`)
 		return meta__from_current
 	}
 
@@ -971,19 +970,19 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 	// for secondary source, it's the "current" which has priority
 
 	if (meta__from_current.confidence === 'secondary') {
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_current.candidate)} from ${result.source} of current data result ✔ (secondary)`)
+		logger.trace(`get_best_creation_date‿meta() resolved to ${get_debug_representation(meta__from_current.candidate)} from ${result.source} of current data result ✔ (secondary)`)
 		return meta__from_current
 	}
 
 	if (meta__from_oldest_known.confidence === 'secondary') {
-		logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_oldest_known.candidate)} from ${result.source} of oldest data result ✔ (secondary)`)
+		logger.trace(`get_best_creation_date‿meta() resolved to ${get_debug_representation(meta__from_oldest_known.candidate)} from ${result.source} of oldest data result ✔ (secondary)`)
 		return meta__from_oldest_known
 	}
 
 	/////// JUNK SOURCE ///////
 
 	// at this level, historical is still better
-	logger.trace(`get_best_creation_date_meta() resolved to ${get_debug_representation(meta__from_oldest_known.candidate)} from ${result.source} of oldest data result ✔ (junk)`)
+	logger.trace(`get_best_creation_date‿meta() defaulted to ${get_debug_representation(meta__from_oldest_known.candidate)} from ${result.source} of oldest data result ✔ (junk)`)
 	return meta__from_oldest_known
 }, {
 	maxSize: 10, // we need 1 or millions. The >1 is for having less noise during unit tests across a few files

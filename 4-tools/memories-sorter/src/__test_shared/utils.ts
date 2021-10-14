@@ -158,14 +158,21 @@ function _get_auto_exif_data(inputs: typeof DEFAULT_FILE_INPUTS): EXIFTags {
 	return exif_data
 }
 
-export function get_test_single_file_state_generator() {
+export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 	const inputs = {
 		...DEFAULT_FILE_INPUTS,
+		...stategen_to_copy?.inputs,
 	}
 
 	function reset() {
+		const expected_keys = Object.keys(DEFAULT_FILE_INPUTS)
+		//console.log(expected_keys)
+		Object.keys(inputs).forEach(k => {
+			if (!expected_keys.includes(k))
+				throw new Error(`Incorrect key "${k}" stategen input!`)
+		})
 		Object.keys(DEFAULT_FILE_INPUTS).forEach(k => {
-			;(inputs as any)[k] = (DEFAULT_FILE_INPUTS as any)[k]
+			inputs[k] = (DEFAULT_FILE_INPUTS as any)[k]
 		})
 	}
 
@@ -188,9 +195,11 @@ export function get_test_single_file_state_generator() {
 			)
 		)
 
-		let notes: null | Immutable<PersistedNotes> = inputs.notes === 'auto'
+		let notes: null | Immutable<PersistedNotes> = JSON.parse(JSON.stringify(
+			inputs.notes === 'auto'
 			? _get_auto_notes(inputs)
 			: inputs.notes
+		))
 		state = FileLib.on_notes_recovered(state, notes)
 
 		return state

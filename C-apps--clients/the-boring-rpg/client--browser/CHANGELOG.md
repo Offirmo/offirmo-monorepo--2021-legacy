@@ -13,8 +13,14 @@
 
 
 ## NEXT
-- 😍 feature: 3 new backgrounds (now totalling 137!)
 
+## v0.68.1
+2021/10/11
+- 😍 feature: 3 new backgrounds (now totalling 137!)
+- 🤩 feature: the licensed new background picture is now used in the loader and as an open-graph picture
+- 😍 feature: open graph, the link is now shareable in some social medias
+- 😷 chore: some internal refactors (CSS)
+- 😷 chore: dependencies bump
 
 ## v0.67.2
 2021/06/30

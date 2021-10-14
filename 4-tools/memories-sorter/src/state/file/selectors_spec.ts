@@ -1,7 +1,9 @@
 import { expect } from 'chai'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { LIB } from '../../consts'
 import {
+	State,
 	create,
 	get_best_creation_date‿meta,
 	get_best_creation_dateⵧfrom_current_data‿meta,
@@ -12,7 +14,7 @@ import {
 	on_info_read__exif,
 	on_info_read__fs_stats,
 	on_info_read__hash,
-	on_notes_recovered,
+	on_notes_recovered, FsReliability, PersistedNotes,
 } from '.'
 import {
 	create_better_date,
@@ -30,6 +32,7 @@ import {
 import * as NeighborHintsLib from './sub/neighbor-hints'
 
 import './__test_shared'
+import { Basename } from '../../types'
 
 /////////////////////
 
@@ -38,10 +41,70 @@ describe.only(`${LIB} - file (state)`, function() {
 	describe('selectors', function() {
 
 		describe('get_best_creation_date()', function() {
-			const stategen = get_test_single_file_state_generator()
+			let stategen = get_test_single_file_state_generator()
 			beforeEach(() => stategen.reset())
+			beforeEach(() => console.log('-------'))
 
-			context.only('when encountering the file for the 1st time == NOT having notes incl. historical data', function() {
+			context('when encountering the file for the 1st time == NOT having notes incl. historical data', function() {
+
+				function expect_second_encounter_to_be_stable(mode: 're-encounter--same' | 're-encounter--after_loss', first_encounter_stategen: ReturnType<typeof get_test_single_file_state_generator> = stategen) {
+					const first_encounter_final_state = first_encounter_stategen.create_state()
+					const bcdm_1st_encounter = get_best_creation_date‿meta(first_encounter_final_state)
+					const notes_from_first_encounter = JSON.parse(JSON.stringify(first_encounter_final_state.notes))
+
+					switch (mode) {
+						case 're-encounter--same': {
+							// re-encountering in-place, no change
+							console.log('--- R.E. #1')
+							const stategen = get_test_single_file_state_generator(first_encounter_stategen)
+							stategen.inputs.notes = notes_from_first_encounter
+							const state = stategen.create_state()
+
+							const bcdmⵧoldest = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
+							expect(bcdmⵧoldest.source, 'O same source as 1st encounter (1)')
+								.to.equal(bcdm_1st_encounter.source.replaceAll('current', 'oldest'))
+
+							const bcdmⵧcurrent = get_best_creation_dateⵧfrom_current_data‿meta(state)
+							expect(bcdmⵧcurrent.source, 'C same source as 1st encounter (1)')
+								.to.equal(bcdm_1st_encounter.source.replaceAll('oldest', 'current'))
+
+							const bcdm = get_best_creation_date‿meta(state)
+							expect(bcdm.source, 'same source as 1st encounter (1)')
+								.to.equal(bcdm_1st_encounter.source)
+
+							break
+						}
+
+						case 're-encounter--after_loss': {
+							// re-encountering when everything has changed
+							console.log('--- R.E. #2')
+							const stategen = get_test_single_file_state_generator()
+							stategen.inputs.parent_pathⵧcurrent‿relative = 'lost'
+							stategen.inputs.basenameⵧcurrent = 'lost.jpeg'
+							stategen.inputs.dateⵧfsⵧcurrent‿tms = BAD_CREATION_DATE_CANDIDATE‿TMS
+							stategen.inputs.dateⵧexif = first_encounter_stategen.inputs.dateⵧexif
+							stategen.inputs.hashⵧcurrent = 'lost'
+							stategen.inputs.neighbor_hints__fs_reliability_shortcut = 'unreliable'
+							stategen.inputs.notes = notes_from_first_encounter
+							const state = stategen.create_state()
+
+							const bcdmⵧoldest = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
+							expect(bcdmⵧoldest.source, 'O same source as 1st encounter (2)')
+								.to.equal(bcdm_1st_encounter.source.replaceAll('current', 'oldest'))
+
+							// no need to compare current, voided by lost data
+
+							const bcdm = get_best_creation_date‿meta(state)
+							expect(bcdm.source, 'same source as 1st encounter (2)')
+								.to.equal(bcdm_1st_encounter.source)
+
+							break
+						}
+
+						default:
+							throw new Error('NIMP TEST!')
+					}
+				}
 
 				// not possible since 1st encounter!
 				//describe('when having a manual date'
@@ -190,7 +253,7 @@ describe.only(`${LIB} - file (state)`, function() {
 								//stategen.inputs.dateⵧfsⵧcurrent‿tms = BAD_CREATION_DATE_CANDIDATE‿TMS
 							})
 
-							context('when having a date from a P basename', function() {
+							context.only('when having a date from a P basename', function() {
 
 								beforeEach(() => {
 									stategen.inputs.basenameⵧcurrent = 'MM2015-11-21_09h08m07s654_foo.jpg'
@@ -222,6 +285,23 @@ describe.only(`${LIB} - file (state)`, function() {
 
 									// final as integration
 									expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2015-11-21_09h08m07s654_foo.jpg') // no change
+								})
+
+								context('when encountering the file for the second time', function () {
+
+									context('as exactly the same', function() {
+
+										it('should come up with the same BCD', () => {
+											expect_second_encounter_to_be_stable('re-encounter--same')
+										})
+									})
+
+									context('with a lot of information lost', function () {
+
+										it('should come up with the same BCD', () => {
+											expect_second_encounter_to_be_stable('re-encounter--after_loss')
+										})
+									})
 								})
 							})
 
