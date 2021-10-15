@@ -358,7 +358,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 		const consolidated_neighbor_hints = Folder.get_neighbor_primary_hints(folder_state)
 		logger.info(`Folder "${folder_state.id}" neighbor hints have been consolidated`, consolidated_neighbor_hints)
 
-		const reliability = File.NeighborHintsLib.get_fs_reliability(consolidated_neighbor_hints)
+		const reliability = File.NeighborHintsLib.get_neighbors_fs_reliability(consolidated_neighbor_hints)
 		const log_func = (reliability === 'unreliable')
 			? logger.error
 			: (reliability === 'unknown')

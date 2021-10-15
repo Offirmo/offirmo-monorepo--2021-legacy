@@ -7,6 +7,8 @@ export function create(): NeighborHints {
 	// safest possible
 	return {
 		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: 'unknown',
+		expected_bcd_ranges: [],
+		fallback_junk_bcd: undefined,
 	}
 }
 

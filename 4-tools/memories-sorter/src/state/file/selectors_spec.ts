@@ -4,6 +4,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { LIB } from '../../consts'
 import {
 	State,
+	BestCreationDate,
 	create,
 	get_best_creation_date‿meta,
 	get_best_creation_dateⵧfrom_current_data‿meta,
@@ -47,7 +48,11 @@ describe.only(`${LIB} - file (state)`, function() {
 
 			context('when encountering the file for the 1st time == NOT having notes incl. historical data', function() {
 
-				function expect_second_encounter_to_be_stable(mode: 're-encounter--same' | 're-encounter--after_loss', first_encounter_stategen: ReturnType<typeof get_test_single_file_state_generator> = stategen) {
+				function expect_second_encounter_to_be_stable(
+					mode: 're-encounter--same' | 're-encounter--after_loss',
+					//expected_bcd_source?: undefined | BestCreationDate['source'],
+					first_encounter_stategen: ReturnType<typeof get_test_single_file_state_generator> = stategen
+				) {
 					const first_encounter_final_state = first_encounter_stategen.create_state()
 					const bcdm_1st_encounter = get_best_creation_date‿meta(first_encounter_final_state)
 					const notes_from_first_encounter = JSON.parse(JSON.stringify(first_encounter_final_state.notes))
@@ -96,7 +101,7 @@ describe.only(`${LIB} - file (state)`, function() {
 
 							const bcdm = get_best_creation_date‿meta(state)
 							expect(bcdm.source, 'same source as 1st encounter (2)')
-								.to.equal(bcdm_1st_encounter.source)
+								.to.equal(bcdm_1st_encounter.source.replaceAll('current', 'oldest')) // since data loss, source should come from oldest
 
 							break
 						}
@@ -157,6 +162,7 @@ describe.only(`${LIB} - file (state)`, function() {
 				})
 
 				context('when NOT having any EXIF date', function() {
+
 					beforeEach(() => {
 						stategen.inputs.dateⵧexif = null
 					})
@@ -366,8 +372,11 @@ describe.only(`${LIB} - file (state)`, function() {
 
 									context('with a lot of information lost', function () {
 
-										it.only('should come up with the same BCD', () => {
-											expect_second_encounter_to_be_stable('re-encounter--after_loss')
+										it('should come up with the same BCD', () => {
+											expect_second_encounter_to_be_stable(
+												're-encounter--after_loss',
+												//'basename_pⵧoldest', // TODO review
+											)
 										})
 									})
 								})
@@ -430,7 +439,6 @@ describe.only(`${LIB} - file (state)`, function() {
 
 							beforeEach(() => {
 								stategen.inputs.neighbor_hints__fs_reliability_shortcut = 'unreliable'
-								stategen.inputs.dateⵧfsⵧcurrent‿tms = BAD_CREATION_DATE_CANDIDATE‿TMS
 							})
 
 							context('when having a date from a P basename', function() {
@@ -487,88 +495,108 @@ describe.only(`${LIB} - file (state)`, function() {
 
 							context('when NOT having a date from a P basename', function() {
 
-								beforeEach(() => {
-									stategen.inputs.dateⵧfsⵧcurrent‿tms = REAL_CREATION_DATE‿TMS
-								})
-
-								it('should use fs date but NOT great confidence', () => {
+								context('when having a date from parent folder', function () {
 									// justification: if the parent folder has a date, means it strongly looks like an event
 									// = implies that the PRIMARY children is matching
 									// hence the file must have been manually sorted = must stay here
 									// however it's a secondary
-									let state = stategen.create_state()
 
-									const bcdmⵧoldest = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
-									expect(bcdmⵧoldest.source, 'oldest.source').to.equal('fsⵧoldest+neighbor?')
+									beforeEach(() => {
+										console.log(stategen.create_state().current_neighbor_hints)
+									})
 
-									const bcdmⵧcurrent = get_best_creation_dateⵧfrom_current_data‿meta(state)
-									expect(bcdmⵧcurrent.source, 'current.source').to.equal('fsⵧcurrent+neighbor?')
+									it.only('should use the parent folder date', () => {
+										let state = stategen.create_state()
+										expect(state.current_neighbor_hints?.fallback_junk_bcd, 'prereq').not.to.be.undefined // check prerequisite
 
-									expect(bcdmⵧoldest.source.replaceAll('oldest', 'xxx'), 'O+C same source on 1st encounter')
-										.to.equal(bcdmⵧcurrent.source.replaceAll('current', 'xxx'))
-									expect(get_human_readable_timestamp_auto(bcdmⵧoldest.candidate, 'tz:embedded'), 'O+C same date on 1st encounter')
-										.to.equal(get_human_readable_timestamp_auto(bcdmⵧcurrent.candidate, 'tz:embedded'))
+										const bcdmⵧoldest = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
+										expect(bcdmⵧoldest.source, 'oldest.source').to.equal('fsⵧoldest+neighbor✖')
 
-									const bcdm = get_best_creation_date‿meta(state)
-									expect(bcdm.source, 'source').to.equal('fsⵧcurrent+neighbor?')
-									expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
-									expect(bcdm.confidence, 'confidence').to.equal('secondary')
-									expect(bcdm.is_fs_matching, 'fs matching').to.be.true // obviously
+										const bcdmⵧcurrent = get_best_creation_dateⵧfrom_current_data‿meta(state)
+										expect(bcdmⵧcurrent.source, 'current.source').to.equal('fsⵧcurrent+neighbor✖')
 
-									// final as integration
-									expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no renaming since no confidence
-								})
+										expect(bcdmⵧoldest.source.replaceAll('oldest', 'xxx'), 'O+C same source on 1st encounter')
+											.to.equal(bcdmⵧcurrent.source.replaceAll('current', 'xxx'))
+										expect(get_human_readable_timestamp_auto(bcdmⵧoldest.candidate, 'tz:embedded'), 'O+C same date on 1st encounter')
+											.to.equal(get_human_readable_timestamp_auto(bcdmⵧcurrent.candidate, 'tz:embedded'))
 
-								context('when encountering the file for the second time', function () {
+										const bcdm = get_best_creation_date‿meta(state)
+										expect(bcdm.source, 'source').to.equal('fsⵧcurrent+neighbor✖')
+										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
+										expect(bcdm.confidence, 'confidence').to.equal('secondary')
+										expect(bcdm.is_fs_matching, 'fs matching').to.be.true // obviously
 
-									context('as exactly the same', function() {
+										// final as integration
+										expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no renaming since no confidence
+									})
 
-										it('should come up with the same BCD', () => {
-											expect_second_encounter_to_be_stable('re-encounter--same')
+									context('when encountering the file for the second time', function () {
+
+										context('as exactly the same', function () {
+
+											it('should come up with the same BCD', () => {
+												expect_second_encounter_to_be_stable('re-encounter--same')
+											})
+										})
+
+										context('with a lot of information lost', function () {
+
+											it('should come up with the same BCD', () => {
+												expect_second_encounter_to_be_stable('re-encounter--after_loss')
+											})
 										})
 									})
 
-									context('with a lot of information lost', function () {
+								})
 
-										it('should come up with the same BCD', () => {
-											expect_second_encounter_to_be_stable('re-encounter--after_loss')
+								context('when NOT having a date from parent folder', function () {
+
+									it('should use fs date but NOT great confidence', () => {
+										// justification: if the parent folder has a date, means it strongly looks like an event
+										// = implies that the PRIMARY children is matching
+										// hence the file must have been manually sorted = must stay here
+										// however it's a secondary
+										let state = stategen.create_state()
+										expect(state.current_neighbor_hints?.fallback_junk_bcd, 'prereq').to.be.undefined // check prerequisite
+
+										const bcdmⵧoldest = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
+										expect(bcdmⵧoldest.source, 'oldest.source').to.equal('fsⵧoldest+neighbor✖')
+
+										const bcdmⵧcurrent = get_best_creation_dateⵧfrom_current_data‿meta(state)
+										expect(bcdmⵧcurrent.source, 'current.source').to.equal('fsⵧcurrent+neighbor✖')
+
+										expect(bcdmⵧoldest.source.replaceAll('oldest', 'xxx'), 'O+C same source on 1st encounter')
+											.to.equal(bcdmⵧcurrent.source.replaceAll('current', 'xxx'))
+										expect(get_human_readable_timestamp_auto(bcdmⵧoldest.candidate, 'tz:embedded'), 'O+C same date on 1st encounter')
+											.to.equal(get_human_readable_timestamp_auto(bcdmⵧcurrent.candidate, 'tz:embedded'))
+
+										const bcdm = get_best_creation_date‿meta(state)
+										expect(bcdm.source, 'source').to.equal('fsⵧcurrent+neighbor✖')
+										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
+										expect(bcdm.confidence, 'confidence').to.equal('secondary')
+										expect(bcdm.is_fs_matching, 'fs matching').to.be.true // obviously
+
+										// final as integration
+										expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no renaming since no confidence
+									})
+
+									context('when encountering the file for the second time', function () {
+
+										context('as exactly the same', function () {
+
+											it('should come up with the same BCD', () => {
+												expect_second_encounter_to_be_stable('re-encounter--same')
+											})
+										})
+
+										context('with a lot of information lost', function () {
+
+											it('should come up with the same BCD', () => {
+												expect_second_encounter_to_be_stable('re-encounter--after_loss')
+											})
 										})
 									})
 								})
-							})
-
-							it('should use parent folder but NOT great confidence', () => {
-								// justification: if the parent folder has a date, means it strongly looks like an event
-								// = implies that the PRIMARY children is matching
-								// hence the file must have been manually sorted = must stay here
-								// however it's a secondary
-								let state = stategen.create_state()
-
-								const bcdmⵧoldest = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
-								expect(bcdmⵧoldest.source, 'oldest.source').to.equal('fsⵧoldest+neighbor✔')
-
-								const bcdmⵧcurrent = get_best_creation_dateⵧfrom_current_data‿meta(state)
-								expect(bcdmⵧcurrent.source, 'current.source').to.equal('fsⵧcurrent+neighbor✔')
-
-								expect(bcdmⵧoldest.source.replaceAll('oldest', 'xxx'), 'O+C same source on 1st encounter')
-									.to.equal(bcdmⵧcurrent.source.replaceAll('current', 'xxx'))
-								expect(get_human_readable_timestamp_auto(bcdmⵧoldest.candidate, 'tz:embedded'), 'O+C same date on 1st encounter')
-									.to.equal(get_human_readable_timestamp_auto(bcdmⵧcurrent.candidate, 'tz:embedded'))
-
-								expect(bcdmⵧoldest.source.replaceAll('oldest', 'xxx'), 'O+C same source on 1st encounter')
-									.to.equal(bcdmⵧcurrent.source.replaceAll('current', 'xxx'))
-								expect(get_human_readable_timestamp_auto(bcdmⵧoldest.candidate, 'tz:embedded'), 'O+C same date on 1st encounter')
-									.to.equal(get_human_readable_timestamp_auto(bcdmⵧcurrent.candidate, 'tz:embedded'))
-
-								const bcdm = get_best_creation_date‿meta(state)
-								expect(bcdm.source, 'source').to.equal('current_env_hints')
-								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-10')
-								expect(bcdm.confidence, 'confidence').to.equal('secondary')
-								//expect(bcdm.from_historical, 'origin').to.equal(true) // TODO review
-								expect(bcdm.is_fs_matching, 'fs matching').to.be.false
-
-								// final as integration
-								expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no renaming since no confidence
 							})
 						})
 					})

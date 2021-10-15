@@ -289,7 +289,7 @@ export function are_dates_matching_while_disregarding_tz_and_precision(d1: Immut
 
 // needed to create from file times
 export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: 'tz:auto', PARAMS: Immutable<Params> = get_params()): BetterDate {
-	assert(!!tms, 'create_better_date_from_utc_tms correct input: ' + tms)
+	assert(!!tms, 'create_better_date_from_utc_tms should have a correct input: truthy!')
 	assert(Number.isSafeInteger(tms), `create_better_date_from_utc_tms correct input: isSafeInteger(${tms})`)
 
 	const _tz = get_default_timezone(tms, PARAMS)

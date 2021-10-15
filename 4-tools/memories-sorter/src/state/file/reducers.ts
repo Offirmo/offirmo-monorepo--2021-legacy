@@ -68,7 +68,7 @@ export function create(id: FileId): Immutable<State> {
 				parent_path: parsed_path.dir,
 
 				fs_bcd_tms: get_UTC_timestamp_ms(), // so far
-				neighbor_hints: NeighborHintsLib.get_historical_representation(NeighborHintsLib.create(), 0),
+				neighbor_hints: NeighborHintsLib.get_historical_representation(NeighborHintsLib.create(), undefined),
 
 				exif_orientation: undefined,
 				trailing_extra_bytes_cleaned: undefined,

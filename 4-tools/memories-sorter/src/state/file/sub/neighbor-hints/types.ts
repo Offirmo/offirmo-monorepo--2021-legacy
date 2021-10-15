@@ -10,12 +10,12 @@ export type FsReliability = 'reliable' | 'unreliable' | 'unknown'
  * 2. as a junk, what bcd can we use if we really don't have any other better source?
  */
 export interface NeighborHints {
-	bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: FsReliability
-	//expected_bcd_range: undefined | DateRange // can be either an event (begin + X) or a backup (begin - X) depending on the hints
-	//fallback_junk_bcd: undefined | BetterDate
-
 	// if present (for unit tests), this prop will override any estimation of FS reliability
 	_unit_test_shortcut?: FsReliability
+
+	bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: FsReliability
+	expected_bcd_ranges: DateRange[] // can be either an event (begin + X) or a backup (begin - X) depending on the hints
+	fallback_junk_bcd: undefined | BetterDate // should be a date that'll cause the file to be stable = stay in this folder
 }
 
 /* An alternate version that'll be stored in the notes.

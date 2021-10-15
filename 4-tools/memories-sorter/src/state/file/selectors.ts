@@ -459,7 +459,7 @@ function _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state: Immutable
 function _get_creation_dateⵧfrom_parent_folderⵧcurrent(state: Immutable<State>): BetterDate | undefined {
 	assert(state.current_neighbor_hints, `_get_creation_date__from_parent_folder__current() needs neighbor hints`)
 
-	return NeighborHintsLib.get_bcd(state.current_neighbor_hints)
+	return NeighborHintsLib.get_fallback_junk_bcd(state.current_neighbor_hints)
 }
 
 // all together
@@ -467,7 +467,7 @@ export type DateConfidence =
 	| 'primary' // reliable data coming from the file itself = we can match to an event and rename
 	| 'secondary' // reliable data but coming from secondary sources such as folder date or neighbor hints = we can match to an event BUT won't rename
 	| 'junk' // we don't even trust sorting this file
-interface BestDate {
+export interface BestCreationDate {
 	candidate: BetterDate
 	source: `${'exif' | 'basename_np' | 'fs' | 'basename_p' | 'parent'}ⵧ${'current' | 'oldest'}${'' | '+fs' | `+neighbor${'✔' | '?' | '✖'}`}`
 	sourceV1: // TODO remove
@@ -502,7 +502,7 @@ interface BestDate {
 // for stability, we try to rely on the oldest known data first and foremost.
 // Note that oldest known !== original
 // (ideally this func should NOT rely on anything else than TRULY ORIGINAL data)
-export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
+export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestCreationDate {
 	logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta()`, { id: state.id })
 
 	assert(
@@ -518,7 +518,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	const bcd__from_fs__oldest_known = create_better_date_from_utc_tms(bcd__from_fs__oldest_known‿tms, 'tz:auto')
 	assert(bcd__from_fs__oldest_known‿tms === get_timestamp_utc_ms_from(bcd__from_fs__oldest_known), `oldest fs tms back and forth stability`)
 
-	const result: BestDate = {
+	const result: BestCreationDate = {
 		// so far. safe, init values
 		candidate: bcd__from_fs__oldest_known,
 		sourceV1: 'original_fs',
@@ -708,7 +708,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 // used on 1st stage consolidation => it should be able to work without hints and notes
 // info may be overriden by notes later
 // useful for files we encounter for the first time
-export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
+export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestCreationDate {
 	logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta()`, { id: state.id })
 
 	assert(
@@ -724,7 +724,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	const bcd__from_fs__current = create_better_date_from_utc_tms(bcd__from_fs__current‿tms, 'tz:auto')
 	assert(bcd__from_fs__current‿tms === get_timestamp_utc_ms_from(bcd__from_fs__current), `current fs tms back and forth stability`)
 
-	const result: BestDate = {
+	const result: BestCreationDate = {
 		candidate: bcd__from_fs__current,
 		sourceV1: 'current_fs',
 		source: 'fsⵧcurrent',
@@ -918,7 +918,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 
 // Best creation date overall
 // mixes the best info from historical and current + takes into account "manual"
-export const get_best_creation_date‿meta = micro_memoize(function get_best_creation_date_meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
+export const get_best_creation_date‿meta = micro_memoize(function get_best_creation_date_meta(state: Immutable<State>, PARAMS = get_params()): BestCreationDate {
 	logger.trace(`get_best_creation_date‿meta()`, { id: state.id })
 
 	assert(
@@ -933,7 +933,7 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 	const bcd__from_fs__oldest_known = create_better_date_from_utc_tms(bcd__from_fs__oldest_known‿tms, 'tz:auto')
 	assert(bcd__from_fs__oldest_known‿tms === get_timestamp_utc_ms_from(bcd__from_fs__oldest_known), `original fs tms back and forth stability`)
 
-	const result: BestDate = {
+	const result: BestCreationDate = {
 		candidate: bcd__from_fs__oldest_known,
 		sourceV1: 'original_fs',
 		source: 'fsⵧoldest',
@@ -1101,34 +1101,10 @@ export function _get_current_fs_reliability_according_to_own_and_env(
 	}
 
 	// unclear reliability so far, let's try to infer one from our neighbors
-	if (neighbor_hints._unit_test_shortcut)
-		return neighbor_hints._unit_test_shortcut // TODO review can return "unreliable" while the code below would never do that
-
 	const bcdⵧfrom_fsⵧcurrent‿tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)
-	const bcdⵧfrom_fsⵧcurrent = create_better_date_from_utc_tms(bcdⵧfrom_fsⵧcurrent‿tms, 'tz:auto')
-
-	if (NeighborHintsLib.is_matching_parent_folder_expected_date_range(neighbor_hints, bcdⵧfrom_fsⵧcurrent)) {
-		logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "reliable" from our fs + parent folder date range`)
-		return 'reliable'
-	}
-
-	// still unknown
-	const siblings_fs_bcd_assessed_reliability = NeighborHintsLib.get_fs_reliability(neighbor_hints)
-	switch(siblings_fs_bcd_assessed_reliability) {
-		case 'reliable':
-			logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "reliable" from parent reliability=reliable, assuming ours is reliable as well`)
-			return 'reliable'
-		case 'unreliable':
-			// NO! Don't allow a single bad file to pollute an entire folder
-			// ok we're not "reliable", but can't say that we're unreliable
-			// fallthrough
-		default:
-			// fallthrough
-			break
-	}
-
-	logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "unknown" from fallback`)
-	return 'unknown'
+	const reliability_according_to_neighbors = NeighborHintsLib.is_candidate_fs_bcd_looking_reliable_according_to_neighbor_hints(neighbor_hints, bcdⵧfrom_fsⵧcurrent‿tms)
+	logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "${reliability_according_to_neighbors}"`)
+	return reliability_according_to_neighbors
 }
 
 // TODO export function should_normalize(...) if older norm etc. Or should be in ideal basename?
