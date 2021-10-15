@@ -195,11 +195,16 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 			)
 		)
 
-		let notes: null | Immutable<PersistedNotes> = JSON.parse(JSON.stringify(
-			inputs.notes === 'auto'
-			? _get_auto_notes(inputs)
-			: inputs.notes
-		))
+		let notes: null | Immutable<PersistedNotes> = (() => {
+			const notes = JSON.parse(JSON.stringify(
+				inputs.notes === 'auto'
+					? _get_auto_notes(inputs)
+					: inputs.notes
+			)) as PersistedNotes
+			if (notes)
+				notes.currently_known_as = inputs.basenameⵧcurrent
+			return notes
+		})()
 		state = FileLib.on_notes_recovered(state, notes)
 
 		return state

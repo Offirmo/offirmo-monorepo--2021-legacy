@@ -502,7 +502,7 @@ interface BestDate {
 // for stability, we try to rely on the oldest known data first and foremost.
 // Note that oldest known !== original
 // (ideally this func should NOT rely on anything else than TRULY ORIGINAL data)
-export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
+export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
 	logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta()`, { id: state.id })
 
 	assert(
@@ -698,12 +698,17 @@ export function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Im
 
 	logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() defaulted to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 	return result
-}
+}, {
+	maxSize: 10, // we need 1 or millions. The >1 is for having less noise during unit tests across a few files
+	onCacheHit() {
+		logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta()… [memoized hit]`)
+	}
+})
 
 // used on 1st stage consolidation => it should be able to work without hints and notes
 // info may be overriden by notes later
 // useful for files we encounter for the first time
-export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
+export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestDate {
 	logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta()`, { id: state.id })
 
 	assert(
@@ -904,7 +909,12 @@ export function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutab
 
 	logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() defaulted to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
 	return result
-}
+}, {
+	maxSize: 10, // we need 1 or millions. The >1 is for having less noise during unit tests across a few files
+	onCacheHit() {
+		logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta()… [memoized hit]`)
+	}
+})
 
 // Best creation date overall
 // mixes the best info from historical and current + takes into account "manual"
@@ -1091,6 +1101,9 @@ export function _get_current_fs_reliability_according_to_own_and_env(
 	}
 
 	// unclear reliability so far, let's try to infer one from our neighbors
+	if (neighbor_hints._unit_test_shortcut)
+		return neighbor_hints._unit_test_shortcut // TODO review can return "unreliable" while the code below would never do that
+
 	const bcdⵧfrom_fsⵧcurrent‿tms = get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)
 	const bcdⵧfrom_fsⵧcurrent = create_better_date_from_utc_tms(bcdⵧfrom_fsⵧcurrent‿tms, 'tz:auto')
 

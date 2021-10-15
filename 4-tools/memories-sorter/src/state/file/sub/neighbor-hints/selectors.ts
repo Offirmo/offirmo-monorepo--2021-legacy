@@ -18,7 +18,10 @@ export function get_expected_bcd_range(): undefined | DateRange {
 
 ///////////////////// Current /////////////////////
 
-export function get_fs_reliability(state: Immutable<NeighborHints>): any {
+export function get_fs_reliability(state: Immutable<NeighborHints>): FsReliability {
+	if (state._unit_test_shortcut)
+		return state._unit_test_shortcut
+
 	return state.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1
 }
 
@@ -99,7 +102,7 @@ export function get_historical_representation(state: Immutable<NeighborHints>, f
 }
 
 export function get_historical_fs_reliability(state: Immutable<HistoricalNeighborHints>, candidate‿tms: TimestampUTCMs): FsReliability {
-	console.log('ghr', state)
+	console.log('get_historical_fs_reliability()', state)
 	return state.fs_reliability
 	/*
 	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
