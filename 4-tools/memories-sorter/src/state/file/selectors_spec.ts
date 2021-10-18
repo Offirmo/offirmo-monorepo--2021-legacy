@@ -25,6 +25,7 @@ import {
 } from '../../services/better-date'
 import {
 	get_test_single_file_state_generator,
+	REAL_CREATION_DATE,
 	REAL_CREATION_DATE‿EXIF,
 	REAL_CREATION_DATE‿TMS,
 	REAL_CREATION_DATE‿HRTS,
@@ -502,6 +503,7 @@ describe.only(`${LIB} - file (state)`, function() {
 									// however it's a secondary
 
 									beforeEach(() => {
+										stategen.inputs.neighbor_hints__junk_bcd = REAL_CREATION_DATE
 										console.log(stategen.create_state().current_neighbor_hints)
 									})
 
@@ -510,10 +512,10 @@ describe.only(`${LIB} - file (state)`, function() {
 										expect(state.current_neighbor_hints?.fallback_junk_bcd, 'prereq').not.to.be.undefined // check prerequisite
 
 										const bcdmⵧoldest = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
-										expect(bcdmⵧoldest.source, 'oldest.source').to.equal('fsⵧoldest+neighbor✖')
+										expect(bcdmⵧoldest.source, 'oldest.source').to.equal('parentⵧoldest')
 
 										const bcdmⵧcurrent = get_best_creation_dateⵧfrom_current_data‿meta(state)
-										expect(bcdmⵧcurrent.source, 'current.source').to.equal('fsⵧcurrent+neighbor✖')
+										expect(bcdmⵧcurrent.source, 'current.source').to.equal('parentⵧcurrent')
 
 										expect(bcdmⵧoldest.source.replaceAll('oldest', 'xxx'), 'O+C same source on 1st encounter')
 											.to.equal(bcdmⵧcurrent.source.replaceAll('current', 'xxx'))
@@ -521,7 +523,7 @@ describe.only(`${LIB} - file (state)`, function() {
 											.to.equal(get_human_readable_timestamp_auto(bcdmⵧcurrent.candidate, 'tz:embedded'))
 
 										const bcdm = get_best_creation_date‿meta(state)
-										expect(bcdm.source, 'source').to.equal('fsⵧcurrent+neighbor✖')
+										expect(bcdm.source, 'source').to.equal('parentⵧcurrent')
 										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
 										expect(bcdm.confidence, 'confidence').to.equal('secondary')
 										expect(bcdm.is_fs_matching, 'fs matching').to.be.true // obviously

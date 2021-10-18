@@ -63,7 +63,7 @@ export async function load_real_media_file(
 	return enforce_immutability(state)
 }
 
-const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
+export const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
 export const REAL_CREATION_DATE‿HRTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
 assert(REAL_CREATION_DATE‿HRTS === '2017-10-20_05h01m44s625', 'REAL_CREATION_DATE‿HRTS should be correct')
 export const REAL_CREATION_DATE‿TMS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
@@ -95,6 +95,7 @@ const DEFAULT_FILE_INPUTS = {
 	dateⵧexif: BAD_CREATION_DATE_CANDIDATE‿EXIF as null | typeof REAL_CREATION_DATE‿EXIF,
 	hashⵧcurrent: 'hash01',
 	neighbor_hints__fs_reliability_shortcut: 'unknown' as FsReliability,
+	neighbor_hints__junk_bcd: undefined as undefined | BetterDate,
 	//hints_from_reliable_neighbors__current__fs_reliability: 'unknown' as FsReliability,
 	//hints_from_reliable_neighbors__current__parent_folder_bcd: null as null | BetterDate,
 
@@ -190,9 +191,10 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 		// simulate consolidation
 		state = FileLib.on_info_read__current_neighbors_primary_hints(
 			state,
-			FileLib.NeighborHintsLib._createⵧfor_ut(
-				inputs.neighbor_hints__fs_reliability_shortcut,
-			)
+			FileLib.NeighborHintsLib._createⵧfor_ut({
+				reliability_shortcut:inputs.neighbor_hints__fs_reliability_shortcut,
+				junk_bcd: inputs.neighbor_hints__junk_bcd,
+			})
 		)
 
 		let notes: null | Immutable<PersistedNotes> = (() => {

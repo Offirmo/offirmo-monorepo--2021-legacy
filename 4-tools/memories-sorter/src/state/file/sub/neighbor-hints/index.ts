@@ -1,3 +1,5 @@
+import { BetterDate } from '../../../../services/better-date'
+
 export * from './types'
 export * from './selectors'
 
@@ -12,8 +14,12 @@ export function create(): NeighborHints {
 	}
 }
 
-export function _createⵧfor_ut(reliability_shortcut?: FsReliability): NeighborHints {
+export function _createⵧfor_ut(params: {
+	reliability_shortcut?: FsReliability,
+	junk_bcd? : BetterDate,
+} = {}): NeighborHints {
 	let state = create() // so far
-	state._unit_test_shortcut = reliability_shortcut
+	state._unit_test_shortcut = params.reliability_shortcut
+	state.fallback_junk_bcd = params.junk_bcd
 	return state
 }
