@@ -19,10 +19,11 @@ export interface NeighborHints {
 }
 
 /* An alternate version that'll be stored in the notes.
- * What do we need?
+ * We should store just what we need. For ex. if reliability = reliable, no need for parent bcd
+ * Also due to migrations, all the fields can be missing (lost from previous versions)
  */
 export interface HistoricalNeighborHints {
-	fs_reliability: FsReliability
+	fs_reliability?: FsReliability
 	//expected_bcd_range: undefined | DateRange<BetterDateMembers>
-	//fallback_bcd: undefined | BetterDateMembers
+	parent_bcd?: undefined | BetterDateMembers
 }

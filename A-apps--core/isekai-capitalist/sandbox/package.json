@@ -6,32 +6,31 @@
 	"license": "Unlicense",
 
 	"dependencies": {
+		"@babel/core": "^7",
 		"@offirmo-private/async-utils": "^0",
+		"@offirmo-private/marketing-rsrc": "^0",
 		"@offirmo-private/normalize-string": "^0",
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/rich-text-format": "^0",
 		"@offirmo-private/rich-text-format-to-react": "^0",
 		"@offirmo-private/soft-execution-context": "^0",
+		"@offirmo-private/soft-execution-context-browser": "^0",
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ts-utils": "^0",
 		"@offirmo-private/ui--browser--css": "^0",
+		"@offirmo/universal-debug-api-browser": "^1",
 		"@offirmo/universal-debug-api-placeholder": "^1",
+		"@oh-my-rpg/assets--cursors": "^0",
+		"classnames": "^2",
 		"dequal": "^2",
 		"emittery": "^0.8",
 		"fraction.js": "^4",
+		"react": "^17",
+		"react-dom": "^17",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
-		"typescript-string-enums": "^1",
-
-		"@babel/core": "^7",
-		"@offirmo-private/marketing-rsrc": "^0",
-		"@offirmo-private/soft-execution-context-browser": "^0",
-		"@offirmo/universal-debug-api-browser": "^1",
-		"@oh-my-rpg/assets--cursors": "^0",
-		"classnames": "^2",
-		"react": "^17",
-		"react-dom": "^17"
+		"typescript-string-enums": "^1"
 	},
 
 	"scripts": {

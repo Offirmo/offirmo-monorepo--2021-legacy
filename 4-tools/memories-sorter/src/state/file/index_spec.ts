@@ -54,7 +54,7 @@ describe(`${LIB} - file (state)`, function() {
 					expect(get_embedded_timezone(get_best_creation_date(state)), 'tz').to.deep.equal(MEDIA_DEMO.FINAL_TZ)
 
 					const bcd_meta = get_best_creation_date‿meta(state)
-					console.log(bcd_meta)
+					//console.log(bcd_meta)
 					expect(bcd_meta.confidence, 'confidence').to.equal(MEDIA_DEMO.CONFIDENCE)
 					expect(is_confident_in_date_enough_to__fix_fs(state)).to.equal(MEDIA_DEMO.CONFIDENCE === 'primary')
 					expect(is_confident_in_date_enough_to__sort(state)).to.equal(MEDIA_DEMO.CONFIDENCE !== 'junk')

@@ -443,18 +443,15 @@ function _get_creation_date__from_basename_p__any(state: Immutable<State>): Bett
 function _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state: Immutable<State>): BetterDate | undefined {
 	assert(state.are_notes_restored, `_get_creation_date__from_parent_folder__original() needs notes restored`)
 
-	throw new Error('NIMP _get_creation_dateⵧfrom_parent_folderⵧoldest_known()')
+	const historical_neighbor_hints = state.notes.historical.neighbor_hints
+	if (historical_neighbor_hints.parent_bcd)
+		return create_better_date_obj(historical_neighbor_hints.parent_bcd)
 
-	/*if (is_processed_media_basename(get_oldest_known_basename(state))) {
-		// this is not the original parent folder, we lost the info...
-		// (warned already in other selector)
-		return undefined
-	}
+	// try to infer a date from parent path
+	const parent_basename = pathㆍparse_memoized(state.notes.historical.parent_path).base
+	const parsed = parse_folder_basename(parent_basename)
 
-	if (!state.notes.historical.neighbor_hints.parent_folder_bcd)
-		return undefined
-
-	return create_better_date_obj(state.notes.historical.neighbor_hints.parent_folder_bcd)*/
+	return parsed.date
 }
 function _get_creation_dateⵧfrom_parent_folderⵧcurrent(state: Immutable<State>): BetterDate | undefined {
 	assert(state.current_neighbor_hints, `_get_creation_date__from_parent_folder__current() needs neighbor hints`)
@@ -539,7 +536,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	const bcd__from_exif = _get_creation_dateⵧfrom_exif(state)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying EXIF…', {
 		has_candidate: !!bcd__from_exif,
-		data: state.current_exif_data,
+		...(!!bcd__from_exif && {data: state.current_exif_data}),
 	})
 	if (bcd__from_exif) {
 		// best situation, EXIF is the most reliable
@@ -578,7 +575,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	}
 
 	// second most authoritative source
-	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying basename (non processed)…')
+	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying basename (non processed)…', { has_candidate: !!bcd__from_basename_np__oldest_known })
 	if (bcd__from_basename_np__oldest_known) {
 		result.candidate = bcd__from_basename_np__oldest_known
 		result.sourceV1 = 'original_basename_np'
@@ -671,23 +668,24 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 		return result
 	}
 
-	/* TODO review needed? partially redundant with the above
 	// worst secondary choice
-	const bcd__from_parent_folder__original = _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state)
+	const bcdⵧfrom_parent_folderⵧoldest = _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying parent folder…', {
-		date__from_parent_folder__original: bcd__from_parent_folder__original,
+		has_candidate: !!bcdⵧfrom_parent_folderⵧoldest,
+		bcdⵧfrom_parent_folderⵧoldest,
 	})
-	if (bcd__from_parent_folder__original) {
+	if (bcdⵧfrom_parent_folderⵧoldest) {
 		// while the parent's date is likely to be several days off
 		// it's still useful for sorting into an event
-		result.candidate = bcd__from_parent_folder__original
-		result.source = 'original_env_hints'
+		result.candidate = bcdⵧfrom_parent_folderⵧoldest
+		result.source = 'parentⵧoldest'
+		result.sourceV1 = 'original_env_hints'
 		result.confidence = 'secondary'
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
 		logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() resolved to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
 		return result
-	}*/
+	}
 
 	/////// JUNK SOURCES ///////
 

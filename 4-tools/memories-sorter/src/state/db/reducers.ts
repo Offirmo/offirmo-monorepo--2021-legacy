@@ -139,7 +139,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	const folder_id = File.get_current_parent_folder_id(file_state)
 	const old_folder_state = state.folders[folder_id]
 	if (!old_folder_state) {
-		console.log(state)
+		console.error('imminent error', state)
 	}
 	assert(old_folder_state, `on_file_found() should have folder state for "${folder_id}"`)
 	const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)

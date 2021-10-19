@@ -35,6 +35,7 @@ import * as NeighborHintsLib from './sub/neighbor-hints'
 
 import './__test_shared'
 import { Basename } from '../../types'
+import { get_debug_representation } from './sub/neighbor-hints'
 
 /////////////////////
 
@@ -504,7 +505,9 @@ describe.only(`${LIB} - file (state)`, function() {
 
 									beforeEach(() => {
 										stategen.inputs.neighbor_hints__junk_bcd = REAL_CREATION_DATE
-										console.log(stategen.create_state().current_neighbor_hints)
+										console.log({
+											current_neighbor_hints: NeighborHintsLib.get_debug_representation(stategen.create_state().current_neighbor_hints),
+										})
 									})
 
 									it.only('should use the parent folder date', () => {

@@ -9,7 +9,7 @@ import {
 	DateRange,
 	BetterDateMembers,
 	get_debug_representation as get_better_date_debug_representation,
-	get_timestamp_utc_ms_from, get_debug_representation,
+	get_timestamp_utc_ms_from,
 	create_better_date_from_utc_tms,
 } from '../../../../services/better-date'
 
@@ -99,10 +99,38 @@ export function to_string(state: undefined | Immutable<NeighborHints>): any {
 		if (Object.keys(unhandled).length > 0)
 			throw new Error('NIMP to_string!')
 
-		result += `${expected_bcd_ranges.length} ranges; fb-junk-date=${get_debug_representation(fallback_junk_bcd)}`
+		result += `${expected_bcd_ranges.length} ranges; fb-junk-date=${get_better_date_debug_representation(fallback_junk_bcd)}`
 	}
 
 	result += ']'
+
+	return result
+}
+
+export function get_debug_representation(state: undefined | Immutable<NeighborHints>): any {
+	if (!state)
+		return undefined
+
+	let result = {}
+
+	const {
+		_unit_test_shortcut,
+		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
+		expected_bcd_ranges,
+		fallback_junk_bcd,
+		...unhandled
+	} = state
+
+	if (Object.keys(unhandled).length > 0)
+		throw new Error('NIMP get_debug_representation!')
+
+	result = {
+		...result,
+		_unit_test_shortcut,
+		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
+		expected_bcd_ranges,
+		fallback_junk_bcd: get_better_date_debug_representation(fallback_junk_bcd),
+	}
 
 	return result
 }
@@ -113,30 +141,32 @@ export function get_historical_representation(state: Immutable<NeighborHints>, f
 	const {
 		_unit_test_shortcut,
 		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
+		fallback_junk_bcd,
 		...unhandled
 	} = state
 
-	if (_unit_test_shortcut) {
-		return {
-			fs_reliability: _unit_test_shortcut,
-		}
-	}
+	let fs_reliability: FsReliability = (() => {
+		if (_unit_test_shortcut)
+			return _unit_test_shortcut
 
-	if (fs_bcd‿tms === undefined) {
-		return {
-			fs_reliability: 'unknown',
-		}
-	}
+		if (fs_bcd‿tms === undefined)
+			return 'unknown'
+
+		return is_candidate_fs_bcd_looking_reliable_according_to_neighbor_hints(state, fs_bcd‿tms)
+	})()
 
 	return {
-		fs_reliability: is_candidate_fs_bcd_looking_reliable_according_to_neighbor_hints(state, fs_bcd‿tms)
+		fs_reliability,
+		...(fs_reliability === 'unreliable' && {
+			parent_bcd: fallback_junk_bcd,
+		} as HistoricalNeighborHints)
 	}
 }
 
 export function get_historical_fs_reliability(state: Immutable<HistoricalNeighborHints>, candidate‿tms: TimestampUTCMs): FsReliability {
-	console.log('get_historical_fs_reliability()', state)
-	return state.fs_reliability
-	/*
+	console.log('get_historical_fs_reliability(…)', state)
+	return state.fs_reliability || 'unknown'
+	/* TODO review
 	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
 	if (bcd__from_parent_folder__current) {
 		const bcd__from_parent_folder__current‿tms = get_timestamp_utc_ms_from(bcd__from_parent_folder__current)

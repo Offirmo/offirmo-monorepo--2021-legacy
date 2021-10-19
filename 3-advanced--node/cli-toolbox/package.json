@@ -12,7 +12,7 @@
 		"ansi-escapes": "^4",
 		"boxen": "^5",
 		"chalk": "^4",
-		"cli-columns": "^3",
+		"cli-columns": "^4",
 		"columnify": "^1",
 		"fs-extra": "^10",
 		"load-json-file": "^6",
