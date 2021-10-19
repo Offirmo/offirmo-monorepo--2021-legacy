@@ -13,19 +13,19 @@
 	"sideEffects": true,
 
 	"size-limit": [
-	{
-		"limit": "4kb",
-		"path": "dist/src.es2019/index.js"
-	},
-	{
-		"limit": "5kb",
-		"path": "dist/src.es2019.cjs/index.js"
-	},
-	{
-		"limit": "6kb",
-		"path": "dist/index-bundle.js"
-	}
-],
+		{
+			"limit": "4kb",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "5kb",
+			"path": "dist/src.es2019.cjs/index.js"
+		},
+		{
+			"limit": "6kb",
+			"path": "dist/index-bundle.js"
+		}
+	],
 
 	"peerDependencies": {
 	},
