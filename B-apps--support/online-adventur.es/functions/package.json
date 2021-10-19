@@ -5,7 +5,6 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-
 	"size-limit": [
 		{
 			"limit": "250MB",
@@ -33,7 +32,6 @@
 			"gzip": false
 		}
 	],
-
 	"dependencies": {
 		"@offirmo-private/async-utils": "^0",
 		"@offirmo-private/db": "^0",
@@ -57,17 +55,14 @@
 		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
-
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist functions",
-
 		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --mode=ts --outputDir=src/sub",
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch --onlyNode",
 		"build:prod": "node ../../../0-scripts/build-typescript.js --onlyNode",
 		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"ensure-privacy": "grep --null -RIl `whoami` functions/* | xargs -0 sed -i '' -e s/`whoami`/offirmo/g",
 		"ensure-size": "size-limit",
-
 		"dev": "run-s clean refresh-build-variables build:dev:watch",
 		"start": "NODE_ENV=development node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",

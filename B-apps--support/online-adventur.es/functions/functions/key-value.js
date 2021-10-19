@@ -61726,7 +61726,7 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 const VERSION = '0.68.2';
 const NUMERIC_VERSION = 0.6802; // for easy comparisons
 
-const BUILD_DATE = '20211012_06h00';
+const BUILD_DATE = '20211019_22h55';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
@@ -62666,7 +62666,7 @@ var external_crypto_default = /*#__PURE__*/__webpack_require__.n(external_crypto
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/nanoid/url-alphabet/index.js
 let urlAlphabet =
-  'ModuleSymbhasOwnPr-0123456789ABCDEFGHNRVfgctiUvz_KqYTJkLxpZXIjQW'
+  'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict'
 
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/nanoid/index.js
