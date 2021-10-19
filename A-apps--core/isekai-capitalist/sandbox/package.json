@@ -48,9 +48,10 @@
 		"build": "npm-run-all clean parcel--build"
 	},
 	"devDependencies": {
-		"@offirmo-private/storybook--utils":"^0",
+		"@offirmo-private/storybook--utils": "^0",
+		"@offirmo-private/ts-types": "^0",
 		"@storybook/react": "^6",
-		"npm-run-all": "^4",
-		"@offirmo-private/ts-types":"^0"
-	}
+		"npm-run-all": "^4"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/isekai-capitalist/sandbox"
 }

@@ -15,8 +15,7 @@
 		"memoize-one": "^5"
 	},
 
-	"devDependencies": {
-	},
-	"scripts": {
-	}
+	"devDependencies": {},
+	"scripts": {},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/features-detection-browser"
 }

@@ -37,18 +37,16 @@
 		"stdout",
 		"string"
 	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
-	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--node/cli-toolbox",
 	"keywords": [
 		"cli",
 		"node",
 		"modules"
 	],
 	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--node/cli-toolbox",
-	"bugs": { "url": "https://github.com/Offirmo/offirmo-monorepo/issues" },
-
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	},
 	"toreview": {
 		"bytes": "^2",
 		"cfonts": "^1",

@@ -28,9 +28,11 @@
 
 	"devDependencies": {
 		"@offirmo-private/view-chat": "^0",
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"tslib": "^2"
 	},
 	"scripts": {
 		"demo": "node doc/demo.js"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/view-chat-ui-tty"
 }

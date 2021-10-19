@@ -12,5 +12,6 @@
 
 	"dependencies": {
 		"@offirmo-private/uuid": "^0"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-foundation/ensure-device-uuid-browser"
 }

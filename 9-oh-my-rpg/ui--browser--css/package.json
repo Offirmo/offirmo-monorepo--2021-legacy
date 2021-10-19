@@ -24,5 +24,6 @@
 		"clean-css-cli": "^5",
 		"cpx": "^1",
 		"npm-run-all": "^4"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/9-oh-my-rpg/ui--browser--css"
 }

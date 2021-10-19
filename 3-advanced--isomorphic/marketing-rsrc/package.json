@@ -11,11 +11,8 @@
 	"source": "index.js",
 	"sideEffects": false,
 
-	"dependencies": {
-	},
-
-	"devDependencies": {
-	},
-	"scripts": {
-	}
+	"dependencies": {},
+	"devDependencies": {},
+	"scripts": {},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--isomorphic/marketing-rsrc"
 }

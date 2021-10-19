@@ -21,10 +21,12 @@
 	},
 
 	"devDependencies": {
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"tslib": "^2"
 	},
 	"scripts": {
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/view-chat"
 }

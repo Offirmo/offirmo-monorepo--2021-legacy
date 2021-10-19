@@ -39,9 +39,12 @@
 		"build": "run-s build:prod"
 	},
 	"devDependencies": {
-		"@offirmo/universal-debug-api-node": "^0",
+		"@offirmo-private/soft-execution-context": "*",
 		"@offirmo-private/soft-execution-context-node": "^0",
 		"@offirmo/unit-test-toolbox": "^7",
-		"npm-run-all": "^4"
-	}
+		"@offirmo/universal-debug-api-node": "^0",
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--isomorphic/state-utils"
 }

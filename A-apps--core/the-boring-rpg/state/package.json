@@ -26,21 +26,21 @@
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/random": "^2",
 		"@offirmo/universal-debug-api-placeholder": "^1",
-		"@tbrpg/definitions": "^0",
 		"@oh-my-rpg/logic-adventures": "^0",
 		"@oh-my-rpg/logic-armors": "^0",
 		"@oh-my-rpg/logic-monsters": "^0",
-		"@tbrpg/logic--shop": "^0",
 		"@oh-my-rpg/logic-weapons": "^0",
-		"@tbrpg/state--character": "^0",
 		"@oh-my-rpg/state-codes": "^0",
 		"@oh-my-rpg/state-energy": "^0",
 		"@oh-my-rpg/state-engagement": "^0",
-		"@tbrpg/state--inventory": "^0",
 		"@oh-my-rpg/state-meta": "^0",
 		"@oh-my-rpg/state-prng": "^0",
-		"@tbrpg/state--progress": "^0",
 		"@oh-my-rpg/state-wallet": "^0",
+		"@tbrpg/definitions": "^0",
+		"@tbrpg/logic--shop": "^0",
+		"@tbrpg/state--character": "^0",
+		"@tbrpg/state--inventory": "^0",
+		"@tbrpg/state--progress": "^0",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
@@ -55,9 +55,12 @@
 	},
 	"devDependencies": {
 		"@offirmo-private/prettify-any": "^0",
+		"@offirmo-private/soft-execution-context": "*",
 		"@offirmo-private/state-migration-tester": "^0",
 		"@offirmo/unit-test-toolbox": "^7",
 		"icepick": "^2",
-		"npm-run-all": "^4"
-	}
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/the-boring-rpg/state"
 }

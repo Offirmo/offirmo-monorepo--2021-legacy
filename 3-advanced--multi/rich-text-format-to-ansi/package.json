@@ -16,8 +16,7 @@
 		"chalk": "^4"
 	},
 
-	"devDependencies": {
-	},
-	"scripts": {
-	}
+	"devDependencies": {},
+	"scripts": {},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/rich-text-format-to-ansi"
 }

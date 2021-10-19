@@ -47,6 +47,8 @@
 		"fs-extra": "^10",
 		"lodash": "^4",
 		"npm-run-all": "^4",
+		"tslib": "^2",
 		"typescript": "^4"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/the-boring-rpg/rsrc--backgrounds"
 }

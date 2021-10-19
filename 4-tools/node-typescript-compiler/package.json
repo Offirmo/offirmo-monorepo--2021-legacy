@@ -31,14 +31,13 @@
 	"files": [
 		"src"
 	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
-	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/node-typescript-compiler",
 	"keywords": [
 		"hello",
 		"typescript"
 	],
 	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/node-typescript-compiler",
-	"bugs": { "url": "https://github.com/Offirmo/offirmo-monorepo/issues" }
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
 }

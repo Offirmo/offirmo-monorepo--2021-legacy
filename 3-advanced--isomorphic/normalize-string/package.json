@@ -28,5 +28,6 @@
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^7",
 		"npm-run-all": "^4"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--isomorphic/normalize-string"
 }

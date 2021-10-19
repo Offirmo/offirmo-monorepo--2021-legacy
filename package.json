@@ -1,7 +1,7 @@
 {
 	"name": "offirmo-monorepo",
 	"description": "A monorepo for all my JavaScript / TypeScript projects. So convenient.",
-	"repository": "https://github.com/Offirmo/offirmo-monorepo.git",
+	"repository": "https://github.com/Offirmo/offirmo-monorepo",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",

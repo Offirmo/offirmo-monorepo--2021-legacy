@@ -31,5 +31,6 @@
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/5-incubator/active/credits"
 }

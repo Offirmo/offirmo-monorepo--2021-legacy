@@ -17,8 +17,8 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@tbrpg/definitions": "^0",
 		"@offirmo/random": "^2",
+		"@tbrpg/definitions": "^0",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
@@ -37,6 +37,8 @@
 	"devDependencies": {
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo/unit-test-toolbox": "^7",
-		"npm-run-all": "^4"
-	}
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/the-boring-rpg/logic--adventures"
 }

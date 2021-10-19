@@ -35,10 +35,10 @@
 		"@offirmo/deferred": "^4",
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@oh-my-rpg/assets--cursors": "^0",
-		"@tbrpg/audio-browser": "^0",
 		"@oh-my-rpg/rsrc-backgrounds": "^0",
 		"@oh-my-rpg/view-rich-text": "^0",
 		"@online-adventur.es/api-client": "^0",
+		"@tbrpg/audio-browser": "^0",
 		"@tbrpg/definitions": "^0",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0",
@@ -87,5 +87,6 @@
 	},
 	"commentedDependencies": {
 		"parcel-plugin-bundle-visualiser": "^1"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/C-apps--clients/the-boring-rpg/client--browser"
 }

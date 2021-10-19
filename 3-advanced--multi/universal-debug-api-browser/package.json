@@ -31,8 +31,8 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^3",
-		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/practical-logger-browser": "^3",
+		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/universal-debug-api-interface": "^1"
 	},
 
@@ -62,15 +62,14 @@
 		"dist",
 		"src"
 	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
-	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-browser",
 	"keywords": [
 		"debug",
 		"logger",
 		"typescript"
 	],
 	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-browser",
-	"bugs": { "url": "https://github.com/Offirmo/offirmo-monorepo/issues" }
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
 }

@@ -32,10 +32,12 @@
 		"demo": "node doc/demo-node/index.js"
 	},
 	"devDependencies": {
-		"@offirmo/practical-logger-browser": "^3",
 		"@offirmo-private/prettify-any": "^0",
 		"@offirmo-private/ts-types": "^0",
+		"@offirmo/practical-logger-browser": "^3",
 		"npm-run-all": "^4",
-		"tiny-invariant": "^1"
-	}
+		"tiny-invariant": "^1",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/rich-text-format"
 }

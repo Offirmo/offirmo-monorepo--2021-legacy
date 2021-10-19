@@ -23,5 +23,6 @@
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^7"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/simple-upgradable-template"
 }

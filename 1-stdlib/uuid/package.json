@@ -50,6 +50,8 @@
 		"@size-limit/preset-small-lib": "^5",
 		"np": "^7",
 		"npm-run-all": "^4",
-		"size-limit": "^5"
-	}
+		"size-limit": "^5",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-stdlib/uuid"
 }

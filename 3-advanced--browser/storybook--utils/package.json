@@ -36,16 +36,16 @@
 		"@offirmo/globalthis-ponyfill": "^3",
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@offirmo/universal-debug-api-placeholder": "^1",
+		"@storybook/react": "^6",
 		"classnames": "^2",
 		"emittery": "^0.8",
 		"prop-types": "^15",
-		"tiny-invariant": "^1",
-		"typescript-string-enums": "^1",
-
-		"@storybook/react": "^6",
 		"react": "^17",
 		"react-dom": "^17",
+		"tiny-invariant": "^1",
 		"tslib": "^2",
-		"typescript": "^4"
-	}
+		"typescript": "^4",
+		"typescript-string-enums": "^1"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/storybook--utils"
 }

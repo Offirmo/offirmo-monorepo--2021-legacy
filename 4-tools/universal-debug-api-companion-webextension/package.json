@@ -55,5 +55,6 @@
 		"tslib": "^2",
 		"typescript-string-enums": "^1",
 		"webextension-polyfill-ts": "^0"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/universal-debug-api-companion-webextension"
 }

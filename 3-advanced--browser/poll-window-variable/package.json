@@ -14,6 +14,6 @@
 		"@offirmo-private/poll": "^0"
 	},
 
-	"scripts": {
-	}
+	"scripts": {},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/poll-window-variable"
 }

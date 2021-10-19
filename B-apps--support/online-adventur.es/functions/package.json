@@ -81,5 +81,6 @@
 		"netlify-lambda": "^2",
 		"npm-run-all": "^4",
 		"size-limit": "^5"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/B-apps--support/online-adventur.es/functions"
 }

@@ -37,6 +37,8 @@
 	"devDependencies": {
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo/unit-test-toolbox": "^7",
-		"npm-run-all": "^4"
-	}
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/the-boring-rpg/logic--armors"
 }

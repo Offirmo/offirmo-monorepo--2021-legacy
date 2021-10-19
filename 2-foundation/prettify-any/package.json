@@ -36,6 +36,8 @@
 		"@offirmo/unit-test-toolbox": "^7",
 		"chalk": "^4",
 		"fetch-ponyfill": "^7",
-		"npm-run-all": "^4"
-	}
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-foundation/prettify-any"
 }

@@ -28,7 +28,11 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
+		"@offirmo-private/soft-execution-context": "*",
 		"parcel-bundler": "^1",
+		"prop-types": "^15",
+		"react": "^17",
 		"react-dom": "^17"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/react-error-boundary"
 }

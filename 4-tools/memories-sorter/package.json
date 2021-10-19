@@ -53,5 +53,6 @@
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo/unit-test-toolbox": "^7",
 		"npm-run-all": "^4"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/memories-sorter"
 }

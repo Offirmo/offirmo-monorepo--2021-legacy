@@ -35,9 +35,12 @@
 		"build": "run-s build:prod"
 	},
 	"devDependencies": {
+		"@offirmo-private/soft-execution-context": "*",
 		"@offirmo-private/state-migration-tester": "^0",
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo/unit-test-toolbox": "^7",
-		"npm-run-all": "^4"
-	}
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/the-boring-rpg/state--wallet"
 }

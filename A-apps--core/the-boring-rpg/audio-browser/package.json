@@ -34,6 +34,8 @@
 		"demo": "run-s start:parcel"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4"
-	}
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/the-boring-rpg/audio-browser"
 }

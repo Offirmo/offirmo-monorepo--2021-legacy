@@ -25,5 +25,6 @@
 	},
 	"devDependencies": {
 		"npm-run-all": "^4"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/B-apps--support/online-adventur.es/db-migrations"
 }

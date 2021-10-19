@@ -23,11 +23,12 @@
 		"@fontsource/roboto": "^4",
 		"@fontsource/roboto-condensed": "^4",
 		"@fontsource/roboto-mono": "^4",
-		"@offirmo-private/storybook--utils":"^0",
+		"@offirmo-private/storybook--utils": "^0",
 		"@storybook/react": "^6",
 		"clean-css-cli": "^5",
 		"cpx": "^1",
 		"normalize.css": "^8",
 		"npm-run-all": "^4"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/ui--browser--css"
 }
