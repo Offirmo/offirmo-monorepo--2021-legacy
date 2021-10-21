@@ -575,7 +575,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	}
 
 	// second most authoritative source
-	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying basename (non processed)…', { has_candidate: !!bcd__from_basename_np__oldest_known })
+	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying basename--NP', { has_candidate: !!bcd__from_basename_np__oldest_known })
 	if (bcd__from_basename_np__oldest_known) {
 		result.candidate = bcd__from_basename_np__oldest_known
 		result.sourceV1 = 'original_basename_np'
@@ -672,7 +672,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	const bcdⵧfrom_parent_folderⵧoldest = _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying parent folder…', {
 		has_candidate: !!bcdⵧfrom_parent_folderⵧoldest,
-		bcdⵧfrom_parent_folderⵧoldest,
+		bcdⵧfrom_parent_folderⵧoldest: get_debug_representation(bcdⵧfrom_parent_folderⵧoldest),
 	})
 	if (bcdⵧfrom_parent_folderⵧoldest) {
 		// while the parent's date is likely to be several days off
@@ -690,8 +690,11 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	/////// JUNK SOURCES ///////
 
 	// still the starting default
+	assert(result.source === 'fsⵧoldest')
 	assert(result.candidate === bcd__from_fs__oldest_known)
 	assert(result.confidence === 'junk')
+	assert(fs__reliabilityⵧaccording_to_env === 'unreliable')
+	result.source = 'fsⵧoldest+neighbor✖'
 	result.is_fs_matching = true // obviously
 
 	logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta() defaulted to ${get_debug_representation(result.candidate)} from ${result.source} with confidence = ${result.confidence} ✔`)
@@ -740,7 +743,10 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 
 	// strongest source
 	const bcd__from_exif = _get_creation_dateⵧfrom_exif(state)
-	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying EXIF…')
+	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying EXIF…', {
+		has_candidate: !!bcd__from_exif,
+		...(!!bcd__from_exif && {data: state.current_exif_data}),
+	})
 	if (bcd__from_exif) {
 		// best situation, EXIF is the most reliable
 		result.candidate = bcd__from_exif
@@ -779,7 +785,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	}
 
 	// second most authoritative source
-	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying current basename NP…')
+	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying current basename--NP…', { has_candidate: !!bcd__from_basename_np__current })
 	if (bcd__from_basename_np__current) {
 		result.candidate = bcd__from_basename_np__current
 		result.sourceV1 = 'current_basename_np'
@@ -815,15 +821,15 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	// FS is ok as PRIMARY if confirmed by some primary hints
 	// Note that hints are secondary but the main data is truely primary
 	if (state.current_neighbor_hints) {
-
-		const current_fs_reliability = _get_current_fs_reliability_according_to_own_and_env(state)
+		const fs__reliabilityⵧaccording_to_env = _get_current_fs_reliability_according_to_own_and_env(state)
 		logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying FS as primary (if reliable)…', {
 			bcd__from_fs__current: get_debug_representation(bcd__from_fs__current),
 			current_neighbor_hints: NeighborHintsLib.to_string(state.current_neighbor_hints),
-			current_fs_reliability,
+			current_fs_reliability: fs__reliabilityⵧaccording_to_env,
 			expected: 'reliable'
 		})
-		if (current_fs_reliability === 'reliable') {
+
+		if (fs__reliabilityⵧaccording_to_env === 'reliable') {
 			result.candidate = bcd__from_fs__current
 			result.sourceV1 = 'current_fs+current_env_hints'
 			result.source = 'fsⵧcurrent+neighbor✔'
@@ -844,7 +850,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	// we trust our past self which may have had more info at the time
 	// however we don't entirely trust (ex. old algorithm with bugs), so the confidence is downgraded to secondary
 	const date__from_basename_p__current = _get_creation_dateⵧfrom_basename_pⵧcurrent(state)
-	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying current basename date if already processed…', { has_candidate: !!date__from_basename_p__current })
+	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying current basename--P…', { has_candidate: !!date__from_basename_p__current })
 	if (date__from_basename_p__current) {
 		result.candidate = date__from_basename_p__current
 		result.sourceV1 = 'some_basename_p'
@@ -863,7 +869,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 		current_neighbor_hints: NeighborHintsLib.to_string(state.current_neighbor_hints),
 	})
 	if (state.current_neighbor_hints) {
-
 		const current_fs_reliability = _get_current_fs_reliability_according_to_own_and_env(state)
 		logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying FS as secondary (if reliability unknown)…', {
 			bcd__from_fs__current: get_debug_representation(bcd__from_fs__current),
@@ -885,9 +890,13 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 		// borderline secondary/junk
 		// the user may have manually sorted the file into the right folder
 		// why secondary and not junk? -> to keep the file in its current folder
-		const date__from_parent_folder__current = _get_creation_dateⵧfrom_parent_folderⵧcurrent(state)
-		if (date__from_parent_folder__current) {
-			result.candidate = date__from_parent_folder__current
+		const bcdⵧfrom_parent_folderⵧcurrent = _get_creation_dateⵧfrom_parent_folderⵧcurrent(state)
+		logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying parent folder…', {
+			has_candidate: !!bcdⵧfrom_parent_folderⵧcurrent,
+			bcdⵧfrom_parent_folderⵧcurrent: get_debug_representation(bcdⵧfrom_parent_folderⵧcurrent),
+		})
+		if (bcdⵧfrom_parent_folderⵧcurrent) {
+			result.candidate = bcdⵧfrom_parent_folderⵧcurrent
 			result.sourceV1 = 'current_env_hints'
 			result.source = 'parentⵧcurrent'
 			result.confidence = 'secondary'
@@ -902,8 +911,13 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	/////// JUNK SOURCE ///////
 
 	// default to fs
-	assert(result.sourceV1 === 'current_fs')
+	assert(result.source === 'fsⵧcurrent')
 	assert(result.confidence === 'junk')
+	if (state.current_neighbor_hints) {
+		const current_fs_reliability = _get_current_fs_reliability_according_to_own_and_env(state)
+		assert(current_fs_reliability === 'unreliable')
+		result.source = 'fsⵧcurrent+neighbor✖'
+	}
 
 	logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta() defaulted to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
 	return result

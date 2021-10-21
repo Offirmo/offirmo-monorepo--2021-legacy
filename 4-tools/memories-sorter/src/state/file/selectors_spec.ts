@@ -3,8 +3,6 @@ import { Immutable } from '@offirmo-private/ts-types'
 
 import { LIB } from '../../consts'
 import {
-	State,
-	BestCreationDate,
 	create,
 	get_best_creation_date‿meta,
 	get_best_creation_dateⵧfrom_current_data‿meta,
@@ -15,11 +13,10 @@ import {
 	on_info_read__exif,
 	on_info_read__fs_stats,
 	on_info_read__hash,
-	on_notes_recovered, FsReliability, PersistedNotes,
+	on_notes_recovered,
 } from '.'
 import {
 	create_better_date,
-	create_better_date_obj,
 	get_human_readable_timestamp_auto,
 	get_timestamp_utc_ms_from,
 } from '../../services/better-date'
@@ -30,12 +27,11 @@ import {
 	REAL_CREATION_DATE‿TMS,
 	REAL_CREATION_DATE‿HRTS,
 	BAD_CREATION_DATE_CANDIDATE‿TMS,
+	BAD_CREATION_DATE_CANDIDATE‿HRTS,
 } from '../../__test_shared/utils'
 import * as NeighborHintsLib from './sub/neighbor-hints'
 
 import './__test_shared'
-import { Basename } from '../../types'
-import { get_debug_representation } from './sub/neighbor-hints'
 
 /////////////////////
 
@@ -137,12 +133,12 @@ describe.only(`${LIB} - file (state)`, function() {
 
 						const bcdm = get_best_creation_date‿meta(state)
 						expect(bcdm.source, 'source').to.equal('exifⵧoldest') // oldest indeed, those are original data afawk
-						expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+						expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
 						expect(bcdm.confidence, 'confidence').to.equal('primary')
 						expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 						// final as integration
-						expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+						expect(get_ideal_basename(state), 'ideal basename').to.equal(`MM${REAL_CREATION_DATE‿HRTS}_bar.jpg`)
 					})
 
 					context('when encountering the file for the second time', function () {
@@ -172,7 +168,7 @@ describe.only(`${LIB} - file (state)`, function() {
 					context('when having a date from a NP basename', function() {
 
 						beforeEach(() => {
-							stategen.inputs.basenameⵧcurrent = 'IMG_20171020_0501.jpg'
+							stategen.inputs.basenameⵧcurrent = 'IMG_20030313_2333.jpg' // should match REAL_CREATION_DATE
 						})
 
 						context('when having a matching FS date', function() {
@@ -196,13 +192,13 @@ describe.only(`${LIB} - file (state)`, function() {
 
 								const bcdm = get_best_creation_date‿meta(state)
 								expect(bcdm.source, 'source').to.equal('basename_npⵧoldest+fs')
-								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
 								expect(bcdm.from_historical, 'origin').to.equal(true)
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
-								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625.jpg')
+								expect(get_ideal_basename(state), 'ideal basename').to.equal(`MM${REAL_CREATION_DATE‿HRTS}.jpg`)
 							})
 
 							context('when encountering the file for the second time', function () {
@@ -244,13 +240,13 @@ describe.only(`${LIB} - file (state)`, function() {
 
 									const bcdm = get_best_creation_date‿meta(state)
 									expect(bcdm.source, 'source').to.equal('basename_npⵧoldest')
-									expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01')
+									expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS.slice(0, 16))
 									expect(bcdm.confidence, 'confidence').to.equal('primary')
 									expect(bcdm.from_historical, 'origin').to.equal(true)
 									expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 									// final as integration
-									expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01.jpg')
+									expect(get_ideal_basename(state), 'ideal basename').to.equal(`MM${REAL_CREATION_DATE‿HRTS.slice(0, 16)}.jpg`)
 								})
 
 							context('when encountering the file for the second time', function () {
@@ -296,12 +292,12 @@ describe.only(`${LIB} - file (state)`, function() {
 
 								const bcdm = get_best_creation_date‿meta(state)
 								expect(bcdm.source, 'source').to.equal('fsⵧoldest+neighbor✔')
-								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2017-10-20_05h01m44s625')
+								expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
 								expect(bcdm.confidence, 'confidence').to.equal('primary')
 								expect(bcdm.is_fs_matching, 'fs matching').to.be.true
 
 								// final as integration
-								expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2017-10-20_05h01m44s625_bar.jpg')
+								expect(get_ideal_basename(state), 'ideal basename').to.equal(`MM${REAL_CREATION_DATE‿HRTS}_bar.jpg`)
 							})
 
 							context('when encountering the file for the second time', function () {
@@ -332,7 +328,7 @@ describe.only(`${LIB} - file (state)`, function() {
 							context('when having a date from a P basename', function() {
 
 								beforeEach(() => {
-									stategen.inputs.basenameⵧcurrent = 'MM2015-11-21_09h08m07s654_foo.jpg'
+									stategen.inputs.basenameⵧcurrent = `MM${REAL_CREATION_DATE‿HRTS}_bar.jpg`
 								})
 
 								it('should use the basename date', () => {
@@ -355,12 +351,12 @@ describe.only(`${LIB} - file (state)`, function() {
 
 									const bcdm = get_best_creation_date‿meta(state)
 									expect(bcdm.source, 'source').to.equal('basename_pⵧcurrent') // secondary = current now has precedence to stay in same folder
-									expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2015-11-21_09h08m07s654')
+									expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
 									expect(bcdm.confidence, 'confidence').to.equal('secondary')
 									expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 									// final as integration
-									expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2015-11-21_09h08m07s654_foo.jpg') // no change
+									expect(get_ideal_basename(state), 'ideal basename').to.equal(`MM${REAL_CREATION_DATE‿HRTS}_bar.jpg`) // no change
 								})
 
 								context('when encountering the file for the second time', function () {
@@ -446,7 +442,7 @@ describe.only(`${LIB} - file (state)`, function() {
 							context('when having a date from a P basename', function() {
 
 								beforeEach(() => {
-									stategen.inputs.basenameⵧcurrent = 'MM2015-11-21_09h08m07s654_foo.jpg'
+									stategen.inputs.basenameⵧcurrent = `MM${REAL_CREATION_DATE‿HRTS}_bar.jpg`
 								})
 
 								it('should use the basename date', () => {
@@ -469,12 +465,12 @@ describe.only(`${LIB} - file (state)`, function() {
 
 									const bcdm = get_best_creation_date‿meta(state)
 									expect(bcdm.source, 'source').to.equal('basename_pⵧcurrent') // secondary = current now has precedence to stay in same folder
-									expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal('2015-11-21_09h08m07s654')
+									expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
 									expect(bcdm.confidence, 'confidence').to.equal('secondary')
 									expect(bcdm.is_fs_matching, 'fs matching').to.be.false
 
 									// final as integration
-									expect(get_ideal_basename(state), 'ideal basename').to.equal('MM2015-11-21_09h08m07s654_foo.jpg') // no change
+									expect(get_ideal_basename(state), 'ideal basename').to.equal(`MM${REAL_CREATION_DATE‿HRTS}_bar.jpg`) // no change
 								})
 
 								context('when encountering the file for the second time', function () {
@@ -510,7 +506,7 @@ describe.only(`${LIB} - file (state)`, function() {
 										})
 									})
 
-									it.only('should use the parent folder date', () => {
+									it('should use the parent folder date', () => {
 										let state = stategen.create_state()
 										expect(state.current_neighbor_hints?.fallback_junk_bcd, 'prereq').not.to.be.undefined // check prerequisite
 
@@ -529,7 +525,7 @@ describe.only(`${LIB} - file (state)`, function() {
 										expect(bcdm.source, 'source').to.equal('parentⵧcurrent')
 										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
 										expect(bcdm.confidence, 'confidence').to.equal('secondary')
-										expect(bcdm.is_fs_matching, 'fs matching').to.be.true // obviously
+										expect(bcdm.is_fs_matching, 'fs matching').to.be.false // obviously
 
 										// final as integration
 										expect(get_ideal_basename(state), 'ideal basename').to.equal('bar.jpg') // no renaming since no confidence
@@ -576,9 +572,9 @@ describe.only(`${LIB} - file (state)`, function() {
 											.to.equal(get_human_readable_timestamp_auto(bcdmⵧcurrent.candidate, 'tz:embedded'))
 
 										const bcdm = get_best_creation_date‿meta(state)
-										expect(bcdm.source, 'source').to.equal('fsⵧcurrent+neighbor✖')
-										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(REAL_CREATION_DATE‿HRTS)
-										expect(bcdm.confidence, 'confidence').to.equal('secondary')
+										expect(bcdm.source, 'source').to.equal('fsⵧoldest+neighbor✖')
+										expect(get_human_readable_timestamp_auto(bcdm.candidate, 'tz:embedded'), 'date hr').to.equal(BAD_CREATION_DATE_CANDIDATE‿HRTS)
+										expect(bcdm.confidence, 'confidence').to.equal('junk')
 										expect(bcdm.is_fs_matching, 'fs matching').to.be.true // obviously
 
 										// final as integration

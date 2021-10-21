@@ -11,6 +11,7 @@ import {
 	get_debug_representation as get_better_date_debug_representation,
 	get_timestamp_utc_ms_from,
 	create_better_date_from_utc_tms,
+	get_members_for_serialization,
 } from '../../../../services/better-date'
 
 /////////////////////
@@ -158,8 +159,8 @@ export function get_historical_representation(state: Immutable<NeighborHints>, f
 	return {
 		fs_reliability,
 		...(fs_reliability === 'unreliable' && {
-			parent_bcd: fallback_junk_bcd,
-		} as HistoricalNeighborHints)
+			parent_bcd: fallback_junk_bcd ? get_members_for_serialization(fallback_junk_bcd) : undefined,
+		})
 	}
 }
 

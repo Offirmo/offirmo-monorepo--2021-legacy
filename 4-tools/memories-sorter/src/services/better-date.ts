@@ -402,7 +402,7 @@ export function create_better_date(
 	milli?: number,
 	PARAMS: Immutable<Params> = get_params(),
 ): BetterDate {
-	const date = create_better_date_obj({
+	const members = {
 		year,
 		month,
 		day,
@@ -411,7 +411,10 @@ export function create_better_date(
 		second,
 		milli,
 		tz,
-	}, PARAMS)
+	}
+	assert(Object.keys(members).length > 1, `create_better_date() no members, this is not what you want!`)
+
+	const date = create_better_date_obj(members, PARAMS)
 	date._debug = {
 		'create_better_date': {
 			year,
@@ -436,10 +439,11 @@ export function create_better_date_obj({
 	second,
 	milli,
 	tz = 'tz:auto',
+	...unhandled
 }: Immutable<BetterDateMembers>, PARAMS: Immutable<Params> = get_params()): BetterDate {
 	//console.log(PARAMS)
-
-	let _lx = LuxonDateTime.fromObject({
+	assert(Object.keys(unhandled).length === 0, `create_better_date_obj() unhandled params:"${Object.keys(unhandled).join(',')}"!`)
+	const members = {
 		year,
 		month,
 		day,
@@ -447,6 +451,11 @@ export function create_better_date_obj({
 		minute,
 		second,
 		millisecond: milli,
+	}
+	assert(Object.keys(members).length > 0, `create_better_date_obj() no members, this is not what you want!`)
+
+	let _lx = LuxonDateTime.fromObject({
+		...members,
 		...(tz !== 'tz:auto' && { zone: tz }),
 	})
 	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_obj()--1: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)

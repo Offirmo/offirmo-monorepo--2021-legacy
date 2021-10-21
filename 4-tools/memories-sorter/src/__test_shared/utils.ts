@@ -63,17 +63,17 @@ export async function load_real_media_file(
 	return enforce_immutability(state)
 }
 
-export const REAL_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 20, 5, 1, 44, 625)
+export const REAL_CREATION_DATE = create_better_date('tz:auto', 2003, 3, 13, 23, 33, 43, 333)
 export const REAL_CREATION_DATE‿HRTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
-assert(REAL_CREATION_DATE‿HRTS === '2017-10-20_05h01m44s625', 'REAL_CREATION_DATE‿HRTS should be correct')
+assert(REAL_CREATION_DATE‿HRTS === '2003-03-13_23h33m43s333', 'REAL_CREATION_DATE‿HRTS should be correct')
 export const REAL_CREATION_DATE‿TMS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
 const REAL_CREATION_DATE‿LEGACY = new Date(REAL_CREATION_DATE‿TMS)
 export const REAL_CREATION_DATE‿EXIF = _get_exif_datetime(REAL_CREATION_DATE)
 
 // must be OLDER yet we won't pick it
-const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2016, 11, 21, 9, 8, 7, 654)
-const BAD_CREATION_DATE_CANDIDATE‿HRTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
-assert(BAD_CREATION_DATE_CANDIDATE‿HRTS === '2016-11-21_09h08m07s654', 'BAD_CREATION_DATE_CANDIDATE‿HRTS should be correct')
+const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2006, 6, 26, 16, 36, 46, 666)
+export const BAD_CREATION_DATE_CANDIDATE‿HRTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
+assert(BAD_CREATION_DATE_CANDIDATE‿HRTS === '2006-06-26_16h36m46s666', 'BAD_CREATION_DATE_CANDIDATE‿HRTS should be correct')
 export const BAD_CREATION_DATE_CANDIDATE‿TMS = get_timestamp_utc_ms_from(BAD_CREATION_DATE_CANDIDATE)
 const BAD_CREATION_DATE_CANDIDATE‿LEGACY = new Date(BAD_CREATION_DATE_CANDIDATE‿TMS)
 const BAD_CREATION_DATE_CANDIDATE‿EXIF = _get_exif_datetime(BAD_CREATION_DATE_CANDIDATE)
@@ -92,7 +92,7 @@ const DEFAULT_FILE_INPUTS = {
 	basenameⵧcurrent: 'bar.jpg',
 
 	dateⵧfsⵧcurrent‿tms: BAD_CREATION_DATE_CANDIDATE‿TMS, // always exist
-	dateⵧexif: BAD_CREATION_DATE_CANDIDATE‿EXIF as null | typeof REAL_CREATION_DATE‿EXIF,
+	dateⵧexif: null as null | typeof REAL_CREATION_DATE‿EXIF,
 	hashⵧcurrent: 'hash01',
 	neighbor_hints__fs_reliability_shortcut: 'unknown' as FsReliability,
 	neighbor_hints__junk_bcd: undefined as undefined | BetterDate,
@@ -103,7 +103,6 @@ const DEFAULT_FILE_INPUTS = {
 	// won't be used unless notes = auto
 	autoǃbasename__historical: undefined as Basename | undefined,
 	autoǃdate__fs_ms__historical: undefined as TimestampUTCMs | undefined,
-	// TODO one day other historical fields (hints)
 }
 
 function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
@@ -130,7 +129,7 @@ function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
 			parent_path: 'original_parent_path',
 			fs_bcd_tms: inputs.autoǃdate__fs_ms__historical ?? BAD_CREATION_DATE_CANDIDATE‿TMS,
 			neighbor_hints: (() => {
-				throw new Error('NIMP _get_auto_notes nh!')
+				throw new Error('NIMP _get_auto_notes neighbor_hints!')
 				//FileLib.NeighborHintsLib.get_historical_representation(FileLib.NeighborHintsLib.create())
 			})(),
 		},
