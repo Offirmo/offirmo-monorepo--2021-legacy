@@ -35,7 +35,7 @@ import './__test_shared'
 
 /////////////////////
 
-describe.only(`${LIB} - file (state)`, function() {
+describe(`${LIB} - file (state)`, function() {
 
 	describe('selectors', function() {
 

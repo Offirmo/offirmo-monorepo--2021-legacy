@@ -11,7 +11,7 @@ import {
 	get_debug_representation as get_better_date_debug_representation,
 	get_timestamp_utc_ms_from,
 	create_better_date_from_utc_tms,
-	get_members_for_serialization,
+	get_members_for_serialization, compare_utc,
 } from '../../../../services/better-date'
 
 /////////////////////
@@ -31,20 +31,20 @@ export function get_fallback_junk_bcd(state: Immutable<NeighborHints>): undefine
 }
 
 export function is_matching_parent_folder_expected_date_ranges(state: Immutable<NeighborHints>, candidate: Immutable<BetterDate>): boolean {
-	//return false
-	throw new Error('NIMP is_matching_parent_folder_expected_date_ranges')
+	let result = false // so far
 
-	/*
-	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
-	if (bcd__from_parent_folder__current) {
-		const bcd__from_parent_folder__current‿tms = get_timestamp_utc_ms_from(bcd__from_parent_folder__current)
+	state.expected_bcd_ranges.forEach(({begin, end}) => {
+		const is_before_range = compare_utc(candidate, begin) < 0
+		if (is_before_range)
+			return
+		const is_after_range = compare_utc(end, candidate) < 0
+		if (is_after_range)
+			return
 
-		if (bcdⵧfrom_fsⵧcurrent‿tms >= bcd__from_parent_folder__current‿tms
-			&& bcdⵧfrom_fsⵧcurrent‿tms < (bcd__from_parent_folder__current‿tms + PARAMS.max_event_durationⳇₓday * DAY_IN_MILLIS)) {
-			// ok, looks like an event folder configuration
-			logger.trace(`_get_current_fs_reliability_according_to_own_and_env() current fs reliability has been assessed to "reliable" from our fs + parent folder bcd`)
-			return 'reliable'
-		}*/
+		result = true
+	})
+
+	return result
 }
 
 export function is_candidate_fs_bcd_looking_reliable_according_to_neighbor_hints(state: Immutable<NeighborHints>, candidate‿tms: TimestampUTCMs): FsReliability {
