@@ -129,8 +129,9 @@ function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
 			parent_path: 'original_parent_path',
 			fs_bcd_tms: inputs.autoǃdate__fs_ms__historical ?? BAD_CREATION_DATE_CANDIDATE‿TMS,
 			neighbor_hints: (() => {
-				throw new Error('NIMP _get_auto_notes neighbor_hints!')
-				//FileLib.NeighborHintsLib.get_historical_representation(FileLib.NeighborHintsLib.create())
+				return {
+					// empty, happens
+				}
 			})(),
 		},
 	}

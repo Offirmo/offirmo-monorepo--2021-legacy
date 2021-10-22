@@ -11,7 +11,7 @@ import { get_lib_SEC } from '../../services/sec'
 import { create } from '.'
 
 
-describe.only(`${LIB} - migration`, function() {
+describe(`${LIB} - migration`, function() {
 	/*const TEST_DATE_MS = 1234567890
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers(TEST_DATE_MS)

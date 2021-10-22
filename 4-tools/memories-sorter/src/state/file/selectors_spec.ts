@@ -623,9 +623,6 @@ describe.only(`${LIB} - file (state)`, function() {
 					})
 
 					context('when NOT having an EXIF date', function() {
-						beforeEach(() => {
-							stategen.inputs.dateⵧexif = null
-						})
 
 						context('when having a date in the ORIGINAL basename -- NON processed', function() {
 
@@ -633,14 +630,14 @@ describe.only(`${LIB} - file (state)`, function() {
 
 								context('when the CURRENT basename is already normalized and valid', function() {
 
-									context(' real bug encountered 2020/12/16', function() {
+									context('real bug encountered 2020/12/16', function() {
 										beforeEach(() => {
 											// = GMT: Wednesday, 31 July 2019 3:00:22 AM
 											// not exact match but within acceptable range of a tz difference
 											stategen.inputs.autoǃdate__fs_ms__historical = 1564542022000
-											stategen.inputs.dateⵧfsⵧcurrent‿tms = stategen.inputs.autoǃdate__fs_ms__historical // TODO test with random
 											stategen.inputs.autoǃbasename__historical = 'Capture d’écran 2019-07-31 à 21.00.15.png'
 											stategen.inputs.basenameⵧcurrent = 'MM2019-07-31_21h00m15_screenshot.png' // perfectly matching
+											stategen.inputs.dateⵧfsⵧcurrent‿tms = stategen.inputs.autoǃdate__fs_ms__historical // TODO test with random
 										})
 
 										it(`should be stable = no change`, () => {
