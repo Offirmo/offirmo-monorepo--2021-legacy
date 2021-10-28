@@ -105,7 +105,7 @@ describe(`${LIB} - file (state)`, function() {
 						}
 
 						default:
-							throw new Error('NIMP TEST!')
+							throw new Error('expect_second_encounter_to_be_stable() switch default!')
 					}
 				}
 

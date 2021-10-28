@@ -329,8 +329,6 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 	states.forEach(candidate_state => {
 		if (candidate_state === selected_state) return
 
-		//min_fs_bcd_tms = Math.min(min_fs_bcd_tms, get_most_reliable_birthtime_from_fs_stats(candidate_state.current_fs_stats!))
-
 		// equal so far, try to discriminate with a criteria
 		const selected__has_normalized_basename = get_file_basename_without_copy_index(get_current_basename(selected_state)) === get_ideal_basename(selected_state)
 		const candidate__has_normalized_basename = get_file_basename_without_copy_index(get_current_basename(candidate_state)) === get_ideal_basename(candidate_state)

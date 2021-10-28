@@ -30,7 +30,6 @@ export function get_logger<State extends WithLogs>(state: Immutable<State>, exis
 		return state
 	}
 
-	throw new Error('NIMP')
 	return {
 		...logger,
 		get_state,

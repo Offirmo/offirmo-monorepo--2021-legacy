@@ -243,13 +243,10 @@ export const MEDIA_DEMO_06: MediaDemo = {
 
 	IDEAL_BASENAME: MEDIA_DEMO_06_basename, // no change bc no reliable data
 }
-utimes(
+utimes( // fix fs time after doing git checkout since git doesn't preserve those
 	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_06_basename),
 	1584751060000 // 2020-03-21_11h37m40 local
 )
-
-
-// TODO add the horrible whatsapp video
 
 /////////////////////////////////////////////////
 

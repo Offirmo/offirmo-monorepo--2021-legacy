@@ -467,30 +467,7 @@ export type DateConfidence =
 export interface BestCreationDate {
 	candidate: BetterDate
 	source: `${'exif' | 'basename_np' | 'fs' | 'basename_p' | 'parent'}ⵧ${'current' | 'oldest'}${'' | '+fs' | `+neighbor${'✔' | '?' | '✖'}`}`
-	sourceV1: // TODO remove
-	// primary
-		| 'manual'
 
-		// primary
-		| 'exif'
-
-		// primary -- original
-		| 'original_basename_np' | 'original_basename_np+fs'
-		| 'original_fs+original_env_hints'
-
-		// primary -- current
-		| 'current_basename_np'
-		| 'some_basename_np' | 'some_basename_np+fs'
-		| 'current_fs+current_env_hints'
-
-		// secondary
-		| 'some_basename_p'
-		| 'original_env_hints'
-		| 'current_env_hints'
-
-		// junk
-		| 'original_fs'
-		| 'current_fs'
 	confidence: DateConfidence // redundant with 'source' but makes it easier to code / consume
 	from_historical: boolean // redundant with 'source' but makes it easier to code / consume
 	is_fs_matching: boolean // useful for deciding to fix FS or not TODO use
@@ -518,7 +495,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	const result: BestCreationDate = {
 		// so far. safe, init values
 		candidate: bcd__from_fs__oldest_known,
-		sourceV1: 'original_fs',
 		source: 'fsⵧoldest',
 		confidence: 'junk',
 		from_historical: true,
@@ -541,7 +517,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	if (bcd__from_exif) {
 		// best situation, EXIF is the most reliable
 		result.candidate = bcd__from_exif
-		result.sourceV1 = 'exif'
 		result.source = 'exifⵧoldest'
 		result.confidence = 'primary'
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
@@ -578,7 +553,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying basename--NP', { has_candidate: !!bcd__from_basename_np__oldest_known })
 	if (bcd__from_basename_np__oldest_known) {
 		result.candidate = bcd__from_basename_np__oldest_known
-		result.sourceV1 = 'original_basename_np'
 		result.source = 'basename_npⵧoldest'
 		result.confidence = 'primary'
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
@@ -587,7 +561,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 		const auto_from_fs = get_human_readable_timestamp_auto(bcd__from_fs__oldest_known, 'tz:embedded')
 		if (auto_from_fs.startsWith(auto_from_candidate)) {
 			// perfect match, switch to FS more precise
-			result.sourceV1 = 'original_basename_np+fs'
 			result.source = 'basename_npⵧoldest+fs'
 			result.candidate = bcd__from_fs__oldest_known
 		}
@@ -616,7 +589,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	})
 	if (fs__reliabilityⵧaccording_to_env === 'reliable') {
 		result.candidate = bcd__from_fs__oldest_known
-		result.sourceV1 = 'original_fs+original_env_hints'
 		result.source = 'fsⵧoldest+neighbor✔'
 		result.confidence = 'primary'
 		result.is_fs_matching = true
@@ -639,7 +611,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying basename (already processed)…', { has_candidate: !!date__from_basename_p__oldest_known })
 	if (date__from_basename_p__oldest_known) {
 		result.candidate = date__from_basename_p__oldest_known
-		result.sourceV1 = 'some_basename_p'
 		result.source = 'basename_pⵧoldest'
 		result.confidence = 'secondary' // since we can't guarantee that it's truly from original
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
@@ -659,7 +630,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 		// not that bad
 		// we won't rename the file, but good enough to match to an event
 		result.candidate = bcd__from_fs__oldest_known
-		result.sourceV1 = 'original_fs+original_env_hints'
 		result.source = 'fsⵧoldest+neighbor?'
 		result.confidence = 'secondary'
 		result.is_fs_matching = true
@@ -679,7 +649,6 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 		// it's still useful for sorting into an event
 		result.candidate = bcdⵧfrom_parent_folderⵧoldest
 		result.source = 'parentⵧoldest'
-		result.sourceV1 = 'original_env_hints'
 		result.confidence = 'secondary'
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__oldest_known, result.candidate)
 
@@ -727,7 +696,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 
 	const result: BestCreationDate = {
 		candidate: bcd__from_fs__current,
-		sourceV1: 'current_fs',
 		source: 'fsⵧcurrent',
 		confidence: 'junk',
 		from_historical: false, // always in this func
@@ -750,7 +718,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	if (bcd__from_exif) {
 		// best situation, EXIF is the most reliable
 		result.candidate = bcd__from_exif
-		result.sourceV1 = 'exif'
 		result.source = 'exifⵧcurrent'
 		result.confidence = 'primary'
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
@@ -788,7 +755,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying current basename--NP…', { has_candidate: !!bcd__from_basename_np__current })
 	if (bcd__from_basename_np__current) {
 		result.candidate = bcd__from_basename_np__current
-		result.sourceV1 = 'current_basename_np'
 		result.source = 'basename_npⵧcurrent'
 		result.confidence = 'primary'
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
@@ -797,7 +763,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 		const auto_from_fs = get_human_readable_timestamp_auto(bcd__from_fs__current, 'tz:embedded')
 		if (auto_from_fs.startsWith(auto_from_candidate)) {
 			// perfect match, switch to FS more precise
-			result.sourceV1 = 'some_basename_np+fs'
 			result.source = 'basename_npⵧcurrent+fs'
 			result.candidate = bcd__from_fs__current
 		}
@@ -831,7 +796,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 
 		if (fs__reliabilityⵧaccording_to_env === 'reliable') {
 			result.candidate = bcd__from_fs__current
-			result.sourceV1 = 'current_fs+current_env_hints'
 			result.source = 'fsⵧcurrent+neighbor✔'
 			result.confidence = 'primary'
 			result.is_fs_matching = true
@@ -853,7 +817,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying current basename--P…', { has_candidate: !!date__from_basename_p__current })
 	if (date__from_basename_p__current) {
 		result.candidate = date__from_basename_p__current
-		result.sourceV1 = 'some_basename_p'
 		result.source = 'basename_pⵧcurrent'
 		result.confidence = 'secondary' // since we can't guarantee that it's truly from original + unsure we can trust a past algo
 		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
@@ -878,7 +841,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 		})
 		if (current_fs_reliability === 'unknown') {
 			result.candidate = bcd__from_fs__current
-			result.sourceV1 = 'current_fs+current_env_hints'
 			result.source = 'fsⵧcurrent+neighbor?'
 			result.confidence = 'secondary'
 			result.is_fs_matching = true
@@ -897,7 +859,6 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 		})
 		if (bcdⵧfrom_parent_folderⵧcurrent) {
 			result.candidate = bcdⵧfrom_parent_folderⵧcurrent
-			result.sourceV1 = 'current_env_hints'
 			result.source = 'parentⵧcurrent'
 			result.confidence = 'secondary'
 			result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_fs__current, result.candidate)
@@ -947,7 +908,6 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 
 	const result: BestCreationDate = {
 		candidate: bcd__from_fs__oldest_known,
-		sourceV1: 'original_fs',
 		source: 'fsⵧoldest',
 		confidence: 'junk',
 		from_historical: false,

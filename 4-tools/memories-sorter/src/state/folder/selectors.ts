@@ -174,7 +174,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 		}
 		else {
 			// strange situation, let's investigate...
-			throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP1')
+			throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() could this happen?!')
 		}
 	}
 

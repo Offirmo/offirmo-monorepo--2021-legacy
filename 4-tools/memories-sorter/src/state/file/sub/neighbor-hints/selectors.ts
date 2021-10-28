@@ -16,9 +16,10 @@ import {
 
 /////////////////////
 
+/*
 export function get_expected_bcd_range(): undefined | DateRange {
-	throw new Error('NIMP NeighborHints get_expected_bcd_range()')
 }
+*/
 
 ///////////////////// Current /////////////////////
 
@@ -98,7 +99,7 @@ export function to_string(state: undefined | Immutable<NeighborHints>): any {
 	}
 	else {
 		if (Object.keys(unhandled).length > 0)
-			throw new Error('NIMP to_string!')
+			throw new Error('NeighborHints.to_string() needs upgrade!')
 
 		result += `${expected_bcd_ranges.length} ranges; fb-junk-date=${get_better_date_debug_representation(fallback_junk_bcd)}`
 	}
@@ -123,7 +124,7 @@ export function get_debug_representation(state: undefined | Immutable<NeighborHi
 	} = state
 
 	if (Object.keys(unhandled).length > 0)
-		throw new Error('NIMP get_debug_representation!')
+		throw new Error('NeighborHints.get_debug_representation needs upgrade!')
 
 	result = {
 		...result,
@@ -184,7 +185,7 @@ export function to_stringⵧhistorical(state: Immutable<HistoricalNeighborHints>
 	const { /*fs_reliability,*/ ...unhandled } = state
 
 	if (Object.keys(unhandled).length > 0)
-		throw new Error('NIMP to_stringⵧhistorical!')
+		throw new Error('HistoricalNeighborHints.to_string() needs upgrade!')
 
 	return '<HistoricalNeighborHints>'
 }
