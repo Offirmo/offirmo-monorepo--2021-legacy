@@ -36,10 +36,10 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			best_date_afawk_symd: undefined,
+			bcd_afawk‿symd: undefined,
 			// debug
-			currently_known_as: 'Image from iOS (15).jpg',
-			renaming_source: undefined,
+			_currently_known_as: 'Image from iOS (15).jpg',
+			_bcd_source: undefined,
 		},
 
 		'ce6b3d3128a28331db2a25c42671a3793af557454165aa5a1d56c71160cb291c': {
@@ -57,10 +57,10 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			best_date_afawk_symd: undefined,
+			bcd_afawk‿symd: undefined,
 			// debug
-			'currently_known_as': 'MM2019-08-27_12h45m05s158_IMG_1474.jpg',
-			'renaming_source': 'exif'
+			'_currently_known_as': 'MM2019-08-27_12h45m05s158_IMG_1474.jpg',
+			'_bcd_source': 'exif'
 		},
 
 
@@ -79,10 +79,10 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			best_date_afawk_symd: undefined,
+			bcd_afawk‿symd: undefined,
 			// debug
-			currently_known_as: 'CLIP0003.avi',
-			renaming_source: 'historical_fs+historical_env_hints',
+			_currently_known_as: 'CLIP0003.avi',
+			_bcd_source: 'historical_fs+historical_env_hints',
 		},
 
 		'fb7b013a830e451de2dfc444d5eaa9af9f67e1eb7f542a422d835cd3123d5e29': {
@@ -100,10 +100,10 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			best_date_afawk_symd: undefined,
+			bcd_afawk‿symd: undefined,
 			// debug
-			currently_known_as: 'MM2020-01-01_17h57m29s625_IMG_8763.jpg',
-			renaming_source: undefined,
+			_currently_known_as: 'MM2020-01-01_17h57m29s625_IMG_8763.jpg',
+			_bcd_source: undefined,
 		},
 
 	},

@@ -15,6 +15,8 @@ import {
 	get_file_basename_copy_index,
 	get_file_basename_extension‿normalized,
 	get_file_basename_without_copy_index,
+	get_folder_relpath_normalisation_version,
+	get_media_basename_normalisation_version,
 	is_normalized_event_folder_relpath,
 	is_processed_media_basename,
 	pathㆍparse_memoized,
@@ -29,11 +31,9 @@ import {
 	State,
 	NeighborHints,
 	PersistedNotes,
-	FsReliability,
 } from './types'
 import {
 	is_exif_powered_media_file,
-	_get_current_fs_reliability_according_to_own_and_env,
 	get_current_extension‿normalized,
 	get_current_basename,
 	get_oldest_known_basename,
@@ -44,6 +44,7 @@ import {
 	get_creation_dateⵧfrom_fsⵧcurrent‿tms,
 } from './selectors'
 import * as NeighborHintsLib from './sub/neighbor-hints'
+import { get_fs_reliability_score } from './sub/neighbor-hints'
 
 ////////////////////////////////////
 
@@ -78,10 +79,10 @@ export function create(id: FileId): Immutable<State> {
 			starred: undefined,
 			manual_date: undefined,
 
-			best_date_afawk_symd: undefined,
+			bcd_afawk‿symd: undefined,
 
-			currently_known_as: parsed_path.base,
-			renaming_source: undefined,
+			_currently_known_as: parsed_path.base,
+			_bcd_source: undefined,
 		},
 	}
 
@@ -237,7 +238,7 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 		notes: {
 			...state.notes,
 			...recovered_notes,
-			currently_known_as: get_current_basename(state), // force keep this one
+			_currently_known_as: get_current_basename(state), // force keep this one
 			historical: {
 				...state.notes.historical,
 				...recovered_notes?.historical,
@@ -273,7 +274,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 		...state,
 		notes: {
 			...state.notes,
-			currently_known_as: new_basename,
+			_currently_known_as: new_basename,
 		}
 	}
 
@@ -288,7 +289,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 				...state,
 				notes: {
 					...state.notes,
-					renaming_source: meta.source,
+					_bcd_source: meta.source,
 				}
 			}
 		}
@@ -444,7 +445,7 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 			// Even if we discard duplicates, they may still hold precious original info
 			...merge_notes(...states.map(s => s.notes)),
 			// update
-			currently_known_as: get_current_basename(selected_state),
+			_currently_known_as: get_current_basename(selected_state),
 		},
 	}
 
@@ -468,75 +469,214 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 	logger.trace(`${LIB} merge_notes(…)`, { ids: notes.map(n => n.historical.basename) })
 	assert(notes.length > 1, 'merge_notes(…) should be given several notes to merge')
 
-	// get hints at earliest
-	const index__non_processed_basename = notes.findIndex(n => !is_processed_media_basename(n.historical.basename))
-	const index__earliest_birthtime = notes.reduce((acc, val, index) => {
-		// birthtimes tend to be botched to a *later* date by the FS
-		if (val.historical.fs_bcd_tms < acc[1]) {
-			acc[0] = index
-			acc[1] = val.historical.fs_bcd_tms
-		}
-		return acc
-	}, [-1, Number.POSITIVE_INFINITY])[0]
-	const index__shortest_non_normalized_basename = notes.reduce((acc, val, index) => {
-		const candidate = val.historical.basename
-		if (candidate.length < acc[1] && !is_processed_media_basename(candidate)) {
-			acc[0] = index
-			acc[1] = candidate.length
-		}
-		return acc
-	}, [-1, Number.POSITIVE_INFINITY])[0]
-
-	let index__best_starting_candidate = index__shortest_non_normalized_basename >= 0
-		? index__shortest_non_normalized_basename
-		: index__non_processed_basename >= 0
-			? index__non_processed_basename
-			:  index__earliest_birthtime >= 0 // fs time really unreliable
-				? index__earliest_birthtime
-				: 0
-	let merged_notes = notes[index__best_starting_candidate]
+	let merged_notes = notes[0]
 	assert(merged_notes, 'merge_notes(…) selected a starting point')
 
-	logger.silly(`merge_notes(…)`, {
-		index__best_starting_candidate,
-		index__shortest_non_normalized_basename,
-		index__non_normalized_basename: index__non_processed_basename,
-		index__earliest_birthtime,
-	})
-
-	// selectively merge best data
-	const earliest_fs_birthtime = notes[index__earliest_birthtime].historical.fs_bcd_tms
-
-	merged_notes = {
-		...merged_notes,
-		historical: {
-			...merged_notes.historical,
-			fs_bcd_tms: earliest_fs_birthtime,
-		}
-	}
-
-	// fill holes with whatever is defined, earliest wins
 	logger.silly('merge_notes() notes so far', merged_notes)
-	notes.forEach(duplicate_notes => {
-		/*if (duplicate_notes.historical.basename.length < shortest_original_basename.length && !is_normalized_media_basename(duplicate_notes.historical.basename))
-			shortest_original_basename = duplicate_notes.historical.basename*/
-		merged_notes = {
-			...merged_notes,
-			..._get_defined_props(duplicate_notes),
-			..._get_defined_props(merged_notes),
+	notes.forEach(note => {
+		const {
+			deleted,
+			starred,
+			manual_date,
 			historical: {
-				...merged_notes.historical,
-				..._get_defined_props(duplicate_notes.historical),
-				..._get_defined_props(merged_notes.historical),
+				basename,
+				parent_path,
+				fs_bcd_tms,
+				neighbor_hints: {
+					fs_reliability,
+					parent_bcd,
+					...unknown_historical_neighbor_hints
+				},
+				exif_orientation,
+				trailing_extra_bytes_cleaned,
+				...unknown_historical
+			},
+			// debug
+			bcd_afawk‿symd,
+			_currently_known_as,
+			_bcd_source,
+			// safety
+			...unknown
+		} = note
+
+		if (Object.keys(unknown).length > 0)
+			throw new Error(`merge_notes() unknown attributes! "${Object.keys(unknown).join(',')}"`)
+		if (Object.keys(unknown_historical).length > 0)
+			throw new Error(`merge_notes() unknown historical attributes! "${Object.keys(unknown_historical).join(',')}"`)
+		if (Object.keys(unknown_historical_neighbor_hints).length > 0)
+			throw new Error(`merge_notes() unknown historical neighbor_hints attributes! "${Object.keys(unknown_historical_neighbor_hints).join(',')}"`)
+
+		if (deleted !== undefined) {
+			let target = deleted
+			if (merged_notes.deleted !== undefined && merged_notes.deleted !== target) {
+				// conflict
+				// since "true" is the default, "false" is the highest intent = wins
+				target = false
+			}
+			if (merged_notes.deleted !== target) {
+				merged_notes = {
+					...merged_notes,
+					deleted: target,
+				}
 			}
 		}
+		if (starred !== undefined) {
+			let target = starred
+			if (merged_notes.starred !== undefined && merged_notes.starred !== target) {
+				// conflict
+				// since "false" is the default, "true" is the highest intent = wins
+				target = true
+			}
+			if (merged_notes.starred !== target) {
+				merged_notes = {
+					...merged_notes,
+					starred: target,
+				}
+			}
+		}
+		if (manual_date !== undefined) {
+			throw new Error(`merge_notes() NIMP manual_date!`)
+		}
+
+		if (bcd_afawk‿symd !== undefined) {
+			throw new Error(`merge_notes() NIMP bcd_afawk‿symd!`)
+		}
+
+		// debug data can be ignored, it'll be automatically updated
+
+		/////// historical
+
+		if (exif_orientation !== merged_notes.historical.exif_orientation) {
+			throw new Error(`merge_notes() unexpected exif_orientation difference!`)
+		}
+		if (trailing_extra_bytes_cleaned !== undefined) {
+			throw new Error(`merge_notes() NIMP trailing_extra_bytes_cleaned!`)
+		}
+
+		// remaining data go together
+
+		// fs
+		let oldest_most_reliable_fs: 'current' | 'candidate' = (() => {
+
+			if (fs_reliability !== merged_notes.historical.neighbor_hints.fs_reliability) {
+				const rsa = get_fs_reliability_score(merged_notes.historical.neighbor_hints.fs_reliability)
+				const rsb = get_fs_reliability_score(fs_reliability)
+
+				if (rsa !== rsb) {
+					return rsa >= rsb ? 'current' : 'candidate'
+				}
+			}
+
+			// birthtimes tend to be botched to a *later* date by the FS (ex. git pull or unzip)
+			if (fs_bcd_tms !== fs_bcd_tms)
+				return fs_bcd_tms <= fs_bcd_tms ? 'current' : 'candidate'
+
+			if (parent_bcd !== merged_notes.historical.neighbor_hints.parent_bcd) {
+
+			}
+
+			return 'current'
+		})()
+		if (oldest_most_reliable_fs === 'current') {
+			// no change
+		}
+		else {
+			merged_notes = {
+				...merged_notes,
+				historical: {
+					...merged_notes.historical,
+					fs_bcd_tms,
+					neighbor_hints: {
+						...merged_notes.historical.neighbor_hints,
+						fs_reliability,
+					},
+				},
+			}
+		}
+
+		// basename + parent_path
+		let oldest_path: 'current' | 'candidate' = (() => {
+
+			if (basename !== merged_notes.historical.basename) {
+				const nva = get_media_basename_normalisation_version(merged_notes.historical.basename)
+				const nvb = get_media_basename_normalisation_version(basename)
+
+				if (nva !== nvb) {
+					if (nva === undefined) {
+						return 'current'
+					}
+					else if (nvb === undefined) {
+						return 'candidate'
+					}
+					else if (nva <= nvb) {
+						return 'current'
+					}
+					else {
+						return 'candidate'
+					}
+				}
+
+				return merged_notes.historical.basename.length <= basename.length ? 'current' : 'candidate'
+			}
+
+			if (parent_path !== merged_notes.historical.parent_path) {
+				const nva = get_folder_relpath_normalisation_version(merged_notes.historical.parent_path)
+				const nvb = get_folder_relpath_normalisation_version(parent_path)
+
+				if (nva !== nvb) {
+					if (nva === undefined) {
+						return 'current'
+					}
+					else if (nvb === undefined) {
+						return 'candidate'
+					}
+					else if (nva <= nvb) {
+						return 'current'
+					}
+					else {
+						return 'candidate'
+					}
+				}
+
+				return merged_notes.historical.parent_path.length <= parent_path.length ? 'current' : 'candidate'
+			}
+
+			return oldest_most_reliable_fs
+		})()
+		if (oldest_path === 'current') {
+			// no change
+		}
+		else {
+			merged_notes = {
+				...merged_notes,
+				historical: {
+					...merged_notes.historical,
+					basename,
+					parent_path,
+				},
+			}
+		}
+
+
 		logger.silly('merge_notes() notes so far', merged_notes)
 	})
 
-	/*let shortest_original_basename: Basename = merged_notes.historical.basename // for now
-	if (merged_notes.historical.basename !== shortest_original_basename) {
-		logger.warn(`merge_notes(): ?? final historical basename "${merged_notes.historical.basename}" is not the shortest: "${shortest_original_basename}"`)
-	}*/
+	// cleanups
+	if (merged_notes.historical.neighbor_hints.fs_reliability === 'unknown') {
+		// no value, clean it
+		const { fs_reliability, ...rest } = merged_notes.historical.neighbor_hints
+		merged_notes = {
+			...merged_notes,
+			historical: {
+				...merged_notes.historical,
+				neighbor_hints: {
+					...rest,
+				},
+			},
+		}
+	}
+
+
 	if (is_processed_media_basename(merged_notes.historical.basename)) {
 		logger.warn(`merge_notes(): ?? final historical basename "${merged_notes.historical.basename}" is already processed`)
 	}

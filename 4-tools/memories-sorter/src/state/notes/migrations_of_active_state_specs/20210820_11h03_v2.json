@@ -14,7 +14,7 @@
 					"fs_bcd_assessed_reliability": "unknown"
 				}
 			},
-			"currently_known_as": "Image from iOS (15).jpg"
+			"_currently_known_as": "Image from iOS (15).jpg"
 		},
 
 		"ce6b3d3128a28331db2a25c42671a3793af557454165aa5a1d56c71160cb291c": {
@@ -24,8 +24,8 @@
 				"fs_bcd_tms": 1566873905000,
 				"exif_orientation": 6
 			},
-			"currently_known_as": "MM2019-08-27_12h45m05s158_IMG_1474.jpg",
-			"renaming_source": "exif"
+			"_currently_known_as": "MM2019-08-27_12h45m05s158_IMG_1474.jpg",
+			"_bcd_source": "exif"
 		},
 		"324c096dc39b96d71a73bfa558f0bdddb708c226f0f13bb231a548208257b857": {
 			"historical": {
@@ -33,8 +33,8 @@
 				"parent_path": "2003/88- St Gilles",
 				"fs_bcd_tms": 1052375074000
 			},
-			"currently_known_as": "CLIP0003.avi",
-			"renaming_source": "historical_fs+historical_env_hints"
+			"_currently_known_as": "CLIP0003.avi",
+			"_bcd_source": "historical_fs+historical_env_hints"
 		},
 		"61c2069021ace56dc9d362deed0bab21dfa5498945e9f8c71a9d841782af93bd": {
 			"historical": {
@@ -44,8 +44,8 @@
 				"is_fs_birthtime_assessed_reliable": true,
 				"exif_orientation": 1
 			},
-			"currently_known_as": "MM2003-09-21_16h44m53_PICT0020.jpg",
-			"renaming_source": "exif"
+			"_currently_known_as": "MM2003-09-21_16h44m53_PICT0020.jpg",
+			"_bcd_source": "exif"
 		},
 
 		"fb7b013a830e451de2dfc444d5eaa9af9f67e1eb7f542a422d835cd3123d5e29": {
@@ -55,7 +55,7 @@
 				"fs_bcd_tms": 1581630576844,
 				"is_fs_birthtime_assessed_reliable": false
 			},
-			"currently_known_as": "MM2020-01-01_17h57m29s625_IMG_8763.jpg"
+			"_currently_known_as": "MM2020-01-01_17h57m29s625_IMG_8763.jpg"
 		},
 		"44ffee196b1d3592a682697ff8ba95cc315d7bc0b477a14d77ad6318a5a3e18d": {
 			"historical": {
@@ -64,7 +64,7 @@
 				"fs_bcd_tms": 1007665690000,
 				"is_fs_birthtime_assessed_reliable": false
 			},
-			"currently_known_as": "hamster sombre.avi"
+			"_currently_known_as": "hamster sombre.avi"
 		}
 	},
 	"known_modifications_new_to_old": {}

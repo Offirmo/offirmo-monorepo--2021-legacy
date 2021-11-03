@@ -7,17 +7,161 @@ import { NeighborHints, HistoricalNeighborHints, FsReliability } from './types'
 import {
 	BetterDate,
 	DateRange,
-	BetterDateMembers,
 	get_debug_representation as get_better_date_debug_representation,
-	get_timestamp_utc_ms_from,
 	create_better_date_from_utc_tms,
-	get_members_for_serialization, compare_utc,
+	get_members_for_serialization,
+	compare_utc,
+	add_days,
 } from '../../../../services/better-date'
+import {
+	is_folder_basename__matching_a_processed_event_format,
+	parse_folder_basename,
+	pathㆍparse_memoized,
+} from '../../../../services/name_parser'
+import { RelativePath } from '../../../../types'
+import { get_params } from '../../../../params'
 
 /////////////////////
 
+// for comparisons, higher is better
+export function get_fs_reliability_score(reliability: FsReliability | undefined): number {
+	switch (reliability) {
+		case 'unreliable':
+			return 0
+		case undefined:
+			/* fallthrough */
+		case 'unknown':
+			return 1
+		case 'reliable':
+			return 2
+		default:
+			throw new Error(`get_fs_reliability_index() switch unhandled for "${reliability}"!`)
+	}
+}
+
+export function get_bcd_from_parent_path(parent_path: RelativePath): null | undefined | BetterDate {
+	// try to infer a date from parent path
+
+	const folder_path‿pparsed = pathㆍparse_memoized(parent_path)
+	const folder_basename = folder_path‿pparsed.base
+
+	if (folder_basename.length < 12) {
+		// must be big enough, just a year won't do
+		return null
+	}
+
+	const basename‿parsed = parse_folder_basename(folder_basename)
+	return basename‿parsed.date
+}
+
+export function get_expected_bcd_range_from_parent_path(parent_path: RelativePath, PARAMS = get_params()): null | undefined | DateRange {
+
+	// try to infer a date from parent path
+	const date = get_bcd_from_parent_path(parent_path)
+	if (!date)
+		return date
+
+	// event or backup?
+	const folder_path‿pparsed = pathㆍparse_memoized(parent_path)
+	const folder_basename = folder_path‿pparsed.base
+	const basename‿parsed = parse_folder_basename(folder_basename)
+
+	if (basename‿parsed.meaningful_part.toLowerCase().includes('backup')) {
+		// clearly not an event
+		throw new Error(`get_expected_bcd_range_from_parent_path() NIMP backup range!`)
+		/*return {
+			begin: xxx, what to use?
+			end: date,
+		}*/
+	}
+
+	if (is_folder_basename__matching_a_processed_event_format(folder_basename)) {
+		// this looks very very much like an event
+		return {
+			begin: date,
+			end: add_days(date, PARAMS.max_event_durationⳇₓday),
+		}
+	}
+
+	return undefined
+}
+
+// not necessarily an "event"
 /*
-export function get_expected_bcd_range(): undefined | DateRange {
+export function get_expected_date_range_from_folder_basename_if_any(folder_path‿rel: RelativePath): null | DateRange {
+
+
+	// TODO review: should we return null if range too big?
+
+	// reminder: a dated folder can indicate either
+	// - the date of an EVENT = date of the beginning of the file range
+	// - the date of a BACKUP = date of the END of the file range
+	// we need extra info to discriminate between the two options
+
+	// try to cross-reference with the children date range = best source of info
+	const { begin, end } = (() => {
+		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
+
+		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
+			return state.children_bcd_ranges.from_primaryⵧfinal
+		}
+
+		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1!
+	})()
+	if (!!begin && !!end) {
+		// we have a range, let's cross-reference…
+		const date__from_basename‿symd = BetterDateLib.get_compact_date(basename‿parsed.date, 'tz:embedded')
+
+		// TODO use the best available data?
+		const date_range_begin‿symd = BetterDateLib.get_compact_date(begin, 'tz:embedded')
+		const date_range_end‿symd = BetterDateLib.get_compact_date(end, 'tz:embedded')
+
+		if (date__from_basename‿symd <= date_range_begin‿symd) {
+			// clearly a beginning date
+			return basename‿parsed.date
+		}
+		else if (date__from_basename‿symd >= date_range_end‿symd) {
+			// clearly a backup date, ignore it
+			return null
+		}
+		else {
+			// strange situation, let's investigate...
+			throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP1')
+		}
+	}
+
+	// we have no range, let's try something else…
+	if (basename‿parsed.meaningful_part.toLowerCase().includes('backup')) {
+		// clearly not an event
+		return null
+	}
+
+	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
+		// this looks very very much like an event
+		// TODO check parent is year as well?
+		return basename‿parsed.date
+	}
+
+	// can't really tell...
+	console.error({
+		current_basename,
+		ip: is_folder_basename__matching_a_processed_event_format(current_basename),
+		pmp: basename‿parsed.meaningful_part,
+	})
+	throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP2')
+}
+
+export function get_expected_date_range_from_folder({
+		folder_path‿rel,
+		rangeⵧfrom_fsⵧcurrent,
+		rangeⵧfrom_primaryⵧcurrentⵧphase_1,
+}: {
+	folder_path‿rel: RelativePath
+	rangeⵧfrom_fsⵧcurrent: DateRange<TimestampUTCMs> // can't be null since there is at least the current file!
+	rangeⵧfrom_primaryⵧcurrentⵧphase_1: undefined | DateRange
+}): DateRange {
+
+	xxx
 }
 */
 
@@ -167,7 +311,7 @@ export function get_historical_representation(state: Immutable<NeighborHints>, f
 
 export function get_historical_fs_reliability(state: Immutable<HistoricalNeighborHints>, candidate‿tms: TimestampUTCMs): FsReliability {
 	console.log('get_historical_fs_reliability(…)', state)
-	return state.fs_reliability || 'unknown'
+	return state.fs_reliability ?? 'unknown'
 	/* TODO review
 	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd
 	if (bcd__from_parent_folder__current) {

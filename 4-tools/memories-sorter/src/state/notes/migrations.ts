@@ -64,9 +64,9 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 			deleted: undefined,
 			starred: undefined,
 			manual_date: undefined,
-			best_date_afawk_symd: undefined,
-			renaming_source: undefined,
-			currently_known_as: '',
+			bcd_afawk‿symd: undefined,
+			_bcd_source: undefined,
+			_currently_known_as: '',
 			historical: {
 				basename: '',
 				parent_path: '',
@@ -81,14 +81,24 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 		}
 
 		let keys = Object.keys(legacy_file_notes)
-		if (keys.includes('currently_known_as')) {
-			migrated_notes.currently_known_as = legacy_file_notes.currently_known_as
+		if (keys.includes('_currently_known_as')) {
+			migrated_notes._currently_known_as = legacy_file_notes._currently_known_as
+			keys = keys.filter(k => k !== '_currently_known_as')
+		}
+		if (keys.includes('currently_known_as')) { // old property name
+			migrated_notes._currently_known_as = legacy_file_notes.currently_known_as
 			keys = keys.filter(k => k !== 'currently_known_as')
 		}
-		if (keys.includes('renaming_source')) {
-			migrated_notes.renaming_source = legacy_file_notes.renaming_source
+		if (keys.includes('_bcd_source')) {
+			migrated_notes._bcd_source = legacy_file_notes._bcd_source
+			keys = keys.filter(k => k !== '_bcd_source')
+		}
+		if (keys.includes('renaming_source')) { // old property name
+			migrated_notes._bcd_source = legacy_file_notes.renaming_source
 			keys = keys.filter(k => k !== 'renaming_source')
 		}
+		//best_date_afawk_symd
+
 		if (keys.includes('original')) {
 
 			let subkeys = Object.keys(legacy_file_notes.original)
@@ -122,6 +132,7 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 
 			keys = keys.filter(k => k !== 'original')
 		}
+
 		console.assert(
 			keys.length === 0,
 			`migrate_to_2x() unexpected key for encountered_files: ${keys.join(',')}!`

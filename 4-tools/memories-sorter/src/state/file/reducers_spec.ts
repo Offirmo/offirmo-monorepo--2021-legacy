@@ -55,30 +55,6 @@ describe(`${LIB} - file (state)`, function() {
 				let state = stategen.create_state()
 				expect(state.id, 'create_demo internal').to.equal(id)
 
-				// yes, real case = since having the same hash,
-				// all the files will have the same notes.
-				/*state = on_notes_recovered(state, {
-					currently_known_as: 'whatever, will be replaced.jpg',
-					renaming_source: undefined,
-
-					starred: undefined,
-					deleted: undefined,
-					manual_date: undefined,
-
-					best_date_afawk_symd: get_compact_date(CREATION_DATE, 'tz:embedded'),
-
-					historical: {
-						basename: 'original' + path.parse(id).ext, // extensions should match
-						parent_path: 'foo',
-						fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-						neighbor_hints: {
-							parent_folder_bcd: undefined,
-							fs_bcd_assessed_reliability: 'unknown',
-						},
-					}
-				})
-				expect(state.notes.currently_known_as, 'currently_known_as').to.equal(path.parse(id).base)*/
-
 				return enforce_immutability(state)
 			}
 
@@ -93,7 +69,7 @@ describe(`${LIB} - file (state)`, function() {
 				})
 			})
 
-			describe('notes merging', function () {
+			describe('notes merging', function() {
 
 				it('should always merge notes and pick the best of all', () => {
 					const _s1 = create_demo()
@@ -103,24 +79,17 @@ describe(`${LIB} - file (state)`, function() {
 							..._s1.notes,
 							starred: true,
 						}
-					} as any)
+					})
 					const _s2 = create_demo()
 					const s2 = enforce_immutability<State>({
 						..._s2,
-						notes: {
-							..._s2.notes,
-							historical: {
-								..._s2.notes.historical,
-								parent_path: '2007/20070102 - foo', // imagine was manually sorted
-							}
-						}
-					} as any)
+					})
 					const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // should not impact
 
 					const EXPECTED_MERGED_NOTES: PersistedNotes = {
-						currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
-						renaming_source: undefined,
-						best_date_afawk_symd: undefined,
+						_currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
+						_bcd_source: undefined,
+						bcd_afawk‿symd: undefined,
 						deleted: undefined,
 						starred: true, // correctly preserved
 						manual_date: undefined,
@@ -128,11 +97,7 @@ describe(`${LIB} - file (state)`, function() {
 							basename: 'original.jpg',
 							parent_path: 'original_parent_path',
 							fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
-							neighbor_hints: {
-								'TODO': 'todo',
-								//fs_bcd_assessed_reliability: 'unknown',
-								//parent_folder_bcd: undefined,
-							} as any,
+							neighbor_hints: {},
 							exif_orientation: undefined,
 							trailing_extra_bytes_cleaned: undefined,
 						},
@@ -142,6 +107,150 @@ describe(`${LIB} - file (state)`, function() {
 					const s_order2 = merge_duplicates(s3, s2, s1)
 					expect(s_order2.notes, 'order2').to.deep.equal(EXPECTED_MERGED_NOTES)
 				})
+
+				describe('note.historical merging', function() {
+
+					it('should also properly merge historical notes and pick the best of all', () => {
+						const _s1 = create_demo()
+						const s1 = enforce_immutability<State>({
+							..._s1,
+							notes: {
+								..._s1.notes,
+								historical: {
+									..._s1.notes.historical,
+									exif_orientation: 3,
+								}
+							}
+						})
+						const _s2 = create_demo('20010325 - life/2001-03-24_12h34m56s789.jpg') // should NOT be picked since normalized
+						const s2 = enforce_immutability<State>({
+							..._s2,
+							notes: {
+								..._s2.notes,
+								historical: {
+									..._s2.notes.historical,
+									exif_orientation: 3,
+								}
+							}
+						})
+						const _s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // should date should be picked
+						const s3 = enforce_immutability<State>({
+							..._s3,
+							notes: {
+								..._s3.notes,
+								historical: {
+									..._s3.notes.historical,
+									exif_orientation: 3,
+								}
+							}
+						})
+
+						const EXPECTED_MERGED_NOTES: PersistedNotes = {
+							_currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
+							_bcd_source: undefined,
+							bcd_afawk‿symd: undefined,
+							deleted: undefined,
+							starred: undefined,
+							manual_date: undefined,
+							historical: {
+								basename: 'original.jpg',
+								parent_path: 'original_parent_path',
+								fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE),
+								neighbor_hints: {},
+								exif_orientation: 3,
+								trailing_extra_bytes_cleaned: undefined,
+							},
+						}
+						const s_order1 = merge_duplicates(s1, s2, s3)
+						expect(s_order1.notes, 'order1').to.deep.equal(EXPECTED_MERGED_NOTES)
+						const s_order2 = merge_duplicates(s3, s2, s1)
+						expect(s_order2.notes, 'order2').to.deep.equal(EXPECTED_MERGED_NOTES)
+					})
+
+					describe('note.historical.neighbor_hints merging', function() {
+
+						it('should also properly merge and pick the best of all', () => {
+							const _s1 = create_demo()
+							const s1 = enforce_immutability<State>({
+								..._s1,
+								notes: {
+									..._s1.notes,
+									historical: {
+										..._s1.notes.historical,
+										neighbor_hints: {
+											// no hints at all
+										},
+									},
+								},
+							})
+							const _s2 = create_demo()
+							const s2 = enforce_immutability<State>({
+								..._s2,
+								notes: {
+									..._s2.notes,
+									historical: {
+										..._s2.notes.historical,
+										// should NOT be selected bc
+										// 1) parent_path is normalized = not oldest
+										// 2) parent_bcd depends on parent_path and is nearly worthless anyway (and is even redundant in this case)
+										parent_path: '20010325 - life',
+										neighbor_hints: {
+											parent_bcd: {
+												year: 2001,
+												month: 3,
+												day: 25,
+												tz: 'tz:auto',
+											}
+										},
+									},
+								},
+							})
+							const _s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // should not impact
+							const s3 = enforce_immutability<State>({
+								..._s3,
+								notes: {
+									..._s3.notes,
+									historical: {
+										..._s3.notes.historical,
+										neighbor_hints: {
+											fs_reliability: 'reliable',
+										},
+									},
+								},
+							})
+							const _s4 = create_demo()
+							const s4 = enforce_immutability<State>({
+								..._s4,
+								notes: {
+									..._s4.notes,
+									historical: {
+										..._s4.notes.historical,
+										neighbor_hints: {
+											fs_reliability: 'unknown',
+										},
+									},
+								},
+							})
+
+							const EXPECTED_MERGED_NOTES: PersistedNotes = {
+								..._s1.notes,
+								historical: {
+									..._s1.notes.historical,
+									fs_bcd_tms: get_timestamp_utc_ms_from(EARLIER_CREATION_DATE), // selected from s3 thanks to neighbor_hints.fs_reliability
+									parent_path: 'original_parent_path',
+									neighbor_hints: {
+										fs_reliability: 'reliable',
+									},
+								},
+							}
+							const s_order1 = merge_duplicates(s1, s2, s3, s4)
+							expect(s_order1.notes, 'order1').to.deep.equal(EXPECTED_MERGED_NOTES)
+							const s_order2 = merge_duplicates(s4, s3, s2, s1)
+							expect(s_order2.notes, 'order2').to.deep.equal(EXPECTED_MERGED_NOTES)
+						})
+					})
+				})
+
 			})
 
 			context('when there are no differences', function() {

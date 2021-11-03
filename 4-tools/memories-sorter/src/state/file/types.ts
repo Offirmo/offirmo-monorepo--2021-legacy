@@ -61,11 +61,13 @@ export interface PersistedNotes {
 
 	// meta
 	// useful to clean out notes about deleted files and keep only the one relevant to the subset of notes we're in
-	best_date_afawk_symd: undefined | SimpleYYYYMMDD // TODO fill
+	// (+debug)
+	bcd_afawk‿symd: undefined | SimpleYYYYMMDD // TODO fill
 
 	// for debug
-	currently_known_as: Basename | null // not strictly useful, intended at humans reading the notes manually
-	renaming_source: undefined | string
+	// TODO check it's properly re-set later!
+	_currently_known_as: Basename | null // not strictly useful, intended at humans reading the notes manually
+	_bcd_source: undefined | string
 }
 
 // Id = path relative to root so far

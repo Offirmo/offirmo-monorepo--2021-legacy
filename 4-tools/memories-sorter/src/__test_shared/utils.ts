@@ -114,15 +114,15 @@ function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
 }
 function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
 	return {
-		currently_known_as: 'whatever, write-only.xyz',
-		renaming_source: undefined,
+		_currently_known_as: 'whatever, write-only.xyz',
+		_bcd_source: undefined,
 
-		// TODO one day: test that
+		// TODO one day: test that (when implemented)
 		deleted: undefined,
 		starred: undefined,
 		manual_date: undefined,
 
-		best_date_afawk_symd: undefined, // TODO?
+		bcd_afawk‿symd: undefined, // TODO?
 
 		historical: {
 			basename: inputs.autoǃbasename__historical ?? 'original' + path.parse(inputs.basenameⵧcurrent).ext, // extensions should match,
@@ -153,6 +153,7 @@ function _get_auto_exif_data(inputs: typeof DEFAULT_FILE_INPUTS): EXIFTags {
 			//'DateTimeOriginal': inputs.dateⵧexif,
 			//'DateTimeGenerated': inputs.dateⵧexif,
 			//'MediaCreateDate': inputs.dateⵧexif,
+			// TODO exif orientation
 		} as EXIFTags),
 	}
 	//console.log('_get_auto_exif_data() EXIFTags', exif_data)
@@ -204,7 +205,7 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 					: inputs.notes
 			)) as PersistedNotes
 			if (notes)
-				notes.currently_known_as = inputs.basenameⵧcurrent
+				notes._currently_known_as = inputs.basenameⵧcurrent
 			return notes
 		})()
 		state = FileLib.on_notes_recovered(state, notes)

@@ -745,14 +745,14 @@ describe(`${LIB} - file (state)`, function() {
 					state = on_info_read__current_neighbors_primary_hints(state, neighbor_hints)
 
 					state = on_notes_recovered(state, {
-						currently_known_as: CURRENT_BASENAME,
-						renaming_source: undefined,
+						_currently_known_as: CURRENT_BASENAME,
+						_bcd_source: undefined,
 
 						deleted: false,
 						starred: false,
 						manual_date: undefined,
 
-						best_date_afawk_symd: undefined, // TODO test?
+						bcd_afawk‿symd: undefined, // TODO test?
 
 						historical: {
 							basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',

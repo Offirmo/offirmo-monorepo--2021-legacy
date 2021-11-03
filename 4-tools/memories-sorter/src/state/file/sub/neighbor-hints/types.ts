@@ -23,7 +23,7 @@ export interface NeighborHints {
  * Also due to migrations, all the fields can be missing (lost from previous versions)
  */
 export interface HistoricalNeighborHints {
-	fs_reliability?: FsReliability
+	fs_reliability?: FsReliability // should only be stored if !unknown
 	//expected_bcd_range: undefined | DateRange<BetterDateMembers>
-	parent_bcd?: undefined | BetterDateMembers
+	parent_bcd?: undefined | BetterDateMembers // should only be stored if not redundant with historical.parent_path
 }

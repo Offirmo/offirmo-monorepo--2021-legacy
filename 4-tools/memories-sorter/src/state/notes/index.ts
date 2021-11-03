@@ -199,7 +199,7 @@ function notes_to_string(notes: Immutable<FileNotes>): string {
 		: historical_fs_reliability === 'reliable'
 			? '✅'
 			: '❌'
-	str += `CKA "${stylize_string.yellow.bold(notes.currently_known_as)}" HKA "${stylize_string.yellow.bold(
+	str += `CKA "${stylize_string.yellow.bold(notes._currently_known_as)}" HKA "${stylize_string.yellow.bold(
 		[
 			notes.historical.parent_path,
 			notes.historical.basename,
