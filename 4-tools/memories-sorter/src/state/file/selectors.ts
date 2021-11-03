@@ -66,98 +66,7 @@ import {
 	FsReliability,
 } from './types'
 import * as NeighborHintsLib from './sub/neighbor-hints'
-
-////////////////////////////////////
-
-
-// not necessarily an "event"
-/*
-export function get_expected_date_range_from_folder_basename_if_any(folder_path‿rel: RelativePath): null | DateRange {
-	const folder_path‿pparsed = pathㆍparse_memoized(folder_path‿rel)
-	const folder_basename = folder_path‿pparsed.base
-
-	if (folder_basename.length < 12) {
-		// must be big enough, just a year won't do
-		return null
-	}
-
-	const basename‿parsed = parse_folder_basename(folder_basename)
-	if (!basename‿parsed.date)
-		return null
-
-	// TODO review: should we return null if range too big?
-
-	// reminder: a dated folder can indicate either
-	// - the date of an EVENT = date of the beginning of the file range
-	// - the date of a BACKUP = date of the END of the file range
-	// we need extra info to discriminate between the two options
-
-	// try to cross-reference with the children date range = best source of info
-	const { begin, end } = (() => {
-		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
-
-		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
-			return state.children_bcd_ranges.from_primaryⵧfinal
-		}
-
-		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1!
-	})()
-	if (!!begin && !!end) {
-		// we have a range, let's cross-reference…
-		const date__from_basename‿symd = BetterDateLib.get_compact_date(basename‿parsed.date, 'tz:embedded')
-
-		// TODO use the best available data?
-		const date_range_begin‿symd = BetterDateLib.get_compact_date(begin, 'tz:embedded')
-		const date_range_end‿symd = BetterDateLib.get_compact_date(end, 'tz:embedded')
-
-		if (date__from_basename‿symd <= date_range_begin‿symd) {
-			// clearly a beginning date
-			return basename‿parsed.date
-		}
-		else if (date__from_basename‿symd >= date_range_end‿symd) {
-			// clearly a backup date, ignore it
-			return null
-		}
-		else {
-			// strange situation, let's investigate...
-			throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP1')
-		}
-	}
-
-	// we have no range, let's try something else…
-	if (basename‿parsed.meaningful_part.toLowerCase().includes('backup')) {
-		// clearly not an event
-		return null
-	}
-
-	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
-		// this looks very very much like an event
-		// TODO check parent is year as well?
-		return basename‿parsed.date
-	}
-
-	// can't really tell...
-	console.error({
-		current_basename,
-		ip: is_folder_basename__matching_a_processed_event_format(current_basename),
-		pmp: basename‿parsed.meaningful_part,
-	})
-	throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP2')
-}
-
-export function get_expected_date_range_from_folder({
-		folder_path‿rel,
-		rangeⵧfrom_fsⵧcurrent,
-		rangeⵧfrom_primaryⵧcurrentⵧphase_1,
-}: {
-	folder_path‿rel: RelativePath
-	rangeⵧfrom_fsⵧcurrent: DateRange<TimestampUTCMs> // can't be null since there is at least the current file!
-	rangeⵧfrom_primaryⵧcurrentⵧphase_1: undefined | DateRange
-}): DateRange {
-
-	xxx
-}
-*/
+import { get_bcd_from_parent_path } from './sub/neighbor-hints'
 
 ////////////////////////////////////
 
@@ -440,21 +349,17 @@ function _get_creation_date__from_basename_p__any(state: Immutable<State>): Bett
 	return undefined
 }*/
 // junk
-function _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state: Immutable<State>): BetterDate | undefined {
-	assert(state.are_notes_restored, `_get_creation_date__from_parent_folder__original() needs notes restored`)
+function _get_creation_dateⵧfrom_envⵧoldest_known(state: Immutable<State>): BetterDate | null | undefined {
+	assert(state.are_notes_restored, `_get_creation_dateⵧfrom_envⵧoldest_known() needs notes restored`)
 
 	const historical_neighbor_hints = state.notes.historical.neighbor_hints
 	if (historical_neighbor_hints.parent_bcd)
 		return create_better_date_obj(historical_neighbor_hints.parent_bcd)
 
-	// try to infer a date from parent path
-	const parent_basename = pathㆍparse_memoized(state.notes.historical.parent_path).base
-	const parsed = parse_folder_basename(parent_basename)
-
-	return parsed.date
+	return get_bcd_from_parent_path(state.notes.historical.parent_path)
 }
-function _get_creation_dateⵧfrom_parent_folderⵧcurrent(state: Immutable<State>): BetterDate | undefined {
-	assert(state.current_neighbor_hints, `_get_creation_date__from_parent_folder__current() needs neighbor hints`)
+function _get_creation_dateⵧfrom_envⵧcurrent(state: Immutable<State>): BetterDate | undefined {
+	assert(state.current_neighbor_hints, `_get_creation_dateⵧfrom_envⵧcurrent() needs neighbor hints`)
 
 	return NeighborHintsLib.get_fallback_junk_bcd(state.current_neighbor_hints)
 }
@@ -639,7 +544,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	}
 
 	// worst secondary choice
-	const bcdⵧfrom_parent_folderⵧoldest = _get_creation_dateⵧfrom_parent_folderⵧoldest_known(state)
+	const bcdⵧfrom_parent_folderⵧoldest = _get_creation_dateⵧfrom_envⵧoldest_known(state)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying parent folder…', {
 		has_candidate: !!bcdⵧfrom_parent_folderⵧoldest,
 		bcdⵧfrom_parent_folderⵧoldest: get_debug_representation(bcdⵧfrom_parent_folderⵧoldest),
@@ -852,7 +757,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 		// borderline secondary/junk
 		// the user may have manually sorted the file into the right folder
 		// why secondary and not junk? -> to keep the file in its current folder
-		const bcdⵧfrom_parent_folderⵧcurrent = _get_creation_dateⵧfrom_parent_folderⵧcurrent(state)
+		const bcdⵧfrom_parent_folderⵧcurrent = _get_creation_dateⵧfrom_envⵧcurrent(state)
 		logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying parent folder…', {
 			has_candidate: !!bcdⵧfrom_parent_folderⵧcurrent,
 			bcdⵧfrom_parent_folderⵧcurrent: get_debug_representation(bcdⵧfrom_parent_folderⵧcurrent),
