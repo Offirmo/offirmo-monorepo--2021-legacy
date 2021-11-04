@@ -235,22 +235,7 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 		}
 	}
 
-
-	throw new Error('NIMP on_fs_exploration_done!')
-	/*xxx
-	const event_begin_from_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-	if (event_begin_from_folder_basename) {
-		state = {
-			...state,
-			event_range: {
-				// this is just a starter, 2nd
-				begin: event_begin_from_folder_basename,
-				end: event_begin_from_folder_basename,
-			}
-		}
-	}
-
-	return state*/
+	return state
 }
 
 export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {

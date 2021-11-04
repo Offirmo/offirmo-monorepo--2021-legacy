@@ -122,6 +122,10 @@ export const MEDIA_DEMO_01: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2018-09-03_20h46m14s506_exif_date_cn_exif_gps.jpg',
 }
+utimes( // ensure expected fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01_basename),
+	1535978774000 // 2018-09-03_20h46m14 GMT+8
+)
 
 const MEDIA_DEMO_02_basename = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
 export const MEDIA_DEMO_02: MediaDemo = {
@@ -146,6 +150,10 @@ export const MEDIA_DEMO_02: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2002-01-26_16h05m50_exif_date_fr_alt_no_tz_conflicting_fs.jpg',
 }
+utimes( // ensure conflicting fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02_basename),
+	1584751060000 // 2020-03-21_11h37m40 local
+)
 
 const MEDIA_DEMO_03_basename = 'exif_date_fr_no_tz_conflicting_fs.jpg'
 export const MEDIA_DEMO_03: MediaDemo = {
@@ -170,6 +178,10 @@ export const MEDIA_DEMO_03: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2008-11-14_21h28m32_exif_date_fr_no_tz_conflicting_fs.jpg',
 }
+utimes( // ensure conflicting fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_03_basename),
+	1584751060000 // 2020-03-21_11h37m40 local
+)
 
 const MEDIA_DEMO_04_basename = 'IMG_7477.heic'
 export const MEDIA_DEMO_04: MediaDemo = {

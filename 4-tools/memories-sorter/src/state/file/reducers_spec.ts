@@ -193,7 +193,7 @@ describe(`${LIB} - file (state)`, function() {
 										// should NOT be selected bc
 										// 1) parent_path is normalized = not oldest
 										// 2) parent_bcd depends on parent_path and is nearly worthless anyway (and is even redundant in this case)
-										parent_path: '2001/20010325 - life',
+										parent_path: 'tosort/2001/20010325 - life',
 										neighbor_hints: {
 											parent_bcd: {
 												year: 2001,
