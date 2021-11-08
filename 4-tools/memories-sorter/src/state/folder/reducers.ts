@@ -25,8 +25,10 @@ import {
 import {
 	get_depth,
 	is_data_gathering_pass_1_done,
-	get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
-	is_current_basename_intentful_of_event_start, has_data_gathering_pass_2_started,
+	is_data_gathering_pass_2_done,
+	has_data_gathering_pass_2_started,
+	get_event_end_date‿symd,
+	get_event_range, get_event_begin_date, ERROR__RANGE_TOO_BIG,
 } from './selectors'
 
 ////////////////////////////////////
@@ -98,6 +100,7 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 
 export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_primary_infos_gathered(…)`, { file_id: file_state.id })
+	assert(state.children_pass_1_count < state.children_count, `on_subfile_primary_infos_gathered() should not be called x times!`)
 
 	if (File.is_notes(file_state)) {
 		// skip those meta files
@@ -240,6 +243,7 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 
 export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_all_infos_gathered(…)`, { file_id: file_state.id })
+	assert(state.children_pass_2_count < state.children_count, `on_subfile_all_infos_gathered() should not be called x times!`)
 
 	if (File.is_notes(file_state)) {
 		// skip those meta files

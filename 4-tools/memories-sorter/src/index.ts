@@ -1,9 +1,10 @@
 import assert from 'tiny-invariant'
+import { Immutable } from '@offirmo-private/ts-types'
 
 import { exiftool } from 'exiftool-vendored'
 
 import { LIB } from './consts'
-import { get_params } from './params'
+import { get_params, Params } from './params'
 import * as DB from './state/db'
 import logger from './services/logger'
 import { exec_pending_actions_recursively_until_no_more, get_report_to_string } from './services/actions'
@@ -13,10 +14,9 @@ logger.verbose(`******* ${LIB.toUpperCase()} *******`)
 ////////////////////////////////////
 
 
-async function sort_all_medias() {
+async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 	const up_to = 'cleanup' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move' | 'cleanup'
 
-	const PARAMS = get_params()
 	console.log({ PARAMS })
 
 	let db = DB.create(PARAMS.root)

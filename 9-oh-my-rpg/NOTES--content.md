@@ -1010,3 +1010,7 @@ https://blogs.scientificamerican.com/beautiful-minds/the-dark-core-of-personalit
 http://www.darkfactor.org/
 
 https://embrace-yourself-embrace-the-world.com/2018/08/26/what-is-the-iceberg-theory/
+
+https://en.wikipedia.org/wiki/Wife_selling
+https://en.wikipedia.org/wiki/Child_auction
+https://en.wikipedia.org/wiki/Debt_bondage

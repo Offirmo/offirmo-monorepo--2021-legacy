@@ -19,7 +19,7 @@ import {
 	pathㆍparse_memoized,
 } from '../../../../services/name_parser'
 import { RelativePath } from '../../../../types'
-import { get_params } from '../../../../params'
+import { get_params, Params } from '../../../../params'
 
 /////////////////////
 
@@ -54,7 +54,8 @@ export function get_bcd_from_parent_path(parent_path: RelativePath): null | unde
 	return basename‿parsed.date
 }
 
-export function get_expected_bcd_range_from_parent_path(parent_path: RelativePath, PARAMS = get_params()): null | undefined | DateRange {
+// TODO review usage
+export function get_expected_bcd_range_from_parent_path(parent_path: RelativePath, PARAMS: Immutable<Params> = get_params()): null | undefined | DateRange {
 
 	// try to infer a date from parent path
 	const date = get_bcd_from_parent_path(parent_path)

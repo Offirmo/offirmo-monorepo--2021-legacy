@@ -11,7 +11,7 @@ import { normalizeError } from '@offirmo/error-utils'
 
 import { Basename, RelativePath } from '../types'
 import { NOTES_BASENAME_SUFFIX_LC } from '../consts'
-import { get_params } from '../params'
+import { get_params, Params } from '../params'
 
 import * as File from '../state/file'
 import * as Notes from '../state/notes'
@@ -44,12 +44,11 @@ const _report = {
 
 // TODO add an "enforce stable" mode
 
-export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>, debug_id: string): Promise<Immutable<State>> {
+export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>, debug_id: string, PARAMS: Immutable<Params> = get_params()): Promise<Immutable<State>> {
 	console.log(`executing actions "${debug_id}"…`)
 
 	const start_date_ms = get_UTC_timestamp_ms()
 
-	const PARAMS = get_params()
 	const display_progress = true // activating sort of turns off wrapping in iTerm = bad for debug
 
 	// https://www.npmjs.com/package/cli-progress

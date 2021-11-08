@@ -381,7 +381,7 @@ export interface BestCreationDate {
 // for stability, we try to rely on the oldest known data first and foremost.
 // Note that oldest known !== original
 // (ideally this func should NOT rely on anything else than TRULY ORIGINAL data)
-export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestCreationDate {
+export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_oldest_known_data‿meta(state: Immutable<State>): BestCreationDate {
 	logger.trace(`get_best_creation_dateⵧfrom_oldest_known_data‿meta()`, { id: state.id })
 
 	assert(
@@ -583,7 +583,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 // used on 1st stage consolidation => it should be able to work without hints and notes
 // info may be overriden by notes later
 // useful for files we encounter for the first time
-export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutable<State>, PARAMS = get_params()): BestCreationDate {
+export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(function get_best_creation_dateⵧfrom_current_data‿meta(state: Immutable<State>): BestCreationDate {
 	logger.trace(`get_best_creation_dateⵧfrom_current_data‿meta()`, { id: state.id })
 
 	assert(
@@ -796,7 +796,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 
 // Best creation date overall
 // mixes the best info from historical and current + takes into account "manual"
-export const get_best_creation_date‿meta = micro_memoize(function get_best_creation_date_meta(state: Immutable<State>, PARAMS = get_params()): BestCreationDate {
+export const get_best_creation_date‿meta = micro_memoize(function get_best_creation_date_meta(state: Immutable<State>): BestCreationDate {
 	logger.trace(`get_best_creation_date‿meta()`, { id: state.id })
 
 	assert(
@@ -830,7 +830,7 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 
 	// then rely on original data as much as possible
 	logger.trace('get_best_creation_date‿meta() trying historical data…')
-	const meta__from_oldest_known = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state, PARAMS)
+	const meta__from_oldest_known = get_best_creation_dateⵧfrom_oldest_known_data‿meta(state)
 	if (meta__from_oldest_known.confidence === 'primary') {
 		logger.trace(`get_best_creation_date‿meta() resolved to ${get_debug_representation(meta__from_oldest_known.candidate)} from ${result.source} of oldest data result ✔ (primary)`)
 		return meta__from_oldest_known
@@ -842,7 +842,7 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 	assert(!bcd__from_exif, `get_best_creation_date‿meta() EXIF should have already been covered by "oldest known"`)
 
 	logger.trace('get_best_creation_date‿meta() trying current data…')
-	const meta__from_current = get_best_creation_dateⵧfrom_current_data‿meta(state, PARAMS)
+	const meta__from_current = get_best_creation_dateⵧfrom_current_data‿meta(state)
 	if (meta__from_current.confidence === 'primary') {
 		logger.trace(`get_best_creation_date‿meta() resolved to ${get_debug_representation(meta__from_current.candidate)} from ${result.source} of current data result ✔ (primary)`)
 		return meta__from_current
@@ -965,7 +965,7 @@ export function get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_
 
 export function _get_current_fs_reliability_according_to_own_and_env(
 	state: Immutable<State>,
-	PARAMS = get_params(),
+	PARAMS: Immutable<Params> = get_params(),
 	neighbor_hints: Immutable<NeighborHints> = state.current_neighbor_hints!,
 ): FsReliability {
 	assert(neighbor_hints, `_get_current_fs_assessed_reliability() should be called with neighbor hints`)

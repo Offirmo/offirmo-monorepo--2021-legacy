@@ -25,7 +25,7 @@ import logger from '../../services/logger'
 import * as Folder from '../folder'
 import * as File from '../file'
 import * as Notes from '../notes'
-import { FolderId } from '../folder'
+import { FolderId, get_event_end_date‿symd, get_event_range } from '../folder'
 import { FileId, PersistedNotes } from '../file'
 import { get_params } from '../../params'
 
@@ -540,8 +540,8 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 	let all_event_folder_ids = get_all_event_folder_ids(state)
 	all_event_folder_ids.forEach(id => {
 		const folder = folders[id]
-		if (folder.event_range === undefined) {
-			folders[id] = Folder.demote_to_unknown(folder, 'no event date could be inferred')
+		if (!get_event_range(folder)) {
+			folders[id] = Folder.demote_to_unknown(folder, 'no event range')
 		}
 	})
 	state = { ...state, folders }
@@ -574,8 +574,8 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 
 			// same canonical status...
 			// the shortest one wins
-			const existing_range_size = get_compact_date(existing_folder_state.event_range!.end, 'tz:embedded') - start_date‿symd
-			const candidate_range_size = get_compact_date(candidate_folder_state.event_range!.end, 'tz:embedded') - start_date‿symd
+			const existing_range_size = get_event_end_date‿symd(existing_folder_state) - start_date‿symd
+			const candidate_range_size = get_event_end_date‿symd(candidate_folder_state) - start_date‿symd
 			if (candidate_range_size === existing_range_size) {
 				// perfect match, demote the competing one
 				folders[candidate_folder_state.id] = Folder.demote_to_overlapping(candidate_folder_state)
@@ -594,7 +594,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 		const folder_state = event_folders_by_start_date‿symd[start_date]
 		const next_start_date‿symd = ordered_start_dates‿symd[index + 1]
 		if (next_start_date‿symd) {
-			if (next_start_date‿symd <= get_compact_date(folder_state.event_range!.end, 'tz:embedded'))
+			if (next_start_date‿symd <= get_event_end_date‿symd(folder_state))
 				folders[folder_state.id] = Folder.on_overlap_clarified(folder_state, next_start_date‿symd - 1)
 		}
 	})

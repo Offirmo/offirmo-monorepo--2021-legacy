@@ -6,10 +6,11 @@ import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { DIGIT_PROTECTION_SEPARATOR } from '../../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
+import logger from '../../services/logger'
 import { is_digit } from '../../services/matchers'
 import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_folder_basename__matching_a_processed_event_format } from '../../services/name_parser'
 import * as BetterDateLib from '../../services/better-date'
-import { BetterDate, get_compact_date } from '../../services/better-date'
+import { BetterDate, create_better_date_from_utc_tms, DateRange, get_compact_date } from '../../services/better-date'
 import { FsReliability, NeighborHints } from '../file'
 import * as FileLib from '../file'
 
@@ -20,6 +21,11 @@ import {
 	Type,
 	State,
 } from './types'
+import { get_params, Params } from '../../params'
+
+////////////////////////////////////
+
+export const ERROR__RANGE_TOO_BIG = `Folder: range is too big!`
 
 ////////////////////////////////////
 
@@ -78,21 +84,80 @@ function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 	return 'unknown'
 }
 
-export function get_event_begin_date(state: Immutable<State>): Immutable<BetterDate> {
-	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_starting_date() should be an ~event`)
-	assert(state.event_range?.begin, `${LIB} get_starting_date() should have a start date`)
+export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): DateRange | null | undefined {
+	if (state.type !== Type.event && state.type !== Type.overlapping_event)
+		return null
 
-	return state.event_range?.begin
+	if (state.forced_event_range !== undefined)
+		return state.forced_event_range
+
+	const event_beginⵧfrom_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+
+	const children_range = state.children_bcd_ranges.from_primaryⵧfinal
+		?? state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
+		?? (
+			state.children_bcd_ranges.from_fsⵧcurrent
+			? {
+				begin: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.begin, 'tz:auto'),
+				end: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.end, 'tz:auto'),
+			}
+			: state.children_bcd_ranges.from_fsⵧcurrent // as undef or null
+		)
+
+	const event_begin_date = event_beginⵧfrom_folder_basename // always have priority if present
+		?? children_range?.begin
+
+	if (!event_begin_date) {
+		return (event_beginⵧfrom_folder_basename === null || children_range === null)
+			? null
+			: undefined
+	}
+
+	let event_end_date = children_range!.end // for now
+
+	const capped_end_date = BetterDateLib.add_days(event_begin_date, PARAMS.max_event_durationⳇₓday)
+	const is_range_too_big = BetterDateLib.compare_utc(event_end_date, capped_end_date) > 0
+
+	if (is_range_too_big && !is_current_basename_intentful_of_event_start(state)) {
+		logger.info(
+			`${LIB} folder: date range too big, most likely not an event, demoting...`, {
+				id: state.id,
+				tentative_event_begin_date: BetterDateLib.get_debug_representation(event_begin_date),
+				tentative_event_end_date: BetterDateLib.get_debug_representation(event_end_date),
+			})
+		throw new Error(ERROR__RANGE_TOO_BIG) // should be caught by caller
+	}
+
+	if (is_range_too_big) {
+		logger.info(
+			`${LIB} folder: date range too big but basename is intentful: event end date will be capped at +${PARAMS.max_event_durationⳇₓday}d`, {
+				id: state.id,
+				new_event_begin_date: BetterDateLib.get_debug_representation(event_begin_date),
+				new_event_end_date: BetterDateLib.get_debug_representation(event_end_date),
+				capped_end_date: BetterDateLib.get_debug_representation(capped_end_date),
+			})
+	}
+
+	event_end_date = BetterDateLib.min(event_end_date, capped_end_date)
+
+	return {
+			begin: event_begin_date,
+			end: event_end_date,
+		}
+}
+export function get_event_begin_date(state: Immutable<State>): Immutable<BetterDate> {
+	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_begin_date() should be an ~event`)
+	const range = get_event_range(state)
+	assert(range, `${LIB} get_event_begin_date() should have a date range!`)
+
+	return range.begin
 }
 export function get_event_end_date(state: Immutable<State>): Immutable<BetterDate> {
 	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_end_date() should be an ~event`)
-	assert(state.event_range?.end, `${LIB} get_event_end_date() should have a end date`)
+	const range = get_event_range(state)
+	assert(range, `${LIB} get_event_end_date() should have a date range!`)
 
-	return state.event_range.end
-}
-
-export function get_event_begin_year(state: Immutable<State>): number | undefined {
-	return BetterDateLib.get_year(get_event_begin_date(state))
+	return range.end
 }
 
 export function get_event_begin_date‿symd(state: Immutable<State>): SimpleYYYYMMDD {
@@ -102,13 +167,17 @@ export function get_event_end_date‿symd(state: Immutable<State>): SimpleYYYYMM
 	return BetterDateLib.get_compact_date(get_event_end_date(state), 'tz:embedded')
 }
 
+export function get_event_begin_year(state: Immutable<State>): number | undefined {
+	return BetterDateLib.get_year(get_event_begin_date(state))
+}
+
 export function get_ideal_basename(state: Immutable<State>): Basename {
 	const current_basename = get_current_basename(state)
 
 	if (state.type !== Type.event)
 		return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(current_basename))
 
-	assert(state.event_range?.begin, 'get_ideal_basename() event range should have a start')
+	assert(get_event_begin_date(state), 'get_ideal_basename() event range should have a start')
 
 	let meaningful_part = get_current_basename‿parsed(state).meaningful_part
 	if (is_digit(meaningful_part[0])) {
@@ -118,7 +187,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 
 	return NORMALIZERS.trim(
 		NORMALIZERS.normalize_unicode(
-			String(get_compact_date(state.event_range.begin, 'tz:embedded'))
+			String(get_compact_date(get_event_begin_date(state), 'tz:embedded'))
 			+ ' - '
 			+ meaningful_part
 		)
@@ -127,6 +196,7 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 
 
 // TODO review + memoize
+// Note: this is logically and semantically different from get_expected_bcd_range_from_parent_path()
 export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
 	const current_basename = get_current_basename(state)
 
@@ -141,10 +211,11 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 	// TODO review: should we return null if range too big?
 
-	// reminder: a dated folder can indicate either
+	// reminder: a dated folder can indicate
 	// - the date of an EVENT = date of the beginning of the file range
 	// - the date of a BACKUP = date of the END of the file range
-	// we need extra info to discriminate between the two options
+	// - anything TBH ;)
+	// we need extra info to discriminate between those cases
 
 	// try to cross-reference with the children date range = best source of info
 	const { begin, end } = (() => {
@@ -251,7 +322,7 @@ export function to_string(state: Immutable<State>) {
 	str += stylize_string.yellow.bold(` "${id}"`)
 
 	if (type === Type.event || type === Type.overlapping_event) {
-		const { begin: event_begin_date, end: event_end_date } = state.event_range || {}
+		const { begin: event_begin_date, end: event_end_date } = get_event_range(state) || {}
 		str += ` 📅 ${BetterDateLib.get_human_readable_timestamp_days(event_begin_date!, 'tz:embedded')} → ${BetterDateLib.get_human_readable_timestamp_days(event_end_date!, 'tz:embedded')}`
 	}
 	else if (state.reason_for_demotion_from_event) {

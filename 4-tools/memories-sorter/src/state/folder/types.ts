@@ -42,7 +42,7 @@ export interface State {
 		// after 1st pass
 		// EARLY/BASIC/PRIMARY range of the RELIABLE media files currently in this folder (without hints or notes)
 		// This is used to hint the files and help them confirm their FS birthtime
-		// needed to discriminate whether an hypothetical basename date is an event or a backup
+		// also needed to discriminate whether an hypothetical basename date is an event or a backup
 		from_primaryⵧcurrentⵧphase_1: undefined | null | DateRange
 
 		// after 2nd pass

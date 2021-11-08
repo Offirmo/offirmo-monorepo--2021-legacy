@@ -10,7 +10,8 @@ import {
 
 import {
 	get_ideal_basename,
-	get_depth, get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
+	get_depth,
+	get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
 } from './selectors'
 
 import './__test_shared'
@@ -39,8 +40,8 @@ describe(`${LIB} - folder state`, function() {
 					if (!has_date_in_basename) {
 						expect(() => get_ideal_basename(state), tc).to.throw('event range should have a start')
 
-						state.event_range = {
-							...state.event_range,
+						// TODO review
+						state.forced_event_range = {
 							begin: create_better_date_from_symd(20001231, 'tz:auto'),
 							end:   create_better_date_from_symd(20001231, 'tz:auto'),
 						}

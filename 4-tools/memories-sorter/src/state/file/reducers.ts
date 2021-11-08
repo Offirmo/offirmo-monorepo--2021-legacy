@@ -4,7 +4,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
-import { get_params } from '../../params'
+import { get_params, Params } from '../../params'
 import logger from '../../services/logger'
 import {
 	FsStatsSubset,
@@ -180,7 +180,7 @@ export function on_info_read__hash(state: Immutable<State>, hash: string): Immut
 export function on_info_read__current_neighbors_primary_hints(
 	state: Immutable<State>,
 	neighbor_hints: Immutable<NeighborHints>,
-	PARAMS = get_params(),
+	PARAMS: Immutable<Params> = get_params(),
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
