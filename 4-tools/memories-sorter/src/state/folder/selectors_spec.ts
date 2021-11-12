@@ -9,6 +9,7 @@ import {
 import { State } from './types'
 import {
 	create,
+	on_fs_exploration_done,
 	on_subfile_found,
 	on_subfile_primary_infos_gathered,
 } from './reducers'
@@ -17,6 +18,9 @@ import {
 	get_ideal_basename,
 	get_depth,
 	get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
+	get_event_range,
+	get_event_begin_date‿symd,
+	get_event_end_date‿symd,
 } from './selectors'
 
 import './__test_shared'
@@ -24,7 +28,7 @@ import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
 
 /////////////////////
 
-describe(`${LIB} - folder state`, function() {
+describe.only(`${LIB} - folder state`, function() {
 
 	describe('selectors', function() {
 
@@ -98,6 +102,86 @@ describe(`${LIB} - folder state`, function() {
 				expect(begin_date).to.be.null
 			})
 		})
+		describe('get_event_range()', function() {
+
+			context('when the folder basename does NOT contains a date', function() {
+
+				it('should NOT yield an event range (YET), EVEN if there are children', async () => {
+					let state = create('foo')
+
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+					state = on_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
+
+					state = on_fs_exploration_done(state)
+					expect(get_event_range(state), 'event range').not.to.be.ok
+				})
+			})
+
+			context('when the folder basename contains a date', function() {
+
+				context('when there are children', function() {
+
+					context('when the cross-referencing hints at a backup', function () {
+
+						it('should NOT yield an event range', async () => {
+							let state = create('2018-11-23 iphone 12')
+
+							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test
+							let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+							state = on_subfile_found(state, file_state)
+							state = on_subfile_primary_infos_gathered(state, file_state)
+
+							state = on_fs_exploration_done(state)
+							expect(get_event_range(state), 'event range').not.to.be.ok
+						})
+					})
+
+					context('when the cross-referencing hints at an event', function () {
+
+						it('should yield an event range starting with the basename date', async () => {
+							let state = create('holidays in cool place 2018-09-03')
+
+							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test
+							let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+							state = on_subfile_found(state, file_state)
+							state = on_subfile_primary_infos_gathered(state, file_state)
+
+							state = on_fs_exploration_done(state)
+							expect(get_event_range(state), 'event range').to.be.ok
+							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
+							expect(get_event_end_date‿symd(state)).to.equal(20180903)
+						})
+					})
+				})
+
+				context('when there are NO children', function() {
+
+					context('when the folder name refers to a backup', function () {
+
+						it('should NOT init the event range', async () => {
+							let state = create('20181105 - backup iphone')
+
+							state = on_fs_exploration_done(state)
+							expect(get_event_range(state), 'event range').to.be.undefined
+						})
+					})
+
+					context('when the folder name looks like an event', function () {
+
+						it('should init the event range', async () => {
+							let state = create('20180903 - some holiday')
+
+							state = on_fs_exploration_done(state)
+							expect(get_event_range(state), 'event range').to.be.ok
+							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
+							expect(get_event_end_date‿symd(state)).to.equal(20180903)
+						})
+					})
+				})
+			})
+		})
+
 		describe('get_ideal_basename()', function () {
 
 			type TCIdeal = { [k: string]: string }
