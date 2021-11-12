@@ -11,6 +11,7 @@ import {
 	is_current_basename_intentful_of_event_start,
 	get_ideal_basename,
 	get_depth,
+	get_event_range,
 	get_event_begin_date‿symd,
 	get_event_end_date‿symd,
 } from './selectors'
@@ -40,7 +41,7 @@ describe(`${LIB} - folder state`, function() {
 					const range_key = _range_key as any as  keyof State['children_bcd_ranges']
 					expect(state.children_bcd_ranges[range_key], `children_bcd_ranges.${range_key}`).to.be.undefined
 				})
-				expect(state.event_range, 'event range').to.be.undefined
+				expect(get_event_range(state), 'event range').to.be.undefined
 			})
 		})
 
@@ -96,7 +97,7 @@ describe(`${LIB} - folder state`, function() {
 					state = on_subfile_primary_infos_gathered(state, file_state)
 
 					state = on_fs_exploration_done(state)
-					expect(state.event_range).to.be.undefined
+					expect(get_event_range(state), 'event range').to.be.undefined
 				})
 			})
 
@@ -115,7 +116,7 @@ describe(`${LIB} - folder state`, function() {
 							state = on_subfile_primary_infos_gathered(state, file_state)
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range).to.be.undefined
+							expect(get_event_range(state), 'event range').to.be.undefined
 						})
 					})
 
@@ -130,8 +131,7 @@ describe(`${LIB} - folder state`, function() {
 							state = on_subfile_primary_infos_gathered(state, file_state)
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range?.begin).to.be.ok
-							expect(state.event_range?.end).to.be.ok
+							expect(get_event_range(state), 'event range').to.be.ok
 							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
 							expect(get_event_end_date‿symd(state)).to.equal(20180903)
 						})
@@ -146,7 +146,7 @@ describe(`${LIB} - folder state`, function() {
 							let state = create('20181105 - backup iphone')
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range).to.be.undefined
+							expect(get_event_range(state), 'event range').to.be.undefined
 						})
 					})
 
@@ -156,8 +156,7 @@ describe(`${LIB} - folder state`, function() {
 							let state = create('20180903 - some holiday')
 
 							state = on_fs_exploration_done(state)
-							expect(state.event_range?.begin).to.be.ok
-							expect(state.event_range?.end).to.be.ok
+							expect(get_event_range(state), 'event range').to.be.ok
 							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
 							expect(get_event_end_date‿symd(state)).to.equal(20180903)
 						})

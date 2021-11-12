@@ -262,12 +262,12 @@ function _get_creation_dateⵧfrom_exif(state: Immutable<State>): BetterDate | u
 
 	const _from_exif__tz = _get_creation_tzⵧfrom_exif(state)
 	const bcd = create_better_date_from_ExifDateTime(_from_exif‿edt, _from_exif__tz)
-	logger.trace(`_get_creation_date__from_exif() got bcd from EXIF`, {
+	/*logger.trace(`_get_creation_date__from_exif() got bcd from EXIF`, {
 		//current_exif_data,
 		//edt: _from_exif‿edt.toISOString(),
 		_from_exif__tz,
 		bcd: get_debug_representation(bcd),
-	})
+	})*/
 	return bcd
 }
 function _get_creation_dateⵧfrom_fsⵧoldest_known‿tms(state: Immutable<State>): TimestampUTCMs {
@@ -417,7 +417,7 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 	const bcd__from_exif = _get_creation_dateⵧfrom_exif(state)
 	logger.trace('get_best_creation_dateⵧfrom_oldest_known_data‿meta() trying EXIF…', {
 		has_candidate: !!bcd__from_exif,
-		...(!!bcd__from_exif && {data: state.current_exif_data}),
+		//...(!!bcd__from_exif && {data: state.current_exif_data}),
 	})
 	if (bcd__from_exif) {
 		// best situation, EXIF is the most reliable
@@ -618,7 +618,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 	const bcd__from_exif = _get_creation_dateⵧfrom_exif(state)
 	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying EXIF…', {
 		has_candidate: !!bcd__from_exif,
-		...(!!bcd__from_exif && {data: state.current_exif_data}),
+		//...(!!bcd__from_exif && {data: state.current_exif_data}),
 	})
 	if (bcd__from_exif) {
 		// best situation, EXIF is the most reliable

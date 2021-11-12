@@ -22,3 +22,10 @@
 		// junk
 		| 'original_fs'
 		| 'current_fs'
+
+// https://stackoverflow.com/a/56650790/587407
+const _get_defined_props = (obj: any) =>
+Object.fromEntries(
+Object.entries(obj)
+.filter(([k, v]) => v !== undefined)
+)

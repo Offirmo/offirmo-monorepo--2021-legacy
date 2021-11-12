@@ -206,6 +206,10 @@ export const MEDIA_DEMO_04: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2020-07-28_12h18m21s817_IMG_7477.heic',
 }
+utimes( // ensure stable fs time after doing git checkout since git doesn't preserve those
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_04_basename),
+	1615751060000 // GMT: Sunday 14 March 2021 19:44:20, assuming the file ts was lost
+)
 
 const MEDIA_DEMO_05_basename = 'IMG_20170124_125515_bad_exif.jpg'
 export const MEDIA_DEMO_05: MediaDemo = {
@@ -230,6 +234,10 @@ export const MEDIA_DEMO_05: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2017-01-24_12h55m17_IMG_bad_exif.jpg',
 }
+utimes( // ensure expected fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_05_basename),
+	1535978774000 // GMT: Monday 3 September 2018 12:46:14 assuming original fs ts lost
+)
 
 const MEDIA_DEMO_06_basename = 'no_exif_date_no_tz.jpg'
 export const MEDIA_DEMO_06: MediaDemo = {

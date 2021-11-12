@@ -225,8 +225,8 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 			return state.children_bcd_ranges.from_primaryⵧfinal
 		}
 
-		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1!
-	})()
+		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
+	})() || {}
 	if (!!begin && !!end) {
 		// we have a range, let's cross-reference…
 		const date__from_basename‿symd = BetterDateLib.get_compact_date(parsed.date, 'tz:embedded')

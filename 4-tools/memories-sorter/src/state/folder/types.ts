@@ -28,8 +28,9 @@ export interface State {
 	reason_for_demotion_from_event: null | string
 
 	// if this folder is an event, what is the range assigned to it?
-	// (not inferred, may be arbitrarily set)
-	event_range: undefined | null | DateRange
+	// the range can be inferred (from basename + children)
+	// this prop allows to override it, ex. in case of overlap
+	forced_event_range: null | DateRange
 
 	// various creation date ranges from children:
 	children_bcd_ranges: {

@@ -256,6 +256,8 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 	return state
 }
 
+// other
+
 export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<State> {
 	logger.trace(`${LIB} on_moved(…)`, { previous_id: state.id, new_id })
 	assert(new_id !== state.id, `on_moved() should be a real move`)
@@ -459,12 +461,6 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 // the earliest best choice will take precedence
 // NOTE that this function works in an opposite way than merge_duplicates,
 //      it will try to preserve the LESS sorted data = the oldest
-// https://stackoverflow.com/a/56650790/587407
-const _get_defined_props = (obj: any) =>
-	Object.fromEntries(
-		Object.entries(obj)
-			.filter(([k, v]) => v !== undefined)
-	)
 export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
 	logger.trace(`${LIB} merge_notes(…)`, { ids: notes.map(n => n.historical.basename) })
 	assert(notes.length > 1, 'merge_notes(…) should be given several notes to merge')

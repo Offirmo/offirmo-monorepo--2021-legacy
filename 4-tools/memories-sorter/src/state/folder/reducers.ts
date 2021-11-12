@@ -74,7 +74,7 @@ export function create(id: RelativePath): Immutable<State> {
 			from_primaryⵧfinal: undefined,
 		},
 
-		event_range: undefined,
+		forced_event_range: null,
 
 		children_fs_reliability_count: {
 			'unknown': 0,
@@ -99,7 +99,7 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 }
 
 export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
-	logger.trace(`${LIB} on_subfile_primary_infos_gathered(…)`, { file_id: file_state.id })
+	logger.trace(`${LIB} on_subfile_primary_infos_gathered(…)…`, { file_id: file_state.id })
 	assert(state.children_pass_1_count < state.children_count, `on_subfile_primary_infos_gathered() should not be called x times!`)
 
 	if (File.is_notes(file_state)) {
@@ -142,9 +142,14 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 			`${ LIB } updating folder’s children's "bcd ⵧ from fs ⵧ current" date range`,
 			{
 				id: state.id,
-				file_bcdⵧfrom_fsⵧcurrent‿tms,
-				new_children_begin_dateⵧfrom_fsⵧcurrent,
-				new_children_end_dateⵧfrom_fsⵧcurrent,
+				...(new_children_begin_dateⵧfrom_fsⵧcurrent !== state.children_bcd_ranges.from_fsⵧcurrent?.begin && {
+					begin_before: get_debug_representation(state.children_bcd_ranges.from_fsⵧcurrent?.begin),
+					begin_after: get_debug_representation(new_children_begin_dateⵧfrom_fsⵧcurrent),
+				}),
+				...(new_children_end_dateⵧfrom_fsⵧcurrent !== state.children_bcd_ranges.from_fsⵧcurrent?.end && {
+					end_before: get_debug_representation(state.children_bcd_ranges.from_fsⵧcurrent?.end),
+					end_after: get_debug_representation(new_children_end_dateⵧfrom_fsⵧcurrent),
+				}),
 			}
 		)
 
@@ -186,8 +191,8 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 				{
 					id: state.id,
 					file_bcd__from_primary_current,
-					new_children_begin_dateⵧfrom_primaryⵧcurrent,
-					new_children_end_dateⵧfrom_primaryⵧcurrent,
+					new_children_begin_dateⵧfrom_primaryⵧcurrent: get_debug_representation(new_children_begin_dateⵧfrom_primaryⵧcurrent),
+					new_children_end_dateⵧfrom_primaryⵧcurrent: get_debug_representation(new_children_end_dateⵧfrom_primaryⵧcurrent),
 				}
 			)
 
@@ -292,103 +297,68 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 		}
 	}
 
-	//////////// consolidate: event date range
-	if (state.type === Type.event) {
-		if (file_bcd‿meta.confidence !== 'primary') {
-			// low confidence = don't act on that
+	state = {
+		...state,
+		children_pass_2_count: state.children_pass_2_count + 1,
+	}
+
+	if (is_data_gathering_pass_2_done(state)) {
+		state = on_all_infos_gathered(state, PARAMS)
+	}
+
+	return state
+}
+
+export function on_all_infos_gathered(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
+	assert(is_data_gathering_pass_2_done(state), `on_all_infos_gathered() pass 2 should be done!`)
+
+	const { children_count } = state
+	if (children_count === 0) {
+		state = on_fs_exploration_done(state)
+	}
+	else {
+		try {
+			const event_range = get_event_range(state, PARAMS)
+
+			if (event_range) {
+				logger.verbose(
+					`${LIB} FYI folder’s final event date range`,
+					{
+						id: state.id,
+						new_event_begin_date: get_debug_representation(event_range.begin),
+						new_event_end_date: get_debug_representation(event_range.end),
+						// TODO range size in days
+					}
+				)
+			}
 		}
-		else {
-			const file_bcd = file_bcd‿meta.candidate
-			const event_begin_from_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-
-			const new_event_begin_date = event_begin_from_folder_basename
-				? event_begin_from_folder_basename // always have priority if present
-				: state.event_range?.begin
-					? BetterDateLib.min(state.event_range.begin, file_bcd)
-					: file_bcd
-			let new_event_end_date = state.event_range?.end
-				? BetterDateLib.max(state.event_range.end, file_bcd)
-				: file_bcd
-
-			const capped_end_date = BetterDateLib.add_days(new_event_begin_date, PARAMS.max_event_durationⳇₓday)
-			const is_range_too_big = BetterDateLib.compare_utc(new_event_end_date, capped_end_date) > 0
-			new_event_end_date = BetterDateLib.min(new_event_end_date, capped_end_date)
-
-			if (BetterDateLib.is_deep_equal(new_event_begin_date, state.event_range?.begin)
-				&& BetterDateLib.is_deep_equal(new_event_end_date, state.event_range?.end)) {
-				// no change
-			} else {
-				if (is_range_too_big && !is_current_basename_intentful_of_event_start(state)) {
-					logger.info(
-						`${LIB} folder: date range too big, most likely not an event, demoting...`, {
-							id: state.id,
-							file_id: file_state.id,
-							file_bcd: get_debug_representation(file_bcd),
-							new_event_begin_date: get_debug_representation(new_event_begin_date),
-							new_event_end_date: get_debug_representation(new_event_end_date),
-							capped_end_date: get_debug_representation(capped_end_date),
-						})
-					state = demote_to_unknown(state, `date range too big`)
-				} else {
-					if (is_range_too_big) {
-						logger.info(
-							`${LIB} folder: date range too big but basename is intentful: event end date was capped at +${ PARAMS.max_event_durationⳇₓday }d`, {
-								id: state.id,
-								file_id: file_state.id,
-								file_bcd: get_debug_representation(file_bcd),
-								new_event_begin_date: get_debug_representation(new_event_begin_date),
-								new_event_end_date: get_debug_representation(new_event_end_date),
-								capped_end_date: get_debug_representation(capped_end_date),
-							})
-					}
-					else {
-						logger.verbose(
-							`${LIB} updating folder’s event date range`,
-							{
-								id: state.id,
-								file_bcd: get_debug_representation(file_bcd),
-								new_event_begin_date: get_debug_representation(new_event_begin_date),
-								new_event_end_date: get_debug_representation(new_event_end_date),
-								was_capped: is_range_too_big,
-							}
-						)
-					}
-
-					state = {
-						...state,
-						event_range: {
-							begin: new_event_begin_date,
-							end: new_event_end_date,
-						}
-					}
-				}
+		catch (err: any) {
+			if (err?.message === ERROR__RANGE_TOO_BIG) {
+				state = demote_to_unknown(state, `date range too big`)
 			}
 		}
 	}
 
-	return {
-		...state,
-		children_pass_2_count: state.children_pass_2_count + 1,
-	}
+	return state
 }
 
-export function on_overlap_clarified(state: Immutable<State>, target_end_date‿symd: SimpleYYYYMMDD, PARAMS = get_params()): Immutable<State> {
+export function on_overlap_clarified(state: Immutable<State>, target_end_date‿symd: SimpleYYYYMMDD, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_overlap_clarified(…)`, {
-		prev_end_date: state.event_range?.end,
+		prev_end_date‿symd: get_event_end_date‿symd(state),
 		new_end_date‿symd: target_end_date‿symd,
 	})
 
 	assert(state.type === Type.event, `on_overlap_clarified() should be called on an event`)
-	assert(state.event_range?.begin, `on_overlap_clarified() should be called on a dated event`)
+	assert(!!get_event_range(state), `on_overlap_clarified() should be called on a dated event`)
 
 	const end_date = BetterDateLib.create_better_date_from_symd(target_end_date‿symd, 'tz:auto')
-	const capped_end_date = BetterDateLib.add_days(state.event_range.begin, PARAMS.max_event_durationⳇₓday)
+	const capped_end_date = BetterDateLib.add_days(get_event_begin_date(state), PARAMS.max_event_durationⳇₓday)
 	assert(BetterDateLib.compare_utc(end_date, capped_end_date) <= 0, `on_overlap_clarified() target event range should be acceptable`)
 
 	return {
 		...state,
-		event_range: {
-			...state.event_range,
+		forced_event_range: {
+			begin: get_event_begin_date(state),
 			end: end_date,
 		},
 	}
@@ -414,7 +384,7 @@ export function demote_to_unknown(state: Immutable<State>, reason: string): Immu
 		...state,
 		type: Type.unknown,
 		reason_for_demotion_from_event: reason,
-		event_range: undefined,
+		forced_event_range: null,
 	}
 }
 
