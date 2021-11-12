@@ -41,7 +41,7 @@ describe(`${LIB} - folder state`, function() {
 					const range_key = _range_key as any as  keyof State['children_bcd_ranges']
 					expect(state.children_bcd_ranges[range_key], `children_bcd_ranges.${range_key}`).to.be.undefined
 				})
-				expect(get_event_range(state), 'event range').to.be.undefined
+				expect(get_event_range(state), 'event range').not.to.be.ok
 			})
 		})
 
@@ -89,7 +89,7 @@ describe(`${LIB} - folder state`, function() {
 
 			context('when the folder basename does NOT contains a date', function() {
 
-				it('should NOT init the event range (YET), EVEN if there are children', async () => {
+				it('should NOT yield an event range (YET), EVEN if there are children', async () => {
 					let state = create('foo')
 
 					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
@@ -97,7 +97,7 @@ describe(`${LIB} - folder state`, function() {
 					state = on_subfile_primary_infos_gathered(state, file_state)
 
 					state = on_fs_exploration_done(state)
-					expect(get_event_range(state), 'event range').to.be.undefined
+					expect(get_event_range(state), 'event range').not.to.be.ok
 				})
 			})
 
@@ -107,7 +107,7 @@ describe(`${LIB} - folder state`, function() {
 
 					context('when the cross-referencing hints at a backup', function () {
 
-						it('should NOT init the event range', async () => {
+						it('should NOT yield an event range', async () => {
 							let state = create('2018-11-23 iphone 12')
 
 							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test
@@ -116,13 +116,13 @@ describe(`${LIB} - folder state`, function() {
 							state = on_subfile_primary_infos_gathered(state, file_state)
 
 							state = on_fs_exploration_done(state)
-							expect(get_event_range(state), 'event range').to.be.undefined
+							expect(get_event_range(state), 'event range').not.to.be.ok
 						})
 					})
 
 					context('when the cross-referencing hints at an event', function () {
 
-						it('should init the event range with the basename date', async () => {
+						it.only('should yield an event range starting with the basename date', async () => {
 							let state = create('holidays in cool place 2018-09-03')
 
 							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test

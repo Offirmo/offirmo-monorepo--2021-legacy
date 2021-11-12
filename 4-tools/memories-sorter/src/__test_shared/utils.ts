@@ -29,10 +29,8 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { FsStatsSubset } from '../services/fs_stats'
 
 
-export async function load_real_media_file(
-	abs_path: string,
-	state: Immutable<FileLib.State> = FileLib.create(path.parse(abs_path).base),
-): Promise<Immutable<FileLib.State>> {
+export async function load_real_media_file(abs_path: string): Promise<Immutable<FileLib.State>> {
+	let state: Immutable<FileLib.State> = FileLib.create(path.parse(abs_path).base)
 	expect(FileLib.is_media_file(state)).to.be.true
 	expect(FileLib.is_exif_powered_media_file(state)).to.be.true
 

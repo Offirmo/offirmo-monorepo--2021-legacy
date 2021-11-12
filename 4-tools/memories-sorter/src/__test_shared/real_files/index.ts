@@ -33,6 +33,7 @@ interface MediaDemo {
 	BASENAME: Basename
 	ABS_PATH: AbsolutePath
 
+	UTIME_MS: number
 	EXIF_DATA: null | {
 		EMBEDDED_TZ: TimeZone | undefined
 		FINAL_TZ: TimeZone | undefined
@@ -99,12 +100,13 @@ async function _get_demo_state(
 	return enforce_immutability(state)
 }
 
-const MEDIA_DEMO_01_basename = 'exif_date_cn_exif_gps.jpg'
-export const MEDIA_DEMO_01: MediaDemo = {
+const MEDIA_DEMO_00_basename = 'exif_date_cn_exif_gps.jpg'
+export const MEDIA_DEMO_00: MediaDemo = {
 	// expected: 2018-09-03 20:46:14 Asia/Shanghai
-	BASENAME: MEDIA_DEMO_01_basename,
-	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01_basename),
+	BASENAME: MEDIA_DEMO_00_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_00_basename),
 
+	UTIME_MS: 1535978774000, // MATCHING fs: 2018-09-03_20h46m14 GMT+8
 	EXIF_DATA: {
 		EMBEDDED_TZ: 'Asia/Shanghai',
 		FINAL_TZ: 'Asia/Shanghai',
@@ -123,16 +125,17 @@ export const MEDIA_DEMO_01: MediaDemo = {
 	IDEAL_BASENAME: 'MM2018-09-03_20h46m14s506_exif_date_cn_exif_gps.jpg',
 }
 utimes( // ensure expected fs time
-	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01_basename),
-	1535978774000 // 2018-09-03_20h46m14 GMT+8
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_00.BASENAME),
+	MEDIA_DEMO_00.UTIME_MS,
 )
 
-const MEDIA_DEMO_02_basename = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
-export const MEDIA_DEMO_02: MediaDemo = {
+const MEDIA_DEMO_01_basename = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
+export const MEDIA_DEMO_01: MediaDemo = {
 	// expected: 2002-01-26 afternoon in Europe
-	BASENAME: MEDIA_DEMO_02_basename,
-	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02_basename),
+	BASENAME: MEDIA_DEMO_01_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01_basename),
 
+	UTIME_MS: 1584751060000, // CONFLICTING fs: 2020-03-21_11h37m40 local
 	EXIF_DATA: {
 		EMBEDDED_TZ: undefined,
 		FINAL_TZ: 'Europe/Paris',
@@ -150,17 +153,18 @@ export const MEDIA_DEMO_02: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2002-01-26_16h05m50_exif_date_fr_alt_no_tz_conflicting_fs.jpg',
 }
-utimes( // ensure conflicting fs time
-	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02_basename),
-	1584751060000 // 2020-03-21_11h37m40 local
+utimes( // ensure expected fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_01.BASENAME),
+	MEDIA_DEMO_01.UTIME_MS,
 )
 
-const MEDIA_DEMO_03_basename = 'exif_date_fr_no_tz_conflicting_fs.jpg'
-export const MEDIA_DEMO_03: MediaDemo = {
+const MEDIA_DEMO_02_basename = 'exif_date_fr_no_tz_conflicting_fs.jpg'
+export const MEDIA_DEMO_02: MediaDemo = {
 	// expected: 2008-11-14 evening in Europe
-	BASENAME: MEDIA_DEMO_03_basename,
-	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_03_basename),
+	BASENAME: MEDIA_DEMO_02_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02_basename),
 
+	UTIME_MS: 1584751060000, // CONFLICTING fs: 2020-03-21_11h37m40 local
 	EXIF_DATA: {
 		EMBEDDED_TZ: undefined,
 		FINAL_TZ: 'Europe/Paris',
@@ -178,17 +182,18 @@ export const MEDIA_DEMO_03: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2008-11-14_21h28m32_exif_date_fr_no_tz_conflicting_fs.jpg',
 }
-utimes( // ensure conflicting fs time
-	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_03_basename),
-	1584751060000 // 2020-03-21_11h37m40 local
+utimes( // ensure expected fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_02.BASENAME),
+	MEDIA_DEMO_02.UTIME_MS,
 )
 
-const MEDIA_DEMO_04_basename = 'IMG_7477.heic'
-export const MEDIA_DEMO_04: MediaDemo = {
+const MEDIA_DEMO_03_basename = 'IMG_7477.heic'
+export const MEDIA_DEMO_03: MediaDemo = {
 	// expected: 2020 07 28 lunch in Australia
-	BASENAME: MEDIA_DEMO_04_basename,
-	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_04_basename),
+	BASENAME: MEDIA_DEMO_03_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_03_basename),
 
+	UTIME_MS: 1615751060000, // "LOST" fs: GMT: Sunday 14 March 2021 19:44:20
 	EXIF_DATA: {
 		EMBEDDED_TZ: 'UTC+10',
 		FINAL_TZ: 'UTC+10', // TODO recover 'Australia/Sydney' from GPS??
@@ -206,17 +211,18 @@ export const MEDIA_DEMO_04: MediaDemo = {
 
 	IDEAL_BASENAME: 'MM2020-07-28_12h18m21s817_IMG_7477.heic',
 }
-utimes( // ensure stable fs time after doing git checkout since git doesn't preserve those
-	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_04_basename),
-	1615751060000 // GMT: Sunday 14 March 2021 19:44:20, assuming the file ts was lost
+utimes( // ensure expected fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_03.BASENAME),
+	MEDIA_DEMO_03.UTIME_MS,
 )
 
-const MEDIA_DEMO_05_basename = 'IMG_20170124_125515_bad_exif.jpg'
-export const MEDIA_DEMO_05: MediaDemo = {
+const MEDIA_DEMO_04_basename = 'IMG_20170124_125515_bad_exif.jpg'
+export const MEDIA_DEMO_04: MediaDemo = {
 	// example of a bad "CreateDate" EXIF field but we're able to recover from it
-	BASENAME: MEDIA_DEMO_05_basename,
-	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_05_basename),
+	BASENAME: MEDIA_DEMO_04_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_04_basename),
 
+	UTIME_MS: 1535978774000, // "LOST" fs: GMT: Monday 3 September 2018 12:46:14
 	EXIF_DATA: {
 		EMBEDDED_TZ: 'Asia/Bangkok',
 		FINAL_TZ: 'Asia/Bangkok',
@@ -235,16 +241,17 @@ export const MEDIA_DEMO_05: MediaDemo = {
 	IDEAL_BASENAME: 'MM2017-01-24_12h55m17_IMG_bad_exif.jpg',
 }
 utimes( // ensure expected fs time
-	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_05_basename),
-	1535978774000 // GMT: Monday 3 September 2018 12:46:14 assuming original fs ts lost
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_04.BASENAME),
+	MEDIA_DEMO_04.UTIME_MS,
 )
 
-const MEDIA_DEMO_06_basename = 'no_exif_date_no_tz.jpg'
-export const MEDIA_DEMO_06: MediaDemo = {
+const MEDIA_DEMO_05_basename = 'no_exif_date_no_tz.jpg'
+export const MEDIA_DEMO_05: MediaDemo = {
 	// only source = FS
-	BASENAME: MEDIA_DEMO_06_basename,
-	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_06_basename),
+	BASENAME: MEDIA_DEMO_05_basename,
+	ABS_PATH: path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_05_basename),
 
+	UTIME_MS: 1584751060000, // MATCHING fs: 2020-03-21_11h37m40 local
 	EXIF_DATA: {
 		EMBEDDED_TZ: undefined,
 		FINAL_TZ: undefined,
@@ -261,11 +268,11 @@ export const MEDIA_DEMO_06: MediaDemo = {
 	DATE__HUMAN_AUTO: '2020-03-21_11h37m40',
 	CONFIDENCE: 'secondary', // undefined reliability = we ~trust fs but not enough for a rename
 
-	IDEAL_BASENAME: MEDIA_DEMO_06_basename, // no change bc no reliable data
+	IDEAL_BASENAME: MEDIA_DEMO_05_basename, // no change bc no reliable data
 }
-utimes( // fix fs time after doing git checkout since git doesn't preserve those
-	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_06_basename),
-	1584751060000 // 2020-03-21_11h37m40 local
+utimes( // ensure expected fs time
+	path.join(TEST_FILES_DIR_ABS, MEDIA_DEMO_05.BASENAME),
+	MEDIA_DEMO_05.UTIME_MS,
 )
 
 /////////////////////////////////////////////////
@@ -275,6 +282,11 @@ export const ALL_MEDIA_DEMOS: Array<{
 	get_phase1_state: () => ReturnType<typeof load_real_media_file>,
 	get_phase2_state: () => ReturnType<typeof load_real_media_file>,
 }> = [
+	{
+		data: MEDIA_DEMO_00,
+		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_00)),
+		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_00, { neighbor_hints: null, recovered_notes: null })),
+	},
 	{
 		data: MEDIA_DEMO_01,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_01)),
@@ -299,10 +311,5 @@ export const ALL_MEDIA_DEMOS: Array<{
 		data: MEDIA_DEMO_05,
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_05)),
 		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_05, { neighbor_hints: null, recovered_notes: null })),
-	},
-	{
-		data: MEDIA_DEMO_06,
-		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_06)),
-		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_06, { neighbor_hints: null, recovered_notes: null })),
 	},
 ]

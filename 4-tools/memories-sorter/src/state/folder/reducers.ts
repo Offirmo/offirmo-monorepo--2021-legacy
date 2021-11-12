@@ -144,11 +144,11 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 				id: state.id,
 				...(new_children_begin_dateⵧfrom_fsⵧcurrent !== state.children_bcd_ranges.from_fsⵧcurrent?.begin && {
 					begin_before: get_debug_representation(state.children_bcd_ranges.from_fsⵧcurrent?.begin),
-					begin_after: get_debug_representation(new_children_begin_dateⵧfrom_fsⵧcurrent),
+					begin_new: get_debug_representation(new_children_begin_dateⵧfrom_fsⵧcurrent),
 				}),
 				...(new_children_end_dateⵧfrom_fsⵧcurrent !== state.children_bcd_ranges.from_fsⵧcurrent?.end && {
 					end_before: get_debug_representation(state.children_bcd_ranges.from_fsⵧcurrent?.end),
-					end_after: get_debug_representation(new_children_end_dateⵧfrom_fsⵧcurrent),
+					end_new: get_debug_representation(new_children_end_dateⵧfrom_fsⵧcurrent),
 				}),
 			}
 		)
@@ -190,9 +190,14 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 				`${ LIB } updating folder’s children's "current primary" date range`,
 				{
 					id: state.id,
-					file_bcd__from_primary_current,
-					new_children_begin_dateⵧfrom_primaryⵧcurrent: get_debug_representation(new_children_begin_dateⵧfrom_primaryⵧcurrent),
-					new_children_end_dateⵧfrom_primaryⵧcurrent: get_debug_representation(new_children_end_dateⵧfrom_primaryⵧcurrent),
+					...(new_children_begin_dateⵧfrom_primaryⵧcurrent !== state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin && {
+						begin_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin),
+						begin_now: get_debug_representation(new_children_begin_dateⵧfrom_primaryⵧcurrent),
+					}),
+					...(new_children_end_dateⵧfrom_primaryⵧcurrent !== state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end && {
+						end_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end),
+						end_now: get_debug_representation(new_children_end_dateⵧfrom_primaryⵧcurrent),
+					}),
 				}
 			)
 
@@ -275,12 +280,17 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 			// no change
 		} else {
 			logger.verbose(
-				`${ LIB } updating folder’s children's "primary final" date range`,
+				`${ LIB } updating folder’s children's "final primary" date range`,
 				{
 					id: state.id,
-					file_bcd__primary_final: get_debug_representation(file_bcd__primary_final),
-					new_children_begin_date__primary_final: get_debug_representation(new_children_begin_date__primary_final),
-					new_children_end_date__primary_final: get_debug_representation(new_children_end_date__primary_final),
+					...(new_children_begin_date__primary_final !== state.children_bcd_ranges.from_primaryⵧfinal?.begin && {
+						begin_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧfinal?.begin),
+						begin_now: get_debug_representation(new_children_begin_date__primary_final),
+					}),
+					...(new_children_end_date__primary_final !== state.children_bcd_ranges.from_primaryⵧfinal?.end && {
+						end_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧfinal?.end),
+						end_now: get_debug_representation(new_children_end_date__primary_final),
+					}),
 				}
 			)
 

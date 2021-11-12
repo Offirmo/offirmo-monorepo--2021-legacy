@@ -10,7 +10,13 @@ import logger from '../../services/logger'
 import { is_digit } from '../../services/matchers'
 import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_folder_basename__matching_a_processed_event_format } from '../../services/name_parser'
 import * as BetterDateLib from '../../services/better-date'
-import { BetterDate, create_better_date_from_utc_tms, DateRange, get_compact_date } from '../../services/better-date'
+import {
+	BetterDate,
+	create_better_date_from_utc_tms,
+	DateRange,
+	get_compact_date,
+	get_debug_representation,
+} from '../../services/better-date'
 import { FsReliability, NeighborHints } from '../file'
 import * as FileLib from '../file'
 
@@ -244,30 +250,32 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 			return null
 		}
 		else {
-			// strange situation, let's investigate...
-			throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() could this happen?!')
+			// folder's date is between the children range (not included)
+			// this looks unreliable...
+			return null
 		}
 	}
 
 	// we have no range, let's try something else…
-	if (parsed.meaningful_part.toLowerCase().includes('backup')) {
+	if (((): boolean => {
+		const lc = parsed.meaningful_part.toLowerCase()
+		return lc.includes('backup')
+			|| lc.includes('save')
+			|| lc.includes('import')
+			|| lc.includes('sauvegarde')
+	})()) {
 		// clearly not an event
 		return null
 	}
 
 	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
 		// this looks very very much like an event
-		// TODO check parent is year as well?
 		return parsed.date
 	}
 
-	// can't really tell...
-	console.error({
-		current_basename,
-		ip: is_folder_basename__matching_a_processed_event_format(current_basename),
-		pmp: parsed.meaningful_part,
-	})
-	throw new Error('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() NIMP2')
+	// can't really tell... (the folder must be empty OR contains a mix of older and newer files)
+	// let's assume it's a start date
+	return parsed.date
 }
 
 export function is_current_basename_intentful_of_event_start(state: Immutable<State>): boolean {
