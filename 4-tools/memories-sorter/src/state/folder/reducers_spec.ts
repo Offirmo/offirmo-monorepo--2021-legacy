@@ -122,7 +122,7 @@ describe(`${LIB} - folder state`, function() {
 
 					context('when the cross-referencing hints at an event', function () {
 
-						it.only('should yield an event range starting with the basename date', async () => {
+						it('should yield an event range starting with the basename date', async () => {
 							let state = create('holidays in cool place 2018-09-03')
 
 							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test

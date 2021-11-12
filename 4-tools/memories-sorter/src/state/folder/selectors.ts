@@ -115,6 +115,7 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 
 	if (!event_begin_date) {
 		return (event_beginⵧfrom_folder_basename === null || children_range === null)
+			// TODO review
 			? null
 			: undefined
 	}
@@ -233,6 +234,11 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
 	})() || {}
+	/*console.log('DEBUG', {
+		begin: get_debug_representation(begin),
+		end: get_debug_representation(end),
+		state,
+	})*/
 	if (!!begin && !!end) {
 		// we have a range, let's cross-reference…
 		const date__from_basename‿symd = BetterDateLib.get_compact_date(parsed.date, 'tz:embedded')
@@ -240,6 +246,11 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 		// TODO use the best available data?
 		const date_range_begin‿symd = BetterDateLib.get_compact_date(begin, 'tz:embedded')
 		const date_range_end‿symd = BetterDateLib.get_compact_date(end, 'tz:embedded')
+		/*console.log('DEBUG', {
+			begin: date_range_begin‿symd, //get_debug_representation(begin),
+			end: date_range_end‿symd, //get_debug_representation(end),
+			date__from_basename‿symd,
+		})*/
 
 		if (date__from_basename‿symd <= date_range_begin‿symd) {
 			// clearly a beginning date
