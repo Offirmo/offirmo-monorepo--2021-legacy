@@ -513,6 +513,10 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 	})
 	state = { ...state, folders }
 
+	get_all_folders(state).forEach((folder_state) => {
+
+	})
+
 	function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
 		const file_state = state.files[file_id]
 

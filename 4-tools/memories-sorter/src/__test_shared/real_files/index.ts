@@ -100,6 +100,7 @@ async function _get_demo_state(
 	return enforce_immutability(state)
 }
 
+// 2018-09-03_20h46m14s506
 const MEDIA_DEMO_00_basename = 'exif_date_cn_exif_gps.jpg'
 export const MEDIA_DEMO_00: MediaDemo = {
 	// expected: 2018-09-03 20:46:14 Asia/Shanghai
@@ -129,6 +130,7 @@ utimes( // ensure expected fs time
 	MEDIA_DEMO_00.UTIME_MS,
 )
 
+// 2002-01-26_16h05m50
 const MEDIA_DEMO_01_basename = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
 export const MEDIA_DEMO_01: MediaDemo = {
 	// expected: 2002-01-26 afternoon in Europe
@@ -158,6 +160,7 @@ utimes( // ensure expected fs time
 	MEDIA_DEMO_01.UTIME_MS,
 )
 
+// 2008-11-14_21h28m32
 const MEDIA_DEMO_02_basename = 'exif_date_fr_no_tz_conflicting_fs.jpg'
 export const MEDIA_DEMO_02: MediaDemo = {
 	// expected: 2008-11-14 evening in Europe
@@ -187,6 +190,7 @@ utimes( // ensure expected fs time
 	MEDIA_DEMO_02.UTIME_MS,
 )
 
+// 2020-07-28_12h18m21s817
 const MEDIA_DEMO_03_basename = 'IMG_7477.heic'
 export const MEDIA_DEMO_03: MediaDemo = {
 	// expected: 2020 07 28 lunch in Australia
@@ -216,6 +220,7 @@ utimes( // ensure expected fs time
 	MEDIA_DEMO_03.UTIME_MS,
 )
 
+// 2017-01-24_12h55m17
 const MEDIA_DEMO_04_basename = 'IMG_20170124_125515_bad_exif.jpg'
 export const MEDIA_DEMO_04: MediaDemo = {
 	// example of a bad "CreateDate" EXIF field but we're able to recover from it
@@ -245,6 +250,7 @@ utimes( // ensure expected fs time
 	MEDIA_DEMO_04.UTIME_MS,
 )
 
+// 2020-03-21_11h37m40
 const MEDIA_DEMO_05_basename = 'no_exif_date_no_tz.jpg'
 export const MEDIA_DEMO_05: MediaDemo = {
 	// only source = FS

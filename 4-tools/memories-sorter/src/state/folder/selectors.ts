@@ -94,7 +94,7 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 	if (state.type !== Type.event && state.type !== Type.overlapping_event)
 		return null
 
-	if (state.forced_event_range !== undefined)
+	if (!!state.forced_event_range)
 		return state.forced_event_range
 
 	const event_beginⵧfrom_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
@@ -206,14 +206,14 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 // Note: this is logically and semantically different from get_expected_bcd_range_from_parent_path()
 export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
 	const current_basename = get_current_basename(state)
+	const basename‿parsed = get_current_basename‿parsed(state)
 
-	if (current_basename.length < 12) {
-		// must be big enough, just a year won't do
+	if ((basename‿parsed.date_digits?.length ?? 0) < 6) {
+		// must be big enough, need precision up to month
 		return null
 	}
 
-	const parsed = get_current_basename‿parsed(state)
-	if (!parsed.date)
+	if (!basename‿parsed.date)
 		return null
 
 	// TODO review: should we return null if range too big?
@@ -241,7 +241,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	})*/
 	if (!!begin && !!end) {
 		// we have a range, let's cross-reference…
-		const date__from_basename‿symd = BetterDateLib.get_compact_date(parsed.date, 'tz:embedded')
+		const date__from_basename‿symd = BetterDateLib.get_compact_date(basename‿parsed.date, 'tz:embedded')
 
 		// TODO use the best available data?
 		const date_range_begin‿symd = BetterDateLib.get_compact_date(begin, 'tz:embedded')
@@ -254,7 +254,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 		if (date__from_basename‿symd <= date_range_begin‿symd) {
 			// clearly a beginning date
-			return parsed.date
+			return basename‿parsed.date
 		}
 		else if (date__from_basename‿symd >= date_range_end‿symd) {
 			// clearly a backup date, ignore it
@@ -269,7 +269,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 	// we have no range, let's try something else…
 	if (((): boolean => {
-		const lc = parsed.meaningful_part.toLowerCase()
+		const lc = basename‿parsed.meaningful_part.toLowerCase()
 		return lc.includes('backup')
 			|| lc.includes('save')
 			|| lc.includes('import')
@@ -281,12 +281,12 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
 		// this looks very very much like an event
-		return parsed.date
+		return basename‿parsed.date
 	}
 
 	// can't really tell... (the folder must be empty OR contains a mix of older and newer files)
 	// let's assume it's a start date
-	return parsed.date
+	return basename‿parsed.date
 }
 
 export function is_current_basename_intentful_of_event_start(state: Immutable<State>): boolean {

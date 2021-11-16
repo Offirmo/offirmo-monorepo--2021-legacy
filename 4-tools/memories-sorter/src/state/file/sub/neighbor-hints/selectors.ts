@@ -44,13 +44,13 @@ export function get_bcd_from_parent_path(parent_path: RelativePath): null | unde
 
 	const folder_path‿pparsed = pathㆍparse_memoized(parent_path)
 	const folder_basename = folder_path‿pparsed.base
+	const basename‿parsed = parse_folder_basename(folder_basename)
 
-	if (folder_basename.length < 12) {
-		// must be big enough, just a year won't do
+	if ((basename‿parsed.date_digits?.length ?? 0) < 8) {
+		// must be big enough, need precision up to day
 		return null
 	}
 
-	const basename‿parsed = parse_folder_basename(folder_basename)
 	return basename‿parsed.date
 }
 

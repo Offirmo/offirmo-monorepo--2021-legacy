@@ -30,6 +30,7 @@ export interface State {
 	// if this folder is an event, what is the range assigned to it?
 	// the range can be inferred (from basename + children)
 	// this prop allows to override it, ex. in case of overlap
+	// Note: null = no override, can only be overriden to an actual range
 	forced_event_range: null | DateRange
 
 	// various creation date ranges from children:
