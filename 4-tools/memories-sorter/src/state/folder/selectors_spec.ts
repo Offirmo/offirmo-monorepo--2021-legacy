@@ -34,87 +34,159 @@ describe.only(`${LIB} - folder state`, function() {
 
 		describe('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources()', function() {
 
-			it('should not find anything when no date in basename', () => {
-				let state = create('2014-541')
-				const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).to.be.null
+			context('when the folder basename does NOT contains a date', function() {
+
+				context('when there are children', function () {
+
+					it('should NOT yield an event range', async () => {
+						let state = create('2014-541')
+
+						let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+						state = on_subfile_found(state, file_state)
+						state = on_subfile_primary_infos_gathered(state, file_state)
+
+						state = on_fs_exploration_done(state)
+						const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+						expect(begin_date).to.be.null
+					})
+				})
+
+				context('when there are NO children', function () {
+
+					it('should NOT yield an event range', () => {
+						let state = create('2014-541')
+						const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+						expect(begin_date).to.be.null
+					})
+				})
 			})
 
-			it('should properly detect events when basename is clear', () => {
-				let state = create('20140803 - holidays')
-				const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).not.to.be.null
-				expect(get_human_readable_timestamp_auto(begin_date!, 'tz:embedded')).to.equal('2014-08-03')
-			})
+			context('when the folder basename contains a date', function() {
 
-			it('should properly detect backups when basename is clear', () => {
-				let state = create('20140803 - BackuP ')
-				let begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).to.be.null
+				it('should properly detect events when basename is clear', () => {
+					let state = create('20140803 - holidays')
+					const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).not.to.be.null
+					expect(get_human_readable_timestamp_auto(begin_date!, 'tz:embedded')).to.equal('2014-08-03')
+				})
 
-				state = create('20140803 - SauveGarde ')
-				begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).to.be.null
+				it('should properly detect backups when basename is clear', () => {
+					let state = create('20140803 - BackuP ')
+					let begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).to.be.null
 
-				state = create('20140803 - imPort')
-				begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).to.be.null
-			})
+					state = create('20140803 - SauveGarde ')
+					begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).to.be.null
 
-			it('should cross-reference with children when basename is unclear -- no children', () => {
-				let state = create('holidays 2014-08-03')
-				const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).not.to.be.null
-				expect(get_human_readable_timestamp_auto(begin_date!, 'tz:embedded')).to.equal('2014-08-03')
-			})
+					state = create('20140803 - imPort')
+					begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).to.be.null
+				})
 
-			it('should cross-reference with children when basename is unclear -- children hints at event', async () => {
-				let state = create('holidays 2018-09-01')
-				let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state() // REM date = 2018-09-03_20h46m14 GMT+8
-				state = on_subfile_found(state, file_state)
-				state = on_subfile_primary_infos_gathered(state, file_state)
+				it('should cross-reference with children when basename is unclear -- no children', () => {
+					let state = create('holidays 2014-08-03')
+					const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).not.to.be.null
+					expect(get_human_readable_timestamp_auto(begin_date!, 'tz:embedded')).to.equal('2014-08-03')
+				})
 
-				const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).not.to.be.null
-				expect(get_human_readable_timestamp_auto(begin_date!, 'tz:embedded')).to.equal('2018-09-01')
-			})
+				it('should cross-reference with children when basename is unclear -- children hints at event', async () => {
+					let state = create('holidays 2018-09-01')
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state() // REM date = 2018-09-03_20h46m14 GMT+8
+					state = on_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
 
-			it('should cross-reference with children when basename is unclear -- children hints at backup', async () => {
-				let state = create('2018-10-31')
-				let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state() // REM date = 2018-09-03_20h46m14 GMT+8
-				state = on_subfile_found(state, file_state)
-				state = on_subfile_primary_infos_gathered(state, file_state)
+					const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).not.to.be.null
+					expect(get_human_readable_timestamp_auto(begin_date!, 'tz:embedded')).to.equal('2018-09-01')
+				})
 
-				const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).to.be.null // since the basename date is unrelated to the range start
-			})
+				it('should cross-reference with children when basename is unclear -- children hints at backup', async () => {
+					let state = create('2018-10-31')
+					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state() // REM date = 2018-09-03_20h46m14 GMT+8
+					state = on_subfile_found(state, file_state)
+					state = on_subfile_primary_infos_gathered(state, file_state)
 
-			it('should cross-reference with children when basename is unclear -- children hints unclear', async () => {
-				let state = create('2015-08-03')
-				let file_state_1 = await ALL_MEDIA_DEMOS[0].get_phase1_state() // REM date = 2018-09-03_20h46m14 GMT+8
-				state = on_subfile_found(state, file_state_1)
-				state = on_subfile_primary_infos_gathered(state, file_state_1)
-				let file_state_2 = await ALL_MEDIA_DEMOS[1].get_phase1_state() // REM date =  2002-01-26_16h05m50
-				state = on_subfile_found(state, file_state_2)
-				state = on_subfile_primary_infos_gathered(state, file_state_2)
+					const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).to.be.null // since the basename date is unrelated to the range start
+				})
 
-				const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-				expect(begin_date).to.be.null
+				it('should cross-reference with children when basename is unclear -- children hints unclear', async () => {
+					let state = create('2015-08-03')
+					let file_state_1 = await ALL_MEDIA_DEMOS[0].get_phase1_state() // REM date = 2018-09-03_20h46m14 GMT+8
+					state = on_subfile_found(state, file_state_1)
+					state = on_subfile_primary_infos_gathered(state, file_state_1)
+					let file_state_2 = await ALL_MEDIA_DEMOS[1].get_phase1_state() // REM date =  2002-01-26_16h05m50
+					state = on_subfile_found(state, file_state_2)
+					state = on_subfile_primary_infos_gathered(state, file_state_2)
+
+					const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+					expect(begin_date).to.be.null
+				})
 			})
 		})
+
+		describe('is_current_basename_intentful_of_event_start()', function() {
+			// implicitly tested through get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources()
+		})
+
 		describe('get_event_range()', function() {
 
 			context('when the folder basename does NOT contains a date', function() {
 
-				it('should NOT yield an event range (YET), EVEN if there are children', async () => {
-					let state = create('foo')
+				context('when there are children', function() {
 
-					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
-					state = on_subfile_found(state, file_state)
-					state = on_subfile_primary_infos_gathered(state, file_state)
+					it.only('should yield an event range corresponding to the children range', async () => {
+						let state = create('foo')
 
-					state = on_fs_exploration_done(state)
-					expect(get_event_range(state), 'event range').not.to.be.ok
+						let file_state_01 = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+						state = on_subfile_found(state, file_state_01)
+						state = on_subfile_primary_infos_gathered(state, file_state_01)
+
+						let file_state_02 = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+						file_state_02 = {
+							...file_state_02,
+							current_exif_data: {
+								SourceFile: file_state_02.current_exif_data!.SourceFile,
+								CreationDate: '2018-09-05T09:50:14.506+08:00',
+							} as any,
+						}
+						state = on_subfile_found(state, file_state_02)
+						state = on_subfile_primary_infos_gathered(state, file_state_02)
+
+						state = on_fs_exploration_done(state)
+						expect(get_event_range(state), 'event range').to.be.ok
+						expect(get_event_begin_date‿symd(state)).to.equal(20180903)
+						expect(get_event_end_date‿symd(state)).to.equal(20180905)
+					})
+
+					context('when the children range is too big', function () {
+
+						it('should NOT yield an event range XXX', async () => {
+							let state = create('foo')
+
+							let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
+							state = on_subfile_found(state, file_state)
+							state = on_subfile_primary_infos_gathered(state, file_state)
+
+							state = on_fs_exploration_done(state)
+							expect(get_event_range(state), 'event range').not.to.be.ok
+
+							throw new Error('NIMP!')
+
+						})
+					})
+				})
+
+				context('when there are NO children', function() {
+
+					it('should NOT yield an event range', async () => {
+						let state = create('foo')
+
+						state = on_fs_exploration_done(state)
+						expect(get_event_range(state), 'event range').not.to.be.ok
+					})
 				})
 			})
 
@@ -151,6 +223,15 @@ describe.only(`${LIB} - folder state`, function() {
 							expect(get_event_range(state), 'event range').to.be.ok
 							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
 							expect(get_event_end_date‿symd(state)).to.equal(20180903)
+						})
+
+						context('when the children range is too big', function () {
+
+							it('should NOT yield an event range XXX', async () => {
+								let state = create('foo')
+
+								throw new Error('NIMP!')
+							})
 						})
 					})
 				})
