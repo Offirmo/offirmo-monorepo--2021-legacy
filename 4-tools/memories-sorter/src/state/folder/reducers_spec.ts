@@ -34,14 +34,17 @@ describe(`${LIB} - folder state`, function() {
 
 		describe('create()', function () {
 
-			it('should NOT infer the date ranges at start (waiting to discriminate from an event and a backup)', () => {
+			it('should work', () => {
+				create('holiday 2018-09-04')
+			})
+
+			it('should initialize children ranges to undefined', () => {
 				let state = create('holiday 2018-09-04')
 
 				Object.keys(state.children_bcd_ranges).forEach(_range_key => {
 					const range_key = _range_key as any as  keyof State['children_bcd_ranges']
 					expect(state.children_bcd_ranges[range_key], `children_bcd_ranges.${range_key}`).to.be.undefined
 				})
-				expect(get_event_range(state), 'event range').not.to.be.ok
 			})
 		})
 
@@ -87,7 +90,28 @@ describe(`${LIB} - folder state`, function() {
 
 		describe('on_fs_exploration_done()', function() {
 
-			it('should work')
+			context('when there are NO children', function() {
+
+				it('should work', () => {
+					let state = create('holiday 2018-09-04')
+					state = on_fs_exploration_done(state)
+				})
+
+				it('should initialize children ranges to null', () => {
+					let state = create('holiday 2018-09-04')
+					state = on_fs_exploration_done(state)
+
+					Object.keys(state.children_bcd_ranges).forEach(_range_key => {
+						const range_key = _range_key as any as  keyof State['children_bcd_ranges']
+						expect(state.children_bcd_ranges[range_key], `children_bcd_ranges.${range_key}`).to.be.null
+					})
+				})
+			})
+
+			context('when there are children', function() {
+
+				// nothing valuable to test
+			})
 		})
 
 		describe('on_subfile_all_infos_gathered()', function() {

@@ -453,6 +453,10 @@ function _get_ParseResult_debug_representation(presult: Immutable<ParseResult>):
 const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 'file' | 'folder', parse_up_to: 'full' | 'copy_index' = 'full'): Immutable<ParseResult> {
 
 	logger.trace('» parsing basename…', { name: basename, up_to: parse_up_to })
+
+	assert(!basename.includes('/'), `_parse() unexpected path separator / in basename? "${basename}"`)
+	assert(!basename.includes('\\'), `_parse() unexpected path separator \\ in basename? "${basename}"`)
+
 	const result: ParseResult = {
 		original_name: basename,
 		extension_lc: '',

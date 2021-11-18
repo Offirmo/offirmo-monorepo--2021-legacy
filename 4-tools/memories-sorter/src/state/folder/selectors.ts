@@ -90,6 +90,23 @@ function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 	return 'unknown'
 }
 
+export function _get_current_best_children_range(state: Immutable<State>): undefined | null | Immutable<DateRange> {
+	assert(is_data_gathering_pass_1_done(state), `_get_current_best_children_range() at least pass 1 should be complete`)
+
+	if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
+		return state.children_bcd_ranges.from_primaryⵧfinal
+	}
+
+	return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1 ?? (
+		state.children_bcd_ranges.from_fsⵧcurrent
+			? {
+				begin: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.begin, 'tz:auto'),
+				end: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.end, 'tz:auto'),
+			}
+			: state.children_bcd_ranges.from_fsⵧcurrent // as undef or null
+	)
+}
+
 export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): DateRange | null | undefined {
 	if (state.type !== Type.event && state.type !== Type.overlapping_event)
 		return null
@@ -97,37 +114,32 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 	if (!!state.forced_event_range)
 		return state.forced_event_range
 
+	if (is_looking_like_a_backup(state))
+		return null
+
 	const event_beginⵧfrom_folder_basename = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
 
-	const children_range = state.children_bcd_ranges.from_primaryⵧfinal
-		?? state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
-		?? (
-			state.children_bcd_ranges.from_fsⵧcurrent
-			? {
-				begin: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.begin, 'tz:auto'),
-				end: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.end, 'tz:auto'),
-			}
-			: state.children_bcd_ranges.from_fsⵧcurrent // as undef or null
-		)
+	const children_range = _get_current_best_children_range(state)
 
 	const event_begin_date = event_beginⵧfrom_folder_basename // always have priority if present
 		?? children_range?.begin
 
 	if (!event_begin_date) {
+		// TODO review
 		return (event_beginⵧfrom_folder_basename === null || children_range === null)
-			// TODO review
 			? null
 			: undefined
 	}
 
-	let event_end_date = children_range!.end // for now
-
 	const capped_end_date = BetterDateLib.add_days(event_begin_date, PARAMS.max_event_durationⳇₓday)
+
+	let event_end_date = children_range?.end ?? capped_end_date // for now
+
 	const is_range_too_big = BetterDateLib.compare_utc(event_end_date, capped_end_date) > 0
 
 	if (is_range_too_big && !is_current_basename_intentful_of_event_start(state)) {
 		logger.info(
-			`${LIB} folder: date range too big, most likely not an event, demoting...`, {
+			`${LIB} folder: date range too big, most likely not an event, should demote...`, {
 				id: state.id,
 				tentative_event_begin_date: BetterDateLib.get_debug_representation(event_begin_date),
 				tentative_event_end_date: BetterDateLib.get_debug_representation(event_end_date),
@@ -202,6 +214,16 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 }
 
 
+export function _is_basename_hinting_at_backup(state: Immutable<State>): boolean {
+	const current_basename = get_current_basename(state)
+	const basename‿parsed = get_current_basename‿parsed(state)
+	const lc = basename‿parsed.meaningful_part.toLowerCase()
+	return lc.includes('backup')
+		|| lc.includes('save')
+		|| lc.includes('import')
+		|| lc.includes('sauvegarde')
+}
+
 // TODO review + memoize
 // Note: this is logically and semantically different from get_expected_bcd_range_from_parent_path()
 export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
@@ -216,8 +238,6 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	if (!basename‿parsed.date)
 		return null
 
-	// TODO review: should we return null if range too big?
-
 	// reminder: a dated folder can indicate
 	// - the date of an EVENT = date of the beginning of the file range
 	// - the date of a BACKUP = date of the END of the file range
@@ -225,15 +245,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	// we need extra info to discriminate between those cases
 
 	// try to cross-reference with the children date range = best source of info
-	const { begin, end } = (() => {
-		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
-
-		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
-			return state.children_bcd_ranges.from_primaryⵧfinal
-		}
-
-		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
-	})() || {}
+	const { begin, end } = _get_current_best_children_range(state) || {}
 	/*console.log('DEBUG', {
 		begin: get_debug_representation(begin),
 		end: get_debug_representation(end),
@@ -268,13 +280,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	}
 
 	// we have no range, let's try something else…
-	if (((): boolean => {
-		const lc = basename‿parsed.meaningful_part.toLowerCase()
-		return lc.includes('backup')
-			|| lc.includes('save')
-			|| lc.includes('import')
-			|| lc.includes('sauvegarde')
-	})()) {
+	if (_is_basename_hinting_at_backup(state)) {
 		// clearly not an event
 		return null
 	}
@@ -291,6 +297,56 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 export function is_current_basename_intentful_of_event_start(state: Immutable<State>): boolean {
 	return get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state) !== null
+}
+
+export function is_looking_like_a_backup(state: Immutable<State>): boolean {
+	const basename‿parsed = get_current_basename‿parsed(state)
+
+	const is_basename_hinting_at_backup = ((): boolean => {
+		const lc = basename‿parsed.meaningful_part.toLowerCase()
+		return lc.includes('backup')
+			|| lc.includes('save')
+			|| lc.includes('import')
+			|| lc.includes('sauvegarde')
+	})()
+
+	// if a date is present in the basename, try to cross-reference with the children date range = best source of info
+	if (basename‿parsed.date) {
+		const children_date_range = _get_current_best_children_range(state)
+		/*console.log('DEBUG', {
+			begin: get_debug_representation(begin),
+			end: get_debug_representation(end),
+			state,
+		})*/
+		if (children_date_range) {
+			// we have a range, let's cross-reference…
+			const date__from_basename‿symd = BetterDateLib.get_compact_date(basename‿parsed.date, 'tz:embedded')
+
+			// TODO use the best available data?
+			const date_range_begin‿symd = BetterDateLib.get_compact_date(children_date_range.begin, 'tz:embedded')
+			const date_range_end‿symd = BetterDateLib.get_compact_date(children_date_range.end, 'tz:embedded')
+			/*console.log('DEBUG', {
+				begin: date_range_begin‿symd, //get_debug_representation(begin),
+				end: date_range_end‿symd, //get_debug_representation(end),
+				date__from_basename‿symd,
+			})*/
+
+			if (date__from_basename‿symd <= date_range_begin‿symd) {
+				// clearly a beginning date, this is an event
+				return false
+			}
+			else if (date__from_basename‿symd >= date_range_end‿symd) {
+				// clearly a backup date
+				return true
+			}
+			else {
+				// fallthrough
+			}
+		}
+	}
+
+	// we have no clear cross referencing
+	return is_basename_hinting_at_backup
 }
 
 export function get_neighbor_primary_hints(state: Immutable<State>): Immutable<NeighborHints> {

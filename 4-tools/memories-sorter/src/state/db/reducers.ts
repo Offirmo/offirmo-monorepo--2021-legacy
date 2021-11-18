@@ -408,7 +408,7 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 	// merge notes recovered from notes bkp, notes (re)generated) from fs, across all duplicates if any
 	const all_media_hashes = get_all_media_files(state).reduce((acc, file_state) => {
 		const { id, current_hash } = file_state
-		assert(current_hash)
+		assert(current_hash, `consolidate: should have current hash`)
 		acc.add(current_hash)
 		return acc
 	}, new Set<FileHash>())
