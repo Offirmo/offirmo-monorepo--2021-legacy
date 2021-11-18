@@ -170,3 +170,4 @@ TODO review units +
 TODO review scalability
 TODO review font size https://tonsky.me/blog/font-size/
 TODO https://mxstbr.com/thoughts/margin/ https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/
+TODO https://tympanus.net/codrops/2021/10/25/the-process-of-building-a-css-framework/
