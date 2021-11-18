@@ -61,6 +61,7 @@ export function create(id: RelativePath): Immutable<State> {
 		type,
 		reason_for_demotion_from_event: null,
 
+		status: 'data-gathering-1',
 		children_count: 0,
 		children_pass_1_count: 0,
 		children_pass_2_count: 0,
@@ -232,8 +233,8 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 // - it is exposed for unit tests + in case of empty dirs (TODO review + call it for empty dirs?)
 // - hence it should support being called multiple times
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
-	assert(is_data_gathering_pass_1_done(state), `on_fs_exploration_done() pass 1 should be done!`)
-	assert(!has_data_gathering_pass_2_started(state), `on_fs_exploration_done() pass 2 should NOT have started!`)
+	assert(state.children_pass_1_count === state.children_count)
+	assert(state.status === 'data-gathering-1', `on_fs_exploration_done() pass 1 should be in progress/done!`)
 
 	const { children_count } = state
 	if (children_count === 0) {
@@ -248,7 +249,10 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 		}
 	}
 
-	return state
+	return {
+		...state,
+		status: 'data-gathering-2',
+	}
 }
 
 export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
@@ -349,7 +353,10 @@ export function on_all_infos_gathered(state: Immutable<State>, PARAMS: Immutable
 		}
 	}
 
-	return state
+	return  {
+		...state,
+		status: 'sorting',
+	}
 }
 
 export function on_overlap_clarified(state: Immutable<State>, target_end_date‿symd: SimpleYYYYMMDD, PARAMS: Immutable<Params> = get_params()): Immutable<State> {

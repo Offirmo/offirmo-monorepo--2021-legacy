@@ -61,6 +61,7 @@ export interface State {
 	}
 
 	// intermediate data for internal assertions
+	status: 'data-gathering-1' | 'data-gathering-2' | 'sorting'
 	children_count: number, // initial fs exploration
 	children_pass_1_count: number, // fs exploration
 	children_pass_2_count: number, // consolidation

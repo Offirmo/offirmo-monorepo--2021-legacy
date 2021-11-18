@@ -62,13 +62,21 @@ export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): 
 }
 
 export function is_data_gathering_pass_1_done(state: Immutable<State>): boolean {
-	return state.children_pass_1_count === state.children_count
+	const result = state.status !== 'data-gathering-1'
+	if (result)
+		assert(state.children_pass_1_count === state.children_count, `is_data_gathering_pass_1_done() child# should equal p1#`)
+	return result
 }
 export function has_data_gathering_pass_2_started(state: Immutable<State>): boolean {
-	return state.children_pass_2_count > 0
+	const result = state.status === 'data-gathering-2'
+	assert(state.children_pass_2_count > 0, `has_data_gathering_pass_2_started() p2# > 0`)
+	return result
 }
 export function is_data_gathering_pass_2_done(state: Immutable<State>): boolean {
-	return state.children_pass_2_count === state.children_count
+	const result = state.status === 'sorting'
+	if (result)
+		assert(state.children_pass_2_count === state.children_count, `is_data_gathering_pass_2_done() should p2# should equal child#`)
+	return result
 }
 
 function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
@@ -113,6 +121,8 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 
 	if (!!state.forced_event_range)
 		return state.forced_event_range
+
+	assert(is_data_gathering_pass_1_done(state), `get_event_range() should not be called too early for fear of incomplete results!`)
 
 	if (is_looking_like_a_backup(state))
 		return null
@@ -397,8 +407,13 @@ export function to_string(state: Immutable<State>) {
 	str += stylize_string.yellow.bold(` "${id}"`)
 
 	if (type === Type.event || type === Type.overlapping_event) {
-		const { begin: event_begin_date, end: event_end_date } = get_event_range(state) || {}
-		str += ` 📅 ${BetterDateLib.get_human_readable_timestamp_days(event_begin_date!, 'tz:embedded')} → ${BetterDateLib.get_human_readable_timestamp_days(event_end_date!, 'tz:embedded')}`
+		if (!is_data_gathering_pass_1_done(state)) {
+			str += ' (fs in progress)'
+		}
+		else {
+			const { begin: event_begin_date, end: event_end_date } = get_event_range(state) || {}
+			str += ` 📅 ${BetterDateLib.get_debug_representation(event_begin_date)} → ${BetterDateLib.get_debug_representation(event_end_date)}`
+		}
 	}
 	else if (state.reason_for_demotion_from_event) {
 		str += ` (demoted due to: ${state.reason_for_demotion_from_event})`
