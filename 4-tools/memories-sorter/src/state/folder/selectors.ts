@@ -223,7 +223,6 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 	)
 }
 
-
 export function _is_basename_hinting_at_backup(state: Immutable<State>): boolean {
 	const current_basename = get_current_basename(state)
 	const basename‿parsed = get_current_basename‿parsed(state)
@@ -234,10 +233,7 @@ export function _is_basename_hinting_at_backup(state: Immutable<State>): boolean
 		|| lc.includes('sauvegarde')
 }
 
-// TODO review + memoize
-// Note: this is logically and semantically different from get_expected_bcd_range_from_parent_path()
-export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
-	const current_basename = get_current_basename(state)
+function _get_event_begin_from_basename_if_present(state: Immutable<State>): undefined | null | Immutable<BetterDate> {
 	const basename‿parsed = get_current_basename‿parsed(state)
 
 	if ((basename‿parsed.date_digits?.length ?? 0) < 6) {
@@ -245,7 +241,14 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 		return null
 	}
 
-	if (!basename‿parsed.date)
+	return basename‿parsed.date
+}
+
+// TODO review + memoize
+// Note: this is logically and semantically different from get_expected_bcd_range_from_parent_path()
+export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
+	const basename_date = _get_event_begin_from_basename_if_present(state)
+	if (!basename_date)
 		return null
 
 	// reminder: a dated folder can indicate
@@ -263,7 +266,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	})*/
 	if (!!begin && !!end) {
 		// we have a range, let's cross-reference…
-		const date__from_basename‿symd = BetterDateLib.get_compact_date(basename‿parsed.date, 'tz:embedded')
+		const date__from_basename‿symd = BetterDateLib.get_compact_date(basename_date, 'tz:embedded')
 
 		// TODO use the best available data?
 		const date_range_begin‿symd = BetterDateLib.get_compact_date(begin, 'tz:embedded')
@@ -276,7 +279,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 		if (date__from_basename‿symd <= date_range_begin‿symd) {
 			// clearly a beginning date
-			return basename‿parsed.date
+			return basename_date
 		}
 		else if (date__from_basename‿symd >= date_range_end‿symd) {
 			// clearly a backup date, ignore it
@@ -295,14 +298,14 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 		return null
 	}
 
-	if (is_folder_basename__matching_a_processed_event_format(current_basename)) {
+	if (is_folder_basename__matching_a_processed_event_format(get_current_basename(state))) {
 		// this looks very very much like an event
-		return basename‿parsed.date
+		return basename_date
 	}
 
 	// can't really tell... (the folder must be empty OR contains a mix of older and newer files)
 	// let's assume it's a start date
-	return basename‿parsed.date
+	return basename_date
 }
 
 export function is_current_basename_intentful_of_event_start(state: Immutable<State>): boolean {
@@ -359,17 +362,48 @@ export function is_looking_like_a_backup(state: Immutable<State>): boolean {
 	return is_basename_hinting_at_backup
 }
 
-export function get_neighbor_primary_hints(state: Immutable<State>): Immutable<NeighborHints> {
+export function get_neighbor_primary_hints(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Immutable<NeighborHints> {
 	assert(is_data_gathering_pass_1_done(state), `get_neighbor_primary_hints() pass 1 should be complete`)
 
 	let hints = FileLib.NeighborHintsLib.create()
 
-	throw new Error('NIMP get_neighbor_primary_hints!')
+	hints.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1 = _get_children_fs_reliability(state)
 
-/*	return {
-		// TODO parent_folder_bcd: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state),
-		fs_bcd_assessed_reliability: _get_children_fs_reliability(state),
-	}*/
+	////// expected bcd ranges
+	// from basename
+	const basename_date = _get_event_begin_from_basename_if_present(state)
+	if (basename_date) {
+		if (is_looking_like_a_backup(state)) {
+			hints.expected_bcd_ranges.push({
+				begin: BetterDateLib.add_days(basename_date, -6*30),
+				end: basename_date,
+			})
+		}
+		else {
+			hints.expected_bcd_ranges.push({
+				begin: basename_date,
+				end: BetterDateLib.add_days(basename_date, PARAMS.max_event_durationⳇₓday),
+			})
+		}
+	}
+	// from children
+	const children_range_from_non_fs = state.children_bcd_ranges.from_primaryⵧfinal ?? state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
+	if (children_range_from_non_fs) {
+		// enlarge it by a percentage
+		const begin_symd = get_compact_date(children_range_from_non_fs.begin, 'tz:embedded')
+		const end_symd = get_compact_date(children_range_from_non_fs.end, 'tz:embedded')
+		const range_size‿days = end_symd - begin_symd
+		const margin‿days = Math.ceil(Math.max(1, range_size‿days) * 0.2)
+		hints.expected_bcd_ranges.push({
+			begin: BetterDateLib.add_days(children_range_from_non_fs.begin, -margin‿days),
+			end: BetterDateLib.add_days(children_range_from_non_fs.end, margin‿days),
+		})
+	}
+
+	hints.fallback_junk_bcd = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
+		?? _get_current_best_children_range(state)?.begin
+
+	return hints
 }
 
 export function is_date_matching_this_event‿symd(state: Immutable<State>, date_symd: SimpleYYYYMMDD): boolean {

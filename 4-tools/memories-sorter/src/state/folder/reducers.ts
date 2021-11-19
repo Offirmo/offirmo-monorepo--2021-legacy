@@ -24,9 +24,7 @@ import {
 } from './types'
 import {
 	get_depth,
-	is_data_gathering_pass_1_done,
 	is_data_gathering_pass_2_done,
-	has_data_gathering_pass_2_started,
 	get_event_end_date‿symd,
 	get_event_range, get_event_begin_date, ERROR__RANGE_TOO_BIG,
 } from './selectors'
@@ -221,10 +219,6 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 		children_pass_1_count: state.children_pass_1_count + 1,
 	}
 
-	if (is_data_gathering_pass_1_done(state)) {
-		state = on_fs_exploration_done(state)
-	}
-
 	return state
 }
 
@@ -233,6 +227,10 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 // - it is exposed for unit tests + in case of empty dirs (TODO review + call it for empty dirs?)
 // - hence it should support being called multiple times
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
+	if (state.children_pass_1_count !== state.children_count || state.status !== 'data-gathering-1') {
+		console.log(state)
+		debugger
+	}
 	assert(state.children_pass_1_count === state.children_count)
 	assert(state.status === 'data-gathering-1', `on_fs_exploration_done() pass 1 should be in progress/done!`)
 
@@ -316,21 +314,19 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 		children_pass_2_count: state.children_pass_2_count + 1,
 	}
 
-	if (is_data_gathering_pass_2_done(state)) {
-		state = on_all_infos_gathered(state, PARAMS)
-	}
-
 	return state
 }
 
 export function on_all_infos_gathered(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
-	assert(is_data_gathering_pass_2_done(state), `on_all_infos_gathered() pass 2 should be done!`)
+	if (state.children_pass_2_count !== state.children_count || state.status !== 'data-gathering-2') {
+		console.log(state)
+		debugger
+	}
+	assert(state.children_pass_2_count === state.children_count)
+	assert(state.status === 'data-gathering-2', `on_fs_exploration_done() pass 1 should be in progress/done!`)
 
 	const { children_count } = state
-	if (children_count === 0) {
-		state = on_fs_exploration_done(state)
-	}
-	else {
+	if (children_count > 0) {
 		try {
 			const event_range = get_event_range(state, PARAMS)
 
@@ -405,6 +401,7 @@ export function demote_to_unknown(state: Immutable<State>, reason: string): Immu
 	}
 }
 
+// TODO on subfile deleted / moved
 /*
 export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} on_moved(…)`, { new_id })
@@ -418,5 +415,3 @@ export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutab
 		},
 	}
 }*/
-
-// TODO on subfile deleted / moved

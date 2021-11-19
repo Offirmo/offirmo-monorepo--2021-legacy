@@ -1,33 +1,26 @@
 import path from 'path'
 
 import assert from 'tiny-invariant'
-import stylize_string from 'chalk'
 import { Tags } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
-import { prettify_json } from '@offirmo-private/prettify-any'
-import { get_base_loose, enforce_immutability } from '@offirmo-private/state-utils'
+import { get_base_loose } from '@offirmo-private/state-utils'
 
-import { LIB as APP } from '../../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../../types'
 import { Action, ActionType } from '../actions'
 import * as Actions from '../actions'
 import { FileHash } from '../../services/hash'
 import { FsStatsSubset } from '../../services/fs_stats'
-import { get_file_basename_without_copy_index } from '../../services/name_parser'
-import {
-	get_compact_date,
-	get_day_of_week_index,
-	add_days,
-	get_debug_representation,
-} from '../../services/better-date'
 import logger from '../../services/logger'
 
 import * as Folder from '../folder'
 import * as File from '../file'
 import * as Notes from '../notes'
-import { FolderId, get_event_end_date‿symd, get_event_range } from '../folder'
+import {
+	FolderId,
+	get_event_end_date‿symd,
+	get_event_range,
+} from '../folder'
 import { FileId, PersistedNotes } from '../file'
-import { get_params } from '../../params'
 
 import { LIB } from './consts'
 import {	State } from './types'
@@ -50,7 +43,7 @@ export function create(root: AbsolutePath): Immutable<State> {
 
 	let state: State = {
 		root,
-		extra_notes: Notes.create('substate'),
+		extra_notes: Notes.create('DB.create'),
 		folders: {},
 		files: {},
 
@@ -58,13 +51,12 @@ export function create(root: AbsolutePath): Immutable<State> {
 
 		queue: [],
 		notes_save_required: false,
-
-		_optim: {
-		}
 	}
 
 	return state
 }
+
+////////
 
 function _enqueue_action(state: Immutable<State>, action: Action): Immutable<State> {
 	logger.trace(`${LIB} _enqueue_action(…)`, action.type === ActionType.persist_notes ? { type: ActionType.persist_notes } : action)
@@ -96,9 +88,10 @@ export function discard_all_pending_actions(state: Immutable<State>): Immutable<
 	}
 }
 
+////////
+
 function _register_folder(state: Immutable<State>, id: FolderId): Immutable<State> {
-	assert(!state.folders[id], `_register_folder("${id}"): should not already exist`)
-	// TODO assert normalized?
+	assert(!state.folders[id], `_register_folder("${id}"): should not be already registered!`)
 
 	const folder_state = Folder.create(id)
 
@@ -115,8 +108,6 @@ function _register_folder(state: Immutable<State>, id: FolderId): Immutable<Stat
 	return state
 }
 
-////////
-
 export function on_folder_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_folder_found(…)`, { parent_id, sub_id, id })
@@ -132,8 +123,7 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_file_found(…)`, { parent_id, sub_id, id })
-	// TODO assert normalized?
-	// TODO assert not present?
+	assert(!state.files[id], `on_file_found("${id}"): should not be already registered!`)
 
 	const file_state = File.create(id)
 	const folder_id = File.get_current_parent_folder_id(file_state)
@@ -184,7 +174,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 	return state
 }
 
-// called by Actions.create_action_load_notes initiated by on_file_found
+// REM: called by Actions.create_action_load_notes initiated by on_file_found
 export function on_note_file_found(state: Immutable<State>, raw_data: any): Immutable<State> {
 	logger.trace(`${LIB} on_notes_found(…)`, { base: get_base_loose(raw_data) })
 	logger.verbose(`${LIB} found previous notes about the files`)
@@ -351,10 +341,16 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 		folders[parent_folder_id] = Folder.on_subfile_primary_infos_gathered(folders[parent_folder_id], file_state)
 	})
 	state = { ...state, folders }
+	get_all_folders(state).forEach((folder_state) => {
+		folders[folder_state.id] = Folder.on_fs_exploration_done(folder_state)
+	})
+	state = { ...state, folders }
 
-	// folders now have consolidated hints
+	// folders now have consolidated infos and can generate neighbor hints
 	// debug
 	get_all_folders(state).forEach(folder_state => {
+		if (folder_state.children_count === 0) return
+
 		const consolidated_neighbor_hints = Folder.get_neighbor_primary_hints(folder_state)
 		logger.info(`Folder "${folder_state.id}" neighbor hints have been consolidated`, consolidated_neighbor_hints)
 
@@ -368,7 +364,6 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 			stats: folder_state.children_fs_reliability_count,
 		})
 	})
-
 	// flow the hints back to every files
 	let files = { ...state.files }
 	get_all_files_except_meta(state).forEach(file_state => {
@@ -464,36 +459,6 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 		notes_save_required: true,
 	}
 }
-/*
-function _consolidate_notes_across_duplicates(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} _consolidate_notes_across_duplicates()…`)
-
-	let files: { [id: string]: Immutable<File.State> } = { ...state.files }
-
-	Object.entries(duplicate_file_ids_by_hash).forEach(([hash, duplicates_ids]) => {
-		assert(duplicates_ids.length > 1, 'consolidate_and_backup_original_data() sanity check 1')
-
-		//console.log({duplicates_ids})
-		const final_file_state = File.merge_duplicates(...duplicates_ids.map(file_id => files[file_id]))
-		assert(duplicates_ids.length === state.encountered_hash_count[final_file_state.current_hash!], 'consolidate_and_backup_original_data() sanity check 2')
-
-		// improve the notes for those duplicates
-		state = _on_file_notes_recovered(state, final_file_state.id, Notes.get_file_notes_for_hash(state.extra_notes, final_file_state.current_hash!))
-		// propagate them immediately across duplicates
-		duplicates_ids.forEach(file_id => {
-			files[file_id] = {
-				...files[file_id],
-				notes: cloneDeep(final_file_state.notes)
-			}
-		})
-	})
-
-	return {
-		...state,
-		files,
-	}
-}
-*/
 function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_folders_by_demoting_and_de_overlapping()…`)
 
@@ -512,9 +477,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 		folders[parent_folder_id] = Folder.on_subfile_all_infos_gathered(folders[parent_folder_id], file_state)
 	})
 	state = { ...state, folders }
-
 	get_all_folders(state).forEach((folder_state) => {
-
 	})
 
 	function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
@@ -537,7 +500,6 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 
 		return state
 	}
-
 
 	// demote event folders with no dates
 	folders = { ...state.folders }
@@ -610,6 +572,7 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 	logger.verbose(`${LIB} Exploration of the file system done, now processing this data with handcrafted AI…`)
 
 	// order is important
+
 	state = _consolidate_and_propagate_neighbor_hints(state)
 	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
