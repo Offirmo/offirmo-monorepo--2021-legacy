@@ -349,7 +349,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 	// folders now have consolidated infos and can generate neighbor hints
 	// debug
 	get_all_folders(state).forEach(folder_state => {
-		if (folder_state.children_count === 0) return
+		if (folder_state.media_children_count === 0) return
 
 		const consolidated_neighbor_hints = Folder.get_neighbor_primary_hints(folder_state)
 		logger.info(`Folder "${folder_state.id}" neighbor hints have been consolidated`, consolidated_neighbor_hints)
@@ -361,7 +361,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 				? logger.warn
 				: logger.info
 		log_func(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
-			stats: folder_state.children_fs_reliability_count,
+			stats: folder_state.media_children_fs_reliability_count,
 		})
 	})
 	// flow the hints back to every files
@@ -478,7 +478,9 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 	})
 	state = { ...state, folders }
 	get_all_folders(state).forEach((folder_state) => {
+		folders[folder_state.id] = Folder.on_all_infos_gathered(folder_state)
 	})
+	state = { ...state, folders }
 
 	function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
 		const file_state = state.files[file_id]

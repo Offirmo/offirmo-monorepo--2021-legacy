@@ -34,7 +34,7 @@ export interface State {
 	forced_event_range: null | DateRange
 
 	// various creation date ranges from children:
-	children_bcd_ranges: {
+	media_children_bcd_ranges: {
 		// ALL can be empty if no children
 
 		// after 1st pass
@@ -54,7 +54,7 @@ export interface State {
 	}
 
 	// after 1st pass
-	children_fs_reliability_count: {
+	media_children_fs_reliability_count: {
 		'unknown': number,
 		'unreliable': number,
 		'reliable': number,
@@ -62,7 +62,7 @@ export interface State {
 
 	// intermediate data for internal assertions
 	status: 'data-gathering-1' | 'data-gathering-2' | 'sorting'
-	children_count: number, // initial fs exploration
-	children_pass_1_count: number, // fs exploration
-	children_pass_2_count: number, // consolidation
+	media_children_count: number, // initial fs exploration
+	media_children_pass_1_count: number, // fs exploration
+	media_children_pass_2_count: number, // consolidation
 }

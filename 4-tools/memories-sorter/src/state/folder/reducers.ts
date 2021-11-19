@@ -60,11 +60,11 @@ export function create(id: RelativePath): Immutable<State> {
 		reason_for_demotion_from_event: null,
 
 		status: 'data-gathering-1',
-		children_count: 0,
-		children_pass_1_count: 0,
-		children_pass_2_count: 0,
+		media_children_count: 0,
+		media_children_pass_1_count: 0,
+		media_children_pass_2_count: 0,
 
-		children_bcd_ranges: {
+		media_children_bcd_ranges: {
 
 			from_fsⵧcurrent: undefined,
 
@@ -75,7 +75,7 @@ export function create(id: RelativePath): Immutable<State> {
 
 		forced_event_range: null,
 
-		children_fs_reliability_count: {
+		media_children_fs_reliability_count: {
 			'unknown': 0,
 			'unreliable': 0,
 			'reliable': 0,
@@ -93,13 +93,13 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 
 	return {
 		...state,
-		children_count: state.children_count + 1,
+		media_children_count: state.media_children_count + 1,
 	}
 }
 
 export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_primary_infos_gathered(…)…`, { file_id: file_state.id })
-	assert(state.children_pass_1_count < state.children_count, `on_subfile_primary_infos_gathered() should not be called x times!`)
+	assert(state.media_children_pass_1_count < state.media_children_count, `on_subfile_primary_infos_gathered() should not be called x times!`)
 
 	if (File.is_notes(file_state)) {
 		// skip those meta files
@@ -112,12 +112,12 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 		logger.warn(`⚠️ File "${file_state.id}" fs bcd reliability has been estimated as UNRELIABLE after phase 1`)
 	}
 
-	const key = String(file_bcd__reliabilityⵧfrom_fsⵧcurrent) as keyof State['children_fs_reliability_count']
+	const key = String(file_bcd__reliabilityⵧfrom_fsⵧcurrent) as keyof State['media_children_fs_reliability_count']
 	state = {
 		...state,
-		children_fs_reliability_count: {
-			...state.children_fs_reliability_count,
-			[key]: state.children_fs_reliability_count[key] + 1,
+		media_children_fs_reliability_count: {
+			...state.media_children_fs_reliability_count,
+			[key]: state.media_children_fs_reliability_count[key] + 1,
 		},
 	}
 
@@ -125,28 +125,28 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	const file_bcdⵧfrom_fsⵧcurrent‿tms = File.get_creation_dateⵧfrom_fsⵧcurrent‿tms(file_state)
 
 	const new_children_begin_dateⵧfrom_fsⵧcurrent = Math.min(
-			state.children_bcd_ranges.from_fsⵧcurrent?.begin ?? Infinity,
+			state.media_children_bcd_ranges.from_fsⵧcurrent?.begin ?? Infinity,
 			file_bcdⵧfrom_fsⵧcurrent‿tms
 		)
 	const new_children_end_dateⵧfrom_fsⵧcurrent = Math.max(
-		state.children_bcd_ranges.from_fsⵧcurrent?.end ?? 0,
+		state.media_children_bcd_ranges.from_fsⵧcurrent?.end ?? 0,
 		file_bcdⵧfrom_fsⵧcurrent‿tms
 	)
 
-	if (new_children_begin_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent?.begin
-		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.children_bcd_ranges.from_fsⵧcurrent?.end) {
+	if (new_children_begin_dateⵧfrom_fsⵧcurrent === state.media_children_bcd_ranges.from_fsⵧcurrent?.begin
+		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.media_children_bcd_ranges.from_fsⵧcurrent?.end) {
 		// no change
 	} else {
 		logger.verbose(
 			`${ LIB } updating folder’s children's "bcd ⵧ from fs ⵧ current" date range`,
 			{
 				id: state.id,
-				...(new_children_begin_dateⵧfrom_fsⵧcurrent !== state.children_bcd_ranges.from_fsⵧcurrent?.begin && {
-					begin_before: get_debug_representation(state.children_bcd_ranges.from_fsⵧcurrent?.begin),
+				...(new_children_begin_dateⵧfrom_fsⵧcurrent !== state.media_children_bcd_ranges.from_fsⵧcurrent?.begin && {
+					begin_before: get_debug_representation(state.media_children_bcd_ranges.from_fsⵧcurrent?.begin),
 					begin_new: get_debug_representation(new_children_begin_dateⵧfrom_fsⵧcurrent),
 				}),
-				...(new_children_end_dateⵧfrom_fsⵧcurrent !== state.children_bcd_ranges.from_fsⵧcurrent?.end && {
-					end_before: get_debug_representation(state.children_bcd_ranges.from_fsⵧcurrent?.end),
+				...(new_children_end_dateⵧfrom_fsⵧcurrent !== state.media_children_bcd_ranges.from_fsⵧcurrent?.end && {
+					end_before: get_debug_representation(state.media_children_bcd_ranges.from_fsⵧcurrent?.end),
 					end_new: get_debug_representation(new_children_end_dateⵧfrom_fsⵧcurrent),
 				}),
 			}
@@ -155,8 +155,8 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 		state = {
 			...state,
 
-			children_bcd_ranges: {
-				...state.children_bcd_ranges,
+			media_children_bcd_ranges: {
+				...state.media_children_bcd_ranges,
 				from_fsⵧcurrent: {
 					begin: new_children_begin_dateⵧfrom_fsⵧcurrent,
 					end: new_children_end_dateⵧfrom_fsⵧcurrent,
@@ -174,27 +174,27 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	else {
 		const file_bcd__from_primary_current = file_bcdⵧfrom_primaryⵧcurrent‿meta.candidate
 
-		const new_children_begin_dateⵧfrom_primaryⵧcurrent = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin
-			? BetterDateLib.min(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin, file_bcd__from_primary_current)
+		const new_children_begin_dateⵧfrom_primaryⵧcurrent = state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin
+			? BetterDateLib.min(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin, file_bcd__from_primary_current)
 			: file_bcd__from_primary_current
-		const new_children_end_dateⵧfrom_primaryⵧcurrent = state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end
-			? BetterDateLib.max(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end, file_bcd__from_primary_current)
+		const new_children_end_dateⵧfrom_primaryⵧcurrent = state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end
+			? BetterDateLib.max(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end, file_bcd__from_primary_current)
 			: file_bcd__from_primary_current
 
-		if (BetterDateLib.is_deep_equal(new_children_begin_dateⵧfrom_primaryⵧcurrent, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin)
-			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent, state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
+		if (BetterDateLib.is_deep_equal(new_children_begin_dateⵧfrom_primaryⵧcurrent, state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin)
+			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent, state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
 			// no change
 		} else {
 			logger.verbose(
 				`${ LIB } updating folder’s children's "current primary" date range`,
 				{
 					id: state.id,
-					...(new_children_begin_dateⵧfrom_primaryⵧcurrent !== state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin && {
-						begin_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin),
+					...(new_children_begin_dateⵧfrom_primaryⵧcurrent !== state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin && {
+						begin_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin),
 						begin_now: get_debug_representation(new_children_begin_dateⵧfrom_primaryⵧcurrent),
 					}),
-					...(new_children_end_dateⵧfrom_primaryⵧcurrent !== state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end && {
-						end_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end),
+					...(new_children_end_dateⵧfrom_primaryⵧcurrent !== state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end && {
+						end_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end),
 						end_now: get_debug_representation(new_children_end_dateⵧfrom_primaryⵧcurrent),
 					}),
 				}
@@ -203,8 +203,8 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 			state = {
 				...state,
 
-				children_bcd_ranges: {
-					...state.children_bcd_ranges,
+				media_children_bcd_ranges: {
+					...state.media_children_bcd_ranges,
 					from_primaryⵧcurrentⵧphase_1: {
 						begin: new_children_begin_dateⵧfrom_primaryⵧcurrent,
 						end: new_children_end_dateⵧfrom_primaryⵧcurrent,
@@ -216,7 +216,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 
 	state = {
 		...state,
-		children_pass_1_count: state.children_pass_1_count + 1,
+		media_children_pass_1_count: state.media_children_pass_1_count + 1,
 	}
 
 	return state
@@ -227,19 +227,19 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 // - it is exposed for unit tests + in case of empty dirs (TODO review + call it for empty dirs?)
 // - hence it should support being called multiple times
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
-	if (state.children_pass_1_count !== state.children_count || state.status !== 'data-gathering-1') {
+	if (state.media_children_pass_1_count !== state.media_children_count || state.status !== 'data-gathering-1') {
 		console.log(state)
 		debugger
 	}
-	assert(state.children_pass_1_count === state.children_count)
+	assert(state.media_children_pass_1_count === state.media_children_count)
 	assert(state.status === 'data-gathering-1', `on_fs_exploration_done() pass 1 should be in progress/done!`)
 
-	const { children_count } = state
-	if (children_count === 0) {
+	const { media_children_count } = state
+	if (media_children_count === 0) {
 		state = {
 			...state,
-			children_bcd_ranges: {
-				...state.children_bcd_ranges,
+			media_children_bcd_ranges: {
+				...state.media_children_bcd_ranges,
 				from_fsⵧcurrent: null,
 				from_primaryⵧcurrentⵧphase_1: null,
 				from_primaryⵧfinal: null,
@@ -255,12 +255,17 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 
 export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_all_infos_gathered(…)`, { file_id: file_state.id })
-	assert(state.children_pass_2_count < state.children_count, `on_subfile_all_infos_gathered() should not be called x times!`)
 
 	if (File.is_notes(file_state)) {
 		// skip those meta files
 		return state
 	}
+
+	if (state.media_children_pass_2_count >= state.media_children_count) {
+		console.log(state)
+		debugger
+	}
+	assert(state.media_children_pass_2_count < state.media_children_count, `on_subfile_all_infos_gathered() should not be called x times!`)
 
 	//////////// consolidate: date range -- primary final
 	const file_bcd‿meta = File.get_best_creation_date‿meta(file_state)
@@ -270,27 +275,27 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 	else {
 		const file_bcd__primary_final = file_bcd‿meta.candidate
 
-		const new_children_begin_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal?.begin
-			? BetterDateLib.min(state.children_bcd_ranges.from_primaryⵧfinal.begin, file_bcd__primary_final)
+		const new_children_begin_date__primary_final = state.media_children_bcd_ranges.from_primaryⵧfinal?.begin
+			? BetterDateLib.min(state.media_children_bcd_ranges.from_primaryⵧfinal.begin, file_bcd__primary_final)
 			: file_bcd__primary_final
-		const new_children_end_date__primary_final = state.children_bcd_ranges.from_primaryⵧfinal?.end
-			? BetterDateLib.max(state.children_bcd_ranges.from_primaryⵧfinal.end, file_bcd__primary_final)
+		const new_children_end_date__primary_final = state.media_children_bcd_ranges.from_primaryⵧfinal?.end
+			? BetterDateLib.max(state.media_children_bcd_ranges.from_primaryⵧfinal.end, file_bcd__primary_final)
 			: file_bcd__primary_final
 
-		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal?.begin)
-			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.children_bcd_ranges.from_primaryⵧfinal?.end)) {
+		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_final, state.media_children_bcd_ranges.from_primaryⵧfinal?.begin)
+			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.media_children_bcd_ranges.from_primaryⵧfinal?.end)) {
 			// no change
 		} else {
 			logger.verbose(
 				`${ LIB } updating folder’s children's "final primary" date range`,
 				{
 					id: state.id,
-					...(new_children_begin_date__primary_final !== state.children_bcd_ranges.from_primaryⵧfinal?.begin && {
-						begin_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧfinal?.begin),
+					...(new_children_begin_date__primary_final !== state.media_children_bcd_ranges.from_primaryⵧfinal?.begin && {
+						begin_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧfinal?.begin),
 						begin_now: get_debug_representation(new_children_begin_date__primary_final),
 					}),
-					...(new_children_end_date__primary_final !== state.children_bcd_ranges.from_primaryⵧfinal?.end && {
-						end_before: get_debug_representation(state.children_bcd_ranges.from_primaryⵧfinal?.end),
+					...(new_children_end_date__primary_final !== state.media_children_bcd_ranges.from_primaryⵧfinal?.end && {
+						end_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧfinal?.end),
 						end_now: get_debug_representation(new_children_end_date__primary_final),
 					}),
 				}
@@ -298,8 +303,8 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 
 			state = {
 				...state,
-				children_bcd_ranges: {
-					...state.children_bcd_ranges,
+				media_children_bcd_ranges: {
+					...state.media_children_bcd_ranges,
 					from_primaryⵧfinal: {
 						begin: new_children_begin_date__primary_final,
 						end: new_children_end_date__primary_final,
@@ -311,22 +316,22 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 
 	state = {
 		...state,
-		children_pass_2_count: state.children_pass_2_count + 1,
+		media_children_pass_2_count: state.media_children_pass_2_count + 1,
 	}
 
 	return state
 }
 
 export function on_all_infos_gathered(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
-	if (state.children_pass_2_count !== state.children_count || state.status !== 'data-gathering-2') {
+	if (state.media_children_pass_2_count !== state.media_children_count || state.status !== 'data-gathering-2') {
 		console.log(state)
 		debugger
 	}
-	assert(state.children_pass_2_count === state.children_count)
+	assert(state.media_children_pass_2_count === state.media_children_count)
 	assert(state.status === 'data-gathering-2', `on_fs_exploration_done() pass 1 should be in progress/done!`)
 
-	const { children_count } = state
-	if (children_count > 0) {
+	const { media_children_count } = state
+	if (media_children_count > 0) {
 		try {
 			const event_range = get_event_range(state, PARAMS)
 

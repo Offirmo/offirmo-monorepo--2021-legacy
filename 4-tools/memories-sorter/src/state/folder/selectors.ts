@@ -64,35 +64,35 @@ export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): 
 export function is_data_gathering_pass_1_done(state: Immutable<State>): boolean {
 	const result = state.status !== 'data-gathering-1'
 	if (result)
-		assert(state.children_pass_1_count === state.children_count, `is_data_gathering_pass_1_done() child# should equal p1#`)
+		assert(state.media_children_pass_1_count === state.media_children_count, `is_data_gathering_pass_1_done() child# should equal p1#`)
 	return result
 }
 export function has_data_gathering_pass_2_started(state: Immutable<State>): boolean {
 	const result = state.status === 'data-gathering-2'
-	assert(state.children_pass_2_count > 0, `has_data_gathering_pass_2_started() p2# > 0`)
+	assert(state.media_children_pass_2_count > 0, `has_data_gathering_pass_2_started() p2# > 0`)
 	return result
 }
 export function is_data_gathering_pass_2_done(state: Immutable<State>): boolean {
 	const result = state.status === 'sorting'
 	if (result)
-		assert(state.children_pass_2_count === state.children_count, `is_data_gathering_pass_2_done() should p2# should equal child#`)
+		assert(state.media_children_pass_2_count === state.media_children_count, `is_data_gathering_pass_2_done() should p2# should equal child#`)
 	return result
 }
 
 function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 	assert(is_data_gathering_pass_1_done(state), `${LIB} _get_children_fs_reliability() pass 1 should be done`)
 	assert(
-		state.children_count === 0
-		+ state.children_fs_reliability_count['unknown']
-		+ state.children_fs_reliability_count['unreliable']
-		+ state.children_fs_reliability_count['reliable'],
+		state.media_children_count === 0
+		+ state.media_children_fs_reliability_count['unknown']
+		+ state.media_children_fs_reliability_count['unreliable']
+		+ state.media_children_fs_reliability_count['reliable'],
 		`${LIB} _get_children_fs_reliability() mismatching counts`
 	)
 
-	if (state.children_fs_reliability_count['unreliable'] > 0)
+	if (state.media_children_fs_reliability_count['unreliable'] > 0)
 		return 'unreliable'
 
-	if (state.children_fs_reliability_count['reliable'] > 0)
+	if (state.media_children_fs_reliability_count['reliable'] > 0)
 		return 'reliable'
 
 	return 'unknown'
@@ -101,17 +101,17 @@ function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 export function _get_current_best_children_range(state: Immutable<State>): undefined | null | Immutable<DateRange> {
 	assert(is_data_gathering_pass_1_done(state), `_get_current_best_children_range() at least pass 1 should be complete`)
 
-	if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
-		return state.children_bcd_ranges.from_primaryⵧfinal
+	if (is_data_gathering_pass_2_done(state) && state.media_children_bcd_ranges.from_primaryⵧfinal) {
+		return state.media_children_bcd_ranges.from_primaryⵧfinal
 	}
 
-	return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1 ?? (
-		state.children_bcd_ranges.from_fsⵧcurrent
+	return state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1 ?? (
+		state.media_children_bcd_ranges.from_fsⵧcurrent
 			? {
-				begin: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.begin, 'tz:auto'),
-				end: create_better_date_from_utc_tms(state.children_bcd_ranges.from_fsⵧcurrent.end, 'tz:auto'),
+				begin: create_better_date_from_utc_tms(state.media_children_bcd_ranges.from_fsⵧcurrent.begin, 'tz:auto'),
+				end: create_better_date_from_utc_tms(state.media_children_bcd_ranges.from_fsⵧcurrent.end, 'tz:auto'),
 			}
-			: state.children_bcd_ranges.from_fsⵧcurrent // as undef or null
+			: state.media_children_bcd_ranges.from_fsⵧcurrent // as undef or null
 	)
 }
 
@@ -387,7 +387,7 @@ export function get_neighbor_primary_hints(state: Immutable<State>, PARAMS: Immu
 		}
 	}
 	// from children
-	const children_range_from_non_fs = state.children_bcd_ranges.from_primaryⵧfinal ?? state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
+	const children_range_from_non_fs = state.media_children_bcd_ranges.from_primaryⵧfinal ?? state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
 	if (children_range_from_non_fs) {
 		// enlarge it by a percentage
 		const begin_symd = get_compact_date(children_range_from_non_fs.begin, 'tz:embedded')

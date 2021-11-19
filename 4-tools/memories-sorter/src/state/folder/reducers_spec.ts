@@ -41,9 +41,9 @@ describe(`${LIB} - folder state`, function() {
 			it('should initialize children ranges to undefined', () => {
 				let state = create('holiday 2018-09-04')
 
-				Object.keys(state.children_bcd_ranges).forEach(_range_key => {
-					const range_key = _range_key as any as  keyof State['children_bcd_ranges']
-					expect(state.children_bcd_ranges[range_key], `children_bcd_ranges.${range_key}`).to.be.undefined
+				Object.keys(state.media_children_bcd_ranges).forEach(_range_key => {
+					const range_key = _range_key as any as  keyof State['media_children_bcd_ranges']
+					expect(state.media_children_bcd_ranges[range_key], `media_children_bcd_ranges.${range_key}`).to.be.undefined
 				})
 			})
 		})
@@ -52,10 +52,10 @@ describe(`${LIB} - folder state`, function() {
 
 			it('should count non-meta children', () => {
 				let state = create('foo')
-				expect(state.children_count).to.equal(0)
+				expect(state.media_children_count).to.equal(0)
 
 				state = on_subfile_found(state, File.create('bar.png'))
-				expect(state.children_count).to.equal(1)
+				expect(state.media_children_count).to.equal(1)
 			})
 		})
 
@@ -66,25 +66,25 @@ describe(`${LIB} - folder state`, function() {
 
 				let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 				state = on_subfile_found(state, file_state)
-				expect(state.children_pass_1_count).to.equal(0)
-				expect(state.children_fs_reliability_count).to.deep.equal({ unknown: 0, unreliable: 0, reliable: 0 })
+				expect(state.media_children_pass_1_count).to.equal(0)
+				expect(state.media_children_fs_reliability_count).to.deep.equal({ unknown: 0, unreliable: 0, reliable: 0 })
 
 				state = on_subfile_primary_infos_gathered(state, file_state)
-				expect(state.children_pass_1_count).to.equal(1)
+				expect(state.media_children_pass_1_count).to.equal(1)
 				// in whatever combination:
-				expect(state.children_fs_reliability_count.unknown).to.be.at.least(0)
-				expect(state.children_fs_reliability_count.unreliable).to.be.at.least(0)
-				expect(state.children_fs_reliability_count.reliable).to.be.at.least(0)
+				expect(state.media_children_fs_reliability_count.unknown).to.be.at.least(0)
+				expect(state.media_children_fs_reliability_count.unreliable).to.be.at.least(0)
+				expect(state.media_children_fs_reliability_count.reliable).to.be.at.least(0)
 				expect(
-					state.children_fs_reliability_count.unknown
-					+ state.children_fs_reliability_count.unreliable
-					+ state.children_fs_reliability_count.reliable
+					state.media_children_fs_reliability_count.unknown
+					+ state.media_children_fs_reliability_count.unreliable
+					+ state.media_children_fs_reliability_count.reliable
 				).to.deep.equal(1)
 
-				expect(state.children_bcd_ranges.from_fsⵧcurrent?.begin).to.be.ok
-				expect(state.children_bcd_ranges.from_fsⵧcurrent?.end).to.be.ok
-				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin).to.be.ok
-				expect(state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end).to.be.ok
+				expect(state.media_children_bcd_ranges.from_fsⵧcurrent?.begin).to.be.ok
+				expect(state.media_children_bcd_ranges.from_fsⵧcurrent?.end).to.be.ok
+				expect(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin).to.be.ok
+				expect(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end).to.be.ok
 			})
 		})
 
@@ -101,9 +101,9 @@ describe(`${LIB} - folder state`, function() {
 					let state = create('holiday 2018-09-04')
 					state = on_fs_exploration_done(state)
 
-					Object.keys(state.children_bcd_ranges).forEach(_range_key => {
-						const range_key = _range_key as any as  keyof State['children_bcd_ranges']
-						expect(state.children_bcd_ranges[range_key], `children_bcd_ranges.${range_key}`).to.be.null
+					Object.keys(state.media_children_bcd_ranges).forEach(_range_key => {
+						const range_key = _range_key as any as  keyof State['media_children_bcd_ranges']
+						expect(state.media_children_bcd_ranges[range_key], `media_children_bcd_ranges.${range_key}`).to.be.null
 					})
 				})
 			})

@@ -103,11 +103,11 @@ export function get_expected_date_range_from_folder_basename_if_any(folder_path�
 	const { begin, end } = (() => {
 		assert(is_data_gathering_pass_1_done(state), `get_event_start_from_basename() at least pass 1 should be complete`)
 
-		if (is_data_gathering_pass_2_done(state) && state.children_bcd_ranges.from_primaryⵧfinal) {
-			return state.children_bcd_ranges.from_primaryⵧfinal
+		if (is_data_gathering_pass_2_done(state) && state.media_children_bcd_ranges.from_primaryⵧfinal) {
+			return state.media_children_bcd_ranges.from_primaryⵧfinal
 		}
 
-		return state.children_bcd_ranges.from_primaryⵧcurrentⵧphase_1!
+		return state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1!
 	})()
 	if (!!begin && !!end) {
 		// we have a range, let's cross-reference…
