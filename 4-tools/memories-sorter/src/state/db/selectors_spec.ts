@@ -113,9 +113,12 @@ describe(`${LIB} - DB (root) state`, function() {
 					// underlying function
 					expect(File.get_ideal_basename(state.files[file_id]), 'get_ideal_basename').to.equal('bar.xyz')
 
+
 					expect(get_ideal_file_relative_path(state, file_id), 'get_ideal_file_relative_path').to.equal(path.join(
-						'- cant_recognize',
-						'foo',
+						// we now try to keep unrecognized files close to their sibling media files, in case they're related
+						//'- cant_recognize', // NO! No longer doing that
+						'2016',
+						'20161120 - foo',
 						'bar.xyz',
 					))
 				})
@@ -139,7 +142,7 @@ describe(`${LIB} - DB (root) state`, function() {
 						state = on_hash_computed(state, file_id_a, 'hash01')
 						state = on_hash_computed(state, file_id_b, 'hash02') // MUST have different hashes to be a real conflict!
 						state = on_fs_stats_read(state, file_id_a, {
-							birthtimeMs: CREATION_DATE_MS,
+							birthtimeMs: CREATION_DATE_MS, // REM 2016/11/20 = a Sunday
 							atimeMs:     CREATION_DATE_MS,
 							mtimeMs:     CREATION_DATE_MS,
 							ctimeMs:     CREATION_DATE_MS,
@@ -172,14 +175,15 @@ describe(`${LIB} - DB (root) state`, function() {
 							//Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME, // due to not dated, not event
 							//'foo',
 							'2016',
-							'20161119 - weekend',
+							//'20161119 - weekend', NO! we have a folder = we keep its name and no need to extend the date
+							'20161120 - foo',
 							'bar.png',
 						))
 						expect(get_ideal_file_relative_path(state, file_id_b)).to.equal(path.join(
 							//Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME, // due to not dated, not event
 							//'foo',
 							'2016',
-							'20161119 - weekend',
+							'20161120 - foo',
 							'bar.png',
 						))
 					})

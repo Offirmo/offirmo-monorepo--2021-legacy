@@ -352,7 +352,10 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 		if (folder_state.media_children_count === 0) return
 
 		const consolidated_neighbor_hints = Folder.get_neighbor_primary_hints(folder_state)
-		logger.info(`Folder "${folder_state.id}" neighbor hints have been consolidated`, consolidated_neighbor_hints)
+		logger.info(
+			`Folder "${folder_state.id}" neighbor hints have been consolidated`,
+			File.NeighborHintsLib.get_debug_representation(consolidated_neighbor_hints)
+		)
 
 		const reliability = File.NeighborHintsLib.get_neighbors_fs_reliability(consolidated_neighbor_hints)
 		const log_func = (reliability === 'unreliable')

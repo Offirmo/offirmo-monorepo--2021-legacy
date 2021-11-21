@@ -176,7 +176,7 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 		})
 	}
 
-	function create_test_file_state(): Immutable<FileLib.State> {
+	function create_test_file_state(up_to: 'phase-1' | 'phase-2' = 'phase-2'): Immutable<FileLib.State> {
 		//console.log('create_test_file_state()', inputs)
 		const id = _get_file_id(inputs)
 		let state = FileLib.create(id)
@@ -187,26 +187,28 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 		}
 		state = FileLib.on_info_read__hash(state, inputs.hashⵧcurrent)
 
-		// simulate consolidation
-		state = FileLib.on_info_read__current_neighbors_primary_hints(
-			state,
-			FileLib.NeighborHintsLib._createⵧfor_ut({
-				reliability_shortcut:inputs.neighbor_hints__fs_reliability_shortcut,
-				junk_bcd: inputs.neighbor_hints__junk_bcd,
-			})
-		)
+		if (up_to == 'phase-2') {
+			// simulate consolidation
+			state = FileLib.on_info_read__current_neighbors_primary_hints(
+				state,
+				FileLib.NeighborHintsLib._createⵧfor_ut({
+					reliability_shortcut:inputs.neighbor_hints__fs_reliability_shortcut,
+					junk_bcd: inputs.neighbor_hints__junk_bcd,
+				})
+			)
 
-		let notes: null | Immutable<PersistedNotes> = (() => {
-			const notes = JSON.parse(JSON.stringify(
-				inputs.notes === 'auto'
-					? _get_auto_notes(inputs)
-					: inputs.notes
-			)) as PersistedNotes
-			if (notes)
-				notes._currently_known_as = inputs.basenameⵧcurrent
-			return notes
-		})()
-		state = FileLib.on_notes_recovered(state, notes)
+			let notes: null | Immutable<PersistedNotes> = (() => {
+				const notes = JSON.parse(JSON.stringify(
+					inputs.notes === 'auto'
+						? _get_auto_notes(inputs)
+						: inputs.notes
+				)) as PersistedNotes
+				if (notes)
+					notes._currently_known_as = inputs.basenameⵧcurrent
+				return notes
+			})()
+			state = FileLib.on_notes_recovered(state, notes)
+		}
 
 		return state
 	}
@@ -216,6 +218,8 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 		inputs,
 		reset,
 		create_state: create_test_file_state,
+		get_phase1_state: () => create_test_file_state('phase-1'),
+		get_phase2_state: create_test_file_state,
 	}
 }
 

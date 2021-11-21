@@ -15,7 +15,6 @@ import {
 	create_better_date_from_utc_tms,
 	DateRange,
 	get_compact_date,
-	get_debug_representation,
 } from '../../services/better-date'
 import { FsReliability, NeighborHints } from '../file'
 import * as FileLib from '../file'
@@ -67,11 +66,11 @@ export function is_data_gathering_pass_1_done(state: Immutable<State>): boolean 
 		assert(state.media_children_pass_1_count === state.media_children_count, `is_data_gathering_pass_1_done() child# should equal p1#`)
 	return result
 }
-export function has_data_gathering_pass_2_started(state: Immutable<State>): boolean {
+/*export function has_data_gathering_pass_2_started(state: Immutable<State>): boolean {
 	const result = state.status === 'data-gathering-2'
 	assert(state.media_children_pass_2_count > 0, `has_data_gathering_pass_2_started() p2# > 0`)
 	return result
-}
+}*/
 export function is_data_gathering_pass_2_done(state: Immutable<State>): boolean {
 	const result = state.status === 'sorting'
 	if (result)
@@ -131,7 +130,7 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 
 	const children_range = _get_current_best_children_range(state)
 
-	const event_begin_date = event_beginⵧfrom_folder_basename // always have priority if present
+	let event_begin_date = event_beginⵧfrom_folder_basename // always have priority if present
 		?? children_range?.begin
 
 	if (!event_begin_date) {
@@ -140,6 +139,13 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 			? null
 			: undefined
 	}
+
+	/*if (!event_beginⵧfrom_folder_basename) {
+		if (get_day_of_week_index(event_begin_date) === 0) {
+			// sunday is coalesced to sat = start of weekend
+			event_begin_date = add_days(event_begin_date, -1)
+		}
+	}*/
 
 	const capped_end_date = BetterDateLib.add_days(event_begin_date, PARAMS.max_event_durationⳇₓday)
 
