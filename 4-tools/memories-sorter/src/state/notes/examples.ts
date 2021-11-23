@@ -28,7 +28,6 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 				'parent_path': '',
 				'fs_bcd_tms': 1571961828388,
 				'neighbor_hints': {
-					fs_reliability: 'unknown',
 				},
 			},
 			// user data
@@ -36,17 +35,17 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			bcd_afawk‿symd: undefined,
+			bcd_afawk‿symd: 20191025,
 			// debug
 			_currently_known_as: 'Image from iOS (15).jpg',
-			_bcd_source: undefined,
+			_bcd_source: "fsⵧcurrent+neighbor?",
 		},
 
 		'ce6b3d3128a28331db2a25c42671a3793af557454165aa5a1d56c71160cb291c': {
 			historical: {
 				'basename': 'IMG_1474.JPG',
 				'parent_path': '',
-				'fs_bcd_tms': 1566873905000,
+				'fs_bcd_tms': 1234,
 				'neighbor_hints': {
 					fs_reliability: 'unreliable'
 				},
@@ -57,12 +56,11 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			bcd_afawk‿symd: undefined,
+			bcd_afawk‿symd: 20190827,
 			// debug
 			'_currently_known_as': 'MM2019-08-27_12h45m05s158_IMG_1474.jpg',
-			'_bcd_source': 'exif'
+			'_bcd_source': 'exifⵧcurrent'
 		},
-
 
 		'324c096dc39b96d71a73bfa558f0bdddb708c226f0f13bb231a548208257b857': {
 			historical: {
@@ -79,10 +77,10 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			bcd_afawk‿symd: undefined,
+			bcd_afawk‿symd: 20030508,
 			// debug
 			_currently_known_as: 'CLIP0003.avi',
-			_bcd_source: 'historical_fs+historical_env_hints',
+			_bcd_source: 'fsⵧcurrent+neighbor?',
 		},
 
 		'fb7b013a830e451de2dfc444d5eaa9af9f67e1eb7f542a422d835cd3123d5e29': {
@@ -91,7 +89,6 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 				parent_path: '2020/20200101 - life',
 				fs_bcd_tms: 1581630576844,
 				'neighbor_hints': {
-					fs_reliability: 'unknown'
 				},
 			},
 
@@ -100,10 +97,10 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			starred: undefined,
 			manual_date: undefined,
 			// meta
-			bcd_afawk‿symd: undefined,
+			bcd_afawk‿symd: 20200101,
 			// debug
 			_currently_known_as: 'MM2020-01-01_17h57m29s625_IMG_8763.jpg',
-			_bcd_source: undefined,
+			_bcd_source: "exifⵧcurrent",
 		},
 
 	},

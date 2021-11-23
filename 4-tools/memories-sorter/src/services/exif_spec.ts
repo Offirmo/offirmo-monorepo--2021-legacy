@@ -62,7 +62,7 @@ describe(`${LIB} - exif service`, function() {
 							expect(MEDIA_DEMO.EXIF_DATA.DATE__HUMAN_AUTO).to.be.undefined
 						}
 						else {
-							expect(exif_data.tz).to.equal(MEDIA_DEMO.EXIF_DATA.EMBEDDED_TZ)
+							expect(get_creation_timezone_from_exif(exif_data)).to.equal(MEDIA_DEMO.EXIF_DATA.EMBEDDED_TZ)
 							expect(get_creation_timezone_from_exif(exif_data)).to.equal(MEDIA_DEMO.EXIF_DATA.EMBEDDED_TZ)
 							expect(bcd_edt!.toISOString()).to.equal(MEDIA_DEMO.EXIF_DATA.DATE__ISO_STRING)
 							expect(

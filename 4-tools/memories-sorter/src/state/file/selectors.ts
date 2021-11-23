@@ -3,9 +3,9 @@ import path from 'path'
 import micro_memoize from 'micro-memoize'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
-import { Tags as EXIFTags, ExifDateTime } from 'exiftool-vendored'
+import { ExifDateTime } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
-import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import {
@@ -22,47 +22,37 @@ import {
 import { Params, get_params } from '../../params'
 import logger from '../../services/logger'
 import {
-	FsStatsSubset,
 	get_most_reliable_birthtime_from_fs_stats,
 } from '../../services/fs_stats'
 import {
 	get_best_creation_date_from_exif,
 	get_creation_timezone_from_exif,
-	get_orientation_from_exif,
 } from '../../services/exif'
 import {
 	ParseResult,
-	get_file_basename_copy_index,
 	get_file_basename_extension‿normalized,
-	get_file_basename_without_copy_index,
-	is_normalized_event_folder_relpath,
 	is_processed_media_basename,
 	parse_file_basename,
-	pathㆍparse_memoized, is_folder_basename__matching_a_processed_event_format, parse_folder_basename,
+	pathㆍparse_memoized,
 } from '../../services/name_parser'
 import {
 	BetterDate,
-	BetterDateMembers,
 	get_human_readable_timestamp_auto,
 	get_compact_date,
 	create_better_date_from_utc_tms,
 	create_better_date_from_ExifDateTime,
 	get_timestamp_utc_ms_from,
-	are_same_tms_date_with_potential_tz_difference,
 	get_debug_representation,
-	create_better_date_obj, get_members_for_serialization,
-	DAY_IN_MILLIS,
-	are_dates_matching_while_disregarding_tz_and_precision, DateRange,
+	create_better_date_obj,
+	are_dates_matching_while_disregarding_tz_and_precision,
 } from '../../services/better-date'
 import { FileHash } from '../../services/hash'
 import { is_digit } from '../../services/matchers'
 
 import { LIB } from './consts'
 import {
-	FileId,
 	State,
 	NeighborHints,
-	PersistedNotes,
 	FsReliability,
 } from './types'
 import * as NeighborHintsLib from './sub/neighbor-hints'
@@ -1011,7 +1001,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 	let extension = parsed_oldest_known_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize‿lc[extension] || extension
 
-	logger.trace(`get_ideal_basename()`, {
+	logger.trace(`${LIB} get_ideal_basename()`, {
 		is_media_file: is_media_file(state),
 		parsed_oldest_known_basename: (() => {
 			const { date, ...rest } = parsed_oldest_known_basename

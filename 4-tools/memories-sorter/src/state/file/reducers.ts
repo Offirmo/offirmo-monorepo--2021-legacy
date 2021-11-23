@@ -10,7 +10,7 @@ import {
 	FsStatsSubset,
 	get_most_reliable_birthtime_from_fs_stats,
 } from '../../services/fs_stats'
-import { get_orientation_from_exif } from '../../services/exif'
+import { get_orientation_from_exif, has_errors } from '../../services/exif'
 import {
 	get_file_basename_copy_index,
 	get_file_basename_extension‿normalized,
@@ -135,7 +135,7 @@ export function on_info_read__exif(state: Immutable<State>, exif_data: Immutable
 	assert(state.current_exif_data === undefined, `on_info_read__exif() should not be called several times`)
 	assert(!state.are_notes_restored, `on_info_read__exif() notes should not be restored yet`)
 
-	if (exif_data && exif_data.errors && exif_data.errors.length) {
+	if (has_errors(exif_data)) {
 		logger.error(`Error reading exif data for "${state.id}"!`, { errors: exif_data.errors })
 		// XXX TODO mark file as "in error" to not be renamed / processed
 		return {

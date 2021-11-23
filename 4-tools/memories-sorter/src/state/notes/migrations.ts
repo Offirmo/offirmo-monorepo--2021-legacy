@@ -9,9 +9,7 @@ import {
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
 import { SoftExecutionContext } from '../../services/sec'
-import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
-import { FsReliability, HistoricalData, PersistedNotes as FileNotes } from '../file'
-import { BetterDateMembers } from '../../services/better-date'
+import { PersistedNotes as FileNotes } from '../file'
 
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
@@ -72,7 +70,7 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 				parent_path: '',
 				fs_bcd_tms: 0,
 				neighbor_hints: {
-					fs_reliability: 'unknown',
+					//fs_reliability: 'unknown',
 					//parent_folder_bcd: undefined,
 				},
 				exif_orientation: undefined,
@@ -119,10 +117,9 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 				subkeys = subkeys.filter(k => k !== 'exif_orientation')
 			}
 			if (subkeys.includes('is_fs_birthtime_assessed_reliable')) {
-				throw new Error('NIMP notes migration!')
-				/*migrated_notes.historical.neighbor_hints.fs_bcd_assessed_reliability =
-					legacy_file_notes.original.is_fs_birthtime_assessed_reliable ? 'reliable' : 'unknown'
-				subkeys = subkeys.filter(k => k !== 'is_fs_birthtime_assessed_reliable')*/
+				if (legacy_file_notes.original.is_fs_birthtime_assessed_reliable !== 'unknown')
+					migrated_notes.historical.neighbor_hints.fs_reliability = legacy_file_notes.original.is_fs_birthtime_assessed_reliable
+				subkeys = subkeys.filter(k => k !== 'is_fs_birthtime_assessed_reliable')
 			}
 
 			console.assert(

@@ -316,7 +316,7 @@ export function get_historical_representation(state: Immutable<NeighborHints>, f
 }
 
 export function get_historical_fs_reliability(state: Immutable<HistoricalNeighborHints>, candidate‿tms: TimestampUTCMs): FsReliability {
-	console.log('get_historical_fs_reliability(…)', state)
+	//console.log('get_historical_fs_reliability(…)', state)
 	return state.fs_reliability ?? 'unknown'
 	/* TODO review
 	const bcd__from_parent_folder__current = neighbor_hints.parent_folder_bcd

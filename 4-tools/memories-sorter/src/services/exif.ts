@@ -16,8 +16,6 @@ import {
 } from './better-date'
 import logger from './logger'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
-import { BestCreationDate, State } from '../state/file'
-import * as FileLib from '../state/file'
 
 ////////////////////////////////////
 
@@ -75,29 +73,50 @@ const FS_DATE_FIELDS: Array<keyof Tags> = [
 	'FileInodeChangeDate',
 ]
 
+const EXIF_FIELD__TZ = 'tz' as keyof Tags
+const EXIF_FIELD__ORIENTATION = 'Orientation' as keyof Tags
+const EXIF_FIELD__SOURCEFILE = 'SourceFile' as keyof Tags
+const EXIF_FIELD_ERRORS = 'errors' as keyof Tags
+
+const USEFUL_FIELDS = [
+	EXIF_FIELD__TZ,
+	EXIF_FIELD__ORIENTATION,
+	EXIF_FIELD__SOURCEFILE,
+	EXIF_FIELD_ERRORS,
+	...EXIF_DATE_FIELDS,
+	...FS_DATE_FIELDS,
+]
+
 ////////////////////////////////////
 
 export async function read_exif_data(abs_path: AbsolutePath): Promise<Immutable<Tags>> {
+	//console.log('??? read_exif_data()…', abs_path)
 	return exiftool.read(abs_path)
 		.then(_exif_data => {
-			// TODO cleanup?
-			return enforce_immutability(_exif_data)
+			// cleanup of unused fields to save RAM
+			const exif_data: Tags = {}
+			;(Object.keys(_exif_data) as Array<keyof Tags>).forEach(k => {
+				if (USEFUL_FIELDS.includes(k)) {
+					;(exif_data as any)[k] = _exif_data[k]
+				}
+			})
+
+			return enforce_immutability(exif_data)
 		})
 }
-
 
 ////////////////////////////////////
 
 // TODO memory optim get_relevant_exif_subset
 
 function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>, { DEBUG }: { DEBUG: boolean }): undefined | ExifDateTime {
-	const { SourceFile } = exif_data
+	const SourceFile = exif_data[EXIF_FIELD__SOURCEFILE]
 	let raw_exiftool_date: undefined | any = exif_data[field]
 	DEBUG && console.log(`_get_valid_exifdate_field("${field}"): raw = ${raw_exiftool_date}`)
 	if (!raw_exiftool_date) return undefined
 
 	const now_legacy = new LegacyDate()
-	DEBUG && console.log(`_get_valid_exifdate_field("${field}"): FYI`, { exif_tz: exif_data.tz, now_legacy })
+	DEBUG && console.log(`_get_valid_exifdate_field("${field}"): FYI`, { exif_tz: exif_data[EXIF_FIELD__TZ], now_legacy })
 
 	// https://github.com/photostructure/exiftool-vendored.js/issues/73
 	// "If date fields aren't parsable, the raw string from exiftool will be provided."
@@ -117,11 +136,11 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 
 	if (field === 'GPSDateTime' && exiftool_date.tzoffsetMinutes === 0) {
 		// "GPSDateTime" seems to always be in UTC. If we inferred a TZ, try to enrich it
-		const tz = exif_data.tz
+		const tz = exif_data[EXIF_FIELD__TZ]
 		if (tz) {
 			DEBUG && console.log(`  - ${field}: reparsing with better tz…`, { tz })
 			assert(raw_exiftool_date.rawValue, 'exif date has raw value')
-			const reparsed_exiftool_date = ExifDateTime.fromEXIF(raw_exiftool_date.rawValue, tz)
+			const reparsed_exiftool_date = ExifDateTime.fromEXIF(raw_exiftool_date.rawValue, tz as string)
 			assert(reparsed_exiftool_date, 'reparsed date success')
 			exiftool_date = reparsed_exiftool_date
 		}
@@ -132,9 +151,7 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 		// TODO find a real example of a tz fixable with this method
 		// we'd rather not botcher things without it.
 		/*
-		const auto_tz = exif_data.tz
-			? exif_data.tz
-			: undefined //get_default_timezone(get_timestamp_ms_from_ExifDateTime(exiftool_date))
+		const auto_tz = exif_data[EXIF_FIELD__TZ] ?? undefined //get_default_timezone(get_timestamp_ms_from_ExifDateTime(exiftool_date))
 		if (auto_tz) {
 			DEBUG && console.log(`  - #${index}: reparsing with better tz…`, { auto_tz })
 			assert(raw_exiftool_date.rawValue, 'exif date has raw value')
@@ -162,11 +179,11 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 }
 
 function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_data(fields: Array<keyof Tags>, exif_data: Immutable<Tags>, { DEBUG }: { DEBUG: boolean }): ExifDateTime | undefined {
-	const { SourceFile } = exif_data
+	const SourceFile = exif_data[EXIF_FIELD__SOURCEFILE]
 	DEBUG && console.log(`_get_earliest_defined_date_from_selected_fields_of_exif_data() starting…`, { SourceFile })
 
 	const now_legacy = new LegacyDate()
-	DEBUG && console.log(`- FYI`, { fields, exif_tz: exif_data.tz, now_legacy })
+	DEBUG && console.log(`- FYI`, { fields, exif_tz: exif_data[EXIF_FIELD__TZ], now_legacy })
 
 	DEBUG && console.log('- filtering defined candidates…')
 	// TODO we could also give priority to dates having a tz, however never seen a real case of mixing tz / non tz
@@ -296,7 +313,7 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 }
 
 function _get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>): ExifDateTime | undefined {
-	const { SourceFile } = exif_data
+	const SourceFile = exif_data[EXIF_FIELD__SOURCEFILE]
 	const DEBUG = false
 	DEBUG && console.log(`get_creation_date_from_exif() starting…`, { SourceFile })
 
@@ -392,7 +409,7 @@ function _get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>): Exif
 }
 
 export const get_best_creation_date_from_exif = micro_memoize(function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): ExifDateTime | undefined {
-	const { SourceFile } = exif_data
+	const SourceFile = exif_data[EXIF_FIELD__SOURCEFILE]
 	assert(SourceFile, `get_creation_date_from_exif() exif data should have SourceFile!`)
 
 	return _get_creation_date_from_exif__nocache(exif_data)
@@ -408,7 +425,7 @@ if ((global as any).beforeEach) { // yes I know 😅
 	})
 }
 export function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): ExifDateTime | undefined {
-	const { SourceFile } = exif_data
+	const SourceFile = exif_data[EXIF_FIELD__SOURCEFILE]
 	assert(SourceFile, `get_creation_date_from_exif() exif data should have SourceFile`)
 
 	if (!_cache[SourceFile])
@@ -419,14 +436,18 @@ export function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): Ex
 
 export function get_creation_timezone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
 	// TODO extract a better tz from GPS?
-	const res = exif_data.tz
+	const res = exif_data[EXIF_FIELD__TZ]
 	assert(typeof res === 'string' || typeof res === 'undefined', 'exif_data.tz type check')
 	return res
 }
 
+export function has_errors(exif_data: Immutable<Tags>): boolean {
+	return (!!exif_data.errors) && (exif_data.errors.length > 0)
+}
+
 // there are several orientation fields, provision for the future
 export function get_orientation_from_exif(exif_data: Immutable<Tags>): number | undefined {
-	return exif_data.Orientation
+	return exif_data[EXIF_FIELD__ORIENTATION] as any
 }
 
 export function get_timestamp_ms_from_ExifDateTime(date_exif: Immutable<ExifDateTime>): TimestampUTCMs {
