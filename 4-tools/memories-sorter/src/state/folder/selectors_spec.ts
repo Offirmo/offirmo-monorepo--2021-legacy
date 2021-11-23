@@ -29,6 +29,15 @@ import {
 
 import './__test_shared'
 import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
+import {
+	get_test_single_file_state_generator,
+	REAL_CREATION_DATE,
+	REAL_CREATION_DATE‿EXIF,
+	REAL_CREATION_DATE‿TMS,
+	REAL_CREATION_DATE‿HRTS,
+	BAD_CREATION_DATE_CANDIDATE‿TMS,
+	BAD_CREATION_DATE_CANDIDATE‿HRTS,
+} from '../../__test_shared/utils'
 
 /////////////////////
 
@@ -147,8 +156,10 @@ describe(`${LIB} - folder state`, function() {
 
 					state = on_fs_exploration_done(state)
 
+					// keep the folder as event
 					const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
-					expect(begin_date).to.be.null
+					expect(begin_date, 'begin date').not.to.be.null
+					expect(get_human_readable_timestamp_auto(begin_date!, 'tz:embedded')).to.equal('2015-08-03')
 				})
 			})
 		})
@@ -260,6 +271,24 @@ describe(`${LIB} - folder state`, function() {
 			context('when the folder basename contains a date', function() {
 
 				context('when there are children', function() {
+
+					context('when the cross-referencing is NOT trustable -- fs 1970', function () {
+
+						it('should NOT interpret it as a backup', async () => {
+
+							let state = create('2018-11-23 holiday')
+
+							let stategen = get_test_single_file_state_generator()
+							stategen.inputs.dateⵧfsⵧcurrent‿tms = 1234 // precondition for the test
+							let file_state = stategen.get_phase1_state()
+							state = on_subfile_found(state, file_state)
+							state = on_subfile_primary_infos_gathered(state, file_state)
+							state = on_fs_exploration_done(state)
+
+							expect(is_looking_like_a_backup(state), 'is_looking_like_a_backup').to.be.false
+							expect(get_event_range(state), 'event range').to.be.ok
+						})
+					})
 
 					context('when the cross-referencing hints at a backup', function () {
 

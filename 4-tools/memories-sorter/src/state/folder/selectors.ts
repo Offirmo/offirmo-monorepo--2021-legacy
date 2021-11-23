@@ -15,6 +15,7 @@ import {
 	create_better_date_from_utc_tms,
 	DateRange,
 	get_compact_date,
+	get_debug_representation,
 } from '../../services/better-date'
 import { FsReliability, NeighborHints } from '../file'
 import * as FileLib from '../file'
@@ -104,14 +105,22 @@ export function _get_current_best_children_range(state: Immutable<State>): undef
 		return state.media_children_bcd_ranges.from_primaryⵧfinal
 	}
 
-	return state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1 ?? (
-		state.media_children_bcd_ranges.from_fsⵧcurrent
-			? {
+	if (is_data_gathering_pass_1_done(state) && state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1) {
+		return state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
+	}
+
+	if (state.media_children_bcd_ranges.from_fsⵧcurrent) {
+		// this range is suspicious, let's check it
+		const is_fs_valuable = _get_children_fs_reliability(state) !== 'unreliable'
+		if (is_fs_valuable) {
+			return {
 				begin: create_better_date_from_utc_tms(state.media_children_bcd_ranges.from_fsⵧcurrent.begin, 'tz:auto'),
 				end: create_better_date_from_utc_tms(state.media_children_bcd_ranges.from_fsⵧcurrent.end, 'tz:auto'),
 			}
-			: state.media_children_bcd_ranges.from_fsⵧcurrent // as undef or null
-	)
+		}
+	}
+
+	return undefined
 }
 
 export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): DateRange | null | undefined {
@@ -250,8 +259,8 @@ function _get_event_begin_from_basename_if_present(state: Immutable<State>): und
 	return basename‿parsed.date
 }
 
-// TODO review + memoize
 // Note: this is logically and semantically different from get_expected_bcd_range_from_parent_path()
+// Note: even if the basename contains a date, this function will only return it if it looks like an EVENT
 export function get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state: Immutable<State>): null | Immutable<BetterDate> {
 	const basename_date = _get_event_begin_from_basename_if_present(state)
 	if (!basename_date)
@@ -264,19 +273,19 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 	// we need extra info to discriminate between those cases
 
 	// try to cross-reference with the children date range = best source of info
-	const { begin, end } = _get_current_best_children_range(state) || {}
+	const children_range = _get_current_best_children_range(state)
 	/*console.log('DEBUG', {
-		begin: get_debug_representation(begin),
-		end: get_debug_representation(end),
+		begin: get_debug_representation(children_range?.begin),
+		end: get_debug_representation(children_range?.end),
 		state,
 	})*/
-	if (!!begin && !!end) {
+	if (children_range) {
 		// we have a range, let's cross-reference…
 		const date__from_basename‿symd = BetterDateLib.get_compact_date(basename_date, 'tz:embedded')
 
 		// TODO use the best available data?
-		const date_range_begin‿symd = BetterDateLib.get_compact_date(begin, 'tz:embedded')
-		const date_range_end‿symd = BetterDateLib.get_compact_date(end, 'tz:embedded')
+		const date_range_begin‿symd = BetterDateLib.get_compact_date(children_range.begin, 'tz:embedded')
+		const date_range_end‿symd = BetterDateLib.get_compact_date(children_range.end, 'tz:embedded')
 		/*console.log('DEBUG', {
 			begin: date_range_begin‿symd, //get_debug_representation(begin),
 			end: date_range_end‿symd, //get_debug_representation(end),
@@ -293,8 +302,9 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 		}
 		else {
 			// folder's date is between the children range (not included)
-			// this looks unreliable...
-			return null
+			// However we don't want to lose information
+			// and a folder with a date surely means something
+			return basename_date
 		}
 	}
 

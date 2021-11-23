@@ -273,9 +273,14 @@ export function get_debug_representation(state: undefined | Immutable<NeighborHi
 
 	result = {
 		...result,
-		_unit_test_shortcut,
+		...(_unit_test_shortcut && { _unit_test_shortcut }),
 		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
-		expected_bcd_ranges,
+		expected_bcd_ranges: expected_bcd_ranges.map(range => {
+			return {
+				begin: get_better_date_debug_representation(range.begin),
+				end: get_better_date_debug_representation(range.end),
+			}
+		}),
 		fallback_junk_bcd: get_better_date_debug_representation(fallback_junk_bcd),
 	}
 

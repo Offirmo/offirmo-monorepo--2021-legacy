@@ -184,7 +184,7 @@ export function on_info_read__current_neighbors_primary_hints(
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
-		neighbor_hints: NeighborHintsLib.to_string(neighbor_hints),
+		neighbor_hints: NeighborHintsLib.get_debug_representation(neighbor_hints),
 	})
 
 	assert(!state.current_neighbor_hints, `on_info_read__current_neighbors_primary_hints() should not be called several times ${state.id}`)

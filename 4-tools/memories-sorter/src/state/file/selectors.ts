@@ -694,7 +694,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 		const fs__reliabilityⵧaccording_to_env = _get_current_fs_reliability_according_to_own_and_env(state)
 		logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying FS as primary (if reliable)…', {
 			bcd__from_fs__current: get_debug_representation(bcd__from_fs__current),
-			current_neighbor_hints: NeighborHintsLib.to_string(state.current_neighbor_hints),
+			current_neighbor_hints: NeighborHintsLib.get_debug_representation(state.current_neighbor_hints),
 			current_fs_reliability: fs__reliabilityⵧaccording_to_env,
 			expected: 'reliable'
 		})
@@ -734,7 +734,7 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 
 	// borderline secondary/junk
 	logger.trace('get_best_creation_dateⵧfrom_current_data‿meta() trying env hints…', {
-		current_neighbor_hints: NeighborHintsLib.to_string(state.current_neighbor_hints),
+		current_neighbor_hints: NeighborHintsLib.get_debug_representation(state.current_neighbor_hints),
 	})
 	if (state.current_neighbor_hints) {
 		const current_fs_reliability = _get_current_fs_reliability_according_to_own_and_env(state)
@@ -948,12 +948,18 @@ export function get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_
 			return 'reliable'
 	}
 
+	const is_fs_suspicious = bcdⵧfrom_fsⵧcurrent‿tms < 31535999000 // must be after year 1970. Year 1970 is suspicious as it's the origin of unix timestamps = suspicious of timestamp reset to 0
+
 	if (!bcdⵧfrom_exif && !bcdⵧfrom_basename_npⵧcurrent) {
-		return 'unknown'
+		// we only have fs
+		// does it looks reliable?
+		if (!is_fs_suspicious)
+			return 'unknown'
 	}
 
 	logger.log('⚠️ get_creation_date__reliability_according_to_other_trustable_current_primary_date_sourcesⵧfrom_fsⵧcurrent() is yielding FALSE', {
 		id: state.id,
+		is_fs_suspicious,
 		bcd__from_fs__current: get_debug_representation(bcdⵧfrom_fsⵧcurrent‿tms),
 		bcd__from_exif: get_debug_representation(bcdⵧfrom_exif),
 		bcd__from_basename__current_non_processed: get_debug_representation(bcdⵧfrom_basename_npⵧcurrent),
