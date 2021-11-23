@@ -233,6 +233,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				// - the folder was created concurrently to our code running (ugly)
 				// - the OS sneakily did unicode normalization :-( TODO fix by normalizing
 				// TODO one day: normalize the folders unicode (do it during explore, simpler)
+				// TODO report this??
 				return
 			}
 

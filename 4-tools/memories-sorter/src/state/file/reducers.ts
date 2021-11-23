@@ -4,7 +4,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
-import { get_params, Params } from '../../params'
+import { get_params } from '../../params'
 import logger from '../../services/logger'
 import {
 	FsStatsSubset,
@@ -23,6 +23,8 @@ import {
 } from '../../services/name_parser'
 import {
 	get_timestamp_utc_ms_from,
+	create_better_date_obj,
+	is_deep_equal,
 } from '../../services/better-date'
 
 import { LIB } from './consts'
@@ -31,6 +33,7 @@ import {
 	State,
 	NeighborHints,
 	PersistedNotes,
+	HistoricalNeighborHints,
 } from './types'
 import {
 	is_exif_powered_media_file,
@@ -42,9 +45,10 @@ import {
 	get_current_parent_folder_id,
 	get_best_creation_date,
 	get_creation_dateⵧfrom_fsⵧcurrent‿tms,
+	get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources,
 } from './selectors'
 import * as NeighborHintsLib from './sub/neighbor-hints'
-import { get_fs_reliability_score } from './sub/neighbor-hints'
+import { get_bcd_from_parent_path, get_fs_reliability_score } from './sub/neighbor-hints'
 
 ////////////////////////////////////
 
@@ -176,11 +180,32 @@ export function on_info_read__hash(state: Immutable<State>, hash: string): Immut
 	return state
 }
 
+function _get_historical_neighbor_hints_with_no_redundancy(state: Immutable<State>, neighbor_hints: Immutable<NeighborHints>): Immutable<HistoricalNeighborHints> {
+	let historical_hints = NeighborHintsLib.get_historical_representation(neighbor_hints, get_creation_dateⵧfrom_fsⵧcurrent‿tms(state))
+
+	const self_reliability = get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources(state)
+	if (self_reliability === historical_hints.fs_reliability || historical_hints.fs_reliability === 'unknown') {
+		// redundant
+		historical_hints.fs_reliability = undefined
+	}
+
+	if (historical_hints.parent_bcd) {
+		const parent_bcd_from_its_basename = get_bcd_from_parent_path(state.notes.historical.parent_path)
+		if (parent_bcd_from_its_basename) {
+			const bcd_h_h = create_better_date_obj(historical_hints.parent_bcd)
+			if (is_deep_equal(parent_bcd_from_its_basename, bcd_h_h)) {
+				// redundant
+				historical_hints.parent_bcd = undefined
+			}
+		}
+	}
+	return historical_hints
+}
+
 // this extra SECONDARY "on_info_read..." happens on consolidation, requires ALL files to have all the PRIMARY loaded
 export function on_info_read__current_neighbors_primary_hints(
 	state: Immutable<State>,
 	neighbor_hints: Immutable<NeighborHints>,
-	PARAMS: Immutable<Params> = get_params(),
 ): Immutable<State> {
 	logger.trace(`${LIB} on_info_read__current_neighbors_primary_hints(…)`, {
 		id: state.id,
@@ -197,7 +222,7 @@ export function on_info_read__current_neighbors_primary_hints(
 			...state.notes,
 			historical: {
 				...state.notes.historical,
-				neighbor_hints: NeighborHintsLib.get_historical_representation(neighbor_hints, get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)),
+				neighbor_hints: _get_historical_neighbor_hints_with_no_redundancy(state, neighbor_hints),
 			},
 		},
 	}

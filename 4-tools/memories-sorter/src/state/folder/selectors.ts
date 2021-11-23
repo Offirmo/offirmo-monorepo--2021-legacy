@@ -123,6 +123,7 @@ export function _get_current_best_children_range(state: Immutable<State>): undef
 	return undefined
 }
 
+// TODO memoize
 export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): DateRange | null | undefined {
 	if (state.type !== Type.event && state.type !== Type.overlapping_event)
 		return null
