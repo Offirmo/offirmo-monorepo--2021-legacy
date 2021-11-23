@@ -1,10 +1,11 @@
 import { expect } from 'chai'
-import { exiftool, ExifDateTime } from 'exiftool-vendored'
+import { ExifDateTime } from 'exiftool-vendored'
 
 import { LIB } from '../consts'
 import {
 	get_best_creation_date_from_exif,
 	get_creation_timezone_from_exif,
+	read_exif_data,
 } from './exif'
 import {
 	get_human_readable_timestamp_auto,
@@ -43,7 +44,7 @@ describe(`${LIB} - exif service`, function() {
 			ALL_MEDIA_DEMOS.forEach(({ data: MEDIA_DEMO }, index) => {
 				it(`should work - #${index}: "${MEDIA_DEMO.BASENAME}"`, async () => {
 
-					const exif_data = await exiftool.read(MEDIA_DEMO.ABS_PATH)
+					const exif_data = await read_exif_data(MEDIA_DEMO.ABS_PATH)
 					//console.log('exif data', exif_data)
 
 					const bcd_edt = get_best_creation_date_from_exif(exif_data)

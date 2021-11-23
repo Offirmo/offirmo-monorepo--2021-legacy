@@ -308,7 +308,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							let state = stategen.create_state()
 							const file_id = stategen.get_file_id()
 
-							//
+							// pre-conditions
 							expect(File.get_best_creation_date‿meta(state.files[file_id]).confidence).to.equal('secondary') // THIS TEST
 							expect(File.get_ideal_basename(state.files[file_id])).to.equal('foo.png') // THIS TEST
 

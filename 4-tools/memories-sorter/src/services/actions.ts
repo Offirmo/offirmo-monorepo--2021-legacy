@@ -5,7 +5,6 @@ import assert from 'tiny-invariant'
 import async from 'async'
 import json from '@offirmo/cli-toolbox/fs/json'
 import { Immutable } from '@offirmo-private/ts-types'
-import { exiftool } from 'exiftool-vendored'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { normalizeError } from '@offirmo/error-utils'
 
@@ -27,6 +26,7 @@ import { pathㆍparse_memoized } from './name_parser'
 import { FolderId } from '../state/folder'
 import { FileId } from '../state/file'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { read_exif_data } from './exif'
 
 ////////////////////////////////////
 
@@ -171,7 +171,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
-			const exif_data = await exiftool.read(abs_path)
+			const exif_data = await read_exif_data(abs_path)
 			logger.trace(`- got exif data for "${id}"…`)
 			db = DB.on_exif_read(db, id, exif_data)
 		}

@@ -1,9 +1,11 @@
 import assert from 'tiny-invariant'
 import { normalizeError } from '@offirmo/error-utils'
-import { Tags, ExifDateTime } from 'exiftool-vendored'
+import { exiftool, Tags, ExifDateTime } from 'exiftool-vendored'
 import { Immutable, HashOf } from '@offirmo-private/ts-types'
+import micro_memoize from 'micro-memoize'
+import { enforce_immutability } from '@offirmo-private/state-utils'
 
-import { TimeZone } from '../types'
+import { AbsolutePath, TimeZone } from '../types'
 import {
 	LegacyDate,
 	create_better_date_from_ExifDateTime,
@@ -14,6 +16,8 @@ import {
 } from './better-date'
 import logger from './logger'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
+import { BestCreationDate, State } from '../state/file'
+import * as FileLib from '../state/file'
 
 ////////////////////////////////////
 
@@ -70,6 +74,17 @@ const FS_DATE_FIELDS: Array<keyof Tags> = [
 	'FileAccessDate',
 	'FileInodeChangeDate',
 ]
+
+////////////////////////////////////
+
+export async function read_exif_data(abs_path: AbsolutePath): Promise<Immutable<Tags>> {
+	return exiftool.read(abs_path)
+		.then(_exif_data => {
+			// TODO cleanup?
+			return enforce_immutability(_exif_data)
+		})
+}
+
 
 ////////////////////////////////////
 
@@ -280,7 +295,7 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 	return min_dateⳇexif
 }
 
-export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>): ExifDateTime | undefined {
+function _get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>): ExifDateTime | undefined {
 	const { SourceFile } = exif_data
 	const DEBUG = false
 	DEBUG && console.log(`get_creation_date_from_exif() starting…`, { SourceFile })
@@ -375,6 +390,16 @@ export function get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>)
 
 	return candidate_date𖾚exif
 }
+
+export const get_best_creation_date_from_exif = micro_memoize(function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): ExifDateTime | undefined {
+	const { SourceFile } = exif_data
+	assert(SourceFile, `get_creation_date_from_exif() exif data should have SourceFile!`)
+
+	return _get_creation_date_from_exif__nocache(exif_data)
+}, {
+	//maxSize: 10,
+})
+/*
 // TODO review this caching if we end up modifying the files (lossless rotation)
 let _cache: { [sf: string]: ExifDateTime | undefined } = {}
 if ((global as any).beforeEach) { // yes I know 😅
@@ -382,17 +407,15 @@ if ((global as any).beforeEach) { // yes I know 😅
 		_cache = {}
 	})
 }
-
 export function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): ExifDateTime | undefined {
 	const { SourceFile } = exif_data
 	assert(SourceFile, `get_creation_date_from_exif() exif data should have SourceFile`)
 
 	if (!_cache[SourceFile])
-		_cache[SourceFile] = get_creation_date_from_exif__nocache(exif_data)
+		_cache[SourceFile] = _get_creation_date_from_exif__nocache(exif_data)
 
 	return _cache[SourceFile]
-}
-
+}*/
 
 export function get_creation_timezone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
 	// TODO extract a better tz from GPS?

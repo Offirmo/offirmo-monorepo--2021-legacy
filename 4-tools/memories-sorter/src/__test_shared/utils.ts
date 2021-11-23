@@ -6,7 +6,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 import { expect } from 'chai'
 import assert from 'tiny-invariant'
-import { Tags as EXIFTags, exiftool } from 'exiftool-vendored'
+import { Tags as EXIFTags } from 'exiftool-vendored'
 import hasha from 'hasha'
 
 import {
@@ -27,6 +27,7 @@ import * as Notes from '../state/notes'
 import { Basename } from '../types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { FsStatsSubset } from '../services/fs_stats'
+import { read_exif_data } from '../services/exif'
 
 
 export async function load_real_media_file(abs_path: string): Promise<Immutable<FileLib.State>> {
@@ -46,7 +47,7 @@ export async function load_real_media_file(abs_path: string): Promise<Immutable<
 				expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 2').to.be.false
 				state = FileLib.on_info_read__fs_stats(state, stats)
 			}),
-		exiftool.read(abs_path)
+		read_exif_data(abs_path)
 			.then(exif_data => {
 				expect(FileLib.has_all_infos_for_extracting_the_creation_date(state, { should_log: false }), 'load_real_media_file() has_all_infos_for_extracting_the_creation_date 3').to.be.false
 				state = FileLib.on_info_read__exif(state, exif_data)

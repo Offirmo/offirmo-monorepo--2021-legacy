@@ -290,6 +290,7 @@ export const ALL_MEDIA_DEMOS: Array<{
 }> = [
 	{
 		data: MEDIA_DEMO_00,
+		// safe to memoize, we enforced immutability ✔
 		get_phase1_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_00)),
 		get_phase2_state: memoize_once(() => _get_demo_state(MEDIA_DEMO_00, { neighbor_hints: null, recovered_notes: null })),
 	},
