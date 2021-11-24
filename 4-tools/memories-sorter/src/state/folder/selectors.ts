@@ -132,7 +132,7 @@ export const get_event_range = micro_memoize(function _get_event_range(state: Im
 	if (!!state.forced_event_range)
 		return state.forced_event_range
 
-	assert(is_data_gathering_pass_1_done(state), `get_event_range() should not be called too early for fear of incomplete results!`)
+	assert(is_data_gathering_pass_1_done(state), `get_event_range() should not be called too early for fear of incomplete results! ("${state.id}")`)
 
 	if (is_looking_like_a_backup(state))
 		return null
