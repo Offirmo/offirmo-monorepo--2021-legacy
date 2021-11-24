@@ -3,6 +3,7 @@ import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Immutable } from '@offirmo-private/ts-types'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
+import micro_memoize from 'micro-memoize'
 
 import { DIGIT_PROTECTION_SEPARATOR } from '../../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
@@ -124,7 +125,7 @@ export function _get_current_best_children_range(state: Immutable<State>): undef
 }
 
 // TODO memoize
-export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): DateRange | null | undefined {
+export const get_event_range = micro_memoize(function _get_event_range(state: Immutable<State>, ): DateRange | null | undefined {
 	if (state.type !== Type.event && state.type !== Type.overlapping_event)
 		return null
 
@@ -157,6 +158,7 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 		}
 	}*/
 
+	const PARAMS = get_params()
 	const capped_end_date = BetterDateLib.add_days(event_begin_date, PARAMS.max_event_durationⳇₓday)
 
 	let event_end_date = children_range?.end ?? capped_end_date // for now
@@ -189,7 +191,8 @@ export function get_event_range(state: Immutable<State>, PARAMS: Immutable<Param
 			begin: event_begin_date,
 			end: event_end_date,
 		}
-}
+})
+
 export function get_event_begin_date(state: Immutable<State>): Immutable<BetterDate> {
 	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_begin_date() should be an ~event`)
 	const range = get_event_range(state)

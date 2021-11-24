@@ -7,6 +7,7 @@ import json from '@offirmo/cli-toolbox/fs/json'
 import { Immutable } from '@offirmo-private/ts-types'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 import { normalizeError } from '@offirmo/error-utils'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { Basename, RelativePath } from '../types'
 import { NOTES_BASENAME_SUFFIX_LC } from '../consts'
@@ -15,7 +16,7 @@ import { get_params, Params } from '../params'
 import * as File from '../state/file'
 import * as Notes from '../state/notes'
 import * as DB from '../state/db'
-import { discard_last_pending_action, State } from '../state/db'
+import { State } from '../state/db'
 import { Action, ActionType } from '../state/actions'
 
 import logger from './logger'
@@ -25,7 +26,6 @@ import get_file_hash from './hash'
 import { pathㆍparse_memoized } from './name_parser'
 import { FolderId } from '../state/folder'
 import { FileId } from '../state/file'
-import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { read_exif_data } from './exif'
 
 ////////////////////////////////////
@@ -441,7 +441,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function move_file_to_ideal_location(id: RelativePath): Promise<void> {
 		const target_id = DB.get_ideal_file_relative_path(db, id)
-		if (target_id === id) return
+		assert(target_id !== id, 'MTIL') // should have been pre-filtered
+		//if (target_id === id) return
 
 		logger.trace(`- moving/renaming file "${id}" to its ideal location "${target_id}"…`)
 
@@ -452,13 +453,14 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const folder_source = id.split(path.sep).slice(0, -1).join(path.sep)
 			const folder_target = target_id.split(path.sep).slice(0, -1).join(path.sep)
 			const is_moving = folder_source !== folder_target
-			assert(is_moving || is_renaming, `move_file_to_ideal_location() should do sth`)
+			assert(is_moving || is_renaming, `move_file_to_ideal_location() should do sth!`)
 
 			if (is_moving && !is_renaming) {
 				const folder_source_norm = NORMALIZERS.normalize_unicode(folder_source)
 				const folder_target_norm = NORMALIZERS.normalize_unicode(folder_target)
 				if (folder_source_norm === folder_target_norm) {
 					// TODO one day normalize the folders
+					logger.warn(`MTIL: we should normalize folder ${folder_source_norm}`)
 					return
 				}
 			}
@@ -623,7 +625,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		on_task_finished(PROGRESS_ID__OVERALL)
 
 		dequeue_and_schedule_all_first_level_db_actions()
-	}, 20);
+	}, 20)
+	action_queue.error(function(err, task) {
+		logger.error('task experienced an error', { task, err });
+	})
 
 	function dequeue_and_schedule_all_first_level_db_actions(): void {
 		const pending_actions = DB.get_pending_actions(db)

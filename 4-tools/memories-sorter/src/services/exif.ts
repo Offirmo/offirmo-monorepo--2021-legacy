@@ -392,13 +392,13 @@ function _get_creation_date_from_exif__nocache(exif_data: Immutable<Tags>): Exif
 			// perfect, the FS date is perfectly matching + has a tz
 			candidate_date𖾚exif = earliest_date_from_fs𖾚exif
 			const bd = create_better_date_from_ExifDateTime(candidate_date𖾚exif)
-			logger.info(`✔️️ recovered missing TZ thanks to fs date.`, {
+			/*logger.info(`✔️️ _get_creation_date_from_exif__nocache() recovered missing TZ thanks to fs date.`, {
 				SourceFile,
 				//tms1: get_timestamp_ms_from_ExifDateTime(earliest_date_from_fs𖾚exif),
 				//tms2: get_timestamp_ms_from_ExifDateTime(candidate_date𖾚exif),
 				tz: get_embedded_timezone(bd),
 				local: get_debug_representation(bd),
-			})
+			})*/
 		}
 		else {
 			DEBUG && console.warn('candidate exif date has no tz…', { SourceFile })

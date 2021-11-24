@@ -70,6 +70,7 @@ function _enqueue_action(state: Immutable<State>, action: Action): Immutable<Sta
 	}
 }
 
+/*
 export function discard_first_pending_action(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} discard_first_pending_action(…)`, { action: state.queue[0] })
 
@@ -77,7 +78,7 @@ export function discard_first_pending_action(state: Immutable<State>): Immutable
 		...state,
 		queue: state.queue.slice(1),
 	}
-}
+}*/
 
 export function discard_last_pending_action(state: Immutable<State>, expected_type: ActionType): Immutable<State> {
 	logger.trace(`${LIB} discard_last_pending_action(…)`, { action: state.queue.slice(-1)[0] })

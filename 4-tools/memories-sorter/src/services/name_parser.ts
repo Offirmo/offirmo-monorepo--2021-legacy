@@ -740,7 +740,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 }, {
 	maxSize: 10, // no need for a big value
 	onCacheHit() {
-		logger.trace(`parsing basename… [memoized hit]`)
+		//logger.trace(`parsing basename… [memoized hit]`)
 	}
 })
 // TODO remove this un-needed wrapper

@@ -97,7 +97,7 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 	}
 }
 
-export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
+export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_primary_infos_gathered(…)…`, { file_id: file_state.id })
 	assert(state.media_children_pass_1_count < state.media_children_count, `on_subfile_primary_infos_gathered() should not be called x times!`)
 
@@ -253,7 +253,7 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 	}
 }
 
-export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
+export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_all_infos_gathered(…)`, { file_id: file_state.id })
 
 	if (File.is_notes(file_state)) {
@@ -322,7 +322,7 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 	return state
 }
 
-export function on_all_infos_gathered(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
+export function on_all_infos_gathered(state: Immutable<State>): Immutable<State> {
 	if (state.media_children_pass_2_count !== state.media_children_count || state.status !== 'data-gathering-2') {
 		console.log(state)
 		debugger
@@ -333,7 +333,7 @@ export function on_all_infos_gathered(state: Immutable<State>, PARAMS: Immutable
 	const { media_children_count } = state
 	if (media_children_count > 0) {
 		try {
-			const event_range = get_event_range(state, PARAMS)
+			const event_range = get_event_range(state)
 
 			if (event_range) {
 				logger.verbose(
