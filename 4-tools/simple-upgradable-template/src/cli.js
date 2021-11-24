@@ -3,7 +3,7 @@
 const path = require('path')
 const fs = require('fs')
 
-const assert = require('tiny-invariant').default
+const assert = require('tiny-invariant')
 const meow = require('meow')
 
 const { LIB } = require('./consts')

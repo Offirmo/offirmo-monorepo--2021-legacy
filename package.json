@@ -212,7 +212,6 @@
 		"chai-subset": "^1",
 		"clean-css-cli": "^5",
 		"cpx": "^1",
-		"csv-parse": "^4",
 		"eslint": "^8",
 		"eslint-config-prettier": "^8",
 		"eslint-import-resolver-typescript": "^2",

@@ -1,5 +1,5 @@
 
-const assert = require('tiny-invariant').default
+const assert = require('tiny-invariant')
 const memoize_one = require('memoize-one')
 
 /////////////////////
@@ -245,4 +245,3 @@ function apply({
 module.exports = {
 	apply,
 }
-

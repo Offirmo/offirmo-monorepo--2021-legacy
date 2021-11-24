@@ -1,7 +1,7 @@
 'use strict'
 
 const path = require('path')
-const assert = require('tiny-invariant').default
+const assert = require('tiny-invariant')
 
 const stylize_string = require('../3-advanced--node/cli-toolbox/string/stylize')
 const meow = require('../3-advanced--node/cli-toolbox/framework/meow')

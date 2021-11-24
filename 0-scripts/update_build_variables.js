@@ -3,7 +3,7 @@ console.log('🧙️  Hello from update_build_variables.js!')
 const path = require('path')
 
 const semver = require('semver')
-const assert = require('tiny-invariant').default
+const assert = require('tiny-invariant')
 const write_json_file = require('write-json-file')
 const meow = require('../3-advanced--node/cli-toolbox/framework/meow')
 const fs = require('../3-advanced--node/cli-toolbox/fs/extra')

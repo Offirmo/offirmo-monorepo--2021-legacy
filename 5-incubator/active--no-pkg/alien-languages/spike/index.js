@@ -11,7 +11,7 @@ The table also includes frequencies from other corpora, note that as well as usa
 
 ////////////////////////////////////
 const { NORMALIZERS } = require('../../../../3-advanced--isomorphic/normalize-string')
-const assert = require('tiny-invariant').default
+const assert = require('tiny-invariant')
 
 const SPACES = ` \t\n`
 const PUNCTUATION = ''

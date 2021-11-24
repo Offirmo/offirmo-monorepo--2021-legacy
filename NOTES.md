@@ -38,6 +38,7 @@ https://github.com/mohsinulhaq/react-popper-tooltip
 "webpack-node-externals": "^1"
 "webpack-serve": "^2",
 "wrap-ansi": "^4"
+"csv-parse": "^4",
 
 
 warning @babel/node > @babel/polyfill@7.4.4: 🚨 As of Babel 7.4.0, this
@@ -50,4 +51,3 @@ features) and regenerator-runtime/runtime
   > import "regenerator-runtime/runtime";
 
 		"puer": "puer --no-launch --port 1981 --allow-cors",
-
