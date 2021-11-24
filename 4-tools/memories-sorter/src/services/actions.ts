@@ -15,7 +15,7 @@ import { get_params, Params } from '../params'
 import * as File from '../state/file'
 import * as Notes from '../state/notes'
 import * as DB from '../state/db'
-import { State } from '../state/db'
+import { discard_last_pending_action, State } from '../state/db'
 import { Action, ActionType } from '../state/actions'
 
 import logger from './logger'
@@ -227,27 +227,34 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const abs_path = DB.get_absolute_path(db, id)
 			const is_existing_according_to_fs = fs.existsSync(abs_path)
 			if (is_existing_according_to_fs) {
+				logger.warn('ensure_folder() unregistered folder exists in DB?', { id })
 				// The path exists but we don't have it in DB
 				// possible cases:
 				// - race condition in mkdirp below TODO improve
 				// - the folder was created concurrently to our code running (ugly)
 				// - the OS sneakily did unicode normalization :-( TODO fix by normalizing
 				// TODO one day: normalize the folders unicode (do it during explore, simpler)
-				// TODO report this??
-				return
 			}
-
-			if (PARAMS.dry_run) {
+			else if (PARAMS.dry_run) {
 				logger.verbose('DRY RUN would have created folder: ' + id)
 			}
 			else {
 				await util.promisify(fs_extra.mkdirp)(abs_path)
-				if (DB.is_folder_existing(db, id)) {
-					// race condition while await-ing mkdirp, can happen
-				}
-				else {
-					db = DB.on_folder_found(db, '.', id)
-				}
+			}
+
+			if (DB.is_folder_existing(db, id)) {
+				// race condition while await-ing mkdirp, can happen
+			}
+			else {
+				db = DB.on_folder_found(db, '.', id)
+				// RACE CONDITION we now have an "explore" action pending
+				// however it'll happen after moving the file = conflict
+				const action = DB.get_pending_actions(db).slice(-1)[0]
+				assert(action.type === 'explore_folder')
+				assert(action.id === id)
+				db = DB.discard_last_pending_action(db, 'explore_folder')
+				// and immediately do it
+				await explore_folder(id)
 			}
 		}
 		catch (_err) {

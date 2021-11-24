@@ -79,6 +79,16 @@ export function discard_first_pending_action(state: Immutable<State>): Immutable
 	}
 }
 
+export function discard_last_pending_action(state: Immutable<State>, expected_type: ActionType): Immutable<State> {
+	logger.trace(`${LIB} discard_last_pending_action(…)`, { action: state.queue.slice(-1)[0] })
+	assert(state.queue.slice(-1)[0].type === expected_type, `discard_last_pending_action() should have expected type`)
+
+	return {
+		...state,
+		queue: state.queue.slice(0, -1),
+	}
+}
+
 export function discard_all_pending_actions(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} discard_all_pending_action(…)`, { action_count: state.queue.length })
 
