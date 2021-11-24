@@ -1,5 +1,5 @@
 // THIS FILE IS AUTO GENERATED!
-// 2021-09-18T19:30:18.946Z
+// 2021-11-24T04:43:47.763Z
 
 import { Immutable } from '@offirmo-private/ts-types'
 
@@ -956,12 +956,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	},
 	{
 		biome_id: BiomeId.terrestrialⵧforestⵧsnowy,
-		basename: 'a86daeb1314cf191fabcb86fdbf3_small.jpeg', subfolder: 'to--mountains--snowy',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧforestⵧsnowy,
 		basename: 'ae966700c9e82280f4a7f64ea949.jpeg', subfolder: 'to--mountains--snowy',
 		features_settlement: false,
 		transitions_to: null,
@@ -1226,13 +1220,13 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	},
 	{
 		biome_id: BiomeId.terrestrialⵧgrassland,
-		basename: 'cc12ed24ae02c60c6eb2d5d14fbe_small.jpeg', subfolder: 'to--barren',
+		basename: 'cc12ed24ae02c60c6eb2d5d14fbe.jpeg', subfolder: 'to--barren',
 		features_settlement: false,
 		transitions_to: null,
 	},
 	{
 		biome_id: BiomeId.terrestrialⵧgrassland,
-		basename: 'f6f0abb6adbe54046be68bda5c44_small.jpeg', subfolder: 'to--barren',
+		basename: 'f6f0abb6adbe54046be68bda5c44.jpeg', subfolder: 'to--barren',
 		features_settlement: false,
 		transitions_to: null,
 	},
@@ -1502,12 +1496,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	},
 	{
 		biome_id: BiomeId.terrestrialⵧmountainⵧgreen,
-		basename: 'bc3921352784d9f42d3de15be236_small.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧmountainⵧgreen,
 		basename: 'd6f52b4c5b7518c4862e02d029c1_small.jpeg',
 		features_settlement: false,
 		transitions_to: null,
@@ -1545,6 +1533,12 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	{
 		biome_id: BiomeId.terrestrialⵧmountainⵧgreen,
 		basename: 'ba4a10dbe1ea8e2cfed9761541bc.jpeg', subfolder: 'settlements',
+		features_settlement: true,
+		transitions_to: null,
+	},
+	{
+		biome_id: BiomeId.terrestrialⵧmountainⵧgreen,
+		basename: 'bc3921352784d9f42d3de15be236_small.jpeg', subfolder: 'settlements',
 		features_settlement: true,
 		transitions_to: null,
 	},

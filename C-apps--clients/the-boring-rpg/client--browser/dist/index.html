@@ -297,7 +297,8 @@ function update_settings(state, partial) {
   return state;
 }
 
-function on_rsrc_loaded(state, id = DEFAULT_RSRC_ID) {
+function on_rsrc_loaded(state) {
+  let id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_RSRC_ID;
   //logger.log(`[IL] on_rsrc_loaded`, id)
   state = { ...state,
     is_rsrc_loaded: { ...state.is_rsrc_loaded,
@@ -314,14 +315,15 @@ if (window[PROP]) {
 } else {
   // TODO useful? always postmessage?
   window[PROP] = {
-    configure({
-      legend,
-      expected_rsrc_count,
-      bg_color,
-      fg_color,
-      bg_picture,
-      ...unrecognized
-    } = {}) {
+    configure() {
+      let {
+        legend,
+        expected_rsrc_count,
+        bg_color,
+        fg_color,
+        bg_picture,
+        ...unrecognized
+      } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       if (Object.keys(unrecognized).length > 0) logger.error(`[IL] configure_loader() unrecognized params:`, unrecognized);
 
       try {
@@ -505,11 +507,12 @@ setTimeout(() => {
 }, 10 * 1000); /////////////////////
 // PM listener for cross origin sub-frames
 
-window.addEventListener('message', ({
-  data,
-  origin,
-  source
-}) => {
+window.addEventListener('message', _ref => {
+  let {
+    data,
+    origin,
+    source
+  } = _ref;
   if (!data[PROP]) return;
   logger.log(`[IL] 📥 PM ["${PROP}"] received`, data[PROP]);
   const {
@@ -521,11 +524,12 @@ window.addEventListener('message', ({
 
 	<!-- OT⋄CUSTOM BEGIN low priority scripts & misc -->
 	<script>// TODO review this section.
-window.addEventListener('message', ({
-  data,
-  origin,
-  source
-}) => {
+window.addEventListener('message', _ref => {
+  let {
+    data,
+    origin,
+    source
+  } = _ref;
   if (!data.xoff) return;
   console.log('[IL+/xoff] 📥 PM received', {
     data,
