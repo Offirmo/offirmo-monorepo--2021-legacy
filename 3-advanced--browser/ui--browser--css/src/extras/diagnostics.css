@@ -33,7 +33,7 @@ a[href="#"] /* acceptable for page navs? */
 
 /* TODO https://codeclimate.com/github/facebook/react/packages/react-dom/src/client/validateDOMNesting.js/source */
 
-th:not([scope=col]):not([scope=row])
+th:not([scope=col], [scope=row])
 {
 	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
 }
@@ -121,7 +121,8 @@ input[type="datetime"] /* https://developer.mozilla.org/en-US/docs/Web/HTML/Elem
 *[size], *[height]:not(svg), *[width]:not(svg),
 ul[type],
 ol[type],
-li[type]
+li[type],
+table[summary]
 {
 	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
 }
@@ -147,7 +148,7 @@ table[cellspacing],
 
 img:not([alt]):not([title]), /* slightly relaxed, we ask only for one of them */
 /*a:not([title]), No, not really needed */
-table:not([summary]),
+/*table:not([summary]), No, attribute is deprecated, use caption instead */
 a[href="#"], a[href="javascript:void(0)"] /* abuse of a as button https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#onclick_events */
 {
 	border: 3px dashed var(--o⋄color⁚diagnostics--accessibility) !important;
