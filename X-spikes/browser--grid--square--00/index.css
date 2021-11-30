@@ -1,6 +1,6 @@
 
 :root {
-	--cell-size: 40px;
+	--cell-size: 24px;
 }
 
 
@@ -21,7 +21,7 @@ table.gridⵧsquare td.biome--sea {
 	background-color: navy;
 }
 table.gridⵧsquare td.biome--polar {
-	background-color: aliceblue;
+	background-color: white;
 	color: darkblue;
 }
 table.gridⵧsquare td.biome--forest--green {
@@ -35,6 +35,10 @@ table.gridⵧsquare td.biome--forest--swamp {
 }
 table.gridⵧsquare td.biome--grassland {
 	background-color: springgreen;
+}
+
+table.gridⵧsquare td.biome--barren {
+	background-color: sienna;
 }
 
 table.gridⵧsquare td.undiscovered {
