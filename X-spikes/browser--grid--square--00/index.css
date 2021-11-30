@@ -11,7 +11,7 @@ table.gridⵧsquare {
 }
 
 table.gridⵧsquare td {
-	font-size: xx-small;
+	overflow: hidden;
 	border: solid 1px;
 	height: var(--cell-size);
 	width: var(--cell-size);
@@ -20,24 +20,27 @@ table.gridⵧsquare td {
 table.gridⵧsquare td.biome--sea {
 	background-color: navy;
 }
+table.gridⵧsquare td.biome--singularity {
+	background-color: yellow;
+}
+
 table.gridⵧsquare td.biome--polar {
 	background-color: white;
 	color: darkblue;
 }
-table.gridⵧsquare td.biome--forest--green {
-	background-color: aliceblue;
-}
-table.gridⵧsquare td.biome--forest--snowy {
-	background-color: aliceblue;
-}
-table.gridⵧsquare td.biome--forest--swamp {
-	background-color: aliceblue;
-}
 table.gridⵧsquare td.biome--grassland {
 	background-color: springgreen;
 }
-
+table.gridⵧsquare td.biome--forest--green {
+	background-color: green;
+}
+table.gridⵧsquare td.biome--forest--dark {
+	background-color: darkgreen;
+}
 table.gridⵧsquare td.biome--barren {
+	background-color: chocolate;
+}
+table.gridⵧsquare td.biome--desert {
 	background-color: sienna;
 }
 

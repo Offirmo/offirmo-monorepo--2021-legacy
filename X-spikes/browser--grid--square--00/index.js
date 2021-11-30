@@ -3,7 +3,7 @@ console.log('Hello, world!')
 
 /////////////////////
 
-const WORLD_SIZE = 12 // width of the cube
+const WORLD_SIZE = 9 // width of the cube
 
 /////////////////////
 
@@ -70,10 +70,10 @@ function get_cell__dev__memory(x, y) {
 				: flattened_cube_x + 2
 
 		const half_section = cube_width / 2
-		const north_pole_x = Math.floor(cube_width + half_section)
-		const north_pole_y = Math.floor(half_section)
-		const south_pole_x = Math.floor(2 * cube_width + half_section)
-		const south_pole_y = Math.floor(2 * cube_width + half_section)
+		const north_pole_x = /*Math.floor*/(cube_width + half_section - 0.5)
+		const north_pole_y = /*Math.floor*/(half_section - 0.5)
+		const south_pole_x = /*Math.floor*/(2 * cube_width + half_section - 0.5)
+		const south_pole_y = /*Math.floor*/(2 * cube_width + half_section - 0.5)
 
 		const euclidian_distance_from_north_pole = get_euclidian_distance(x, y, north_pole_x, north_pole_y)
 		const euclidian_distance_from_south_pole = get_euclidian_distance(x, y, south_pole_x, south_pole_y)
@@ -89,27 +89,53 @@ function get_cell__dev__memory(x, y) {
 				: get_euclidian_distance(south_pole_x, y, south_pole_x, south_pole_y)
 
 		const max_distance_to_a_pole = get_euclidian_distance(north_pole_x, Math.floor(cube_width + half_section), north_pole_x, north_pole_y)
-		console.log({ cube_width, half_section, max_distance_to_a_pole })
+		console.log({
+			cube_face_index,
+			cube_width,
+			half_section,
+			north_pole_x, north_pole_y,
+			south_pole_x, south_pole_y,
+			max_distance_to_a_pole,
+		})
 
 		const biome = (() => {
+			if (((x + 1) % WORLD_SIZE) <= 1 && ((y + 1) % WORLD_SIZE) <= 1)
+				return 'singularity'
+
 			const true_distance_to_closest_pole = Math.min(true_distance_from_north_pole, true_distance_from_south_pole)
-			if (true_distance_to_closest_pole <= 2)
-				return 'polar'
+			const distance_ratio = true_distance_to_closest_pole / max_distance_to_a_pole
+			// pole
+			// temperate
+			// hot
 
-			if (true_distance_from_north_pole === max_distance_to_a_pole)
-				return 'barren'
+			const biome_scale = Math.round(
+				distance_ratio
+				* 6
+				* ((is_in_top_third || is_in_bottom_third) ? .8 : 1)
+			)
+			return [
+				'polar',
+				'polar',
+				'sea',
+				'sea',
+				'grassland',
+				'forest--green',
+				'forest--green',
+				'forest--dark',
+				'barren',
+				'desert',
+			][biome_scale] ?? 'desert'
 
-			return 'sea'
 		})()
 
 		const emoji = (() => {
 			const true_distance_to_closest_pole = Math.min(true_distance_from_north_pole, true_distance_from_south_pole)
 
 			if (is_in_top_third && (y % cube_width) === Math.floor(half_section / 3) && (x % cube_width) === Math.floor(half_section))
-				return '🧊'
+				return '𐪎'
 
 			if (is_in_bottom_third && (y % cube_width) === Math.floor(half_section / 3) && (x % cube_width) === Math.floor(half_section))
-				return '🧊'
+				return '𐪏'
 
 			if (true_distance_to_closest_pole === 0)
 				return '⛳️'
@@ -122,14 +148,139 @@ function get_cell__dev__memory(x, y) {
 			discovered: true,
 			visible: true,
 			biome,
-			text: `E.d. = [${euclidian_distance_from_north_pole.toPrecision(2)}:${euclidian_distance_from_south_pole.toPrecision(2)}]
+			text: `
+cube_face_index = ${cube_face_index}
+E.d. = [${euclidian_distance_from_north_pole.toPrecision(2)}:${euclidian_distance_from_south_pole.toPrecision(2)}]
 T.d. = {${true_distance_from_north_pole.toPrecision(2)}:${true_distance_from_south_pole.toPrecision(2)}}
-cube_face_index = ${cube_face_index}`,
+`,
 			emoji,
 		}
 	}
 
 	return result
+}
+
+///////
+
+function _shift_x(inc, [x, y]) {
+	return [ x + inc, y ]
+}
+function _shift_y(inc, [x, y]) {
+	return [ x, y + inc ]
+}
+function _rotate_clockwise(degrees, [x, y]) {
+	degrees = degrees % 360
+	switch (degrees) {
+		case 0:
+			return [ x, y]
+		case 90:
+			return [ WORLD_SIZE - y - 1, x]
+		case 180:
+			return [ WORLD_SIZE - x - 1, WORLD_SIZE - y - 1]
+		case 270:
+			return [ y, WORLD_SIZE - x - 1]
+		default:
+			throw new Error('Wrong degree!')
+	}
+}
+
+function get_cell__dev__debug(x, y) {
+	const cube_width = WORLD_SIZE
+
+	// 1 1 1 1  <-- north pole
+	// 2 3 4 5  <-- equator etc.
+	// 6 6 6 6  <-- south pole
+
+	const flattened_cube_x = Math.floor(x / cube_width)
+	const flattened_cube_y = Math.floor(y / cube_width)
+
+	if (x % cube_width === 0) {
+		console.log(`------- cube face #${flattened_cube_x} -------`)
+	}
+
+	const face_x = x % cube_width
+	const face_y = y % cube_width
+
+	console.log('get_cell__dev__debug', {
+		x,
+		y,
+		flattened_cube_x,
+		flattened_cube_y,
+		face_x,
+		face_y,
+	})
+
+	switch (flattened_cube_y) {
+		case 0:
+			switch (flattened_cube_x) {
+				case 0:
+					return get_cell__dev__memory(
+						..._shift_x(WORLD_SIZE,
+							_rotate_clockwise(90,
+								[x % WORLD_SIZE, y % WORLD_SIZE])
+						)
+					)
+				case 1:
+					return get_cell__dev__memory(x, y)
+				case 2:
+					return get_cell__dev__memory(
+						..._shift_x(WORLD_SIZE,
+							_rotate_clockwise(270,
+								[x % WORLD_SIZE, y % WORLD_SIZE])
+						)
+					)
+				case 3:
+					return get_cell__dev__memory(
+						..._shift_x(WORLD_SIZE,
+							_rotate_clockwise(180,
+								[x % WORLD_SIZE, y % WORLD_SIZE])
+						)
+					)
+				default:
+					throw new Error('Impossible')
+			}
+		case 1:
+			return get_cell__dev__memory(x, y)
+		case 2:
+			switch (flattened_cube_x) {
+				case 0:
+					return get_cell__dev__memory(
+						..._shift_x(2 * WORLD_SIZE,
+							_shift_y(2 * WORLD_SIZE,
+								_rotate_clockwise(180,
+									[x % WORLD_SIZE, y % WORLD_SIZE]
+								)
+							)
+						)
+					)
+				case 1:
+					return get_cell__dev__memory(
+						..._shift_x(2 * WORLD_SIZE,
+								_shift_y(2 * WORLD_SIZE,
+									_rotate_clockwise(270,
+										[x % WORLD_SIZE, y % WORLD_SIZE]
+									)
+								)
+							)
+						)
+				case 2:
+					return get_cell__dev__memory(x, y)
+				case 3:
+					return get_cell__dev__memory(
+						..._shift_x(2 * WORLD_SIZE,
+							_shift_y(2 * WORLD_SIZE,
+								_rotate_clockwise(90,
+									[x % WORLD_SIZE, y % WORLD_SIZE]
+								)
+							)
+						)
+					)
+				default:
+					throw new Error('Impossible')
+			}
+		default:
+			throw new Error('Impossible')
+	}
 }
 
 /////////////////////
@@ -238,10 +389,10 @@ function render() {
 	document.body.appendChild(_render_grid({
 		width: 4 * WORLD_SIZE,
 		height: 3 * WORLD_SIZE,
-		getter: get_cell__dev__memory,
+		getter: get_cell__dev__debug,
 		caption: 'dev version -- debug',
 	}))
-	document.body.appendChild(_render_grid({
+	/*document.body.appendChild(_render_grid({
 		width: 4 * WORLD_SIZE,
 		height: 3 * WORLD_SIZE,
 		getter: get_cell__dev__memory,
@@ -258,7 +409,7 @@ function render() {
 		height: 12,
 		getter: get_cell__dev__memory,
 		caption: 'player version -- exploration',
-	}))
+	}))*/
 }
 
 /////////////////////
