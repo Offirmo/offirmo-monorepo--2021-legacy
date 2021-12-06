@@ -20,6 +20,10 @@ Senior Dev tips!
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
 
+https://web.dev/patterns/layout/
+
+https://regexlearn.com/
+
 rollback
 
 hotfix

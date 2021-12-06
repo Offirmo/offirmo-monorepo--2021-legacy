@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's html templatee v0.0.1 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's html template v0.0.2 -->
 
+<!-- maximum language hints to prevent Chrome from incorrectly suggesting a translation -->
 <html lang="en" xml:lang="en" class="o⋄top-container">
+
 <head>
+	<!-- https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML -->
 	<meta charset="utf-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="en" />
@@ -10,14 +13,26 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
 	<!-- OT⋄CUSTOM BEGIN meta description -->
-	<!--
-	<meta name="description" content="blah blah">
-	<meta name="keywords" content="HTML, CSS, JavaScript">
-	<meta name="author" content="John Smith">
-	-->
+	<meta name="description" content="An HTML5 template as of 2021">
+	<meta name="keywords" content="HTML, template, CSS, JavaScript">
+	<meta name="author" content="Offirmo">
+	<!-- https://webmonetization.org/ -->
+	<meta name="monetization" content="$ilp.uphold.com/26PeD6EzMhYJ">
 	<!-- OT⋄CUSTOM END meta description -->
 
-	<title>Loading…</title>
+	<!-- OT⋄CUSTOM BEGIN open graph -->
+	<!--
+	<meta property="og:title" content="'Adventurers' open-source illustration"/>
+	<meta property="og:url" content="https://www.online-adventur.es/apps/the-boring-rpg/"/>
+	<meta property="og:image" content="https://www.online-adventur.es/apps/the-boring-rpg/for-open-graph.jpg"/>
+	-->
+	<!-- OT⋄CUSTOM END open graph -->
+
+	<!-- OT⋄CUSTOM BEGIN twitter -->
+	<!-- TODO -->
+	<!-- OT⋄CUSTOM END twitter -->
+
+	<title>HTML5 template</title>
 
 	<!-- OT⋄CUSTOM BEGIN favicons -->
 	<!-- See:
@@ -33,43 +48,89 @@
 	-->
 	<!-- OT⋄CUSTOM END favicons -->
 
-	<!-- OT⋄CUSTOM head miscs -->
+	<script>
+		;(function _ensure_trailing_slash_if_necessary() {
+			const path_segment_after_last_slash = location.pathname.split('/').slice(-1)[0] || ''
+
+			if (!path_segment_after_last_slash) {
+				// we have a trailing slash, all good
+				return
+			}
+
+			// current path doesn't end with a trailing slash
+			// this may be ok, ex. /xyz.html = this file
+			// OR that may be an issue if we are located by our parent folder (implicit file) ex. /app
+			// https://searchfacts.com/url-trailing-slash/
+			// https://ahrefs.com/blog/trailing-slash/
+			const is_last_segment_a_html_file = path_segment_after_last_slash.endsWith('.html') || path_segment_after_last_slash.endsWith('.htm')
+
+			if (is_last_segment_a_html_file) {
+				// all good ✔
+				return
+			}
+
+			// We are located by a folder without a trailing slash.
+			// We are opinionated towards a trailing slash to ease relative references.
+			// And Netlify has troubles when no trailing slash.
+			// Redirect to the version with slash:
+			// https://love2dev.com/blog/ways-to-use-javascript-redirect-to-another-page/
+			// let's be careful to not lose any part of the URL!
+			const new_path = location.pathname + '/'
+			const new_url = location.origin + new_path + location.search + location.hash
+			location.replace(new_url)
+		})()
+	</script>
+
+	<!-- OT⋄CUSTOM BEGIN observability -->
+	<script>
+		// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
+		window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+		//ga('create', 'UA-70800748-3', 'auto');
+		//ga('send', 'pageview');
+	</script>
+	<!-- OT⋄CUSTOM END observability -->
 
 	<style>
-		:root {
-			--bg: black;
-			--fg: hsl(0, 0%, 98%);
-			--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
-		}
+		@import "./index.css";
 
-		html, body {
-			width: 100%;
-			margin: 0;
-			padding: 0;
-			background-color: var(--bg);
-			color: var(--fg);
-			font-family: var(--font);
-		}
-
+		/* OT⋄CUSTOM BEGIN early styles */
 		.o⋄top-container {
 			display: flex;
 			flex-direction: column;
 			height: 100%;
 		}
 
-		/* OT⋄CUSTOM early styles */
+		:root {
+			--bg: black;
+			--fg: hsl(0, 0%, 98%);
+			--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
+
+			background-color: var(--bg);
+			color: var(--fg);
+			font-family: var(--font);
+		}
+
+		html, body {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		/* OT⋄CUSTOM END early styles */
 	</style>
 </head>
 
-<body class="o⋄top-container o⋄body⁚full-viewport">
+<body class="o⋄top-container o⋄body⁚full-viewport" data-o-theme="dark--default" >
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 
+	<!-- OT⋄CUSTOM BEGIN body -->
+	<h1>...</h1>
+	<p>
+		A micro template for HTML tests
+		<button onclick="console.log('clicked', Date.now())">click me!</button>
+	</p>
+	<!-- OT⋄CUSTOM END body -->
 
 	<!-- OT⋄CUSTOM low priority scripts & misc -->
-
-	<script type="module">
-		// TODO progressive enhancements
-	</script>
 
 	<script>
 		document.querySelector('h1').textContent = document.title
@@ -77,4 +138,14 @@
 			el.href || (el.href = el.text)
 		})
 	</script>
+
+	<script type="module">
+		import './index.js'
+	</script>
+
+	<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+	<!-- https://perfops.net/rum -->
+	<script async src="https://cdn.jsdelivr.net/npm/perfops-rom"></script>
+</body>
 </html>
