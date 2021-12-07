@@ -4,6 +4,10 @@ http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generati
 https://github.com/lebesnec/island.js
 
 https://en.wikipedia.org/wiki/List_of_map_projections
+https://en.wikipedia.org/wiki/File:Hammer_projection_SW.jpg
+https://en.wikipedia.org/wiki/File:HEALPix_projection_SW.svg
+
+http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/
 
 https://docs.google.com/spreadsheets/d/1wA4UW1Je3w0PNIgA6lZ0rflgb7G_wQj-fKTQVxTfYnU/edit#gid=0
 
