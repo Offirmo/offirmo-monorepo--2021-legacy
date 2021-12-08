@@ -20,6 +20,8 @@ Senior Dev tips!
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
 
+kebab-case vs snake etc
+
 https://web.dev/patterns/layout/
 
 https://regexlearn.com/
