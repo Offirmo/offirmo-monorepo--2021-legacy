@@ -1016,3 +1016,9 @@ https://en.wikipedia.org/wiki/Child_auction
 https://en.wikipedia.org/wiki/Debt_bondage
 
 winner’s / looser’s game https://dev.to/thawkin3/software-engineering-is-a-loser-s-game-2k20
+
+https://www.apx-enclosures.com/apx-blog/metals-that-dont-rust
+
+learning https://romandesign.co/how-learning-works-components-systems-and-loops/
+
+https://www.coachmag.co.uk/exercises/sport-workouts/1552/win-armwrestling

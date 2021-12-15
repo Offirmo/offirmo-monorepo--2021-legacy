@@ -3,6 +3,7 @@
 
 * maps https://mapeffects.co/
 
+svg https://fffuel.co/ffflux/
 
 https://github.com/munrocket/parallax-effect
 

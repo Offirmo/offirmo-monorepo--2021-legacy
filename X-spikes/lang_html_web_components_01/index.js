@@ -8,11 +8,10 @@ customElements.define('hello-world-ace', class HelloWorldACE extends HTMLElement
 		super();
 
 		// write element functionality in here
-		this.attachShadow({ mode: "open" })
 	}
 
 	connectedCallback() {
-		this.shadowRoot.innerHTML = `
+		this.innerHTML = `
 <p>Hello World! (ACE)</p>
 `;
 	}

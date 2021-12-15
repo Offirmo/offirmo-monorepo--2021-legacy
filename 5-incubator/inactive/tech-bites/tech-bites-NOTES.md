@@ -26,13 +26,19 @@ https://web.dev/patterns/layout/
 
 https://regexlearn.com/
 
+https://programmingisterrible.com/post/139222674273/how-to-write-disposable-code-in-large-systems
+
 rollback
 
 hotfix
 
+https://www.atlassian.com/team-playbook/plays/elevator-pitch
+
 https://itnext.io/deployment-maturity-levels-feab55c20d04
 
 https://xyproblem.info/
+
+https://en.wikipedia.org/wiki/Inner-platform_effect
 
 functional programming, single source of truth, flux architecture, heap memory, stack, stack memory, stack overflow, database, async/sync, atomic, context switch, queue, fifo, pointer, handle, register, assembly, microcode, RAM, allocation, garbage collector, message passing, ownership, flux architecture, global variable, scope, loop, breaking out of a loop, jump/goto, map, flatmap, event loop, blocking, semaphore, thread, system call, file write, file read, cache, flushing, object, class, function, constructor, state, typecast, types, prototypes, hooks, log, MVC, dependencies, dependency hell, recursion, linked list, tree, revisions, tree walk, compiler, transpiler, comment, annotation
 Well done sourcing the mental models from your readers ;)

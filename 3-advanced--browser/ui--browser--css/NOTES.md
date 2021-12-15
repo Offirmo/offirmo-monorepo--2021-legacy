@@ -52,7 +52,8 @@ No, returns a too big CSS.
 * https://uxdesign.cc/leveling-framework-72f9296e6920
 * https://dev.to/xtrp/possibly-the-most-useful-css-trick-jl3
 * "58 bytes of css to look great nearly everywhere" https://jrl.ninja/etc/1/
-
+* https://open-props.style/
+* https://ishadeed.com/article/defensive-css/
 
 TODO https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/
 

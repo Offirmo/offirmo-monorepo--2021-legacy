@@ -46,3 +46,24 @@ Battle
 - deception
 - escape
 
+https://www.google.com/search?q=China+top+100+family+names
+
+Er Gen https://forum.webnovel.com/d/8302-er-gen-s-new-novel-three-inches-silver-human-mtl-names/20
+The chronological order is : PoT -> Ri -> New novel -> ISSTH -> AWE
+
+But, basically read it in the writing order.
+
+Ri -> PoT -> ISSTH -> AWE -> 3inches/Silver Human
+
+If you read PoT before Ri, you'll understand nothing about the ending. So read Ri before.
+
+While I began with ISSTH, and it's the only novel currently officially finished (translations), if you read it first you'll have some spoilers about Ri and PoT.
+
+ISSTH is the meeting ground between the novels.
+
+And AWE's ending has answers about ISSTH's ending. And it's dumb to read the answer before the question imo.
+
+So yeah. I personally did this : ISSTH -> AWE/Ri/PoT (all 3 at the same time after issth. You can do that, and you'll still enjoy it, but the REAL reading order is the one stated above. But you must know that almost everyone who's reading Ri/PoT/AWE already read ISSTH before, so be careful of spoilers in comments....
+And remember, aside from PoT go read the rest in Wuxiaworld :) )
+
+EDIT : .....on 2nd thought, I just realised that if you began with Ri, you'll set your standards really high for the next novels.....so maybe you should do : ISSTH -> Ri-AWE-PoT? I dunno, you choose. (you just gtta know that basically evryone did the ISSTH -> Ri-AWE-PoT, but the real one is the one I mentioned at the top..fudge)
