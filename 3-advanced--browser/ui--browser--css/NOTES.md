@@ -23,7 +23,9 @@ https://www.smashingmagazine.com/2021/09/simplifying-form-styles-accent-color/
 database of default styles: https://browserdefaultstyles.com/
 
 ### Other resets
-normalize.css
+* normalize.css
+* Meyer https://meyerweb.com/eric/tools/css/reset/
+*
 
 ### Other design systems
 

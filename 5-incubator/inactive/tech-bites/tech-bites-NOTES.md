@@ -22,6 +22,8 @@ Senior Dev tips!
 
 kebab-case vs snake etc
 
+https://www.atlassian.com/team-playbook/plays/elevator-pitch
+
 https://web.dev/patterns/layout/
 
 https://regexlearn.com/
