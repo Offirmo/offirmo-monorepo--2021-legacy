@@ -1,6 +1,13 @@
 # Monitoring of the stuff controlled by this monorepo
 
 
+## 3rd party statuses
+* https://www.status-ovhcloud.com/
+* https://www.netlifystatus.com/
+* https://status.heroku.com/
+* https://www.githubstatus.com/
+
+
 ## Prod
 
 Pipelines:

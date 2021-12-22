@@ -5,3 +5,4 @@ module.exports = [
 	// TODO should we add safari?
 	'not dead',
 ]
+// b=firefox:-2&b=chrome:-2

@@ -1,8 +1,6 @@
 
 ////////////////////////////////////
 
-const NAMESPACE = 'offirmo'
-
 // references:
 // https://simpleicons.org/ with links to guidelines
 
@@ -127,31 +125,15 @@ function _clean_handle(raw_handle) {
 	return result
 }
 
-// NO # returned
 // ex. "rbg(128, 255, 3)" -> "80ff03"
-function _get_normalized_hex_representation(color) {
-	color = color.trim().toLowerCase()
-
-	if (color.startsWith('#'))
-		switch (color.length) {
-			case 7:
-				return color.slice(1)
-			case 4:
-				throw new Error(`_get_normalized_hex_representation(): unhandled format: short hex!`)
-			default:
-				throw new Error(`_get_normalized_hex_representation(): unhandled hex format "${color}"!`)
-		}
-
-	if (color.startsWith('rgb('))
-		return color.split('(')[1]
-			.split(')')[0]
-			.split(',')
-			.map(s => parseInt(s, 10))
-			.map(n => n.toString(16))
-			.map(s => s.padStart(2, '0'))
-			.join('')
-
-	throw new Error(`_get_normalized_hex_representation(): unhandled format "${color}"!`)
+function _get_hex_representation(color‿rgb) {
+	return color‿rgb.split('(')[1]
+		.split(')')[0]
+		.split(',')
+		.map(s => parseInt(s, 10))
+		.map(n => n.toString(16))
+		.map(s => s.padStart(2, '0'))
+		.join('')
 }
 
 ////////////////////////////////////
@@ -162,95 +144,26 @@ customElements.define('offirmoⳆsocial-links', class SocialNav extends HTMLElem
 		return [ 'handle' ]
 	}
 
-	get_debug_id() {
-		return `${this.tagName}ⵧ${this.getAttribute('is')}`
-	}
-
 	constructor() {
 		super()
-		//console.log(`[${this.tagName}ⵧ${this.getAttribute('is')}].constructor()]:`, { _this: this })
-		this.innerHTML = `
-<style>
-	.offirmoⳆsocial-links   { box-sizing: border-box; }
-	.offirmoⳆsocial-links * { box-sizing: inherit; }
-
-	.offirmoⳆsocial-links {
-
-	}
-
-	.offirmoⳆsocial-links ol, .offirmoⳆsocial-links ul {
-		list-style-type: none;
-		padding-inline-start: 0;
-		display: flex;
-		flex-direction: row;
-	}
-	.offirmoⳆsocial-links li + li  {
-		margin-left: .3em;
-	}
-
-	.offirmoⳆsocial-link {
-		display: inline-flex;
-		flex-direction: row;
-	}
-
-	.offirmoⳆsocial-link∙icon-container {
-		aspect-ratio: 1 / 1;
-		display: grid;
-		place-items: center center;
-		border-radius: .2em;
-		padding: .2em;
-		background-color: red;
-	}
-</style>
-` + this.innerHTML
 	}
 
 	_render() {
-		console.group(`[${this.get_debug_id()}]: render`, this, { elt: this })
-		this.classList.add('offirmoⳆsocial-links')
-
 		let handle = this.getAttribute('handle')
 		if (handle) {
 			this.style.setProperty(
-				'--offirmoⳆsocial-links∙handle',
+				'--offirmoⳆsocial-links⋄handle',
 				handle,
 			)
 		}
-
-		this.style.setProperty(
-			'--offirmoⳆsocial-links∙color--fg',
-			getComputedStyle(this).getPropertyValue('color')
-		)
-		console.log({
-			computed: getComputedStyle(this),
-			color: getComputedStyle(this).getPropertyValue('color'),
-			'background-color': getComputedStyle(this).getPropertyValue('background-color'),
-		})
-		this.style.setProperty(
-			'--offirmoⳆsocial-links∙color--bg',
-			getComputedStyle(this).getPropertyValue('background-color')
-		)
-		console.groupEnd()
 	}
 
-	connectedCallback() {
-		console.log(`[${this.tagName}ⵧ${this.getAttribute('is')}].connectedCallback():`, { _this: this })
 
-	}
-	disconnectedCallback() {
-		console.log(`[${this.tagName}ⵧ${this.getAttribute('is')}].disconnectedCallback():`, { _this: this })
-	}
-	adoptedCallback() {
-		console.log(`[${this.tagName}ⵧ${this.getAttribute('is')}].adoptedCallback():`, { _this: this })
-	}
-	attributeChangedCallback(name, old_value, new_value) {
-		console.log(`[${this.tagName}ⵧ${this.getAttribute('is')}].attributeChangedCallback():`, { name, old_value, new_value, _this: this })
+	attributeChangedCallback() {
 		this._render()
 	}
 
 }, { extends: 'nav' });
-
-////////////////////////////////////
 
 customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnchorElement {
 
@@ -267,18 +180,13 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 		console.log(`[${this.get_debug_id()}]: constructor`, this, { elt: this })
 	}
 
-	get_icon_color‿hex() {
+	get_fg_color‿hex() {
 		console.log(
-			getComputedStyle(this).getPropertyValue('--offirmoⳆsocial-links∙color--fg'),
-			getComputedStyle(this).getPropertyValue('--offirmoⳆsocial-links∙color--bg'),
-			getComputedStyle(this).getPropertyValue('color'),
-			getComputedStyle(this).getPropertyValue('background-color'),
-		)
+			this,
+			`"${getComputedStyle(this).getPropertyValue('color')}"`,
 
-		return _get_normalized_hex_representation(
-			getComputedStyle(this).getPropertyValue('--offirmoⳆsocial-links∙color--fg')
-			|| getComputedStyle(this).getPropertyValue('color')
 		)
+		return _get_hex_representation(getComputedStyle(this).getPropertyValue('color'))
 	}
 
 	get_font_size‿px() {
@@ -290,7 +198,7 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 
 		if (!handle) {
 			// try to inherit from parent
-			handle = _clean_handle(getComputedStyle(this).getPropertyValue('--offirmoⳆsocial-links∙handle'))
+			handle = _clean_handle(getComputedStyle(this).getPropertyValue('--offirmoⳆsocial-links⋄handle'))
 		}
 
 		if (!handle)
@@ -336,7 +244,7 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 		if (!href) {
 			const network_id = this.get_network_id()
 			const handle = this.get_generic_handle()
-			href = _get_network_info(network_id).generator(handle, network_id)
+			href = _get_network_info(network_id).generator(handle)
 		}
 
 		if (!href)
@@ -348,15 +256,11 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 	_render() {
 		console.group(`[${this.get_debug_id()}]: render`, this, { elt: this })
 
-		this.classList.add('offirmoⳆsocial-link')
-		this.target = this.target || '_blank'
-		this.rel = this.rel || 'noopener,external'
-
 		const network_id = this.get_network_id()
 		const network_infos = _get_network_info(network_id)
 		let icongram_params = {
 			size‿px: this.get_font_size‿px() * 3,
-			color‿hex: this.get_icon_color‿hex(),
+			color‿hex: this.get_fg_color‿hex(),
 			...network_infos.icongram
 		}
 		console.log('rendering…', {
@@ -367,22 +271,19 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 
 		this.href = this.get_href()
 
-		this.innerHTML = `
-<div class="offirmoⳆsocial-link∙icon-container">
-	<img src="${_get_icongram_url(icongram_params)}"
-	     alt="Logo of ${network_infos.official_name || network_id}"
-	     style="vertical-align: middle; height: ${this.get_font_size‿px()}px;"
-	/>
-</div>
-<!-- ${network_infos.official_name || network_id} -->
-`
+		this.innerHTML = `<img
+src="${_get_icongram_url(icongram_params)}"
+style="vertical-align: middle; height: ${this.get_font_size‿px()}px;"
+  />${network_infos.official_name || network_id}`
 
 		console.groupEnd()
 	}
 
 	attributeChangedCallback(name, old_value, new_value) {
-		console.log(`[${this.get_debug_id()}]: attributeChangedCallback`, this, { name, old_value, new_value, elt: this })
-
 		this._render()
+	}
+
+	connectedCallback() {
+
 	}
 }, { extends: 'a' });

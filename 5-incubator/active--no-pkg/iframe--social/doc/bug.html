@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+
+	<style>
+		:root {
+			color: red;
+			font-size: x-large;
+		}
+	</style>
+
+	<script type="module">
+		import './bug.js'
+
+	</script>
+</head>
+
+<body>
+
+<p>Hello, world!</p>
+
+<nav is="offirmoⳆsocial-links" handle="Offirmo">
+	<ol>
+		<li><a is="offirmoⳆsocial-link" network="reddit" style="color: green;"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="Product Hunt"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="twitter"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="facebook" handle="boringrpg"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="dev.to"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="itch.io"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="github"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="instagram"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="patreon"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="artstation"></a></li>
+		<li><a is="offirmoⳆsocial-link" network="foo"></a></li>
+	</ol>
+</nav>
+
+<script type="module">
+	Array.from(document.getElementsByTagName('a')).forEach(e => {
+		console.log(e)
+		console.log(getComputedStyle(e).getPropertyValue('color'))
+	})
+
+</script>
+
+
+</body>
+</html>

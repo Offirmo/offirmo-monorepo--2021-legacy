@@ -136,7 +136,6 @@ table[summary]
 /* Proposed Deprecated Attributes */
 /* TODO reference */
 *[border],
-a[target],
 table[cellpadding],
 table[cellspacing],
 *[name]:not(form):not(input)
@@ -168,7 +167,7 @@ iframe:not([sandbox]),
 /* non secure http */
 *[href^="http:"],
 *[src^="http:"],
-a[target=_blank]:not([rel=noreferrer]):not([rel=noopener]) /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#security_and_privacy */
+a[target=_blank]:not([rel^=noreferrer]):not([rel^=noopener]) /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#security_and_privacy */
 {
 	outline: 5px dashed var(--o⋄color⁚diagnostics--security) !important;
 }
