@@ -181,8 +181,9 @@ customElements.define('offirmoⳆsocial-links', class SocialNav extends HTMLElem
 	.offirmoⳆsocial-links ol, .offirmoⳆsocial-links ul {
 		list-style-type: none;
 		padding-inline-start: 0;
-		display: flex;
+		display: inline-flex;
 		flex-direction: row;
+		vertical-align: middle;
 	}
 	.offirmoⳆsocial-links li + li  {
 		margin-left: .3em;

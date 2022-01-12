@@ -2,11 +2,60 @@
 
 ## villains!
 
-* https://illimitablemen.com/2013/12/28/understanding-psychopathy/ “The psychopaths are always around. In calm times we study them, but in times of upheaval, they rule over us.” – Ernst Kretschmer
-* https://illimitablemen.com/2013/12/02/understanding-machiavellianism/ “Everyone sees what you appear to be, few experience what you really are.” – Niccolò Machiavelli
+* https://illimitablemen.com/2013/12/28/understanding-psychopathy/
+  * “The psychopaths are always around. In calm times we study them, but in times of upheaval, they rule over us.” – Ernst Kretschmer
+* https://illimitablemen.com/2013/12/02/understanding-machiavellianism/
+  *  “Everyone sees what you appear to be, few experience what you really are.” – Niccolò Machiavelli
 * https://www.reddit.com/r/AlreadyRed/comments/34l1ae/discussion_on_the_gervais_principle_xpost/
-* https://en.wikipedia.org/wiki/Schadenfreude he experience of pleasure, joy, or self-satisfaction that comes from learning of or witnessing the troubles, failures, or humiliation of another.
+* https://en.wikipedia.org/wiki/Schadenfreude the experience of pleasure, joy, or self-satisfaction that comes from learning of or witnessing the troubles, failures, or humiliation of another.
 * https://en.wikipedia.org/wiki/Chicken_(game)
+
+Recognizing Bullying
+LOOK FOR A PATTERN OF...
+* Lack of consideration and empathy for those without power
+* Disrespectful behavior that is overt or subtle, in public or behind closed doors
+* Verbal aggression, sarcasm, or psychological manipulation
+* Unreasonable or constantly changing directives and deadlines
+* Singling out individuals
+* “Mobbing,” in which a group of people gang up on an individual
+
+Maria is under pressure to finish a project. She has a strong personality and always puts her work first. She is easily angered when details are missed and struggles to productively handle other people’s mistakes. She is ambitious, eager to be promoted, and values team members who have been around the longest, as they have the most experience. She is wary of new people—not knowing whether she can rely on them makes her very nervous.
+
+villains https://www.news.com.au/entertainment/books-magazines/books/mary-trump-book-review-donald-trumps-father-fred-painted-as-the-true-villain/news-story/eb590b4237ffd5f7db207ff9d5e79ae0
+
+
+https://www.famillechretienne.fr/6603/article/manipulateurs-pervers-narcissiques-comment-les-reconnaitre
+* certitude d'être exceptionnel
+* indifférence à la souffrance d'autrui
+  Tous les marqueurs montrent que, depuis plus de cinquante ans, les individus sont en Occident toujours plus narcissiques : l’auto-évaluation permanente, l’individualisme, l’image surdopée de soi, l’incivilité, le culte de l’apparence… Dès lors, la pathologie narcissique devient un marqueur de notre société. L’éducation actuelle la favorise : si vous voulez que votre enfant devienne un tyran, faites-en un prince, dites-lui constamment qu’il est le meilleur, qu’il doit d’abord penser à lui, à son plaisir et à sa réussite. Pablo Picasso fut une PN destructrice et probablement aussi un pervers. Or, le petit Pablito fut non seulement adoré par sa mère, mais fétichisé. En revanche, il ne semble pas qu’une PN puisse apparaître dans une constellation familiale saine.
+  les PN victimaires, et les sauveteurs. Les narcissiques victimaires (à distinguer des victimes authentiques) prolifèrent dans les groupes chrétiens parce que ceux-ci sont généralement chaleureux et ouverts à la compassion. L’entourage du victimaire est alors intégralement mobilisé à son service, culpabilisé de ne pas en faire assez, sans être jamais remercié et sans que le victimaire fasse le moindre effort pour se sortir de sa situation.
+  Et le profil du sauveteur ?
+
+Là encore, distinguons le sauveur du sauveteur. André Frossard disait que l’intégriste est celui qui fait la volonté de Dieu que Dieu le veuille ou non. Eh bien, le sauveteur est celui qui fait le bien de l’autre… que l’autre le veuille ou non ! C’est la personne qui impose son aide – « C’est pour ton bien » ! Jésus, Lui, propose, Il ne s’impose pas : « Que veux-tu que je fasse pour toi ? »
+
+Cinq conseils pour discerner
+1. Si une personne ne reconnaît jamais ses torts, en reconnaît quelques-uns mais ne change pas, voire vous le fait payer, attention ! Peut-être avez-vous affaire à une PN.
+2. Jamais Dieu ne peut demander quelque chose qui s’oppose à la loi morale. Celui qui transgresse n’est assurément pas inspiré par Dieu.
+3. Plus l’identité d’une communauté est forte, plus il est nécessaire de distinguer les « fonctions » : modérateur, accompagnateur spirituel, médecin Toujours bien séparer for interne et for externe.
+4. Toute personne qui exerce une fonction de gouvernement doit connaître les signes principaux de la PN. En cas de doute, elle doit s’informer auprès d’une personne compétente.
+5. Repérer les PN ne suffit pas, il faut aussi et d’abord prendre soin des nombreuses victimes dans l’entourage.
+
+
+
+ideas for bad guys:
+- epstein
+- bezos
+- hithler
+- Trump
+- https://en.wikipedia.org/wiki/D-Company
+- Aleksander Lukashenko
+- “Unlimited power in the hands of limited people always leads to cruelty.” Aleksandr Solzhenitsyn
+- https://collider.com/marvel-villains-ranked/
+- https://en.wikipedia.org/wiki/Neapolitan_Novels
+
+personalité
+https://www.personalityresearch.org/bigfive.html
+
 
 ## universes
 
@@ -14,13 +63,19 @@
 Mounts!!!
 ships (flying or sea)
 gothic / churches
+gryphons
+roc
+phoenix
+dragons, wyverns etc.
+
 
 ### chinese
+cultivation
 flying swords
 palaces
 temples
 pagodas
-
+alchemy
 
 
 ## creation
@@ -88,6 +143,7 @@ Hunter gatherer
 * https://www.nationalgeographic.com/history/2019/11/7000-year-old-woman-reconstruction-sweden-hunter-gatherer/
 
 Fall of Roman Empire
+https://en.wikipedia.org/wiki/Fall_of_the_Western_Roman_Empire
 * https://en.wikipedia.org/wiki/Gothic_War_(535%E2%80%93554)
 * https://en.wikipedia.org/wiki/Migration_Period
 * https://en.wikipedia.org/wiki/Crisis_of_the_Third_Century
@@ -156,10 +212,126 @@ https://eol.org/
 * https://fr.wikipedia.org/wiki/%C3%8Ele-de-Sein
 
 ### matières
-* https://rpg.stackexchange.com/questions/149477/what-differences-exist-between-adamantine-and-adamantite-in-all-editions-of-dd#149481
-* https://wiki.albiononline.com/wiki/Runite_Ore
-* https://runescape.wiki/w/Ore
-* https://en.wikipedia.org/wiki/Stygian
+
+Fantasy
+* collections
+  * https://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
+  * https://list.fandom.com/wiki/List_of_fictional_super_metals
+  * https://metallurgy.fandom.com/wiki/Fantasy_Metals
+  * https://www.bodycote.com/fictional-metals/
+* LOTR
+  * https://lotr.fandom.com/wiki/Mithril
+  * https://lotr.fandom.com/wiki/Ithildin
+* D&D
+  * https://rpg.stackexchange.com/questions/149477/what-differences-exist-between-adamantine-and-adamantite-in-all-editions-of-dd#149481
+  * https://www.gmbinder.com/share/-M-mdGRNm2-f66yo-DYw
+  *
+* Albion online
+  * https://wiki.albiononline.com/wiki/Resource Runite?
+* Runescape
+  * https://runescape.wiki/w/Ore
+  * https://runescape.fandom.com/wiki/Metal
+* Minecraft
+  * metallurgy mod
+    * https://metallurgy2.fandom.com/wiki/Metallurgy2_Wiki
+    * https://metallurgy2.fandom.com/wiki/Fantasy_Metals
+    * +++ https://docs.google.com/spreadsheets/d/1EmZf8E2LGu1ZMnzCcqYlb7vFeEvNzUxfk1QcYAcRypI/edit#gid=0
+
+Real
+* https://en.wikipedia.org/wiki/Abundance_of_the_chemical_elements
+* https://en.wikipedia.org/wiki/Meteoric_iron
+* base metal = oxydize
+* noble metal = resistant
+* refractory = high melting point
+* precious metal
+* heavy vs. light metals iron, copper vs. aluminium
+* moon minerals https://science.slashdot.org/story/20/07/06/2348210/moons-metal-rich-craters-challenge-popular-theories-about-its-origin
+
+
+Super matériaux
+https://science.slashdot.org/story/20/07/20/2153224/a-new-artificial-material-effectively-cannot-be-cut
+https://science.slashdot.org/story/20/07/08/2122253/shock-dissipating-fractal-cubes-could-forge-high-tech-armor
+
+
+#### Metallurgie
+
+* https://en.wikipedia.org/wiki/Alloy
+* https://en.wikipedia.org/wiki/Natural_History_(Pliny)#Metallurgy
+* https://en.wikipedia.org/wiki/Scandium
+* https://en.wikipedia.org/wiki/Titanium_alloy Titan!
+* https://en.wikipedia.org/wiki/List_of_blade_materials
+* Alloys
+- chromium, vanadium, tungsten, iridium, cobalt, and molybdenum, and various alloys were developed
+- 2-3 elements
+- more than 10 for aviation
+- Steel
+  - https://en.wikipedia.org/wiki/High-speed_steel
+  - https://en.wikipedia.org/wiki/Tool_steel
+- https://en.wikipedia.org/wiki/Superalloy
+- https://en.wikipedia.org/wiki/Complex_metallic_alloys
+- https://en.wikipedia.org/wiki/High_entropy_alloys
+- https://en.wikipedia.org/wiki/MAX_phases
+- https://en.wikipedia.org/wiki/Hardening_(metallurgy)
+- https://www.fictiv.com/articles/engineering-fundamentals-refresh-strength-vs-stiffness-vs-hardness
+- https://www.apx-enclosures.com/apx-blog/metals-that-dont-rust
+
+
+Historical order:
+- Copper, tin -> Bronze, brass (tin)
+- Gold, silver
+- Iron (meteoric)
+- Iron -> Steel
+- Steel alloys
+  - Brightsteel
+  - dragon steel
+  - phoenix stel
+  - black steel
+  - blue steel
+  - living steel / tree (carbon nanotube)
+  -
+- aluminium alloys
+- Titanium alloys
+  Mithril
+  Adamantium
+  Orichalcum
+  silver, gold, platinium
+
+
+Misc
+* https://en.wikipedia.org/wiki/Stygian = from hell
+* celestial, empyrean
+* astral
+* nether, void
+* shadow
+* blood
+* living
+
+###### swordsmithing
+https://en.wikipedia.org/wiki/Japanese_swordsmithing
+https://www.bokerusa.com/fixed-blade-knives
+https://fr.wikipedia.org/wiki/Liste_d%27%C3%A9p%C3%A9es_l%C3%A9gendaires
+
+https://pathofexile.gamepedia.com/Weapon
+
++++ https://worldbuilding.stackexchange.com/questions/185781/why-would-sentient-weapons-be-created
+
+LOTRO
+Legendary weapons A warrior trains with his weapon so that it becomes an extension of
+himself, as much a part of his being as his own arm. The more he trains
+with it, the more intuitively it enhances his fighting style and adds to
+his prowess. When a warrior survives long enough for his name to become
+legendary, his weapon of choice becomes legendary also, spoken of in
+frightened whispers among his enemies. This was certainly true of the
+legendary weapons encountered in the Lord of the Rings books - Orcrist,
+Glamdring, Narsil and other such fearsome tools were well-known among
+the orcs and goblins, hated perhaps even more than the warriors who
+wielded them. This is also true in the
+Lord of the Rings Online, where the Legendary Item
+system allows players to forge their own legacies in steel.
+
+###### armor smithing
+https://en.wikipedia.org/wiki/Body_armor
+
 
 ### maladies / virus
 * https://fr.wikipedia.org/wiki/Suette
@@ -225,7 +397,7 @@ https://games.slashdot.org/story/19/11/17/029240/doom-creator-john-romero-explai
 
 https://news.slashdot.org/story/19/11/25/1548207/why-536-was-the-worst-year-to-be-alive
 
-https://www.millenium.org/guide/30991.html
+https://www.millenium.org/guide/30991.html Mage Givre : WoW Shadowlands Patch 9.1.5 Guide
 
 https://www.maxisciences.com/archeologie/les-archeologues-deterrent-une-cite-antique-oubliee-ruine-dune-civilisation-ancienne-tres-puissante_art44160.html
 
@@ -245,16 +417,6 @@ https://en.wikipedia.org/wiki/Energy_(esotericism)
 
 https://albiononline.com/en/news/population-update-may-2020
 
-Recognizing Bullying
-LOOK FOR A PATTERN OF...
-* Lack of consideration and empathy for those without power
-* Disrespectful behavior that is overt or subtle, in public or behind closed doors
-* Verbal aggression, sarcasm, or psychological manipulation
-* Unreasonable or constantly changing directives and deadlines
-* Singling out individuals
-* “Mobbing,” in which a group of people gang up on an individual
-
-Maria is under pressure to finish a project. She has a strong personality and always puts her work first. She is easily angered when details are missed and struggles to productively handle other people’s mistakes. She is ambitious, eager to be promoted, and values team members who have been around the longest, as they have the most experience. She is wary of new people—not knowing whether she can rely on them makes her very nervous.
 
 moving slowly enough to catch mistakes
 
@@ -279,18 +441,6 @@ wordsmithing
 scoutcraft https://en.wikipedia.org/wiki/Scoutcraft
 woodcraft https://en.wikipedia.org/wiki/Woodcraft
 
-Legendary weapons A warrior trains with his weapon so that it becomes an extension of
-                  himself, as much a part of his being as his own arm. The more he trains
-                  with it, the more intuitively it enhances his fighting style and adds to
-                  his prowess. When a warrior survives long enough for his name to become
-                  legendary, his weapon of choice becomes legendary also, spoken of in
-                  frightened whispers among his enemies. This was certainly true of the
-                  legendary weapons encountered in the Lord of the Rings books - Orcrist,
-                  Glamdring, Narsil and other such fearsome tools were well-known among
-                  the orcs and goblins, hated perhaps even more than the warriors who
-                  wielded them. This is also true in the
-                  Lord of the Rings Online, where the Legendary Item
-                  system allows players to forge their own legacies in steel.
 - https://www.tentonhammer.com/guides/lotro-s-legendary-items-6-most-commonly-asked-questions
 - https://aragornsallies.guildlaunch.com/custom.php?page_id=74890&gid=38556
 - https://lotroplayers.com/2019/08/26/bringing-back-the-legendary-in-li/
@@ -339,23 +489,14 @@ wolf https://en.wikipedia.org/wiki/Never_Cry_Wolf
 https://www.reddit.com/r/NoStupidQuestions/comments/3al7jg/can_you_actually_use_a_whip_to_grab_onto/
 https://www.quora.com/Guns-aside-whats-the-safest-lightest-deadliest-weapon-that-ordinary-people-could-carry-everyday-to-protect-them-on-the-streets-and-at-home-without-being-obvious-too-technical-or-very-skillful-or-trained-How-do-you
 
-
 Find the one word answer to these riddles and use it to find a word that describes us all
-
-I sit in a corner and travel around the world. What am I?
-
-A word I know, six letters it contains, remove one letter, and twelve remains. What am I?
-
-What is always in front of you but can’t be seen?
-
-I appear in all seasons except for summer. What am I?
-
-You can see me in water, but I never get wet. What am I?
-
-Which word in the dictionary is always spelled incorrectly?
-
-You see a letter that originated from Senselessness. What does it read?
-
+- I sit in a corner and travel around the world. What am I?
+- A word I know, six letters it contains, remove one letter, and twelve remains. What am I?
+- What is always in front of you but can’t be seen?
+- I appear in all seasons except for summer. What am I?
+- You can see me in water, but I never get wet. What am I?
+- Which word in the dictionary is always spelled incorrectly?
+- You see a letter that originated from Senselessness. What does it read?
 Take the first letter of each answer and make a word.
 
 
@@ -383,6 +524,7 @@ https://science.slashdot.org/story/20/06/14/036217/scientists-trigger-hibernatio
 https://worldbuilding.stackexchange.com/questions/179786/a-two-thresholds-poison-how-does-it-work
 https://www.thepathmag.com/quarantine-skill-growth/
 
+TODO encounters!!!
 https://mailchi.mp/f0d560ea0cc2/printable_sheets
 
 much of it is harder than the work you did before you became a manager. Why? because everything
@@ -398,15 +540,6 @@ https://dota2.gamepedia.com/Role
 https://dota2.gamepedia.com/Ancient_(unit_type)
 https://pathofexile.gamepedia.com/Path_of_Exile_Wiki
 
-villains https://www.news.com.au/entertainment/books-magazines/books/mary-trump-book-review-donald-trumps-father-fred-painted-as-the-true-villain/news-story/eb590b4237ffd5f7db207ff9d5e79ae0
-
-Super matériaux
-https://science.slashdot.org/story/20/07/20/2153224/a-new-artificial-material-effectively-cannot-be-cut
-https://science.slashdot.org/story/20/07/08/2122253/shock-dissipating-fractal-cubes-could-forge-high-tech-armor
-
-moon minerals
-https://science.slashdot.org/story/20/07/06/2348210/moons-metal-rich-craters-challenge-popular-theories-about-its-origin
-
 
 smile
 body language
@@ -420,16 +553,6 @@ https://en.wikipedia.org/wiki/Hemocyanin
 personages https://playvalorant.com/en-us/agents/
 
 Faleena (from El Paso)
-
-ideas for bad guys:
-- epstein
-- bezos
-- hithler
-- Trump
-- https://en.wikipedia.org/wiki/D-Company
-- Aleksander Lukashenko
-- “Unlimited power in the hands of limited people always leads to cruelty.” Aleksandr Solzhenitsyn
--
 
 create a sustainable ecosystem of native birds. There, I learned the fascinating science of complex systems and understood how delicate the balance of creating equilibrium in an ecosystem is. You need populations of different species in harmony to keep the overall ecosystem healthy. We optimize for the whole, not just for one.
 
@@ -448,8 +571,6 @@ like cheating? No like winning
 https://fitness.stackexchange.com/questions/42662/if-bro-splits-dont-work-why-is-literally-every-muscular-guy-in-my-gym-doing
 https://bretcontreras.com/progressive-overload/
 
-https://en.wikipedia.org/wiki/Fall_of_the_Western_Roman_Empire
-
 https://en.wikipedia.org/wiki/Six_Thinking_Hats
 
 https://goblinscomic.fandom.com/wiki/I.M.E.
@@ -459,53 +580,21 @@ https://villains.obsidianportal.com/wikis/individual-magic-effects
 https://rpg.stackexchange.com/questions/172619/how-can-i-make-players-still-feel-rewarded-after-looting-a-dragon-hoard
 https://rpg.stackexchange.com/questions/47604/without-a-magic-item-economy-what-is-gold-for
 
-https://en.wikipedia.org/wiki/Body_armor
 
 https://pathofexile.gamepedia.com/Path_of_Exile_Wiki
 https://pathofexile.gamepedia.com/Passive_skill
 https://pathofexile.gamepedia.com/Modifiers
-https://pathofexile.gamepedia.com/Weapon
 https://www.pathofexile.com/fullscreen-passive-skill-tree/3.10.2/AAAABAUAAQ==
 
 https://www.polygon.com/2020/1/13/21055761/choosing-a-class-guide-shadow-marauder-scion-templar-duelist-witch-ranger-ascendancy-best
 
 https://www.polygon.com/2020/6/2/21277116/path-of-exile-harvest-reveal-details-garden-sacred-grove-seed-cache-crafting-lifeforce-grow
 
-grappling hook
+grappling hook https://en.wikipedia.org/wiki/Grappling_hook
+
 
 https://news.harvard.edu/gazette/story/2020/06/neurons-that-control-hibernation-like-behavior-are-discovered/
 
-QWESTS
-There are usually 4 common goals for a film’s story. Will your story be about:
-- Winning?
-- Escaping?
-- Stopping something or someone?
-- Retrieving something of value?
-
-We were taught the 3 act structure mirroring the Hero’s Journey popularised by Joseph Campbell in his 1949 work The Hero with a Thousand Faces, where the:
-- 1st Act sets context of the status quo, with an inciting incident that causes the world to change and a call to adventure for the hero.
-- 2nd Act has escalating challenges in the main plot that the hero faces, and the introduction of a secondary plot (e.g. a love story strengthening the main plot) coming full circle in the 3rd Act.
-- 3rd Act results in a resolution, climax or twist that the hero experiences to the point of no return, which results in a new status quo in the world.
-
-Dan Harmon (creator of Rick and Morty and Community) has since simplified the theory into 8 steps:
-- Establish a protagonist (You) - A character is in a zone of comfort.
-- Something ain’t quite right (Need) - We learn that things aren’t perfect in our hero’s universe, setting the stage for external conflict.
-- Crossing the Threshold (Go) - They enter an unfamiliar situation, and begin their journey.
-- The Road of Trials (Search) - They adapt to their unfamiliar situation. They gain the skills they’ll need to achieve their goals and return home.
-- Meeting with the Goddess (Find) - They get what they wanted. The Need (number 2) is fulfilled.
-- Pay the Price (Take) - They pay a price for achieving their goal, but a secondary goal is achieved.
-- Bringing it Home (Return) - They cross the return threshold, and come back to where they started.
-- Master of both Worlds (Change) - The protagonist is in control of their situation, having changed.
-
-A good story always contains conflicts, of which it can be broken down into:
-- External: escalating challenges in the short-term as the world changes - or tactics.
-- Internal: decisions with significant impacts on long-term success - or strategy.
-
-Beats
-We analysed the script and were asked to identify the parts where we thought were important.
-This is usually something where there is a change from the status quo - it could be a new character introduced, the meeting of hearts, a power dynamic change between characters or a climax/twist.
-We call this a beat. A short film like this (~10 minutes) will probably have a maximum of 5-6 beats, so we started with around 10+ beats and culled it to 6 core ones.
-Of all the different beats, there will be the heart of the film in one of the beats. If we had to only show one scene, this will be the beat that we will show.
 
 Attitudes:
 * Appetite for leadership
@@ -518,9 +607,6 @@ Attitudes:
 people skills: "prismatic voice" https://www.youtube.com/watch?v=02EJ1IdC6tE
 intonation, pitch, adapting to the audience, ex. kid vs court
 
-Alliages
-https://en.wikipedia.org/wiki/Scandium
-https://en.wikipedia.org/wiki/Titanium_alloy
 
 Chevalerie
 https://fr.wikipedia.org/wiki/Chevalier_(chevalerie)
@@ -544,21 +630,18 @@ https://mmo-gs.com/rr-table/
 
 https://www.britannica.com/topic/tactics
 
-https://en.wikipedia.org/wiki/Grappling_hook
 
 7 lightsaber styles https://www.youtube.com/watch?v=WP7sbwbIzks
 dual blade https://www.youtube.com/watch?v=PQApbJ29QJQ
 
 https://en.wikipedia.org/wiki/Combat_engineer
 https://en.wikipedia.org/wiki/Middle-earth_peoples#Dragons
-+++ https://worldbuilding.stackexchange.com/questions/185781/why-would-sentient-weapons-be-created
 
 climbing
 
 https://news.un.org/en/story/2020/06/1067182  Extraordinary ‘megaflash’ lightning strikes cover several hundred kilometres, smashing records
 
 "pocket pets" https://en.wikipedia.org/wiki/Rodents_as_pets https://en.wikipedia.org/wiki/Common_degu https://en.wikipedia.org/wiki/Golden_hamster
-
 
 
 Ten Crucial Qualities of High-Character Employees   https://www.getabstract.com/en/summary/the-good-ones/24533
@@ -573,8 +656,7 @@ Ten Crucial Qualities of High-Character Employees   https://www.getabstract.com/
     They focus on the work at hand without getting distracted.
     They are patient, persistent, flexible and willing to wait for long-term gratification.
 
-meteplastic bone
-
+metaplastic bone
 
 
 Great Place to Work® Trust Index© Survey
@@ -694,7 +776,7 @@ https://en.wikipedia.org/wiki/Royal_dukedoms_in_the_United_Kingdom
 
 https://science.slashdot.org/story/20/11/27/159241/leaf-cutter-ants-have-rocky-crystal-armor-never-before-seen-in-insects
 https://www.ouest-france.fr/societe/faits-divers/deux-sevres-une-petite-meute-de-loups-composee-du-pere-et-de-quatre-fils-b79988d0-29cb-11eb-bd8c-ad11543a45dc
-https://en.wikipedia.org/wiki/2020_VT4
+https://en.wikipedia.org/wiki/2020_VT4 tiny near earth asteroid
 https://en.wikipedia.org/wiki/Strewn_field
 
 https://www.parismatch.com/Actu/Insolite/Comment-eviter-une-attaque-de-requin-1709553
@@ -805,7 +887,7 @@ Stories
 
 https://ifcomp.org/comp/2017
 
-free adventures
+free adventures TODO
 https://www.dungeonmastering.com/campaigns-adventures/83-free-dd-adventures
 
 collect famous precious stones:
@@ -870,7 +952,6 @@ https://earther.gizmodo.com/melting-ice-in-the-alps-has-revealed-world-war-i-rel
 
 https://rpg.stackexchange.com/questions/185365/is-there-an-in-universe-reason-why-each-wizard-uses-different-notation-in-their
 
-https://www.bokerusa.com/fixed-blade-knives
 
 names https://www.wgsbn-iau.org/files/Bulletins/V001/WGSBNBull_V001_001.pdf
 
@@ -879,7 +960,6 @@ https://en.wikipedia.org/wiki/Chanson_de_geste
 https://fr.wikipedia.org/wiki/Flamberge
 https://fr.wikipedia.org/wiki/La_Chanson_de_Roland
 https://fr.wikipedia.org/wiki/Durandal
-https://fr.wikipedia.org/wiki/Liste_d%27%C3%A9p%C3%A9es_l%C3%A9gendaires
 
 https://en.wikipedia.org/wiki/Georges_H%C3%A9bert
 https://en.wikipedia.org/wiki/List_of_National_Inventors_Hall_of_Fame_inductees
@@ -899,23 +979,6 @@ https://en.wikipedia.org/wiki/File:Plutchik-wheel.svg
 https://en.wikipedia.org/wiki/Contempt
 https://en.wikipedia.org/wiki/Moral_emotions
 https://en.wikipedia.org/wiki/Worldview
-
-
-https://www.famillechretienne.fr/6603/article/manipulateurs-pervers-narcissiques-comment-les-reconnaitre
-* certitude d'être exceptionnel
-* indifférence à la souffrance d'autrui
-  Tous les marqueurs montrent que, depuis plus de cinquante ans, les individus sont en Occident toujours plus narcissiques : l’auto-évaluation permanente, l’individualisme, l’image surdopée de soi, l’incivilité, le culte de l’apparence… Dès lors, la pathologie narcissique devient un marqueur de notre société. L’éducation actuelle la favorise : si vous voulez que votre enfant devienne un tyran, faites-en un prince, dites-lui constamment qu’il est le meilleur, qu’il doit d’abord penser à lui, à son plaisir et à sa réussite. Pablo Picasso fut une PN destructrice et probablement aussi un pervers. Or, le petit Pablito fut non seulement adoré par sa mère, mais fétichisé. En revanche, il ne semble pas qu’une PN puisse apparaître dans une constellation familiale saine.
-  les PN victimaires, et les sauveteurs. Les narcissiques victimaires (à distinguer des victimes authentiques) prolifèrent dans les groupes chrétiens parce que ceux-ci sont généralement chaleureux et ouverts à la compassion. L’entourage du victimaire est alors intégralement mobilisé à son service, culpabilisé de ne pas en faire assez, sans être jamais remercié et sans que le victimaire fasse le moindre effort pour se sortir de sa situation.
-  Et le profil du sauveteur ?
-
-Là encore, distinguons le sauveur du sauveteur. André Frossard disait que l’intégriste est celui qui fait la volonté de Dieu que Dieu le veuille ou non. Eh bien, le sauveteur est celui qui fait le bien de l’autre… que l’autre le veuille ou non ! C’est la personne qui impose son aide – « C’est pour ton bien » ! Jésus, Lui, propose, Il ne s’impose pas : « Que veux-tu que je fasse pour toi ? »
-
-Cinq conseils pour discerner
-1. Si une personne ne reconnaît jamais ses torts, en reconnaît quelques-uns mais ne change pas, voire vous le fait payer, attention ! Peut-être avez-vous affaire à une PN.
-2. Jamais Dieu ne peut demander quelque chose qui s’oppose à la loi morale. Celui qui transgresse n’est assurément pas inspiré par Dieu.
-3. Plus l’identité d’une communauté est forte, plus il est nécessaire de distinguer les « fonctions » : modérateur, accompagnateur spirituel, médecin Toujours bien séparer for interne et for externe.
-4. Toute personne qui exerce une fonction de gouvernement doit connaître les signes principaux de la PN. En cas de doute, elle doit s’informer auprès d’une personne compétente.
-5. Repérer les PN ne suffit pas, il faut aussi et d’abord prendre soin des nombreuses victimes dans l’entourage.
 
 
 Gaulois
@@ -1002,8 +1065,7 @@ dependable
 hard working
 competent
 
-https://collider.com/marvel-villains-ranked/
-https://en.wikipedia.org/wiki/Neapolitan_Novels
+
 
 https://scottbarrykaufman.com/the-anatomy-of-assholes/
 https://blogs.scientificamerican.com/beautiful-minds/the-dark-core-of-personality/
@@ -1017,8 +1079,9 @@ https://en.wikipedia.org/wiki/Debt_bondage
 
 winner’s / looser’s game https://dev.to/thawkin3/software-engineering-is-a-loser-s-game-2k20
 
-https://www.apx-enclosures.com/apx-blog/metals-that-dont-rust
 
 learning https://romandesign.co/how-learning-works-components-systems-and-loops/
 
 https://www.coachmag.co.uk/exercises/sport-workouts/1552/win-armwrestling
+
+https://en.wikipedia.org/wiki/Classical_elements_in_popular_culture
