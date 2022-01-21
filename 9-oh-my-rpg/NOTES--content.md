@@ -1085,3 +1085,5 @@ learning https://romandesign.co/how-learning-works-components-systems-and-loops/
 https://www.coachmag.co.uk/exercises/sport-workouts/1552/win-armwrestling
 
 https://en.wikipedia.org/wiki/Classical_elements_in_popular_culture
+
+https://en.wikipedia.org/wiki/Culinary_diplomacy

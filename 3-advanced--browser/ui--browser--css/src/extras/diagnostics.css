@@ -118,7 +118,7 @@ input[type="datetime"] /* https://developer.mozilla.org/en-US/docs/Web/HTML/Elem
 *[alink], *[link], *[vlink], *[text],
 *[align], *[valign],
 *[hspace], *[vspace],
-*[size], *[height]:not(svg), *[width]:not(svg),
+*[size], *[height]:not(img):not(svg), *[width]:not(img):not(svg),
 ul[type],
 ol[type],
 li[type],
