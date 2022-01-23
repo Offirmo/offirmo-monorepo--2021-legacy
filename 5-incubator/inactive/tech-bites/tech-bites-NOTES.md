@@ -253,3 +253,8 @@ It’s all about simplicity.
 
 
 https://www.youtube.com/watch?v=SA8ZBJWo73E
+
+SBI
+https://www.mindtools.com/pages/article/situation-behavior-impact-feedback.htm
+https://www.ccl.org/articles/leading-effectively-articles/closing-the-gap-between-intent-vs-impact-sbii/
+https://medium.com/pm101/the-situation-behavior-impact-feedback-framework-e20ce52c9357

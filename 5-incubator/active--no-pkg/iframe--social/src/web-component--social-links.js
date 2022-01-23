@@ -1,7 +1,6 @@
 
 ////////////////////////////////////
 
-const NAMESPACE = 'offirmo'
 const THEMES = {
 	'default': 'subtle',
 
@@ -485,3 +484,9 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 		this._render()
 	}
 }, { extends: 'a' });
+
+////////////////////////////////////
+
+export {
+	THEMES,
+}
