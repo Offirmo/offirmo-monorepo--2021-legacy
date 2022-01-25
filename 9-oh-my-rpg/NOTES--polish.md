@@ -1,7 +1,10 @@
 
 * +++ plenty of libs to use https://github.com/dphilipson
 
-* maps https://mapeffects.co/
+https://www.vantajs.com/?effect=fog
+
+
+* maps https://mapeffects.co/ https://mapeffects.co/blog/size
 
 svg https://fffuel.co/ffflux/
 
