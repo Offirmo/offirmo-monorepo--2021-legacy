@@ -28,7 +28,7 @@
 		  src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
 	</a>
 	<img alt="maintenance status badge"
-	  src="https://img.shields.io/maintenance/yes/2021.svg">
+	  src="https://img.shields.io/maintenance/yes/2022.svg">
 </p>
 
 Some utilities around JavaScript Error creation and manipulation.
