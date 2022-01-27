@@ -1,9 +1,10 @@
 {
 	"name": "@offirmo-private/browserlist-config",
-	"description": "shareable browserlist config https://github.com/browserslist/browserslist#shareable-configs",
+	"description": "shareable browserlist config, cf. https://github.com/browserslist/browserslist#shareable-configs",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
+
 	"scripts": {
 		"test": "node _test.js"
 	},

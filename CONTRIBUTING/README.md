@@ -34,9 +34,11 @@ I use macOS 11.6 [](update marker) but should work on any unix-like system.
 
 This set of command will build everything: (required as there are dependencies between modules)
 ```bash
+## (update OS, brew, nvm, etc.)
 nvm install
 npm i -g yarn
 yarn global add bolt
+npx browserslist@latest --update-db # cf. https://github.com/browserslist/browserslist#browsers-data-updating
 bolt
 bolt xpostinstall
 bolt xpostinstall    # <- yes, one more time
