@@ -22,3 +22,9 @@ leadership is for everyone
 be prepared
 
 self appreciation
+
+Maslow's pyramid
+
+golden rule
+
+social pressure / free will

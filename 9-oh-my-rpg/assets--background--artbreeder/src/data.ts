@@ -1,5 +1,5 @@
 // THIS FILE IS AUTO GENERATED!
-// 2021-12-07T03:42:20.946Z
+// 2022-01-27T21:32:10.651Z
 
 import { Immutable } from '@offirmo-private/ts-types'
 
@@ -968,12 +968,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	},
 	{
 		biome_id: BiomeId.terrestrialⵧforestⵧswamp,
-		basename: '44cc2d729bec6fac0cefe2d40d8c_small.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧforestⵧswamp,
 		basename: '54cb238bfaf83e8e32c539e594e0_small.jpeg',
 		features_settlement: false,
 		transitions_to: null,
@@ -992,12 +986,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	},
 	{
 		biome_id: BiomeId.terrestrialⵧforestⵧswamp,
-		basename: '6a6957ec08559c1bdf7a6d117c05_small.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧforestⵧswamp,
 		basename: '93b2215c9c1f69b0d265ae44cba0.jpeg',
 		features_settlement: false,
 		transitions_to: null,
@@ -1005,12 +993,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	{
 		biome_id: BiomeId.terrestrialⵧforestⵧswamp,
 		basename: 'a7cf8a9d2b1407ad76b58f4650ae.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧforestⵧswamp,
-		basename: 'dcdef2aa2949dc7568c403ff1d75_small.jpeg',
 		features_settlement: false,
 		transitions_to: null,
 	},
@@ -1065,12 +1047,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	{
 		biome_id: BiomeId.terrestrialⵧgrassland,
 		basename: '146f3300805617e0665e2348c1b3.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧgrassland,
-		basename: '2deaec771e59a43c1825f6da2482.jpeg',
 		features_settlement: false,
 		transitions_to: null,
 	},
@@ -1167,12 +1143,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	{
 		biome_id: BiomeId.terrestrialⵧgrassland,
 		basename: 'd47e3dbe44a6e757793c603c39c2.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧgrassland,
-		basename: 'dd8f7cbc84fd087deba3ae0fa432.jpeg',
 		features_settlement: false,
 		transitions_to: null,
 	},
