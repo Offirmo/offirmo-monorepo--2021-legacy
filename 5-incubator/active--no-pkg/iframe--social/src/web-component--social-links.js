@@ -223,6 +223,23 @@ function _get_normalized_hex_representation(color) {
 	throw new Error(`_get_normalized_hex_representation(): unhandled format "${color}"!`)
 }
 
+// XXX same callback / setter / getter are expected for each call
+function _schedule_and_debounce({callback, getter, setter}) {
+	let promise = getter()
+	if (promise) {
+		// ignore, assuming a callback call is already scheduled
+	}
+	else {
+		promise = new Promise((resolve, reject) => {
+			setTimeout(resolve)
+		})
+		promise.then(() => {
+			setter(null)
+			callback()
+		})
+		setter(promise)
+	}
+}
 ////////////////////////////////////
 
 customElements.define('offirmoⳆsocial-links', class SocialNav extends HTMLElement {
@@ -237,7 +254,7 @@ customElements.define('offirmoⳆsocial-links', class SocialNav extends HTMLElem
 
 	constructor() {
 		super()
-		//console.log(`[${this.get_debug_id()}].constructor()]:`, { _this: this })
+		if (DEBUG) console.log(`[${this.get_debug_id()}].constructor()]:`, { _this: this })
 		this.innerHTML = `
 <style>
 	/* micro reset */
@@ -281,6 +298,16 @@ customElements.define('offirmoⳆsocial-links', class SocialNav extends HTMLElem
 	}
 </style>
 ` + this.innerHTML
+		this._schedule_and_debounce_render()
+	}
+
+	_schedule_and_debounce_render() {
+		const _this = this
+		_schedule_and_debounce({
+			getter() { return _this._SADPromise },
+			setter(x) { _this._SADPromise = x},
+			callback() { _this._render() },
+		})
 	}
 
 	_render() {
@@ -323,7 +350,7 @@ customElements.define('offirmoⳆsocial-links', class SocialNav extends HTMLElem
 	}
 	attributeChangedCallback(name, old_value, new_value) {
 		if (DEBUG) console.log(`[${this.tagName}ⵧ${this.getAttribute('is')}].attributeChangedCallback():`, { name, old_value, new_value, _this: this })
-		this._render()
+		this._schedule_and_debounce_render()
 	}
 
 }, { extends: 'nav' });
@@ -333,7 +360,7 @@ customElements.define('offirmoⳆsocial-links', class SocialNav extends HTMLElem
 customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnchorElement {
 
 	static get observedAttributes() {
-		return [ 'network', 'handle' ]
+		return [ 'href', 'network', 'handle' ]
 	}
 
 	get_debug_id() {
@@ -342,7 +369,17 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 
 	constructor() {
 		super()
-		//console.log(`[${this.get_debug_id()}]: constructor`, this, { elt: this })
+		if (DEBUG) console.log(`[${this.get_debug_id()}]: constructor`, this, { elt: this })
+		this._schedule_and_debounce_render()
+	}
+
+	_schedule_and_debounce_render() {
+		const _this = this
+		_schedule_and_debounce({
+			getter() { return _this._SADPromise },
+			setter(x) { _this._SADPromise = x},
+			callback() { _this._render() },
+		})
 	}
 
 	get_theme() {
@@ -434,7 +471,8 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 
 		this.target = this.target || '_blank'
 		this.rel = this.rel || 'noopener,external'
-		this.href = this.get_href()
+		if (!this.href)
+			this.href = this.get_href() // beware of infinite loops!
 
 		const network_id = this.get_network_id()
 		const network_infos = _get_network_info(network_id)
@@ -480,8 +518,7 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 
 	attributeChangedCallback(name, old_value, new_value) {
 		if (DEBUG) console.log(`[${this.get_debug_id()}]: attributeChangedCallback`, this, { name, old_value, new_value, elt: this })
-
-		this._render()
+		this._schedule_and_debounce_render()
 	}
 }, { extends: 'a' });
 

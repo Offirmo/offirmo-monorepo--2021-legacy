@@ -34,3 +34,11 @@ impostor syndrome
 effet projecteur
 
 effet rétroviseur
+
+buy nice or buy twice
+
+https://www.raptitude.com/2022/01/everything-must-be-paid-for-twice/
+
+80/20
+
+naiveté: abus sexuels, mafia
