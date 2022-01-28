@@ -23,7 +23,7 @@
 		"dequal": "^2",
 		"icepick": "^2",
 		"jsondiffpatch": "^0.4",
-		"memoize-one": "^5",
+		"memoize-one": "^6",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},

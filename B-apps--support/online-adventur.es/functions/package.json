@@ -49,7 +49,7 @@
 		"@tbrpg/definitions": "^0",
 		"@tbrpg/state": "^0",
 		"json-stable-stringify": "^1",
-		"memoize-one": "^5",
+		"memoize-one": "^6",
 		"noop2": "^2",
 		"tiny-invariant": "^1",
 		"tslib": "^2",

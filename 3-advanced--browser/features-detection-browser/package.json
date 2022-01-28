@@ -12,7 +12,7 @@
 	"sideEffects": false,
 
 	"dependencies": {
-		"memoize-one": "^5"
+		"memoize-one": "^6"
 	},
 
 	"devDependencies": {},

@@ -21,8 +21,8 @@
 		"chai-as-promised": "^7",
 		"chai-moment": "^0.1",
 		"chai-subset": "^1",
-		"eslint-plugin-chai-expect": "^2",
-		"eslint-plugin-mocha": "^9",
+		"eslint-plugin-chai-expect": "^3",
+		"eslint-plugin-mocha": "^10",
 		"mocha": "^9",
 		"sinon": "^12",
 		"sinon-chai": "^3"

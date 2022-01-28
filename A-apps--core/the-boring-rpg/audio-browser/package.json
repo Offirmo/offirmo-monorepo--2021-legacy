@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@oh-my-rpg/rsrc-audio": "^0",
 		"howler": "^2",
-		"memoize-one": "^5",
+		"memoize-one": "^6",
 		"tiny-invariant": "^1"
 	},
 

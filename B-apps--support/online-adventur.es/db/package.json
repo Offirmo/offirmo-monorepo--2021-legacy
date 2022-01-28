@@ -25,7 +25,7 @@
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"json-stable-stringify": "^1",
 		"knex": "^0.95",
-		"memoize-one": "^5",
+		"memoize-one": "^6",
 		"pg": "^8",
 		"pg-connection-string": "^2",
 		"tiny-invariant": "^1"

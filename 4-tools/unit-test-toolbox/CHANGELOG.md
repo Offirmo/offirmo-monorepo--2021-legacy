@@ -2,7 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [chore] [breaking] bumped deps: mocha 9, sinon 12 + types
+* [chore] [breaking] bumped deps: mocha 9, sinon 12, eslint packages + types
 * ...
 
 ## v7.0.0

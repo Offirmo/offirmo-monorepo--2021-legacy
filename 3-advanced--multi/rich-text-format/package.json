@@ -17,7 +17,7 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"memoize-one": "^5",
+		"memoize-one": "^6",
 		"typescript-string-enums": "^1"
 	},
 

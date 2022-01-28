@@ -41,6 +41,20 @@ https://github.com/mohsinulhaq/react-popper-tooltip
 "csv-parse": "^4",
 
 
+		"@typescript-eslint/eslint-plugin": "^5",
+		"@typescript-eslint/parser": "^5",
+		"eslint": "^8",
+		"eslint-config-prettier": "^8",
+		"eslint-import-resolver-typescript": "^2",
+		"eslint-plugin-eslint-comments": "^3",
+		"eslint-plugin-import": "^2",
+		"eslint-plugin-json": "^3",
+		"eslint-plugin-node": "^11",
+		"eslint-plugin-prettier": "^4",
+		"eslint-plugin-promise": "^5",
+		"eslint-plugin-react": "^7",
+		"eslint-plugin-react-hooks": "^4",
+
 warning @babel/node > @babel/polyfill@7.4.4: 🚨 As of Babel 7.4.0, this
 package has been deprecated in favor of directly
 including core-js/stable (to polyfill ECMAScript
