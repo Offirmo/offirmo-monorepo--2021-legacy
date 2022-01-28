@@ -16839,6 +16839,7 @@ module.exports = __webpack_require__(436);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return memoizeOne; });
 var safeIsNaN = Number.isNaN ||
     function ponyfill(value) {
         return typeof value === 'number' && value !== value;
@@ -16866,28 +16867,30 @@ function areInputsEqual(newInputs, lastInputs) {
 
 function memoizeOne(resultFn, isEqual) {
     if (isEqual === void 0) { isEqual = areInputsEqual; }
-    var lastThis;
-    var lastArgs = [];
-    var lastResult;
-    var calledOnce = false;
+    var cache = null;
     function memoized() {
         var newArgs = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             newArgs[_i] = arguments[_i];
         }
-        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
-            return lastResult;
+        if (cache && cache.lastThis === this && isEqual(newArgs, cache.lastArgs)) {
+            return cache.lastResult;
         }
-        lastResult = resultFn.apply(this, newArgs);
-        calledOnce = true;
-        lastThis = this;
-        lastArgs = newArgs;
+        var lastResult = resultFn.apply(this, newArgs);
+        cache = {
+            lastResult: lastResult,
+            lastArgs: newArgs,
+            lastThis: this,
+        };
         return lastResult;
     }
+    memoized.clear = function clear() {
+        cache = null;
+    };
     return memoized;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (memoizeOne);
+
 
 
 /***/ }),
@@ -26030,7 +26033,7 @@ function startTransaction(context, customSamplingContext) {
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.17.1';
+var SDK_VERSION = '6.17.2';
 //# sourceMappingURL=version.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(12);
@@ -58131,7 +58134,7 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 const VERSION = '0.68.2';
 const NUMERIC_VERSION = 0.6802; // for easy comparisons
 
-const BUILD_DATE = '20220127_21h33';
+const BUILD_DATE = '20220128_02h33';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
