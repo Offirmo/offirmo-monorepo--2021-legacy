@@ -338,6 +338,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 			minute: exif_date.minute,
 			second: exif_date.second,
 			millisecond: exif_date.millis,
+		}, {
 			zone: tz,
 		})
 	}
@@ -352,6 +353,8 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 				minute: exif_date.minute,
 				second: exif_date.second,
 				millisecond: exif_date.millis,
+			},
+			{
 				zone: better_tz,
 			})
 		}
@@ -456,6 +459,7 @@ export function create_better_date_obj({
 
 	let _lx = LuxonDateTime.fromObject({
 		...members,
+	}, {
 		...(tz !== 'tz:auto' && { zone: tz }),
 	})
 	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_obj()--1: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
@@ -472,6 +476,8 @@ export function create_better_date_obj({
 			minute,
 			second,
 			millisecond: milli,
+		},
+		{
 			zone,
 		})
 		assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_obj()--2: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)

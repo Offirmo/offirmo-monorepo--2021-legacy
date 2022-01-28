@@ -28,3 +28,9 @@ Maslow's pyramid
 golden rule
 
 social pressure / free will
+
+impostor syndrome
+
+effet projecteur
+
+effet rétroviseur

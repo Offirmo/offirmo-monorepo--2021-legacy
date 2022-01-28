@@ -679,11 +679,19 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 
 	const all_file_ids = get_all_file_ids(state)
 	all_file_ids.forEach(id => {
-		if (File.is_notes(state.files[id])) return
+		if (File.is_notes(state.files[id])) {
+			console.log(`- MTIL: "${id}" is notes`)
+			return
+		}
 
 		const target_id = get_ideal_file_relative_path(state, id)
-		if (id === target_id) return
+		assert(target_id.includes('/'), `move_all_files_to_their_ideal_location() unexpected ${id}`)
+		if (id === target_id) {
+			console.log(`- MTIL: "${id}" is already in ideal location`)
+			return
+		}
 
+		console.log(`- MTIL: "${id}" is scheduled to move to "${target_id}"`)
 		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
 	})
 

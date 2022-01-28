@@ -1,4 +1,5 @@
 import { expect } from 'chai'
+import * as Luxon from 'luxon'
 import { DateTime as LuxonDateTime } from 'luxon'
 
 import {
@@ -31,6 +32,11 @@ import { get_params } from '../params'
 
 describe('Better Date', function() {
 
+	describe('prerequisites', function () {
+		const z = new Luxon.IANAZone('Etc/GMT')
+		expect(z.isValid).to.be.true
+	})
+
 	describe('LuxonDateTime', function () {
 
 		it('should have the expected API', () => {
@@ -42,6 +48,8 @@ describe('Better Date', function() {
 				minute: 12,
 				second: 14,
 				millisecond: 156,
+			},
+			{
 				zone: 'Etc/GMT',
 			})
 			//console.log(_lx)
