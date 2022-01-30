@@ -44,3 +44,25 @@ https://www.raptitude.com/2022/01/everything-must-be-paid-for-twice/
 naiveté: abus sexuels, mafia
 
 5 regrets of dying
+
+être heureux n'est pas nécessairement confortable
+
+jamais assez
+
+bonne et mauvaises cartes
+
+(agile "what the client wanted")
+
+keeping up with the jones
+
+comfort zone
+
+hangry / before aftr lunch
+
+ingroup/outgroup
+
+short term / long term
+
+tip of the iceberg
+
+psychological safety

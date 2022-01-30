@@ -7,22 +7,44 @@ const THEMES = {
 	'subtle': 'subtle',
 	'colorful': 'colorful',
 }
-const DEBUG = false
+const DEBUG = true
 
 ////////////////////////////////////
-// Social network data
-// references:
-// +++ https://simpleicons.org/ with links to guidelines
+// "Social network" data
 
 const SOCIAL_NETWORKS_INFO = {
 	// key = normalized network
-	'generic': {
+
+	// special
+	'unknown': {
 		official_name: '', // empty
 		official_color‿hex: '#2f4f4f',
 		official_color_to_be_used_as: 'bg',
 		icongram: { pack_id: 'material', icon_id: 'share-circle' },
 		generator: (handle, network_id) => `https://www.google.com/search?q=${network_id}+${handle}`,
 	},
+	'website': {
+		official_name: 'Web',
+		official_color‿hex: '#f3b100',
+		official_color_to_be_used_as: 'bg',
+		icongram: { pack_id: 'fontawesome', icon_id: 'link' },
+		generator: (handle, network_id) => { throw new Error('No generator possible for website!') },
+	},
+	'email': {
+		official_name: 'Web',
+		official_color‿hex: '#34A853',
+		official_color_to_be_used_as: 'bg',
+		icongram: { pack_id: 'fontawesome', icon_id: 'at' },
+		generator: (handle, network_id) => {
+			let email = handle
+				.replace('(at)', '@')
+				.replace('(dot)', '.')
+				.replace('⋅', '.')
+				.replace('∙', '.')
+			return `mailto:${email}`
+		},
+	},
+
 
 	// (alphabetical sort)
 	'artstation': {
@@ -135,13 +157,14 @@ function _normalize_network_id(raw_network_id) {
 }
 
 function _get_network_info(network_id) {
-	return SOCIAL_NETWORKS_INFO[network_id] ?? SOCIAL_NETWORKS_INFO['generic']
+	return SOCIAL_NETWORKS_INFO[network_id] ?? SOCIAL_NETWORKS_INFO['unknown']
 }
 
 
 ////////////////////////////////////
 // icongram utils
 // https://icongr.am/
+// -
 
 function _get_icongram_params({ network_infos, theme, size‿px, color‿hex }) {
 	let params = {
@@ -421,59 +444,80 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 	get_network_id() {
 		let network_id = _normalize_network_id(this.getAttribute('network'))
 
-		if (!network_id)
-			network_id = _normalize_network_id(this.innerText)
+		const href = this.getAttribute('href')
+		if (href) {
+			// href has priority if valid
+			let url
+			try {
+				url = new URL(href)
+				if (url.protocol === "mailto:") {
+					network_id = 'email'
+				}
+				else {
+					const candidate_network_id = Object.keys(SOCIAL_NETWORKS_INFO)
+						.filter(k => k !== 'website')
+						.find(network_id => {
+							let network_sample_url = new URL(SOCIAL_NETWORKS_INFO[network_id].generator('foo', network_id))
+							return url.protocol === network_sample_url.protocol && url.hostname === network_sample_url.hostname
+						})
+					if (candidate_network_id) {
+						network_id = candidate_network_id
+					}
+					else if (url.hostname.endsWith('.itch.io')) {
+						network_id = 'itch.io'
+					}
+					else {
+						// unrecognized url
+						network_id = 'website'
+					}
+				}
+				if (DEBUG) console.log(`[${this.get_debug_id()}]: "href" recognized:`, { href, url, network_id })
+			}
+			catch (err) {
+				// invalid url
+				console.error(`[${this.get_debug_id()}]: "href" recognition error!`, err)
+			}
+		}
+
 
 		if (!network_id) {
-			let href = this.getAttribute('href')
+			const candidate = _normalize_network_id(this.innerText)
+			if (SOCIAL_NETWORKS_INFO[candidate])
+				network_id = candidate
+		}
+
+		if (!network_id) {
+
 			if (href) {
-				try {
-					const url = new URL(href)
-					//console.log('url', { href, url })
-					// TODO
-					throw new Error(`[${this.get_debug_id()}]: network Auto recognition TODO!`)
-				}
-				catch { /* don't care */ }
+				//
 			}
 		}
 
 		if (!network_id) {
-			console.error(`[${this.get_debug_id()}]: missing "network" property!`, this, {
+			console.error(`[${this.get_debug_id()}]: "network" is missing and couldn't be inferred!`, this, {
 				attribute: this.getAttribute('network')
 			})
 		}
 		else if (!SOCIAL_NETWORKS_INFO[network_id]) {
-			console.error(`[${this.get_debug_id()}]: unknown social network "${network_id}", defaulting to google search!`, this)
+			console.error(`[${this.get_debug_id()}]: unknown social network "${network_id}", will default to google search!`, this)
 		}
 
 		return network_id
 	}
 
-	get_href() {
-		let href = this.getAttribute('href')
+	get_expected_href() {
+		const network_id = this.get_network_id()
+		if (network_id === 'website')
+			return this.href
 
-		if (!href) {
-			const network_id = this.get_network_id()
-			const handle = this.get_generic_handle()
-			href = _get_network_info(network_id).generator(handle, network_id)
-		}
-
-		if (!href)
-			throw new Error("can't compute href!")
-
-		return href
+		const handle = this.get_generic_handle()
+		return _get_network_info(network_id).generator(handle, network_id)
 	}
 
 	_render() {
 		if (DEBUG) console.group(`[${this.get_debug_id()}]: render`, this, { elt: this })
 
-		this.classList.add('offirmoⳆsocial-link')
-
-		this.target = this.target || '_blank'
-		this.rel = this.rel || 'noopener,external'
-		if (!this.href)
-			this.href = this.get_href() // beware of infinite loops!
-
+		const expected_href = this.get_expected_href()
 		const network_id = this.get_network_id()
 		const network_infos = _get_network_info(network_id)
 
@@ -499,8 +543,32 @@ customElements.define('offirmoⳆsocial-link', class SocialLink extends HTMLAnch
 			network_id,
 			network_infos,
 			icongram_params,
+			expected_href,
 			bg_color: getComputedStyle(this).getPropertyValue('--offirmoⳆsocial-link∙color--bg')
 		})
+
+
+		this.classList.add('offirmoⳆsocial-link')
+
+		this.target = this.target || '_blank'
+		this.rel = this.rel || 'noopener,external'
+		// beware of infinite loops!
+		if (this.href) {
+			// replacing href can cause an infinite loop!
+			if (this.href === expected_href) {
+				// all good!
+			}
+			else {
+				// the only accepted case is email obfuscation and this should only happen once
+				if (this.href.startsWith('mailto:')) {
+					console.warn('XXX', { href: this.href, expected_href })
+					this.href = expected_href
+				}
+			}
+		}
+		else {
+			this.href = expected_href
+		}
 
 		this.innerHTML = `
 <div class="offirmoⳆsocial-link∙icon-container">

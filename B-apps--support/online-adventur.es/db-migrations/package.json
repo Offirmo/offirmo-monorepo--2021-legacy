@@ -8,7 +8,7 @@
 
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
-		"knex": "^0.95",
+		"knex": "^1",
 		"pg": "^8",
 		"tslib": "^2",
 		"typescript": "^4"

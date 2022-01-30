@@ -24,7 +24,7 @@
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"json-stable-stringify": "^1",
-		"knex": "^0.95",
+		"knex": "^1",
 		"memoize-one": "^6",
 		"pg": "^8",
 		"pg-connection-string": "^2",

@@ -56,7 +56,7 @@
 		"react": "^17",
 		"react-animation-frame": "^1",
 		"react-dom": "^17",
-		"react-router-dom": "^5",
+		"react-router-dom": "^6",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
 		"typescript-string-enums": "^1"
