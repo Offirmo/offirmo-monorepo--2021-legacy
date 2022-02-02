@@ -10,6 +10,8 @@
 
 ## Prod
 
+Flags: https://deploywithflags.com/app/dashboard
+
 Pipelines:
 * Netlify: [![Netlify Status](https://api.netlify.com/api/v1/badges/b2bbd92c-ab3d-43c5-ba8f-44bb0dbcd8cb/deploy-status)](https://app.netlify.com/sites/online-adventures/deploys)
 * Heroku: [pipeline](https://dashboard.heroku.com/pipelines/3da19b18-c3a6-4a10-bd8c-ae45c236da98) | [Activity](https://dashboard.heroku.com/apps/online-adventures-prod/activity) | [Logs](https://dashboard.heroku.com/apps/online-adventures-prod/logs)
