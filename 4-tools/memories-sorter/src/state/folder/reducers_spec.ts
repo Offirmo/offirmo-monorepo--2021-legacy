@@ -8,18 +8,11 @@ import {
 	State,
 } from './types'
 import {
-	is_current_basename_intentful_of_event_start,
-	get_ideal_basename,
-	get_depth,
-	get_event_range,
-	get_event_begin_date‿symd,
-	get_event_end_date‿symd,
-} from './selectors'
-import {
 	create,
 	on_subfile_found,
 	on_subfile_primary_infos_gathered,
 	on_fs_exploration_done,
+	on_all_infos_gathered,
 } from './reducers'
 
 import './__test_shared'
@@ -216,6 +209,33 @@ describe(`${LIB} - folder state`, function() {
 				})
 			})
 			*/
+		})
+
+		describe('on_all_infos_gathered()', function() {
+
+			context('when there are NO children', function() {
+
+				it('should work', () => {
+					let state = create('holiday 2018-09-04')
+					state = on_fs_exploration_done(state)
+					state = on_all_infos_gathered(state)
+				})
+
+				it('should do nothing', () => {
+					let state = create('holiday 2018-09-04')
+					state = on_fs_exploration_done(state)
+					const state_after = on_all_infos_gathered(state)
+					expect(state_after).to.equal(state)
+				})
+			})
+
+			context('when there are children', function() {
+
+				context('when the event range is too big', function () {
+
+					it('should demote to unknown')
+				})
+			})
 		})
 	})
 })

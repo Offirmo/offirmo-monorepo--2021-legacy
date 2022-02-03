@@ -247,14 +247,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 			else {
 				db = DB.on_folder_found(db, '.', id)
-				// RACE CONDITION we now have an "explore" action pending
-				// however it'll happen after moving the file = conflict
-				const action = DB.get_pending_actions(db).slice(-1)[0]
-				assert(action.type === 'explore_folder')
-				assert(action.id === id)
-				db = DB.discard_last_pending_action(db, 'explore_folder')
-				// and immediately do it
-				await explore_folder(id)
+				// we now have an "explore" action pending
+				// This is NOT a race condition because we use a priority queue
+				// and "explore" actions have top priority
 			}
 		}
 		catch (_err) {
@@ -635,7 +630,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		if (pending_actions.length) {
 			db = DB.discard_all_pending_actions(db)
 			pending_actions.forEach(action => {
-				action_queue.push(action, action.type === 'explore_folder' ? 0 : 1)
+				const priority = action.type === 'explore_folder' ? 0 : 1
+				action_queue.push(action, priority)
 				on_new_tasks(PROGRESS_ID__OVERALL)
 				on_new_tasks(action.type)
 			})

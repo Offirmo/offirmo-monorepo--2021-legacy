@@ -172,11 +172,12 @@ describe(`${LIB} - folder state`, function() {
 
 			context('when called too early', function () {
 
-				it('should complain', () => {
+				// changed 2022 after realizing that new folders can be created during the sorting phase
+				// on_fs_exploration_done() won't be called for those folders, it should still work
+				it('should NOT complain', () => {
 					let state = create('holiday 2018-09-04')
-					//state = on_fs_exploration_done(state) MISSING!
 
-					expect(() => get_event_range(state)).to.throw('too early')
+					expect(() => get_event_range(state)).not.to.throw()
 				})
 			})
 
@@ -390,7 +391,7 @@ describe(`${LIB} - folder state`, function() {
 
 					const has_date_in_basename = !!get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
 
-					//console.log(tc, { state, has_date_in_basename, eb: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state) })
+					//console.log(tc, { state, has_date_in_basename, ebfb: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state) })
 					if (!has_date_in_basename) {
 						if (tc !== '- inbox') {
 							expect(state.type).to.equal('event')
@@ -398,14 +399,16 @@ describe(`${LIB} - folder state`, function() {
 							expect(() => get_ideal_basename(state), tc).to.throw('range')
 
 							// TODO review use reducer?
-							state.forced_event_range = {
-								begin: create_better_date_from_symd(20001231, 'tz:auto'),
-								end:   create_better_date_from_symd(20001231, 'tz:auto'),
+							state = {
+								...state,
+								forced_event_range: {
+									begin: create_better_date_from_symd(20001231, 'tz:auto'),
+									end:   create_better_date_from_symd(20001231, 'tz:auto'),
+								}
 							}
 						}
 					}
 
-					//console.log(state)
 					expect(get_ideal_basename(state), tc).to.equal(TEST_CASES[tc])
 				})
 			})

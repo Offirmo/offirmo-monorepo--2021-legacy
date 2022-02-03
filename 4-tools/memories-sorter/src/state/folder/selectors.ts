@@ -62,31 +62,22 @@ export function get_depth(data: Immutable<State> | Immutable<path.ParsedPath>): 
 		: 0
 }
 
-export function is_data_gathering_pass_1_done(state: Immutable<State>): boolean {
-	const result = state.status !== 'data-gathering-1'
-	if (result)
-		assert(state.media_children_pass_1_count === state.media_children_count, `is_data_gathering_pass_1_done() child# should equal p1#`)
-	return result
+export function is_pass_1_data_available_for_all_children(state: Immutable<State>): boolean {
+	//assert(state.media_children_pass_1_count === state.media_children_count, `is_data_gathering_pass_1_done() child# should equal p1#`)
+	return state.media_children_pass_1_count === state.media_children_count
 }
-/*export function has_data_gathering_pass_2_started(state: Immutable<State>): boolean {
-	const result = state.status === 'data-gathering-2'
-	assert(state.media_children_pass_2_count > 0, `has_data_gathering_pass_2_started() p2# > 0`)
-	return result
-}*/
-export function is_data_gathering_pass_2_done(state: Immutable<State>): boolean {
-	const result = state.status === 'sorting'
-	if (result)
-		assert(state.media_children_pass_2_count === state.media_children_count, `is_data_gathering_pass_2_done() should p2# should equal child#`)
-	return result
+export function is_pass_2_data_available_for_all_children(state: Immutable<State>): boolean {
+	//assert(state.media_children_pass_2_count === state.media_children_count, `is_data_gathering_pass_2_done() should p2# should equal child#`)
+	return state.media_children_pass_2_count === state.media_children_count
 }
 
 function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
-	assert(is_data_gathering_pass_1_done(state), `${LIB} _get_children_fs_reliability() pass 1 should be done`)
+	assert(is_pass_1_data_available_for_all_children(state), `${LIB} _get_children_fs_reliability() pass 1 should be fully done`)
 	assert(
 		state.media_children_count === 0
-		+ state.media_children_fs_reliability_count['unknown']
-		+ state.media_children_fs_reliability_count['unreliable']
-		+ state.media_children_fs_reliability_count['reliable'],
+			+ state.media_children_fs_reliability_count['unknown']
+			+ state.media_children_fs_reliability_count['unreliable']
+			+ state.media_children_fs_reliability_count['reliable'],
 		`${LIB} _get_children_fs_reliability() mismatching counts`
 	)
 
@@ -99,14 +90,14 @@ function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 	return 'unknown'
 }
 
-export function _get_current_best_children_range(state: Immutable<State>): undefined | null | Immutable<DateRange> {
-	assert(is_data_gathering_pass_1_done(state), `_get_current_best_children_range() at least pass 1 should be complete`)
+export function _get_current_best_children_range(state: Immutable<State>): undefined | Immutable<DateRange> {
+	assert(is_pass_1_data_available_for_all_children(state), `_get_current_best_children_range() at least pass 1 should be complete`)
 
-	if (is_data_gathering_pass_2_done(state) && state.media_children_bcd_ranges.from_primaryⵧfinal) {
+	if (is_pass_2_data_available_for_all_children(state) && state.media_children_bcd_ranges.from_primaryⵧfinal) {
 		return state.media_children_bcd_ranges.from_primaryⵧfinal
 	}
 
-	if (is_data_gathering_pass_1_done(state) && state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1) {
+	if (is_pass_1_data_available_for_all_children(state) && state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1) {
 		return state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
 	}
 
@@ -124,15 +115,15 @@ export function _get_current_best_children_range(state: Immutable<State>): undef
 	return undefined
 }
 
-// TODO memoize
 export const get_event_range = micro_memoize(function _get_event_range(state: Immutable<State>, ): DateRange | null | undefined {
 	if (state.type !== Type.event && state.type !== Type.overlapping_event)
 		return null
 
-	if (!!state.forced_event_range)
+	if (state.forced_event_range) {
 		return state.forced_event_range
+	}
 
-	assert(is_data_gathering_pass_1_done(state), `get_event_range() should not be called too early for fear of incomplete results! ("${state.id}")`)
+	assert(is_pass_1_data_available_for_all_children(state), `get_event_range() should not be called too early for fear of incomplete results! ("${state.id}")`)
 
 	if (is_looking_like_a_backup(state))
 		return null
@@ -194,14 +185,14 @@ export const get_event_range = micro_memoize(function _get_event_range(state: Im
 })
 
 export function get_event_begin_date(state: Immutable<State>): Immutable<BetterDate> {
-	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_begin_date() should be an ~event`)
+	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_begin_date() should be called on an ~event`)
 	const range = get_event_range(state)
 	assert(range, `${LIB} get_event_begin_date() should have a date range!`)
 
 	return range.begin
 }
 export function get_event_end_date(state: Immutable<State>): Immutable<BetterDate> {
-	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_end_date() should be an ~event`)
+	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_end_date() should be called on an ~event`)
 	const range = get_event_range(state)
 	assert(range, `${LIB} get_event_end_date() should have a date range!`)
 
@@ -243,7 +234,6 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 }
 
 export function _is_basename_hinting_at_backup(state: Immutable<State>): boolean {
-	const current_basename = get_current_basename(state)
 	const basename‿parsed = get_current_basename‿parsed(state)
 	const lc = basename‿parsed.meaningful_part.toLowerCase()
 	return lc.includes('backup')
@@ -271,7 +261,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 		return null
 
 	// reminder: a dated folder can indicate
-	// - the date of an EVENT = date of the beginning of the file range
+	// - the date of an EVENT = date of the BEGINNING of the file range
 	// - the date of a BACKUP = date of the END of the file range
 	// - anything TBH ;)
 	// we need extra info to discriminate between those cases
@@ -335,14 +325,6 @@ export function is_current_basename_intentful_of_event_start(state: Immutable<St
 export function is_looking_like_a_backup(state: Immutable<State>): boolean {
 	const basename‿parsed = get_current_basename‿parsed(state)
 
-	const is_basename_hinting_at_backup = ((): boolean => {
-		const lc = basename‿parsed.meaningful_part.toLowerCase()
-		return lc.includes('backup')
-			|| lc.includes('save')
-			|| lc.includes('import')
-			|| lc.includes('sauvegarde')
-	})()
-
 	// if a date is present in the basename, try to cross-reference with the children date range = best source of info
 	if (basename‿parsed.date) {
 		const children_date_range = _get_current_best_children_range(state)
@@ -379,11 +361,11 @@ export function is_looking_like_a_backup(state: Immutable<State>): boolean {
 	}
 
 	// we have no clear cross referencing
-	return is_basename_hinting_at_backup
+	return _is_basename_hinting_at_backup(state)
 }
 
 export function get_neighbor_primary_hints(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Immutable<NeighborHints> {
-	assert(is_data_gathering_pass_1_done(state), `get_neighbor_primary_hints() pass 1 should be complete`)
+	assert(is_pass_1_data_available_for_all_children(state), `get_neighbor_primary_hints() pass 1 should be complete`)
 
 	let hints = FileLib.NeighborHintsLib.create()
 
@@ -426,13 +408,13 @@ export function get_neighbor_primary_hints(state: Immutable<State>, PARAMS: Immu
 	return hints
 }
 
-export function is_date_matching_this_event‿symd(state: Immutable<State>, date_symd: SimpleYYYYMMDD): boolean {
+export function is_date_matching_this_event‿symd(state: Immutable<State>, date‿symd: SimpleYYYYMMDD): boolean {
 	assert(state.type === Type.event, `${LIB} is_matching_event‿symd() should be an event`)
 
 	const begin_date‿symd = get_event_begin_date‿symd(state)
 	const end_date‿symd = get_event_end_date‿symd(state)
 
-	return date_symd >= begin_date‿symd && date_symd <= end_date‿symd
+	return date‿symd >= begin_date‿symd && date‿symd <= end_date‿symd
 }
 
 ///////////////////// DEBUG /////////////////////
@@ -461,7 +443,7 @@ export function to_string(state: Immutable<State>) {
 	str += stylize_string.yellow.bold(` "${id}"`)
 
 	if (type === Type.event || type === Type.overlapping_event) {
-		if (!is_data_gathering_pass_1_done(state)) {
+		if (!is_pass_1_data_available_for_all_children(state)) { // TODO review
 			str += ' (fs in progress)'
 		}
 		else {

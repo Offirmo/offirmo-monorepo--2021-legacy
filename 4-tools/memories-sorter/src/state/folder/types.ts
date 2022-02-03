@@ -28,7 +28,7 @@ export interface State {
 	reason_for_demotion_from_event: null | string
 
 	// if this folder is an event, what is the range assigned to it?
-	// the range can be inferred (from basename + children)
+	// the range is normally inferred (from basename + children)
 	// this prop allows to override it, ex. in case of overlap
 	// Note: null = no override, can only be overriden to an actual range
 	forced_event_range: null | DateRange
@@ -61,7 +61,7 @@ export interface State {
 	}
 
 	// intermediate data for internal assertions
-	status: 'data-gathering-1' | 'data-gathering-2' | 'sorting'
+	//status: 'data-gathering-1' | 'data-gathering-2' | 'sorting'   NO!!! folders can be created late (during sorting phase) and should immediately be valid
 	media_children_count: number, // initial fs exploration
 	media_children_pass_1_count: number, // fs exploration
 	media_children_pass_2_count: number, // consolidation

@@ -24,15 +24,16 @@ import {
 } from './types'
 import {
 	get_depth,
-	is_data_gathering_pass_2_done,
 	get_event_end_date‿symd,
-	get_event_range, get_event_begin_date, ERROR__RANGE_TOO_BIG,
+	get_event_range,
+	get_event_begin_date,
+	ERROR__RANGE_TOO_BIG,
 } from './selectors'
 
 ////////////////////////////////////
 
-function _get_starting_folder_type_from_path(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
-	assert(id, '_get_starting_folder_type_from_path() id')
+function _get_inferred_folder_type_from_path(id: FolderId, pathㆍparsed: path.ParsedPath): Type {
+	assert(id, '_get_inferred_folder_type_from_path() id')
 
 	if (id === '.') return Type.root
 
@@ -52,14 +53,13 @@ export function create(id: RelativePath): Immutable<State> {
 	logger.trace(`${LIB} create(…)`, { id })
 
 	const pathㆍparsed = pathㆍparse_memoized(id)
-	const type = _get_starting_folder_type_from_path(id, pathㆍparsed)
+	const type = _get_inferred_folder_type_from_path(id, pathㆍparsed)
 
 	return {
 		id,
 		type,
 		reason_for_demotion_from_event: null,
 
-		status: 'data-gathering-1',
 		media_children_count: 0,
 		media_children_pass_1_count: 0,
 		media_children_pass_2_count: 0,
@@ -95,16 +95,20 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 		...state,
 		media_children_count: state.media_children_count + 1,
 	}
+
+	// Should we automatically call on_info gathered() ?
+	// NO! We don't know whether new files will be added! (ex. new folders created during the sorting phase)
 }
 
 export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
 	logger.trace(`${LIB} on_subfile_primary_infos_gathered(…)…`, { file_id: file_state.id })
-	assert(state.media_children_pass_1_count < state.media_children_count, `on_subfile_primary_infos_gathered() should not be called x times!`)
 
 	if (File.is_notes(file_state)) {
 		// skip those meta files
 		return state
 	}
+
+	assert(state.media_children_pass_1_count < state.media_children_count, `on_subfile_primary_infos_gathered() should not be called x times!`)
 
 	//////////// consolidate: reliability
 	const file_bcd__reliabilityⵧfrom_fsⵧcurrent = File.get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources(file_state)
@@ -129,9 +133,9 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 			file_bcdⵧfrom_fsⵧcurrent‿tms
 		)
 	const new_children_end_dateⵧfrom_fsⵧcurrent = Math.max(
-		state.media_children_bcd_ranges.from_fsⵧcurrent?.end ?? 0,
-		file_bcdⵧfrom_fsⵧcurrent‿tms
-	)
+			state.media_children_bcd_ranges.from_fsⵧcurrent?.end ?? 0,
+			file_bcdⵧfrom_fsⵧcurrent‿tms
+		)
 
 	if (new_children_begin_dateⵧfrom_fsⵧcurrent === state.media_children_bcd_ranges.from_fsⵧcurrent?.begin
 		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.media_children_bcd_ranges.from_fsⵧcurrent?.end) {
@@ -222,17 +226,14 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	return state
 }
 
-// used to consolidate some infos after discovering the FS.
-// - It is automatically called by on_subfile_primary_infos_gathered()
-// - it is exposed for unit tests + in case of empty dirs (TODO review + call it for empty dirs?)
-// - hence it should support being called multiple times
+// OPTIONAL, used to semantically consolidate some infos to NULL after discovering the FS
+// everything should work even if not called (undefined ~ null)
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
-	if (state.media_children_pass_1_count !== state.media_children_count || state.status !== 'data-gathering-1') {
+	if (state.media_children_pass_1_count !== state.media_children_count) {
 		console.log(state)
 		debugger
 	}
 	assert(state.media_children_pass_1_count === state.media_children_count)
-	assert(state.status === 'data-gathering-1', `on_fs_exploration_done() pass 1 should be in progress/done!`)
 
 	const { media_children_count } = state
 	if (media_children_count === 0) {
@@ -247,10 +248,7 @@ export function on_fs_exploration_done(state: Immutable<State>): Immutable<State
 		}
 	}
 
-	return {
-		...state,
-		status: 'data-gathering-2',
-	}
+	return state
 }
 
 export function on_subfile_all_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
@@ -322,13 +320,13 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 	return state
 }
 
+// to be called after FS exploration for pre-existing folders
 export function on_all_infos_gathered(state: Immutable<State>): Immutable<State> {
-	if (state.media_children_pass_2_count !== state.media_children_count || state.status !== 'data-gathering-2') {
+	if (state.media_children_pass_2_count !== state.media_children_count) {
 		console.log(state)
 		debugger
 	}
 	assert(state.media_children_pass_2_count === state.media_children_count)
-	assert(state.status === 'data-gathering-2', `on_fs_exploration_done() pass 1 should be in progress/done!`)
 
 	const { media_children_count } = state
 	if (media_children_count > 0) {
@@ -354,10 +352,7 @@ export function on_all_infos_gathered(state: Immutable<State>): Immutable<State>
 		}
 	}
 
-	return  {
-		...state,
-		status: 'sorting',
-	}
+	return  state
 }
 
 export function on_overlap_clarified(state: Immutable<State>, target_end_date‿symd: SimpleYYYYMMDD, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
