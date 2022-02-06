@@ -172,7 +172,7 @@ export const get_event_range = micro_memoize(function _get_event_range(state: Im
 				id: state.id,
 				new_event_begin_date: BetterDateLib.get_debug_representation(event_begin_date),
 				new_event_end_date: BetterDateLib.get_debug_representation(event_end_date),
-				capped_end_date: BetterDateLib.get_debug_representation(capped_end_date),
+				new_event_end_date__capped: BetterDateLib.get_debug_representation(capped_end_date),
 			})
 	}
 

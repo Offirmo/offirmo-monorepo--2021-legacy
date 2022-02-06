@@ -25,6 +25,7 @@ import { FileId, PersistedNotes } from '../file'
 import { LIB } from './consts'
 import {	State } from './types'
 import {
+	is_folder_existing,
 	get_past_and_present_notes,
 	get_all_files_except_meta,
 	get_all_folders,
@@ -34,6 +35,7 @@ import {
 	get_all_event_folder_ids,
 	get_all_file_ids,
 	get_ideal_file_relative_path,
+	get_ideal_file_relative_folder,
 } from './selectors'
 
 ///////////////////// REDUCERS /////////////////////
@@ -119,14 +121,15 @@ function _register_folder(state: Immutable<State>, id: FolderId): Immutable<Stat
 	return state
 }
 
-export function on_folder_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
+export function on_folder_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath, just_created: boolean = false): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_folder_found(…)`, { parent_id, sub_id, id })
 	logger.verbose(`${LIB} found a folder`, { id })
 
 	state = _register_folder(state, id)
 
-	state = _enqueue_action(state, Actions.create_action_explore_folder(id))
+	if (!just_created)
+		state = _enqueue_action(state, Actions.create_action_explore_folder(id))
 
 	return state
 }
@@ -672,6 +675,32 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 		state = _enqueue_action(state, Actions.create_action_ensure_folder(String(y)))
 	}
 
+	/*
+	const all_file_ids = get_all_file_ids(state)
+	const parent_folders_to_create = new Set<string>()
+	all_file_ids.forEach(id => {
+		if (File.is_notes(state.files[id])) {
+			return
+		}
+
+		const target_id = get_ideal_file_relative_path(state, id)
+		assert(target_id.includes(path.sep), `unexpected ${id} with no sep!`)
+		if (id === target_id) {
+			return
+		}
+
+		const parent_folder_id = get_ideal_file_relative_folder(state, id)
+		if (is_folder_existing(state, parent_folder_id)) {
+			// all good
+			return
+		}
+
+		parent_folders_to_create.add(parent_folder_id)
+	})
+	for(const id of parent_folders_to_create) {
+		state = _enqueue_action(state, Actions.create_action_ensure_folder(id))
+	}*/
+
 	return state
 }
 
@@ -679,6 +708,8 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 	logger.trace(`${LIB} move_all_files_to_their_ideal_location()…`)
 
 	const all_file_ids = get_all_file_ids(state)
+	//const file_ids_to_move = new Set<File.FileId>()
+
 	all_file_ids.forEach(id => {
 		if (File.is_notes(state.files[id])) {
 			console.log(`- MTIL: "${id}" is notes`)
@@ -686,15 +717,21 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 		}
 
 		const target_id = get_ideal_file_relative_path(state, id)
-		assert(target_id.includes('/'), `move_all_files_to_their_ideal_location() unexpected ${id}`)
+		assert(target_id.includes(path.sep), `move_all_files_to_their_ideal_location() unexpected ${id}`)
 		if (id === target_id) {
 			console.log(`- MTIL: "${id}" is already in ideal location`)
 			return
 		}
 
 		console.log(`- MTIL: "${id}" is scheduled to move to "${target_id}"`)
+
 		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
+		//file_ids_to_move.add(id)
 	})
+
+	/*for(const id of file_ids_to_move) {
+		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
+	}*/
 
 	return state
 }

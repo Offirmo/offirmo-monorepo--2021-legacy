@@ -96,7 +96,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	// read only
 	async function explore_folder(id: RelativePath): Promise<void> {
-		logger.trace(`initiating explore_folder "${id}"…`)
+		logger.trace(`[Action] initiating explore_folder "${id}"…`)
 
 		try {
 			let pending_tasks: Promise<void>[] = []
@@ -152,7 +152,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function query_fs_stats(id: RelativePath): Promise<void> {
-		logger.trace(`initiating fs stats query for "${id}"…`)
+		logger.trace(`[Action] initiating query_fs_stats for "${id}"…`)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -167,7 +167,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function query_exif(id: RelativePath): Promise<void> {
-		logger.trace(`initiating exif query for "${id}"…`)
+		logger.trace(`[Action] initiating query_exif for "${id}"…`)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -182,7 +182,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function compute_hash(id: RelativePath): Promise<void> {
-		logger.trace(`computing hash for "${id}"…`)
+		logger.trace(`[Action] initiating compute_hash for "${id}"…`)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -198,7 +198,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function load_notes(path: RelativePath): Promise<void> {
-		logger.trace(`loading notes from "${path}"…`)
+		logger.trace(`[Action] initiating load_notes from "${path}"…`)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, path)
@@ -215,19 +215,32 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	// write
 
 	// because of unicode normalization, we have to check the OS for the existence of the folder :-(
-	// since we never delete until the end TODO memoize
+	// since we never delete until the end
 	async function ensure_folder(id: RelativePath): Promise<void> {
+		const split_path = id.split(path.sep)
+		const depth = split_path.length
+		logger.trace(`[Action] initiating ensure_folder "${id}"…`, { depth })
 		logger.verbose(`- ensuring dir "${id}" exists…`)
 
 		try {
 			const is_existing_according_to_db = DB.is_folder_existing(db, id)
 			//logger.log('so far:', { is_existing_according_to_db })
-			if (is_existing_according_to_db) return
+			if (is_existing_according_to_db) {
+				// may happen:
+				// - because we just call this func out of safety
+				// - because this func is recursive
+				// So don't bother, all good.
+				return
+			}
+
+			if (depth > 1) {
+				await ensure_folder(split_path.slice(0, -1).join(path.sep))
+			}
 
 			const abs_path = DB.get_absolute_path(db, id)
 			const is_existing_according_to_fs = fs.existsSync(abs_path)
 			if (is_existing_according_to_fs) {
-				logger.warn('ensure_folder() unregistered folder exists in DB?', { id })
+				logger.warn('ensure_folder(): folder already exists in fs?', { id })
 				// The path exists but we don't have it in DB
 				// possible cases:
 				// - race condition in mkdirp below TODO improve
@@ -239,17 +252,20 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				logger.verbose('DRY RUN would have created folder: ' + id)
 			}
 			else {
+				logger.verbose(`💾 mkdirp("${abs_path}")`)
 				await util.promisify(fs_extra.mkdirp)(abs_path)
 			}
 
 			if (DB.is_folder_existing(db, id)) {
-				// race condition while await-ing mkdirp, can happen
+				// race condition while await-ing mkdirp, can happen?
+				logger.warn('ensure_folder(): existing in DB after I created it?', { id })
 			}
 			else {
-				db = DB.on_folder_found(db, '.', id)
-				// we now have an "explore" action pending
-				// This is NOT a race condition because we use a priority queue
-				// and "explore" actions have top priority
+				db = DB.on_folder_found(db,
+					'.',
+					id,
+					true, // will prevent a useless "explore" from being triggered. We know the folder is empty, we just created it!
+				)
 			}
 		}
 		catch (_err) {
@@ -259,7 +275,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function delete_file(id: RelativePath): Promise<void> {
-		logger.trace(`- deleting file "${id}"…`)
+		logger.trace(`[Action] initiating  "${id}"…`)
+		logger.verbose(`- deleting file "${id}"…`)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -270,6 +287,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 			else {
 				logger.info('deleting file… ' + abs_path)
+				logger.verbose(`💾 rm("${abs_path}")`)
 				await util.promisify(fs.rm)(abs_path)
 				db = DB.on_file_deleted(db, id)
 			}
@@ -281,6 +299,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
+		logger.trace(`[Action] initiating persist_notes "${folder_path}"…`)
+		logger.verbose(`- persisting notes into "${folder_path}"…`)
+
 		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME_SUFFIX_LC)
 		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
 
@@ -289,6 +310,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				// always write, even in dry run
 				// this is not risky
 				// the oldest = the more authoritative
+				logger.verbose(`💾 json.write("${abs_path}", {…})`)
 				await json.write(abs_path, data)
 			}
 			catch (err) {
@@ -305,13 +327,15 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		}
 	}
 
-	// intelligently = will avoid conflicts at the target location by using a copy marker (x)
-	// needs to be sync bc we'll do a check for conflict = race condition
-	// expecting the folder to be pre-existing
+	// sub-function of move_file_to_ideal_location() and normalize_file()
+	// - "intelligently" = will avoid conflicts at the target location by using a copy marker (x)
+	// - needs to be sync bc we'll do a check for conflict = race condition
+	// - expecting the folder to be pre-existing
 	function _intelligently_normalize_file_basename_sync(
 		id: RelativePath,
 		target_folder: FolderId = File.get_current_parent_folder_id(db.files[id])
 	): void {
+		logger.trace(`[Action] (sub) _intelligently_normalize_file_basename_sync() "${id}"…`)
 		const current_file_state = db.files[id]
 		assert(current_file_state, `_intelligently_normalize_file_basename_sync() should have current_file_state "${id}"`)
 
@@ -383,11 +407,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 			if (File.get_current_basename(current_file_state) !== target_basename) {
 				_report.file_renamings[id] = target_basename
-				logger.info(`renaming "${id}" to "${target_id}"…`)
+				logger.info(`about to normalize:rename "${id}" to "${target_id}"…`)
 			}
 			if (File.get_current_parent_folder_id(current_file_state) !== target_folder) {
 				_report.file_moves[id] = target_folder
-				logger.info(`moving "${id}" to "${target_id}"…`)
+				logger.info(`about to normalize:move "${id}" to "${target_id}"…`)
 			}
 
 			if (PARAMS.dry_run) {
@@ -398,6 +422,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				try {
+					logger.verbose(`💾 move("${abs_path_current}", "${abs_path_target}")`)
 					fs_extra.moveSync(abs_path_current, abs_path_target)
 					db = DB.on_file_moved(db, id, target_id)
 				}
@@ -436,10 +461,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function move_file_to_ideal_location(id: RelativePath): Promise<void> {
 		const target_id = DB.get_ideal_file_relative_path(db, id)
-		assert(target_id !== id, 'MTIL') // should have been pre-filtered
-		//if (target_id === id) return
 
-		logger.trace(`- moving/renaming file "${id}" to its ideal location "${target_id}"…`)
+		logger.trace(`[Action] initiating move_file_to_ideal_location "${id}" to "${target_id}"…`)
+		assert(target_id !== id, 'MTIL') // should have been pre-filtered
 
 		try {
 			const parsed = pathㆍparse_memoized(id)
@@ -461,10 +485,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 
 			if (is_moving) {
-				logger.verbose(`- moving file from "${id}" to "${target_id}"…`)
+				logger.verbose(`- [MTIL] about to move file "${id}" to ideal location "${target_id}"…`)
 			}
 			else {
-				logger.verbose(`- renaming file in-place from "${parsed.base}" to ideally "${parsed_target.base}"…`)
+				logger.verbose(`- [MTIL] about to rename file in-place from "${parsed.base}" to ideally "${parsed_target.base}"…`)
 			}
 
 			/* TODO ?
@@ -477,6 +501,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 			const target_folder_id = DB.get_ideal_file_relative_folder(db, id)
 			if (!PARAMS.dry_run) {
+				//const is_target_folder_existing_according_to_db = DB.is_folder_existing(db, target_folder_id)
+				//assert(is_target_folder_existing_according_to_db, `INFBS is_target_folder_existing_according_to_db!`)
 				await ensure_folder(target_folder_id)
 			}
 			_intelligently_normalize_file_basename_sync(id, target_folder_id)
@@ -488,7 +514,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function normalize_file(id: RelativePath): Promise<void> {
-		logger.trace(`initiating file normalization for "${id}"…`)
+		logger.trace(`[Action] initiating normalize_file "${id}"…`)
 
 		try {
 			const file_state = db.files[id]
@@ -500,11 +526,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				if (current_exif_data.Orientation > 1) {
 					// https://www.impulseadventure.com/photo/lossless-rotation.html
 					if (PARAMS.dry_run) {
-						logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
+						//logger.info('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
 					}
 					else {
 						//logger.info(`TODO losslessly rotate "${id}" according to EXIF orientation`, current_exif_data.Orientation)
-						// TODO one day NOTE will need hash chaining
+						// TODO one day BUT will need hash chaining
+						// + there is data loss
 					}
 				}
 			}
@@ -522,7 +549,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	}
 
 	async function delete_folder_if_empty(id: RelativePath): Promise<void> {
-		logger.trace(`- deleting folder if it's empty "${id}"…`)
+		logger.trace(`[Action] initiating delete_folder_if_empty "${id}"…`)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -538,6 +565,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				}
 				else {
 					logger.info('deleting empty folder… ' + abs_path)
+					logger.verbose(`💾 rmdir("${abs_path}")`)
 					await util.promisify(fs_extra.remove)(abs_path)
 					db = DB.on_folder_deleted(db, id)
 				}
@@ -630,7 +658,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		if (pending_actions.length) {
 			db = DB.discard_all_pending_actions(db)
 			pending_actions.forEach(action => {
-				const priority = action.type === 'explore_folder' ? 0 : 1
+				const priority = action.type === 'explore_folder'
+					? 0
+					: action.type === 'ensure_folder'
+						? 1
+						: 2
 				action_queue.push(action, priority)
 				on_new_tasks(PROGRESS_ID__OVERALL)
 				on_new_tasks(action.type)

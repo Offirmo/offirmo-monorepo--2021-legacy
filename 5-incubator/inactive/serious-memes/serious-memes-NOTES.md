@@ -62,3 +62,4 @@ tradeoffs / can't have everything
 Trello
 who moved my cheese?
 être heureux n'est pas nécessairement confortable
+1st practice what you preach
