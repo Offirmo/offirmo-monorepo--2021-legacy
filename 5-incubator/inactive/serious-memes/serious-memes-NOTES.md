@@ -1,25 +1,43 @@
 
 (agile "what the client wanted")
+1st practice what you preach
 5 regrets of dying
 80/20
+Cognitive bias
+Courses après le repas
+FOMO
+FUD
+Ikigai
+Maslow's pyramid
+On peut toujours faire mieux
+Passive aggressive
+Prix au kilo
+Procastination
+Put into words
+Question authority
+SBI
+Sex Ed
+Spreadsheet
+Survival of the fittest / fit enough
+T-Shape https://jchyip.medium.com/why-t-shaped-people-e8706198e437
+Trello
+a wisdom for left may not be valid for right
 affirmative action?
 be prepared
 bee browsing
 bonne et mauvaises cartes
 buy nice or buy twice
 can't satisfy others
-Cognitive bias
 comfort zone
 communication non violente
-Courses après le repas
+differences: introvert/extrovert
 drive by
 due diligence
 effet projecteur
 effet rétroviseur
 every occupation has its pro/cons
+excuses vs. solutions
 false good idea
-FOMO
-FUD
 golden rule
 growth mindset
 hangry / before aftr lunch
@@ -27,39 +45,32 @@ happiness is a skill
 helicopter parent
 herbe toujours plus verte
 https://www.raptitude.com/2022/01/everything-must-be-paid-for-twice/
-Ikigai
 impostor syndrome
 infotainment
 ingroup/outgroup
+intrinsic/extrinsic motivation https://www.swyx.io/js-tooling
 jamais assez / 1st times
 keeping up with the jones
+leader must never ask sth they couldn't do
 leadership is for everyone
-Maslow's pyramid
+leadership is for everyone
 naiveté: abus sexuels, mafia
 non violence
-On peut toujours faire mieux
-Passive aggressive
 picture the success
 priming
-Prix au kilo
+productivity
+productivity vs. impact, value
 progress over perfection
 psychological safety
-Put into words
-Question authority
-SBI
 self appreciation
 self love
-Sex Ed
 short term / long term
 social pressure / free will
-Spreadsheet
 stakeholder
 start with the most risky / complicated
 start with why
-Survival of the fittest / fit enough
 tip of the iceberg
+top-down/bottom-up
 tradeoffs / can't have everything
-Trello
 who moved my cheese?
 être heureux n'est pas nécessairement confortable
-1st practice what you preach

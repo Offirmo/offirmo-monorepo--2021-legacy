@@ -20,6 +20,15 @@ Senior Dev tips!
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
 
+https://twitter.com/dan_abramov/status/1470613731071696896?lang=en
+
+https://blockprotocol.org/
+
+https://dev.to/apkoponen/100-tips-on-software-developer-productivity-36if
+
+Lean and Queuing theory
+
+
 kebab-case vs snake etc
 
 https://www.atlassian.com/team-playbook/plays/elevator-pitch

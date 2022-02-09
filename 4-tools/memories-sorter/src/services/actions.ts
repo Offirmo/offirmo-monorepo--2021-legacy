@@ -317,8 +317,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				if (PARAMS.dry_run) {
 					// swallow
 				}
-				else
+				else {
+					// propagate
 					throw err
+				}
 			}
 		}
 		catch (_err) {

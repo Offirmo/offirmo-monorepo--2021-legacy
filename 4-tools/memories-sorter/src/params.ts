@@ -104,7 +104,8 @@ export const get_params = memoize_once(function get_params(): Params {
 			// TODO one day see if we can scavenge a creation date from advance formats?
 			'.pdf', // often hold memories as well
 			'.txt', // used to take notes
-			'.doc', '.ppt', '.pptx', // often hold memories as well
+			'.doc', '.ppt', '.pptx', // MSOffice = often hold memories as well
+			'.odt', // LibreOffice, same
 		].map(s => s.toLowerCase()),
 
 		extensions_to_delete‿lc: [
