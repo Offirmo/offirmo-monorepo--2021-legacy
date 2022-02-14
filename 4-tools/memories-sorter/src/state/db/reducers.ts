@@ -25,7 +25,6 @@ import { FileId, PersistedNotes } from '../file'
 import { LIB } from './consts'
 import {	State } from './types'
 import {
-	is_folder_existing,
 	get_past_and_present_notes,
 	get_all_files_except_meta,
 	get_all_folders,
@@ -35,7 +34,6 @@ import {
 	get_all_event_folder_ids,
 	get_all_file_ids,
 	get_ideal_file_relative_path,
-	get_ideal_file_relative_folder,
 } from './selectors'
 
 ///////////////////// REDUCERS /////////////////////
@@ -332,6 +330,7 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 }
 
 export function backup_notes(state: Immutable<State>): Immutable<State> {
+	// XXX
 	const folder_path = undefined
 	state = _enqueue_action(state, Actions.create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
 	state = {
@@ -481,7 +480,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 
 	// files are now fully informed:
 	// 1. primary, current data
-	// 2. current neighbor hints XXX TODO review!!!
+	// 2. current neighbor hints
 	// 3. historical data from notes
 	// Time to flow back the data into the folders to inform the event-ness and the event range
 
@@ -498,28 +497,6 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 		folders[folder_state.id] = Folder.on_all_infos_gathered(folder_state)
 	})
 	state = { ...state, folders }
-
-	// XXX TODO
-	function _on_any_file_info_read(state: Immutable<State>, file_id: FileId): Immutable<State> {
-		const file_state = state.files[file_id]
-
-		if (File.is_media_file(file_state) && File.has_all_infos_for_extracting_the_creation_date(file_state, { should_log: false, require_neighbors_hints: false })) {
-			// update folder date range
-			const folder_id = File.get_current_parent_folder_id(file_state)
-			const old_folder_state = state.folders[folder_id]
-			assert(old_folder_state, `folder state for "${folder_id}" - "${file_id}"!`)
-			const new_folder_state = Folder.on_subfile_primary_infos_gathered(old_folder_state, file_state)
-			state = {
-				...state,
-				folders: {
-					...state.folders,
-					[folder_id]: new_folder_state,
-				},
-			}
-		}
-
-		return state
-	}
 
 	// demote event folders with no dates
 	folders = { ...state.folders }
@@ -587,6 +564,20 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 
 	return state
 }
+function _refresh_debug_infos(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} _refresh_debug_infos()…`)
+
+	// files are now fully informed (cf. _consolidate_folders_by_demoting_and_de_overlapping())
+
+	// iterate over ALL files to refresh their debug infos
+	let files = { ...state.files }
+	get_all_files(state).forEach((file_state) => {
+		files[file_state.id] = File.on_consolidated(file_state)
+	})
+	state = { ...state, files }
+
+	return state
+}
 export function on_fs_exploration_done_consolidate_data_and_backup_originals(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} on_fs_exploration_done_consolidate_data_and_backup_originals()…`)
 	logger.verbose(`${LIB} Exploration of the file system done, now processing this data with handcrafted AI…`)
@@ -596,6 +587,7 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 	state = _consolidate_and_propagate_neighbor_hints(state)
 	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
+	state = _refresh_debug_infos(state)
 	state = backup_notes(state)
 
 	return state

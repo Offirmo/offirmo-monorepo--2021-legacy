@@ -66,7 +66,7 @@ export interface PersistedNotes {
 
 	// for debug
 	// TODO check it's properly re-set later!
-	_currently_known_as: Basename // not strictly useful, intended at humans reading the notes manually
+	_currently_known_as: RelativePath // not strictly useful, intended at humans reading the notes manually
 	_bcd_source: undefined | string
 }
 

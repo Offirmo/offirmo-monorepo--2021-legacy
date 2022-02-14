@@ -42,8 +42,6 @@ const _report = {
 	phases_duration_ms: {} as { [k: string]: number },
 }
 
-// TODO add an "enforce stable" mode
-
 export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>, debug_id: string, PARAMS: Immutable<Params> = get_params()): Promise<Immutable<State>> {
 	console.log(`executing actions "${debug_id}"…`)
 
@@ -186,7 +184,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
-			// TODO time limit + cache
 			const hash = await get_file_hash(abs_path)
 			logger.trace(`- got hash for "${id}""`, { hash })
 			db = DB.on_hash_computed(db, id, hash!)

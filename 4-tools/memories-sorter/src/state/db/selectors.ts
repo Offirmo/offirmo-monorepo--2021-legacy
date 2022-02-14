@@ -280,8 +280,10 @@ export function get_past_and_present_notes(state: Immutable<State>, folder_path?
 	get_all_media_files(state)
 		.forEach(file_state => {
 			assert(file_state.current_hash, `get_past_and_present_notes() should happen on hashed files`)
-			// check the original, no the one we're refilling. 2x files may have the same hash
-			assert(!state.extra_notes.encountered_files[file_state.current_hash], `get_past_and_present_notes() no redundant data ` + file_state.current_hash)
+			assert(
+				!state.extra_notes.encountered_files[file_state.current_hash],
+				`get_past_and_present_notes() should not have conflicting data for hash "${file_state.current_hash}"`
+			)
 			encountered_files[file_state.current_hash] = file_state.notes
 		})
 

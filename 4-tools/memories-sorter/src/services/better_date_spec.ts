@@ -214,7 +214,7 @@ describe('Better Date', function() {
 			minute: 7,
 			second: 8,
 			milli: 9,
-			tz: 'UTC+11', // XXX not same tz = different date! 1h BEFORE
+			tz: 'UTC+11', // not same tz = different date! 1h BEFORE
 		})
 		const TEST_DATE_3 = create_better_date_obj({
 			year: 2013,

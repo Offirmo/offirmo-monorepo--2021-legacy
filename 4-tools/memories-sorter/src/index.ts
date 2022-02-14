@@ -35,6 +35,8 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		db = await exec_pending_actions_recursively_until_no_more(db, '1.2 on_fs_exploration_done_consolidate_data_and_backup_originals')
 		assert(DB.get_pending_actions(db).length === 0, 'eq 2')
 		logger.verbose('>>>>>>> CONSOLIDATION DONE ✔️ >>>>>>>')
+		db = DB.backup_notes(db)
+		db = await exec_pending_actions_recursively_until_no_more(db, '1.3 backup_notes')
 		logger.groupEnd()
 		if (up_to === 'explore_and_take_notes') return
 
@@ -51,6 +53,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		logger.group('******* 3. STARTING IN-PLACE NORMALIZATION PHASE *******')
 		db = DB.normalize_files_in_place(db)
 		db = await exec_pending_actions_recursively_until_no_more(db, '3.0 normalize_files_in_place')
+		// backup notes once more to reflect the new pathes
 		db = DB.backup_notes(db)
 		db = await exec_pending_actions_recursively_until_no_more(db, '3.1 backup_notes')
 		logger.groupEnd()
@@ -61,14 +64,21 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		db = await exec_pending_actions_recursively_until_no_more(db, '4.0 ensure_structural_dirs_are_present')
 		db = DB.move_all_files_to_their_ideal_location(db)
 		db = await exec_pending_actions_recursively_until_no_more(db, '4.1 move_all_files_to_their_ideal_location')
+		// backup notes once more to reflect the new pathes
+		db = DB.backup_notes(db)
+		db = await exec_pending_actions_recursively_until_no_more(db, '4.2 backup_notes')
+
 		logger.groupEnd()
 		if (up_to === 'move') return
 
 		logger.group('******* 5. STARTING FINAL CLEANUP PHASE *******')
+		//db = DB.clean_misplaced_notes(db)
+		//db = await exec_pending_actions_recursively_until_no_more(db, '5.0 clean_misplaced_notes')
 		const max_folder_depth = DB.get_max_folder_depth(db)
+		console.log({ max_folder_depth })
 		for(let depth = max_folder_depth; depth >= 0; --depth) {
 			db = DB.delete_empty_folders_recursively(db, depth)
-			db = await exec_pending_actions_recursively_until_no_more(db, `5.${max_folder_depth - depth} normalize_files_in_place depth ${depth}`)
+			db = await exec_pending_actions_recursively_until_no_more(db, `5.${max_folder_depth - depth + 1} normalize_files_in_place depth ${depth}`)
 		}
 		logger.groupEnd()
 		if (up_to === 'cleanup') return

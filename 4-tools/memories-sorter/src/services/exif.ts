@@ -416,23 +416,6 @@ export const get_best_creation_date_from_exif = micro_memoize(function get_best_
 }, {
 	//maxSize: 10,
 })
-/*
-// TODO review this caching if we end up modifying the files (lossless rotation)
-let _cache: { [sf: string]: ExifDateTime | undefined } = {}
-if ((global as any).beforeEach) { // yes I know 😅
-	beforeEach(() => {
-		_cache = {}
-	})
-}
-export function get_best_creation_date_from_exif(exif_data: Immutable<Tags>): ExifDateTime | undefined {
-	const SourceFile = exif_data[EXIF_FIELD__SOURCEFILE]
-	assert(SourceFile, `get_creation_date_from_exif() exif data should have SourceFile`)
-
-	if (!_cache[SourceFile])
-		_cache[SourceFile] = _get_creation_date_from_exif__nocache(exif_data)
-
-	return _cache[SourceFile]
-}*/
 
 export function get_creation_timezone_from_exif(exif_data: Immutable<Tags>): TimeZone | undefined {
 	// TODO extract a better tz from GPS?

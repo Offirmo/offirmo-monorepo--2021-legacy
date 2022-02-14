@@ -148,7 +148,7 @@ export function get_members_for_serialization(date: Immutable<BetterDate>): Bett
 		minute: date._lx.minute,
 		second: date._lx.second,
 		milli: date._lx.millisecond,
-		tz: date._lx.zone.name, // TODO improve, rembmer if was created with auto
+		tz: date._lx.zone.name, // TODO improve, remember if was created with auto
 	}
 }
 

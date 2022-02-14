@@ -85,7 +85,7 @@ export function create(id: FileId): Immutable<State> {
 
 			bcd_afawk‿symd: undefined,
 
-			_currently_known_as: parsed_path.base,
+			_currently_known_as: id,
 			_bcd_source: undefined,
 		},
 	}
@@ -232,7 +232,7 @@ export function on_info_read__current_neighbors_primary_hints(
 	return state
 }
 
-// happens AFTER ALL on_info_read...
+// happens AFTER ALL on_info_read_xxx()...
 export function on_notes_recovered(state: Immutable<State>, recovered_notes: null | Immutable<PersistedNotes>): Immutable<State> {
 	logger.trace(`${LIB} on_notes_recovered(…)`, { id: state.id, recovered_notes })
 
@@ -263,7 +263,7 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 		notes: {
 			...state.notes,
 			...recovered_notes,
-			_currently_known_as: get_current_basename(state), // force keep this one
+			_currently_known_as: state.id, // force keep this one
 			historical: {
 				...state.notes.historical,
 				...recovered_notes?.historical,
@@ -276,6 +276,21 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 			!is_processed_media_basename(get_oldest_known_basename(state)),
 			`PERFECT STATE original basename should never be an already processed basename "${get_oldest_known_basename(state)}"!`
 		)
+	}
+
+	return state
+}
+
+// happens AFTER all info consolidated
+export function on_consolidated(state: Immutable<State>): Immutable<State> {
+	const meta = get_best_creation_date‿meta(state)
+
+	state = {
+		...state,
+		notes: {
+			...state.notes,
+			_bcd_source: meta.source, // refresh this field
+		}
 	}
 
 	return state
@@ -301,7 +316,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 		...state,
 		notes: {
 			...state.notes,
-			_currently_known_as: new_basename,
+			_currently_known_as: new_id,
 		}
 	}
 
@@ -316,7 +331,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 				...state,
 				notes: {
 					...state.notes,
-					_bcd_source: meta.source,
+					_bcd_source: meta.source, // move is most likely due to sort, hence we take the opportunity to refresh this field
 				}
 			}
 		}
@@ -472,7 +487,7 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 			// Even if we discard duplicates, they may still hold precious original info
 			...merge_notes(...states.map(s => s.notes)),
 			// update
-			_currently_known_as: get_current_basename(selected_state),
+			_currently_known_as: selected_state.id,
 		},
 	}
 
