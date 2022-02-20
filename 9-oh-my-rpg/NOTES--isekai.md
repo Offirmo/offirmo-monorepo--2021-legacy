@@ -24,3 +24,17 @@ https://www.britannica.com/topic/domestic-system
 https://www.britannica.com/topic/factory-system
 https://www.britannica.com/technology/assembly-line
 https://www.britannica.com/topic/history-of-work-organization-648000/The-craft-guilds
+
+
+Head Hunter Yamato: Ranking is a way to separate monsters by their relative danger level, they go as following:
+G - Can be dealth with by able people
+F - Can be dealth with by male adults
+E - Village Crisis
+D - Townside Crisis
+C - Citywide Crisis
+B - National Crisis
+A - Continental Threat
+S - Global Crisis
+SS - World Disaster
+SSS - Universal Calamity
+We haven't experienced anything stronger than the E rank in all history of our village. Whatever is above the A rank is completely unheard of, and only partially mentioned in ancient texts. That's the realm of gods, world destroyers and higher beings that our mortal souls are unlikely to ever face

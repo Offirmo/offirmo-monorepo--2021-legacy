@@ -1087,3 +1087,16 @@ https://www.coachmag.co.uk/exercises/sport-workouts/1552/win-armwrestling
 https://en.wikipedia.org/wiki/Classical_elements_in_popular_culture
 
 https://en.wikipedia.org/wiki/Culinary_diplomacy
+
+https://science.slashdot.org/story/22/02/02/195244/new-lightweight-material-is-stronger-than-steel
+https://en.wikipedia.org/wiki/Blade#Sword_patterns
+https://en.wikipedia.org/wiki/Toledo_steel
+https://en.wikipedia.org/wiki/Damascus_steel
+https://en.wikipedia.org/wiki/Bulat_steel
+https://en.wikipedia.org/wiki/Japanese_swordsmithing
+https://www.quora.com/Whats-the-best-material-to-use-for-making-a-sword
+
+https://writing.stackexchange.com/questions/61330/how-to-write-like-a-little-kid
+https://worldbuilding.stackexchange.com/questions/223992/what-ways-could-an-underground-society-decompose-bodies
+https://worldbuilding.stackexchange.com/questions/9947/could-a-dwarven-civilization-exist?rq=1
+https://en.wikipedia.org/wiki/Mining_and_metallurgy_in_medieval_Europe

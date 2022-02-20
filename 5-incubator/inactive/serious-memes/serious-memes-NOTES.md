@@ -74,3 +74,7 @@ top-down/bottom-up
 tradeoffs / can't have everything
 who moved my cheese?
 être heureux n'est pas nécessairement confortable
+Irredentism https://www.reddit.com/r/history/comments/sji919/is_there_a_term_for_this_phenomenon/
+
+Tools
+https://en.wikipedia.org/wiki/Johari_window
