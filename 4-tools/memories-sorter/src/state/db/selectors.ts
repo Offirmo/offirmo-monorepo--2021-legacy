@@ -220,6 +220,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	const event_folder_base = ((): string => {
 		const compact_date = File.get_best_creation_date‿compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
+
 		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_date_matching_this_event‿symd(state.folders[fid], compact_date))
 		if (compatible_event_folder_id) {
 			DEBUG && console.log(`✴️ ${id} found existing compatible event folder:`, compatible_event_folder_id)
@@ -235,9 +236,10 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			folder_date = add_days(folder_date, -1)
 		}
 
-		// TODO use the existing parent folder as a base hint anyway
-
-		const new_event_folder_basename = String(get_compact_date(folder_date, 'tz:embedded')) + ' - ' + (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life')
+		const new_event_folder_basename =
+			String(get_compact_date(folder_date, 'tz:embedded'))
+			+ ' - '
+			+ (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life') // TODO use the existing parent folder as a base hint anyway
 		DEBUG && console.log(`✴️ ${id} !found compatible event folder = created one`, {
 			adjusted_date: get_debug_representation(folder_date),
 			new_event_folder_basename,
@@ -257,7 +259,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	assert(file_state, `get_ideal_file_relative_path() should refer to a state! "${id}"`)
 
 	if (File.is_notes(file_state)) {
-		return id // TODO improve. Handle notes files consolidation. Should this even be called?
+		return id // duplicate non-canonical notes will be cleaned at a later stage, no change for now
 	}
 
 	let ideal_basename = File.get_ideal_basename(file_state)

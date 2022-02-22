@@ -3,7 +3,7 @@ import { getRootSEC, SoftExecutionContext } from '@offirmo-private/soft-executio
 import { LIB } from '../consts'
 
 function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext {
-	// TODO review memoize / not mutate the parent??
+	// TODO review memoize?
 	return (parent || getRootSEC())
 		.createChild()
 		.setLogicalStack({module: LIB})

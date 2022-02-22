@@ -153,7 +153,7 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 		&& is_notes_requirement_met
 
 	if (!has_all_infos && should_log) {
-		// TODO remove, valid check most of the time
+		// TODO review and remove, valid check most of the time
 		logger.warn(`has_all_infos_for_extracting_the_creation_date() !met`, {
 			requirements: {
 				require_neighbors_hints,
@@ -179,28 +179,6 @@ export function has_all_infos_for_extracting_the_creation_date(state: Immutable<
 
 	return has_all_infos
 }
-
-/* TODO REVIEW improve with tracking? Should we even need this?
-export function is_first_file_encounter(state: Immutable<State>): boolean | undefined {
-	if (!state.are_notes_restored)
-		return undefined // don't know yet
-
-	// compare all historical properties
-	const { historical } = state.notes
-	if (historical.basename !== get_current_basename(state)) return false
-	if (historical.parent_path !== get_current_parent_folder_id(state)) return false
-	assert(state.current_fs_stats, `is_first_file_encounter() should have fs stats`)
-	if (historical.fs_bcd_tms !== get_creation_dateⵧfrom_fsⵧcurrent‿tms(state)) return false
-	assert(state.current_exif_data !== undefined, `is_first_file_encounter() should have EXIF data`)
-	if (is_exif_powered_media_file(state)
-		&& historical.exif_orientation !== (state.current_exif_data
-		? get_orientation_from_exif(state.current_exif_data)
-		: undefined))
-		return false
-
-	return true
-}
-*/
 
 // primary, in order
 function _get_creation_dateⵧfrom_manual(state: Immutable<State>): BetterDate | undefined {
@@ -319,25 +297,6 @@ function _get_creation_dateⵧfrom_basename_pⵧcurrent(state: Immutable<State>)
 
 	return undefined
 }
-/*
-function _get_creation_date__from_basename_np__any(state: Immutable<State>): BetterDate | undefined {
-	if (!is_processed_media_basename(get_oldest_known_basename(state))) {
-		const parsed = get_oldest_known_basename‿parsed(state)
-		if (parsed.date)
-			return parsed.date
-	}
-
-	return _get_creation_dateⵧfrom_basename_npⵧcurrent(state)
-}
-function _get_creation_date__from_basename_p__any(state: Immutable<State>): BetterDate | undefined {
-	if (is_processed_media_basename(get_oldest_known_basename(state)))
-		return get_oldest_known_basename‿parsed(state).date!
-
-	if (is_processed_media_basename(get_current_basename(state)))
-		return get_current_basename‿parsed(state).date!
-
-	return undefined
-}*/
 // junk
 function _get_creation_dateⵧfrom_envⵧoldest_known(state: Immutable<State>): BetterDate | null | undefined {
 	assert(state.are_notes_restored, `_get_creation_dateⵧfrom_envⵧoldest_known() needs notes restored`)
@@ -980,13 +939,6 @@ export function _get_current_fs_reliability_according_to_own_and_env(
 	return reliability_according_to_neighbors
 }
 
-// TODO export function should_normalize(...) if older norm etc. Or should be in ideal basename?
-/*
-export function is_date_from_original_data(state: Immutable<State>): boolean {
-	const meta = get_best_creation_date‿meta(state)
-	return meta.from_historical
-}
-*/
 export function get_ideal_basename(state: Immutable<State>, {
 	PARAMS = get_params(),
 	copy_marker = 'none',

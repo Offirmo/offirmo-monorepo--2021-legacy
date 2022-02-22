@@ -433,7 +433,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 export interface ParseResult {
 	original_name: Basename
 
-	extension_lc: string // TODO norm?
+	extension_lc: string // TODO normalize?
 	date_digits: undefined | string // in order of discovery, not in order of rank!
 	digits_pattern: undefined | string // useful to recognise ourselves ;)
 	date: undefined | BetterDate

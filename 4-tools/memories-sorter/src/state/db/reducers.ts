@@ -413,20 +413,20 @@ function _on_file_notes_recovered(state: Immutable<State>, file_id: FileId, reco
 
 	return state
 }
+// merge notes recovered from notes bkp, notes (re)generated) from fs, across all duplicates if any
 function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} _consolidate_notes_between_persisted_regenerated_and_duplicates()…`)
 
-	// merge notes recovered from notes bkp, notes (re)generated) from fs, across all duplicates if any
 	const all_media_hashes = get_all_media_files(state).reduce((acc, file_state) => {
-		const { id, current_hash } = file_state
-		assert(current_hash, `consolidate: should have current hash`)
+		const { current_hash } = file_state
+		assert(current_hash, `_consolidate_notes_between_persisted_regenerated_and_duplicates: should have current hash`)
 		acc.add(current_hash)
 		return acc
 	}, new Set<FileHash>())
 	const file_ids_by_hash = get_file_ids_by_hash(state)
 
 	all_media_hashes.forEach(hash => {
-		logger.trace(`_consolidate_notes_between…() processing ${hash}`)
+		logger.trace(`_consolidate_notes_between_persisted_regenerated_and_duplicates…() processing ${hash}`)
 
 		const all_notes_for_this_hash: Array<Immutable<File.PersistedNotes>> = []
 
@@ -450,7 +450,8 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 					: File.merge_notes(...all_notes_for_this_hash)
 
 		file_ids_by_hash[hash].forEach((id: FileId) => {
-			//if (!hash_has_restored_notes && deep equal) TODO no change = null
+			// must be called even if consolidated notes === existing
+			// for we record the recovery happened
 			state = _on_file_notes_recovered(state, id, recovered_consolidated_notes)
 		})
 
@@ -634,7 +635,6 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 }
 
 // we even normalize non-media files, cleaning spaces and extension is still good
-// TODO review? If change, review the assertion "should be already normalized"
 export function normalize_files_in_place(state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} normalize_files_in_place()…`)
 	logger.verbose(`${LIB} Normalizing files in-place…`)

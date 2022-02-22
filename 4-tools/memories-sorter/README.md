@@ -1,4 +1,13 @@
 
+This tool sorts a directory of photo in-place:
+- sort into a neat subdirectory structure
+- cleans duplicates
+- lossless: will keep a record of original file infos
+- will preserve existing manual sorting (even just hints)
+  - will do nothing if called again on a previously sorted dir
+- will accurately date the photos according to a complex algorithm
+
+
 ## Credits
 * https://github.com/photostructure/exiftool-vendored.js
 

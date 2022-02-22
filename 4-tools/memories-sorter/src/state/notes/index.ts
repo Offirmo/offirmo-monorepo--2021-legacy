@@ -18,8 +18,10 @@ import {
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
 import { get_historical_fs_reliability } from '../file/sub/neighbor-hints'
+import { get_lib_SEC } from '../../services/sec'
 
 export { State } from './types'
+import { migrate_to_latest as _migrate_to_latest } from './migrations'
 
 ///////////////////// ACCESSORS /////////////////////
 
@@ -79,8 +81,7 @@ export function create(debug_id: string, notes_to_copy?: Immutable<State>): Stat
 }
 
 export function migrate_to_latest(prev: any): Immutable<State> {
-	// TODO proper migration
-	return prev as Immutable<State>
+	return _migrate_to_latest(get_lib_SEC(), prev)
 }
 
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {

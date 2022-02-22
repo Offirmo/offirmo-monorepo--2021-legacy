@@ -142,6 +142,7 @@ export const get_event_range = micro_memoize(function _get_event_range(state: Im
 			: undefined
 	}
 
+	// TODO REVIEW (done elsewhere, needed here?)
 	/*if (!event_beginⵧfrom_folder_basename) {
 		if (get_day_of_week_index(event_begin_date) === 0) {
 			// sunday is coalesced to sat = start of weekend

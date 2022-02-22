@@ -68,7 +68,7 @@ export const get_params = memoize_once(function get_params(): Params {
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- 2020`),
 		root: path.normalize(`/Users/${process.env.USER}/Dropbox/- TEST photos sorter/- sorted`), // TEST don't commit
 
-		...(false // XXX true = local execution on Offirmo's machine, XXX don't commit "true"
+		...(false // WARNING true = local execution on author's machine, WARNING don't commit "true"
 			? {
 					dry_run: true,
 					//dry_run: false,

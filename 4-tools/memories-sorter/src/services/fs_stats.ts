@@ -6,7 +6,7 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 ////////////////////////////////////
 
-// TODO add size to detect collisions
+// TODO add size to detect collisions?
 export type FsStatsSubset = Pick<fs.Stats, 'birthtimeMs' | 'atimeMs' | 'mtimeMs' | 'ctimeMs' /*| 'size'*/>
 const KEYS: Array<keyof FsStatsSubset> = [ 'birthtimeMs', 'atimeMs', 'mtimeMs', 'ctimeMs'/*, 'size'*/ ]
 

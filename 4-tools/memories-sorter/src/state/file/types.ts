@@ -38,7 +38,7 @@ export interface HistoricalData {
 
 	// from fs
 	// we should always store it in case it changes for some reason + we may overwrite it
-	fs_bcd_tms: TimestampUTCMs // TODO migration
+	fs_bcd_tms: TimestampUTCMs
 
 	// from neighbors
 	neighbor_hints: HistoricalNeighborHints
@@ -52,7 +52,7 @@ export interface HistoricalData {
 // but that need to be preserved across invocations
 export interface PersistedNotes {
 	// backup
-	historical: HistoricalData // TODO migration
+	historical: HistoricalData
 
 	// user data
 	deleted: undefined | boolean // TODO implement this feature TODO rename? TODO undefined?
@@ -60,7 +60,7 @@ export interface PersistedNotes {
 	manual_date: undefined // TODO implement this feature
 
 	// for debug
-	// TODO check it's properly re-set later!
+	// NOTE it has to be properly re-set on change! TODO add auto checks?
 	_currently_known_as: RelativePath // not strictly useful, intended at humans reading the notes manually
 	_bcd_afawk‿symd: undefined | SimpleYYYYMMDD
 	_bcd_source: undefined | string

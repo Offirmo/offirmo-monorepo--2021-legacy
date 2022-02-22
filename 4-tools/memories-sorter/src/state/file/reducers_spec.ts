@@ -76,7 +76,7 @@ describe(`${LIB} - file (state)`, function() {
 				describe('notes merging', function() {
 
 					it('should always merge notes and pick the best of all', () => {
-						const _s1 = create_demo()
+						const _s1 = create_demo('foo very very long ha ha/bar.jpg')
 						const s1 = enforce_immutability<State>({
 							..._s1,
 							notes: {
@@ -84,14 +84,14 @@ describe(`${LIB} - file (state)`, function() {
 								starred: true,
 							}
 						})
-						const _s2 = create_demo()
+						const _s2 = create_demo('foo very very long ha ha/bar.jpg')
 						const s2 = enforce_immutability<State>({
 							..._s2,
 						})
 						const s3 = create_demo('foo/bar - copy.jpg', EARLIER_CREATION_DATE) // should not impact
 
 						const EXPECTED_MERGED_NOTES: PersistedNotes = {
-							_currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
+							_currently_known_as: 'foo/bar.jpg', // selected as "the best" bc shortest basename
 							_bcd_afawk‿symd: undefined,
 							_bcd_source: undefined,
 							deleted: undefined,
@@ -150,7 +150,7 @@ describe(`${LIB} - file (state)`, function() {
 							})
 
 							const EXPECTED_MERGED_NOTES: PersistedNotes = {
-								_currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
+								_currently_known_as: 'foo/bar.jpg', // selected as "the best" bc shortest basename
 								_bcd_afawk‿symd: undefined,
 								_bcd_source: undefined,
 								deleted: undefined,

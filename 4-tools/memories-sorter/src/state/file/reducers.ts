@@ -256,19 +256,26 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 		assert(current_ext‿norm === original_ext‿norm, `recovered notes should refer to the same file type! "${current_ext‿norm}" vs. "${original_ext‿norm}`)
 	}
 
+	if (recovered_notes !== state.notes) {
+		state = {
+			...state,
+			notes: {
+				...state.notes,
+				...recovered_notes,
+				_currently_known_as: state.id, // force keep this one
+				historical: {
+					...state.notes.historical,
+					...recovered_notes?.historical,
+				},
+			},
+		}
+	}
+
+
 	state = {
 		...state,
 		are_notes_restored: true,
 		restored_notes_were_null: recovered_notes === null,
-		notes: {
-			...state.notes,
-			...recovered_notes,
-			_currently_known_as: state.id, // force keep this one
-			historical: {
-				...state.notes.historical,
-				...recovered_notes?.historical,
-			},
-		},
 	}
 
 	if (get_params().expect_perfect_state) {
@@ -488,7 +495,7 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 			// Even if we discard duplicates, they may still hold precious original info
 			...merge_notes(...states.map(s => s.notes)),
 			// update
-			_currently_known_as: selected_state.id,
+			_currently_known_as: selected_state.id, // not really needed (since it's regenerated) but useful for tests
 		},
 	}
 
