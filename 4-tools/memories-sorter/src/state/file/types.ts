@@ -59,14 +59,10 @@ export interface PersistedNotes {
 	starred: undefined | boolean // TODO implement this feature TODO undefined?
 	manual_date: undefined // TODO implement this feature
 
-	// meta
-	// useful to clean out notes about deleted files and keep only the one relevant to the subset of notes we're in
-	// (+debug)
-	bcd_afawk‿symd: undefined | SimpleYYYYMMDD // TODO fill
-
 	// for debug
 	// TODO check it's properly re-set later!
 	_currently_known_as: RelativePath // not strictly useful, intended at humans reading the notes manually
+	_bcd_afawk‿symd: undefined | SimpleYYYYMMDD
 	_bcd_source: undefined | string
 }
 

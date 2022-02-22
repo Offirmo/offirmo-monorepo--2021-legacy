@@ -746,13 +746,13 @@ describe(`${LIB} - file (state)`, function() {
 
 					state = on_notes_recovered(state, {
 						_currently_known_as: CURRENT_BASENAME,
+						_bcd_afawk‿symd: undefined,
 						_bcd_source: undefined,
 
 						deleted: false,
 						starred: false,
 						manual_date: undefined,
 
-						bcd_afawk‿symd: undefined, // TODO test?
 
 						historical: {
 							basename: 'Capture d’écran 2019-07-31 à 21.00.15.png',

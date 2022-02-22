@@ -114,14 +114,13 @@ function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
 function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
 	return {
 		_currently_known_as: 'whatever, write-only.xyz',
+		_bcd_afawk‿symd: undefined,
 		_bcd_source: undefined,
 
 		// TODO one day: test that (when implemented)
 		deleted: undefined,
 		starred: undefined,
 		manual_date: undefined,
-
-		bcd_afawk‿symd: undefined, // TODO?
 
 		historical: {
 			basename: inputs.autoǃbasename__historical ?? 'original' + path.parse(inputs.basenameⵧcurrent).ext, // extensions should match,

@@ -78,3 +78,6 @@ Irredentism https://www.reddit.com/r/history/comments/sji919/is_there_a_term_for
 
 Tools
 https://en.wikipedia.org/wiki/Johari_window
+
+Wisdom
+Trust, but verify

@@ -22,12 +22,19 @@ Senior Dev tips!
 
 https://twitter.com/dan_abramov/status/1470613731071696896?lang=en
 
+
+https://adr.github.io/ Sustainable Architectural Decisions
+
+
 https://blockprotocol.org/
 
 https://dev.to/apkoponen/100-tips-on-software-developer-productivity-36if
 
 Lean and Queuing theory
 
+Nothing Happens Until You Start → Iterate → Mix It Up (Chapter 31 - Tickle Theory)
+
+auto-scaling and load-shedding
 
 kebab-case vs snake etc
 

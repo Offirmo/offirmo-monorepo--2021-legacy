@@ -25,6 +25,7 @@ import {
 	get_timestamp_utc_ms_from,
 	create_better_date_obj,
 	is_deep_equal,
+	get_compact_date,
 } from '../../services/better-date'
 
 import { LIB } from './consts'
@@ -83,9 +84,8 @@ export function create(id: FileId): Immutable<State> {
 			starred: undefined,
 			manual_date: undefined,
 
-			bcd_afawk‿symd: undefined,
-
 			_currently_known_as: id,
+			_bcd_afawk‿symd: undefined,
 			_bcd_source: undefined,
 		},
 	}
@@ -141,7 +141,7 @@ export function on_info_read__exif(state: Immutable<State>, exif_data: Immutable
 
 	if (has_errors(exif_data)) {
 		logger.error(`Error reading exif data for "${state.id}"!`, { errors: exif_data.errors })
-		// XXX TODO mark file as "in error" to not be renamed / processed
+		// TODO mark file as "in error" to not be renamed / processed
 		return {
 			...state,
 			current_exif_data: null,
@@ -289,6 +289,7 @@ export function on_consolidated(state: Immutable<State>): Immutable<State> {
 		...state,
 		notes: {
 			...state.notes,
+			_bcd_afawk‿symd: get_compact_date(meta.candidate, 'tz:embedded'),
 			_bcd_source: meta.source, // refresh this field
 		}
 	}
@@ -528,8 +529,8 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 				...unknown_historical
 			},
 			// debug
-			bcd_afawk‿symd,
 			_currently_known_as,
+			_bcd_afawk‿symd,
 			_bcd_source,
 			// safety
 			...unknown
@@ -572,10 +573,6 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 		}
 		if (manual_date !== undefined) {
 			throw new Error(`merge_notes() NIMP manual_date!`)
-		}
-
-		if (bcd_afawk‿symd !== undefined) {
-			throw new Error(`merge_notes() NIMP bcd_afawk‿symd!`)
 		}
 
 		// debug data can be ignored, it'll be automatically updated

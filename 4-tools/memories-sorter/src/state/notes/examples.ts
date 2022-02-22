@@ -34,10 +34,9 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			deleted: undefined,
 			starred: undefined,
 			manual_date: undefined,
-			// meta
-			bcd_afawk‿symd: 20191025,
 			// debug
 			_currently_known_as: 'Image from iOS (15).jpg',
+			_bcd_afawk‿symd: 20191025,
 			_bcd_source: "fsⵧcurrent+neighbor?",
 		},
 
@@ -55,10 +54,9 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			deleted: undefined,
 			starred: undefined,
 			manual_date: undefined,
-			// meta
-			bcd_afawk‿symd: 20190827,
 			// debug
 			'_currently_known_as': 'MM2019-08-27_12h45m05s158_IMG_1474.jpg',
+			_bcd_afawk‿symd: 20190827,
 			'_bcd_source': 'exifⵧcurrent'
 		},
 
@@ -76,10 +74,9 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			deleted: undefined,
 			starred: undefined,
 			manual_date: undefined,
-			// meta
-			bcd_afawk‿symd: 20030508,
 			// debug
 			_currently_known_as: 'CLIP0003.avi',
+			_bcd_afawk‿symd: 20030508,
 			_bcd_source: 'fsⵧcurrent+neighbor?',
 		},
 
@@ -96,10 +93,9 @@ const DEMO_STATE: Immutable<State> = enforce_immutability<State>({
 			deleted: undefined,
 			starred: undefined,
 			manual_date: undefined,
-			// meta
-			bcd_afawk‿symd: 20200101,
 			// debug
 			_currently_known_as: 'MM2020-01-01_17h57m29s625_IMG_8763.jpg',
+			_bcd_afawk‿symd: 20200101,
 			_bcd_source: "exifⵧcurrent",
 		},
 

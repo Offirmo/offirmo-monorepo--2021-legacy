@@ -92,8 +92,8 @@ describe(`${LIB} - file (state)`, function() {
 
 						const EXPECTED_MERGED_NOTES: PersistedNotes = {
 							_currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
+							_bcd_afawk‿symd: undefined,
 							_bcd_source: undefined,
-							bcd_afawk‿symd: undefined,
 							deleted: undefined,
 							starred: true, // correctly preserved
 							manual_date: undefined,
@@ -151,8 +151,8 @@ describe(`${LIB} - file (state)`, function() {
 
 							const EXPECTED_MERGED_NOTES: PersistedNotes = {
 								_currently_known_as: 'bar.jpg', // selected as "the best" bc shortest
+								_bcd_afawk‿symd: undefined,
 								_bcd_source: undefined,
-								bcd_afawk‿symd: undefined,
 								deleted: undefined,
 								starred: undefined,
 								manual_date: undefined,

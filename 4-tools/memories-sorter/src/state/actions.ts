@@ -57,7 +57,7 @@ export interface ActionLoadNotes extends BaseAction {
 export interface ActionPersistNotes extends BaseAction {
 	type: typeof ActionType.persist_notes
 	data: Immutable<NotesState>
-	folder_path?: RelativePath // default to root
+	folder_path?: RelativePath // default to root TODO review if needed
 }
 
 export interface ActionEnsureFolder extends BaseAction {

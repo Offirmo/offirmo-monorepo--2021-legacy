@@ -62,7 +62,7 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 			deleted: undefined,
 			starred: undefined,
 			manual_date: undefined,
-			bcd_afawk‿symd: undefined,
+			_bcd_afawk‿symd: undefined,
 			_bcd_source: undefined,
 			_currently_known_as: '',
 			historical: {
@@ -86,6 +86,10 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 		if (keys.includes('currently_known_as')) { // old property name
 			migrated_notes._currently_known_as = legacy_file_notes.currently_known_as
 			keys = keys.filter(k => k !== 'currently_known_as')
+		}
+		if (keys.includes('bcd_afawk‿symd')) {
+			migrated_notes._bcd_afawk‿symd = legacy_file_notes.bcd_afawk‿symd
+			keys = keys.filter(k => k !== 'bcd_afawk‿symd')
 		}
 		if (keys.includes('_bcd_source')) {
 			migrated_notes._bcd_source = legacy_file_notes._bcd_source

@@ -330,7 +330,7 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 }
 
 export function backup_notes(state: Immutable<State>): Immutable<State> {
-	// XXX
+	// TODO review if it's worth passing the full data
 	const folder_path = undefined
 	state = _enqueue_action(state, Actions.create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
 	state = {
