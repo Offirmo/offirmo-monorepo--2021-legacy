@@ -401,17 +401,13 @@ export function demote_to_unknown(state: Immutable<State>, reason: string): Immu
 	}
 }
 
-// TODO on subfile deleted / moved
-/*
-export function on_moved(state: Immutable<State>, new_id: RelativePath): Immutable<State> {
-	logger.trace(`${LIB} on_moved(…)`, { new_id })
+// either deleted or moved
+export function on_subfile_removed(state: Immutable<State>): Immutable<State> {
 
-	return {
-		...state,
-		id: new_id,
-		cached: {
-			...state.cached,
-			base: path.basename(new_id),
-		},
-	}
-}*/
+	// Do nothing!!!
+	// The infos we store in a folder are meant to evaluate the folder type and date range
+	// once the sorting begins, we no longer need to change those infos
+	// hence we don't care about children anymore
+
+	return state
+}

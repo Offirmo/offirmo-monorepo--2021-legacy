@@ -83,9 +83,9 @@ describe(`${LIB} - DB (root) state`, function() {
 				})
 
 				state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
-				/*state = on_file_notes_recovered(state, 'foo.jpg', null)
-				state = on_file_notes_recovered(state, 'bar.jpg', null)
-				state = on_file_notes_recovered(state, 'baz.jpg', null)*/
+				/*state = on_file_notes_recovered_into_active_file_state(state, 'foo.jpg', null)
+				state = on_file_notes_recovered_into_active_file_state(state, 'bar.jpg', null)
+				state = on_file_notes_recovered_into_active_file_state(state, 'baz.jpg', null)*/
 
 				expect(state.encountered_hash_count['hash01'], '01').to.equal(1)
 				expect(state.encountered_hash_count['hash02'], '02').to.equal(2)

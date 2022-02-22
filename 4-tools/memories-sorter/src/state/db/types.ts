@@ -24,5 +24,5 @@ export interface State {
 	}
 
 	queue: Action[],
-	notes_save_required: boolean // TODO finish implementation
+	notes_save_required: boolean // TODO review: never read, is it useful?
 }

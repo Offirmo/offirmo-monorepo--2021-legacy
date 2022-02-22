@@ -22,6 +22,11 @@ Senior Dev tips!
 
 https://twitter.com/dan_abramov/status/1470613731071696896?lang=en
 
+how to build resilience
+how to influence others
+how to job craft
+how to break out of a mental rut
+https://hbr.org/2019/09/to-coach-junior-employees-start-with-4-conversations
 
 https://adr.github.io/ Sustainable Architectural Decisions
 

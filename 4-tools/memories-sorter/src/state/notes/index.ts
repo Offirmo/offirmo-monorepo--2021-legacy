@@ -87,9 +87,6 @@ export function migrate_to_latest(prev: any): Immutable<State> {
 export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
 	logger.trace(`${LIB} on_previous_notes_found(…)`, { })
 
-	// TODO check if the file is a media
-	// we only store notes for medias
-
 	const { encountered_files: encountered_files_a } = state
 	const { encountered_files: encountered_files_b } = old_state
 	const encountered_files: { [oldest_hash: string]: Immutable<FileNotes> } = {}
@@ -109,6 +106,9 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 	])
 
 	encountered_files_hashes.forEach(hash => {
+		// TODO NOW check if the file is a media
+		// we only store notes for medias
+
 		const raw_notes: Array<Immutable<FileNotes> | undefined> = []
 
 		raw_notes.push(encountered_files_a[hash])
@@ -130,19 +130,20 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 	return state
 }
 
-export function on_file_notes_recovered(state: Immutable<State>, current_hash: FileHash): Immutable<State> {
+// delete the copy from this state in order to have a single source of truth
+export function on_file_notes_recovered_into_active_file_state(state: Immutable<State>, current_hash: FileHash): Immutable<State> {
 	let encountered_files = {
 		...state.encountered_files,
 	}
 
 	const oldest_hash = get_oldest_hash(state, current_hash)
 	assert(encountered_files[oldest_hash], `on_file_notes_recovered() notes should exist`)
-	delete encountered_files[oldest_hash] // clean to avoid redundancy, lives in the file state!
-	assert(!encountered_files[oldest_hash], 'on_file_notes_recovered() delete')
+	delete encountered_files[oldest_hash] // clean to avoid redundancy
+	assert(!encountered_files[oldest_hash], 'on_file_notes_recovered_into_active_file_state() delete')
 
 	let hash = current_hash
 	while (hash !== oldest_hash) {
-		assert(!encountered_files[hash], 'on_file_notes_recovered() should not longer have notes')
+		assert(!encountered_files[hash], 'on_file_notes_recovered_into_active_file_state() should not longer have notes')
 		hash = state.known_modifications_new_to_old[hash]
 	}
 
@@ -154,6 +155,8 @@ export function on_file_notes_recovered(state: Immutable<State>, current_hash: F
 
 export function on_file_modified(state: Immutable<State>, previous_hash: string, current_hash: string): Immutable<State> {
 	logger.trace(`${LIB} on_file_modified(…)`, { previous_hash, current_hash })
+
+	// TODO one day (we're never modifying files for now)
 
 	throw new Error('NIMP on_file_modified!')
 }

@@ -67,7 +67,6 @@ export function create(id: FileId): Immutable<State> {
 		current_neighbor_hints: undefined,
 
 		are_notes_restored: false,
-		restored_notes_were_null: undefined,
 		notes: {
 			historical: {
 				basename: parsed_path.base,
@@ -271,11 +270,9 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 		}
 	}
 
-
 	state = {
 		...state,
 		are_notes_restored: true,
-		restored_notes_were_null: recovered_notes === null,
 	}
 
 	if (get_params().expect_perfect_state) {

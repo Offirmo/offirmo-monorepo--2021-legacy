@@ -70,16 +70,6 @@ function _enqueue_action(state: Immutable<State>, action: Action): Immutable<Sta
 	}
 }
 
-/*
-export function discard_first_pending_action(state: Immutable<State>): Immutable<State> {
-	logger.trace(`${LIB} discard_first_pending_action(…)`, { action: state.queue[0] })
-
-	return {
-		...state,
-		queue: state.queue.slice(1),
-	}
-}*/
-
 export function discard_last_pending_action(state: Immutable<State>, expected_type: ActionType): Immutable<State> {
 	logger.trace(`${LIB} discard_last_pending_action(…)`, { action: state.queue.slice(-1)[0] })
 	assert(state.queue.slice(-1)[0].type === expected_type, `discard_last_pending_action() should have expected type`)
@@ -112,6 +102,7 @@ function _register_folder(state: Immutable<State>, id: FolderId): Immutable<Stat
 			...state.folders,
 			[id]: folder_state,
 		},
+		notes_save_required: state.notes_save_required,
 	}
 
 	logger.trace(`${LIB} _register_folder()`, { id, type: folder_state.type })
@@ -156,6 +147,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 			...state.folders,
 			[folder_id]: new_folder_state,
 		},
+		notes_save_required: true,
 	}
 
 	const is_notes = File.is_notes(file_state)
@@ -196,6 +188,7 @@ export function on_note_file_found(state: Immutable<State>, raw_data: any): Immu
 	return {
 		...state,
 		extra_notes: Notes.on_previous_notes_found(state.extra_notes, recovered_data),
+		notes_save_required: true,
 	}
 }
 
@@ -210,6 +203,7 @@ export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats
 			...state.files,
 			[file_id]: new_file_state,
 		},
+		notes_save_required: true,
 	}
 
 	return state
@@ -226,6 +220,7 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 			...state.files,
 			[file_id]: new_file_state,
 		},
+		notes_save_required: true,
 	}
 
 	return state
@@ -251,6 +246,7 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 			...state.files,
 			[file_id]: new_file_state,
 		},
+		notes_save_required: true,
 	}
 
 	return state
@@ -265,7 +261,7 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 	assert(state.files[id], 'on_file_moved() file state: src should exist')
 	assert(!state.files[target_id], 'on_file_moved() file state: target should no already exist')
 
-	// todo inc/dec folders
+	// TODO inc/dec folders
 
 	let file_state = state.files[id]
 	file_state = File.on_moved(file_state, target_id)
@@ -279,6 +275,7 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 	state = {
 		...state,
 		files,
+		notes_save_required: true,
 	}
 
 	return state
@@ -287,19 +284,46 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<State> {
 	logger.trace(`${LIB} on_file_deleted(…)`, { id })
 
-	// todo dec folders
+	// propagate in sub-states
 
+	// 1. file itself
 	let file_state = state.files[id]
 	assert(file_state, 'on_file_deleted() file state')
-
-	let files = {
-		...state.files
-	}
+	let files = { ...state.files }
 	delete files[id]
+
+	// 2. parent folder (note: useless for now but never mind)
+	let folder_state = state.folders[File.get_current_parent_folder_id(file_state)]
+	assert(folder_state, 'on_file_deleted() folder state')
+	let folders = { ...state.folders }
+	folders[folder_state.id] = Folder.on_subfile_removed(folders[folder_state.id])
+
+	// 3. derived state
+	const encountered_hash_count = {
+		...state.encountered_hash_count,
+	}
+	assert(file_state.current_hash)
+	const previous_duplicate_count = state.encountered_hash_count[file_state.current_hash!]
+	assert(previous_duplicate_count >= 1)
+	encountered_hash_count[file_state.current_hash!] = previous_duplicate_count - 1
+
+	// 4. notes
+	let extra_notes = state.extra_notes
+	// if this file is not a duplicate, we want to keep the notes in "extra notes"
+	const is_last_known_file_with_this_hash = previous_duplicate_count === 1
+	if (is_last_known_file_with_this_hash) {
+		// we deleted the last instance
+		// this should never happen as we only delete duplicates
+		throw new Error('NIMP last duplicate!')
+	}
 
 	return {
 		...state,
 		files,
+		folders,
+		encountered_hash_count,
+		extra_notes,
+		notes_save_required: true,
 	}
 }
 
@@ -317,6 +341,7 @@ export function on_folder_deleted(state: Immutable<State>, id: FolderId): Immuta
 	return {
 		...state,
 		folders,
+		notes_save_required: state.notes_save_required,
 	}
 }
 
@@ -460,7 +485,7 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 			// clean
 			state = {
 				...state,
-				extra_notes: Notes.on_file_notes_recovered(state.extra_notes, hash)
+				extra_notes: Notes.on_file_notes_recovered_into_active_file_state(state.extra_notes, hash)
 			}
 		}
 	})
