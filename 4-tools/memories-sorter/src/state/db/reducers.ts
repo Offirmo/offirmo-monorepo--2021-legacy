@@ -50,7 +50,6 @@ export function create(root: AbsolutePath): Immutable<State> {
 		encountered_hash_count: {},
 
 		queue: [],
-		notes_save_required: false,
 	}
 
 	return state
@@ -102,7 +101,6 @@ function _register_folder(state: Immutable<State>, id: FolderId): Immutable<Stat
 			...state.folders,
 			[id]: folder_state,
 		},
-		notes_save_required: state.notes_save_required,
 	}
 
 	logger.trace(`${LIB} _register_folder()`, { id, type: folder_state.type })
@@ -123,7 +121,7 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 	return state
 }
 
-export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath): Immutable<State> {
+export function on_file_found(state: Immutable<State>, parent_id: RelativePath, sub_id: RelativePath, called_from_notes_write: boolean = false): Immutable<State> {
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`${LIB} on_file_found(…)`, { parent_id, sub_id, id })
 	assert(!state.files[id], `on_file_found("${id}"): should not be already registered!`)
@@ -147,15 +145,19 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 			...state.folders,
 			[folder_id]: new_folder_state,
 		},
-		notes_save_required: true,
 	}
 
 	const is_notes = File.is_notes(file_state)
 	const is_media_file = File.is_media_file(file_state)
 
 	if (is_notes) {
-		state = _enqueue_action(state, Actions.create_action_load_notes(path.join(parent_id, sub_id)))
-		logger.verbose(`${ LIB } found notes from a previous sorting`, {id})
+		if (called_from_notes_write) {
+			// no new info, we just wrote an up to date file
+		}
+		else {
+			state = _enqueue_action(state, Actions.create_action_load_notes(path.join(parent_id, sub_id)))
+			logger.verbose(`${ LIB } found notes from a previous sorting`, {id})
+		}
 	}
 	else {
 		// always, for dedupe
@@ -188,7 +190,6 @@ export function on_note_file_found(state: Immutable<State>, raw_data: any): Immu
 	return {
 		...state,
 		extra_notes: Notes.on_previous_notes_found(state.extra_notes, recovered_data),
-		notes_save_required: true,
 	}
 }
 
@@ -203,7 +204,6 @@ export function on_fs_stats_read(state: Immutable<State>, file_id: FileId, stats
 			...state.files,
 			[file_id]: new_file_state,
 		},
-		notes_save_required: true,
 	}
 
 	return state
@@ -220,7 +220,6 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 			...state.files,
 			[file_id]: new_file_state,
 		},
-		notes_save_required: true,
 	}
 
 	return state
@@ -246,7 +245,6 @@ export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash:
 			...state.files,
 			[file_id]: new_file_state,
 		},
-		notes_save_required: true,
 	}
 
 	return state
@@ -275,7 +273,6 @@ export function on_file_moved(state: Immutable<State>, id: RelativePath, target_
 	state = {
 		...state,
 		files,
-		notes_save_required: true,
 	}
 
 	return state
@@ -323,7 +320,6 @@ export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<
 		folders,
 		encountered_hash_count,
 		extra_notes,
-		notes_save_required: true,
 	}
 }
 
@@ -341,7 +337,6 @@ export function on_folder_deleted(state: Immutable<State>, id: FolderId): Immuta
 	return {
 		...state,
 		folders,
-		notes_save_required: state.notes_save_required,
 	}
 }
 
@@ -354,13 +349,18 @@ export function explore_fs_recursively(state: Immutable<State>): Immutable<State
 	return on_folder_found(state, '', '.')
 }
 
-export function backup_notes(state: Immutable<State>): Immutable<State> {
-	// TODO review if it's worth passing the full data
-	const folder_path = undefined
-	state = _enqueue_action(state, Actions.create_action_persist_notes(get_past_and_present_notes(state, folder_path), folder_path))
+export function backup_notes(state: Immutable<State>, mode: 'mode:intermediate' | 'mode:final'): Immutable<State> {
+	state = _enqueue_action(state, Actions.create_action_persist_notes('.'))
+
+	if (mode === 'mode:final') {
+		const year_folder_states = get_all_folders(state).filter(fstate => fstate.type === Folder.Type.year)
+		year_folder_states.forEach(fstate => {
+			state = _enqueue_action(state, Actions.create_action_persist_notes(fstate.id))
+		})
+	}
+
 	state = {
 		...state,
-		notes_save_required: false,
 	}
 
 	return state
@@ -498,7 +498,6 @@ function _consolidate_notes_between_persisted_regenerated_and_duplicates(state: 
 
 	return {
 		...state,
-		notes_save_required: true,
 	}
 }
 function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<State>): Immutable<State> {
@@ -614,7 +613,6 @@ export function on_fs_exploration_done_consolidate_data_and_backup_originals(sta
 	state = _consolidate_notes_between_persisted_regenerated_and_duplicates(state)
 	state = _consolidate_folders_by_demoting_and_de_overlapping(state)
 	state = _refresh_debug_infos(state)
-	state = backup_notes(state)
 
 	return state
 }
@@ -654,8 +652,6 @@ export function clean_up_duplicates(state: Immutable<State>): Immutable<State> {
 		files,
 	}
 
-	state = backup_notes(state)
-
 	return state
 }
 
@@ -671,7 +667,6 @@ export function normalize_files_in_place(state: Immutable<State>): Immutable<Sta
 
 	return {
 		...state,
-		notes_save_required: true,
 	}
 }
 

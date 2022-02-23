@@ -15,6 +15,7 @@ logger.verbose(`******* ${LIB.toUpperCase()} *******`)
 
 
 async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
+	// for debug
 	const up_to = 'cleanup' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move' | 'cleanup'
 
 	console.log({ PARAMS })
@@ -35,7 +36,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		db = await exec_pending_actions_recursively_until_no_more(db, '1.2 on_fs_exploration_done_consolidate_data_and_backup_originals')
 		assert(DB.get_pending_actions(db).length === 0, 'eq 2')
 		logger.verbose('>>>>>>> CONSOLIDATION DONE ✔️ >>>>>>>')
-		db = DB.backup_notes(db)
+		db = DB.backup_notes(db, 'mode:intermediate')
 		db = await exec_pending_actions_recursively_until_no_more(db, '1.3 backup_notes')
 		logger.groupEnd()
 		if (up_to === 'explore_and_take_notes') return
@@ -44,6 +45,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		logger.info('DB = ' + DB.to_string(db)) // for debug
 
 		logger.group('******* 2. STARTING DE-DUPLICATION PHASE *******')
+		// let's do it first so that we can clean the copy markers, unneeded
 		db = DB.clean_up_duplicates(db)
 		db = await exec_pending_actions_recursively_until_no_more(db, '2.0 clean_up_duplicates')
 		assert(DB.get_pending_actions(db).length === 0, 'eq 3')
@@ -54,7 +56,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		db = DB.normalize_files_in_place(db)
 		db = await exec_pending_actions_recursively_until_no_more(db, '3.0 normalize_files_in_place')
 		// backup notes once more to reflect the new pathes
-		db = DB.backup_notes(db)
+		db = DB.backup_notes(db, 'mode:intermediate')
 		db = await exec_pending_actions_recursively_until_no_more(db, '3.1 backup_notes')
 		logger.groupEnd()
 		if (up_to === 'normalize') return
@@ -65,7 +67,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		db = DB.move_all_files_to_their_ideal_location(db)
 		db = await exec_pending_actions_recursively_until_no_more(db, '4.1 move_all_files_to_their_ideal_location')
 		// backup notes once more to reflect the new pathes
-		db = DB.backup_notes(db)
+		db = DB.backup_notes(db, 'mode:intermediate')
 		db = await exec_pending_actions_recursively_until_no_more(db, '4.2 backup_notes')
 
 		logger.groupEnd()
@@ -80,6 +82,8 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 			db = DB.delete_empty_folders_recursively(db, depth)
 			db = await exec_pending_actions_recursively_until_no_more(db, `5.${max_folder_depth - depth + 1} normalize_files_in_place depth ${depth}`)
 		}
+		// backup notes one last time, duplicating them across all "years" folders for manual consolidation
+		db = DB.backup_notes(db, 'mode:final')
 		logger.groupEnd()
 		if (up_to === 'cleanup') return
 	})()

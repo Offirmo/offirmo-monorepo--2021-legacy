@@ -109,9 +109,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 	const file_state = state.files[id]
 
-	if (File.is_notes(file_state)) {
-		return '' // TODO improve. Handle notes files consolidation. Should this even be called?
-	}
+	assert(!File.is_notes(file_state), `get_ideal_file_relative_folder() should not be called on notes`)
 
 	const current_parent_folder_id: FolderId = File.get_current_parent_folder_id(file_state)
 	assert(is_folder_existing(state, current_parent_folder_id), `get_ideal_file_relative_folder() current parent folder exists "${current_parent_folder_id}"`)
@@ -272,9 +270,7 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	return path.join(get_ideal_file_relative_folder(state, id), ideal_basename)
 }
 
-export function get_past_and_present_notes(state: Immutable<State>, folder_path?: RelativePath): Immutable<Notes.State> {
-	assert(!folder_path, `get_past_and_present_notes() by folder = TODO!`)
-
+export function get_past_and_present_notes(state: Immutable<State>): Immutable<Notes.State> {
 	let result = enforce_immutability(Notes.create('for persisting', state.extra_notes))
 
 	const encountered_files = { ...result.encountered_files }

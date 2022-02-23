@@ -241,7 +241,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				// The path exists but we don't have it in DB
 				// possible cases:
 				// - race condition in mkdirp below TODO improve
-				// - the folder was created concurrently to our code running (ugly)
+				// - the folder was externally created concurrently to our code running (ugly)
 				// - the OS sneakily did unicode normalization :-( TODO fix by normalizing
 				// TODO one day: normalize the folders unicode (do it during explore, simpler)
 			}
@@ -295,11 +295,13 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		}
 	}
 
-	async function persist_notes(data: Immutable<Notes.State>, folder_path: RelativePath = '.'): Promise<void> {
+	async function persist_notes(folder_path: RelativePath = '.', data: Immutable<Notes.State> | undefined): Promise<void> {
 		logger.trace(`[Action] initiating persist_notes "${folder_path}"…`)
 		logger.verbose(`- persisting notes into "${folder_path}"…`)
 
-		const abs_path = path.join(DB.get_absolute_path(db, folder_path), NOTES_BASENAME_SUFFIX_LC)
+		data = data ?? DB.get_past_and_present_notes(db)
+		const relative_path = path.join(folder_path, NOTES_BASENAME_SUFFIX_LC)
+		const abs_path = DB.get_absolute_path(db, relative_path)
 		logger.info(`persisting ${Object.keys(data.encountered_files).length} notes and ${Object.keys(data.known_modifications_new_to_old).length} redirects into: "${abs_path}"…`)
 
 		try {
@@ -309,6 +311,16 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				// the oldest = the more authoritative
 				logger.verbose(`💾 json.write("${abs_path}", {…})`)
 				await json.write(abs_path, data)
+				if (DB.is_file_existing(db, relative_path)) {
+					// ok, we just updated an existing note file
+				}
+				else {
+					db = DB.on_file_found(db,
+						'.',
+						relative_path,
+						true, // will prevent a useless note read and merge. Wouldn't bring anything!
+					)
+				}
 			}
 			catch (err) {
 				if (PARAMS.dry_run) {
@@ -606,7 +618,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			/////// WRITE
 
 			case ActionType.persist_notes:
-				await persist_notes(action.data, action.folder_path)
+				await persist_notes(action.folder_path, action.data)
 				break
 
 			case ActionType.normalize_file:

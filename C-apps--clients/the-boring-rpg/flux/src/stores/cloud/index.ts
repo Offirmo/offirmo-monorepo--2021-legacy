@@ -55,6 +55,8 @@ function is_healthy(state: Immutable<CloudSyncState>): boolean {
 	return true
 }
 
+// TODO evaluate https://github.com/vercel/async-sema
+
 function has_recent_sync(state: Immutable<CloudSyncState>): boolean {
 	const now = get_UTC_timestamp_ms()
 	if (now - state.last_successful_sync_tms >= 30 * 60 * 1000)

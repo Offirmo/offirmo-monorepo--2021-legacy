@@ -466,8 +466,9 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		if (selected_state.id.length !== candidate_state.id.length) {
 			reasons.add('current_id.length')
 
-			// shorter name wins!
-			if (selected_state.id.length < candidate_state.id.length)
+			// longer path wins! (imagining it reflects a sorting = more info)
+			// (it's not very important)
+			if (selected_state.id.length >= candidate_state.id.length)
 				return // current is better
 
 			selected_state = candidate_state
@@ -712,7 +713,6 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 			},
 		}
 	}
-
 
 	if (is_processed_media_basename(merged_notes.historical.basename)) {
 		logger.warn(`merge_notes(): ?? final historical basename "${merged_notes.historical.basename}" is already processed`)

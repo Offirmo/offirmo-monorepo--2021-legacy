@@ -56,8 +56,8 @@ export interface ActionLoadNotes extends BaseAction {
 
 export interface ActionPersistNotes extends BaseAction {
 	type: typeof ActionType.persist_notes
-	data: Immutable<NotesState>
-	folder_path?: RelativePath // default to root TODO review if needed
+	folder_path?: RelativePath // where we'll write the file. default to root. We choose to store several backups of the notes, typically in "years" folder
+	data?: Immutable<NotesState> // full data can be queried at action exec time. However, we may choose to not save the full set every time
 }
 
 export interface ActionEnsureFolder extends BaseAction {
@@ -132,11 +132,11 @@ export function create_action_load_notes(path: RelativePath): ActionLoadNotes {
 		path,
 	}
 }
-export function create_action_persist_notes(data: Immutable<NotesState>, folder_path?: RelativePath): ActionPersistNotes {
+export function create_action_persist_notes(folder_path?: RelativePath, data?: Immutable<NotesState>): ActionPersistNotes {
 	return {
 		type: ActionType.persist_notes,
-		data,
 		folder_path,
+		data,
 	}
 }
 export function create_action_normalize_file(id: FileId): ActionNormalizeFile {

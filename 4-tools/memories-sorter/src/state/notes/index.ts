@@ -22,6 +22,8 @@ import { get_lib_SEC } from '../../services/sec'
 
 export { State } from './types'
 import { migrate_to_latest as _migrate_to_latest } from './migrations'
+import { get_file_basename_extension‿normalized } from '../../services/name_parser'
+import { get_params, Params } from '../../params'
 
 ///////////////////// ACCESSORS /////////////////////
 
@@ -84,11 +86,11 @@ export function migrate_to_latest(prev: any): Immutable<State> {
 	return _migrate_to_latest(get_lib_SEC(), prev)
 }
 
-export function on_previous_notes_found(state: Immutable<State>, old_state: Immutable<State>): Immutable<State> {
+export function on_previous_notes_found(state: Immutable<State>, previous_state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): Immutable<State> {
 	logger.trace(`${LIB} on_previous_notes_found(…)`, { })
 
-	const { encountered_files: encountered_files_a } = state
-	const { encountered_files: encountered_files_b } = old_state
+	const { encountered_files: encountered_files_current } = state
+	const { encountered_files: encountered_files_previous } = previous_state
 	const encountered_files: { [oldest_hash: string]: Immutable<FileNotes> } = {}
 	state = {
 		...state,
@@ -96,30 +98,38 @@ export function on_previous_notes_found(state: Immutable<State>, old_state: Immu
 		known_modifications_new_to_old: {
 			// easy merge
 			...state.known_modifications_new_to_old,
-			...old_state.known_modifications_new_to_old,
+			...previous_state.known_modifications_new_to_old,
 		},
 	}
 
 	const encountered_files_hashes = new Set<FileHash>([
-		...Object.keys(encountered_files_a),
-		...Object.keys(encountered_files_b),
+		...Object.keys(encountered_files_current),
+		...Object.keys(encountered_files_previous),
 	])
 
 	encountered_files_hashes.forEach(hash => {
-		// TODO NOW check if the file is a media
-		// we only store notes for medias
+		// merge notes for this hash and previous hashes of the same file
 
+
+		// we'll push() any candidate into this array
 		const raw_notes: Array<Immutable<FileNotes> | undefined> = []
 
-		raw_notes.push(encountered_files_a[hash])
-		raw_notes.push(encountered_files_b[hash])
+		raw_notes.push(encountered_files_current[hash])
+		raw_notes.push(encountered_files_previous[hash])
 		while (state.known_modifications_new_to_old[hash]) {
 			hash = state.known_modifications_new_to_old[hash]
-			raw_notes.push(encountered_files_a[hash])
-			raw_notes.push(encountered_files_b[hash])
+			raw_notes.push(encountered_files_current[hash])
+			raw_notes.push(encountered_files_previous[hash])
 		}
 
 		const notes = raw_notes.filter(n => !!n) as Array<Immutable<FileNotes>>
+		notes.forEach(notes => {
+			const { _currently_known_as } = notes
+			if (!_currently_known_as) return
+
+			const normalized_extension = get_file_basename_extension‿normalized(_currently_known_as)
+			assert(PARAMS.extensions_of_media_files‿lc.includes(normalized_extension), `on_previous_notes_found() notes should only be stored for media files!`)
+		})
 		const final_notes = notes.length === 1
 			? notes[0]
 			: merge_notes(...notes)
