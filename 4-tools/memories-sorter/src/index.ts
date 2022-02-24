@@ -74,8 +74,8 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		if (up_to === 'move') return
 
 		logger.group('******* 5. STARTING FINAL CLEANUP PHASE *******')
-		//db = DB.clean_misplaced_notes(db)
-		//db = await exec_pending_actions_recursively_until_no_more(db, '5.0 clean_misplaced_notes')
+		db = DB.clean_non_canonical_notes(db)
+		db = await exec_pending_actions_recursively_until_no_more(db, '5.0 clean_misplaced_notes')
 		const max_folder_depth = DB.get_max_folder_depth(db)
 		console.log({ max_folder_depth })
 		for(let depth = max_folder_depth; depth >= 0; --depth) {

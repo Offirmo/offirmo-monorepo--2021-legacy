@@ -14,6 +14,7 @@ export const EXIF_POWERED_FILE_EXTENSIONS_LC = [
 	'.wav',
 ].map(s => s.toLowerCase())
 
+// prefix '.' to make it an invisible file
 export const NOTES_BASENAME_SUFFIX_LC = `.${LIB}_notes.json`.toLowerCase()
 
 // should NOT be a common separator

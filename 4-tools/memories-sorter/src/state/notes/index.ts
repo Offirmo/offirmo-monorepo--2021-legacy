@@ -173,33 +173,45 @@ export function on_file_modified(state: Immutable<State>, previous_hash: string,
 
 ///////////////////// DEBUG /////////////////////
 
-export function to_string(state: Immutable<State>): string {
+export function to_string(state: Immutable<State>, mode: 'mode:full' | 'mode:summary' = 'mode:full'): string {
 	const { encountered_files, known_modifications_new_to_old } = state
 
 	let str = ''
-	const processed = new Set<string>()
 
-	const oldest_hashes: string[] = Object.keys(encountered_files)
+	switch (mode) {
+		case 'mode:full': {
+			const processed = new Set<string>()
 
-	/*const known_modifications_old_to_new = Object.entries(known_modifications_new_to_old)
-			.reduce((acc, [n, o]) => {
-				acc[o] ??= []
-				acc[o].push(n)
+			const oldest_hashes: string[] = Object.keys(encountered_files)
 
-				return acc
-			}, {} as { [old: string]: string[] })
+			/*const known_modifications_old_to_new = Object.entries(known_modifications_new_to_old)
+					.reduce((acc, [n, o]) => {
+						acc[o] ??= []
+						acc[o].push(n)
 
-	const newest_hashes: string[] = Object.keys(known_modifications_new_to_old)
-	const target_hashes: string[] = Object.values(known_modifications_new_to_old)*/
+						return acc
+					}, {} as { [old: string]: string[] })
 
-	oldest_hashes.forEach(hash => {
-		processed.add(hash)
+			const newest_hashes: string[] = Object.keys(known_modifications_new_to_old)
+			const target_hashes: string[] = Object.values(known_modifications_new_to_old)*/
 
-		const notes = encountered_files[hash]
-		str += `\n📄 notes: ${hash}: ` + notes_to_string(notes)
+			oldest_hashes.forEach(hash => {
+				processed.add(hash)
 
-		//str += '\n    old hashes'
-	})
+				const notes = encountered_files[hash]
+				str += `\n📄 notes: ${hash}: ` + notes_to_string(notes)
+
+				//str += '\n    old hashes'
+			})
+			break
+		}
+		case 'mode:summary': {
+			str += `\n📄 notes: ${Object.keys(encountered_files).length} entries`
+			break
+		}
+		default:
+			throw new Error('XXX!')
+	}
 
 	return str
 }

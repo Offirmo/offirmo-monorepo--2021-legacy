@@ -64,14 +64,15 @@ export const get_params = memoize_once(function get_params(): Params {
 		date_upper_boundⳇsymd: date_upper_boundⳇsymd,
 		max_event_durationⳇₓday: max_event_durationⳇₓday,
 
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 13`),
+		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- 2020`),
-		root: path.normalize(`/Users/${process.env.USER}/Dropbox/- TEST photos sorter/- sorted`), // TEST don't commit
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 13`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/- TEST photos sorter/- sorted`), // LOCAL TEST, DON'T COMMIT
 
 		...(false // WARNING true = local execution on author's machine, WARNING don't commit "true"
 			? {
-					dry_run: true,
-					//dry_run: false,
+					//dry_run: true,
+					dry_run: false,
 					//expect_perfect_state: true,
 					expect_perfect_state: false,
 				}

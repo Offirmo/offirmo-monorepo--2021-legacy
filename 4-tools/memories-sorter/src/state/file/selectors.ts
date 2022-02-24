@@ -99,6 +99,7 @@ export function get_current_top_parent_folder_id(state: Immutable<State>): Relat
 
 export function is_notes(state: Immutable<State>): boolean {
 	return get_current_basename(state).endsWith(NOTES_BASENAME_SUFFIX_LC)
+		|| get_current_basename(state).endsWith('@offirmo-photos-sorter_notes.json') // legacy name, should exist on author machine only
 }
 
 export function has_neighbor_hints(state: Immutable<State>): boolean {

@@ -121,8 +121,21 @@ const migrate_to_2x: LastMigrationStep<StateForMigration, any> = (SEC, legacy_st
 				subkeys = subkeys.filter(k => k !== 'exif_orientation')
 			}
 			if (subkeys.includes('is_fs_birthtime_assessed_reliable')) {
-				if (legacy_file_notes.original.is_fs_birthtime_assessed_reliable !== 'unknown')
-					migrated_notes.historical.neighbor_hints.fs_reliability = legacy_file_notes.original.is_fs_birthtime_assessed_reliable
+				switch(legacy_file_notes.original.is_fs_birthtime_assessed_reliable) {
+					case undefined:
+						// fallthrough
+					case 'unknown':
+						// leave the field undefined
+						break
+					case true:
+						migrated_notes.historical.neighbor_hints.fs_reliability = 'reliable'
+						break
+					case false:
+						migrated_notes.historical.neighbor_hints.fs_reliability = 'unreliable'
+						break
+					default:
+						throw new Error(`migrate_to_2x() unexpected value "${legacy_file_notes.original.is_fs_birthtime_assessed_reliable}" for legacy_file_notes.original.is_fs_birthtime_assessed_reliable!`)
+				}
 				subkeys = subkeys.filter(k => k !== 'is_fs_birthtime_assessed_reliable')
 			}
 

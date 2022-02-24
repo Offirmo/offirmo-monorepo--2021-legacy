@@ -1,6 +1,8 @@
+12 ornaments https://en.wikipedia.org/wiki/Twelve_Ornaments
 12 zodiac
-4 animals
+4 symbols https://en.wikipedia.org/wiki/Four_Symbols
 5 elements
+Fengdu Ghost City https://en.wikipedia.org/wiki/Fengdu_Ghost_City
 alchemy
 armor
 auction
@@ -44,6 +46,7 @@ soul
 spell formations
 spirit jades
 spirit stones
+sword, king of weapons
 teleportation -- minor, greater
 teleportation portals
 weapons

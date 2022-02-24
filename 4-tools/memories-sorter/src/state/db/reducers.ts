@@ -35,6 +35,7 @@ import {
 	get_all_file_ids,
 	get_ideal_file_relative_path,
 } from './selectors'
+import { NOTES_BASENAME_SUFFIX_LC } from '../../consts'
 
 ///////////////////// REDUCERS /////////////////////
 
@@ -296,22 +297,22 @@ export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<
 	folders[folder_state.id] = Folder.on_subfile_removed(folders[folder_state.id])
 
 	// 3. derived state
-	const encountered_hash_count = {
+	let encountered_hash_count = {
 		...state.encountered_hash_count,
 	}
-	assert(file_state.current_hash)
-	const previous_duplicate_count = state.encountered_hash_count[file_state.current_hash!]
-	assert(previous_duplicate_count >= 1)
-	encountered_hash_count[file_state.current_hash!] = previous_duplicate_count - 1
+	if (file_state.current_hash) {
+		const previous_duplicate_count = state.encountered_hash_count[file_state.current_hash!]
+		assert(previous_duplicate_count >= 1, `on_file_deleted() not last item`)
+		encountered_hash_count[file_state.current_hash!] = previous_duplicate_count - 1
 
-	// 4. notes
-	let extra_notes = state.extra_notes
-	// if this file is not a duplicate, we want to keep the notes in "extra notes"
-	const is_last_known_file_with_this_hash = previous_duplicate_count === 1
-	if (is_last_known_file_with_this_hash) {
-		// we deleted the last instance
-		// this should never happen as we only delete duplicates
-		throw new Error('NIMP last duplicate!')
+		// 4. notes
+		// if this file is not a duplicate, we want to keep the notes in "extra notes"
+		const is_last_known_file_with_this_hash = previous_duplicate_count === 1
+		if (is_last_known_file_with_this_hash) {
+			// we deleted the last instance
+			// this should never happen as we only delete duplicates
+			throw new Error('NIMP last duplicate!')
+		}
 	}
 
 	return {
@@ -319,7 +320,6 @@ export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<
 		files,
 		folders,
 		encountered_hash_count,
-		extra_notes,
 	}
 }
 
@@ -683,35 +683,8 @@ export function ensure_structural_dirs_are_present(state: Immutable<State>): Imm
 		years.add(year)
 	})
 	for(const y of years) {
-		//state = _register_folder(state, String(y), false)
 		state = _enqueue_action(state, Actions.create_action_ensure_folder(String(y)))
 	}
-
-	/*
-	const all_file_ids = get_all_file_ids(state)
-	const parent_folders_to_create = new Set<string>()
-	all_file_ids.forEach(id => {
-		if (File.is_notes(state.files[id])) {
-			return
-		}
-
-		const target_id = get_ideal_file_relative_path(state, id)
-		assert(target_id.includes(path.sep), `unexpected ${id} with no sep!`)
-		if (id === target_id) {
-			return
-		}
-
-		const parent_folder_id = get_ideal_file_relative_folder(state, id)
-		if (is_folder_existing(state, parent_folder_id)) {
-			// all good
-			return
-		}
-
-		parent_folders_to_create.add(parent_folder_id)
-	})
-	for(const id of parent_folders_to_create) {
-		state = _enqueue_action(state, Actions.create_action_ensure_folder(id))
-	}*/
 
 	return state
 }
@@ -720,7 +693,6 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 	logger.trace(`${LIB} move_all_files_to_their_ideal_location()…`)
 
 	const all_file_ids = get_all_file_ids(state)
-	//const file_ids_to_move = new Set<File.FileId>()
 
 	all_file_ids.forEach(id => {
 		if (File.is_notes(state.files[id])) {
@@ -738,12 +710,35 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 		console.log(`- MTIL: "${id}" is scheduled to move to "${target_id}"`)
 
 		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
-		//file_ids_to_move.add(id)
 	})
 
-	/*for(const id of file_ids_to_move) {
-		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
-	}*/
+	return state
+}
+
+export function clean_non_canonical_notes(state: Immutable<State>): Immutable<State> {
+	logger.trace(`${LIB} clean_misplaced_notes()…`)
+
+	const notes_states = get_all_files(state)
+		.filter(state => File.is_notes(state))
+
+	notes_states.forEach(notes_state => {
+		const is_canonical = (() => {
+			const basename = File.get_current_basename(notes_state)
+			if (basename !== NOTES_BASENAME_SUFFIX_LC)
+				return false
+
+			const parent_folder_id = File.get_current_parent_folder_id(notes_state)
+			const folder_state = state.folders[parent_folder_id]
+			if (folder_state.type !== Folder.Type.root && folder_state.type !== Folder.Type.year)
+				return false
+
+			return true
+		})()
+
+		if (!is_canonical) {
+			state = _enqueue_action(state, Actions.create_action_delete_file(notes_state.id))
+		}
+	})
 
 	return state
 }

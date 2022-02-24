@@ -270,8 +270,12 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	return path.join(get_ideal_file_relative_folder(state, id), ideal_basename)
 }
 
-export function get_past_and_present_notes(state: Immutable<State>): Immutable<Notes.State> {
-	let result = enforce_immutability(Notes.create('for persisting', state.extra_notes))
+export function get_past_notes(state: Immutable<State>): Immutable<Notes.State> {
+	return enforce_immutability(Notes.create('for persisting -- old', state.extra_notes))
+}
+
+export function get_present_notes(state: Immutable<State>): Immutable<Notes.State> {
+	let result = enforce_immutability(Notes.create('for persisting -- present'))
 
 	const encountered_files = { ...result.encountered_files }
 
@@ -288,6 +292,26 @@ export function get_past_and_present_notes(state: Immutable<State>): Immutable<N
 	result = {
 		...result,
 		encountered_files,
+	}
+
+	return result
+}
+
+export function get_past_and_present_notes(state: Immutable<State>): Immutable<Notes.State> {
+	let past = get_past_notes(state)
+	let current = get_present_notes(state)
+	let result = enforce_immutability(Notes.create('for persisting -- all'))
+
+	result = {
+		...result,
+		encountered_files: {
+			...past.encountered_files,
+			...current.encountered_files,
+		},
+		known_modifications_new_to_old: {
+			...past.known_modifications_new_to_old,
+			...current.known_modifications_new_to_old,
+		}
 	}
 
 	//logger.info(`get_past_and_present_notes(): ` + Notes.to_string(result))
@@ -357,10 +381,10 @@ Root: "${stylize_string.yellow.bold(root)}"
 	str += all_file_ids.map(id => File.to_string(files[id])).join('\n')
 
 	str += stylize_string.bold('\n\nExtra notes:') + ' (on hashes no longer existing we encountered in the past)'
-	str += (Notes.to_string(extra_notes) || '\n  (none)')
+	str += (Notes.to_string(get_past_notes(state), 'mode:summary') || '\n  (none)')
 
-	str += stylize_string.bold('\n\nAll notes:')
-	str += (Notes.to_string(get_past_and_present_notes(state)) || '\n  (none)')
+	str += stylize_string.bold('\n\nPresent notes:')
+	str += (Notes.to_string(get_present_notes(state)) || '\n  (none)')
 
 	str += stylize_string.bold('\n\nActions queue:')
 	if (queue.length === 0) str += '\n  (empty)'
