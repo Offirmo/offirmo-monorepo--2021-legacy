@@ -237,13 +237,13 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			const abs_path = DB.get_absolute_path(db, id)
 			const is_existing_according_to_fs = fs.existsSync(abs_path)
 			if (is_existing_according_to_fs) {
-				logger.warn('ensure_folder(): folder already exists in fs?', { id })
 				// The path exists but we don't have it in DB
 				// possible cases:
-				// - race condition in mkdirp below TODO improve
-				// - the folder was externally created concurrently to our code running (ugly)
+				// - (most common) multiple "move_file_to_ideal_location()" actions at the time cause concurrent call to this. Completely normal.
+				// - the exact same folder was externally created concurrently to our code running (theoritical, should never happen)
 				// - the OS sneakily did unicode normalization :-( TODO fix by normalizing
 				// TODO one day: normalize the folders unicode (do it during explore, simpler)
+				//logger.warn('ensure_folder(): folder already exists in fs?', { id })
 			}
 			else if (PARAMS.dry_run) {
 				logger.verbose('DRY RUN would have created folder: ' + id)
@@ -346,7 +346,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		id: RelativePath,
 		target_folder: FolderId = File.get_current_parent_folder_id(db.files[id])
 	): void {
-		logger.trace(`[Action] (sub) _intelligently_normalize_file_basename_sync() "${id}"…`)
+		logger.trace(`[Action] (sub-INFB) _intelligently_normalize_file_basename_sync() "${id}"…`)
+
 		const current_file_state = db.files[id]
 		assert(current_file_state, `_intelligently_normalize_file_basename_sync() should have current_file_state "${id}"`)
 
@@ -354,12 +355,12 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		let target_basename = File.get_ideal_basename(current_file_state, { copy_marker })
 
 		// there will be a change, ensure there is no conflict:
-		const abs_path_current = DB.get_absolute_path(db, id)
+		const abs_pathⵧcurrent = DB.get_absolute_path(db, id)
 		let good_target_found = false
 		let safety = 15
 		do {
 			safety--
-			logger.trace('(still) looking for the ideal normalized basename…', { id, target_folder })
+			logger.trace('INFB (still) looking for the ideal normalized basename…', { id, target_folder, safety })
 			target_basename = File.get_ideal_basename(current_file_state, { copy_marker })
 			const target_id = path.join(target_folder, target_basename)
 			if (id === target_id) {
@@ -367,24 +368,42 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				return
 			}
 
-			const abs_path_target = DB.get_absolute_path(db, target_id)
+			const abs_pathⵧtarget = DB.get_absolute_path(db, target_id)
 
-			if (!DB.is_file_existing(db, target_id) && !fs_extra.pathExistsSync(DB.get_absolute_path(db, target_id))) {
+			/*logger.trace('intermediate infos 1', {
+				target_basename,
+				target_id,
+				abs_pathⵧtarget,
+				'DB.is_file_existing': DB.is_file_existing(db, target_id),
+				'fs_extra.pathExistsSync': fs_extra.pathExistsSync(abs_pathⵧtarget),
+			})*/
+
+			if (!DB.is_file_existing(db, target_id) && !fs_extra.pathExistsSync(abs_pathⵧtarget)) {
 				// good, fs target emplacement is free
 				good_target_found = true
 				break
 			}
 
+			/*logger.trace('intermediate infos 2', {
+				abs_pathⵧcurrent,
+				abs_pathⵧtarget,
+				'_is_same_inode': _is_same_inode(abs_pathⵧcurrent, abs_pathⵧtarget),
+			})*/
+
 			// some FS are doing unicode normalization automatically
 			// also some FS are NOT case-sensitive
 			// hence it's hard to know if we have a real conflict or if it's the same file...
 			// https://github.com/jprichardson/node-fs-extra/issues/859
-			if (_is_same_inode(abs_path_current, abs_path_target)) {
+			if (_is_same_inode(abs_pathⵧcurrent, abs_pathⵧtarget)) {
 				// same file but name is not ideal = unicode, case sensitive
 				// will be taken care of later
 				good_target_found = true
 				break
 			}
+
+			/*logger.trace('intermediate infos 3', {
+				copy_marker,
+			})*/
 
 			// not free, try an alternative basename
 			switch (copy_marker) {
@@ -408,9 +427,9 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			assert(good_target_found, 'should be able to normalize files. Could there be a bug?') // seen, was a bug
 		}
 		else {
-			const abs_path_target = DB.get_absolute_path(db, target_id)
-			const source_norm = NORMALIZERS.normalize_unicode(abs_path_current)
-			const target_norm = NORMALIZERS.normalize_unicode(abs_path_target)
+			const abs_pathⵧtarget = DB.get_absolute_path(db, target_id)
+			const source_norm = NORMALIZERS.normalize_unicode(abs_pathⵧcurrent)
+			const target_norm = NORMALIZERS.normalize_unicode(abs_pathⵧtarget)
 			if (source_norm === target_norm) {
 				// TODO one day normalize the folders
 				return
@@ -433,8 +452,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				try {
-					logger.verbose(`💾 move("${abs_path_current}", "${abs_path_target}")`)
-					fs_extra.moveSync(abs_path_current, abs_path_target)
+					logger.verbose(`💾 move("${abs_pathⵧcurrent}", "${abs_pathⵧtarget}")`)
+					fs_extra.moveSync(abs_pathⵧcurrent, abs_pathⵧtarget)
 					db = DB.on_file_moved(db, id, target_id)
 				}
 				catch (_err) {
@@ -444,8 +463,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 						assert(NORMALIZERS.normalize_unicode(id.toLowerCase()) === NORMALIZERS.normalize_unicode(target_id.toLowerCase()), 'expecting real identity')
 						const intermediate_target_id = path.join(target_folder, File.get_ideal_basename(current_file_state, { copy_marker: 'temp' }))
 						const intermediate_target_abs_path = DB.get_absolute_path(db, intermediate_target_id)
-						fs_extra.moveSync(abs_path_current, intermediate_target_abs_path)
-						fs_extra.moveSync(intermediate_target_abs_path, abs_path_target)
+						fs_extra.moveSync(abs_pathⵧcurrent, intermediate_target_abs_path)
+						fs_extra.moveSync(intermediate_target_abs_path, abs_pathⵧtarget)
 						db = DB.on_file_moved(db, id, target_id)
 						if (File.get_current_basename(current_file_state) !== target_basename)
 							_report.file_renamings[id] = target_basename
@@ -458,10 +477,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 							target_id,
 							id_equality: id === target_id,
 							id_equality_u: NORMALIZERS.normalize_unicode(id) === NORMALIZERS.normalize_unicode(target_id),
-							abs_path_current,
-							abs_path_target,
-							path_equality: abs_path_current === abs_path_target,
-							path_equality_u: NORMALIZERS.normalize_unicode(abs_path_current) === NORMALIZERS.normalize_unicode(abs_path_target),
+							abs_pathⵧcurrent,
+							abs_pathⵧtarget,
+							path_equality: abs_pathⵧcurrent === abs_pathⵧtarget,
+							path_equality_u: NORMALIZERS.normalize_unicode(abs_pathⵧcurrent) === NORMALIZERS.normalize_unicode(abs_pathⵧtarget),
 							err,
 						})
 					}
@@ -685,7 +704,14 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	dequeue_and_schedule_all_first_level_db_actions()
 
 	try {
-		await action_queue.drain()
+
+		if (action_queue.length() === 0) {
+			// the priority queue we use (async.priorityQueue)
+			// blocks when no actions at all
+		}
+		else {
+			await action_queue.drain()
+		}
 	}
 	catch (err) {
 		throw err

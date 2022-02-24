@@ -47,6 +47,7 @@ import {
 	get_best_creation_date,
 	get_creation_dateⵧfrom_fsⵧcurrent‿tms,
 	get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources,
+	is_media_file,
 } from './selectors'
 import * as NeighborHintsLib from './sub/neighbor-hints'
 import { get_bcd_from_parent_path, get_fs_reliability_score } from './sub/neighbor-hints'
@@ -287,14 +288,22 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 
 // happens AFTER all info consolidated
 export function on_consolidated(state: Immutable<State>): Immutable<State> {
-	const meta = get_best_creation_date‿meta(state)
 
-	state = {
-		...state,
-		notes: {
-			...state.notes,
-			_bcd_afawk‿symd: get_compact_date(meta.candidate, 'tz:embedded'),
-			_bcd_source: meta.source, // refresh this field
+	if (is_media_file(state)) {
+		const meta = get_best_creation_date‿meta(state)
+
+		const _bcd_afawk‿symd = get_compact_date(meta.candidate, 'tz:embedded')
+		const _bcd_source = meta.source
+
+		if (state.notes._bcd_afawk‿symd !== _bcd_afawk‿symd || state.notes._bcd_source !== _bcd_source) {
+			state = {
+				...state,
+				notes: {
+					...state.notes,
+					_bcd_afawk‿symd: get_compact_date(meta.candidate, 'tz:embedded'),
+					_bcd_source: meta.source,
+				}
+			}
 		}
 	}
 

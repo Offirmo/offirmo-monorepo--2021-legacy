@@ -1,5 +1,4 @@
-import { normalizeError } from '@offirmo/error-utils'
-import { checkPathsSync as throw_if_identical_sync } from 'fs-extra/lib/util/stat.js'
+import assert from 'tiny-invariant'
 
 let fs: any // TODO fix untyping
 
@@ -10,16 +9,10 @@ export default fs
 import { AbsolutePath } from '../types'
 
 export function _is_same_inode(abs_path_a: AbsolutePath, abs_path_b: AbsolutePath): boolean {
-	// abusing an internal non-documented function of fs-extra
-	// TODO re-code properly using fs.stat
-	try {
-		throw_if_identical_sync(abs_path_a, abs_path_b)
-		return false
-	}
-	catch (_err) {
-		const err = normalizeError(_err)
-		if (err.message.includes('Source and destination must not be the same'))
-			return true
-	}
-	return false
+	const stats_a = fs.statSync(abs_path_a)
+	const stats_b = fs.statSync(abs_path_b)
+
+	assert(stats_a !== undefined && stats_b !== undefined, `_is_same_inode at least 1 param should exist!`)
+
+	return stats_a?.ino === stats_b?.ino
 }

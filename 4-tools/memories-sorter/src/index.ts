@@ -84,6 +84,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 		}
 		// backup notes one last time, duplicating them across all "years" folders for manual consolidation
 		db = DB.backup_notes(db, 'mode:final')
+		db = await exec_pending_actions_recursively_until_no_more(db, '5.99 final multiple notes backup')
 		logger.groupEnd()
 		if (up_to === 'cleanup') return
 	})()
