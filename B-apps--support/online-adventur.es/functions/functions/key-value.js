@@ -1003,8 +1003,8 @@ function isInstanceOf(wat, base) {
 /* unused harmony export __createBinding */
 /* unused harmony export __exportStar */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __values; });
-/* unused harmony export __read */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __spread; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __read; });
+/* unused harmony export __spread */
 /* unused harmony export __spreadArrays */
 /* unused harmony export __await */
 /* unused harmony export __asyncGenerator */
@@ -1240,35 +1240,6 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalObject; });
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-/**
- * NOTE: In order to avoid circular dependencies, if you add a function to this module and it needs to print something,
- * you must either a) use `console.log` rather than the logger, or b) put your function elsewhere.
- */
-
-var fallbackGlobalObject = {};
-/**
- * Safely get global scope object
- *
- * @returns Global scope object
- */
-function getGlobalObject() {
-    return (Object(_node__WEBPACK_IMPORTED_MODULE_0__[/* isNodeEnv */ "b"])()
-        ? global
-        : typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
-            ? window // eslint-disable-line no-restricted-globals
-            : typeof self !== 'undefined'
-                ? self
-                : fallbackGlobalObject);
-}
-//# sourceMappingURL=global.js.map
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __extends; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __assign; });
 /* unused harmony export __rest */
@@ -1280,8 +1251,8 @@ function getGlobalObject() {
 /* unused harmony export __createBinding */
 /* unused harmony export __exportStar */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __values; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __read; });
-/* unused harmony export __spread */
+/* unused harmony export __read */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __spread; });
 /* unused harmony export __spreadArrays */
 /* unused harmony export __await */
 /* unused harmony export __asyncGenerator */
@@ -1513,13 +1484,42 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 
 /***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalObject; });
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/**
+ * NOTE: In order to avoid circular dependencies, if you add a function to this module and it needs to print something,
+ * you must either a) use `console.log` rather than the logger, or b) put your function elsewhere.
+ */
+
+var fallbackGlobalObject = {};
+/**
+ * Safely get global scope object
+ *
+ * @returns Global scope object
+ */
+function getGlobalObject() {
+    return (Object(_node__WEBPACK_IMPORTED_MODULE_0__[/* isNodeEnv */ "b"])()
+        ? global
+        : typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
+            ? window // eslint-disable-line no-restricted-globals
+            : typeof self !== 'undefined'
+                ? self
+                : fallbackGlobalObject);
+}
+//# sourceMappingURL=global.js.map
+
+/***/ }),
 /* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return consoleSandbox; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return logger; });
-/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 
 // TODO: Implement different loggers for different environments
 var global = Object(_global__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalObject */ "a"])();
@@ -1637,10 +1637,10 @@ __webpack_require__.d(__webpack_exports__, "b", function() { return /* binding *
 // UNUSED EXPORTS: markFunctionWrapped, walk, objectify
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(9);
+var tslib_es6 = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/global.js
-var esm_global = __webpack_require__(8);
+var esm_global = __webpack_require__(9);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(6);
@@ -2526,7 +2526,7 @@ module.exports = require("util");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SpanRecorder; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Span; });
 /* unused harmony export spanStatusfromHttpCode */
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(35);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
@@ -2875,7 +2875,7 @@ function isBrowserBundle() {
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(35);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(15);
 /* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(60);
 /* harmony import */ var _session__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(117);
@@ -2991,7 +2991,7 @@ var Hub = /** @class */ (function () {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     Hub.prototype.captureException = function (exception, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "i"])());
+        var eventId = (this._lastEventId = hint && hint.event_id ? hint.event_id : Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "i"])());
         var finalHint = hint;
         // If there's no explicit hint provided, mimic the same thing that would happen
         // in the minimal itself to create a consistent behavior.
@@ -3017,7 +3017,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureMessage = function (message, level, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "i"])());
+        var eventId = (this._lastEventId = hint && hint.event_id ? hint.event_id : Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "i"])());
         var finalHint = hint;
         // If there's no explicit hint provided, mimic the same thing that would happen
         // in the minimal itself to create a consistent behavior.
@@ -3043,7 +3043,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureEvent = function (event, hint) {
-        var eventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "i"])();
+        var eventId = hint && hint.event_id ? hint.event_id : Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "i"])();
         if (event.type !== 'transaction') {
             this._lastEventId = eventId;
         }
@@ -3416,8 +3416,8 @@ function setHubOnCarrier(carrier, hub) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return stripUrlQueryAndFragment; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return checkOrSetAlreadyCaught; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 /* harmony import */ var _object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
 /* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(29);
 
@@ -4563,7 +4563,7 @@ if (typeof process === 'undefined' || process.type === 'renderer' || process.bro
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Transaction; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 /* harmony import */ var _sentry_hub__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
@@ -4724,7 +4724,7 @@ module.exports = require("domain");
 /* unused harmony export usingPerformanceAPI */
 /* unused harmony export _browserPerformanceTimeOriginMode */
 /* unused harmony export browserPerformanceTimeOrigin */
-/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 
 
@@ -6338,7 +6338,7 @@ module.exports = isObjectLike;
 /* WEBPACK VAR INJECTION */(function(module) {/* unused harmony export startIdleTransaction */
 /* unused harmony export _addTracingExtensions */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addExtensionMethods; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 /* harmony import */ var _sentry_hub__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
@@ -6872,7 +6872,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 // UNUSED EXPORTS: DEFAULT_IDLE_TIMEOUT, HEARTBEAT_INTERVAL, IdleTransactionSpanRecorder
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/tracing/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(7);
+var tslib_es6 = __webpack_require__(8);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/time.js
 var time = __webpack_require__(35);
@@ -7163,7 +7163,84 @@ function clearActiveTransaction(hub) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export createStackParser */
+/* unused harmony export stripSentryFramesAndReverse */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getFunctionName; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+
+var STACKTRACE_LIMIT = 50;
+/**
+ * Creates a stack parser with the supplied line parsers
+ *
+ * StackFrames are returned in the correct order for Sentry Exception
+ * frames and with Sentry SDK internal frames removed from the top and bottom
+ *
+ * */
+function createStackParser() {
+    var parsers = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        parsers[_i] = arguments[_i];
+    }
+    return function (stack, skipFirst) {
+        var e_1, _a, e_2, _b;
+        if (skipFirst === void 0) { skipFirst = 0; }
+        var frames = [];
+        try {
+            for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __values */ "d"])(stack.split('\n').slice(skipFirst)), _d = _c.next(); !_d.done; _d = _c.next()) {
+                var line = _d.value;
+                try {
+                    for (var parsers_1 = (e_2 = void 0, Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __values */ "d"])(parsers)), parsers_1_1 = parsers_1.next(); !parsers_1_1.done; parsers_1_1 = parsers_1.next()) {
+                        var parser = parsers_1_1.value;
+                        var frame = parser(line);
+                        if (frame) {
+                            frames.push(frame);
+                            break;
+                        }
+                    }
+                }
+                catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                finally {
+                    try {
+                        if (parsers_1_1 && !parsers_1_1.done && (_b = parsers_1.return)) _b.call(parsers_1);
+                    }
+                    finally { if (e_2) throw e_2.error; }
+                }
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+        return stripSentryFramesAndReverse(frames);
+    };
+}
+/**
+ * @hidden
+ */
+function stripSentryFramesAndReverse(stack) {
+    if (!stack.length) {
+        return [];
+    }
+    var localStack = stack;
+    var firstFrameFunction = localStack[0].function || '';
+    var lastFrameFunction = localStack[localStack.length - 1].function || '';
+    // If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
+    if (firstFrameFunction.indexOf('captureMessage') !== -1 || firstFrameFunction.indexOf('captureException') !== -1) {
+        localStack = localStack.slice(1);
+    }
+    // If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
+    if (lastFrameFunction.indexOf('sentryWrapped') !== -1) {
+        localStack = localStack.slice(0, -1);
+    }
+    // The frame where the crash happened, should be the last entry in the array
+    return localStack
+        .slice(0, STACKTRACE_LIMIT)
+        .map(function (frame) { return (Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __assign */ "a"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __assign */ "a"])({}, frame), { filename: frame.filename || localStack[0].filename, function: frame.function || '?' })); })
+        .reverse();
+}
 var defaultFunctionName = '<anonymous>';
 /**
  * Safely extract function name from itself
@@ -7200,7 +7277,7 @@ module.exports = require("https");
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(35);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(49);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
 
 
 /**
@@ -19047,13 +19124,13 @@ function tryDecode(str, decode) {
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ registerErrorInstrumentation; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(9);
+var tslib_es6 = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/env.js
 var env = __webpack_require__(24);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/global.js
-var esm_global = __webpack_require__(8);
+var esm_global = __webpack_require__(9);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(6);
@@ -19348,7 +19425,7 @@ function instrumentConsole() {
                 triggerHandlers('console', { args: args, level: level });
                 // this fails for some browsers. :(
                 if (originalConsoleMethod) {
-                    originalConsoleMethod.call(instrument_global.console, args);
+                    originalConsoleMethod.apply(instrument_global.console, args);
                 }
             };
         });
@@ -25694,6 +25771,7 @@ __webpack_require__.d(esm_integrations_namespaceObject, "OnUncaughtException", f
 __webpack_require__.d(esm_integrations_namespaceObject, "OnUnhandledRejection", function() { return onunhandledrejection_OnUnhandledRejection; });
 __webpack_require__.d(esm_integrations_namespaceObject, "LinkedErrors", function() { return linkederrors_LinkedErrors; });
 __webpack_require__.d(esm_integrations_namespaceObject, "Modules", function() { return modules_Modules; });
+__webpack_require__.d(esm_integrations_namespaceObject, "ContextLines", function() { return contextlines_ContextLines; });
 
 // NAMESPACE OBJECT: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 var handlers_namespaceObject = {};
@@ -26374,13 +26452,13 @@ function startTransaction(context, customSamplingContext) {
 var esm_session = __webpack_require__(117);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/version.js
-var SDK_VERSION = '6.17.7';
+var SDK_VERSION = '6.18.0';
 //# sourceMappingURL=version.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(10);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(9);
+var tslib_es6 = __webpack_require__(7);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
@@ -26789,12 +26867,6 @@ function basename(path, ext) {
     return f;
 }
 //# sourceMappingURL=path.js.map
-// EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(13);
-
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(118);
-
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
  * stack-trace - Parses node.js stack traces
@@ -26879,17 +26951,6 @@ function parse(err) {
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/parsers.js
 
 
-
-
-var DEFAULT_LINES_OF_CONTEXT = 7;
-var FILE_CONTENT_CACHE = new lru["LRUMap"](100);
-/**
- * Resets the file cache. Exists for testing purposes.
- * @hidden
- */
-function resetFileContentCache() {
-    FILE_CONTENT_CACHE.clear();
-}
 /** JSDoc */
 function getFunction(frame) {
     try {
@@ -26932,58 +26993,6 @@ function getModule(filename, base) {
     return file;
 }
 /**
- * This function reads file contents and caches them in a global LRU cache.
- * Returns a Promise filepath => content array for all files that we were able to read.
- *
- * @param filenames Array of filepaths to read content from.
- */
-function readSourceFiles(filenames) {
-    // we're relying on filenames being de-duped already
-    if (filenames.length === 0) {
-        return Object(syncpromise["c" /* resolvedSyncPromise */])({});
-    }
-    return new syncpromise["a" /* SyncPromise */](function (resolve) {
-        var sourceFiles = {};
-        var count = 0;
-        var _loop_1 = function (i) {
-            var filename = filenames[i];
-            var cache = FILE_CONTENT_CACHE.get(filename);
-            // We have a cache hit
-            if (cache !== undefined) {
-                // If it's not null (which means we found a file and have a content)
-                // we set the content and return it later.
-                if (cache !== null) {
-                    sourceFiles[filename] = cache;
-                }
-                // eslint-disable-next-line no-plusplus
-                count++;
-                // In any case we want to skip here then since we have a content already or we couldn't
-                // read the file and don't want to try again.
-                if (count === filenames.length) {
-                    resolve(sourceFiles);
-                }
-                return "continue";
-            }
-            Object(external_fs_["readFile"])(filename, function (err, data) {
-                var content = err ? null : data.toString();
-                sourceFiles[filename] = content;
-                // We always want to set the cache, even to null which means there was an error reading the file.
-                // We do not want to try to read the file again.
-                FILE_CONTENT_CACHE.set(filename, content);
-                // eslint-disable-next-line no-plusplus
-                count++;
-                if (count === filenames.length) {
-                    resolve(sourceFiles);
-                }
-            });
-        };
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
-        for (var i = 0; i < filenames.length; i++) {
-            _loop_1(i);
-        }
-    });
-}
-/**
  * @hidden
  */
 function extractStackFromError(error) {
@@ -26996,10 +27005,8 @@ function extractStackFromError(error) {
 /**
  * @hidden
  */
-function parseStack(stack, options) {
-    var filesToRead = [];
-    var linesOfContext = options && options.frameContextLines !== undefined ? options.frameContextLines : DEFAULT_LINES_OF_CONTEXT;
-    var frames = stack.map(function (frame) {
+function parseStack(stack) {
+    return stack.map(function (frame) {
         var _a;
         var parsedFrame = {
             colno: frame.columnNumber,
@@ -27020,76 +27027,34 @@ function parseStack(stack, options) {
         // Extract a module name based on the filename
         if (parsedFrame.filename) {
             parsedFrame.module = getModule(parsedFrame.filename);
-            if (!isInternal && linesOfContext > 0 && filesToRead.indexOf(parsedFrame.filename) === -1) {
-                filesToRead.push(parsedFrame.filename);
-            }
         }
         return parsedFrame;
     });
-    // We do an early return if we do not want to fetch context liens
-    if (linesOfContext <= 0) {
-        return Object(syncpromise["c" /* resolvedSyncPromise */])(frames);
-    }
-    try {
-        return addPrePostContext(filesToRead, frames, linesOfContext);
-    }
-    catch (_) {
-        // This happens in electron for example where we are not able to read files from asar.
-        // So it's fine, we recover be just returning all frames without pre/post context.
-        return Object(syncpromise["c" /* resolvedSyncPromise */])(frames);
-    }
-}
-/**
- * This function tries to read the source files + adding pre and post context (source code)
- * to a frame.
- * @param filesToRead string[] of filepaths
- * @param frames StackFrame[] containg all frames
- */
-function addPrePostContext(filesToRead, frames, linesOfContext) {
-    return new syncpromise["a" /* SyncPromise */](function (resolve) {
-        return readSourceFiles(filesToRead).then(function (sourceFiles) {
-            var result = frames.map(function (frame) {
-                if (frame.filename && sourceFiles[frame.filename]) {
-                    try {
-                        var lines = sourceFiles[frame.filename].split('\n');
-                        Object(misc["a" /* addContextToFrame */])(lines, frame, linesOfContext);
-                    }
-                    catch (e) {
-                        // anomaly, being defensive in case
-                        // unlikely to ever happen in practice but can definitely happen in theory
-                    }
-                }
-                return frame;
-            });
-            resolve(result);
-        });
-    });
 }
 /**
  * @hidden
  */
-function getExceptionFromError(error, options) {
+function getExceptionFromError(error) {
     var name = error.name || error.constructor.name;
     var stack = extractStackFromError(error);
     return new syncpromise["a" /* SyncPromise */](function (resolve) {
-        return parseStack(stack, options).then(function (frames) {
-            var result = {
-                stacktrace: {
-                    frames: prepareFramesForEvent(frames),
-                },
-                type: name,
-                value: error.message,
-            };
-            resolve(result);
-        });
+        var frames = parseStack(stack);
+        var result = {
+            stacktrace: {
+                frames: prepareFramesForEvent(frames),
+            },
+            type: name,
+            value: error.message,
+        };
+        resolve(result);
     });
 }
 /**
  * @hidden
  */
-function parseError(error, options) {
+function parseError(error) {
     return new syncpromise["a" /* SyncPromise */](function (resolve) {
-        return getExceptionFromError(error, options).then(function (exception) {
+        return getExceptionFromError(error).then(function (exception) {
             resolve({
                 exception: {
                     values: [exception],
@@ -27124,7 +27089,7 @@ function prepareFramesForEvent(stack) {
  * Builds and Event from a Exception
  * @hidden
  */
-function eventFromException(options, exception, hint) {
+function eventFromException(exception, hint) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var ex = exception;
     var providedMechanism = hint && hint.data && hint.data.mechanism;
@@ -27152,7 +27117,7 @@ function eventFromException(options, exception, hint) {
         mechanism.synthetic = true;
     }
     return new syncpromise["a" /* SyncPromise */](function (resolve, reject) {
-        return parseError(ex, options)
+        return parseError(ex)
             .then(function (event) {
             Object(misc["c" /* addExceptionTypeValue */])(event, undefined, undefined);
             Object(misc["b" /* addExceptionMechanism */])(event, mechanism);
@@ -27175,16 +27140,11 @@ function eventFromMessage(options, message, level, hint) {
     return new syncpromise["a" /* SyncPromise */](function (resolve) {
         if (options.attachStacktrace && hint && hint.syntheticException) {
             var stack = hint.syntheticException ? extractStackFromError(hint.syntheticException) : [];
-            void parseStack(stack, options)
-                .then(function (frames) {
-                event.stacktrace = {
-                    frames: prepareFramesForEvent(frames),
-                };
-                resolve(event);
-            })
-                .then(null, function () {
-                resolve(event);
-            });
+            var frames_1 = parseStack(stack);
+            event.stacktrace = {
+                frames: prepareFramesForEvent(frames_1),
+            };
+            resolve(event);
         }
         else {
             resolve(event);
@@ -27457,6 +27417,9 @@ function eventStatusFromHttpCode(code) {
     return 'unknown';
 }
 //# sourceMappingURL=status.js.map
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __webpack_require__(13);
+
 // EXTERNAL MODULE: external "url"
 var external_url_ = __webpack_require__(20);
 
@@ -27966,22 +27929,27 @@ function eventToSentryRequest(event, api) {
     var transactionSampling = (event.sdkProcessingMetadata || {}).transactionSampling;
     var _a = transactionSampling || {}, samplingMethod = _a.method, sampleRate = _a.rate;
     // TODO: Below is a temporary hack in order to debug a serialization error - see
-    // https://github.com/getsentry/sentry-javascript/issues/2809 and
-    // https://github.com/getsentry/sentry-javascript/pull/4425. TL;DR: even though we normalize all events (which should
-    // prevent this), something is causing `JSON.stringify` to throw a circular reference error.
+    // https://github.com/getsentry/sentry-javascript/issues/2809,
+    // https://github.com/getsentry/sentry-javascript/pull/4425, and
+    // https://github.com/getsentry/sentry-javascript/pull/4574.
+    //
+    // TL; DR: even though we normalize all events (which should prevent this), something is causing `JSON.stringify` to
+    // throw a circular reference error.
     //
     // When it's time to remove it:
     // 1. Delete everything between here and where the request object `req` is created, EXCEPT the line deleting
     //    `sdkProcessingMetadata`
     // 2. Restore the original version of the request body, which is commented out
-    // 3. Search for `skippedNormalization` and pull out the companion hack in the browser playwright tests
+    // 3. Search for either of the PR URLs above and pull out the companion hacks in the browser playwright tests and the
+    //    baseClient tests in this package
     enhanceEventWithSdkInfo(event, api.metadata.sdk);
     event.tags = event.tags || {};
     event.extra = event.extra || {};
     // In theory, all events should be marked as having gone through normalization and so
-    // we should never set this tag
+    // we should never set this tag/extra data
     if (!(event.sdkProcessingMetadata && event.sdkProcessingMetadata.baseClientNormalized)) {
         event.tags.skippedNormalization = true;
+        event.extra.normalizeDepth = event.sdkProcessingMetadata ? event.sdkProcessingMetadata.normalizeDepth : 'unset';
     }
     // prevent this data from being sent to sentry
     // TODO: This is NOT part of the hack - DO NOT DELETE
@@ -28145,7 +28113,7 @@ var backend_NodeBackend = /** @class */ (function (_super) {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     NodeBackend.prototype.eventFromException = function (exception, hint) {
-        return eventFromException(this._options, exception, hint);
+        return eventFromException(exception, hint);
     };
     /**
      * @inheritDoc
@@ -28550,6 +28518,11 @@ var baseclient_BaseClient = /** @class */ (function () {
             result = finalScope.applyToEvent(prepared, hint);
         }
         return result.then(function (evt) {
+            if (evt) {
+                // TODO this is more of the hack trying to solve https://github.com/getsentry/sentry-javascript/issues/2809
+                // it is only attached as extra data to the event if the event somehow skips being normalized
+                evt.sdkProcessingMetadata = tslib_tslib_es6_assign(tslib_tslib_es6_assign({}, evt.sdkProcessingMetadata), { normalizeDepth: Object(object["f" /* normalize */])(normalizeDepth) });
+            }
             if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
                 return _this._normalizeEvent(evt, normalizeDepth);
             }
@@ -29256,7 +29229,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/global.js
-var esm_global = __webpack_require__(8);
+var esm_global = __webpack_require__(9);
 
 // EXTERNAL MODULE: external "domain"
 var external_domain_ = __webpack_require__(34);
@@ -30068,7 +30041,197 @@ var modules_Modules = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=modules.js.map
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
+var lru = __webpack_require__(118);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/contextlines.js
+
+
+
+
+
+var FILE_CONTENT_CACHE = new lru["LRUMap"](100);
+var DEFAULT_LINES_OF_CONTEXT = 7;
+// TODO: Replace with promisify when minimum supported node >= v8
+function readTextFileAsync(path) {
+    return new Promise(function (resolve, reject) {
+        Object(external_fs_["readFile"])(path, 'utf8', function (err, data) {
+            if (err)
+                reject(err);
+            else
+                resolve(data);
+        });
+    });
+}
+/**
+ * Resets the file cache. Exists for testing purposes.
+ * @hidden
+ */
+function resetFileContentCache() {
+    FILE_CONTENT_CACHE.clear();
+}
+/** Add node modules / packages to the event */
+var contextlines_ContextLines = /** @class */ (function () {
+    function ContextLines(_options) {
+        if (_options === void 0) { _options = {}; }
+        this._options = _options;
+        /**
+         * @inheritDoc
+         */
+        this.name = ContextLines.id;
+    }
+    /**
+     * @inheritDoc
+     */
+    ContextLines.prototype.setupOnce = function (addGlobalEventProcessor) {
+        var _this = this;
+        var _a, _b;
+        // This is only here to copy frameContextLines from init options if it hasn't
+        // been set via this integrations constructor.
+        //
+        // TODO: Remove on next major!
+        if (this._options.frameContextLines === undefined) {
+            var initOptions = (_a = Object(esm_hub["b" /* getCurrentHub */])().getClient()) === null || _a === void 0 ? void 0 : _a.getOptions();
+            // eslint-disable-next-line deprecation/deprecation
+            this._options.frameContextLines = (_b = initOptions) === null || _b === void 0 ? void 0 : _b.frameContextLines;
+        }
+        var contextLines = this._options.frameContextLines !== undefined ? this._options.frameContextLines : DEFAULT_LINES_OF_CONTEXT;
+        addGlobalEventProcessor(function (event) { return _this.addSourceContext(event, contextLines); });
+    };
+    /** Processes an event and adds context lines */
+    ContextLines.prototype.addSourceContext = function (event, contextLines) {
+        var _a, _b, _c;
+        return __awaiter(this, void 0, void 0, function () {
+            var frames, filenames, frames_1, frames_1_1, frame, sourceFiles, frames_2, frames_2_1, frame, lines;
+            var e_1, _d, e_2, _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        frames = (_c = (_b = (_a = event.exception) === null || _a === void 0 ? void 0 : _a.values) === null || _b === void 0 ? void 0 : _b[0].stacktrace) === null || _c === void 0 ? void 0 : _c.frames;
+                        if (!(frames && contextLines > 0)) return [3 /*break*/, 2];
+                        filenames = new Set();
+                        try {
+                            for (frames_1 = __values(frames), frames_1_1 = frames_1.next(); !frames_1_1.done; frames_1_1 = frames_1.next()) {
+                                frame = frames_1_1.value;
+                                if (frame.filename) {
+                                    filenames.add(frame.filename);
+                                }
+                            }
+                        }
+                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                        finally {
+                            try {
+                                if (frames_1_1 && !frames_1_1.done && (_d = frames_1.return)) _d.call(frames_1);
+                            }
+                            finally { if (e_1) throw e_1.error; }
+                        }
+                        return [4 /*yield*/, readSourceFiles(filenames)];
+                    case 1:
+                        sourceFiles = _f.sent();
+                        try {
+                            for (frames_2 = __values(frames), frames_2_1 = frames_2.next(); !frames_2_1.done; frames_2_1 = frames_2.next()) {
+                                frame = frames_2_1.value;
+                                if (frame.filename && sourceFiles[frame.filename]) {
+                                    try {
+                                        lines = sourceFiles[frame.filename].split('\n');
+                                        Object(misc["a" /* addContextToFrame */])(lines, frame, contextLines);
+                                    }
+                                    catch (e) {
+                                        // anomaly, being defensive in case
+                                        // unlikely to ever happen in practice but can definitely happen in theory
+                                    }
+                                }
+                            }
+                        }
+                        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                        finally {
+                            try {
+                                if (frames_2_1 && !frames_2_1.done && (_e = frames_2.return)) _e.call(frames_2);
+                            }
+                            finally { if (e_2) throw e_2.error; }
+                        }
+                        _f.label = 2;
+                    case 2: return [2 /*return*/, event];
+                }
+            });
+        });
+    };
+    /**
+     * @inheritDoc
+     */
+    ContextLines.id = 'ContextLines';
+    return ContextLines;
+}());
+
+/**
+ * This function reads file contents and caches them in a global LRU cache.
+ *
+ * @param filenames Array of filepaths to read content from.
+ */
+function readSourceFiles(filenames) {
+    return __awaiter(this, void 0, void 0, function () {
+        var sourceFiles, filenames_1, filenames_1_1, filename, cachedFile, content, _1, e_3_1;
+        var e_3, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    sourceFiles = {};
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 9, 10, 11]);
+                    filenames_1 = __values(filenames), filenames_1_1 = filenames_1.next();
+                    _b.label = 2;
+                case 2:
+                    if (!!filenames_1_1.done) return [3 /*break*/, 8];
+                    filename = filenames_1_1.value;
+                    cachedFile = FILE_CONTENT_CACHE.get(filename);
+                    // We have a cache hit
+                    if (cachedFile !== undefined) {
+                        // If stored value is null, it means that we already tried, but couldn't read the content of the file. Skip.
+                        if (cachedFile === null) {
+                            return [3 /*break*/, 7];
+                        }
+                        // Otherwise content is there, so reuse cached value.
+                        sourceFiles[filename] = cachedFile;
+                        return [3 /*break*/, 7];
+                    }
+                    content = null;
+                    _b.label = 3;
+                case 3:
+                    _b.trys.push([3, 5, , 6]);
+                    return [4 /*yield*/, readTextFileAsync(filename)];
+                case 4:
+                    content = _b.sent();
+                    return [3 /*break*/, 6];
+                case 5:
+                    _1 = _b.sent();
+                    return [3 /*break*/, 6];
+                case 6:
+                    FILE_CONTENT_CACHE.set(filename, content);
+                    sourceFiles[filename] = content;
+                    _b.label = 7;
+                case 7:
+                    filenames_1_1 = filenames_1.next();
+                    return [3 /*break*/, 2];
+                case 8: return [3 /*break*/, 11];
+                case 9:
+                    e_3_1 = _b.sent();
+                    e_3 = { error: e_3_1 };
+                    return [3 /*break*/, 11];
+                case 10:
+                    try {
+                        if (filenames_1_1 && !filenames_1_1.done && (_a = filenames_1.return)) _a.call(filenames_1);
+                    }
+                    finally { if (e_3) throw e_3.error; }
+                    return [7 /*endfinally*/];
+                case 11: return [2 /*return*/, sourceFiles];
+            }
+        });
+    });
+}
+//# sourceMappingURL=contextlines.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/index.js
+
 
 
 
@@ -30088,6 +30251,7 @@ var sdk_defaultIntegrations = [
     // Common
     new integrations_namespaceObject.InboundFilters(),
     new integrations_namespaceObject.FunctionToString(),
+    new contextlines_ContextLines(),
     // Native Wrappers
     new console_Console(),
     new http_Http(),
@@ -30383,7 +30547,7 @@ Object(hubextensions["a" /* addExtensionMethods */])();
 
 
 //# sourceMappingURL=index.js.map
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/cookie/index.js
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
 var cookie = __webpack_require__(119);
 
 // EXTERNAL MODULE: external "os"
@@ -58338,7 +58502,7 @@ __webpack_require__.d(__webpack_exports__, "GainType", function() { return /* re
 const VERSION = '0.68.2';
 const NUMERIC_VERSION = 0.6802; // for easy comparisons
 
-const BUILD_DATE = '20220214_05h50';
+const BUILD_DATE = '20220225_01h02';
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/A-apps--core/the-boring-rpg/state/dist/src.es2019/consts.js
 
 const LIB = '@tbrpg/state';
@@ -59301,10 +59465,10 @@ let nanoid_random = bytes => {
   fillPool((bytes -= 0))
   return pool.subarray(poolOffset - bytes, poolOffset)
 }
-let customRandom = (alphabet, size, getRandom) => {
+let customRandom = (alphabet, defaultSize, getRandom) => {
   let mask = (2 << (31 - Math.clz32((alphabet.length - 1) | 1))) - 1
-  let step = Math.ceil((1.6 * mask * size) / alphabet.length)
-  return () => {
+  let step = Math.ceil((1.6 * mask * defaultSize) / alphabet.length)
+  return (size = defaultSize) => {
     let id = ''
     while (true) {
       let bytes = getRandom(step)
@@ -59316,7 +59480,8 @@ let customRandom = (alphabet, size, getRandom) => {
     }
   }
 }
-let customAlphabet = (alphabet, size) => customRandom(alphabet, size, nanoid_random)
+let customAlphabet = (alphabet, size = 21) =>
+  customRandom(alphabet, size, nanoid_random)
 let nanoid = (size = 21) => {
   fillPool((size -= 0))
   let id = ''
