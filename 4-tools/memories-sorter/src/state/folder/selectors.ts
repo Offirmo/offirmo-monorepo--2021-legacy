@@ -219,6 +219,8 @@ export function get_ideal_basename(state: Immutable<State>): Basename {
 
 	assert(get_event_begin_date(state), 'get_ideal_basename() event range should have a start')
 
+	logger.trace(`${LIB}: get_ideal_basename(…)`, get_current_basename‿parsed(state))
+
 	let meaningful_part = get_current_basename‿parsed(state).meaningful_part
 	if (is_digit(meaningful_part[0])) {
 		// protection to prevent future executions to parse the meaningful part as DD/HH/MM/SS

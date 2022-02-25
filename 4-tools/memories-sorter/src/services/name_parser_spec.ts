@@ -465,4 +465,3 @@ describe(`${LIB} - (base)name parser`, function() {
 		})
 	})
 })
-

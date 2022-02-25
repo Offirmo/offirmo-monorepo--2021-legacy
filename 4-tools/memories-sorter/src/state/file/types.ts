@@ -20,6 +20,7 @@ import { FsStatsSubset } from '../../services/fs_stats'
 import { FileHash } from '../../services/hash'
 
 import { HistoricalNeighborHints, NeighborHints } from './sub/neighbor-hints/types'
+import { BetterDateMembers } from '../../services/better-date'
 
 /////////////////////////////////////////////////
 
@@ -57,7 +58,7 @@ export interface PersistedNotes {
 	// user data
 	deleted: undefined | boolean // TODO implement this feature TODO rename? TODO undefined?
 	starred: undefined | boolean // TODO implement this feature TODO undefined?
-	manual_date: undefined // TODO implement this feature
+	manual_date: undefined | SimpleYYYYMMDD | BetterDateMembers
 
 	// for debug
 	// NOTE it has to be properly re-set on change! TODO add auto checks?

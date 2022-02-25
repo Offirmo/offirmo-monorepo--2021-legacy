@@ -45,6 +45,7 @@ import {
 	get_debug_representation,
 	create_better_date_obj,
 	are_dates_matching_while_disregarding_tz_and_precision,
+	create_better_date_from_symd,
 } from '../../services/better-date'
 import { FileHash } from '../../services/hash'
 import { is_digit } from '../../services/matchers'
@@ -186,7 +187,10 @@ function _get_creation_dateⵧfrom_manual(state: Immutable<State>): BetterDate |
 	if (state.notes.manual_date === undefined)
 		return undefined
 
-	throw new Error('NIMP feature: manual date!')
+	if (typeof state.notes.manual_date === 'number')
+		return create_better_date_from_symd(state.notes.manual_date, 'tz:auto')
+
+	return create_better_date_obj(state.notes.manual_date)
 }
 function _get_creation_dateⵧfrom_exif‿edt(state: Immutable<State>): ExifDateTime | undefined {
 	const { id, current_exif_data } = state
@@ -321,7 +325,7 @@ export type DateConfidence =
 	| 'junk' // we don't even trust sorting this file
 export interface BestCreationDate {
 	candidate: BetterDate
-	source: `${'exif' | 'basename_np' | 'fs' | 'basename_p' | 'parent'}ⵧ${'current' | 'oldest'}${'' | '+fs' | `+neighbor${'✔' | '?' | '✖'}`}`
+	source: `${'manual' | 'exif' | 'basename_np' | 'fs' | 'basename_p' | 'parent'}ⵧ${'current' | 'oldest'}${'' | '+fs' | `+neighbor${'✔' | '?' | '✖'}`}`
 
 	confidence: DateConfidence // redundant with 'source' but makes it easier to code / consume
 	from_historical: boolean // redundant with 'source' but makes it easier to code / consume
@@ -775,7 +779,13 @@ export const get_best_creation_date‿meta = micro_memoize(function get_best_cre
 	const bcd__from_manual = _get_creation_dateⵧfrom_manual(state)
 	logger.trace('get_best_creation_date‿meta() trying manual…')
 	if (bcd__from_manual) {
-		throw new Error('NIMP feature: manual date!')
+		result.candidate = bcd__from_manual
+		result.source = 'manualⵧcurrent'
+		result.confidence = 'primary'
+		result.is_fs_matching = are_dates_matching_while_disregarding_tz_and_precision(bcd__from_manual, result.candidate)
+
+		logger.trace(`get_best_creation_date‿meta() resolved to ${get_debug_representation(result.candidate)} from ${ result.source } with confidence = ${ result.confidence } ✔`)
+		return result
 	}
 
 	// then rely on original data as much as possible
@@ -965,7 +975,7 @@ export function get_ideal_basename(state: Immutable<State>, {
 		})(),
 	})
 
-	let result = meaningful_part // so far
+	let result = meaningful_part // so far. REM: it can be empty (ex. photo.jpg = 0 meaningful part)
 	if (meaningful_part.endsWith(')')) {
 		logger.warn('⚠️⚠️⚠️ TODO check meaningful_part.endsWith copy index??', { current_id: state.id, parsed_oldest_known_basename })
 	}
@@ -1012,7 +1022,11 @@ export function get_ideal_basename(state: Immutable<State>, {
 			break
 	}
 
-	assert(result.length > 0, `get_ideal_basename() extensionless basename should not be empty`)
+	if (!result) {
+		// it's possible if nothing meaningful in the name + not confident in date
+		result = 'memory'
+	}
+
 	result += extension
 
 	return NORMALIZERS.trim(NORMALIZERS.normalize_unicode(result))

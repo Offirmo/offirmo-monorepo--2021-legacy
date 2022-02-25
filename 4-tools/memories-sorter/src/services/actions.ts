@@ -251,18 +251,17 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			else {
 				logger.verbose(`💾 mkdirp("${abs_path}")`)
 				await util.promisify(fs_extra.mkdirp)(abs_path)
-			}
-
-			if (DB.is_folder_existing(db, id)) {
-				// race condition while await-ing mkdirp, can happen?
-				logger.warn('ensure_folder(): existing in DB after I created it?', { id })
-			}
-			else {
-				db = DB.on_folder_found(db,
-					'.',
-					id,
-					true, // will prevent a useless "explore" from being triggered. We know the folder is empty, we just created it!
-				)
+				if (DB.is_folder_existing(db, id)) {
+					// race condition while await-ing mkdirp, can happen?
+					logger.warn('ensure_folder(): existing in DB after I created it?', { id })
+				}
+				else {
+					db = DB.on_folder_found(db,
+						'.',
+						id,
+						true, // will prevent a useless "explore" from being triggered. We know the folder is empty, we just created it!
+					)
+				}
 			}
 		}
 		catch (_err) {

@@ -65,6 +65,7 @@ export const get_params = memoize_once(function get_params(): Params {
 		max_event_durationⳇₓday: max_event_durationⳇₓday,
 
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 1981`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- 2020`),
 		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 13`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/- TEST photos sorter/- sorted`), // LOCAL TEST, DON'T COMMIT

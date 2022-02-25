@@ -517,7 +517,7 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 // NOTE that this function works in an opposite way than merge_duplicates,
 //      it will try to preserve the LESS sorted data = the oldest
 export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<PersistedNotes> {
-	logger.trace(`${LIB} merge_notes(…)`, { ids: notes.map(n => n.historical.basename) })
+	logger.silly(`${LIB} merge_notes(…)`, { ids: notes.map(n => n.historical.basename) }) // no trace, too noisy
 	assert(notes.length > 1, 'merge_notes(…) should be given several notes to merge')
 
 	let merged_notes = notes[0]
@@ -586,7 +586,23 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 			}
 		}
 		if (manual_date !== undefined) {
-			throw new Error(`merge_notes() NIMP manual_date!`)
+			let target = manual_date
+			if (merged_notes.manual_date !== undefined && merged_notes.manual_date !== target) {
+				// conflict
+				// since this is user-entered, we need to report!
+				logger.warn(`Conflict of manual date!`, {
+					a: merged_notes.manual_date,
+					b: manual_date,
+					_currently_known_as,
+				})
+				target = merged_notes.manual_date // no way to discriminate
+			}
+			if (merged_notes.manual_date !== target) {
+				merged_notes = {
+					...merged_notes,
+					manual_date: target,
+				}
+			}
 		}
 
 		// debug data can be ignored, it'll be automatically updated
