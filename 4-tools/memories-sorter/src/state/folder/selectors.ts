@@ -188,7 +188,7 @@ export const get_event_range = micro_memoize(function _get_event_range(state: Im
 export function get_event_begin_date(state: Immutable<State>): Immutable<BetterDate> {
 	assert(state.type === Type.event || state.type === Type.overlapping_event, `${LIB} get_event_begin_date() should be called on an ~event`)
 	const range = get_event_range(state)
-	assert(range, `${LIB} get_event_begin_date() should have a date range!`)
+	assert(range, `${LIB} get_event_begin_date([event]"${state.id}") should have a date range!`)
 
 	return range.begin
 }

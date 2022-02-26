@@ -90,7 +90,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 	})()
 
 	logger.verbose('Sort up to: "' + up_to + '" done.')
-	logger.info('DB = ' + DB.to_string(db))
+	//logger.info('DB = ' + DB.to_string(db))
 	console.log('\nactions done: ' + get_report_to_string())
 }
 

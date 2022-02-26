@@ -64,11 +64,31 @@ export const get_params = memoize_once(function get_params(): Params {
 		date_upper_boundⳇsymd: date_upper_boundⳇsymd,
 		max_event_durationⳇₓday: max_event_durationⳇₓday,
 
-		root: path.normalize(`/Users/${process.env.USER}/Documents/- memories`),
-		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 1981`),
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- 2020`),
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 13`),
+		root: path.normalize(`/Users/${process.env.USER}/Documents/Memories`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/- TEST photos sorter/- sorted`), // LOCAL TEST, DON'T COMMIT
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/- TEST photos sorter/- notes`), // LOCAL TEST, DON'T COMMIT
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- memories/- batch 13`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- batch 15 re-anciennes`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- inbox`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 1981`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2000`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2001`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2002`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2003`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2004`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2005`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2006`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2007`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2008`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2009`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2010`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2011`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2012`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2013`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2019`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2020`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2021`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2022`),
 
 		...(false // WARNING true = local execution on author's machine, WARNING don't commit "true"
 			? {

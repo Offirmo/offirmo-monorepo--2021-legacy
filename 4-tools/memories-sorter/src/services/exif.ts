@@ -134,6 +134,8 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 		}),
 	})
 
+	// seen 1/1/00 = meaningless TODO filter out!
+
 	if (field === 'GPSDateTime' && exiftool_date.tzoffsetMinutes === 0) {
 		// "GPSDateTime" seems to always be in UTC. If we inferred a TZ, try to enrich it
 		const tz = exif_data[EXIF_FIELD__TZ]

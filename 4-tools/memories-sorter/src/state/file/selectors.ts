@@ -100,6 +100,7 @@ export function get_current_top_parent_folder_id(state: Immutable<State>): Relat
 
 export function is_notes(state: Immutable<State>): boolean {
 	return get_current_basename(state).endsWith(NOTES_BASENAME_SUFFIX_LC)
+		|| get_current_basename(state).endsWith('.@offirmo-memories-sorter_notes copy.json') // macOs copy
 		|| get_current_basename(state).endsWith('@offirmo-photos-sorter_notes.json') // legacy name, should exist on author machine only
 }
 
@@ -393,14 +394,19 @@ export const get_best_creation_dateⵧfrom_oldest_known_data‿meta = micro_memo
 				// TODO evaluate in case of timezone?
 			}
 			else {
-				// this is suspicious, report it
-				logger.warn(`get_best_creation_date_meta__from_historical_data() EXIF vs. historical-basename discrepancy`, {
-					oldest_known_basename: get_oldest_known_basename(state),
-					diff: Math.abs(get_timestamp_utc_ms_from(bcd__from_exif) - get_timestamp_utc_ms_from(bcd__from_basename_np__oldest_known)),
-					id: state.id,
-					auto_from_basename,
-					auto_from_exif: auto_from_candidate,
-				})
+				if (state.notes.manual_date) {
+					// normal that basename doesn't match exif, if there is an override it means that EXIF wasn't good/pertinent
+				}
+				else {
+					// this is suspicious, report it
+					logger.warn(`get_best_creation_date_meta__from_historical_data() EXIF vs. historical-basename discrepancy`, {
+						oldest_known_basename: get_oldest_known_basename(state),
+						diff: Math.abs(get_timestamp_utc_ms_from(bcd__from_exif) - get_timestamp_utc_ms_from(bcd__from_basename_np__oldest_known)),
+						id: state.id,
+						auto_from_basename,
+						auto_from_exif: auto_from_candidate,
+					})
+				}
 			}
 		}
 
@@ -594,15 +600,20 @@ export const get_best_creation_dateⵧfrom_current_data‿meta = micro_memoize(f
 				// TODO evaluate in case of timezone?
 			}
 			else {
-				// this is suspicious, report it
-				logger.warn(`_get_best_creation_date_meta__from_current_data() EXIF/np-basename discrepancy`, {
-					basename: get_current_basename(state),
-					oldest_known_basename: get_oldest_known_basename(state),
-					diff: Math.abs(get_timestamp_utc_ms_from(bcd__from_exif) - get_timestamp_utc_ms_from(bcd__from_basename_np__current)),
-					id: state.id,
-					auto_from_np_basename,
-					auto_from_exif: auto_from_candidate,
-				})
+				if (state.notes.manual_date) {
+					// normal that basename doesn't match exif, if there is an override it means that EXIF wasn't good/pertinent
+				}
+				else {
+					// this is suspicious, report it
+					logger.warn(`_get_best_creation_date_meta__from_current_data() EXIF/np-basename discrepancy`, {
+						basename: get_current_basename(state),
+						//oldest_known_basename: get_oldest_known_basename(state),
+						diff: Math.abs(get_timestamp_utc_ms_from(bcd__from_exif) - get_timestamp_utc_ms_from(bcd__from_basename_np__current)),
+						id: state.id,
+						auto_from_np_basename,
+						auto_from_exif: auto_from_candidate,
+					})
+				}
 			}
 		}
 

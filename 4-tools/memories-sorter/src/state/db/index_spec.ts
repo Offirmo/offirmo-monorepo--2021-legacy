@@ -83,9 +83,6 @@ describe(`${LIB} - DB (root) state`, function() {
 				})
 
 				state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
-				/*state = on_file_notes_recovered_into_active_file_state(state, 'foo.jpg', null)
-				state = on_file_notes_recovered_into_active_file_state(state, 'bar.jpg', null)
-				state = on_file_notes_recovered_into_active_file_state(state, 'baz.jpg', null)*/
 
 				expect(state.encountered_hash_count['hash01'], '01').to.equal(1)
 				expect(state.encountered_hash_count['hash02'], '02').to.equal(2)
@@ -94,13 +91,14 @@ describe(`${LIB} - DB (root) state`, function() {
 				state = clean_up_duplicates(state)
 
 				//console.log(to_string(state))
-				expect(get_pending_actions(state)).to.have.lengthOf(2)
+				expect(get_pending_actions(state)).to.have.lengthOf(1)
 				expect(get_first_pending_action(state)).to.deep.equal({
 					type: 'delete_file',
 					id: 'baz.jpg'
 				})
 				//console.log(state.queue)
 
+				state = discard_all_pending_actions(state)
 				state = on_file_deleted(state, 'baz.jpg')
 				//console.log(to_string(state))
 			})
@@ -139,13 +137,14 @@ describe(`${LIB} - DB (root) state`, function() {
 				state = clean_up_duplicates(state)
 
 				//console.log(to_string(state))
-				expect(get_pending_actions(state)).to.have.lengthOf(2)
+				expect(get_pending_actions(state)).to.have.lengthOf(1)
 				expect(get_first_pending_action(state)).to.deep.equal({
 					type: 'delete_file',
 					id: 'foo/description.txt',
 				})
 				//console.log(state.queue)
 
+				state = discard_all_pending_actions(state)
 				state = on_file_deleted(state, 'foo/description.txt')
 				//console.log(to_string(state))
 			})
@@ -185,7 +184,7 @@ describe(`${LIB} - DB (root) state`, function() {
 				DEBUG && console.log('exploration…')
 				state = on_folder_found(state, '', '.')
 				state = on_file_found(state, '.', file_ut_basename)
-				// no notes found
+				// (no notes found)
 
 				expect(get_pending_actions(state), 'after exploration').to.have.lengthOf(3)
 				state = on_hash_computed(state, file_ut_basename, 'hash01')
@@ -196,22 +195,22 @@ describe(`${LIB} - DB (root) state`, function() {
 					ctimeMs:     CREATION_DATE_MS,
 				})
 				// load notes: none
-				expect(get_pending_actions(state), 'after primary infos 1').to.have.lengthOf(3)
+				expect(get_pending_actions(state), 'after primary infos 1').to.have.lengthOf(3) // explore, hash, fs.stats
 				state = discard_all_pending_actions(state)
 
 				state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
 				DEBUG && console.log('exploration done.')
-				expect(get_pending_actions(state), 'after consolidation 1').to.have.lengthOf(1)
+				expect(get_pending_actions(state), 'after consolidation 1').to.have.lengthOf(0) // formerly auto notes bkp, removed
 				persisted_notes = get_past_and_present_notes(state)
-				state = discard_all_pending_actions(state)
+				//state = discard_all_pending_actions(state)
 
 				state = clean_up_duplicates(state)
-				expect(get_pending_actions(state), 'after clean up duplicate 1').to.have.lengthOf(1)
+				expect(get_pending_actions(state), 'after clean up duplicate 1').to.have.lengthOf(0) // no duplicates
 				persisted_notes = get_past_and_present_notes(state)
-				state = discard_all_pending_actions(state)
+				//state = discard_all_pending_actions(state)
 
 				state = normalize_files_in_place(state)
-				expect(get_pending_actions(state), 'after normalize 1').to.have.lengthOf(1)
+				expect(get_pending_actions(state), 'after normalize 1').to.have.lengthOf(1) // normalize
 				let next_id = File.get_ideal_basename(state.files[file_ut_basename])
 				expect(next_id).to.equal('MM2019-07-31_21h00m15_screenshot.png')
 				//console.log(next_id, state.files)
@@ -221,7 +220,7 @@ describe(`${LIB} - DB (root) state`, function() {
 				state = discard_all_pending_actions(state)
 
 				DEBUG && console.log('........EO 1st round.......')
-				expect(Object.keys(state.files)).to.deep.equal(['MM2019-07-31_21h00m15_screenshot.png'])
+				expect(Object.keys(state.files), 'file keys after 1st round').to.deep.equal(['MM2019-07-31_21h00m15_screenshot.png'])
 				DEBUG && console.log(to_string(state))
 				DEBUG && console.log(Notes.to_string(persisted_notes))
 
@@ -237,7 +236,7 @@ describe(`${LIB} - DB (root) state`, function() {
 				state = on_file_found(state, '.', NOTES_BASENAME_SUFFIX_LC)
 
 				//console.log(state.queue)
-				expect(get_pending_actions(state), 'after explore 2').to.have.lengthOf(4)
+				expect(get_pending_actions(state), 'after explore 2').to.have.lengthOf(4) // explore, hash, fs stats, load notes
 				state = discard_all_pending_actions(state)
 				// explore done = #1
 				state = on_hash_computed(state, file_ut_basename, 'hash01') // #2
@@ -257,12 +256,12 @@ describe(`${LIB} - DB (root) state`, function() {
 				expect(get_pending_actions(state), 'after load data 2').to.have.lengthOf(0)
 
 				state = on_fs_exploration_done_consolidate_data_and_backup_originals(state)
-				expect(get_pending_actions(state)).to.have.lengthOf(1)
+				expect(get_pending_actions(state), 'after consolidation 2').to.have.lengthOf(0)
 				persisted_notes = get_past_and_present_notes(state)
-				state = discard_all_pending_actions(state)
+				//state = discard_all_pending_actions(state)
 
 				state = clean_up_duplicates(state)
-				expect(get_pending_actions(state)).to.have.lengthOf(1)
+				expect(get_pending_actions(state), 'after duplicate 2').to.have.lengthOf(0)
 				persisted_notes = get_past_and_present_notes(state)
 				state = discard_all_pending_actions(state)
 

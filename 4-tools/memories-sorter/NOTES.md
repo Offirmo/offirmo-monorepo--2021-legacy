@@ -1,5 +1,12 @@
 
 
+LOG ANALYSIS
+```bazaar
+🔥🔥🔥🔥🔥🔥🔥  Error 🔥🔥🔥🔥🔥🔥🔥
+  ERROR  ›
+  WARN   ›
+```
+
 similar tool? https://romandesign.co/always-have-a-real-use-case/
 
 https://github.com/luciopaiva/heapify

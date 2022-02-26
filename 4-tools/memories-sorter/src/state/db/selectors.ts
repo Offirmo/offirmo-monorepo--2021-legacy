@@ -103,25 +103,29 @@ export function is_folder_existing(state: Immutable<State>, id: FolderId): boole
 	return state.folders.hasOwnProperty(id)
 }
 
+// CORE LOGIC
 export function get_ideal_file_relative_folder(state: Immutable<State>, id: FileId): RelativePath {
 	logger.trace(`✴️ get_ideal_file_relative_folder()`, { id })
 	const DEBUG = false
 
 	const file_state = state.files[id]
 
-	assert(!File.is_notes(file_state), `get_ideal_file_relative_folder() should not be called on notes`)
+	assert(!File.is_notes(file_state), `get_ideal_file_relative_folder() should not be called on notes`) // bc notes have their own consolidation/cleaning logic
 
 	const current_parent_folder_id: FolderId = File.get_current_parent_folder_id(file_state)
 	assert(is_folder_existing(state, current_parent_folder_id), `get_ideal_file_relative_folder() current parent folder exists "${current_parent_folder_id}"`)
+	const current_parent_folder_state = state.folders[current_parent_folder_id]
+
 	const top_parent_id: FolderId = File.get_current_top_parent_folder_id(file_state)
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS_BASENAMES.includes(top_parent_id)
-	const current_parent_folder_state = state.folders[current_parent_folder_id]
+
+	const is_media_file = File.is_media_file(file_state)
 
 	logger.trace(`✴️ get_ideal_file_relative_folder() processing…`, {
 		top_parent_id,
 		is_top_parent_special,
 		parent_folder_type: current_parent_folder_state.type,
-		is_media_file: File.is_media_file(file_state),
+		is_media_file,
 		'current_parent_folder_state.type': current_parent_folder_state.type,
 	})
 
@@ -181,7 +185,9 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			break
 	}
 
-	if (!File.is_media_file(file_state)) {
+	// first, if not media, clear out from the medias
+	if (!is_media_file) {
+		// keep the exact same path, ensuring it's below "can't recognize"
 		let target_split_path = File.get_current_relative_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
 			target_split_path[0] = Folder.SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME
@@ -196,7 +202,10 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		return path.join(target_split_path.join(path.sep))
 	}
 
-	// file is a media
+	// Ok, it's a media file.
+
+	// we don't have a matching event folder...
+
 	if (!File.is_confident_in_date_enough_to__sort(file_state)) {
 		// the file is in need of sorting since it's not already in an event folder
 
