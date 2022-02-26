@@ -111,6 +111,7 @@ export const get_params = memoize_once(function get_params(): Params {
 
 		extensions_of_media_files‿lc: [
 			...EXIF_POWERED_FILE_EXTENSIONS_LC,
+			'.3gp', // videos taken with my old Palm
 			'.avi', // old videos
 			'.bmp',
 			'.bmp',

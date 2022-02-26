@@ -19,13 +19,13 @@ import {
 	FolderId,
 	get_event_end_date‿symd,
 	get_event_range,
+	SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME,
 } from '../folder'
 import { FileId, PersistedNotes } from '../file'
 
 import { LIB } from './consts'
 import {	State } from './types'
 import {
-	get_past_and_present_notes,
 	get_all_files_except_meta,
 	get_all_folders,
 	get_all_media_files,
@@ -91,10 +91,17 @@ export function discard_all_pending_actions(state: Immutable<State>): Immutable<
 
 ////////
 
-function _register_folder(state: Immutable<State>, id: FolderId): Immutable<State> {
+function _register_folder(state: Immutable<State>, id: FolderId, just_created: boolean = false): Immutable<State> {
 	assert(!state.folders[id], `_register_folder("${id}"): should not be already registered!`)
 
-	const folder_state = Folder.create(id)
+	let folder_state = Folder.create(id)
+
+	if (just_created && id.split(path.sep)[0] === SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME && folder_state.type === Folder.Type.event) {
+		// important, immediately demote this folder from being an event (default state) to prevent bugs when looking for suitable event folders
+		// Should only do this if we know we just created this empty folder,
+		// hence it can't be an error from the user having moved valid events in the "cant sort" folder
+		folder_state = Folder.demote_to_unknown(folder_state, 'cantsort')
+	}
 
 	state = {
 		...state,
@@ -114,10 +121,11 @@ export function on_folder_found(state: Immutable<State>, parent_id: RelativePath
 	logger.trace(`${LIB} on_folder_found(…)`, { parent_id, sub_id, id })
 	logger.verbose(`${LIB} found a folder`, { id })
 
-	state = _register_folder(state, id)
+	state = _register_folder(state, id, just_created)
 
-	if (!just_created)
+	if (!just_created) {
 		state = _enqueue_action(state, Actions.create_action_explore_folder(id))
+	}
 
 	return state
 }
@@ -396,12 +404,12 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 		)
 
 		const reliability = File.NeighborHintsLib.get_neighbors_fs_reliability(consolidated_neighbor_hints)
-		const log_func = (reliability === 'unreliable')
+		/*const log_func = (reliability === 'unreliable')
 			? logger.error
 			: (reliability === 'unknown')
 				? logger.warn
-				: logger.info
-		log_func(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
+				: logger.info*/
+		logger.info(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
 			stats: folder_state.media_children_fs_reliability_count,
 		})
 	})

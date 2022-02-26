@@ -94,6 +94,7 @@ export function is_DDMMYYYY(s: string): boolean {
 export const NON_MEANINGFUL_FULL: string[] = [
 	// greedier first
 	'PHOTO',
+	'PICT',
 	'IMG',
 	'VID',
 	'MM', // from us

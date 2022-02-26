@@ -725,7 +725,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 	if (NON_MEANINGFUL_FULL.includes(meaningful_part.toUpperCase()))
 		meaningful_part = ''
 
-	// TODO review? removes IMG_ which may be considered useful?
+	// TODO review? Is it really needed? (removes IMG_ which may be considered useful?)
 	// if leaving this loop, should remove lines above
 	/*NON_MEANINGFUL_FULL.forEach(non_meaningful_str => {
 		if (meaningful_part.toUpperCase().startsWith(non_meaningful_str.toUpperCase()))

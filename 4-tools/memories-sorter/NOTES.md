@@ -2,6 +2,7 @@
 
 LOG ANALYSIS
 ```bazaar
+Error when processing task
 🔥🔥🔥🔥🔥🔥🔥  Error 🔥🔥🔥🔥🔥🔥🔥
   ERROR  ›
   WARN   ›

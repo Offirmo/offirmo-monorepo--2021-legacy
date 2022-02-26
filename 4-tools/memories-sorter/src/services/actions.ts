@@ -24,7 +24,7 @@ import fs_extra, { _is_same_inode } from './fs-extra'
 import { get_relevant_fs_stats_subset } from './fs_stats'
 import get_file_hash from './hash'
 import { pathㆍparse_memoized } from './name_parser'
-import { FolderId } from '../state/folder'
+import { FolderId, SPECIAL_FOLDERⵧINBOX__BASENAME } from '../state/folder'
 import { FileId } from '../state/file'
 import { read_exif_data } from './exif'
 
@@ -219,6 +219,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		logger.trace(`[Action] initiating ensure_folder "${id}"…`, { depth })
 		logger.verbose(`- ensuring dir "${id}" exists…`)
 
+		assert(split_path[0] !== SPECIAL_FOLDERⵧINBOX__BASENAME, `ensure_folder() should never create a folder into inbox!`)
 		try {
 			const is_existing_according_to_db = DB.is_folder_existing(db, id)
 			//logger.log('so far:', { is_existing_according_to_db })
