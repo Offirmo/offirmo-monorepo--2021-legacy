@@ -129,62 +129,6 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		'current_parent_folder_state.type': current_parent_folder_state.type,
 	})
 
-	// whatever the file, is it already in an event folder? (= already sorted)
-	switch(current_parent_folder_state.type) {
-		case Folder.Type.event: {
-			// if it's in an event folder
-			// we assume it's sorted already and keep it that way
-			const event_folder_base = Folder.get_ideal_basename(current_parent_folder_state)
-			const year = String(Folder.get_event_begin_year(current_parent_folder_state))
-
-			DEBUG && console.log(`✴️ ${id} already in event`)
-			return path.join(year, event_folder_base)
-		}
-
-		case Folder.Type.overlapping_event: {
-			// if it was in an event folder
-			// we keep it into the corresponding event folder
-			// UNLESS the file date doesn't match the current folder (happens with force-dated folders with big ranges = ex. a 6 month iphone import)
-			const date_for_matching_an_event: SimpleYYYYMMDD = (() => {
-				if (File.is_confident_in_date_enough_to__sort(file_state))
-					return File.get_best_creation_date‿compact(file_state)
-
-				return Folder.get_event_begin_date‿symd(current_parent_folder_state)
-			})()
-
-			let compatible_event_folder_id = get_all_event_folder_ids(state)
-				.find(fid => Folder.is_date_matching_this_event‿symd(state.folders[fid], date_for_matching_an_event))
-			if (!compatible_event_folder_id) {
-				// can happen if the folder is force-dated
-				// but the file date is reliable and don't match
-				// Let's investigate if that happens:
-				logger.warn(`File was in an overlapped event but couldn't find a matching event`, {
-					id,
-					parent_folder_type: current_parent_folder_state.type,
-					date_for_finding_suitable_event: date_for_matching_an_event,
-				})
-				// fall through to other rules
-			}
-			else {
-				const event_folder_base = Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
-
-				const year = String(Folder.get_event_begin_year(state.folders[compatible_event_folder_id]))
-
-				DEBUG && console.log(`✴️ ${id} in overlapping`, {
-					confidence_to_sort: File.is_confident_in_date_enough_to__sort(file_state),
-					file_date: File.get_best_creation_date‿compact(file_state),
-					date_for_finding_suitable_event: date_for_matching_an_event,
-				})
-				return path.join(year, event_folder_base)
-			}
-			break
-		}
-
-		default:
-			// fall through to other rules
-			break
-	}
-
 	// first, if not media, clear out from the medias
 	if (!is_media_file) {
 		// keep the exact same path, ensuring it's below "can't recognize"
@@ -203,6 +147,71 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	}
 
 	// Ok, it's a media file.
+
+	// whatever the file, is it already in an event folder? (= already sorted)
+	// BEWARE that:
+	// 1) the event folder may not have a canonical path = need to use the canonical
+	// 2) the event folder may be a "forced capped" event (most likely bc intentful name ex. a 6 month iphone import)
+	//    in which case we may need to move out depending on the date
+	// 3) while a legitimate event folder, the folder may nos have its canonical name yet
+
+	if (current_parent_folder_state.type === Folder.Type.event) {
+		// 2 cases
+		// - the media is INSIDE the event range =  it's sorted already, keep it that way
+		// - the media is OUTSIDE of the event range = event was capped most likely bc intentful name (ex. a 6 month iphone import),
+		//   but need to move medias in more appropriate event folders
+		let should_stay_in_this_event_folder = true // so far
+		if (File.is_confident_in_date_enough_to__sort(file_state)) {
+			const date_for_matching_an_event: SimpleYYYYMMDD = File.get_best_creation_date‿compact(file_state)
+			should_stay_in_this_event_folder = Folder.is_date_matching_this_event‿symd(current_parent_folder_state, date_for_matching_an_event)
+		}
+
+		if (should_stay_in_this_event_folder) {
+			const event_folder_base = Folder.get_ideal_basename(current_parent_folder_state)
+			const year = String(Folder.get_event_begin_year(current_parent_folder_state))
+
+			DEBUG && console.log(`✴️ ${id} is already in event and computed that it should stay in`)
+			return path.join(year, event_folder_base)
+		}
+
+		// else continue...
+	}
+
+	// we need to find an event folder
+	const date_for_matching_an_event: SimpleYYYYMMDD = (() => {
+		if (File.is_confident_in_date_enough_to__sort(file_state))
+			return File.get_best_creation_date‿compact(file_state)
+
+		return Folder.get_event_begin_date‿symd(current_parent_folder_state)
+	})()
+
+	let compatible_event_folder_id = get_all_event_folder_ids(state)
+		.find(fid => Folder.is_date_matching_this_event‿symd(state.folders[fid], date_for_matching_an_event))
+	if (!compatible_event_folder_id) {
+		if (current_parent_folder_state.type === Folder.Type.overlapping_event) {
+			// can happen if the folder is force-dated
+			// but the file date is reliable and don't match
+			// Let's investigate if that happens:
+			logger.warn(`File was in an overlapped event but couldn't find a matching event`, {
+				id,
+				date_for_matching_an_event,
+			})
+		}
+		// fall through to other rules
+	}
+	else {
+		// we found a matching event, all good
+		const event_folder_base = Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
+
+		const year = String(Folder.get_event_begin_year(state.folders[compatible_event_folder_id]))
+
+		DEBUG && console.log(`✴️ ${id} found a matching event`, {
+			confidence_to_sort: File.is_confident_in_date_enough_to__sort(file_state),
+			file_date: File.get_best_creation_date‿compact(file_state),
+			date_for_finding_suitable_event: date_for_matching_an_event,
+		})
+		return path.join(year, event_folder_base)
+	}
 
 	// we don't have a matching event folder...
 
