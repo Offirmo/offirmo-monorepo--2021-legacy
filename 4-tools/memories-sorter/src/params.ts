@@ -118,6 +118,7 @@ export const get_params = memoize_once(function get_params(): Params {
 			'.gif',
 			'.m4a',
 			'.mp3',
+			'.pct', // an old apple format https://fileinfo.com/extension/pct
 			'.png',
 			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
 			'.tga', // WoW screens

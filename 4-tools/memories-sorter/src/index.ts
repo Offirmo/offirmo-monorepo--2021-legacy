@@ -9,7 +9,7 @@ import * as DB from './state/db'
 import logger from './services/logger'
 import { exec_pending_actions_recursively_until_no_more, get_report_to_string } from './services/actions'
 
-logger.verbose(`******* ${LIB.toUpperCase()} *******`)
+console.log(`******* ${LIB.toUpperCase()} *******`)
 
 ////////////////////////////////////
 
@@ -18,12 +18,12 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 	// for debug
 	const up_to = 'cleanup' as 'explore_and_take_notes' | 'deduplicate' | 'normalize' | 'move' | 'cleanup'
 
-	console.log({ PARAMS })
+	logger.trace(`Running with params:`, PARAMS)
 
 	let db = DB.create(PARAMS.root)
 
 	await (async () => {
-		logger.verbose('Starting sort up to: "' + up_to + '"…')
+		logger.trace('Starting execution up to: "' + up_to + '" phase…')
 
 		////////// READ ONLY / INTERMEDIATE ////////////
 

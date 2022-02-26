@@ -141,7 +141,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.media_children_bcd_ranges.from_fsⵧcurrent?.end) {
 		// no change
 	} else {
-		logger.verbose(
+		logger.log(
 			`${ LIB } updating folder’s children's "bcd ⵧ from fs ⵧ current" date range`,
 			{
 				id: state.id,
@@ -189,7 +189,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent, state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
 			// no change
 		} else {
-			logger.verbose(
+			logger.log(
 				`${ LIB } updating folder’s children's "current primary" date range`,
 				{
 					id: state.id,
@@ -284,7 +284,7 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.media_children_bcd_ranges.from_primaryⵧfinal?.end)) {
 			// no change
 		} else {
-			logger.verbose(
+			logger.log(
 				`${ LIB } updating folder’s children's "final primary" date range`,
 				{
 					id: state.id,
@@ -334,7 +334,7 @@ export function on_all_infos_gathered(state: Immutable<State>): Immutable<State>
 			const event_range = get_event_range(state)
 
 			if (event_range) {
-				logger.verbose(
+				logger.debug(
 					`${LIB} FYI folder’s final event date range`,
 					{
 						id: state.id,

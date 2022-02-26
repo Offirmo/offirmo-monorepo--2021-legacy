@@ -192,7 +192,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 // REM: called by Actions.create_action_load_notes initiated by on_file_found
 export function on_note_file_found(state: Immutable<State>, raw_data: any): Immutable<State> {
 	logger.trace(`${LIB} on_notes_found(…)`, { base: get_base_loose(raw_data) })
-	logger.verbose(`${LIB} found previous notes about the files`)
+	logger.verbose(`${LIB} found previous notes, processing them…`)
 
 	const recovered_data = Notes.migrate_to_latest(raw_data)
 
@@ -398,7 +398,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 		if (folder_state.media_children_count === 0) return
 
 		const consolidated_neighbor_hints = Folder.get_neighbor_primary_hints(folder_state)
-		logger.info(
+		logger.trace(
 			`Folder "${folder_state.id}" neighbor hints have been consolidated`,
 			File.NeighborHintsLib.get_debug_representation(consolidated_neighbor_hints)
 		)
@@ -409,7 +409,7 @@ function _consolidate_and_propagate_neighbor_hints(state: Immutable<State>): Imm
 			: (reliability === 'unknown')
 				? logger.warn
 				: logger.info*/
-		logger.info(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
+		logger.debug(`Folder "${folder_state.id}" fs reliability has been estimated as ${String(reliability).toUpperCase()}`, {
 			stats: folder_state.media_children_fs_reliability_count,
 		})
 	})
@@ -704,18 +704,18 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 
 	all_file_ids.forEach(id => {
 		if (File.is_notes(state.files[id])) {
-			console.log(`- MTIL: "${id}" is notes`)
+			logger.debug(`- DB.MTIL: "${id}" = is notes`)
 			return
 		}
 
 		const target_id = get_ideal_file_relative_path(state, id)
 		assert(target_id.includes(path.sep), `move_all_files_to_their_ideal_location() unexpected ${id}`)
 		if (id === target_id) {
-			console.log(`- MTIL: "${id}" is already in ideal location`)
+			logger.debug(`- DB.MTIL: "${id}" = is already in ideal location`)
 			return
 		}
 
-		console.log(`- MTIL: "${id}" is scheduled to move to "${target_id}"`)
+		logger.debug(`- DB.MTIL: "${id}": is scheduled to move to "${target_id}"`)
 
 		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
 	})

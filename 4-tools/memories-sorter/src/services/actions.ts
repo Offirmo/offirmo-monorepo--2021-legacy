@@ -43,7 +43,7 @@ const _report = {
 }
 
 export async function exec_pending_actions_recursively_until_no_more(db: Immutable<State>, debug_id: string, PARAMS: Immutable<Params> = get_params()): Promise<Immutable<State>> {
-	console.log(`executing actions "${debug_id}"…`)
+	logger.trace(`executing actions from "${debug_id}"…`)
 
 	const start_date_ms = get_UTC_timestamp_ms()
 
@@ -219,7 +219,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		logger.trace(`[Action] initiating ensure_folder "${id}"…`, { depth })
 		logger.verbose(`- ensuring dir "${id}" exists…`)
 
-		assert(split_path[0] !== SPECIAL_FOLDERⵧINBOX__BASENAME, `ensure_folder() should never create a folder into inbox!`)
+		assert(
+			split_path[0] !== SPECIAL_FOLDERⵧINBOX__BASENAME || id === SPECIAL_FOLDERⵧINBOX__BASENAME,
+			`ensure_folder() should never create a subfolder in inbox!`
+		)
 		try {
 			const is_existing_according_to_db = DB.is_folder_existing(db, id)
 			//logger.log('so far:', { is_existing_according_to_db })
@@ -250,7 +253,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				logger.verbose('DRY RUN would have created folder: ' + id)
 			}
 			else {
-				logger.verbose(`💾 mkdirp("${abs_path}")`)
+				logger.log(`💾 mkdirp("${abs_path}")`)
 				await util.promisify(fs_extra.mkdirp)(abs_path)
 				if (DB.is_folder_existing(db, id)) {
 					// race condition while await-ing mkdirp, can happen?
@@ -284,7 +287,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 			else {
 				logger.info('deleting file… ' + abs_path)
-				logger.verbose(`💾 rm("${abs_path}")`)
+				logger.log(`💾 rm("${abs_path}")`)
 				await util.promisify(fs.rm)(abs_path)
 				db = DB.on_file_deleted(db, id)
 			}
@@ -309,7 +312,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				// always write, even in dry run
 				// this is not risky
 				// the oldest = the more authoritative
-				logger.verbose(`💾 json.write("${abs_path}", {…})`)
+				logger.log(`💾 json.write("${abs_path}", {…})`)
 				await json.write(abs_path, data)
 				if (DB.is_file_existing(db, relative_path)) {
 					// ok, we just updated an existing note file
@@ -452,7 +455,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				try {
-					logger.verbose(`💾 move("${abs_pathⵧcurrent}", "${abs_pathⵧtarget}")`)
+					logger.log(`💾 move("${abs_pathⵧcurrent}", "${abs_pathⵧtarget}")`)
 					fs_extra.moveSync(abs_pathⵧcurrent, abs_pathⵧtarget)
 					db = DB.on_file_moved(db, id, target_id)
 				}
@@ -492,7 +495,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 	async function move_file_to_ideal_location(id: RelativePath): Promise<void> {
 		const target_id = DB.get_ideal_file_relative_path(db, id)
 
-		logger.trace(`[Action] initiating move_file_to_ideal_location "${id}" to "${target_id}"…`)
+		logger.trace(`[Action] initiating move_file_to_ideal_location "${id}" to DIFFERENT "${target_id}"…`)
 		assert(target_id !== id, 'MTIL') // should have been pre-filtered
 
 		try {
@@ -515,10 +518,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 
 			if (is_moving) {
-				logger.verbose(`- [MTIL] about to move file "${id}" to ideal location "${target_id}"…`)
+				logger.verbose(`- [MTIL] about to move file "${id}" to DIFFERENT ideal location "${target_id}"…`)
 			}
 			else {
-				logger.verbose(`- [MTIL] about to rename file in-place from "${parsed.base}" to ideally "${parsed_target.base}"…`)
+				logger.verbose(`- [MTIL] about to rename file in-place from "${parsed.base}" to DIFFERENT ideally "${parsed_target.base}"…`)
 			}
 
 			/* TODO ?
@@ -595,7 +598,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				}
 				else {
 					logger.info('deleting empty folder… ' + abs_path)
-					logger.verbose(`💾 rmdir("${abs_path}")`)
+					logger.log(`💾 rmdir("${abs_path}")`)
 					await util.promisify(fs_extra.remove)(abs_path)
 					db = DB.on_folder_deleted(db, id)
 				}
@@ -724,7 +727,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		const exec_duration_ms = end_date_ms - start_date_ms
 		_report.phases_duration_ms[debug_id] = exec_duration_ms
 
-		console.log(`DONE executing actions "${debug_id}", elapsed: ${exec_duration_ms/1000.}s`)
+		logger.trace(`DONE executing actions "${debug_id}", elapsed: ${exec_duration_ms/1000.}s`)
 	}
 
 	return db
