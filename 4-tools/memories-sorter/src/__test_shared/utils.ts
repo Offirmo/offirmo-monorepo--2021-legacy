@@ -106,7 +106,7 @@ const DEFAULT_FILE_INPUTS = {
 
 function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
 	return path.join(...[
-			//...inputs.parent_pathⵧcurrent‿relative.split('/'),
+			//...inputs.parent_pathⵧcurrent‿relative.split(path.sep),
 			inputs.parent_pathⵧcurrent‿relative,
 			inputs.basenameⵧcurrent,
 		].filter(x => !!x) as string[])
@@ -253,7 +253,7 @@ export function get_test_single_file_DB_state_generator() {
 		}
 
 		state = DB.on_folder_found(state, '', '.')
-		const parent_splitted = inputs.file.parent_pathⵧcurrent‿relative.split('/')
+		const parent_splitted = inputs.file.parent_pathⵧcurrent‿relative.split(path.sep)
 		for (let i = 0; i < parent_splitted.length; ++i) {
 			const parent_subpath = path.join(...parent_splitted.slice(0, i))
 			const basename = path.join(...parent_splitted.slice(i, i+1))

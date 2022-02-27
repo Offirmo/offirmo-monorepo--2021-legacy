@@ -1,3 +1,4 @@
+import path from 'path'
 import assert from 'tiny-invariant'
 import { Tags as EXIFTags } from 'exiftool-vendored'
 import { Immutable } from '@offirmo-private/ts-types'
@@ -15,7 +16,7 @@ import {
 	get_file_basename_copy_index,
 	get_file_basename_extension‿normalized,
 	get_file_basename_without_copy_index,
-	get_folder_relpath_normalisation_version,
+	get_folder_basename_normalisation_version,
 	get_media_basename_normalisation_version,
 	is_normalized_event_folder_relpath,
 	is_processed_media_basename,
@@ -525,6 +526,8 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 
 	logger.silly('merge_notes() notes so far', merged_notes)
 	notes.forEach(note => {
+		if (note === merged_notes) return
+
 		const {
 			deleted,
 			starred,
@@ -607,7 +610,11 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 
 		// debug data can be ignored, it'll be automatically updated
 
-		/////// historical
+		/////// historical (by fields)
+		// We can't select one over the other bc:
+		// a version may have a correct fs but bad basename
+		// the other version may have the opposite
+		// so we pick the best for each field 1 by 1
 
 		if (exif_orientation !== merged_notes.historical.exif_orientation) {
 			throw new Error(`merge_notes() unexpected exif_orientation difference!`)
@@ -720,21 +727,26 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 			}
 		}
 
-
 		logger.silly('merge_notes() notes so far', merged_notes)
 	})
 
 	// cleanups
-	if (merged_notes.historical.neighbor_hints.fs_reliability === 'unknown') {
-		// no value, clean it
-		const { fs_reliability, ...rest } = merged_notes.historical.neighbor_hints
+	if (merged_notes.historical.neighbor_hints.fs_reliability === 'unknown' || Object.values(merged_notes.historical.neighbor_hints as any).includes(undefined)) {
+		const neighbor_hints: HistoricalNeighborHints = Object.entries(merged_notes.historical.neighbor_hints)
+			.reduce((acc, [k, v]) => {
+				if (v === undefined) return acc
+				if (v === 'unknown') return acc
+
+				;(acc as any)[k] = v
+				return acc
+			}, {} as HistoricalNeighborHints)
+
+
 		merged_notes = {
 			...merged_notes,
 			historical: {
 				...merged_notes.historical,
-				neighbor_hints: {
-					...rest,
-				},
+				neighbor_hints,
 			},
 		}
 	}

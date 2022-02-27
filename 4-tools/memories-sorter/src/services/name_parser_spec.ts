@@ -426,7 +426,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			'2002/47- st. Nicolas 2002'           : undefined,
 			'1234567890'                          : undefined,
 			// v1 basename but wrong path
-			'20171020 - foo'                      : undefined,
+			'20171020 - foo'                      : undefined, // missing "year"/
 			'foo/bar/20171020 - foo'              : undefined,
 		}
 

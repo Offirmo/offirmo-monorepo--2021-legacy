@@ -1,3 +1,4 @@
+import path from 'path'
 import { expect } from 'chai'
 
 import { Immutable } from '@offirmo-private/ts-types'
@@ -8,6 +9,8 @@ import {
 	FileId,
 	PersistedNotes,
 	State,
+	HistoricalData,
+	merge_notes,
 	merge_duplicates,
 } from '.'
 import {
@@ -37,6 +40,66 @@ describe(`${LIB} - file (state)`, function() {
 			describe('merge_notes()', function () {
 
 				it('should work and pick the best of all') // this is tested as part of merge_duplicates()
+
+				describe('merge_historical', function() {
+
+					// real case
+					it('should stay stable', () => {
+						const oldest_notes: PersistedNotes = {
+							// backup
+							historical: {
+								basename: "Chien Michèle.avi",
+								parent_path: "Chien Michèle",
+								fs_bcd_tms: 1079269608000,
+								neighbor_hints: {
+									// no valuable hints, no useful reliability
+								},
+							},
+
+							deleted: undefined,
+							starred: undefined,
+							manual_date: undefined,
+
+							_currently_known_as: 'whatever',
+							_bcd_afawk‿symd: undefined,
+							_bcd_source: undefined,
+						}
+
+						const second_exec_notes: PersistedNotes = {
+							// backup
+							historical: {
+								basename: "Chien Michèle.avi",
+								parent_path: "20040314 - Chien Michèle", // normalized!
+								fs_bcd_tms: 1079269608000,
+								neighbor_hints: {
+									fs_reliability: 'reliable', // XXX now reliable thanks to hint in parent path matching the fs,
+									// HOWEVER this doesn't bring any info since the folder date is from the fs in the first place!
+								},
+							},
+
+							deleted: undefined,
+							starred: undefined,
+							manual_date: undefined,
+
+							_currently_known_as: 'whatever',
+							_bcd_afawk‿symd: undefined,
+							_bcd_source: undefined,
+						}
+
+						// strict reflexion of oldest notes
+						const expected_historical_notes: HistoricalData = {
+								basename: "Chien Michèle.avi",
+								parent_path: "Chien Michèle",
+								fs_bcd_tms: 1079269608000,
+								neighbor_hints: {
+									// no valuable hints, no useful reliability
+								},
+							}
+
+						expect(merge_notes(oldest_notes, second_exec_notes).historical, 'o/2').to.deep.equal(expected_historical_notes)
+						expect(merge_notes(second_exec_notes, oldest_notes).historical, '2/o').to.deep.equal(expected_historical_notes)
+					})
+				})
 			})
 
 			describe('merge_duplicates()', function() {
@@ -44,9 +107,9 @@ describe(`${LIB} - file (state)`, function() {
 				const EARLIER_CREATION_DATE = create_better_date('tz:auto', 2017, 10, 18, 5, 1, 44, 625)
 
 				function create_demo(id: FileId = 'foo/bar.jpg', time = CREATION_DATE): Immutable<State> {
-					const splitted = id.split('/')
+					const splitted = id.split(path.sep)
 					const basename = splitted.pop() as string
-					const parent_relpath = splitted.join('/')
+					const parent_relpath = splitted.join(path.sep)
 
 					const stategen = get_test_single_file_state_generator()
 					stategen.inputs.basenameⵧcurrent = basename
