@@ -40,9 +40,10 @@ describe(`${LIB} - file (state)`, function() {
 	describe('selectors', function() {
 
 		describe('get_best_creation_date()', function() {
+			const DEBUG = false
 			let stategen = get_test_single_file_state_generator()
 			beforeEach(() => stategen.reset())
-			beforeEach(() => console.log('-------'))
+			beforeEach(() => DEBUG && console.log('-------'))
 
 			context('when encountering the file for the 1st time == NOT having notes incl. historical data', function() {
 
@@ -58,7 +59,7 @@ describe(`${LIB} - file (state)`, function() {
 					switch (mode) {
 						case 're-encounter--same': {
 							// re-encountering in-place, no change
-							console.log('--- R.E. #1')
+							DEBUG && console.log('--- R.E. #1')
 							const stategen = get_test_single_file_state_generator(first_encounter_stategen)
 							stategen.inputs.notes = notes_from_first_encounter
 							const state = stategen.create_state()
@@ -80,7 +81,7 @@ describe(`${LIB} - file (state)`, function() {
 
 						case 're-encounter--after_loss': {
 							// re-encountering when everything has changed
-							console.log('--- R.E. #2')
+							DEBUG && console.log('--- R.E. #2')
 							const stategen = get_test_single_file_state_generator()
 							stategen.inputs.parent_pathⵧcurrent‿relative = 'lost'
 							stategen.inputs.basenameⵧcurrent = 'lost.jpeg'
@@ -501,9 +502,9 @@ describe(`${LIB} - file (state)`, function() {
 
 									beforeEach(() => {
 										stategen.inputs.neighbor_hints__junk_bcd = REAL_CREATION_DATE
-										console.log({
+										/*console.log({
 											current_neighbor_hints: NeighborHintsLib.get_debug_representation(stategen.create_state().current_neighbor_hints),
-										})
+										})*/
 									})
 
 									it('should use the parent folder date', () => {

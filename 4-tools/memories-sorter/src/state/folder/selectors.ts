@@ -81,6 +81,9 @@ function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 		`${LIB} _get_children_fs_reliability() mismatching counts`
 	)
 
+	if (state.media_children_count === 1)
+		return 'unknown' // this data is used to inform OTHER children. If there's only one, it's just echo
+
 	if (state.media_children_fs_reliability_count['unreliable'] > 0)
 		return 'unreliable'
 

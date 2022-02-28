@@ -1100,3 +1100,5 @@ https://writing.stackexchange.com/questions/61330/how-to-write-like-a-little-kid
 https://worldbuilding.stackexchange.com/questions/223992/what-ways-could-an-underground-society-decompose-bodies
 https://worldbuilding.stackexchange.com/questions/9947/could-a-dwarven-civilization-exist?rq=1
 https://en.wikipedia.org/wiki/Mining_and_metallurgy_in_medieval_Europe
+
+https://worldbuilding.stackexchange.com/questions/219266/if-a-civilization-has-biotechnology-why-do-they-still-prefer-mechanical-augment

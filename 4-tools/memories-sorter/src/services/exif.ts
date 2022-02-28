@@ -122,7 +122,12 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 	// "If date fields aren't parsable, the raw string from exiftool will be provided."
 	if (typeof raw_exiftool_date === 'string') {
 		// TODO log & attach to file
-		logger.warn(`un-parsable exif date`, { SourceFile, field, raw_exiftool_date })
+		if (raw_exiftool_date === '0000:00:00 00:00:00') {
+			// happens a lot, cut the noise
+		}
+		else {
+			logger.warn(`un-parsable exif date`, { SourceFile, field, raw_exiftool_date })
+		}
 		return undefined
 	}
 
@@ -134,7 +139,7 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 		}),
 	})
 
-	// seen 1/1/00 = meaningless TODO filter out!
+	// seen 1/1/00 = meaningless TODO filter out?
 
 	if (field === 'GPSDateTime' && exiftool_date.tzoffsetMinutes === 0) {
 		// "GPSDateTime" seems to always be in UTC. If we inferred a TZ, try to enrich it
@@ -172,7 +177,13 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 	}
 	catch (_err) {
 		const err = normalizeError(_err)
-		logger.fatal('error reading EXIF date', { SourceFile, field, klass: exiftool_date.constructor.name, date_object: exiftool_date, err })
+		logger.fatal('error reading EXIF date', {
+			SourceFile,
+			field,
+			klass: exiftool_date.constructor.name,
+			date_object: exiftool_date,
+			err,
+		})
 		err.message = 'error reading EXIF date: ' + err.message
 		throw err
 	}

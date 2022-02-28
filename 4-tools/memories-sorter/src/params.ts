@@ -118,10 +118,13 @@ export const get_params = memoize_once(function get_params(): Params {
 			'.gif',
 			'.m4a',
 			'.mp3',
+			'.mpg', // seen
+			'.mts', //  AVCHD (Advanced Video Coding High Definition) video file shoot by typical camcorders https://docs.fileformat.com/video/mts
 			'.pct', // an old apple format https://fileinfo.com/extension/pct
 			'.png',
 			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
 			'.tga', // WoW screens
+			'.vtt', // transcripts files going together with a video
 			'.wav',
 			'.wmv',
 
@@ -134,6 +137,7 @@ export const get_params = memoize_once(function get_params(): Params {
 
 		extensions_to_delete‿lc: [
 			'.AAE',
+			'.thm', // thumbnails https://fileinfo.com/extension/thm
 		].map(s => s.toLowerCase()),
 
 		worthless_file_basenames‿lc: [

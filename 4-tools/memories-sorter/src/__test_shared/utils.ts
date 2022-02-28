@@ -85,33 +85,38 @@ const BAD_CREATION_DATE_CANDIDATE‿SYMD = get_compact_date(BAD_CREATION_DATE_CA
 	tt_tz: get_embedded_timezone(create_better_date_from_utc_tms(BAD_CREATION_DATE_CANDIDATE‿TMS, 'tz:auto')),
 })*/
 
-const DEFAULT_FILE_INPUTS = enforce_immutability({
-	// everything bad / undated by default, so that the tests must override those
-	parent_pathⵧcurrent‿relative: 'foo' as string,
-	basenameⵧcurrent: 'bar.jpg' as string,
+function get_DEFAULT_FILE_INPUTS() {
+	return {
+		// MUST BE FLAT
 
-	dateⵧfsⵧcurrent‿tms: BAD_CREATION_DATE_CANDIDATE‿TMS, // always exist
-	dateⵧexif: null as null | typeof REAL_CREATION_DATE‿EXIF,
-	hashⵧcurrent: 'hash01' as string,
-	neighbor_hints__fs_reliability_shortcut: 'unknown' as FsReliability,
-	neighbor_hints__junk_bcd: undefined as undefined | BetterDate,
-	//hints_from_reliable_neighbors__current__fs_reliability: 'unknown' as FsReliability,
-	//hints_from_reliable_neighbors__current__parent_folder_bcd: null as null | BetterDate,
+		// everything bad / undated by default, so that the tests must override those
+		parent_pathⵧcurrent‿relative: 'foo' as string,
+		basenameⵧcurrent: 'bar.jpg' as string,
 
-	notes: null as null | 'auto' | Immutable<PersistedNotes>,
-	// won't be used unless notes = auto
-	autoǃbasename__historical: undefined as Basename | undefined,
-	autoǃdate__fs_ms__historical: undefined as TimestampUTCMs | undefined,
-})
+		dateⵧfsⵧcurrent‿tms: BAD_CREATION_DATE_CANDIDATE‿TMS, // always exist
+		dateⵧexif: null as null | typeof REAL_CREATION_DATE‿EXIF,
+		hashⵧcurrent: 'hash01' as string,
+		neighbor_hints__fs_reliability_shortcut: 'unknown' as FsReliability,
+		neighbor_hints__junk_bcd: undefined as undefined | BetterDate,
+		//hints_from_reliable_neighbors__current__fs_reliability: 'unknown' as FsReliability,
+		//hints_from_reliable_neighbors__current__parent_folder_bcd: null as null | BetterDate,
 
-function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
+		notes: null as null | 'auto' | Immutable<PersistedNotes>,
+		// won't be used unless notes = auto
+		autoǃbasename__historical: undefined as Basename | undefined,
+		autoǃdate__fs_ms__historical: undefined as TimestampUTCMs | undefined,
+	}
+}
+type FileInputs = ReturnType<typeof get_DEFAULT_FILE_INPUTS>
+
+function _get_file_id(inputs: Immutable<FileInputs>): FileLib.FileId {
 	return path.join(...[
 			//...inputs.parent_pathⵧcurrent‿relative.split(path.sep),
 			inputs.parent_pathⵧcurrent‿relative,
 			inputs.basenameⵧcurrent,
 		].filter(x => !!x) as string[])
 }
-function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
+function _get_auto_notes(inputs: Immutable<FileInputs>): PersistedNotes {
 	return {
 		_currently_known_as: 'whatever, write-only.xyz',
 		_bcd_afawk‿symd: undefined,
@@ -134,7 +139,7 @@ function _get_auto_notes(inputs: typeof DEFAULT_FILE_INPUTS): PersistedNotes {
 		},
 	}
 }
-function _get_auto_fs_stats(inputs: typeof DEFAULT_FILE_INPUTS): FsStatsSubset {
+function _get_auto_fs_stats(inputs: Immutable<FileInputs>): FsStatsSubset {
 	return {
 		birthtimeMs: inputs.dateⵧfsⵧcurrent‿tms,
 		atimeMs:     inputs.dateⵧfsⵧcurrent‿tms + 10000,
@@ -142,7 +147,7 @@ function _get_auto_fs_stats(inputs: typeof DEFAULT_FILE_INPUTS): FsStatsSubset {
 		ctimeMs:     inputs.dateⵧfsⵧcurrent‿tms + 10000,
 	}
 }
-function _get_auto_exif_data(inputs: typeof DEFAULT_FILE_INPUTS): EXIFTags {
+function _get_auto_exif_data(inputs: Immutable<FileInputs>): EXIFTags {
 	const exif_data = {
 		SourceFile: _get_file_id(inputs),
 		...(inputs.dateⵧexif && {
@@ -158,10 +163,11 @@ function _get_auto_exif_data(inputs: typeof DEFAULT_FILE_INPUTS): EXIFTags {
 	return exif_data
 }
 
-export function get_test_single_file_state_generator(stategen_to_copy?: any) {
-	const inputs: Mutable<typeof DEFAULT_FILE_INPUTS> = {
-		...JSON.parse(JSON.stringify(DEFAULT_FILE_INPUTS)),
-		...(stategen_to_copy?.inputs ? JSON.parse(JSON.stringify(stategen_to_copy?.inputs)) : undefined),
+export function get_test_single_file_state_generator(stategen_to_copy?: Immutable<any>) {
+	const DEFAULT_FILE_INPUTS = get_DEFAULT_FILE_INPUTS()
+	const inputs: FileInputs = {
+		...DEFAULT_FILE_INPUTS,
+		...(stategen_to_copy?.inputs),
 	}
 
 	function reset() {
@@ -224,12 +230,13 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 }
 
 export function get_test_single_file_DB_state_generator() {
+	const DEFAULT_FILE_INPUTS = get_DEFAULT_FILE_INPUTS()
 	const DEFAULT_INPUTS = {
 		extra_parent: null as null | Basename,
-		file: JSON.parse(JSON.stringify(DEFAULT_FILE_INPUTS)),
+		file: DEFAULT_FILE_INPUTS,
 	}
 	const inputs = {
-		...JSON.parse(JSON.stringify(DEFAULT_INPUTS)),
+		...DEFAULT_INPUTS,
 	}
 
 	function reset() {
