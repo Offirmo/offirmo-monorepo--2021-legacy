@@ -4984,7 +4984,6 @@ function createSEC(args = {}) {
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/root.js
 
-
  /////////////////////
 
 const GLOBAL_VAR_NAME = '__global_root_sec';
@@ -4993,7 +4992,7 @@ function getRootSEC() {
   const global_this = Object(src_es2019["a" /* getGlobalThis */])();
 
   if (!global_this[GLOBAL_VAR_NAME]) {
-    console.log(`[${LIB}] Creating root context…`);
+    //console.log(`[${LIB}] Creating root context…`)
     global_this[GLOBAL_VAR_NAME] = createSEC();
   }
 
