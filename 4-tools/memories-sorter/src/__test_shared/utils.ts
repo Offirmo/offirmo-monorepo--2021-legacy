@@ -2,7 +2,7 @@ import util from 'util'
 import path from 'path'
 import fs from 'fs'
 
-import { Immutable } from '@offirmo-private/ts-types'
+import { Immutable, Mutable } from '@offirmo-private/ts-types'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 import { expect } from 'chai'
 import assert from 'tiny-invariant'
@@ -62,7 +62,7 @@ export async function load_real_media_file(abs_path: string): Promise<Immutable<
 	return enforce_immutability(state)
 }
 
-export const REAL_CREATION_DATE = create_better_date('tz:auto', 2003, 3, 13, 23, 33, 43, 333)
+export const REAL_CREATION_DATE = enforce_immutability(create_better_date('tz:auto', 2003, 3, 13, 23, 33, 43, 333))
 export const REAL_CREATION_DATE‿HRTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, 'tz:embedded')
 assert(REAL_CREATION_DATE‿HRTS === '2003-03-13_23h33m43s333', 'REAL_CREATION_DATE‿HRTS should be correct')
 export const REAL_CREATION_DATE‿TMS = get_timestamp_utc_ms_from(REAL_CREATION_DATE)
@@ -70,7 +70,7 @@ const REAL_CREATION_DATE‿LEGACY = new Date(REAL_CREATION_DATE‿TMS)
 export const REAL_CREATION_DATE‿EXIF = _get_exif_datetime(REAL_CREATION_DATE)
 
 // must be OLDER yet we won't pick it
-const BAD_CREATION_DATE_CANDIDATE = create_better_date('tz:auto', 2006, 6, 26, 16, 36, 46, 666)
+const BAD_CREATION_DATE_CANDIDATE = enforce_immutability(create_better_date('tz:auto', 2006, 6, 26, 16, 36, 46, 666))
 export const BAD_CREATION_DATE_CANDIDATE‿HRTS = get_human_readable_timestamp_auto(BAD_CREATION_DATE_CANDIDATE, 'tz:embedded')
 assert(BAD_CREATION_DATE_CANDIDATE‿HRTS === '2006-06-26_16h36m46s666', 'BAD_CREATION_DATE_CANDIDATE‿HRTS should be correct')
 export const BAD_CREATION_DATE_CANDIDATE‿TMS = get_timestamp_utc_ms_from(BAD_CREATION_DATE_CANDIDATE)
@@ -85,14 +85,14 @@ const BAD_CREATION_DATE_CANDIDATE‿SYMD = get_compact_date(BAD_CREATION_DATE_CA
 	tt_tz: get_embedded_timezone(create_better_date_from_utc_tms(BAD_CREATION_DATE_CANDIDATE‿TMS, 'tz:auto')),
 })*/
 
-const DEFAULT_FILE_INPUTS = {
+const DEFAULT_FILE_INPUTS = enforce_immutability({
 	// everything bad / undated by default, so that the tests must override those
-	parent_pathⵧcurrent‿relative: 'foo',
-	basenameⵧcurrent: 'bar.jpg',
+	parent_pathⵧcurrent‿relative: 'foo' as string,
+	basenameⵧcurrent: 'bar.jpg' as string,
 
 	dateⵧfsⵧcurrent‿tms: BAD_CREATION_DATE_CANDIDATE‿TMS, // always exist
 	dateⵧexif: null as null | typeof REAL_CREATION_DATE‿EXIF,
-	hashⵧcurrent: 'hash01',
+	hashⵧcurrent: 'hash01' as string,
 	neighbor_hints__fs_reliability_shortcut: 'unknown' as FsReliability,
 	neighbor_hints__junk_bcd: undefined as undefined | BetterDate,
 	//hints_from_reliable_neighbors__current__fs_reliability: 'unknown' as FsReliability,
@@ -102,7 +102,7 @@ const DEFAULT_FILE_INPUTS = {
 	// won't be used unless notes = auto
 	autoǃbasename__historical: undefined as Basename | undefined,
 	autoǃdate__fs_ms__historical: undefined as TimestampUTCMs | undefined,
-}
+})
 
 function _get_file_id(inputs: typeof DEFAULT_FILE_INPUTS): FileLib.FileId {
 	return path.join(...[
@@ -159,9 +159,9 @@ function _get_auto_exif_data(inputs: typeof DEFAULT_FILE_INPUTS): EXIFTags {
 }
 
 export function get_test_single_file_state_generator(stategen_to_copy?: any) {
-	const inputs = {
-		...DEFAULT_FILE_INPUTS,
-		...stategen_to_copy?.inputs,
+	const inputs: Mutable<typeof DEFAULT_FILE_INPUTS> = {
+		...JSON.parse(JSON.stringify(DEFAULT_FILE_INPUTS)),
+		...(stategen_to_copy?.inputs ? JSON.parse(JSON.stringify(stategen_to_copy?.inputs)) : undefined),
 	}
 
 	function reset() {
@@ -172,7 +172,7 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 				throw new Error(`Incorrect key "${k}" stategen input!`)
 		})
 		Object.keys(DEFAULT_FILE_INPUTS).forEach(k => {
-			inputs[k] = (DEFAULT_FILE_INPUTS as any)[k]
+			;(inputs as any)[k] = (DEFAULT_FILE_INPUTS as any)[k]
 		})
 	}
 
@@ -226,10 +226,10 @@ export function get_test_single_file_state_generator(stategen_to_copy?: any) {
 export function get_test_single_file_DB_state_generator() {
 	const DEFAULT_INPUTS = {
 		extra_parent: null as null | Basename,
-		file: DEFAULT_FILE_INPUTS,
+		file: JSON.parse(JSON.stringify(DEFAULT_FILE_INPUTS)),
 	}
 	const inputs = {
-		...DEFAULT_INPUTS,
+		...JSON.parse(JSON.stringify(DEFAULT_INPUTS)),
 	}
 
 	function reset() {

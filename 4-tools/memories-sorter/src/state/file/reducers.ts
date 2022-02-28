@@ -250,7 +250,6 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 	assert(state.current_exif_data !== undefined, 'on_notes_recovered() should be called after exif') // obvious but just in case…
 	assert(state.current_fs_stats, 'on_notes_recovered() should be called after FS') // obvious but just in case…
 
-	// TODO track whether we are the original? hard to know later
 	if (recovered_notes) {
 		const current_ext‿norm = get_current_extension‿normalized(state)
 		const original_ext‿norm = get_file_basename_extension‿normalized(recovered_notes.historical.basename)
@@ -616,66 +615,27 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 		// the other version may have the opposite
 		// so we pick the best for each field 1 by 1
 
-		if (exif_orientation !== merged_notes.historical.exif_orientation) {
-			throw new Error(`merge_notes() unexpected exif_orientation difference!`)
-		}
-		if (trailing_extra_bytes_cleaned !== undefined) {
-			throw new Error(`merge_notes() NIMP trailing_extra_bytes_cleaned!`)
-		}
+		// used by several:
+		const basemane__current__nv = get_media_basename_normalisation_version(merged_notes.historical.basename)
+		const basename__candidate__nv = get_media_basename_normalisation_version(basename)
+		const parent_path__current__nv = get_folder_basename_normalisation_version(merged_notes.historical.parent_path.split(path.sep).slice(-1)[0] || 'root')
+		const parent_path__candidate__nv = get_folder_basename_normalisation_version(parent_path.split(path.sep).slice(-1)[0] || 'root')
 
-		// remaining data go together
+		// basename + parent_path (those 2 go together)
+		let oldest_basename_and_path: 'current' | 'candidate' | 'both' = (() => {
 
-		// fs
-		let oldest_most_reliable_fs: 'current' | 'candidate' = (() => {
-
-			if (fs_reliability !== merged_notes.historical.neighbor_hints.fs_reliability) {
-				const rsa = get_fs_reliability_score(merged_notes.historical.neighbor_hints.fs_reliability)
-				const rsb = get_fs_reliability_score(fs_reliability)
-
-				if (rsa !== rsb) {
-					return rsa >= rsb ? 'current' : 'candidate'
-				}
-			}
-
-			// birthtimes tend to be botched to a *later* date by the FS (ex. git pull or unzip)
-			if (fs_bcd_tms !== fs_bcd_tms)
-				return fs_bcd_tms <= fs_bcd_tms ? 'current' : 'candidate'
-
-			if (parent_bcd !== merged_notes.historical.neighbor_hints.parent_bcd) {
-
-			}
-
-			return 'current'
-		})()
-		if (oldest_most_reliable_fs === 'current') {
-			// no change
-		}
-		else {
-			merged_notes = {
-				...merged_notes,
-				historical: {
-					...merged_notes.historical,
-					fs_bcd_tms,
-					neighbor_hints: {
-						...merged_notes.historical.neighbor_hints,
-						fs_reliability,
-					},
-				},
-			}
-		}
-
-		// basename + parent_path
-		let oldest_path: 'current' | 'candidate' = (() => {
-
+			// criteria 1: basename normalization version
 			if (basename !== merged_notes.historical.basename) {
-				const nva = get_media_basename_normalisation_version(merged_notes.historical.basename)
-				const nvb = get_media_basename_normalisation_version(basename)
+				const nva = basemane__current__nv
+				const nvb = basename__candidate__nv
 
 				if (nva !== nvb) {
 					if (nva === undefined) {
+						// the other is normalized = can't be the oldest
 						return 'current'
 					}
 					else if (nvb === undefined) {
+						// idem
 						return 'candidate'
 					}
 					else if (nva <= nvb) {
@@ -686,18 +646,28 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 					}
 				}
 
-				return merged_notes.historical.basename.length <= basename.length ? 'current' : 'candidate'
+				if (nva === undefined) {
+					// shortest basename wins
+					return merged_notes.historical.basename.length <= basename.length ? 'current' : 'candidate'
+				}
+				else {
+					// both basenames are normalized
+					// fallthrough to next criteria
+				}
 			}
 
+			// if equal or equivocal, next criteria = parent path
 			if (parent_path !== merged_notes.historical.parent_path) {
-				const nva = get_folder_relpath_normalisation_version(merged_notes.historical.parent_path)
-				const nvb = get_folder_relpath_normalisation_version(parent_path)
+				const nva = parent_path__current__nv
+				const nvb = parent_path__candidate__nv
 
 				if (nva !== nvb) {
 					if (nva === undefined) {
+						// the other is normalized = can't be the oldest
 						return 'current'
 					}
 					else if (nvb === undefined) {
+						// idem
 						return 'candidate'
 					}
 					else if (nva <= nvb) {
@@ -708,12 +678,21 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 					}
 				}
 
-				return merged_notes.historical.parent_path.length <= parent_path.length ? 'current' : 'candidate'
+				if (nva === undefined) {
+					// longest pbth wins = supposedly more info
+					// TODO check if a folder has date hints?
+					return merged_notes.historical.basename.length >= basename.length ? 'current' : 'candidate'
+				}
+				else {
+					// both pathes are normalized
+					// fallthrough to next criteria
+				}
 			}
 
-			return oldest_most_reliable_fs
+			// if still equal no need to go further ;)
+			return 'both'
 		})()
-		if (oldest_path === 'current') {
+		if (oldest_basename_and_path === 'current' || oldest_basename_and_path === 'both') {
 			// no change
 		}
 		else {
@@ -725,6 +704,101 @@ export function merge_notes(...notes: Immutable<PersistedNotes[]>): Immutable<Pe
 					parent_path,
 				},
 			}
+		}
+
+		// fs_bcd_tms
+		let oldest_most_reliable_fs: 'current' | 'candidate' | 'both' = (() => {
+
+			// first criteria: compare by value
+			// birthtimes tend to be botched to a *later* date by the FS (ex. git pull or unzip)
+			if (fs_bcd_tms !== merged_notes.historical.fs_bcd_tms)
+				return merged_notes.historical.fs_bcd_tms <= fs_bcd_tms ? 'current' : 'candidate'
+
+			// if still equal we can take whichever
+			return oldest_basename_and_path // benefits to have fs & bath aligned
+		})()
+		if (oldest_most_reliable_fs === 'current' || oldest_most_reliable_fs === 'both') {
+			// no change
+		}
+		else {
+			merged_notes = {
+				...merged_notes,
+				historical: {
+					...merged_notes.historical,
+					fs_bcd_tms,
+				},
+			}
+		}
+
+		// neighbor_hints
+		// can only be taken as a whole, should follow fs_bcd_tms
+		let best_historical_neighbor_hints: 'current' | 'candidate' | 'both' | 'discard' = (() => {
+
+			// neighbor hints MUST follow the path + fs
+
+			if (oldest_basename_and_path !== oldest_most_reliable_fs) {
+				// path & fs are different , we must discard the hints :(
+				return 'discard'
+			}
+
+
+			if (oldest_basename_and_path === 'both') {
+				// they're the same, so there is room for selection:
+				// compare by reliability
+				if (fs_reliability !== merged_notes.historical.neighbor_hints.fs_reliability) {
+					const rsa = get_fs_reliability_score(merged_notes.historical.neighbor_hints.fs_reliability)
+					const rsb = get_fs_reliability_score(fs_reliability)
+
+					if (rsa !== rsb) {
+						return rsa >= rsb ? 'current' : 'candidate'
+					}
+				}
+
+				// still equal, next criteria
+				if (parent_bcd !== merged_notes.historical.neighbor_hints.parent_bcd) {
+					const score_a = merged_notes.historical.neighbor_hints.parent_bcd || Number.POSITIVE_INFINITY
+					const score_b = parent_bcd || Number.POSITIVE_INFINITY
+
+					if (score_a !== score_b) {
+						return score_a <= score_b ? 'current' : 'candidate'
+					}
+				}
+
+				// still equal, fallthrough
+			}
+
+			return oldest_basename_and_path // align on this one
+		})()
+		if (best_historical_neighbor_hints === 'current' || best_historical_neighbor_hints === 'both') {
+			// no change
+		}
+		else if (best_historical_neighbor_hints === 'discard') {
+			merged_notes = {
+				...merged_notes,
+				historical: {
+					...merged_notes.historical,
+					neighbor_hints: {}, // discard
+				},
+			}
+		}
+		else {
+			merged_notes = {
+				...merged_notes,
+				historical: {
+					...merged_notes.historical,
+					neighbor_hints: {
+							fs_reliability,
+							parent_bcd,
+						},
+				},
+			}
+		}
+
+		if (exif_orientation !== merged_notes.historical.exif_orientation) {
+			throw new Error(`merge_notes() unexpected exif_orientation difference!`)
+		}
+		if (trailing_extra_bytes_cleaned !== undefined) {
+			throw new Error(`merge_notes() NIMP trailing_extra_bytes_cleaned!`)
 		}
 
 		logger.silly('merge_notes() notes so far', merged_notes)

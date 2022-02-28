@@ -228,9 +228,18 @@ describe(`${LIB} - file (state)`, function() {
 									trailing_extra_bytes_cleaned: undefined,
 								},
 							}
+
+							/*console.log({
+								s1: s1.notes.historical,
+								s2: s2.notes.historical,
+								s3: s3.notes.historical,
+								EXPECTED_MERGED_NOTES
+							})*/
 							const s_order1 = merge_duplicates(s1, s2, s3)
+							//console.log(s_order1.notes.historical)
 							expect(s_order1.notes, 'order1').to.deep.equal(EXPECTED_MERGED_NOTES)
 							const s_order2 = merge_duplicates(s3, s2, s1)
+							//console.log(s_order2.notes.historical)
 							expect(s_order2.notes, 'order2').to.deep.equal(EXPECTED_MERGED_NOTES)
 						})
 
@@ -310,6 +319,13 @@ describe(`${LIB} - file (state)`, function() {
 										},
 									},
 								}
+								/*console.log({
+									s1: s1.notes.historical,
+									s2: s2.notes.historical,
+									s3: s3.notes.historical,
+									s4: s4.notes.historical,
+									EXPECTED_MERGED_NOTES
+								})*/
 								const s_order1 = merge_duplicates(s1, s2, s3, s4)
 								expect(s_order1.notes, 'order1').to.deep.equal(EXPECTED_MERGED_NOTES)
 								const s_order2 = merge_duplicates(s4, s3, s2, s1)
