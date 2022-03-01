@@ -26,6 +26,9 @@ import {
 	create_better_date_from_symd,
 	create_better_date_obj,
 
+	add_days_to_simple_date,
+	get_elapsed_days_between_ordered_simple_dates,
+
 	assertㆍBetterDateㆍdeepㆍequal,
 } from './better-date'
 import { get_params } from '../params'
@@ -362,6 +365,12 @@ describe('Better Date', function() {
 					const bd1 = create_better_date_from_symd(20000101, 'tz:auto')
 					expect(get_human_readable_timestamp_auto(bd1, 'tz:embedded')).to.equal('2000-01-01')
 				})
+
+				it('should detect errors', () => {
+					expect(
+						() => create_better_date_from_symd(20000100, 'tz:auto')
+					).to.throw('out of range')
+				})
 			})
 
 			describe('create_better_date()', function () {
@@ -441,6 +450,78 @@ describe('Better Date', function() {
 	})
 
 	describe('symd', function() {
-		
+
+		describe('reducers', function() {
+
+			describe('add_days_to_simple_date()', function() {
+
+				context('when adding 0', function () {
+
+					it('should work', () => {
+						const symd = 20340304
+						expect(add_days_to_simple_date(symd, 0)).to.equal(20340304)
+						expect(add_days_to_simple_date(symd, -0)).to.equal(20340304)
+
+					})
+				})
+
+				context('when adding', function () {
+
+					it('should work - trivial case', () => {
+						expect(add_days_to_simple_date(20220204, 1)).to.equal(20220205)
+						expect(add_days_to_simple_date(20220204, 10)).to.equal(20220214)
+						expect(add_days_to_simple_date(20220204, 40)).to.equal(20220316)
+					})
+
+					it('should work - limits', () => {
+						expect(add_days_to_simple_date(20001231, 1)).to.equal(20010101)
+						expect(add_days_to_simple_date(20001231, 365)).to.equal(20011231)
+						expect(add_days_to_simple_date(20001231, 366)).to.equal(20020101)
+					})
+
+					it('should work - corner cases', () => {
+						expect(add_days_to_simple_date(20220228, 1)).to.equal(20220301)
+					})
+				})
+
+				context('when substracting', function () {
+
+					it('should work - trivial case', () => {
+						expect(add_days_to_simple_date(20220205, -1)).to.equal(20220204)
+						expect(add_days_to_simple_date(20220214, -10)).to.equal(20220204)
+						expect(add_days_to_simple_date(20220316, -40)).to.equal(20220204)
+					})
+
+					it('should work - limits', () => {
+						expect(add_days_to_simple_date(20010101, -1)).to.equal(20001231)
+						expect(add_days_to_simple_date(20011231, -365)).to.equal(20001231)
+						expect(add_days_to_simple_date(20020101, -366)).to.equal(20001231)
+					})
+
+					it('should work - corner cases', () => {
+						expect(add_days_to_simple_date(20220301, -1)).to.equal(20220228)
+					})
+				})
+			})
+
+			describe('get_elapsed_days_between_ordered_simple_dates()', function() {
+
+				it('should work - trivial case', () => {
+					expect(get_elapsed_days_between_ordered_simple_dates(20220204, 20220205)).to.equal(1)
+					expect(get_elapsed_days_between_ordered_simple_dates(20220204, 20220214)).to.equal(10)
+					expect(get_elapsed_days_between_ordered_simple_dates(20220204, 20220316)).to.equal(40)
+				})
+
+				it('should work - limits', () => {
+					expect(get_elapsed_days_between_ordered_simple_dates(20001231, 20010101)).to.equal(1)
+					expect(get_elapsed_days_between_ordered_simple_dates(20001231, 20011231)).to.equal(365)
+					expect(get_elapsed_days_between_ordered_simple_dates(20001231, 20020101)).to.equal(366)
+				})
+
+				it('should work - corner cases', () => {
+					expect(get_elapsed_days_between_ordered_simple_dates(20220228, 20220301)).to.equal(1)
+				})
+			})
+		})
 	})
 })

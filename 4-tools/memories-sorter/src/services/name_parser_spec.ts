@@ -146,6 +146,23 @@ describe(`${LIB} - (base)name parser`, function() {
 					).to.deep.equal(expected_result)
 				})
 			})
+
+			describe('bugs, special cases', function () {
+
+				it('should not parse days = 0', () => {
+					const expected_result: DigitsParseResult = {
+						summary: 'no_match',
+						reason: '1st block mismatch - content',
+						date: undefined,
+						is_ambiguous: false,
+					}
+
+					const result = _clean_parse_result(_parse_digit_blocks('20081100', 'other'))
+					//console.log({ result })
+
+					expect(result).to.deep.equal(expected_result)
+				})
+			})
 		})
 	})
 
@@ -428,6 +445,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			// v1 basename but wrong path
 			'20171020 - foo'                      : undefined, // missing "year"/
 			'foo/bar/20171020 - foo'              : undefined,
+			'20081100'                            : undefined, // day is 0
 		}
 
 		Object.keys(T).forEach(relpath => {

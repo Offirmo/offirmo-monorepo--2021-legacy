@@ -530,12 +530,29 @@ export function add_days(previous: Immutable<BetterDate>, days: number): Immutab
 }
 
 export function add_days_to_simple_date(date: SimpleYYYYMMDD, inc_days: number): SimpleYYYYMMDD {
-	let days = date % 100 + inc_days
-	let months = Math.trunc(date / 100) % 100
-	let years = Math.trunc(date / 10000)
-	let _ld = new LegacyDate(years, months - 1, days)
+	const days = date % 100 + inc_days
+	const months = Math.trunc(date / 100) % 100
+	const years = Math.trunc(date / 10000)
+	const _ld = new LegacyDate(years, months - 1, days)
 
 	return _ld.getDate() + (_ld.getMonth() + 1) * 100 + _ld.getFullYear() * 10000
+}
+
+function _get_legacy_from_simple_date(date: SimpleYYYYMMDD): LegacyDate {
+	const days = date % 100
+	const months = Math.trunc(date / 100) % 100
+	const years = Math.trunc(date / 10000)
+	return new LegacyDate(years, months - 1, days)
+}
+
+export function get_elapsed_days_between_ordered_simple_dates(d1: SimpleYYYYMMDD, d2: SimpleYYYYMMDD): number {
+	assert(d2 >= d1, `get_elapsed_days_between_simple_dates() d1 must be <= d2!`)
+
+	const _ld1 = _get_legacy_from_simple_date(d1)
+	const _ld2 = _get_legacy_from_simple_date(d2)
+
+	const diff_ms = _ld2.getTime() - _ld1.getTime()
+	return Math.floor(diff_ms / 1000 / 3600 / 24)
 }
 
 export function assertㆍBetterDateㆍdeepㆍequal(s1: Immutable<BetterDate>, s2: Immutable<BetterDate>, should_log = true): void {

@@ -119,10 +119,8 @@ describe(`${LIB} - DB (root) state`, function() {
 
 
 					expect(get_ideal_file_relative_path(state, file_id), 'get_ideal_file_relative_path').to.equal(path.join(
-						// we now try to keep unrecognized files close to their sibling media files, in case they're related
-						//'- cant_recognize', // NO! No longer doing that
-						'2016',
-						'20161120 - foo',
+						'- cant_recognize', 'foo',
+						//'2016', '20161120 - foo',
 						'bar.xyz',
 					))
 				})
@@ -511,6 +509,7 @@ describe(`${LIB} - DB (root) state`, function() {
 							state = discard_all_pending_actions(state)
 
 							expect(get_ideal_file_relative_path(state, file_id)).to.equal(path.join(
+								'- cant_recognize', // was moved here
 								'2012',
 								'20121006 - weekend',
 								'JJ_2012_Montage_Terre_Sainte.xyz', // the unreliable processed date got cleaned

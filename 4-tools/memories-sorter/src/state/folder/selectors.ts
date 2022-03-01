@@ -9,14 +9,19 @@ import { DIGIT_PROTECTION_SEPARATOR } from '../../consts'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../../types'
 import logger from '../../services/logger'
 import { is_digit } from '../../services/matchers'
-import { parse_folder_basename, ParseResult, pathㆍparse_memoized, is_folder_basename__matching_a_processed_event_format } from '../../services/name_parser'
+import {
+	parse_folder_basename,
+	ParseResult,
+	pathㆍparse_memoized,
+	is_folder_basename__matching_a_processed_event_format,
+} from '../../services/name_parser'
 import * as BetterDateLib from '../../services/better-date'
 import {
 	BetterDate,
 	create_better_date_from_utc_tms,
 	DateRange,
 	get_compact_date,
-	get_debug_representation,
+	get_elapsed_days_between_ordered_simple_dates,
 } from '../../services/better-date'
 import { FsReliability, NeighborHints } from '../file'
 import * as FileLib from '../file'
@@ -80,9 +85,6 @@ function _get_children_fs_reliability(state: Immutable<State>): FsReliability {
 			+ state.media_children_fs_reliability_count['reliable'],
 		`${LIB} _get_children_fs_reliability() mismatching counts`
 	)
-
-	if (state.media_children_count === 1)
-		return 'unknown' // this data is used to inform OTHER children. If there's only one, it's just echo
 
 	if (state.media_children_fs_reliability_count['unreliable'] > 0)
 		return 'unreliable'
@@ -344,19 +346,19 @@ export function is_looking_like_a_backup(state: Immutable<State>): boolean {
 			const date__from_basename‿symd = BetterDateLib.get_compact_date(basename‿parsed.date, 'tz:embedded')
 
 			// TODO use the best available data?
-			const date_range_begin‿symd = BetterDateLib.get_compact_date(children_date_range.begin, 'tz:embedded')
-			const date_range_end‿symd = BetterDateLib.get_compact_date(children_date_range.end, 'tz:embedded')
+			const children_range_begin‿symd = BetterDateLib.get_compact_date(children_date_range.begin, 'tz:embedded')
+			const children_range_end‿symd = BetterDateLib.get_compact_date(children_date_range.end, 'tz:embedded')
 			/*console.log('DEBUG', {
-				begin: date_range_begin‿symd, //get_debug_representation(begin),
-				end: date_range_end‿symd, //get_debug_representation(end),
+				begin: children_range_begin‿symd, //get_debug_representation(begin),
+				end: children_range_end‿symd, //get_debug_representation(end),
 				date__from_basename‿symd,
 			})*/
 
-			if (date__from_basename‿symd <= date_range_begin‿symd) {
-				// clearly a beginning date, this is an event
+			if (date__from_basename‿symd <= children_range_begin‿symd) {
+				// clearly a beginning date, this doesn't look like a backup (more like an event)
 				return false
 			}
-			else if (date__from_basename‿symd >= date_range_end‿symd) {
+			else if (date__from_basename‿symd >= children_range_end‿symd) {
 				// clearly a backup date
 				return true
 			}
@@ -375,7 +377,13 @@ export function get_neighbor_primary_hints(state: Immutable<State>, PARAMS: Immu
 
 	let hints = FileLib.NeighborHintsLib.create()
 
+	// NOTE this data is used to inform OTHER children. If there's only one, it's just echo!
+	// EXCEPT when asserting unreliable which has other ways
+
 	hints.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1 = _get_children_fs_reliability(state)
+	if (state.media_children_count === 1 && hints.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1 !== 'unreliable') {
+		hints.bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1 = 'unknown'
+	}
 
 	////// expected bcd ranges
 	// from basename
@@ -396,15 +404,15 @@ export function get_neighbor_primary_hints(state: Immutable<State>, PARAMS: Immu
 	}
 	// from children
 	const children_range_from_non_fs = state.media_children_bcd_ranges.from_primaryⵧfinal ?? state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1
-	if (children_range_from_non_fs) {
+	if (children_range_from_non_fs && state.media_children_count > 1) {
 		// enlarge it by a percentage
 		const begin_symd = get_compact_date(children_range_from_non_fs.begin, 'tz:embedded')
 		const end_symd = get_compact_date(children_range_from_non_fs.end, 'tz:embedded')
-		const range_size‿days = end_symd - begin_symd
-		const margin‿days = Math.ceil(Math.max(1, range_size‿days) * 0.2)
+		const range_size‿ₓdays = get_elapsed_days_between_ordered_simple_dates(begin_symd, end_symd)
+		const margin‿ₓdays = Math.ceil(Math.max(1, range_size‿ₓdays) * 0.2)
 		hints.expected_bcd_ranges.push({
-			begin: BetterDateLib.add_days(children_range_from_non_fs.begin, -margin‿days),
-			end: BetterDateLib.add_days(children_range_from_non_fs.end, margin‿days),
+			begin: BetterDateLib.add_days(children_range_from_non_fs.begin, -margin‿ₓdays),
+			end: BetterDateLib.add_days(children_range_from_non_fs.end, margin‿ₓdays),
 		})
 	}
 

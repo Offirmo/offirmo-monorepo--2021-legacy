@@ -11,6 +11,7 @@ import * as Actions from '../actions'
 import { FileHash } from '../../services/hash'
 import { FsStatsSubset } from '../../services/fs_stats'
 import logger from '../../services/logger'
+import { add_days_to_simple_date } from '../../services/better-date'
 
 import * as Folder from '../folder'
 import * as File from '../file'
@@ -591,7 +592,10 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 		const next_start_date‿symd = ordered_start_dates‿symd[index + 1]
 		if (next_start_date‿symd) {
 			if (next_start_date‿symd <= get_event_end_date‿symd(folder_state))
-				folders[folder_state.id] = Folder.on_overlap_clarified(folder_state, next_start_date‿symd - 1)
+				folders[folder_state.id] = Folder.on_overlap_clarified(
+					folder_state,
+					add_days_to_simple_date(next_start_date‿symd, - 1)
+				)
 		}
 	})
 
