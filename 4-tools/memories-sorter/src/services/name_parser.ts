@@ -130,7 +130,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		.filter(b => !!b)
 	const digits = blocks.join('')
 
-	logger.trace('>>> _parse_digit_blocks() starting…', {
+	DEBUG && logger.trace('>>> _parse_digit_blocks() starting…', {
 		digit_blocks,
 		separator,
 		blocks,
@@ -426,7 +426,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	result.summary = 'need_more'
 	result.reason = 'end'
-	logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+	DEBUG && logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 	return result
 }
 

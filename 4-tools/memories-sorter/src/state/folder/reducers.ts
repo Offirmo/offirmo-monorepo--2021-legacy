@@ -7,7 +7,7 @@ import { get_params, Params } from '../../params'
 import { pathㆍparse_memoized } from '../../services/name_parser'
 import logger from '../../services/logger'
 import * as BetterDateLib from '../../services/better-date'
-import { DateRange, get_debug_representation } from '../../services/better-date'
+import { get_debug_representation } from '../../services/better-date'
 import { is_year } from '../../services/matchers'
 import * as File from '../file'
 
@@ -28,6 +28,8 @@ import {
 	get_event_range,
 	get_event_begin_date,
 	ERROR__RANGE_TOO_BIG,
+	is_looking_like_a_backup,
+	get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources,
 } from './selectors'
 
 ////////////////////////////////////
@@ -112,9 +114,9 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 
 	//////////// consolidate: reliability
 	const file_bcd__reliabilityⵧfrom_fsⵧcurrent = File.get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_our_own_trustable_current_primary_date_sources(file_state)
-	if (file_bcd__reliabilityⵧfrom_fsⵧcurrent === 'unreliable') {
+	/*if (file_bcd__reliabilityⵧfrom_fsⵧcurrent === 'unreliable') {
 		logger.warn(`⚠️ File "${file_state.id}" fs bcd reliability has been estimated as UNRELIABLE after phase 1`)
-	}
+	}*/
 
 	const key = String(file_bcd__reliabilityⵧfrom_fsⵧcurrent) as keyof State['media_children_fs_reliability_count']
 	state = {
@@ -141,7 +143,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 		&& new_children_end_dateⵧfrom_fsⵧcurrent === state.media_children_bcd_ranges.from_fsⵧcurrent?.end) {
 		// no change
 	} else {
-		logger.log(
+		logger.silly(
 			`${ LIB } updating folder’s children's "bcd ⵧ from fs ⵧ current" date range`,
 			{
 				id: state.id,
@@ -189,7 +191,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent, state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
 			// no change
 		} else {
-			logger.log(
+			logger.silly(
 				`${ LIB } updating folder’s children's "current primary" date range`,
 				{
 					id: state.id,
@@ -259,10 +261,6 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 		return state
 	}
 
-	if (state.media_children_pass_2_count >= state.media_children_count) {
-		console.log(state)
-		debugger
-	}
 	assert(state.media_children_pass_2_count < state.media_children_count, `on_subfile_all_infos_gathered() should not be called x times!`)
 
 	//////////// consolidate: date range -- primary final
@@ -284,7 +282,7 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.media_children_bcd_ranges.from_primaryⵧfinal?.end)) {
 			// no change
 		} else {
-			logger.log(
+			logger.silly(
 				`${ LIB } updating folder’s children's "final primary" date range`,
 				{
 					id: state.id,
@@ -322,33 +320,50 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 
 // to be called after FS exploration for pre-existing folders
 export function on_all_infos_gathered(state: Immutable<State>): Immutable<State> {
-	if (state.media_children_pass_2_count !== state.media_children_count) {
-		console.log(state)
-		debugger
-	}
 	assert(state.media_children_pass_2_count === state.media_children_count)
 
 	const { media_children_count } = state
-	if (media_children_count > 0) {
+	if (media_children_count <= 0) {
+		logger.verbose(`${LIB} ☑ FYI folder fully explored: type="${state.type}", no media children ✖`, {
+			id: state.id,
+			...(state.reason_for_demotion_from_event && { reason_for_demotion_from_event: state.reason_for_demotion_from_event }),
+		})
+	} else
+	{
 		try {
 			const event_range = get_event_range(state)
 
-			if (event_range) {
-				logger.debug(
-					`${LIB} FYI folder’s final event date range`,
-					{
-						id: state.id,
-						new_event_begin_date: get_debug_representation(event_range.begin),
-						new_event_end_date: get_debug_representation(event_range.end),
-						// TODO range size in days
-					}
-				)
+			if (!event_range) {
+				logger.warn(`${LIB} FYI folder fully explored: type="${state.type}", has media children but event date range = NONE!?`, {
+					id: state.id,
+					type: state.type,
+					media_children_count,
+					...(state.reason_for_demotion_from_event && { reason_for_demotion_from_event: state.reason_for_demotion_from_event }),
+					is_looking_like_a_backup: is_looking_like_a_backup(state),
+					event_beginⵧfrom_folder_basename: get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state),
+				})
+			}
+			else {
+				assert(state.type === Type.event || state.type === Type.overlapping_event)
+				logger.verbose(`${LIB} ☑ FYI folder fully explored: type="${state.type}"`, {
+					id: state.id,
+					media_children_count,
+					event_range: `${get_debug_representation(event_range.begin)} → ${get_debug_representation(event_range.end)}`,
+					// TODO range size in days
+				})
 			}
 		}
 		catch (err: any) {
 			if (err?.message === ERROR__RANGE_TOO_BIG) {
 				state = demote_to_unknown(state, `date range too big`)
 			}
+
+			logger.warn(
+				`${LIB} FYI folder fully explored: type="${state.type}", event date range = NONE!?(2)`, {
+					id: state.id,
+					...(state.reason_for_demotion_from_event && { reason_for_demotion_from_event: state.reason_for_demotion_from_event }),
+				}
+			)
 		}
 	}
 

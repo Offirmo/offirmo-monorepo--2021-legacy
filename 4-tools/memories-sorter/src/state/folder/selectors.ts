@@ -141,7 +141,7 @@ export const get_event_range = micro_memoize(function _get_event_range(state: Im
 		?? children_range?.begin
 
 	if (!event_begin_date) {
-		// TODO review
+		// refine the return value (TODO review)
 		return (event_beginⵧfrom_folder_basename === null || children_range === null)
 			? null
 			: undefined
@@ -276,9 +276,9 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 
 	// try to cross-reference with the children date range = best source of info
 	const children_range = _get_current_best_children_range(state)
-	/*console.log('DEBUG', {
-		begin: get_debug_representation(children_range?.begin),
-		end: get_debug_representation(children_range?.end),
+	/*console.log('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() DEBUG', {
+		begin: BetterDateLib.get_debug_representation(children_range?.begin),
+		end: BetterDateLib.get_debug_representation(children_range?.end),
 		state,
 	})*/
 	if (children_range) {
@@ -288,7 +288,7 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 		// TODO use the best available data?
 		const date_range_begin‿symd = BetterDateLib.get_compact_date(children_range.begin, 'tz:embedded')
 		const date_range_end‿symd = BetterDateLib.get_compact_date(children_range.end, 'tz:embedded')
-		/*console.log('DEBUG', {
+		/*console.log('get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources() DEBUG', {
 			begin: date_range_begin‿symd, //get_debug_representation(begin),
 			end: date_range_end‿symd, //get_debug_representation(end),
 			date__from_basename‿symd,
@@ -330,15 +330,17 @@ export function is_current_basename_intentful_of_event_start(state: Immutable<St
 	return get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state) !== null
 }
 
+// TODO improve, saw a lot of "slightly" mismatched event folders, ex. with only 1 intruder.
+// We may want to be a little bit more tolerant OR salvage the folder name
 export function is_looking_like_a_backup(state: Immutable<State>): boolean {
 	const basename‿parsed = get_current_basename‿parsed(state)
 
 	// if a date is present in the basename, try to cross-reference with the children date range = best source of info
 	if (basename‿parsed.date) {
 		const children_date_range = _get_current_best_children_range(state)
-		/*console.log('DEBUG', {
-			begin: get_debug_representation(begin),
-			end: get_debug_representation(end),
+		/*console.log('is_looking_like_a_backup() DEBUG', {
+			begin: BetterDateLib.get_debug_representation(children_date_range?.begin),
+			end: BetterDateLib.get_debug_representation(children_date_range?.end),
 			state,
 		})*/
 		if (children_date_range) {
@@ -348,7 +350,7 @@ export function is_looking_like_a_backup(state: Immutable<State>): boolean {
 			// TODO use the best available data?
 			const children_range_begin‿symd = BetterDateLib.get_compact_date(children_date_range.begin, 'tz:embedded')
 			const children_range_end‿symd = BetterDateLib.get_compact_date(children_date_range.end, 'tz:embedded')
-			/*console.log('DEBUG', {
+			/*console.log('is_looking_like_a_backup() DEBUG', {
 				begin: children_range_begin‿symd, //get_debug_representation(begin),
 				end: children_range_end‿symd, //get_debug_representation(end),
 				date__from_basename‿symd,
@@ -368,7 +370,7 @@ export function is_looking_like_a_backup(state: Immutable<State>): boolean {
 		}
 	}
 
-	// we have no clear cross referencing
+	// we have no clear cross-referencing
 	return _is_basename_hinting_at_backup(state)
 }
 

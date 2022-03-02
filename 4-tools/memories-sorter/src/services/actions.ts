@@ -155,7 +155,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
 			const stats = await util.promisify(fs.stat)(abs_path)
-			logger.trace(`- got fs stats data for "${id}"…`)
+			logger.silly(`- got fs stats data for "${id}"…`)
 			db = DB.on_fs_stats_read(db, id, get_relevant_fs_stats_subset(stats))
 		}
 		catch (_err) {
@@ -185,7 +185,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
 			const hash = await get_file_hash(abs_path)
-			logger.trace(`- got hash for "${id}""`, { hash })
+			logger.silly(`- got hash for "${id}""`, { hash })
 			db = DB.on_hash_computed(db, id, hash!)
 		}
 		catch (_err) {
@@ -759,5 +759,5 @@ export function get_report_to_string(): string {
 		'\t'
 	)
 
-	return raw_report + '\n' + counts
+	return 'Action report: ' + raw_report + '\nAggregated counters:' + counts
 }

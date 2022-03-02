@@ -20,6 +20,7 @@ async function sort_all_medias(PARAMS: Immutable<Params> = get_params()) {
 
 	logger.trace(`Running with params:`, PARAMS)
 
+	console.log(`ROOT = ${PARAMS.root}`)
 	let db = DB.create(PARAMS.root)
 
 	await (async () => {

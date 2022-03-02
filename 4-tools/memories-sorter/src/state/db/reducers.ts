@@ -16,12 +16,7 @@ import { add_days_to_simple_date } from '../../services/better-date'
 import * as Folder from '../folder'
 import * as File from '../file'
 import * as Notes from '../notes'
-import {
-	FolderId,
-	get_event_end_date‿symd,
-	get_event_range,
-	SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME,
-} from '../folder'
+import { SPECIAL_FOLDERⵧCANT_RECOGNIZE__BASENAME } from '../folder'
 import { FileId, PersistedNotes } from '../file'
 
 import { LIB } from './consts'
@@ -35,6 +30,7 @@ import {
 	get_all_event_folder_ids,
 	get_all_file_ids,
 	get_ideal_file_relative_path,
+	get_all_folder_ids,
 } from './selectors'
 import { NOTES_BASENAME_SUFFIX_LC } from '../../consts'
 
@@ -92,7 +88,7 @@ export function discard_all_pending_actions(state: Immutable<State>): Immutable<
 
 ////////
 
-function _register_folder(state: Immutable<State>, id: FolderId, just_created: boolean = false): Immutable<State> {
+function _register_folder(state: Immutable<State>, id: Folder.FolderId, just_created: boolean = false): Immutable<State> {
 	assert(!state.folders[id], `_register_folder("${id}"): should not be already registered!`)
 
 	let folder_state = Folder.create(id)
@@ -166,7 +162,7 @@ export function on_file_found(state: Immutable<State>, parent_id: RelativePath, 
 		}
 		else {
 			state = _enqueue_action(state, Actions.create_action_load_notes(path.join(parent_id, sub_id)))
-			logger.verbose(`${ LIB } found notes from a previous sorting`, {id})
+			logger.verbose(`${ LIB } found notes from a previous execution of this tool`, {id})
 		}
 	}
 	else {
@@ -236,7 +232,7 @@ export function on_exif_read(state: Immutable<State>, file_id: FileId, exif_data
 }
 
 export function on_hash_computed(state: Immutable<State>, file_id: FileId, hash: FileHash): Immutable<State> {
-	logger.trace(`${LIB} on_hash_computed(…)`, { file_id })
+	logger.trace(`${LIB} on_hash_computed(…)`, { file_id, hash })
 
 	let new_file_state = File.on_info_read__hash(state.files[file_id], hash)
 
@@ -332,7 +328,7 @@ export function on_file_deleted(state: Immutable<State>, id: FileId): Immutable<
 	}
 }
 
-export function on_folder_deleted(state: Immutable<State>, id: FolderId): Immutable<State> {
+export function on_folder_deleted(state: Immutable<State>, id: Folder.FolderId): Immutable<State> {
 	logger.trace(`${LIB} on_folder_deleted(…)`, { id })
 
 	let folder_state = state.folders[id]
@@ -532,17 +528,29 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 	})
 	state = { ...state, folders }
 
+	logger.debug(`${LIB} _consolidate_folders_by_demoting_and_de_overlapping()… intermediate 1 =\n`
+		+ get_all_folder_ids(state).map(id => Folder.to_string(folders[id])).join('\n')
+	)
+
 	// demote event folders with no dates
 	folders = { ...state.folders }
 	let all_event_folder_ids = get_all_event_folder_ids(state)
 	all_event_folder_ids.forEach(id => {
 		const folder = folders[id]
-		if (!get_event_range(folder)) {
-			folders[id] = Folder.demote_to_unknown(folder, 'no event range')
+		if (!Folder.get_event_range(folder)) {
+			folders[id] = Folder.demote_to_unknown(
+					folder,
+					Folder.is_looking_like_a_backup(folder)
+						? 'looks like a backup'
+						: 'no [definitive] event range',
+				)
 		}
 	})
 	state = { ...state, folders }
 
+	logger.debug(`${LIB} _consolidate_folders_by_demoting_and_de_overlapping()… intermediate 2 =\n`
+		+ get_all_folder_ids(state).map(id => Folder.to_string(folders[id])).join('\n')
+	)
 
 	// demote non-canonical or overlapping folder events but create the canonical ones
 	all_event_folder_ids = get_all_event_folder_ids(state)
@@ -571,8 +579,8 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 
 			// same canonical status...
 			// the shortest one wins
-			const existing_range_size = get_event_end_date‿symd(existing_folder_state) - start_date‿symd
-			const candidate_range_size = get_event_end_date‿symd(candidate_folder_state) - start_date‿symd
+			const existing_range_size = Folder.get_event_end_date‿symd(existing_folder_state) - start_date‿symd
+			const candidate_range_size = Folder.get_event_end_date‿symd(candidate_folder_state) - start_date‿symd
 			if (candidate_range_size === existing_range_size) {
 				// perfect match, demote the competing one
 				folders[candidate_folder_state.id] = Folder.demote_to_overlapping(candidate_folder_state)
@@ -591,7 +599,7 @@ function _consolidate_folders_by_demoting_and_de_overlapping(state: Immutable<St
 		const folder_state = event_folders_by_start_date‿symd[start_date]
 		const next_start_date‿symd = ordered_start_dates‿symd[index + 1]
 		if (next_start_date‿symd) {
-			if (next_start_date‿symd <= get_event_end_date‿symd(folder_state))
+			if (next_start_date‿symd <= Folder.get_event_end_date‿symd(folder_state))
 				folders[folder_state.id] = Folder.on_overlap_clarified(
 					folder_state,
 					add_days_to_simple_date(next_start_date‿symd, - 1)
@@ -708,18 +716,18 @@ export function move_all_files_to_their_ideal_location(state: Immutable<State>):
 
 	all_file_ids.forEach(id => {
 		if (File.is_notes(state.files[id])) {
-			logger.debug(`- DB.MTIL: "${id}" = is notes`)
+			logger.silly(`- DB.MTIL: "${id}" = is notes`)
 			return
 		}
 
 		const target_id = get_ideal_file_relative_path(state, id)
 		assert(target_id.includes(path.sep), `move_all_files_to_their_ideal_location() unexpected ${id}`)
 		if (id === target_id) {
-			logger.debug(`- DB.MTIL: "${id}" = is already in ideal location`)
+			logger.silly(`- DB.MTIL: "${id}" = is already in ideal location`)
 			return
 		}
 
-		logger.debug(`- DB.MTIL: "${id}": is scheduled to move to "${target_id}"`)
+		logger.silly(`- DB.MTIL: "${id}": is scheduled to move to "${target_id}"`)
 
 		state = _enqueue_action(state, Actions.create_action_move_file_to_ideal_location(id))
 	})

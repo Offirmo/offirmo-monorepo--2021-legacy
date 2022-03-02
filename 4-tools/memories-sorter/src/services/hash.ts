@@ -9,7 +9,7 @@ export type FileHash = string
 export async function get_file_hash(abs_path: AbsolutePath): Promise<FileHash> {
 	const hash = await hasha.fromFile(abs_path, {algorithm: 'sha256'})
 	assert(hash, 'hasha ok')
-	logger.trace(`- got hash for "${abs_path}"…`, { hash })
+	logger.silly(`- got hash for "${abs_path}"…`, { hash })
 	return hash
 }
 

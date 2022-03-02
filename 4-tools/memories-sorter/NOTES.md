@@ -1,7 +1,9 @@
 
 
 LOG ANALYSIS
-```bazaar
+```
+VERBOSE› >>>>>>> FS READ, NOW CONSOLIDATING >>>>>>>
+
 Error when processing task
 🔥🔥🔥🔥🔥🔥🔥  Error 🔥🔥🔥🔥🔥🔥🔥
   ERROR  ›

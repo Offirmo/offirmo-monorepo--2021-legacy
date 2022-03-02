@@ -928,7 +928,8 @@ export function get_creation_dateⵧfrom_fsⵧcurrent__reliability_according_to_
 			return 'unknown'
 	}
 
-	logger.log('⚠️ get_creation_date__reliability_according_to_other_trustable_current_primary_date_sourcesⵧfrom_fsⵧcurrent() is yielding FALSE', {
+	// TODO attach to file state
+	logger.silly('⚠️ get_creation_date__reliability_according_to_other_trustable_current_primary_date_sourcesⵧfrom_fsⵧcurrent() is yielding FALSE', {
 		id: state.id,
 		is_fs_suspicious,
 		bcd__from_fs__current: get_debug_representation(bcdⵧfrom_fsⵧcurrent‿tms),
