@@ -10,12 +10,7 @@ import { LIB as APP } from '../../consts'
 import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../../types'
 import { Action } from '../actions'
 import { get_file_basename_without_copy_index } from '../../services/name_parser'
-import {
-	get_compact_date,
-	get_day_of_week_index,
-	add_days,
-	get_debug_representation,
-} from '../../services/better-date'
+import * as BetterDateLib from '../../services/better-date'
 import logger from '../../services/logger'
 
 import * as Folder from '../folder'
@@ -249,15 +244,15 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		DEBUG && console.log(`✴️ ${id} !found compatible event folder = creating one`, get_debug_representation(folder_date))
 		if (get_day_of_week_index(folder_date) === 0) {
 			// sunday is coalesced to sat = start of weekend
-			folder_date = add_days(folder_date, -1)
+			folder_date = BetterDateLib.add_days(folder_date, -1)
 		}
 
 		const new_event_folder_basename =
-			String(get_compact_date(folder_date, 'tz:embedded'))
+			String(BetterDateLib.get_compact_date(folder_date, new_folder_tz))
 			+ ' - '
-			+ (get_day_of_week_index(folder_date) === 6 ? 'weekend' : 'life') // TODO use the existing parent folder as a base hint anyway
+			+ (BetterDateLib.get_day_of_week_index(folder_date, new_folder_tz) === 6 ? 'weekend' : 'life') // TODO use the existing parent folder as a base hint anyway
 		DEBUG && console.log(`✴️ ${id} !found compatible event folder = created one`, {
-			adjusted_date: get_debug_representation(folder_date),
+			adjusted_date: BetterDateLib.get_debug_representation(folder_date),
 			new_event_folder_basename,
 		})
 

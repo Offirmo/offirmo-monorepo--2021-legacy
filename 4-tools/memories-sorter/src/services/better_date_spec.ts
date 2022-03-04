@@ -16,7 +16,6 @@ import {
 
 	compare_utc,
 	is_deep_equal,
-	is_equal_moment,
 	min, max,
 
 	create_better_date,
@@ -24,6 +23,7 @@ import {
 	create_better_date_from_utc_tms,
 	create_better_date_from_symd,
 	create_better_date_obj,
+	reinterpret_with_different_tz,
 
 	add_days_to_simple_date,
 	get_elapsed_days_between_ordered_simple_dates,
@@ -507,7 +507,7 @@ describe('Better Date', function() {
 
 		describe('reducers', function () {
 
-			/*describe('change_tz()', function () {
+			describe('reinterpret_with_different_tz()', function () {
 
 				it('should work', () => {
 					const kg_date = create_better_date_obj({
@@ -522,12 +522,12 @@ describe('Better Date', function() {
 					})
 					expect(get_human_readable_timestamp_auto(kg_date, 'tz:embedded')).to.equal('2003-04-05_06h07m08s009')
 
-					const UTC_date = change_tz(kg_date, 'UTC')
+					const UTC_date = reinterpret_with_different_tz(kg_date, 'UTC')
 
 					// no change, we didn't change the human components
 					expect(get_human_readable_timestamp_auto(UTC_date, 'tz:embedded')).to.equal('2003-04-05_06h07m08s009')
 				})
-			})*/
+			})
 		})
 	})
 

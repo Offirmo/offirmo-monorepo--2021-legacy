@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
-import { RelativePath } from '../../types'
+import { RelativePath, TimeZone } from '../../types'
 import { BetterDate, DateRange } from '../../services/better-date'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
@@ -52,6 +52,10 @@ export interface State {
 		// This happens after the files got their notes restored + our hints
 		from_primaryⵧfinal: undefined | null | DateRange
 	}
+
+	// we need a unified timezone to properly do date arithmetic
+	// and also to properly generate basenames
+	media_children_aggregated_tz: undefined | TimeZone | 'tz:auto'
 
 	// after 1st pass
 	media_children_fs_reliability_count: {

@@ -436,7 +436,7 @@ export interface ParseResult {
 	extension_lc: string // TODO normalize?
 	date_digits: undefined | string // in order of discovery, not in order of rank!
 	digits_pattern: undefined | string // useful to recognise ourselves ;)
-	date: undefined | BetterDate
+	date: undefined | BetterDate // warning, tz will be from "auto", remember to re-interpret if you know the proper tz
 	is_date_ambiguous: undefined | boolean
 	meaningful_part: string
 

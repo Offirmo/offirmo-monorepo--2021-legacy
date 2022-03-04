@@ -82,7 +82,12 @@ const DATE_FORMAT_TO_MILLIS_DIGITS = DATE_FORMAT_TO_DAYS_COMPACT + `HHmmssSSS`
 
 export function get_compact_date(date: Immutable<BetterDate>, tz: TimeZone | 'tz:embedded'): SimpleYYYYMMDD {
 	const _lx = tz === 'tz:embedded' ? date._lx : date._lx.setZone(tz)
-
+	/*console.log('get_compact_date', {
+		tz,
+		embedded_tz: get_embedded_timezone(date),
+		compact_embedded_tz: date._lx.toFormat(DATE_FORMAT_TO_DAYS_COMPACT),
+		final_compact: _lx.toFormat(DATE_FORMAT_TO_DAYS_COMPACT),
+	})*/
 	return Number(_lx.toFormat(DATE_FORMAT_TO_DAYS_COMPACT))
 }
 
@@ -213,6 +218,10 @@ export function get_range_debug_representation(range: undefined | null | DateRan
 
 /////////// Comparisons / operators
 
+// standard comparison operator
+// > 0 	sort b before a
+// < 0 	sort a before b
+// === 0 	keep original order of a and b
 export function compare_utc(date_a: Immutable<BetterDate>, date_b: Immutable<BetterDate>): number {
 	const tms_a = get_timestamp_utc_ms_from(date_a)
 	const tms_b = get_timestamp_utc_ms_from(date_b)
@@ -543,19 +552,15 @@ export function create_better_date_obj({
 
 ////////////////////////////////////
 
-/*
-export function change_tz(previous: Immutable<BetterDate>, tz: TimeZone): BetterDate {
-	return create_better_date(
-		tz,
-		previous._lx.year,
-		previous._lx.month,
-		previous._lx.day,
-		previous._lx.hour,
-		previous._lx.minute,
-		previous._lx.second,
-		previous._lx.millisecond,
-	)
-}*/
+export function reinterpret_with_different_tz(previous: Immutable<BetterDate>, tz: TimeZone): BetterDate {
+	if (tz === get_embedded_timezone(previous))
+		return previous
+
+	const members = get_members_for_serialization(previous)
+	members.tz = tz
+
+	return create_better_date_obj(members)
+}
 
 // negative supported
 export function add_days(previous: Immutable<BetterDate>, days: number): Immutable<BetterDate> {
