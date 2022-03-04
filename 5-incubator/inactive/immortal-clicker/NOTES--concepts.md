@@ -40,6 +40,7 @@ breathing
 bridge of Immortality
 clans
 command medallion
+commoner -> minister -> emperor
 compass
 cultivation
 cultivation base
@@ -84,6 +85,7 @@ essence of wind
 false immortal
 feng shui
 grand magic
+heaven -> man -> earth
 heaven and hearth
 hex
 immortal ruins
