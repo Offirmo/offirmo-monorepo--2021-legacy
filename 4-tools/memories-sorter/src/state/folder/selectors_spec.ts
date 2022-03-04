@@ -12,6 +12,7 @@ import { State } from './types'
 import {
 	create,
 	on_fs_exploration_done,
+	on_subfile_all_infos_gathered,
 	on_subfile_found,
 	on_subfile_primary_infos_gathered,
 } from './reducers'
@@ -24,20 +25,13 @@ import {
 	get_event_begin_date‿symd,
 	get_event_end_date‿symd,
 	is_looking_like_a_backup,
-	to_string,
+	to_string, get_final_tz, get_neighbor_primary_hints,
 } from './selectors'
-
+import * as File from '../file/index'
 import './__test_shared'
 import { ALL_MEDIA_DEMOS } from '../../__test_shared/real_files'
-import {
-	get_test_single_file_state_generator,
-	REAL_CREATION_DATE,
-	REAL_CREATION_DATE‿EXIF,
-	REAL_CREATION_DATE‿TMS,
-	REAL_CREATION_DATE‿HRTS,
-	BAD_CREATION_DATE_CANDIDATE‿TMS,
-	BAD_CREATION_DATE_CANDIDATE‿HRTS,
-} from '../../__test_shared/utils'
+import { get_test_single_file_state_generator } from '../../__test_shared/utils'
+import * as BetterDateLib from '../../services/better-date'
 
 /////////////////////
 
@@ -123,7 +117,6 @@ describe(`${LIB} - folder state`, function() {
 					let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state() // REM date = 2018-09-03_20h46m14 GMT+8
 					state = on_subfile_found(state, file_state)
 					state = on_subfile_primary_infos_gathered(state, file_state)
-
 					state = on_fs_exploration_done(state)
 
 					const begin_date = get_event_begin_date_from_basename_if_present_and_confirmed_by_other_sources(state)
@@ -312,17 +305,26 @@ describe(`${LIB} - folder state`, function() {
 						it('should yield an event range starting with the basename date', async () => {
 							let state = create('holidays in cool place 2018-09-03')
 
-							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT).to.equal(20180903) // precondition for the test
+							expect(ALL_MEDIA_DEMOS[0].data.DATE__COMPACT, 'precondition').to.equal(20180903) // precondition for the test
 							let file_state = await ALL_MEDIA_DEMOS[0].get_phase1_state()
 							state = on_subfile_found(state, file_state)
 							state = on_subfile_primary_infos_gathered(state, file_state)
-
 							state = on_fs_exploration_done(state)
+
+							const hints = get_neighbor_primary_hints(state)
+							expect(hints.tz, 'tz in hints').to.equal('Asia/Shanghai') // aggregated from the file
+							file_state = File.on_info_read__current_neighbors_primary_hints(file_state, hints)
+							file_state = File.on_notes_recovered(file_state, null)
+							expect(File.get_best_tz(file_state), 'tz from file').to.equal('Asia/Shanghai') // embedded in the file
+							expect(BetterDateLib.get_embedded_timezone(File.get_best_creation_date(file_state)), 'tz from file bcd').to.equal('Asia/Shanghai') // embedded in the file
+
+							state = on_subfile_all_infos_gathered(state, file_state)
+							expect(get_final_tz(state), 'aggregated tz').to.equal('Asia/Shanghai') // aggregated from the file
 
 							expect(is_looking_like_a_backup(state), 'is_looking_like_a_backup').to.be.false
 							expect(get_event_range(state), 'event range').to.be.ok
-							expect(get_event_begin_date‿symd(state)).to.equal(20180903)
-							expect(get_event_end_date‿symd(state)).to.equal(20180903)
+							expect(get_event_begin_date‿symd(state), 'begin').to.equal(20180903)
+							expect(get_event_end_date‿symd(state), 'end').to.equal(20180903)
 						})
 
 						context('when the children range is too big', function () {

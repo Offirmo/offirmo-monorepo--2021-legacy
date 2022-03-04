@@ -11,6 +11,7 @@ export function create(): NeighborHints {
 		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: 'unknown',
 		expected_bcd_ranges: [],
 		fallback_junk_bcd: undefined,
+		tz: undefined,
 	}
 }
 

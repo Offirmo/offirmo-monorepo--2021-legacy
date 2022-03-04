@@ -22,12 +22,7 @@ import {
 	is_processed_media_basename,
 	pathㆍparse_memoized,
 } from '../../services/name_parser'
-import {
-	get_timestamp_utc_ms_from,
-	create_better_date_obj,
-	is_deep_equal,
-	get_compact_date,
-} from '../../services/better-date'
+import * as BetterDateLib from '../../services/better-date'
 
 import { LIB } from './consts'
 import {
@@ -43,6 +38,7 @@ import {
 	get_current_basename,
 	get_oldest_known_basename,
 	get_ideal_basename,
+	get_best_tz,
 	get_best_creation_date‿meta,
 	get_current_parent_folder_id,
 	get_best_creation_date,
@@ -193,8 +189,8 @@ function _get_historical_neighbor_hints_with_no_redundancy(state: Immutable<Stat
 	if (historical_hints.parent_bcd) {
 		const parent_bcd_from_its_basename = get_bcd_from_parent_path(state.notes.historical.parent_path)
 		if (parent_bcd_from_its_basename) {
-			const bcd_h_h = create_better_date_obj(historical_hints.parent_bcd)
-			if (is_deep_equal(parent_bcd_from_its_basename, bcd_h_h)) {
+			const bcd_h_h = BetterDateLib.create_better_date_obj(historical_hints.parent_bcd)
+			if (BetterDateLib.is_deep_equal(parent_bcd_from_its_basename, bcd_h_h)) {
 				// redundant
 				historical_hints.parent_bcd = undefined
 			}
@@ -292,7 +288,7 @@ export function on_consolidated(state: Immutable<State>): Immutable<State> {
 	if (is_media_file(state)) {
 		const meta = get_best_creation_date‿meta(state)
 
-		const _bcd_afawk‿symd = get_compact_date(meta.candidate, 'tz:embedded')
+		const _bcd_afawk‿symd = BetterDateLib.get_compact_date(meta.candidate, get_best_tz(state))
 		const _bcd_source = meta.source
 
 		if (state.notes._bcd_afawk‿symd !== _bcd_afawk‿symd || state.notes._bcd_source !== _bcd_source) {
@@ -300,8 +296,8 @@ export function on_consolidated(state: Immutable<State>): Immutable<State> {
 				...state,
 				notes: {
 					...state.notes,
-					_bcd_afawk‿symd: get_compact_date(meta.candidate, 'tz:embedded'),
-					_bcd_source: meta.source,
+					_bcd_afawk‿symd,
+					_bcd_source,
 				}
 			}
 		}
@@ -430,8 +426,8 @@ export function merge_duplicates(...states: Immutable<State[]>): Immutable<State
 		}
 
 		// still equal so far, try to discriminate with another criteria
-		const selected__best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(selected_state))
-		const candidate__best_creation_date_tms = get_timestamp_utc_ms_from(get_best_creation_date(candidate_state))
+		const selected__best_creation_date_tms = BetterDateLib.get_timestamp_utc_ms_from(get_best_creation_date(selected_state))
+		const candidate__best_creation_date_tms = BetterDateLib.get_timestamp_utc_ms_from(get_best_creation_date(candidate_state))
 		if (selected__best_creation_date_tms !== candidate__best_creation_date_tms) {
 			reasons.add('best_creation_date')
 			//console.log('different best_creation_date', selected__best_creation_date_tms, candidate__best_creation_date_tms)

@@ -7,7 +7,7 @@ import { prettify_json } from '@offirmo-private/prettify-any'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 
 import { LIB as APP } from '../../consts'
-import { AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../../types'
+import { AbsolutePath, RelativePath } from '../../types'
 import { Action } from '../actions'
 import { get_file_basename_without_copy_index } from '../../services/name_parser'
 import * as BetterDateLib from '../../services/better-date'
@@ -142,6 +142,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	}
 
 	// Ok, it's a media file.
+	const file_bcd = File.get_best_creation_date(file_state)
 
 	// whatever the file, is it already in an event folder? (= already sorted)
 	// BEWARE that:
@@ -157,8 +158,8 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		//   but need to move medias in more appropriate event folders
 		let should_stay_in_this_event_folder = true // so far
 		if (File.is_confident_in_date_enough_to__sort(file_state)) {
-			const date_for_matching_an_event: SimpleYYYYMMDD = File.get_best_creation_date‿compact(file_state)
-			should_stay_in_this_event_folder = Folder.is_date_matching_this_event‿symd(current_parent_folder_state, date_for_matching_an_event)
+			const date_for_matching_an_event = file_bcd
+			should_stay_in_this_event_folder = Folder.is_date_matching_this_event(current_parent_folder_state, date_for_matching_an_event)
 		}
 
 		if (should_stay_in_this_event_folder) {
@@ -172,16 +173,16 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		// else continue...
 	}
 
-	// we need to find an event folder
-	const date_for_matching_an_event: SimpleYYYYMMDD = (() => {
+	// we need to find a better event folder
+	const date_for_matching_an_event: BetterDateLib.BetterDate = (() => {
 		if (File.is_confident_in_date_enough_to__sort(file_state))
-			return File.get_best_creation_date‿compact(file_state)
+			return file_bcd
 
-		return Folder.get_event_begin_date‿symd(current_parent_folder_state)
+		return Folder.get_event_begin_date(current_parent_folder_state)
 	})()
 
 	let compatible_event_folder_id = get_all_event_folder_ids(state)
-		.find(fid => Folder.is_date_matching_this_event‿symd(state.folders[fid], date_for_matching_an_event))
+		.find(fid => Folder.is_date_matching_this_event(state.folders[fid], date_for_matching_an_event))
 	if (!compatible_event_folder_id) {
 		if (current_parent_folder_state.type === Folder.Type.overlapping_event) {
 			// can happen if the folder is force-dated
@@ -189,7 +190,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 			// Let's investigate if that happens:
 			logger.warn(`File was in an overlapped event but couldn't find a matching event`, {
 				id,
-				date_for_matching_an_event,
+				date_for_matching: BetterDateLib.get_debug_representation(date_for_matching_an_event),
 			})
 		}
 		// fall through to other rules
@@ -202,8 +203,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 		DEBUG && console.log(`✴️ ${id} found a matching event`, {
 			confidence_to_sort: File.is_confident_in_date_enough_to__sort(file_state),
-			file_date: File.get_best_creation_date‿compact(file_state),
-			date_for_finding_suitable_event: date_for_matching_an_event,
+			file_date: BetterDateLib.get_debug_representation(date_for_matching_an_event),
 		})
 		return path.join(year, event_folder_base)
 	}
@@ -211,8 +211,7 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	// we don't have a matching event folder...
 
 	if (!File.is_confident_in_date_enough_to__sort(file_state)) {
-		// the file is in need of sorting since it's not already in an event folder
-
+		// we really can't sort this media file :(
 		let target_split_path = File.get_current_relative_path(file_state).split(path.sep).slice(0, -1)
 		if (is_top_parent_special)
 			target_split_path[0] = Folder.SPECIAL_FOLDERⵧCANT_AUTOSORT__BASENAME
@@ -226,13 +225,12 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 		return target_split_path.join(path.sep)
 	}
 
-	// file is a media + we have reasonable confidence
-	const year = String(File.get_best_creation_date__year(file_state))
+	// we have reasonable confidence, we don't have a folder
+	const year = String(BetterDateLib.get_year(file_bcd, 'tz:embedded'))
 	const event_folder_base = ((): string => {
-		const compact_date = File.get_best_creation_date‿compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
 
-		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_date_matching_this_event‿symd(state.folders[fid], compact_date))
+		let compatible_event_folder_id = all_events_folder_ids.find(fid => Folder.is_date_matching_this_event(state.folders[fid], file_bcd))
 		if (compatible_event_folder_id) {
 			DEBUG && console.log(`✴️ ${id} found existing compatible event folder:`, compatible_event_folder_id)
 			return Folder.get_ideal_basename(state.folders[compatible_event_folder_id])
@@ -240,17 +238,17 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 
 		// need to create a new event folder!
 		// We don't group too much, split day / wek-end
-		let folder_date = File.get_best_creation_date(file_state)
-		DEBUG && console.log(`✴️ ${id} !found compatible event folder = creating one`, get_debug_representation(folder_date))
-		if (get_day_of_week_index(folder_date) === 0) {
+		let folder_date = file_bcd
+		DEBUG && console.log(`✴️ ${id} !found compatible event folder = creating one`, BetterDateLib.get_debug_representation(folder_date))
+		if (BetterDateLib.get_day_of_week_index(folder_date, 'tz:embedded') === 0) {
 			// sunday is coalesced to sat = start of weekend
 			folder_date = BetterDateLib.add_days(folder_date, -1)
 		}
 
 		const new_event_folder_basename =
-			String(BetterDateLib.get_compact_date(folder_date, new_folder_tz))
+			String(BetterDateLib.get_compact_date(folder_date, 'tz:embedded'))
 			+ ' - '
-			+ (BetterDateLib.get_day_of_week_index(folder_date, new_folder_tz) === 6 ? 'weekend' : 'life') // TODO use the existing parent folder as a base hint anyway
+			+ (BetterDateLib.get_day_of_week_index(folder_date, 'tz:embedded') === 6 ? 'weekend' : 'life') // TODO use the existing parent folder as a base hint anyway
 		DEBUG && console.log(`✴️ ${id} !found compatible event folder = created one`, {
 			adjusted_date: BetterDateLib.get_debug_representation(folder_date),
 			new_event_folder_basename,

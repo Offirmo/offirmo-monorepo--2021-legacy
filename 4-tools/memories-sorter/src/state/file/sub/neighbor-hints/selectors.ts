@@ -120,7 +120,7 @@ export function is_candidate_fs_bcd_looking_reliable_according_to_neighbor_hints
 
 	assert(!!candidate‿tms, `is_candidate_fs_bcd_looking_reliable_according_to_neighbor_hints() candidate should be truthy!`)
 
-	const candidate = create_better_date_from_utc_tms(candidate‿tms, 'tz:auto')
+	const candidate = create_better_date_from_utc_tms(candidate‿tms, state.tz || 'tz:auto')
 
 	if (is_matching_parent_folder_expected_date_ranges(state, candidate)) {
 		logger.trace(`is_candidate_fs_bcd_looking_reliable_according_to_neighbor_hints() current fs reliability has been assessed to "reliable" from our fs + parent folder date ranges`)
@@ -186,6 +186,7 @@ export function get_debug_representation(state: undefined | Immutable<NeighborHi
 		bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1,
 		expected_bcd_ranges,
 		fallback_junk_bcd,
+		tz,
 		...unhandled
 	} = state
 
@@ -203,6 +204,7 @@ export function get_debug_representation(state: undefined | Immutable<NeighborHi
 			}
 		}),
 		fallback_junk_bcd: get_better_date_debug_representation(fallback_junk_bcd),
+		tz,
 	}
 
 	return result

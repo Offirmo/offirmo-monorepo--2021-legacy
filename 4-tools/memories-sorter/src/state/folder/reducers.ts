@@ -3,11 +3,10 @@ import assert from 'tiny-invariant'
 import { Immutable } from '@offirmo-private/ts-types'
 
 import { RelativePath, SimpleYYYYMMDD } from '../../types'
-import { get_params, Params } from '../../params'
+import { Params, get_params, get_default_timezone } from '../../params'
 import { pathㆍparse_memoized } from '../../services/name_parser'
 import logger from '../../services/logger'
 import * as BetterDateLib from '../../services/better-date'
-import { get_debug_representation } from '../../services/better-date'
 import { is_year } from '../../services/matchers'
 import * as File from '../file'
 
@@ -74,6 +73,7 @@ export function create(id: RelativePath): Immutable<State> {
 
 			from_primaryⵧfinal: undefined,
 		},
+		media_children_aggregated_tz: undefined,
 
 		forced_event_range: null,
 
@@ -100,6 +100,53 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 
 	// Should we automatically call on_info gathered() ?
 	// NO! We don't know whether new files will be added! (ex. new folders created during the sorting phase)
+}
+
+// TODO one day take the majority?
+function _aggregate_tz(state: Immutable<State>, date: Immutable<BetterDateLib.BetterDate>): Immutable<State> {
+	const previous_aggregated_tz = state.media_children_aggregated_tz
+
+	if (!date._has_explicit_timezone)
+		return state
+	if (previous_aggregated_tz === 'tz:auto')
+		return state
+
+	const candidate_tz = BetterDateLib.get_embedded_timezone(date)
+
+	if (previous_aggregated_tz === candidate_tz) {
+		// ideal case, same tz
+		return state
+	}
+
+	const new_aggregated_tz = (() => {
+		if (!previous_aggregated_tz)
+			return candidate_tz
+
+		// tz conflict!
+		// default to 'auto'
+		logger.warn(`${LIB} tz discrepancies inside a folder, defaulting to "auto"`, {
+			id: state.id,
+			previous_aggregated_tz,
+			candidate_tz,
+		})
+
+		return 'tz:auto'
+	})()
+
+	logger.silly(
+		`${ LIB } updating folder’s aggregated tz`,
+		{
+			id: state.id,
+			new_aggregated_tz
+		}
+	)
+
+	state = {
+		...state,
+		media_children_aggregated_tz: new_aggregated_tz,
+	}
+
+	return state
 }
 
 export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_state: Immutable<File.State>): Immutable<State> {
@@ -148,12 +195,12 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 			{
 				id: state.id,
 				...(new_children_begin_dateⵧfrom_fsⵧcurrent !== state.media_children_bcd_ranges.from_fsⵧcurrent?.begin && {
-					begin_before: get_debug_representation(state.media_children_bcd_ranges.from_fsⵧcurrent?.begin),
-					begin_new: get_debug_representation(new_children_begin_dateⵧfrom_fsⵧcurrent),
+					begin_before: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_fsⵧcurrent?.begin),
+					begin_new: BetterDateLib.get_debug_representation(new_children_begin_dateⵧfrom_fsⵧcurrent),
 				}),
 				...(new_children_end_dateⵧfrom_fsⵧcurrent !== state.media_children_bcd_ranges.from_fsⵧcurrent?.end && {
-					end_before: get_debug_representation(state.media_children_bcd_ranges.from_fsⵧcurrent?.end),
-					end_new: get_debug_representation(new_children_end_dateⵧfrom_fsⵧcurrent),
+					end_before: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_fsⵧcurrent?.end),
+					end_new: BetterDateLib.get_debug_representation(new_children_end_dateⵧfrom_fsⵧcurrent),
 				}),
 			}
 		)
@@ -180,28 +227,40 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	else {
 		const file_bcd__from_primary_current = file_bcdⵧfrom_primaryⵧcurrent‿meta.candidate
 
-		const new_children_begin_dateⵧfrom_primaryⵧcurrent = state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin
-			? BetterDateLib.min(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.begin, file_bcd__from_primary_current)
-			: file_bcd__from_primary_current
-		const new_children_end_dateⵧfrom_primaryⵧcurrent = state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end
-			? BetterDateLib.max(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1.end, file_bcd__from_primary_current)
-			: file_bcd__from_primary_current
+		state = _aggregate_tz(state, file_bcd__from_primary_current)
 
-		if (BetterDateLib.is_deep_equal(new_children_begin_dateⵧfrom_primaryⵧcurrent, state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin)
-			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent, state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
+		const new_children_begin_dateⵧfrom_primaryⵧcurrent = BetterDateLib.min(
+				state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin || file_bcd__from_primary_current,
+				file_bcd__from_primary_current
+			)
+		const new_children_end_dateⵧfrom_primaryⵧcurrent = BetterDateLib.max(
+				state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end || file_bcd__from_primary_current,
+				file_bcd__from_primary_current
+			)
+
+		/*console.log({
+			sb: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin),
+			cb: BetterDateLib.get_debug_representation(new_children_begin_dateⵧfrom_primaryⵧcurrent),
+			se: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end),
+			ce: BetterDateLib.get_debug_representation(new_children_end_dateⵧfrom_primaryⵧcurrent),
+		})*/
+
+		if (  BetterDateLib.is_deep_equal(new_children_begin_dateⵧfrom_primaryⵧcurrent, state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin)
+			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent,   state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
 			// no change
 		} else {
-			logger.silly(
+			logger.verbose(
 				`${ LIB } updating folder’s children's "current primary" date range`,
 				{
 					id: state.id,
+					file_id: file_state.id,
 					...(new_children_begin_dateⵧfrom_primaryⵧcurrent !== state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin && {
-						begin_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin),
-						begin_now: get_debug_representation(new_children_begin_dateⵧfrom_primaryⵧcurrent),
+						begin_before: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.begin),
+						begin_now: BetterDateLib.get_debug_representation(new_children_begin_dateⵧfrom_primaryⵧcurrent),
 					}),
 					...(new_children_end_dateⵧfrom_primaryⵧcurrent !== state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end && {
-						end_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end),
-						end_now: get_debug_representation(new_children_end_dateⵧfrom_primaryⵧcurrent),
+						end_before: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end),
+						end_now: BetterDateLib.get_debug_representation(new_children_end_dateⵧfrom_primaryⵧcurrent),
 					}),
 				}
 			)
@@ -231,10 +290,6 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 // OPTIONAL, used to semantically consolidate some infos to NULL after discovering the FS
 // everything should work even if not called (undefined ~ null)
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
-	if (state.media_children_pass_1_count !== state.media_children_count) {
-		console.log(state)
-		debugger
-	}
 	assert(state.media_children_pass_1_count === state.media_children_count)
 
 	const { media_children_count } = state
@@ -271,12 +326,16 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 	else {
 		const file_bcd__primary_final = file_bcd‿meta.candidate
 
-		const new_children_begin_date__primary_final = state.media_children_bcd_ranges.from_primaryⵧfinal?.begin
-			? BetterDateLib.min(state.media_children_bcd_ranges.from_primaryⵧfinal.begin, file_bcd__primary_final)
-			: file_bcd__primary_final
-		const new_children_end_date__primary_final = state.media_children_bcd_ranges.from_primaryⵧfinal?.end
-			? BetterDateLib.max(state.media_children_bcd_ranges.from_primaryⵧfinal.end, file_bcd__primary_final)
-			: file_bcd__primary_final
+		state = _aggregate_tz(state, file_bcd__primary_final)
+
+		const new_children_begin_date__primary_final = BetterDateLib.min(
+			state.media_children_bcd_ranges.from_primaryⵧfinal?.begin || file_bcd__primary_final,
+			file_bcd__primary_final
+		)
+		const new_children_end_date__primary_final = BetterDateLib.max(
+			state.media_children_bcd_ranges.from_primaryⵧfinal?.end || file_bcd__primary_final,
+			file_bcd__primary_final
+		)
 
 		if (BetterDateLib.is_deep_equal(new_children_begin_date__primary_final, state.media_children_bcd_ranges.from_primaryⵧfinal?.begin)
 			&& BetterDateLib.is_deep_equal(new_children_end_date__primary_final, state.media_children_bcd_ranges.from_primaryⵧfinal?.end)) {
@@ -287,12 +346,12 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 				{
 					id: state.id,
 					...(new_children_begin_date__primary_final !== state.media_children_bcd_ranges.from_primaryⵧfinal?.begin && {
-						begin_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧfinal?.begin),
-						begin_now: get_debug_representation(new_children_begin_date__primary_final),
+						begin_before: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧfinal?.begin),
+						begin_now: BetterDateLib.get_debug_representation(new_children_begin_date__primary_final),
 					}),
 					...(new_children_end_date__primary_final !== state.media_children_bcd_ranges.from_primaryⵧfinal?.end && {
-						end_before: get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧfinal?.end),
-						end_now: get_debug_representation(new_children_end_date__primary_final),
+						end_before: BetterDateLib.get_debug_representation(state.media_children_bcd_ranges.from_primaryⵧfinal?.end),
+						end_now: BetterDateLib.get_debug_representation(new_children_end_date__primary_final),
 					}),
 				}
 			)
@@ -344,11 +403,23 @@ export function on_all_infos_gathered(state: Immutable<State>): Immutable<State>
 				})
 			}
 			else {
-				assert(state.type === Type.event || state.type === Type.overlapping_event)
+				// finish consolidating the tz
+				assert(state.media_children_aggregated_tz, `on_all_infos_gathered() expected aggregated tz!`)
+				if (state.media_children_aggregated_tz === 'tz:auto') {
+					// replace with an explicit tz
+					state = {
+						...state,
+						media_children_aggregated_tz: get_default_timezone(BetterDateLib.get_timestamp_utc_ms_from(event_range.begin))
+					}
+					logger.debug(`${LIB} settling down on tz="${state.media_children_aggregated_tz}" for folder "${state.id}"`)
+				}
+
+				assert(state.type === Type.event || state.type === Type.overlapping_event, `on_all_infos_gathered() expected event-ish!`)
 				logger.verbose(`${LIB} ☑ FYI folder fully explored: type="${state.type}"`, {
 					id: state.id,
 					media_children_count,
-					event_range: `${get_debug_representation(event_range.begin)} → ${get_debug_representation(event_range.end)}`,
+					folder_tz: state.media_children_aggregated_tz,
+					event_range: BetterDateLib.get_range_debug_representation(event_range),
 					// TODO range size in days
 				})
 			}

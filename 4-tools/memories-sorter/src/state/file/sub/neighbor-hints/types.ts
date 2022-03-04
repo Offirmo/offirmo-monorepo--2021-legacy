@@ -1,4 +1,5 @@
 import { BetterDate, DateRange, BetterDateMembers } from '../../../../services/better-date'
+import { TimeZone } from '../../../../types'
 
 export type FsReliability = 'reliable' | 'unreliable' | 'unknown'
 
@@ -13,6 +14,7 @@ export interface NeighborHints {
 	// if present (for unit tests), this prop will override any estimation of FS reliability
 	_unit_test_shortcut?: FsReliability
 
+	tz: undefined | TimeZone // folder tz aggregated from all children
 	bcdⵧfrom_fs__reliabilityⵧassessed_from_phase1: FsReliability
 	expected_bcd_ranges: DateRange[] // can be either an event (begin + X) or a backup (begin - X) depending on the hints
 	fallback_junk_bcd: undefined | BetterDate // should be a date that'll cause the file to be stable = stay in this folder
@@ -25,4 +27,5 @@ export interface NeighborHints {
 export interface HistoricalNeighborHints {
 	fs_reliability?: FsReliability // should only be stored if !unknown and really from neighbors = not from self
 	parent_bcd?: undefined | BetterDateMembers // should only be stored if not redundant with historical.parent_path
+	// TODO store TZ?
 }

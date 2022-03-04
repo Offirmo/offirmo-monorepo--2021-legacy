@@ -19,6 +19,7 @@ export const DEMO_STATE: Immutable<NeighborHints> = enforce_immutability<Neighbo
 		}
 	],
 	fallback_junk_bcd: create_better_date_from_utc_tms(REAL_CREATION_DATE‿TMS, 'tz:auto'),
+	tz: undefined, // TODO
 })
 
 /*export const DEMO_STATEⵧHISTORICAL: Immutable<HistoricalNeighborHints> = enforce_immutability<HistoricalNeighborHints>(
