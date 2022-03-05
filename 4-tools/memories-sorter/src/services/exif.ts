@@ -453,8 +453,6 @@ export function get_timestamp_ms_from_ExifDateTime(date_exif: Immutable<ExifDate
 
 function _to_debug(date_exif: Immutable<ExifDateTime>): string {
 	return get_debug_representation(
-		create_better_date_from_ExifDateTime(
-			date_exif
-		)
+		create_better_date_from_ExifDateTime(date_exif)
 	)
 }

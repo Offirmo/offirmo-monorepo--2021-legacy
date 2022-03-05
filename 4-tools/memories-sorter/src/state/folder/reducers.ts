@@ -287,8 +287,9 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 	return state
 }
 
-// OPTIONAL, used to semantically consolidate some infos to NULL after discovering the FS
-// everything should work even if not called (undefined ~ null)
+// OPTIONAL BECAUSE FOLDERS SHOULD NOT HAVE A LIFECYCLE
+// EVERYTHING SHOULD WORK EVEN IF NOT CALLED (undefined ~ null)
+// used to semantically consolidate some infos to NULL after discovering the FS
 export function on_fs_exploration_done(state: Immutable<State>): Immutable<State> {
 	assert(state.media_children_pass_1_count === state.media_children_count)
 
@@ -377,6 +378,8 @@ export function on_subfile_all_infos_gathered(state: Immutable<State>, file_stat
 	return state
 }
 
+// OPTIONAL BECAUSE FOLDERS SHOULD NOT HAVE A LIFECYCLE
+// EVERYTHING SHOULD WORK EVEN IF NOT CALLED
 // to be called after FS exploration for pre-existing folders
 export function on_all_infos_gathered(state: Immutable<State>): Immutable<State> {
 	assert(state.media_children_pass_2_count === state.media_children_count)
@@ -403,7 +406,7 @@ export function on_all_infos_gathered(state: Immutable<State>): Immutable<State>
 				})
 			}
 			else {
-				// finish consolidating the tz
+				// (optional) consolidate the tz
 				assert(state.media_children_aggregated_tz, `on_all_infos_gathered() expected aggregated tz!`)
 				if (state.media_children_aggregated_tz === 'tz:auto') {
 					// replace with an explicit tz
@@ -426,6 +429,7 @@ export function on_all_infos_gathered(state: Immutable<State>): Immutable<State>
 		}
 		catch (err: any) {
 			if (err?.message === ERROR__RANGE_TOO_BIG) {
+				// TODO demotion should be automatic on children insertion, not here
 				state = demote_to_unknown(state, `date range too big`)
 			}
 

@@ -73,6 +73,25 @@ describe('Better Date', function() {
 					const z = new Luxon.IANAZone('Etc/GMT')
 					expect(z.isValid).to.be.true
 				})
+
+				it('should recognize UTC+10', () => {
+					//const z = new Luxon.IANAZone('UTC+10')
+					const _lx = LuxonDateTime.fromObject({
+							year: 2000,
+							month: 1, // 1 = Jan
+							day: 11,
+							hour: 12,
+							minute: 12,
+							second: 14,
+							millisecond: 156,
+						},
+						{
+							zone: 'UTC+10',
+						})
+					//console.log(_lx)
+					expect(_lx.isValid).to.be.true
+					expect(_lx.toRFC2822()).to.equal('Tue, 11 Jan 2000 12:12:14 +1000')
+				})
 			})
 		})
 
@@ -429,6 +448,24 @@ describe('Better Date', function() {
 		})
 
 		describe('factories', function () {
+
+			describe('create_better_date_from_utc_tms()', function () {
+
+				it('should work -- tz auto', () => {
+					const bd1 = create_better_date_from_utc_tms(1278547200000, 'tz:auto')
+					expect(bd1._has_explicit_timezone).to.be.false
+					expect(get_human_readable_timestamp_auto(bd1, 'tz:embedded')).to.equal('2010-07-08_02h00')
+					expect(get_timestamp_utc_ms_from(bd1)).to.equal(1278547200000)
+				})
+
+				it('should work -- tz explicit', () => {
+					const bd1 = create_better_date_from_utc_tms(1278547200000, 'Indian/Kerguelen')
+					expect(bd1._has_explicit_timezone).to.be.true
+					expect(get_embedded_timezone(bd1)).to.equal('Indian/Kerguelen')
+					expect(get_human_readable_timestamp_auto(bd1, 'tz:embedded')).to.equal('2010-07-08_05h00')
+					expect(get_timestamp_utc_ms_from(bd1)).to.equal(1278547200000)
+				})
+			})
 
 			describe('create_better_date_from_symd()', function () {
 

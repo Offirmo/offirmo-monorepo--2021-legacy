@@ -25,7 +25,9 @@ import {
 	get_event_begin_date‿symd,
 	get_event_end_date‿symd,
 	is_looking_like_a_backup,
-	to_string, get_final_tz, get_neighbor_primary_hints,
+	to_string,
+	get_neighbor_primary_hints,
+	get_tz,
 } from './selectors'
 import * as File from '../file/index'
 import './__test_shared'
@@ -319,7 +321,7 @@ describe(`${LIB} - folder state`, function() {
 							expect(BetterDateLib.get_embedded_timezone(File.get_best_creation_date(file_state)), 'tz from file bcd').to.equal('Asia/Shanghai') // embedded in the file
 
 							state = on_subfile_all_infos_gathered(state, file_state)
-							expect(get_final_tz(state), 'aggregated tz').to.equal('Asia/Shanghai') // aggregated from the file
+							expect(get_tz(state, 'fallback:resolved_auto'), 'aggregated tz').to.equal('Asia/Shanghai') // aggregated from the file
 
 							expect(is_looking_like_a_backup(state), 'is_looking_like_a_backup').to.be.false
 							expect(get_event_range(state), 'event range').to.be.ok

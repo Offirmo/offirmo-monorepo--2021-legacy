@@ -341,13 +341,13 @@ export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: TimeZon
 
 	const _ld = new LegacyDate(tms)
 
-	const zone = new IANAZone(_tz)
-	const _lx = LuxonDateTime.fromJSDate(_ld, { zone })
+	//const zone = new IANAZone(_tz)
+	const _lx = LuxonDateTime.fromJSDate(_ld, { zone: _tz })
 	if (_lx.invalidReason || _lx.invalidExplanation) {
 		logger.error('', {
 			tms,
 			_ld,
-			zone,
+			_tz,
 			_lx,
 		})
 	}
@@ -369,6 +369,7 @@ export function create_better_date_from_utc_tms(tms: TimestampUTCMs, tz: TimeZon
 // may have the tz as a numeric shift
 // while an explicit locale may be in the other TZ field, cf. unit test
 // if better_tz supplied, expecting a similar shift
+// https://photostructure.github.io/exiftool-vendored.js/classes/ExifDateTime.html
 export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, better_tz?: TimeZone, PARAMS: Immutable<Params> = get_params()): BetterDate {
 	let _lx: LuxonDateTime = exif_date.toDateTime()
 	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_from_ExifDateTime()--01: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
@@ -389,6 +390,7 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 		})
 	}
 	else {
+		//assert(!_lx.zone?.name?.startsWith('UTC+'), `create_better_date_from_ExifDateTime() zone is an offset! "${_lx.zone.name}"`)
 		if (better_tz) {
 			// TODO assert same tz shift
 			_lx = LuxonDateTime.fromObject({
