@@ -162,6 +162,21 @@ describe(`${LIB} - (base)name parser`, function() {
 
 					expect(result).to.deep.equal(expected_result)
 				})
+
+				it('should work when given a uuid', () => {
+					// real case seen: adda9b88-bc0b-4950-b340-576651e7038a.jpg
+					const expected_result: DigitsParseResult = {
+						summary: 'no_match',
+						reason: 'unknown date pattern',
+						date: undefined,
+						is_ambiguous: false,
+					}
+
+					const result = _clean_parse_result(_parse_digit_blocks('340-576651', 'other'))
+					//console.log({ result })
+
+					expect(result).to.deep.equal(expected_result)
+				})
 			})
 		})
 	})

@@ -249,9 +249,12 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 		let date_pattern: DatePattern = blocks[0].length === 4
 			? 'Y-M-D'
-			: blocks[2].length === 4
+			: (blocks.length >= 3 && blocks[2].length === 4)
 				? 'D-M-Y'
 				: (() => {
+					if (blocks.length < 3)
+						return 'unknown'
+
 					if (!is_month_fragment(blocks[1]))
 						return 'unknown'
 
@@ -259,8 +262,10 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 						&& is_day_fragment(blocks[2])
 						&& _get_y2k_year_from_fragment(blocks[0]) !== null
 						&& _get_y2k_year_from_fragment(blocks[2]) !== null
-					)
+					) {
 						result.is_ambiguous = true
+					}
+
 					if (is_day_fragment(blocks[0]) && _get_y2k_year_from_fragment(blocks[2]) !== null)
 						return 'D-M-Y'
 					if (_get_y2k_year_from_fragment(blocks[0]) !== null && is_day_fragment(blocks[2]))

@@ -122,7 +122,8 @@ export const get_params = memoize_once(function get_params(): Params {
 			'.mts', //  AVCHD (Advanced Video Coding High Definition) video file shoot by typical camcorders https://docs.fileformat.com/video/mts
 			'.pct', // an old apple format https://fileinfo.com/extension/pct
 			'.png',
-			'.psp', // Photoshop or Paint Shop Pro? seen screens from Warcraft III in this format
+			'.psd', // photoshop https://fileinfo.com/extension/psd
+			'.psp', // Paint Shop Pro (seen screens from Warcraft III in this format)
 			'.tga', // WoW screens
 			'.vtt', // transcripts files going together with a video
 			'.wav',
