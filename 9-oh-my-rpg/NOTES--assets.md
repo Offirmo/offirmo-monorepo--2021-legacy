@@ -11,7 +11,8 @@ Free
 * artbreeder
 * +++ https://www.freepik.com/upklyak
 * https://github.com/AntiqueAtlasTeam/AntiqueAtlas
-*
+* pixel https://snoopethduckduck.itch.io/
+
 Stores
 * https://assetstore.unity.com/
 * https://itch.io/game-assets/

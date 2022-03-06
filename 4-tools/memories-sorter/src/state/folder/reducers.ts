@@ -254,7 +254,7 @@ export function on_subfile_primary_infos_gathered(state: Immutable<State>, file_
 			&& BetterDateLib.is_deep_equal(new_children_end_dateⵧfrom_primaryⵧcurrent,   state.media_children_bcd_ranges.from_primaryⵧcurrentⵧphase_1?.end)) {
 			// no change
 		} else {
-			logger.verbose(
+			logger.debug(
 				`${ LIB } updating folder’s children's "current primary" date range`,
 				{
 					id: state.id,
