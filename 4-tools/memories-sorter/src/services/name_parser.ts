@@ -125,309 +125,318 @@ function _get_DigitsParseResult_debug_representation(dpresult: Immutable<DigitsP
 }
 
 export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): Immutable<DigitsParseResult> {
-	let blocks: string[] = digit_blocks
-		.split('-')
-		.filter(b => !!b)
-	const digits = blocks.join('')
-
-	DEBUG && logger.trace('>>> _parse_digit_blocks() starting…', {
-		digit_blocks,
-		separator,
-		blocks,
-		'blocks.length': blocks.length,
-		digits,
-	})
-
-	const result: DigitsParseResult = {
-		summary: 'error',
-		reason: null,
-		date: undefined,
-		is_ambiguous: false,
-	}
-
-	if (digits.length < 8) {
-		result.summary = 'need_more'
-		result.reason = 'too few digits'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
-	}
-
-	if (separator === 'none') {
-		result.summary = 'need_more'
-		result.reason = 'not on sep'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
-	}
-
-	if (blocks[0].length > 4 && blocks[0].length !== 8) {
-		result.summary = 'no_match'
-		result.reason = '1st block mismatch - length'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
-	}
-
-	let error = false
-
-	// improve the splitting if needed
-	let blocks_previous = blocks
 	try {
-		let date_block_count = 3
-		blocks = blocks.flatMap((b: string, i: number): string | string[] =>  {
-			//console.log({i, b})
-			if (i === 0) {
-				if (b.length > 4) {
-					date_block_count = 1
-					if (is_DDMMYYYY(b) && is_YYYYMMDD(b))
-						result.is_ambiguous = true
 
-					if (is_YYYYMMDD(b)) {
-						return [
-							b.slice(0,4),
-							b.slice(4,6),
-							b.slice(6,8),
-						]
-					}
+		let blocks: string[] = digit_blocks
+			.split('-')
+			.filter(b => !!b)
+		const digits = blocks.join('')
 
-					if (is_DDMMYYYY(b)) {
-						return [
-							b.slice(0,2),
-							b.slice(2,4),
-							b.slice(4,8),
-						]
-					}
-
-					result.summary = 'no_match'
-					result.reason = '1st block mismatch - content'
-					throw new Error('!')
-				}
-			}
-			else if (i >= date_block_count) {
-				const acc: string[] = []
-				let s = b
-				while (s.length > 3) {
-					acc.push(s.slice(0, 2))
-					s = s.slice(2)
-				}
-				acc.push(s)
-				return acc
-			}
-
-			return b
+		DEBUG && logger.trace('>>> _parse_digit_blocks() starting…', {
+			digit_blocks,
+			separator,
+			blocks,
+			'blocks.length': blocks.length,
+			digits,
 		})
 
-		if (blocks.join('') !== digits) {
-			logger.error('PDB splitting improvement failure', {
-				blocks_before: blocks_previous,
-				blocks_after: blocks,
-				digits_before: digits,
-				digits_after: blocks.join(''),
-			})
-			result.reason = 'internal error while improving the splitting'
+		const result: DigitsParseResult = {
+			summary: 'error',
+			reason: null,
+			date: undefined,
+			is_ambiguous: false,
+		}
+
+		if (digits.length < 8) {
+			result.summary = 'need_more'
+			result.reason = 'too few digits'
 			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 			return result
 		}
-	}
-	catch (e) {
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
-	}
 
-	DEBUG && logger.silly('PDB after improved splitting:', {
-		before: blocks_previous,
-		after: blocks,
-	})
-	blocks_previous = blocks
-
-	// improve padding
-	blocks = blocks.map(b => (b.length < 2) ? b.padStart(2, '0') : b)
-	DEBUG && logger.silly('PDB after improved padding:', {
-		before: blocks_previous,
-		after: blocks,
-	})
-
-	let date_pattern: DatePattern = blocks[0].length === 4
-		? 'Y-M-D'
-		: blocks[2].length === 4
-			? 'D-M-Y'
-			: (() => {
-				if (!is_month_fragment(blocks[1]))
-					return 'unknown'
-
-				if (  is_day_fragment(blocks[0])
-					&& is_day_fragment(blocks[2])
-					&& _get_y2k_year_from_fragment(blocks[0]) !== null
-					&& _get_y2k_year_from_fragment(blocks[2]) !== null
-				)
-					result.is_ambiguous = true
-				if (is_day_fragment(blocks[0]) && _get_y2k_year_from_fragment(blocks[2]) !== null)
-					return 'D-M-Y'
-				if (_get_y2k_year_from_fragment(blocks[0]) !== null && is_day_fragment(blocks[2]))
-					return 'Y-M-D'
-
-				return 'unknown'
-			})()
-	if (date_pattern === 'unknown') {
-		result.summary = 'no_match'
-		result.reason = 'unknown date pattern'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
-	}
-
-	let date_creation_args: number[] = []
-
-	switch (date_pattern) {
-		case 'Y-M-D': {
-			if (blocks.length >= 1 && (!is_year(blocks[0]) && !_get_y2k_year_from_fragment(blocks[0])))
-				error = true
-			if (blocks.length >= 2 && !is_month_fragment(blocks[1]))
-				error = true
-			if (blocks.length >= 3 && is_day_fragment(blocks[2]) === null)
-				error = true
-
-			if (error) {
-				result.summary = 'no_match'
-				result.reason = 'Y-M-D mismatch'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-				return result
-			}
-
-			if (blocks.length < 3) {
-				result.summary = 'need_more'
-				result.reason = 'Y-M-D needs more blocks'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-				return result
-			}
-
-			if (is_year(blocks[0]))
-				date_creation_args.push(Number(blocks[0]))
-			else
-				date_creation_args.push(_get_y2k_year_from_fragment(blocks[2])!)
-			date_creation_args.push(Number(blocks[1]))
-			date_creation_args.push(Number(blocks[2]))
-			break
+		if (separator === 'none') {
+			result.summary = 'need_more'
+			result.reason = 'not on sep'
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
 		}
 
-		case 'D-M-Y': {
-			if (blocks.length >= 1 && !is_day_fragment(blocks[0]))
-				error = true
-			if (blocks.length >= 2 && !is_month_fragment(blocks[1]))
-				error = true
-			if (blocks.length >= 3 && (!is_year(blocks[2]) && !_get_y2k_year_from_fragment(blocks[2])))
-				error = true
-
-			if (error) {
-				result.summary = 'no_match'
-				result.reason = 'D-M-Y mismatch'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-				return result
-			}
-
-			if (blocks.length < 3) {
-				result.summary = 'need_more'
-				result.reason = 'D-M-Y needs more blocks'
-				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-				return result
-			}
-
-
-			if (is_year(blocks[2]))
-				date_creation_args.push(Number(blocks[2]))
-			else
-				date_creation_args.push(_get_y2k_year_from_fragment(blocks[2])!)
-			date_creation_args.push(Number(blocks[1]))
-			date_creation_args.push(Number(blocks[0]))
-			break
+		if (blocks[0].length > 4 && blocks[0].length !== 8) {
+			result.summary = 'no_match'
+			result.reason = '1st block mismatch - length'
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
 		}
-		default:
-			throw new Error('Impossible!')
-	}
 
-	DEBUG && logger.silly('PDB still parsing…', {
-		blocks,
-		date_pattern,
-		date_creation_args
-	})
-	if (blocks.length > 3) {
-		if (!is_hour_fragment(blocks[3])) {
-			error = true
-			result.reason = 'hour block'
-		} else
-			date_creation_args.push(Number(blocks[3]))
-	}
+		let error = false
 
-	if (blocks.length > 4) {
-		if (!is_minute_fragment(blocks[4])) {
-			error = true
-			result.reason = 'minute block'
-		} else
-			date_creation_args.push(Number(blocks[4]))
-	}
+		// improve the splitting if needed
+		let blocks_previous = blocks
+		try {
+			let date_block_count = 3
+			blocks = blocks.flatMap((b: string, i: number): string | string[] =>  {
+				//console.log({i, b})
+				if (i === 0) {
+					if (b.length > 4) {
+						date_block_count = 1
+						if (is_DDMMYYYY(b) && is_YYYYMMDD(b))
+							result.is_ambiguous = true
 
-	if (blocks.length > 5) {
-		if (!is_second_fragment(blocks[5])) {
-			error = true
-			result.reason = 'second block'
-		} else
-			date_creation_args.push(Number(blocks[5]))
-	}
+						if (is_YYYYMMDD(b)) {
+							return [
+								b.slice(0,4),
+								b.slice(4,6),
+								b.slice(6,8),
+							]
+						}
 
-	if (blocks.length > 6) {
-		if (!is_millisecond_fragment(blocks[6])) {
-			error = true
-			result.reason = 'millis block'
-		} else
-			date_creation_args.push(Number(blocks[6]))
-	}
+						if (is_DDMMYYYY(b)) {
+							return [
+								b.slice(0,2),
+								b.slice(2,4),
+								b.slice(4,8),
+							]
+						}
 
-	if (date_creation_args.findIndex(v => isNaN(v)) >= 0) {
-		error = true
-		result.reason = 'isNaN'
-	}
+						result.summary = 'no_match'
+						result.reason = '1st block mismatch - content'
+						throw new Error('!')
+					}
+				}
+				else if (i >= date_block_count) {
+					const acc: string[] = []
+					let s = b
+					while (s.length > 3) {
+						acc.push(s.slice(0, 2))
+						s = s.slice(2)
+					}
+					acc.push(s)
+					return acc
+				}
 
-	if (error) {
-		result.summary = 'no_match'
-		DEBUG  && logger.silly('PDB no match parsing digit blocks…', {
-			blocks,
-			reason: result.reason,
-			date_creation_args,
+				return b
+			})
+
+			if (blocks.join('') !== digits) {
+				logger.error('PDB splitting improvement failure', {
+					blocks_before: blocks_previous,
+					blocks_after: blocks,
+					digits_before: digits,
+					digits_after: blocks.join(''),
+				})
+				result.reason = 'internal error while improving the splitting'
+				logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+				return result
+			}
+		}
+		catch (e) {
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
+		}
+
+		DEBUG && logger.silly('PDB after improved splitting:', {
+			before: blocks_previous,
+			after: blocks,
 		})
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+		blocks_previous = blocks
+
+		// improve padding
+		blocks = blocks.map(b => (b.length < 2) ? b.padStart(2, '0') : b)
+		DEBUG && logger.silly('PDB after improved padding:', {
+			before: blocks_previous,
+			after: blocks,
+		})
+
+		let date_pattern: DatePattern = blocks[0].length === 4
+			? 'Y-M-D'
+			: blocks[2].length === 4
+				? 'D-M-Y'
+				: (() => {
+					if (!is_month_fragment(blocks[1]))
+						return 'unknown'
+
+					if (  is_day_fragment(blocks[0])
+						&& is_day_fragment(blocks[2])
+						&& _get_y2k_year_from_fragment(blocks[0]) !== null
+						&& _get_y2k_year_from_fragment(blocks[2]) !== null
+					)
+						result.is_ambiguous = true
+					if (is_day_fragment(blocks[0]) && _get_y2k_year_from_fragment(blocks[2]) !== null)
+						return 'D-M-Y'
+					if (_get_y2k_year_from_fragment(blocks[0]) !== null && is_day_fragment(blocks[2]))
+						return 'Y-M-D'
+
+					return 'unknown'
+				})()
+		if (date_pattern === 'unknown') {
+			result.summary = 'no_match'
+			result.reason = 'unknown date pattern'
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
+		}
+
+		let date_creation_args: number[] = []
+
+		switch (date_pattern) {
+			case 'Y-M-D': {
+				if (blocks.length >= 1 && (!is_year(blocks[0]) && !_get_y2k_year_from_fragment(blocks[0])))
+					error = true
+				if (blocks.length >= 2 && !is_month_fragment(blocks[1]))
+					error = true
+				if (blocks.length >= 3 && is_day_fragment(blocks[2]) === null)
+					error = true
+
+				if (error) {
+					result.summary = 'no_match'
+					result.reason = 'Y-M-D mismatch'
+					logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+					return result
+				}
+
+				if (blocks.length < 3) {
+					result.summary = 'need_more'
+					result.reason = 'Y-M-D needs more blocks'
+					logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+					return result
+				}
+
+				if (is_year(blocks[0]))
+					date_creation_args.push(Number(blocks[0]))
+				else
+					date_creation_args.push(_get_y2k_year_from_fragment(blocks[2])!)
+				date_creation_args.push(Number(blocks[1]))
+				date_creation_args.push(Number(blocks[2]))
+				break
+			}
+
+			case 'D-M-Y': {
+				if (blocks.length >= 1 && !is_day_fragment(blocks[0]))
+					error = true
+				if (blocks.length >= 2 && !is_month_fragment(blocks[1]))
+					error = true
+				if (blocks.length >= 3 && (!is_year(blocks[2]) && !_get_y2k_year_from_fragment(blocks[2])))
+					error = true
+
+				if (error) {
+					result.summary = 'no_match'
+					result.reason = 'D-M-Y mismatch'
+					logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+					return result
+				}
+
+				if (blocks.length < 3) {
+					result.summary = 'need_more'
+					result.reason = 'D-M-Y needs more blocks'
+					logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+					return result
+				}
+
+
+				if (is_year(blocks[2]))
+					date_creation_args.push(Number(blocks[2]))
+				else
+					date_creation_args.push(_get_y2k_year_from_fragment(blocks[2])!)
+				date_creation_args.push(Number(blocks[1]))
+				date_creation_args.push(Number(blocks[0]))
+				break
+			}
+			default:
+				throw new Error('Impossible!')
+		}
+
+		DEBUG && logger.silly('PDB still parsing…', {
+			blocks,
+			date_pattern,
+			date_creation_args
+		})
+		if (blocks.length > 3) {
+			if (!is_hour_fragment(blocks[3])) {
+				error = true
+				result.reason = 'hour block'
+			} else
+				date_creation_args.push(Number(blocks[3]))
+		}
+
+		if (blocks.length > 4) {
+			if (!is_minute_fragment(blocks[4])) {
+				error = true
+				result.reason = 'minute block'
+			} else
+				date_creation_args.push(Number(blocks[4]))
+		}
+
+		if (blocks.length > 5) {
+			if (!is_second_fragment(blocks[5])) {
+				error = true
+				result.reason = 'second block'
+			} else
+				date_creation_args.push(Number(blocks[5]))
+		}
+
+		if (blocks.length > 6) {
+			if (!is_millisecond_fragment(blocks[6])) {
+				error = true
+				result.reason = 'millis block'
+			} else
+				date_creation_args.push(Number(blocks[6]))
+		}
+
+		if (date_creation_args.findIndex(v => isNaN(v)) >= 0) {
+			error = true
+			result.reason = 'isNaN'
+		}
+
+		if (error) {
+			result.summary = 'no_match'
+			DEBUG  && logger.silly('PDB no match parsing digit blocks…', {
+				blocks,
+				reason: result.reason,
+				date_creation_args,
+			})
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
+		}
+
+		if (blocks.length > 7) {
+			result.summary = 'too_much'
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
+		}
+
+		if (date_creation_args.length === 1)
+			date_creation_args.push(0) // or else date constructor will take the year as a timestamp
+
+		if (blocks.length === 7) {
+			result.summary = 'perfect'
+			DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
+			result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
+			//console.log(result.date!.toISOString())
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
+		}
+
+		if (blocks.length === 3
+			|| blocks.length === 5
+			|| blocks.length === 6) {
+			result.summary = 'ok'
+			DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
+			result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
+			//console.log(result.date!.toISOString())
+			logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
+			return result
+		}
+
+		result.summary = 'need_more'
+		result.reason = 'end'
+		DEBUG && logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
 		return result
 	}
-
-	if (blocks.length > 7) {
-		result.summary = 'too_much'
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
+	catch (err) {
+		logger.error(`_parse_digit_blocks() crash when parsing…`, {
+			digit_blocks, separator,
+		})
+		throw err
 	}
-
-	if (date_creation_args.length === 1)
-		date_creation_args.push(0) // or else date constructor will take the year as a timestamp
-
-	if (blocks.length === 7) {
-		result.summary = 'perfect'
-		DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
-		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
-		//console.log(result.date!.toISOString())
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
-	}
-
-	if (blocks.length === 3
-		|| blocks.length === 5
-		|| blocks.length === 6) {
-		result.summary = 'ok'
-		DEBUG  && logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
-		result.date = create_better_date('tz:auto', ...(date_creation_args as [ number, number ]))
-		//console.log(result.date!.toISOString())
-		logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-		return result
-	}
-
-	result.summary = 'need_more'
-	result.reason = 'end'
-	DEBUG && logger.trace(`<<< _parse_digit_blocks(): ${result.summary}`, _get_DigitsParseResult_debug_representation(result))
-	return result
 }
 
 export interface ParseResult {

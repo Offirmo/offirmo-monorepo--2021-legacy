@@ -50,7 +50,9 @@
 	<!-- OT⋄CUSTOM END favicons -->
 
 	<script>
-		;(function _ensure_trailing_slash_if_necessary() {
+		// ensure trailing slash if necessary
+		// (optional) clean index.html
+		;(function _ensure_canonical_url(should_keep_index_html = true) {
 			const path_segment_after_last_slash = location.pathname.split('/').slice(-1)[0] || ''
 
 			if (!path_segment_after_last_slash) {
@@ -65,18 +67,33 @@
 			// https://ahrefs.com/blog/trailing-slash/
 			const is_last_segment_a_html_file = path_segment_after_last_slash.endsWith('.html') || path_segment_after_last_slash.endsWith('.htm')
 
+			let new_path = location.pathname // no change for now
+
 			if (is_last_segment_a_html_file) {
-				// all good ✔
-				return
+				if (path_segment_after_last_slash !== 'index.html') {
+					// all good, needed ✔
+					return
+				}
+
+				// index.html often doesn't bring anything
+				if (should_keep_index_html) {
+					// all good ✔
+					return
+				}
+
+				// remove useless index.html
+				new_path = location.pathname.split('/').slice(0, -1).join('/') + '/'
+			}
+			else {
+				// We are located by a folder without a trailing slash.
+				// We are opinionated towards a trailing slash to ease relative references.
+				// And Netlify has troubles when no trailing slash.
+				// Redirect to the version with slash:
+				// https://love2dev.com/blog/ways-to-use-javascript-redirect-to-another-page/
+				// let's be careful to not lose any part of the URL!
+				new_path = location.pathname + '/'
 			}
 
-			// We are located by a folder without a trailing slash.
-			// We are opinionated towards a trailing slash to ease relative references.
-			// And Netlify has troubles when no trailing slash.
-			// Redirect to the version with slash:
-			// https://love2dev.com/blog/ways-to-use-javascript-redirect-to-another-page/
-			// let's be careful to not lose any part of the URL!
-			const new_path = location.pathname + '/'
 			const new_url = location.origin + new_path + location.search + location.hash
 			location.replace(new_url)
 		})()

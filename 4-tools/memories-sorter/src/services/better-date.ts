@@ -409,11 +409,11 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 	}
 	assert(!_lx.invalidReason && !_lx.invalidExplanation, 'create_better_date_from_ExifDateTime()--02: ' + _lx.invalidReason + '; ' + _lx.invalidExplanation)
 
-	return {
+	const date: BetterDate = {
 		_lx,
 		_debug: {
 			'create_better_date_from_ExifDateTime': {
-				//exif_date,
+				raw: exif_date.rawValue,
 			}
 		},
 		_has_explicit_timezone: (() => {
@@ -425,6 +425,8 @@ export function create_better_date_from_ExifDateTime(exif_date: ExifDateTime, be
 			return exif_date.hasZone
 		})()
 	}
+	//logger.trace(`create_better_date_from_ExifDateTime(${exif_date.rawValue}) -> ${get_debug_representation(date)}`)
+	return date
 }
 
 export function create_better_date_from_symd(simple_date: SimpleYYYYMMDD, tz: TimeZone | 'tz:auto', PARAMS: Immutable<Params> = get_params()): BetterDate {

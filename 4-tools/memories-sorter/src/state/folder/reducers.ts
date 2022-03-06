@@ -105,13 +105,18 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 // TODO one day take the majority?
 function _aggregate_tz(state: Immutable<State>, date: Immutable<BetterDateLib.BetterDate>): Immutable<State> {
 	const previous_aggregated_tz = state.media_children_aggregated_tz
+	const candidate_tz = BetterDateLib.get_embedded_timezone(date)
+
+	logger.trace(`${LIB} _aggregate_tz()`, {
+		previous_aggregated_tz,
+		_has_explicit_timezone: date._has_explicit_timezone,
+		candidate_tz,
+	})
 
 	if (!date._has_explicit_timezone)
 		return state
 	if (previous_aggregated_tz === 'tz:auto')
 		return state
-
-	const candidate_tz = BetterDateLib.get_embedded_timezone(date)
 
 	if (previous_aggregated_tz === candidate_tz) {
 		// ideal case, same tz
@@ -124,7 +129,7 @@ function _aggregate_tz(state: Immutable<State>, date: Immutable<BetterDateLib.Be
 
 		// tz conflict!
 		// default to 'auto'
-		logger.warn(`${LIB} tz discrepancies inside a folder, defaulting to "auto"`, {
+		logger.warn(`${LIB} aggregated tz: discrepancies inside a folder, defaulting to "auto"`, {
 			id: state.id,
 			previous_aggregated_tz,
 			candidate_tz,
@@ -133,7 +138,7 @@ function _aggregate_tz(state: Immutable<State>, date: Immutable<BetterDateLib.Be
 		return 'tz:auto'
 	})()
 
-	logger.silly(
+	logger.debug(
 		`${ LIB } updating folder’s aggregated tz`,
 		{
 			id: state.id,
