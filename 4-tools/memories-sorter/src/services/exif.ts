@@ -259,17 +259,18 @@ function _intelligently_get_earliest_defined_date_from_selected_fields_of_exif_d
 			is_candidate_same_but_less_precise,
 		})
 		if (!are_within_24h && !FS_DATE_FIELDS.includes(field as keyof Tags)) {
-			logger.warn('Internal EXIF discrepancy', {
+			const is_known_unreliable_field = [candidate_field, min_date_origin_field].includes(EXIF_DATE_FIELD__CREATE_DATE)
+			logger[is_known_unreliable_field ? 'log' : 'warn']('Internal EXIF discrepancy', {
 				SourceFile,
 				candidate_field,
 				min_date_origin_field,
 				candidate: get_debug_representation(candidate_dateⳇtms),
 				min: get_debug_representation(min_dateⳇtms),
 			})
-			if ([candidate_field, min_date_origin_field].includes(EXIF_DATE_FIELD__CREATE_DATE)) {
+			if (is_known_unreliable_field) {
 				// experimentally seen EXIF_DATE_FIELD__CREATE_DATE to be unreliable
 				// we drop it under certain conditions
-				logger.warn(`discarding unreliable EXIF field "${EXIF_DATE_FIELD__CREATE_DATE}" on confirmed suspicion`, {
+				logger.log(`discarding unreliable EXIF field "${EXIF_DATE_FIELD__CREATE_DATE}" on confirmed suspicion`, {
 					SourceFile,
 					candidate_field,
 					min_date_origin_field,

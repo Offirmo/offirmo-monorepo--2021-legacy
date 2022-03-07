@@ -85,6 +85,12 @@ export const get_params = memoize_once(function get_params(): Params {
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2011`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2012`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2013`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2014`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2015`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2016`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2017`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2018`),
+
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2019`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2020`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/- 2021`),
@@ -94,7 +100,7 @@ export const get_params = memoize_once(function get_params(): Params {
 			? {
 					//dry_run: true,
 					dry_run: false,
-					//expect_perfect_state: true,
+					//expect_perfect_state: true, // true = expect to be the 1st execution, no file should be already normalized
 					expect_perfect_state: false,
 				}
 			: {
@@ -150,6 +156,7 @@ export const get_params = memoize_once(function get_params(): Params {
 		default_timezones: [
 			// if no time zone, infer it according to this timetable
 			// Expected to be in order
+			// REMINDER month = 0-based
 			{
 				date_utc_ms: Number(Date.UTC(date_lower_boundⳇₓyear, 0)),
 				new_default: TZONE_FR,
@@ -160,6 +167,14 @@ export const get_params = memoize_once(function get_params(): Params {
 			},
 			{
 				date_utc_ms: Number(Date.UTC(2010, 6, 8)),
+				new_default: TZONE_FR,
+			},
+			{
+				date_utc_ms: Number(Date.UTC(2015, 4, 19, 11)),
+				new_default: 'America/Sao_Paulo',
+			},
+			{
+				date_utc_ms: Number(Date.UTC(2015, 5, 14, 21)),
 				new_default: TZONE_FR,
 			},
 			{

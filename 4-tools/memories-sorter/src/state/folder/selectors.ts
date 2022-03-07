@@ -167,7 +167,7 @@ export const get_event_range = micro_memoize(function _get_event_range(state: Im
 	}
 
 	if (is_range_too_big) {
-		logger.info(
+		logger.debug(
 			`${LIB} folder: date range too big but basename is intentful: event end date will be capped at +${PARAMS.max_event_durationⳇₓday}d`, {
 				id: state.id,
 				new_event_begin_date: BetterDateLib.get_debug_representation(event_begin_date),

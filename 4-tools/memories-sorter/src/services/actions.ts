@@ -121,10 +121,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 						if (should_delete_asap) {
 							const abs_path_target = DB.get_absolute_path(db, path.join(id, basename))
 							if (PARAMS.dry_run) {
-								logger.verbose(`encountered trash, DRY RUN would have deleted it`, { basename })
+								logger.verbose(`✍️ encountered trash, DRY RUN would have deleted it`, { basename })
 							}
 							else {
-								logger.verbose(`encountered trash, cleaning it…`, { basename })
+								logger.verbose(`✍️ encountered trash, cleaning it…`, { basename })
 								pending_tasks.push(fs_extra.remove(abs_path_target))
 							}
 							return
@@ -217,7 +217,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		const split_path = id.split(path.sep)
 		const depth = split_path.length
 		logger.trace(`[Action] initiating ensure_folder "${id}"…`, { depth })
-		logger.verbose(`- ensuring dir "${id}" exists…`)
+		logger.verbose(`- ✍️ ensuring dir "${id}" exists…`)
 
 		assert(
 			split_path[0] !== SPECIAL_FOLDERⵧINBOX__BASENAME || id === SPECIAL_FOLDERⵧINBOX__BASENAME,
@@ -250,7 +250,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				//logger.warn('ensure_folder(): folder already exists in fs?', { id })
 			}
 			else if (PARAMS.dry_run) {
-				logger.verbose('DRY RUN would have created folder: ' + id)
+				logger.verbose('✍️ DRY RUN would have created folder: ' + id)
 			}
 			else {
 				logger.log(`💾 mkdirp("${abs_path}")`)
@@ -276,7 +276,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function delete_file(id: RelativePath): Promise<void> {
 		logger.trace(`[Action] initiating  "${id}"…`)
-		logger.verbose(`- deleting file "${id}"…`)
+		logger.verbose(`- ✍️ deleting file "${id}"…`)
 
 		try {
 			const abs_path = DB.get_absolute_path(db, id)
@@ -300,7 +300,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 	async function persist_notes(folder_path: RelativePath = '.', data: Immutable<Notes.State> | undefined): Promise<void> {
 		logger.trace(`[Action] initiating persist_notes "${folder_path}"…`)
-		logger.verbose(`- persisting notes into "${folder_path}"…`)
+		logger.verbose(`- ✍️ persisting notes into "${folder_path}"…`)
 
 		data = data ?? DB.get_past_and_present_notes(db)
 		const relative_path = path.join(folder_path, NOTES_BASENAME_SUFFIX_LC)
@@ -440,15 +440,15 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 			if (File.get_current_basename(current_file_state) !== target_basename) {
 				_report.file_renamings[id] = target_basename
-				logger.info(`about to normalize:rename "${id}" to "${target_id}"…`)
+				logger.verbose(`✍️ about to normalize:rename "${id}" to "${target_id}"…`)
 			}
 			if (File.get_current_parent_folder_id(current_file_state) !== target_folder) {
 				_report.file_moves[id] = target_folder
-				logger.info(`about to normalize:move "${id}" to "${target_id}"…`)
+				logger.verbose(`✍️ about to normalize:move "${id}" to "${target_id}"…`)
 			}
 
 			if (PARAMS.dry_run) {
-				logger.info(`DRY RUN would have renamed/moved "${id}" to "${target_id}"`)
+				logger.verbose(`✍️ DRY RUN would have renamed/moved "${id}" to "${target_id}"`)
 			}
 			else {
 				//logger.trace(`about to rename/move "${id}" to "${target_id}"…`)
@@ -518,10 +518,10 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			}
 
 			if (is_moving) {
-				logger.verbose(`- [MTIL] about to move file "${id}" to DIFFERENT ideal location "${target_id}"…`)
+				logger.verbose(`- ✍️ [MTIL] about to move file "${id}" to DIFFERENT ideal location "${target_id}"…`)
 			}
 			else {
-				logger.verbose(`- [MTIL] about to rename file in-place from "${parsed.base}" to DIFFERENT ideally "${parsed_target.base}"…`)
+				logger.verbose(`- ✍️ [MTIL] about to rename file in-place from "${parsed.base}" to DIFFERENT ideally "${parsed_target.base}"…`)
 			}
 
 			/* TODO ?
