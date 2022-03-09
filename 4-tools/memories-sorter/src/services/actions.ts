@@ -217,7 +217,6 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		const split_path = id.split(path.sep)
 		const depth = split_path.length
 		logger.trace(`[Action] initiating ensure_folder "${id}"…`, { depth })
-		logger.verbose(`- ✍️ ensuring dir "${id}" exists…`)
 
 		assert(
 			split_path[0] !== SPECIAL_FOLDERⵧINBOX__BASENAME || id === SPECIAL_FOLDERⵧINBOX__BASENAME,
@@ -253,6 +252,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 				logger.verbose('✍️ DRY RUN would have created folder: ' + id)
 			}
 			else {
+				logger.verbose(`- ✍️ creating dir "${id}"…`)
 				logger.log(`💾 mkdirp("${abs_path}")`)
 				await util.promisify(fs_extra.mkdirp)(abs_path)
 				if (DB.is_folder_existing(db, id)) {
@@ -355,7 +355,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 		assert(current_file_state, `_intelligently_normalize_file_basename_sync() should have current_file_state "${id}"`)
 
 		let copy_marker: 'none' | 'preserve' | number = 'none'
-		let target_basename = File.get_ideal_basename(current_file_state, { copy_marker })
+		let target_basename: Basename = '(pending)'
 
 		// there will be a change, ensure there is no conflict:
 		const abs_pathⵧcurrent = DB.get_absolute_path(db, id)
@@ -409,6 +409,7 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			})*/
 
 			// not free, try an alternative basename
+			// TODO seen cases of copy markers looping, investigate and fix
 			switch (copy_marker) {
 				case 'none':
 					copy_marker = 'preserve'
@@ -737,7 +738,11 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 
 export function get_report_to_string(): string {
 
-	const raw_report = JSON.stringify(_report, null, '\t');
+
+
+	let report = ''
+
+	report += 'Action report: ' + JSON.stringify(_report, null, '\t')
 
 	const counts = JSON.stringify(
 		Object.fromEntries(
@@ -759,5 +764,16 @@ export function get_report_to_string(): string {
 		'\t'
 	)
 
-	return 'Action report: ' + raw_report + '\nAggregated counters:' + counts
+	report += '\nAggregated counters:' + counts
+
+	if (_report.file_count) {
+		const total_duration_ms = Object.values(_report.phases_duration_ms).reduce(
+			(previousValue, currentValue) => previousValue + currentValue,
+			0,
+		)
+
+		report += `\nSpeed: ${_report.file_count} files in ${total_duration_ms}ms = ${total_duration_ms/_report.file_count} ms/file`
+	}
+
+	return report
 }

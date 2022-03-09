@@ -102,7 +102,6 @@ export function on_subfile_found(state: Immutable<State>, file_state: Immutable<
 	// NO! We don't know whether new files will be added! (ex. new folders created during the sorting phase)
 }
 
-// TODO one day take the majority?
 function _aggregate_tz(state: Immutable<State>, date: Immutable<BetterDateLib.BetterDate>): Immutable<State> {
 	const previous_aggregated_tz = state.media_children_aggregated_tz
 	const candidate_tz = BetterDateLib.get_embedded_timezone(date)
@@ -116,7 +115,7 @@ function _aggregate_tz(state: Immutable<State>, date: Immutable<BetterDateLib.Be
 	if (!date._has_explicit_timezone)
 		return state
 	if (previous_aggregated_tz === 'tz:auto')
-		return state
+		return state // already conflict, nothing we can do better
 
 	if (previous_aggregated_tz === candidate_tz) {
 		// ideal case, same tz
@@ -128,15 +127,29 @@ function _aggregate_tz(state: Immutable<State>, date: Immutable<BetterDateLib.Be
 			return candidate_tz
 
 		// tz conflict!
-		// default to 'auto'
-		logger.warn(`${LIB} aggregated tz: discrepancies inside a folder, defaulting to "auto"`, {
-			id: state.id,
-			previous_aggregated_tz,
-			candidate_tz,
-		})
+		// we must either choose one or default to "auto"
 
+		// In my own photos, taken with the same camera at the same time
+		// I curiously see conflicts such as "Australia/Sydney" vs "UTC+10" ???
+		// The "UTC+X" is always the worst choice in this case.
+		// (TODO investigate this strange issue)
+		if (candidate_tz.startsWith('UTC+'))
+			return previous_aggregated_tz
+		if (previous_aggregated_tz.startsWith('UTC+'))
+			return candidate_tz
+
+		// no way to discriminate, default to 'auto'
+		// TODO one day take into account the majority?
 		return 'tz:auto'
 	})()
+
+	if (previous_aggregated_tz)
+	logger.warn(`${LIB} aggregated tz: discrepancies inside a folder!`, {
+		id: state.id,
+		'1-prev': previous_aggregated_tz,
+		'2-candidate': candidate_tz,
+		'3-final': new_aggregated_tz,
+	})
 
 	logger.debug(
 		`${ LIB } updating folder’s aggregated tz`,

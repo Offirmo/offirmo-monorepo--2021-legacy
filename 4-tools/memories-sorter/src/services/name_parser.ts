@@ -63,7 +63,7 @@ export const normalize_extension = micro_memoize(function get_normalized_extensi
 	assert(extension[0] === '.', `get_normalized_extension('${extension}') param should starts with dot`)
 
 	let normalized_extension = extension
-	normalized_extension = NORMALIZERS.normalize_unicode(normalized_extension) // useful?
+	normalized_extension = NORMALIZERS.normalize_unicode(normalized_extension) // useful? never hurts…
 	normalized_extension = normalized_extension.toLowerCase()
 	normalized_extension = PARAMS.extensions_to_normalize‿lc[normalized_extension] || normalized_extension
 
