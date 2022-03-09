@@ -11,23 +11,27 @@ import {
 	ALL_SAMPLES,
 } from '../__test_shared/filenames'
 import {
+	DigitsParseResult,
+	ParseResult,
 	_get_y2k_year_from_fragment,
 	_parse_digit_blocks,
-	DigitsParseResult,
-	parse,
-	ParseResult,
-	get_file_basename_copy_index,
 	get_digit_pattern,
-	get_media_basename_normalisation_version, is_processed_media_basename, is_normalized_media_basename,
-	get_folder_relpath_normalisation_version, is_normalized_event_folder_relpath,
-	get_folder_basename_normalisation_version, is_folder_basename__matching_a_processed_event_format,
+	get_file_basename_copy_index,
+	get_folder_basename_normalisation_version,
+	get_folder_relpath_normalisation_version,
+	get_media_basename_normalisation_version,
+	is_folder_basename__matching_a_processed_event_format,
+	is_normalized_event_folder_relpath,
+	is_normalized_media_basename,
+	is_processed_media_basename,
+	parse,
 } from './name_parser'
 import {
-	get_human_readable_timestamp_auto,
-	get_embedded_timezone,
 	BetterDate,
-	create_better_date,
 	_clean_debug,
+	create_better_date,
+	get_embedded_timezone,
+	get_human_readable_timestamp_auto,
 } from './better-date'
 import { Immutable } from '@offirmo-private/ts-types'
 
@@ -289,7 +293,7 @@ describe(`${LIB} - (base)name parser`, function() {
 
 		describe('removal of non meaningful parts', function () {
 			const filenames = Object.keys(NON_MEANINGFUL_NAMES_SAMPLES)
-			//.slice(1) // TEMP XXDCU
+			//.slice(1)
 
 			filenames.forEach(filename => {
 				const expected = NON_MEANINGFUL_NAMES_SAMPLES[filename]
@@ -303,6 +307,64 @@ describe(`${LIB} - (base)name parser`, function() {
 					).to.equal('foo')
 					expect(result.date).to.be.undefined
 				})
+			})
+
+			describe('bugs, special cases', function () {
+
+				it('should properly remove the copy marker from the meaningful part', () => {
+					// real case seen: Image from iOS (1)(1).jpg
+
+					const expected_result: ParseResult = {
+						original_name: 'Image from iOS (2)(1).jpg',
+
+						extension_lc: '.jpg',
+						date_digits: undefined,
+						digits_pattern: undefined,
+						date: undefined,
+						is_date_ambiguous: undefined,
+						meaningful_part: 'Image from iOS',
+
+						copy_index: 2,
+					}
+
+					const result = _clean_parse_result(
+						parse('Image from iOS (2)(1).jpg', { type: 'file' })
+					)
+
+					expect(result).to.deep.equal(expected_result)
+				})
+
+				/*
+				it('should properly remove the copy marker from the meaningful part', () => {
+					// real case seen: MM2019-06-21_14h19m22_Image from iOS (1).jpg
+
+					const expected_result: ParseResult = {
+						original_name: 'MM2019-06-21_14h19m22_Image from iOS (1).jpg',
+
+						extension_lc: '.jpg',
+						date_digits: '20190621141922',
+						digits_pattern: 'xxxx-xx-xx_xxhxxmxx',
+						date: _clean_debug(create_better_date_obj({
+							year: 2019,
+							month: 6,
+							day: 21,
+							hour: 14,
+							minute: 19,
+							second: 22,
+							tz: 'tz:auto',
+						})),
+						is_date_ambiguous: false,
+						meaningful_part: 'Image from iOS',
+
+						copy_index: 1,
+					}
+
+					const result = _clean_parse_result(
+						parse('MM2019-06-21_14h19m22_Image from iOS (1).jpg', { type: 'file' })
+					)
+
+					expect(result).to.deep.equal(expected_result)
+				})*/
 			})
 		})
 

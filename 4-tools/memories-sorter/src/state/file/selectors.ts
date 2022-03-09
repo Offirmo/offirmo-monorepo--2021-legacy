@@ -858,7 +858,7 @@ export function get_best_tz(state: Immutable<State>): TimeZone {
 		|| BetterDateLib.get_embedded_timezone(get_best_creation_date‿meta(state).candidate)
 }
 
-// TODO now: allow to suggest a tz?
+// TODO: allow to suggest a tz?
 export function get_best_creation_date(state: Immutable<State>): BetterDate {
 	const meta = get_best_creation_date‿meta(state)
 	return meta.candidate

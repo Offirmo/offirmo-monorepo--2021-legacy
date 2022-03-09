@@ -275,7 +275,10 @@ export function get_ideal_file_relative_path(state: Immutable<State>, id: FileId
 	if (!get_params().dry_run) {
 		const current_basename = File.get_current_basename(file_state)
 		const current_basename_cleaned = get_file_basename_without_copy_index(current_basename)
-		assert(current_basename_cleaned === ideal_basename, `get_ideal_file_relative_path() file should already have been normalized in place! ideal="${ideal_basename}" vs current(no copy index)="${current_basename_cleaned}" from "${current_basename}"`)
+		assert(
+			current_basename_cleaned === ideal_basename,
+			`get_ideal_file_relative_path() file should already have been normalized in place! ideal="${ideal_basename}" vs current(no copy index)="${current_basename_cleaned}" from "${current_basename}"`
+		)
 	}
 
 	return path.join(get_ideal_file_relative_folder(state, id), ideal_basename)

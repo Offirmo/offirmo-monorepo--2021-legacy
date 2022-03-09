@@ -545,18 +545,26 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 	if (state.buffer.toUpperCase().startsWith('PHOTO ON'))
 		state.buffer = state.buffer.slice(0, 5) + state.buffer.slice(8)
 	// ends with "copies" We do it first to avoid the digits being interpreted as a date
-	state.buffer = Object.keys(NON_MEANINGFUL_ENDINGS_RE).reduce((acc, key) => {
-		const m = acc.toLowerCase().match(NON_MEANINGFUL_ENDINGS_RE[key])
-		//console.log(m)
-		if (m && m[0]) {
-			result.copy_index = Number(m.groups?.copy_index ?? 0)
-			acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
-			acc = acc.trim()
-			logger.trace('non meaningful part removed', { key, rgxp: NON_MEANINGFUL_ENDINGS_RE[key], m, cleaned: acc })
-		}
-		return acc
-	}, state.buffer)
+	// Note that we've seen files with multiple copy markers 🤦‍ so need to run several times
+	// (if multiple copy markers, last one encountered will win)
+	let non_meaningful_part_removed = false
 	state.buffer = state.buffer.trim()
+	do {
+		non_meaningful_part_removed = false // so far
+
+		state.buffer = Object.keys(NON_MEANINGFUL_ENDINGS_RE).reduce((acc, key) => {
+			const m = acc.toLowerCase().match(NON_MEANINGFUL_ENDINGS_RE[key])
+			//console.log(m)
+			if (m && m[0]) {
+				result.copy_index = Number(m.groups?.copy_index ?? 0)
+				acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
+				acc = acc.trim()
+				logger.trace('non meaningful part removed', { key, rgxp: NON_MEANINGFUL_ENDINGS_RE[key], m, cleaned: acc })
+				non_meaningful_part_removed = true
+			}
+			return acc
+		}, state.buffer)
+	} while (non_meaningful_part_removed)
 
 	DEBUG  && logger.silly('after buffer cleanup', { state, result: _get_ParseResult_debug_representation(result) })
 

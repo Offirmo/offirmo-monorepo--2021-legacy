@@ -974,6 +974,10 @@ export const NON_MEANINGFUL_NAMES_SAMPLES: { [k: string]: NameDetails } = [
 	'foo - Copie.jpg',
 	'foo - copie 7.jpg',
 	'foo copie.jpg',
+
+	// multiple copy markers
+	'foo (3)(1).jpg', // seen
+	'Copy of foo (2) - copy.jpg',
 ].reduce((acc, val, index) => {
 	acc[val] = {
 		// ParseResult
@@ -984,7 +988,7 @@ export const NON_MEANINGFUL_NAMES_SAMPLES: { [k: string]: NameDetails } = [
 		is_date_ambiguous: undefined,
 		meaningful_part: 'foo',
 		digit_blocks: '',
-		copy_index: [,,, 3, 0,0,4, 0,0,3, 0,0,0,3, 0,0,7,0][index],
+		copy_index: [,,, 3, 0,0,4, 0,0,3, 0,0,0,3, 0,0,7,0, 3,2][index],
 	}
 	return acc
 }, {} as { [k: string]: NameDetails })
