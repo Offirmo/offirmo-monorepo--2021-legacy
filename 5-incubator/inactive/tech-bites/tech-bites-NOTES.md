@@ -20,6 +20,14 @@ Senior Dev tips!
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
 
+
+In the future I plan on avoiding these mistakes by asking myself two questions:
+    Why am I doing this?
+and then more importantly,
+    What is the evidence that this actually needs to be done?
+https://ryanwarnock.me/blog/260222.html
+
+
 https://twitter.com/dan_abramov/status/1470613731071696896?lang=en
 
 how to build resilience

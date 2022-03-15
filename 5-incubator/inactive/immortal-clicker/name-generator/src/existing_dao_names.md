@@ -1,11 +1,18 @@
 
 ## RI
+All Seer
+Blood God
+Blue Sea
 Eight Extreme
+Greed
+Heavenly Flame
+Master Demon
+Shattered Dream
 Snow Rain
 Tiny Child
-Master Demon
-Heavenly Flame
-Shattered Dream
-Greed
-Blue Sea
+Flamespark
+Hollow Wind
+
+
+## ISSTH
 nine seals

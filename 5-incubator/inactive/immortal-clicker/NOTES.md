@@ -67,3 +67,26 @@ So yeah. I personally did this : ISSTH -> AWE/Ri/PoT (all 3 at the same time aft
 And remember, aside from PoT go read the rest in Wuxiaworld :) )
 
 EDIT : .....on 2nd thought, I just realised that if you began with Ri, you'll set your standards really high for the next novels.....so maybe you should do : ISSTH -> Ri-AWE-PoT? I dunno, you choose. (you just gtta know that basically evryone did the ISSTH -> Ri-AWE-PoT, but the real one is the one I mentioned at the top..fudge)
+
+
+Progression
+RI
+- Founadtion Establishment (7)
+- Core Fromation (19)
+- Nascent Soul (26)
+- Soul Formation (37)
+- Soul Transformation (45)
+- Ascendant (61)
+- Illusory Yin cultivator (100)
+- Corporeal Yang
+- Nirvana Scryer (+400)
+- Nirvana Cleanser (+300)
+- Nirvana Shaterrer (+500)
+- Heaven's blight
+- (3rd step = 4 void realms)
+- Nirvana Void
+- Spirit Void
+- Arcane Void
+- Void Tribulant
+- (4th step)
+- Heaven Trampling
