@@ -1,0 +1,23 @@
+{
+	"name": "@immortal-clicker/client--browser",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com> (https://www.offirmo.net/)",
+	"license": "Unlicense",
+	"private": true,
+
+	"source": "src/index.html",
+
+	"scripts": {
+		"start": "parcel --log-level verbose",
+		"build": "parcel build --log-level verbose"
+	},
+
+	"dependencies": {
+	},
+
+	"devDependencies": {
+		"@parcel/config-default": "^2",
+		"@parcel/transformer-typescript-tsc": "^2",
+		"parcel": "^2"
+	}
+}
