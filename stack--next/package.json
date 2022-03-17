@@ -6,22 +6,20 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-
 	"heroku-run-build-script": false,
 	"engines": {
 		"node": "16.x"
 	},
-
 	"scripts": {
 		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && pwd && test -f Procfile && yarn global add bolt",
 		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && pwd && ls -l && bolt"
 	},
 	"bolt": {
 		"workspaces": [
+			"C-apps--clients/immortal-clicker/*"
 		]
 	},
-	"resolutions": {
-	},
+	"resolutions": {},
 	"comments": {
 		"01": "Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included!"
 	},
@@ -30,6 +28,7 @@
 		"zx": "^4"
 	},
 	"devDependencies": {
+		"parcel": "^2",
 		"typescript": "^4"
 	}
 }
