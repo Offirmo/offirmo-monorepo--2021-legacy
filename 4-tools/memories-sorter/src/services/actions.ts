@@ -454,6 +454,8 @@ export async function exec_pending_actions_recursively_until_no_more(db: Immutab
 			else {
 				//logger.trace(`about to rename/move "${id}" to "${target_id}"…`)
 
+				// TODO NOW fix unicode normalization?
+
 				// NO, we don't use the "move" action, we need to be sync for race condition reasons
 				try {
 					logger.log(`💾 move("${abs_pathⵧcurrent}", "${abs_pathⵧtarget}")`)
