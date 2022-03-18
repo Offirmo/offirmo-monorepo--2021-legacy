@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's html template v0.0.3 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's html template v2.0.0 -->
 
 <!-- maximum language hints to prevent Chrome from incorrectly suggesting a translation -->
-<html lang="en" xml:lang="en" class="o⋄top-container">
+<html lang="en" xml:lang="en" class="o⋄top-container" style="">
 
 <head>
 	<!-- https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML -->
@@ -10,30 +10,35 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="en" />
 	<!-- https://webkit.org/blog/7929/designing-websites-for-iphone-x/ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
 
-	<!-- OT⋄CUSTOM BEGIN meta description -->
-	<meta name="description" content="An HTML5 template as of 2021">
-	<meta name="keywords" content="HTML, template, CSS, JavaScript">
+	<!-- OT⋄CUSTOM BEGIN meta tags + open graph -->
+	<!-- Grouped as to allow copy/paste from https://metatags.io/ -->
+	<!-- Primary Meta Tags -->
+	<title>HTML5 template</title>
+	<meta name="title" content="HTML5 template">
+	<meta name="description" content="An HTML5 template as of 2022">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="TODO">
+	<meta property="og:title" content="An HTML5 template as of 2022">
+	<meta property="og:description" content="HTML, template, CSS, JavaScript">
+	<meta property="og:image" content="TODO">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="TODO">
+	<meta property="twitter:title" content="An HTML5 template as of 2022">
+	<meta property="twitter:description" content="HTML, template, CSS, JavaScript">
+	<meta property="twitter:image" content="TODO">
+	<!-- OT⋄CUSTOM END meta tags + open graph -->
+
+	<!-- OT⋄CUSTOM END extra meta tags -->
 	<meta name="author" content="Offirmo">
 	<!-- https://webmonetization.org/ -->
 	<meta name="monetization" content="$ilp.uphold.com/26PeD6EzMhYJ">
-	<!-- OT⋄CUSTOM END meta description -->
-
-	<!-- OT⋄CUSTOM BEGIN open graph -->
-	<!-- See: https://metatags.io/ -->
-	<!--
-	<meta property="og:title" content="'Adventurers' open-source illustration"/>
-	<meta property="og:url" content="https://www.online-adventur.es/apps/the-boring-rpg/"/>
-	<meta property="og:image" content="https://www.online-adventur.es/apps/the-boring-rpg/for-open-graph.jpg"/>
-	-->
-	<!-- OT⋄CUSTOM END open graph -->
-
-	<!-- OT⋄CUSTOM BEGIN twitter -->
-	<!-- TODO -->
-	<!-- OT⋄CUSTOM END twitter -->
-
-	<title>HTML5 template</title>
+	<!-- OT⋄CUSTOM END extra meta tags -->
 
 	<!-- OT⋄CUSTOM BEGIN favicons -->
 	<!-- See:
@@ -49,9 +54,18 @@
 	-->
 	<!-- OT⋄CUSTOM END favicons -->
 
+	<!-- OT⋄CUSTOM BEGIN app capability -->
+	<!--
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="TODO">
+	<meta name="apple-mobile-web-app-status-bar-style" content="white">
+	-->
+	<!-- OT⋄CUSTOM END app capability -->
+
 	<script>
-		// ensure trailing slash if necessary https://www.zachleat.com/web/trailing-slash/
-		// (optional) clean index.html
+		// immediately, synchronously ensure proper canonical url
+		// - proper trailing slash https://www.zachleat.com/web/trailing-slash/
+		// - (optional) clean index.html if unneeded
 		;(function _ensure_canonical_url(should_keep_index_html = true) {
 			const path_segment_after_last_slash = location.pathname.split('/').slice(-1)[0] || ''
 
@@ -103,13 +117,14 @@
 	<script>
 		// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
 		window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-		//ga('create', 'UA-70800748-3', 'auto');
-		//ga('send', 'pageview');
+		//ga('create', 'UA-XXXXX-Y', 'auto')
+		//ga('set', 'anonymizeIp', true)
+		//ga('set', 'transport', 'beacon')
+		//ga('send', 'pageview')
 	</script>
 	<!-- OT⋄CUSTOM END observability -->
 
 	<style>
-		@import "https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced--browser/ui--browser--css/dist/offirmo-reset%2Butils.css";
 		@import "./index.css";
 
 		/* OT⋄CUSTOM BEGIN early styles */

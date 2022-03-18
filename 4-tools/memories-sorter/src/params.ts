@@ -84,7 +84,7 @@ export const get_params = memoize_once(function get_params(): Params {
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/…me/…circa--2010/- 2016`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/…me/…circa--2010/- 2017`),
 		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/…me/…circa--2010/- 2018`),
-		root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/…me/…circa--2010/- 2019`),
+		//root: path.normalize(`/Users/${process.env.USER}/Dropbox/…documents/…memories/…me/…circa--2010/- 2019`),
 
 		...(false // WARNING true = local execution on author's machine, WARNING don't commit "true"
 			? {
