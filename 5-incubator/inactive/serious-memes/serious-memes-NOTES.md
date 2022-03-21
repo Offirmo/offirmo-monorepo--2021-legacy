@@ -75,10 +75,15 @@ tradeoffs / can't have everything
 who moved my cheese?
 être heureux n'est pas nécessairement confortable
 Irredentism https://www.reddit.com/r/history/comments/sji919/is_there_a_term_for_this_phenomenon/
+psychological safety
 
 Tools
 https://en.wikipedia.org/wiki/Johari_window
 time management
+https://www.mindtools.com/pages/article/newHTE_91.htm
 
 Wisdom
 Trust, but verify
+
+
+https://cobeats.com/folder/ryfTgPr9H

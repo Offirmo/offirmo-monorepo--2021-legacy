@@ -22,6 +22,7 @@
 		"@offirmo/universal-debug-api-browser": "^1",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/assets--cursors": "^0",
+		"@oh-my-rpg/ui--browser--css": "^0",
 		"classnames": "^2",
 		"dequal": "^2",
 		"emittery": "^0.8",

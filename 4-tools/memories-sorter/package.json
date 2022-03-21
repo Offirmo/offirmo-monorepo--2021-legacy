@@ -18,7 +18,7 @@
 		"@offirmo/universal-debug-api-node": "^0",
 		"async": "^3",
 		"cli-progress": "^3",
-		"exiftool-vendored": "^15",
+		"exiftool-vendored": "^16",
 		"fs-extra": "^10",
 		"hasha": "^5",
 		"json-stable-stringify": "^1",

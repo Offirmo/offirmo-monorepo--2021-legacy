@@ -25,7 +25,7 @@
 	},
 	"dependencies": {
 		"bolt": "^0.24",
-		"zx": "^4"
+		"zx": "^6"
 	},
 	"devDependencies": {
 		"@parcel/config-default": "^2",

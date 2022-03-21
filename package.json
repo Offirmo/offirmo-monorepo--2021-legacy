@@ -83,7 +83,7 @@
 		"deepmerge": "^4",
 		"dequal": "^2",
 		"emittery": "^0.8",
-		"exiftool-vendored": "^15",
+		"exiftool-vendored": "^16",
 		"express": "^4",
 		"favico.js": "^0.3",
 		"fetch-inject": "^2",
@@ -153,7 +153,7 @@
 		"utimes": "^4",
 		"webextension-polyfill-ts": "^0",
 		"write-json-file": "^4",
-		"zx": "^4"
+		"zx": "^6"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7",
@@ -228,7 +228,7 @@
 		"prettyjson": "^1",
 		"raf-stub": "^3",
 		"serve": "^13",
-		"sinon": "^12",
+		"sinon": "^13",
 		"sinon-chai": "^3",
 		"size-limit": "^5",
 		"storybook-addon-grid": "^0",

@@ -1,5 +1,5 @@
 // THIS FILE IS AUTO GENERATED!
-// 2022-01-27T21:32:10.651Z
+// 2022-03-18T10:34:36.826Z
 
 import { Immutable } from '@offirmo-private/ts-types'
 
@@ -26,19 +26,7 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	},
 	{
 		biome_id: BiomeId.terrestrialⵧcave,
-		basename: '521009803dbf91a03b387327a21b_small.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧcave,
 		basename: '75aafd31ff0951117802f6fa5111.jpeg',
-		features_settlement: false,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧcave,
-		basename: '8207aee7a0a76388b791e78eb668.jpeg',
 		features_settlement: false,
 		transitions_to: null,
 	},
@@ -1173,12 +1161,6 @@ export const BACKGROUNDS: Immutable<Background[]> = [
 	{
 		biome_id: BiomeId.terrestrialⵧgrassland,
 		basename: '9ad36942722b78c7da775785ce1d.jpeg', subfolder: 'settlements',
-		features_settlement: true,
-		transitions_to: null,
-	},
-	{
-		biome_id: BiomeId.terrestrialⵧgrassland,
-		basename: 'c10d14f675a144bfac04a9b18ea1.jpeg', subfolder: 'settlements',
 		features_settlement: true,
 		transitions_to: null,
 	},
