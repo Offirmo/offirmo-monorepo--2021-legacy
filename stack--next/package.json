@@ -23,8 +23,11 @@
 		"C-apps--clients/immortal-clicker/*"
 	],
 	"dependencies": {
+		"chalk": "^5",
+		"fs-extra": "^10",
 		"lodash": "^4",
-		"path-exists": "^4",
+		"meow": "^10",
+		"path-exists": "^5",
 		"tildify": "^3",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
@@ -36,9 +39,6 @@
 		"@parcel/packager-ts": "^2",
 		"@parcel/transformer-typescript-tsc": "^2",
 		"@parcel/transformer-typescript-types": "^2",
-		"chalk": "^5",
-		"fs-extra": "^10",
-		"meow": "^9",
 		"npm-run-all": "^4",
 		"parcel": "^2",
 		"typescript": "^4",

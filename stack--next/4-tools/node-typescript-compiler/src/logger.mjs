@@ -1,9 +1,12 @@
 // TODO use a proper logger
 
+import path from 'node:path'
 import { promises as fs } from 'node:fs'
 
-import { LIB } from './consts'
-const { version } = JSON.parse(await fs.readFile('../package.json'))
+import { LIB, __dirname } from './consts.mjs'
+
+///////
+const { version } = JSON.parse(await fs.readFile(path.join(__dirname, '..', 'package.json')))
 
 
 let banner = `[${LIB}] v${version}:`

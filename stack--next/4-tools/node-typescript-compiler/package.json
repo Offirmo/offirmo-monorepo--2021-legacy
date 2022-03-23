@@ -4,19 +4,23 @@
 	"description": "Exposes typescript compiler (tsc) as a node.js module",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
+
+
+	"type": "module",
 	"sideEffects": false,
+	"exports": "./src/index.mjs",
+	"source": "./src/index.mjs",
 
 	"engines": {
 		"npm": ">=3"
 	},
 
-	"main": "src/index.js",
 
 	"peerDependencies": {
 	},
 	"dependencies": {
 		"lodash": "^4",
-		"path-exists": "^4",
+		"path-exists": "^5",
 		"tildify": "^3"
 	},
 
@@ -25,7 +29,7 @@
 	},
 	"scripts": {
 		"np": "np --no-publish",
-		"test": "./test/test.js"
+		"test": "node --experimental-import-meta-resolve ./test/test.mjs"
 	},
 
 	"files": [

@@ -2,14 +2,17 @@
 
 ///////////////////////////////////////////////////////
 
-const path = require('path')
-const { spawn } = require('child_process')
-const tildify = require('tildify')
-const { flatten, map, split, isArray } = require('lodash')
+import path from 'node:path'
+import { spawn } from 'node:child_process'
 
-const { EXECUTABLE, find_tsc } = require('./find-tsc')
-const { LIB } = require('./consts')
-const { set_banner, display_banner_if_1st_output } = require('./logger')
+import tildify from 'tildify'
+import _ from 'lodash'
+const { flatten, map, split, isArray } = _ // 2022/03 lodash is still commonjs
+
+
+import { EXECUTABLE, find_tsc } from './find-tsc.mjs'
+import { LIB } from './consts.mjs'
+import { set_banner, display_banner_if_1st_output } from './logger.mjs'
 
 ///////////////////////////////////////////////////////
 
@@ -20,7 +23,7 @@ const RADIX = EXECUTABLE
 
 ///////////////////////////////////////////////////////
 
-function compile(tscOptions, files, options) {
+export async function compile(tscOptions, files, options) {
 	tscOptions = tscOptions || {}
 	files = files || []
 	options = options || {}
@@ -160,12 +163,6 @@ function compile(tscOptions, files, options) {
 		if (options.verbose) console.log(`[${LIB}] ✔ executed successfully.`)
 		return stdout
 	})
-}
-
-///////////////////////////////////////////////////////
-
-module.exports = {
-	compile,
 }
 
 ///////////////////////////////////////////////////////

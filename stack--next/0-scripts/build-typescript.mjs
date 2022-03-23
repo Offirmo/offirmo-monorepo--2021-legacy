@@ -1,5 +1,5 @@
 #!/bin/sh
-':' //# https://sambal.org/?p=1014 ; exec /usr/bin/env node "$0" "$@"
+':' //# https://sambal.org/?p=1014 ; exec /usr/bin/env node --experimental-import-meta-resolve "$0" "$@"
 'use strict';
 
 import { fileURLToPath } from 'node:url'

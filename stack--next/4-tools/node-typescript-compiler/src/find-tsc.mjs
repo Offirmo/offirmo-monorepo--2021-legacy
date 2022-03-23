@@ -1,16 +1,17 @@
 'use strict'
 
 import path from 'node:path'
+import {fileURLToPath} from 'node:url'
 import os from 'node:os'
 
-import path_exists from 'path-exists'
+import { pathExists } from 'path-exists'
 
-import { LIB } from './consts'
-import { display_banner_if_1st_output } from './logger'
+import { LIB, __dirname } from './consts.mjs'
+import { display_banner_if_1st_output } from './logger.mjs'
 
 export const EXECUTABLE = 'tsc'
 
-export function find_tsc() {
+export async function find_tsc() {
 
 	// obvious candidate from sibling module,
 	// but won't work if symlinked, with npm link for ex. or with npm-pkgr
@@ -22,12 +23,14 @@ export function find_tsc() {
 		path.join(process.cwd(), 'node_modules', 'typescript', 'bin', EXECUTABLE)
 
 	// 3rd
-	let candidate_from_require = null
+	let candidate_from_import = null
 	try {
-		candidate_from_require = path.dirname(require.resolve('typescript'))
-		candidate_from_require = path.join(candidate_from_require, '..', 'bin', EXECUTABLE)
+		candidate_from_import = path.dirname(fileURLToPath(await import.meta.resolve('typescript')))
+		candidate_from_import = path.join(candidate_from_import, '..', 'bin', EXECUTABLE)
 	}
-	catch(err) { /* not found, ignore */ }
+	catch(err) { /* not found, ignore */
+		console.log('from import', err)
+	}
 
 	// last try: defaulting to an eventual global typescript module
 	// (using nvm on OSX)
@@ -35,8 +38,8 @@ export function find_tsc() {
 	// TODO other OSes?
 
 
-	function candidate_if_exists(candidate) {
-		return path_exists(candidate)
+	async function candidate_if_exists(candidate) {
+		return pathExists(candidate)
 			.then(exists => {
 				if (!exists)
 					throw new Error(`Couldn’t find candidate typescript compiler "${candidate}"!`)
@@ -46,14 +49,14 @@ export function find_tsc() {
 
 	return candidate_if_exists(candidate_from_sibling_module)
 		.catch(() => candidate_if_exists(candidate_from_caller_node_module))
-		.catch(() => candidate_if_exists(candidate_from_require))
+		.catch(() => candidate_if_exists(candidate_from_import))
 		.catch(() => candidate_if_exists(candidate_from_global))
 		.catch(() => {
 			display_banner_if_1st_output()
 			console.error(`[${LIB}] ❌ Couldn’t find a typescript compiler ("${EXECUTABLE}") in any expected locations. Unsuccessfully tested locations, by priority:
 - ${candidate_from_sibling_module} ❌ not found
 - ${candidate_from_caller_node_module} ❌ not found
-- ${candidate_from_require} (from require('typescript')) ❌ not found
+- ${candidate_from_import} (from require('typescript')) ❌ not found
 - ${candidate_from_global} ❌ not found
 `)
 			throw new Error(`Couldn’t find the "${EXECUTABLE}" typescript compiler in any expected locations!`)

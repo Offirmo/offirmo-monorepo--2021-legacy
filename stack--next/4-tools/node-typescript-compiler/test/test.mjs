@@ -2,7 +2,7 @@
 ':' //# https://sambal.org/?p=1014 ; exec /usr/bin/env node "$0" "$@"
 "use strict";
 
-const tsc = require('..')
+import tsc from '../src/index.mjs'
 
 console.log('TEST: tsc exported =', tsc)
 
