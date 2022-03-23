@@ -1,0 +1,43 @@
+{
+	"name": "node-typescript-compiler",
+	"version": "3.0.0",
+	"description": "Exposes typescript compiler (tsc) as a node.js module",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"sideEffects": false,
+
+	"engines": {
+		"npm": ">=3"
+	},
+
+	"main": "src/index.js",
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"lodash": "^4",
+		"path-exists": "^4",
+		"tildify": "^3"
+	},
+
+	"devDependencies": {
+		"np": "^7"
+	},
+	"scripts": {
+		"np": "np --no-publish",
+		"test": "./test/test.js"
+	},
+
+	"files": [
+		"src"
+	],
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/node-typescript-compiler",
+	"keywords": [
+		"hello",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/node-typescript-compiler",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
+}

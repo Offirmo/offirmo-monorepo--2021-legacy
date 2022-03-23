@@ -6,38 +6,38 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-
 	"heroku-run-build-script": false,
 	"engines": {
 		"node": "16.x"
 	},
-
 	"COMMENTS": {
 		"01": "dependencies: Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included!"
 	},
-
 	"scripts": {
 		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && pwd && test -f Procfile",
 		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && pwd && ls -l"
 	},
-
-	"bolt": {
-		"workspaces": [
-			"C-apps--clients/immortal-clicker/*"
-		]
-	},
-
+	"workspaces": [
+		"0-scripts",
+		"A-apps--core/immortal-clicker/*",
+		"C-apps--clients/immortal-clicker/*"
+	],
 	"dependencies": {
+		"lodash": "^4",
+		"path-exists": "^4",
+		"tildify": "^3",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
+		"@microsoft/rush": "^5.63.0",
 		"@parcel/config-default": "^2",
 		"@parcel/packager-ts": "^2",
 		"@parcel/transformer-typescript-tsc": "^2",
 		"@parcel/transformer-typescript-types": "^2",
-		"bolt": "^0.24",
+		"chalk": "^5",
+		"fs-extra": "^10",
 		"meow": "^9",
 		"npm-run-all": "^4",
 		"parcel": "^2",
