@@ -6,33 +6,43 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
+
 	"heroku-run-build-script": false,
 	"engines": {
 		"node": "16.x"
 	},
-	"scripts": {
-		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && pwd && test -f Procfile && yarn global add bolt",
-		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && pwd && ls -l && bolt"
+
+	"COMMENTS": {
+		"01": "dependencies: Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included!"
 	},
+
+	"scripts": {
+		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && pwd && test -f Procfile",
+		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && pwd && ls -l"
+	},
+
 	"bolt": {
 		"workspaces": [
 			"C-apps--clients/immortal-clicker/*"
 		]
 	},
-	"resolutions": {},
-	"comments": {
-		"01": "Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included!"
-	},
+
 	"dependencies": {
-		"bolt": "^0.24",
-		"zx": "^6"
+		"tiny-invariant": "^1",
+		"tslib": "^2",
+		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
 		"@parcel/config-default": "^2",
 		"@parcel/packager-ts": "^2",
 		"@parcel/transformer-typescript-tsc": "^2",
 		"@parcel/transformer-typescript-types": "^2",
+		"bolt": "^0.24",
+		"meow": "^9",
+		"npm-run-all": "^4",
 		"parcel": "^2",
-		"typescript": "^4"
-	}
+		"typescript": "^4",
+		"zx": "^6"
+	},
+	"resolutions": {}
 }

@@ -19,10 +19,34 @@ Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue
 ## Technical details
 
 ### PENDING updates
+- ES2022
 - TODO full ES6 https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c#how-can-i-move-my-commonjs-project-to-esm
 - 2022/10/25 oldest active LTS node 16 → 18  https://nodejs.org/en/about/releases/
-- ??? webpack release 5 → 6  https://github.com/webpack/webpack/milestones
+- ??? webpack release 5 → 6  https://github.com/webpack/webpack/milestones  https://webpack.js.org/blog/
 - TODO get rid of netlify-lambda!!
+
+
+### update 2022-03-21
+Check = no change
+
+Updated state:
+* latest ES = [ES2021](https://en.wikipedia.org/wiki/ECMAScript#Versions)
+* oldest active LTS node = [16](https://nodejs.org/en/about/releases/)
+* latest ES supported by this node LTS = [ES2021](https://node.green/#ES2022)
+* latest ES syntax supported by Webpack (= Acorn supports it + webpack bumped Acorn) = ES2021
+  * latest webpack version = [5](https://webpack.js.org/)
+  * version of Acorn in this webpack version = [^8](https://github.com/webpack/webpack/blob/master/package.json)
+  * latest ES syntax supported by this Acorn = [2021](https://github.com/acornjs/acorn/tree/master/acorn)
+* (special use) latest ES syntax supported by netlify-lambda = ES2019
+  * latest netlify-lambda version = [2.0.15](https://github.com/netlify/netlify-lambda)
+  * version of webpack in this version = [4](https://github.com/netlify/netlify-lambda/blob/master/package.json)
+  * version of Acorn in this webpack version = [^6](https://github.com/webpack/webpack/blob/webpack-4/package.json)
+  * latest ES syntax supported by this Acorn = ~[2019](https://github.com/acornjs/acorn/tree/6.x/acorn)
+* FYI compilers/polyfills https://kangax.github.io/compat-table/es2016plus/
+
+= latest supported node = 16
+= latest convenient ES = 2019
+
 
 ### update 2021-10-12 (slightly early switch to node 16)
 - ~2021/06 new ES 2020 → 2021
@@ -31,7 +55,7 @@ Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue
 Updated state:
 * latest ES = [ES2021](https://en.wikipedia.org/wiki/ECMAScript#Versions)    ___⬅CHANGE___
 * oldest active LTS node = [16](https://nodejs.org/en/about/releases/)    ___⬅CHANGE___
-* latest ES supported by this node LTS = [ES2022](https://node.green/#ES2022)   ___⬅CHANGE___
+* latest ES supported by this node LTS = [ES2021](https://node.green/#ES2021)   ___⬅CHANGE___
 * latest ES syntax supported by Webpack (= Acorn supports it + webpack bumped Acorn) = ES2021   ___⬅CHANGE___
   * latest webpack version = [5](https://webpack.js.org/)
   * version of Acorn in this webpack version = [^8](https://github.com/webpack/webpack/blob/master/package.json)   ___⬅CHANGE___

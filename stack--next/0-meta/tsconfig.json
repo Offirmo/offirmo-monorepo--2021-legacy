@@ -1,0 +1,78 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+
+
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"alwaysStrict": true,
+		"exactOptionalPropertyTypes": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strict": true,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"useUnknownInCatchVariables": true,
+
+
+		"allowUmdGlobalAccess": false,
+		"module": "ES2020",
+		"moduleResolution": "node12",
+		"resolveJsonModule": true,
+
+
+		"declaration": true,
+		"declarationMap": true,
+		"importHelpers": true,
+		"newLine": "lf",
+		"noEmitHelpers": true,
+		"noEmitOnError": true,
+		"sourceMap": true,
+
+
+		"allowJs": false,
+		"checkJs": true,
+
+
+		"allowSyntheticDefaultImports": false,
+		"esModuleInterop": false,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"preserveSymlinks": false,
+
+
+		"emitDecoratorMetadata": false,
+		"experimentalDecorators": false,
+		"jsx": "preserve",
+		"lib": [ "ES2021" ],
+		"target": "ES2021",
+
+
+		"listEmittedFiles": false,
+		"listFiles": false,
+		"traceResolution": false,
+
+
+		"composite": true,
+
+
+		"noErrorTruncation": true,
+		"preserveWatchOutput": false,
+		"pretty": true,
+
+
+		"skipLibCheck": true,
+	},
+	"include": [
+		"./0-typings-custom/**/*.ts"
+	]
+}
