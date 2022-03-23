@@ -1,0 +1,18 @@
+{
+	"name": "@offirmo-private/monorepo-scripts",
+	"private": true,
+
+	"type": "module",
+	"sideEffects": false,
+
+	"bin": {
+		"monorepo-script--clean-package": "./clean.mjs",
+		"monorepo-script--build-typescript-package": "./build-typescript.mjs"
+	},
+
+	"dependencies": {
+		"chalk": "^5",
+		"meow": "^9",
+		"tiny-invariant": "^1"
+	}
+}
