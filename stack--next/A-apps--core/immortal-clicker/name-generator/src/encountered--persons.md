@@ -1,5 +1,5 @@
 
-## Huaxia
+## Huaxia (legendary history of China)
 Chu Liu robin hood
 Gan Jiang
 Guan Ye
@@ -12,11 +12,27 @@ Sun Erniang a killer
 Sun Wukong
 Tang Seng priest in Journey to the west
 Wen Chou
-Wu Zetian 1st and only empress of China
+Wu Zetian # female 1st and only empress of China
 Yan Liang
 Yuan Shao
 Zhang San = John Smith
 Zhu Ge
+Zuo Qiuming author of Zuo Zhuan https://en.wikipedia.org/wiki/Zuo_Zhuan#Authorship
+Yu Gun
+Xia Wenming
+Xi Zhong Minister claimed to have served for the emperor and invented the chariot in some chinese sources https://en.wikipedia.org/wiki/Xi_Zhong
+
+
+## historical persons
+Sima Qian historian https://en.wikipedia.org/wiki/Sima_Qian
+Yao Nai scholar https://en.wikipedia.org/wiki/Yao_Nai
+Liu Fenglu scholar
+Liu Xin
+Kang Youwei scholar
+Wang Mang #negative usurper https://en.wikipedia.org/wiki/Wang_Mang
+Bai Juyi  poet
+Yan Huang initiator of chines culture
+Yue Fei   strong warrior from Song dinasty
 
 
 ## Iron Ladies
@@ -32,7 +48,6 @@ Wu Hui "without wisdom"
 Wu Zhi "without wisdom"
 Zhen Yuan
 Zhi Hui "with intelligence"
-
 
 
 ## Renegade Immortal
@@ -93,7 +108,7 @@ Sun Wukong
 Ta Shan
 Tu Si
 Tuo Sen
-Wang Lin
+Wang Lin #MC
 Wang Ping
 Wu Feng
 Wudo Chan
@@ -119,7 +134,7 @@ Zi Yan
 
 
 ## Soul land
-Tang San hero
+Tang San #MC
 
 
 ## ISSTH
@@ -127,23 +142,13 @@ Chen Fan
 Chi Yan
 Chu Yuyan
 Dao Fang
-Fang Mu
+Fang Mu #mC
 Fang Xiufeng
 Ji Tian
 Lu Yunli
-Meng Hao
-Meng Li
+Meng Hao #MC
+Meng Li #mC
 Sima Dao
 Wang Tangfei
 Xiaho Yihan
-Xu Qing
-
-
-## history
-Bai Juyi  poet
-Yan Huang initiator of chines culture
-Yue Fei   strong warrior from Song dinasty
-
-
-## do not use
-Fei trash/useless
+Xu Qing #mC
