@@ -1,4 +1,3 @@
-
 12 ornaments https://en.wikipedia.org/wiki/Twelve_Ornaments
 12 zodiac
 33 heavens
@@ -75,6 +74,7 @@ essence of poison
 essence of rain
 essence of reality
 essence of reincarnation
+essence of space https://writings.stephenwolfram.com/2022/03/on-the-concept-of-motion/
 essence of sea
 essence of slaughter
 essence of sun / moon / stars
@@ -99,6 +99,7 @@ meridians
 merits
 mount
 mouthful of blood
+pair cultivation
 pills
 poison(s)
 possession
