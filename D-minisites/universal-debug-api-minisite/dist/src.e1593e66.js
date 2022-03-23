@@ -290,12 +290,18 @@ Object.defineProperty(exports, "LoggerCreationParams", {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -355,12 +361,18 @@ exports.DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -441,8 +453,6 @@ exports.looksLikeAnError = looksLikeAnError; // harmonize
 // also try to recover from incorrect invocations
 
 function normalizeArguments(raw_args) {
-  var _a;
-
   var message_parts = [];
   var details = {};
   var err = undefined;
@@ -473,7 +483,7 @@ function normalizeArguments(raw_args) {
     delete details.message;
   }
 
-  var message = message_parts.join(' ') || ((_a = err) === null || _a === void 0 ? void 0 : _a.message) || '(no message)';
+  var message = message_parts.join(' ') || (err === null || err === void 0 ? void 0 : err.message) || '(no message)';
   if (err) details.err = err;else delete details.err; // because could be present but not be a correct err type
 
   return [message, details];
@@ -613,12 +623,18 @@ exports.create = create;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -1000,4 +1016,4 @@ document.addEventListener('click', function (event) {
   render();
 });
 },{"@offirmo/universal-debug-api-placeholder":"QAR9","@offirmo/practical-logger-core/doc/shared-demo":"plv1"}]},{},["QCba"], null)
-//# sourceMappingURL=src.106f7428.js.map
+//# sourceMappingURL=src.e1593e66.js.map

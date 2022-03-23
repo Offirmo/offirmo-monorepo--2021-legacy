@@ -22,7 +22,7 @@ describe(`${APP} - netlify`, function () {
 			},
 			"identity": {
 				"url": "https://offirmo-monorepo.netlify.app/.netlify/identity",
-				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUyNzY2MzIsInN1YiI6IjAifQ.prtGxWwjV6ZuIihiDoCjOJPc3ZqnXkqEF1itIgsBQHk"
+				"token": "fake-netlify-token-for-test"
 			},
 			"user": {
 				"app_metadata": {

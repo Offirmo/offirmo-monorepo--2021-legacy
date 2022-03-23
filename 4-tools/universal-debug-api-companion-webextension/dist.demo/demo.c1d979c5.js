@@ -290,12 +290,18 @@ Object.defineProperty(exports, "LoggerCreationParams", {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -801,12 +807,18 @@ exports.dezalgo = dezalgo;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -919,8 +931,6 @@ function looksLikeAnError(x) {
 
 
 function normalizeArguments(raw_args) {
-  var _a;
-
   const message_parts = [];
   let details = {};
   let err = undefined;
@@ -953,7 +963,7 @@ function normalizeArguments(raw_args) {
     delete details.message;
   }
 
-  const message = message_parts.join(' ') || ((_a = err) === null || _a === void 0 ? void 0 : _a.message) || '(no message)';
+  const message = message_parts.join(' ') || (err === null || err === void 0 ? void 0 : err.message) || '(no message)';
   if (err) details.err = err;else delete details.err; // because could be present but not be a correct err type
 
   return [message, details];
@@ -1441,4 +1451,4 @@ console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
 */
 },{"@offirmo/universal-debug-api-placeholder":"sw2i","@offirmo-private/async-utils":"i8Ln","../../../../2-foundation/practical-logger-core/doc/shared-demo":"NeXk"}]},{},["Focm"], null)
-//# sourceMappingURL=demo.dfd51644.js.map
+//# sourceMappingURL=demo.c1d979c5.js.map

@@ -1578,12 +1578,18 @@ exports.dezalgo = dezalgo;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -2579,12 +2585,18 @@ exports.get_ISO8601_simplified_day = get_ISO8601_simplified_day; // fun but uncl
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -2800,15 +2812,15 @@ function normalizeError(err_like, _a) {
     var should_recreate = alwaysRecreate || !has_minimal_error_shape;
     var true_err = should_recreate ? function () {
       var true_err = function () {
-        var _a, _b, _c;
+        var _a, _b;
 
-        var message = ((_a = err_like) === null || _a === void 0 ? void 0 : _a.message // even no error shape may have a message prop
+        var message = (err_like === null || err_like === void 0 ? void 0 : err_like.message // even no error shape may have a message prop
         ) ? String(err_like.message) : "[object with no error shape thrown!]";
 
         try {
           var current_prototype = Object.getPrototypeOf(err_like); // should we restrict to global standard constructors? TBD
 
-          var wanted_constructor = ((_c = (_b = current_prototype === null || current_prototype === void 0 ? void 0 : current_prototype.constructor) === null || _b === void 0 ? void 0 : _b.name) === null || _c === void 0 ? void 0 : _c.endsWith('Error')) ? current_prototype.constructor : Error; // https://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
+          var wanted_constructor = ((_b = (_a = current_prototype === null || current_prototype === void 0 ? void 0 : current_prototype.constructor) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.endsWith('Error')) ? current_prototype.constructor : Error; // https://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
 
           var candidate = new (Function.prototype.bind.call(wanted_constructor, null, message))();
           if (!hasErrorShape(candidate)) throw new Error('[re-created but still !has_minimal_error_shape: will be caught below]');
@@ -2852,12 +2864,18 @@ exports.normalizeError = normalizeError;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -3590,8 +3608,6 @@ exports.getRootSEC = getRootSEC;
 
 var _globalthisPonyfill = require("@offirmo/globalthis-ponyfill");
 
-var _consts = require("./consts");
-
 var _core = require("./core");
 
 /////////////////////
@@ -3601,13 +3617,13 @@ function getRootSEC() {
   const global_this = (0, _globalthisPonyfill.getGlobalThis)();
 
   if (!global_this[GLOBAL_VAR_NAME]) {
-    console.log(`[${_consts.LIB}] Creating root context…`);
+    //console.log(`[${LIB}] Creating root context…`)
     global_this[GLOBAL_VAR_NAME] = (0, _core.createSEC)();
   }
 
   return global_this[GLOBAL_VAR_NAME];
 } /////////////////////
-},{"@offirmo/globalthis-ponyfill":"Rrg7","./consts":"knR5","./core":"TSM7"}],"kYE7":[function(require,module,exports) {
+},{"@offirmo/globalthis-ponyfill":"Rrg7","./core":"TSM7"}],"kYE7":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4092,12 +4108,18 @@ exports.DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -4178,8 +4200,6 @@ exports.looksLikeAnError = looksLikeAnError; // harmonize
 // also try to recover from incorrect invocations
 
 function normalizeArguments(raw_args) {
-  var _a;
-
   var message_parts = [];
   var details = {};
   var err = undefined;
@@ -4210,7 +4230,7 @@ function normalizeArguments(raw_args) {
     delete details.message;
   }
 
-  var message = message_parts.join(' ') || ((_a = err) === null || _a === void 0 ? void 0 : _a.message) || '(no message)';
+  var message = message_parts.join(' ') || (err === null || err === void 0 ? void 0 : err.message) || '(no message)';
   if (err) details.err = err;else delete details.err; // because could be present but not be a correct err type
 
   return [message, details];
@@ -4356,12 +4376,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -5064,12 +5090,18 @@ var __assign = this && this.__assign || function () {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -5445,12 +5477,18 @@ Object.defineProperty(exports, "LoggerCreationParams", {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -32172,12 +32210,18 @@ exports.xxx_test_unrandomize_element = xxx_test_unrandomize_element;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -33903,12 +33947,18 @@ exports.key_value = key_value;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -36302,6 +36352,10 @@ function getContainingBlock(element) {
 
   var currentNode = (0, _getParentNode.default)(element);
 
+  if ((0, _instanceOf.isShadowRoot)(currentNode)) {
+    currentNode = currentNode.host;
+  }
+
   while ((0, _instanceOf.isHTMLElement)(currentNode) && ['html', 'body'].indexOf((0, _getNodeName.default)(currentNode)) < 0) {
     var css = (0, _getComputedStyle.default)(currentNode); // This is non-exhaustive but covers the most common CSS properties that
     // create a containing block.
@@ -36642,7 +36696,7 @@ function mapToStyles(_ref2) {
 
     if (placement === _enums.top || (placement === _enums.left || placement === _enums.right) && variation === _enums.end) {
       sideY = _enums.bottom;
-      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
+      var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
       offsetParent[heightProp];
       y -= offsetY - popperRect.height;
       y *= gpuAcceleration ? 1 : -1;
@@ -36650,7 +36704,7 @@ function mapToStyles(_ref2) {
 
     if (placement === _enums.left || (placement === _enums.top || placement === _enums.bottom) && variation === _enums.end) {
       sideX = _enums.right;
-      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
+      var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
       offsetParent[widthProp];
       x -= offsetX - popperRect.width;
       x *= gpuAcceleration ? 1 : -1;
@@ -41847,23 +41901,23 @@ var _to_react = require("./to_react");
 var _interactiveFragment = _interopRequireDefault(require("./interactive-fragment"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./to_react":"qcjw","./interactive-fragment":"SGMq"}],"iHho":[function(require,module,exports) {
+},{"./to_react":"qcjw","./interactive-fragment":"SGMq"}],"y2eH":[function(require,module,exports) {
 
-},{"./style--theme--light--default.css":"pYKq","./style--theme--dark--default.css":"pYKq"}],"h2PY":[function(require,module,exports) {
+},{"./style--theme--light--default.css":"pYKq","./style--theme--dark--default.css":"pYKq"}],"e5al":[function(require,module,exports) {
 
-},{"./font--roboto_regular--latin.v18.woff2":[["font--roboto_regular--latin.v18.0f7dd874.woff2","QqQK"],"QqQK"],"./font--roboto_regular--latin-ext.v18.woff2":[["font--roboto_regular--latin-ext.v18.2026f26a.woff2","k9Y4"],"k9Y4"],"./font--roboto_condensed_regular--latin.v16.woff2":[["font--roboto_condensed_regular--latin.v16.9f4a566b.woff2","VRDz"],"VRDz"],"./font--roboto_condensed_regular--latin-ext.v16.woff2":[["font--roboto_condensed_regular--latin-ext.v16.e7d95ce9.woff2","OFuE"],"OFuE"]}],"jvGF":[function(require,module,exports) {
+},{"./font--roboto_regular--latin.v18.woff2":[["font--roboto_regular--latin.v18.0f7dd874.woff2","yftm"],"yftm"],"./font--roboto_regular--latin-ext.v18.woff2":[["font--roboto_regular--latin-ext.v18.2026f26a.woff2","DdHo"],"DdHo"],"./font--roboto_condensed_regular--latin.v16.woff2":[["font--roboto_condensed_regular--latin.v16.9f4a566b.woff2","trxU"],"trxU"],"./font--roboto_condensed_regular--latin-ext.v16.woff2":[["font--roboto_condensed_regular--latin-ext.v16.e7d95ce9.woff2","owWw"],"owWw"]}],"j3M2":[function(require,module,exports) {
 
-},{"../node_modules/normalize.css/normalize.css":"pYKq","./style--global_variables.css":"pYKq","./style--reset.css":"pYKq","./style--reset--controls.css":"pYKq","./style--rhythm.css":"pYKq","./style--colors.css":"pYKq","./style--themes.css":"iHho","./style--containers.css":"pYKq","./style--containers--debug.css":"pYKq","./style--fonts.css":"h2PY","./style--semantic.css":"pYKq","./style--technical.css":"pYKq","./style--misc.css":"pYKq"}],"vq7X":[function(require,module,exports) {
+},{"../node_modules/normalize.css/normalize.css":"pYKq","./style--global_variables.css":"pYKq","./style--reset.css":"pYKq","./style--reset--controls.css":"pYKq","./style--rhythm.css":"pYKq","./style--colors.css":"pYKq","./style--themes.css":"y2eH","./style--containers.css":"pYKq","./style--containers--debug.css":"pYKq","./style--fonts.css":"e5al","./style--semantic.css":"pYKq","./style--technical.css":"pYKq","./style--misc.css":"pYKq"}],"wGFr":[function(require,module,exports) {
 
-},{"../node_modules/@offirmo-private/ui--browser--css/src/style--theme--light--default.css":"pYKq"}],"y2nS":[function(require,module,exports) {
+},{"../node_modules/@offirmo-private/ui--browser--css/src/style--theme--light--default.css":"pYKq"}],"uaRy":[function(require,module,exports) {
 
-},{"../node_modules/@offirmo-private/ui--browser--css/src/style--theme--dark--colorhunt212.css":"pYKq"}],"hXDc":[function(require,module,exports) {
+},{"../node_modules/@offirmo-private/ui--browser--css/src/style--theme--dark--colorhunt212.css":"pYKq"}],"sTAw":[function(require,module,exports) {
 
-},{"./style--theme--light--default.css":"vq7X","./style--theme--dark--colorhunt212.css":"y2nS"}],"dTqP":[function(require,module,exports) {
+},{"./style--theme--light--default.css":"wGFr","./style--theme--dark--colorhunt212.css":"uaRy"}],"KPNR":[function(require,module,exports) {
 
-},{"./webfont--spectral-regular.woff":[["webfont--spectral-regular.fae3cb71.woff","FEyC"],"FEyC"],"./webfont--pixantiqua.woff":[["webfont--pixantiqua.d45d52aa.woff","GBLf"],"GBLf"]}],"yKuT":[function(require,module,exports) {
+},{"./webfont--spectral-regular.woff":[["webfont--spectral-regular.fae3cb71.woff","IIVC"],"IIVC"],"./webfont--pixantiqua.woff":[["webfont--pixantiqua.d45d52aa.woff","WCYy"],"WCYy"]}],"TTUd":[function(require,module,exports) {
 
-},{"../node_modules/@offirmo-private/ui--browser--css/src/style.css":"jvGF","./parent-overrides.css":"pYKq","./style--themes.css":"hXDc","./style--fonts.css":"dTqP","./style--rich-text.css":"pYKq","./style--misc.css":"pYKq"}],"SHRu":[function(require,module,exports) {
+},{"../node_modules/@offirmo-private/ui--browser--css/src/style.css":"j3M2","./parent-overrides.css":"pYKq","./style--themes.css":"sTAw","./style--fonts.css":"KPNR","./style--rich-text.css":"pYKq","./style--misc.css":"pYKq"}],"SHRu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41985,12 +42039,18 @@ export function has_found_their_place_in_the_world(): boolean { throw new Error(
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -42144,12 +42204,18 @@ exports.reduceⵧsave_the_world = reduceⵧsave_the_world;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -42386,12 +42452,18 @@ var __assign = this && this.__assign || function () {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -42468,12 +42540,18 @@ exports.render = render;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -42758,12 +42836,18 @@ exports.compare = compare;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -42816,12 +42900,18 @@ exports.render = render;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -42845,12 +42935,18 @@ __exportStar(require("./selectors--rich-text"), exports);
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -42919,12 +43015,18 @@ var __assign = this && this.__assign || function () {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -43029,12 +43131,18 @@ exports.reduceⵧincrease_level = reduceⵧincrease_level;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -43058,7 +43166,7 @@ __exportStar(require("./reducers"), exports);
 },{"./types":"gUCQ","./selectors":"GZt8","./selectors--rich-text":"TOty","./reducers":"Clq4"}],"LFdx":[function(require,module,exports) {
 var define;
 /**
- * @license Fraction.js v4.1.3 23/05/2021
+ * @license Fraction.js v4.2.0 05/03/2022
  * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
  * Copyright (c) 2021, Robert Eisele (robert@xarg.org)
@@ -43112,40 +43220,31 @@ var define;
     "d": 1
   };
 
-  function createError(name) {
-
-    function errorConstructor() {
-      var temp = Error.apply(this, arguments);
-      temp['name'] = this['name'] = name;
-      this['stack'] = temp['stack'];
-      this['message'] = temp['message'];
-    }
-
-    /**
-     * Error constructor
-     *
-     * @constructor
-     */
-    function IntermediateInheritor() { }
-    IntermediateInheritor.prototype = Error.prototype;
-    errorConstructor.prototype = new IntermediateInheritor();
-
-    return errorConstructor;
-  }
-
-  var DivisionByZero = Fraction['DivisionByZero'] = createError('DivisionByZero');
-  var InvalidParameter = Fraction['InvalidParameter'] = createError('InvalidParameter');
-
   function assign(n, s) {
 
     if (isNaN(n = parseInt(n, 10))) {
-      throwInvalidParam();
+      throw Fraction['InvalidParameter'];
     }
     return n * s;
   }
 
-  function throwInvalidParam() {
-    throw new InvalidParameter();
+  // Creates a new Fraction internally without the need of the bulky constructor
+  function newFraction(n, d) {
+
+    if (d === 0) {
+      throw Fraction['DivisionByZero'];
+    }
+
+    var f = Object.create(Fraction.prototype);
+    f["s"] = n < 0 ? -1 : 1;
+
+    n = n < 0 ? -n : n;
+
+    var a = gcd(n, d);
+
+    f["n"] = n / a;
+    f["d"] = d / a;
+    return f;
   }
 
   function factorize(num) {
@@ -43159,15 +43258,15 @@ var define;
     while (s <= n) {
 
       while (n % i === 0) {
-        n /= i;
+        n/= i;
         factors[i] = (factors[i] || 0) + 1;
       }
-      s += 1 + 2 * i++;
+      s+= 1 + 2 * i++;
     }
 
     if (n !== num) {
       if (n > 1)
-      factors[n] = (factors[n] || 0) + 1;
+        factors[n] = (factors[n] || 0) + 1;
     } else {
       factors[num] = (factors[num] || 0) + 1;
     }
@@ -43191,6 +43290,11 @@ var define;
       n = p1;
       d = p2;
       s = n * d;
+
+      if (n % 1 !== 0 || d % 1 !== 0) {
+        throw Fraction['NonIntegerParameter'];
+      }
+
     } else
       switch (typeof p1) {
 
@@ -43200,13 +43304,13 @@ var define;
               n = p1["n"];
               d = p1["d"];
               if ("s" in p1)
-                n *= p1["s"];
+                n*= p1["s"];
             } else if (0 in p1) {
               n = p1[0];
               if (1 in p1)
                 d = p1[1];
             } else {
-              throwInvalidParam();
+              throw Fraction['InvalidParameter'];
             }
             s = n * d;
             break;
@@ -43224,7 +43328,7 @@ var define;
 
               if (p1 >= 1) {
                 z = Math.pow(10, Math.floor(1 + Math.log(p1) / Math.LN10));
-                p1 /= z;
+                p1/= z;
               }
 
               // Using Farey Sequences
@@ -43249,11 +43353,11 @@ var define;
                 } else {
 
                   if (p1 > M) {
-                    A += C;
-                    B += D;
+                    A+= C;
+                    B+= D;
                   } else {
-                    C += A;
-                    D += B;
+                    C+= A;
+                    D+= B;
                   }
 
                   if (B > N) {
@@ -43265,7 +43369,7 @@ var define;
                   }
                 }
               }
-              n *= z;
+              n*= z;
             } else if (isNaN(p1) || isNaN(p2)) {
               d = n = NaN;
             }
@@ -43276,7 +43380,7 @@ var define;
             B = p1.match(/\d+|./g);
 
             if (B === null)
-              throwInvalidParam();
+              throw Fraction['InvalidParameter'];
 
             if (B[A] === '-') {// Check for minus sign at the beginning
               s = -1;
@@ -43305,18 +43409,18 @@ var define;
               if (B[A] === '(' && B[A + 2] === ')' || B[A] === "'" && B[A + 2] === "'") {
                 x = assign(B[A + 1], s);
                 z = Math.pow(10, B[A + 1].length) - 1;
-                A += 3;
+                A+= 3;
               }
 
             } else if (B[A + 1] === '/' || B[A + 1] === ':') { // Check for a simple fraction "123/456" or "123:456"
               w = assign(B[A], s);
               y = assign(B[A + 2], 1);
-              A += 3;
+              A+= 3;
             } else if (B[A + 3] === '/' && B[A + 1] === ' ') { // Check for a complex fraction "123 1/2"
               v = assign(B[A], s);
               w = assign(B[A + 2], s);
               y = assign(B[A + 4], 1);
-              A += 5;
+              A+= 5;
             }
 
             if (B.length <= A) { // Check for more tokens on the stack
@@ -43329,11 +43433,11 @@ var define;
             /* Fall through on error */
           }
         default:
-          throwInvalidParam();
+          throw Fraction['InvalidParameter'];
       }
 
     if (d === 0) {
-      throw new DivisionByZero();
+      throw Fraction['DivisionByZero'];
     }
 
     P["s"] = s < 0 ? -1 : 1;
@@ -43357,11 +43461,11 @@ var define;
   function cycleLen(n, d) {
 
     for (; d % 2 === 0;
-      d /= 2) {
+      d/= 2) {
     }
 
     for (; d % 5 === 0;
-      d /= 5) {
+      d/= 5) {
     }
 
     if (d === 1) // Catch non-cyclic numbers
@@ -43410,10 +43514,10 @@ var define;
       return a;
 
     while (1) {
-      a %= b;
+      a%= b;
       if (!a)
         return b;
-      b %= a;
+      b%= a;
       if (!b)
         return a;
     }
@@ -43428,18 +43532,21 @@ var define;
    */
   function Fraction(a, b) {
 
-    if (!(this instanceof Fraction)) {
-      return new Fraction(a, b);
-    }
-
     parse(a, b);
 
-    a = gcd(P["d"], P["n"]); // Abuse variable a
-
-    this["s"] = P["s"];
-    this["n"] = P["n"] / a;
-    this["d"] = P["d"] / a;
+    if (this instanceof Fraction) {
+      a = gcd(P["d"], P["n"]); // Abuse variable a
+      this["s"] = P["s"];
+      this["n"] = P["n"] / a;
+      this["d"] = P["d"] / a;
+    } else {
+      return newFraction(P['s'] * P['n'], P['d']);
+    }
   }
+
+  Fraction['DivisionByZero'] = new Error("Division by Zero");
+  Fraction['InvalidParameter'] = new Error("Invalid argument");
+  Fraction['NonIntegerParameter'] = new Error("Parameters must be integer");
 
   Fraction.prototype = {
 
@@ -43454,7 +43561,7 @@ var define;
      **/
     "abs": function() {
 
-      return new Fraction(this["n"], this["d"]);
+      return newFraction(this["n"], this["d"]);
     },
 
     /**
@@ -43464,7 +43571,7 @@ var define;
      **/
     "neg": function() {
 
-      return new Fraction(-this["s"] * this["n"], this["d"]);
+      return newFraction(-this["s"] * this["n"], this["d"]);
     },
 
     /**
@@ -43475,7 +43582,7 @@ var define;
     "add": function(a, b) {
 
       parse(a, b);
-      return new Fraction(
+      return newFraction(
         this["s"] * this["n"] * P["d"] + P["s"] * this["d"] * P["n"],
         this["d"] * P["d"]
       );
@@ -43489,7 +43596,7 @@ var define;
     "sub": function(a, b) {
 
       parse(a, b);
-      return new Fraction(
+      return newFraction(
         this["s"] * this["n"] * P["d"] - P["s"] * this["d"] * P["n"],
         this["d"] * P["d"]
       );
@@ -43503,7 +43610,7 @@ var define;
     "mul": function(a, b) {
 
       parse(a, b);
-      return new Fraction(
+      return newFraction(
         this["s"] * P["s"] * this["n"] * P["n"],
         this["d"] * P["d"]
       );
@@ -43517,7 +43624,7 @@ var define;
     "div": function(a, b) {
 
       parse(a, b);
-      return new Fraction(
+      return newFraction(
         this["s"] * P["s"] * this["n"] * P["d"],
         this["d"] * P["n"]
       );
@@ -43529,7 +43636,7 @@ var define;
      * Ex: new Fraction("-17.(345)").clone()
      **/
     "clone": function() {
-      return new Fraction(this);
+      return newFraction(this['s'] * this['n'], this['d']);
     },
 
     /**
@@ -43544,12 +43651,12 @@ var define;
       }
 
       if (a === undefined) {
-        return new Fraction(this["s"] * this["n"] % this["d"], 1);
+        return newFraction(this["s"] * this["n"] % this["d"], 1);
       }
 
       parse(a, b);
       if (0 === P["n"] && 0 === this["d"]) {
-        Fraction(0, 0); // Throw DivisionByZero
+        throw Fraction['DivisionByZero'];
       }
 
       /*
@@ -43566,7 +43673,7 @@ var define;
        * => b2 * a1 = a2 * b1 * q + b1 * b2 * r
        * => (b2 * a1 % a2 * b1) / (b1 * b2)
        */
-      return new Fraction(
+      return newFraction(
         this["s"] * (P["d"] * this["n"]) % (P["n"] * this["d"]),
         P["d"] * this["d"]
       );
@@ -43583,7 +43690,7 @@ var define;
 
       // gcd(a / b, c / d) = gcd(a, c) / lcm(b, d)
 
-      return new Fraction(gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]), P["d"] * this["d"]);
+      return newFraction(gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]), P["d"] * this["d"]);
     },
 
     /**
@@ -43598,9 +43705,9 @@ var define;
       // lcm(a / b, c / d) = lcm(a, c) / gcd(b, d)
 
       if (P["n"] === 0 && this["n"] === 0) {
-        return new Fraction;
+        return newFraction(0, 1);
       }
-      return new Fraction(P["n"] * this["n"], gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]));
+      return newFraction(P["n"] * this["n"], gcd(P["n"], this["n"]) * gcd(P["d"], this["d"]));
     },
 
     /**
@@ -43615,7 +43722,7 @@ var define;
       if (isNaN(this["n"]) || isNaN(this["d"])) {
         return new Fraction(NaN);
       }
-      return new Fraction(Math.ceil(places * this["s"] * this["n"] / this["d"]), places);
+      return newFraction(Math.ceil(places * this["s"] * this["n"] / this["d"]), places);
     },
 
     /**
@@ -43630,7 +43737,7 @@ var define;
       if (isNaN(this["n"]) || isNaN(this["d"])) {
         return new Fraction(NaN);
       }
-      return new Fraction(Math.floor(places * this["s"] * this["n"] / this["d"]), places);
+      return newFraction(Math.floor(places * this["s"] * this["n"] / this["d"]), places);
     },
 
     /**
@@ -43645,7 +43752,7 @@ var define;
       if (isNaN(this["n"]) || isNaN(this["d"])) {
         return new Fraction(NaN);
       }
-      return new Fraction(Math.round(places * this["s"] * this["n"] / this["d"]), places);
+      return newFraction(Math.round(places * this["s"] * this["n"] / this["d"]), places);
     },
 
     /**
@@ -43655,7 +43762,7 @@ var define;
      **/
     "inverse": function() {
 
-      return new Fraction(this["s"] * this["d"], this["n"]);
+      return newFraction(this["s"] * this["d"], this["n"]);
     },
 
     /**
@@ -43672,9 +43779,9 @@ var define;
       if (P['d'] === 1) {
 
         if (P['s'] < 0) {
-          return new Fraction(Math.pow(this['s'] * this["d"], P['n']), Math.pow(this["n"], P['n']));
+          return newFraction(Math.pow(this['s'] * this["d"], P['n']), Math.pow(this["n"], P['n']));
         } else {
-          return new Fraction(Math.pow(this['s'] * this["n"], P['n']), Math.pow(this["d"], P['n']));
+          return newFraction(Math.pow(this['s'] * this["n"], P['n']), Math.pow(this["d"], P['n']));
         }
       }
 
@@ -43718,9 +43825,9 @@ var define;
       }
 
       if (P['s'] < 0) {
-        return new Fraction(d, n);
+        return newFraction(d, n);
       }
-      return new Fraction(n, d);
+      return newFraction(n, d);
     },
 
     /**
@@ -43748,26 +43855,24 @@ var define;
 
     "simplify": function(eps) {
 
-      // First naive implementation, needs improvement
-
       if (isNaN(this['n']) || isNaN(this['d'])) {
         return this;
       }
 
-      var cont = this['abs']()['toContinued']();
-
       eps = eps || 0.001;
 
-      function rec(a) {
-        if (a.length === 1)
-          return new Fraction(a[0]);
-        return rec(a.slice(1))['inverse']()['add'](a[0]);
-      }
+      var thisABS = this['abs']();
+      var cont = thisABS['toContinued']();
 
-      for (var i = 0; i < cont.length; i++) {
-        var tmp = rec(cont.slice(0, i + 1));
-        if (tmp['sub'](this['abs']())['abs']().valueOf() < eps) {
-          return tmp['mul'](this['s']);
+      for (var i = 1; i < cont.length; i++) {
+
+        var s = newFraction(cont[i - 1], 1);
+        for (var k = i - 2; k >= 0; k--) {
+          s = s['inverse']()['add'](cont[k]);
+        }
+
+        if (s['sub'](thisABS)['abs']().valueOf() < eps) {
+          return s['mul'](this['s']);
         }
       }
       return this;
@@ -43797,7 +43902,7 @@ var define;
     /**
      * Returns a string-fraction representation of a Fraction object
      *
-     * Ex: new Fraction("1.'3'").toFraction() => "4 1/3"
+     * Ex: new Fraction("1.'3'").toFraction(true) => "4 1/3"
      **/
     'toFraction': function(excludeWhole) {
 
@@ -43805,22 +43910,22 @@ var define;
       var n = this["n"];
       var d = this["d"];
       if (this["s"] < 0) {
-        str += '-';
+        str+= '-';
       }
 
       if (d === 1) {
-        str += n;
+        str+= n;
       } else {
 
         if (excludeWhole && (whole = Math.floor(n / d)) > 0) {
-          str += whole;
-          str += " ";
-          n %= d;
+          str+= whole;
+          str+= " ";
+          n%= d;
         }
 
-        str += n;
-        str += '/';
-        str += d;
+        str+= n;
+        str+= '/';
+        str+= d;
       }
       return str;
     },
@@ -43836,23 +43941,23 @@ var define;
       var n = this["n"];
       var d = this["d"];
       if (this["s"] < 0) {
-        str += '-';
+        str+= '-';
       }
 
       if (d === 1) {
-        str += n;
+        str+= n;
       } else {
 
         if (excludeWhole && (whole = Math.floor(n / d)) > 0) {
-          str += whole;
-          n %= d;
+          str+= whole;
+          n%= d;
         }
 
-        str += "\\frac{";
-        str += n;
-        str += '}{';
-        str += d;
-        str += '}';
+        str+= "\\frac{";
+        str+= n;
+        str+= '}{';
+        str+= d;
+        str+= '}';
       }
       return str;
     },
@@ -43890,7 +43995,6 @@ var define;
      **/
     'toString': function(dec) {
 
-      var g;
       var N = this["n"];
       var D = this["d"];
 
@@ -43903,35 +44007,35 @@ var define;
       var cycLen = cycleLen(N, D); // Cycle length
       var cycOff = cycleStart(N, D, cycLen); // Cycle start
 
-      var str = this['s'] === -1 ? "-" : "";
+      var str = this['s'] < 0 ? "-" : "";
 
-      str += N / D | 0;
+      str+= N / D | 0;
 
-      N %= D;
-      N *= 10;
+      N%= D;
+      N*= 10;
 
       if (N)
-        str += ".";
+        str+= ".";
 
       if (cycLen) {
 
         for (var i = cycOff; i--;) {
-          str += N / D | 0;
-          N %= D;
-          N *= 10;
+          str+= N / D | 0;
+          N%= D;
+          N*= 10;
         }
-        str += "(";
+        str+= "(";
         for (var i = cycLen; i--;) {
-          str += N / D | 0;
-          N %= D;
-          N *= 10;
+          str+= N / D | 0;
+          N%= D;
+          N*= 10;
         }
-        str += ")";
+        str+= ")";
       } else {
         for (var i = dec; N && i--;) {
-          str += N / D | 0;
-          N %= D;
-          N *= 10;
+          str+= N / D | 0;
+          N%= D;
+          N*= 10;
         }
       }
       return str;
@@ -43958,12 +44062,18 @@ var define;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -44099,12 +44209,18 @@ var __assign = this && this.__assign || function () {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -44657,33 +44773,25 @@ Object.defineProperty(exports, "__esModule", {
 exports.is_RootState = exports.is_UTBundle = exports.is_TState = exports.is_UState = exports.is_BaseState = exports.is_time_stamped = exports.is_revisioned = exports.has_versioned_schema = exports.is_WithLastUserInvestmentTimestamp = exports.is_WithTimestamp = exports.is_WithRevision = exports.is_WithSchemaVersion = void 0; /////////////////////////////////////////////////
 
 function is_WithSchemaVersion(s) {
-  var _a;
-
-  return Number.isInteger((_a = s) === null || _a === void 0 ? void 0 : _a.schema_version);
+  return Number.isInteger(s === null || s === void 0 ? void 0 : s.schema_version);
 }
 
 exports.is_WithSchemaVersion = is_WithSchemaVersion;
 
 function is_WithRevision(s) {
-  var _a;
-
-  return Number.isInteger((_a = s) === null || _a === void 0 ? void 0 : _a.revision);
+  return Number.isInteger(s === null || s === void 0 ? void 0 : s.revision);
 }
 
 exports.is_WithRevision = is_WithRevision;
 
 function is_WithTimestamp(s) {
-  var _a;
-
-  return Number.isInteger((_a = s) === null || _a === void 0 ? void 0 : _a.timestamp_ms);
+  return Number.isInteger(s === null || s === void 0 ? void 0 : s.timestamp_ms);
 }
 
 exports.is_WithTimestamp = is_WithTimestamp;
 
 function is_WithLastUserInvestmentTimestamp(s) {
-  var _a;
-
-  return Number.isInteger((_a = s) === null || _a === void 0 ? void 0 : _a.last_user_investment_tms);
+  return Number.isInteger(s === null || s === void 0 ? void 0 : s.last_user_investment_tms);
 }
 
 exports.is_WithLastUserInvestmentTimestamp = is_WithLastUserInvestmentTimestamp; /////////////////////////////////////////////////
@@ -51204,12 +51312,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -51447,12 +51561,18 @@ exports.finalize_action_if_needed = finalize_action_if_needed;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -51547,12 +51667,18 @@ exports.reduce_action = reduce_action;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -51611,12 +51737,18 @@ exports.render = render;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -52006,12 +52138,18 @@ exports.NORMALIZERS = {
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -52035,12 +52173,18 @@ __exportStar(require("./normalizers"), exports);
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -52104,12 +52248,18 @@ exports.render_action = render_action;
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function () {
-      return m[k];
-    }
-  });
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
 } : function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   o[k2] = m[k];
@@ -52174,7 +52324,7 @@ function Game() {
 }
 
 exports.default = Game;
-},{"react":"d6ZO","@offirmo-private/rich-text-format-to-react":"yRs8","@oh-my-rpg/ui--browser--css/src/style.css":"yKuT","../state/reducers":"xLQr","../state/actions/selectors":"q07M","../state/actions/reducers":"BbTp","../state/selectors--rich-text":"JHmL","../state/actions/selectors--rich-text":"MKce"}],"uCzo":[function(require,module,exports) {
+},{"react":"d6ZO","@offirmo-private/rich-text-format-to-react":"yRs8","@oh-my-rpg/ui--browser--css/src/style.css":"TTUd","../state/reducers":"xLQr","../state/actions/selectors":"q07M","../state/actions/reducers":"BbTp","../state/selectors--rich-text":"JHmL","../state/actions/selectors--rich-text":"MKce"}],"uCzo":[function(require,module,exports) {
 
 },{"./cursor--sword--standard--1.5x.png":[["cursor--sword--standard--1.5x.8b0a0fef.png","d1yj"],"d1yj"]}],"CvCW":[function(require,module,exports) {
 "use strict";
@@ -52214,4 +52364,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   }, /*#__PURE__*/_react.default.createElement(_root.default, null)), document.getElementById('root'));
 });
 },{"react":"d6ZO","react-dom":"RklN","@offirmo-private/react-error-boundary":"iS0g","@offirmo/universal-debug-api-browser":"krxp","@offirmo-private/async-utils":"ecSx","../services/sec":"f9Qa","./root":"ffkN","./index-2.css":"pYKq","@oh-my-rpg/assets--cursors/src/style.css":"uCzo"}]},{},["CvCW"], null)
-//# sourceMappingURL=index-2.7b6a421d.js.map
+//# sourceMappingURL=index-2.371a54cb.js.map
