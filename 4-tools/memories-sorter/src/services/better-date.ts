@@ -18,7 +18,7 @@ import { get_json_difference } from '@offirmo-private/state-utils'
 // Note: we defaulted on Luxon bc
 // 1. it's very good and suitable
 // 2. ExifDateTime also uses it internally = easy to convert from
-import { DateTime as LuxonDateTime, IANAZone } from 'luxon'
+import { DateTime as LuxonDateTime } from 'luxon'
 ///////
 
 import { SimpleYYYYMMDD, TimeZone } from '../types'

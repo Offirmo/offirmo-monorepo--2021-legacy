@@ -447,12 +447,12 @@ export function get_orientation_from_exif(exif_data: Immutable<Tags>): number | 
 	return exif_data[EXIF_FIELD__ORIENTATION] as any
 }
 
-export function get_timestamp_ms_from_ExifDateTime(date_exif: Immutable<ExifDateTime>): TimestampUTCMs {
+export function get_timestamp_ms_from_ExifDateTime(date_exif: ExifDateTime): TimestampUTCMs {
 	const date_legacy = date_exif.toDate()
 	return +date_legacy
 }
 
-function _to_debug(date_exif: Immutable<ExifDateTime>): string {
+function _to_debug(date_exif: ExifDateTime): string {
 	return get_debug_representation(
 		create_better_date_from_ExifDateTime(date_exif)
 	)
