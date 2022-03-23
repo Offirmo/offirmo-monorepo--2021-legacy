@@ -17,6 +17,8 @@ node_modules
 ## standard dist
 **/dist/src.es2019/
 **/dist/src.es2019.cjs/
+**/dist/src.es2021/
+**/dist/src.es2021.cjs/
 ## pre-build heroku for convenience
 !B-apps--support/online-adventur.es/heroku/dist/src.es2019.cjs/
 ## non-standard dist

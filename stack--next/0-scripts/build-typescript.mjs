@@ -10,11 +10,12 @@ import meow from 'meow'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 
-//const tsc = require('../4-tools/node-typescript-compiler')
+import tsc from '../4-tools/node-typescript-compiler/src/index.mjs'
 
 /////////////////////
 
 const cli = meow('build', {
+	importMeta: import.meta,
 	flags: {
 		onlyNode: {
 			type: 'boolean',
@@ -42,7 +43,7 @@ const PKG_PATH = process.cwd()
 const DIST_DIR = path.join(PKG_PATH, 'dist')
 const PKG_JSON = JSON.parse(await fs.readFile(path.join(PKG_PATH, 'package.json')))
 const PKG_NAME = PKG_JSON.name
-console.log(`\n🛠  🔻 building ${stylize_string.bold(PKG_NAME)}…` + (cli.flags.watch ? ' (watch mode)' : ''))
+console.log(`🛠  🔻 building ${stylize_string.bold(PKG_NAME)}…` + (cli.flags.watch ? ' (watch mode)' : ''))
 
 const LOCAL_TSCONFIG_JSON = JSON.parse(await fs.readFile(path.join(PKG_PATH, 'tsconfig.json')))
 LOCAL_TSCONFIG_JSON.compilerOptions = LOCAL_TSCONFIG_JSON.compilerOptions || {}

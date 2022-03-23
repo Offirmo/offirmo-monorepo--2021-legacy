@@ -16,6 +16,9 @@ Last update: [https://devblogs.microsoft.com/typescript/](update marker) 2022/03
 * VERY IMPORTANT https://www.typescriptlang.org/docs/handbook/module-resolution.html
 
 
+TODO  "moduleResolution": "node12",
+
+
 ### TOSORT
 
 * ??? https://www.typescriptlang.org/tsconfig#downlevelIteration

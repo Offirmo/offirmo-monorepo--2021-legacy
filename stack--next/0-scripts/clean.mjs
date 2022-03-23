@@ -16,6 +16,7 @@ const fs = require('../3-advanced--node/cli-toolbox/fs/extra')
 /////////////////////
 
 const cli = meow('clean', {
+	importMeta: import.meta,
 })
 
 /////////////////////
@@ -28,7 +29,6 @@ const PKG_NAME = PKG_JSON.name
 /////////////////////
 
 //console.log({PKG_PATH, DIST_DIR, DEPS_DIR})
-console.log('')
 console.log(`🔧  🔻 Cleaning ${stylize_string.bold(PKG_NAME)} [${cli.input}]...`)
 
 

@@ -1,10 +1,18 @@
 
 
+type FamilyName = string
+type GivenName = string
+
 interface FullName {
-	family: string
-	given: string
+	family: FamilyName
+	given: GivenName
 
 }
 
 
-export function
+export function get_name(): FullName {
+	return {
+		family: 'todo',
+		given: 'todo',
+	}
+}

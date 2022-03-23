@@ -3,8 +3,8 @@
   * give back with licenses such as UNLICENSE, CC prefered
   * open source whenever possible
 * use boring technologies. Examples:
-  * node LTS over latest
-  * npm over yarn
+  * (if possible) node LTS over latest
+  * (if possible) npm over yarn
   * as few tools as possible
   * Postgres
 * dev should be possible locally

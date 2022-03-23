@@ -26,7 +26,7 @@
 
 		"allowUmdGlobalAccess": false,
 		"module": "ES2020",
-		"moduleResolution": "node12",
+		"moduleResolution": "node",
 		"resolveJsonModule": true,
 
 
@@ -40,7 +40,6 @@
 
 
 		"allowJs": false,
-		"checkJs": true,
 
 
 		"allowSyntheticDefaultImports": false,
