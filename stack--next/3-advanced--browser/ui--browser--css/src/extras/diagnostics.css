@@ -1,0 +1,173 @@
+/* Inspired from:
+ * https://css-tricks.com/snippets/css/css-diagnostics/
+ * https://meyerweb.com/eric/tools/css/diagnostics/
+ */
+
+:root {
+	--o⋄color⁚diagnostics--warning: yellow; /* bright and ugly */
+	--o⋄color⁚diagnostics--error: orangered;
+
+	/* in order of increasing criticity */
+	--o⋄color⁚diagnostics--questionable: var(--o⋄color⁚diagnostics--warning);
+	--o⋄color⁚diagnostics--empty: var(--o⋄color⁚diagnostics--warning);
+	--o⋄color⁚diagnostics--experimental: var(--o⋄color⁚diagnostics--warning);
+
+	--o⋄color⁚diagnostics--deprecated: purple;
+	--o⋄color⁚diagnostics--accessibility: cyan;
+	--o⋄color⁚diagnostics--broken: var(--o⋄color⁚diagnostics--error);
+	--o⋄color⁚diagnostics--security: var(--o⋄color⁚diagnostics--error);
+}
+
+/* NOTE: should be in order of increasing criticity */
+
+/************ QUESTIONABLE ************/
+
+
+*[style], /* inline styles: questionable since very useful in react or component-based */
+a[href="#"] /* acceptable for page navs? */
+{
+	/*border: 2px dotted var(--o⋄color⁚diagnostics--questionable) !important;*/
+}
+
+/************ SEMANTIC ERRORS ************/
+
+/* TODO https://codeclimate.com/github/facebook/react/packages/react-dom/src/client/validateDOMNesting.js/source */
+
+th:not([scope=col], [scope=row])
+{
+	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
+}
+
+/************ FASHION POLICE ************/
+/* TODO */
+
+/************ EMPTY ************/
+
+/* Empty Elements */
+*:empty:not(canvas):not(iframe):not(img):not(input):not(hr):not(textarea):not(td):not([data-dashlanecreated="true"])
+{
+	/* padding needed to better outline empty = usually 0-sized */
+	padding: 1.5em;
+	background: var(--o⋄color⁚diagnostics--empty) !important;
+}
+
+/* Declared but empty Attributes */
+*[alt=""],
+*[class=""],
+*[href=""],
+*[id=""],
+*[src=""],
+*[summary=""],
+*[title=""]
+{
+	border: 3px dotted var(--o⋄color⁚diagnostics--empty) !important;
+}
+
+/************ EXPERIMENTAL ************/
+menu
+{
+	border: 5px dashed var(--o⋄color⁚diagnostics--experimental) !important;
+}
+
+/************ DEPRECATED ************/
+
+/* Deprecated Elements
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
+ */
+acronym,
+applet,
+basefont,
+bgsound,
+big,
+blink,
+center,
+content,
+dir,
+font,
+frame,
+frameset,
+hgroup,
+image,
+isindex,
+keygen,
+listing,
+marquee,
+menuitem,
+multicol,
+nextid,
+nobr,
+noembed,
+noframes,
+plaintext,
+rb,
+rtc,
+shadow,
+spacer,
+strike,
+tt,
+xmp,
+s, u /* technically valid but used to be used in a deprecated way. Most likely deprecated usage ;) */
+input[type="datetime"] /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime */
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}
+
+/* Deprecated Attributes */
+*[background], *[bgcolor], *[clear], *[color], *[compact], *[noshade], *[nowrap], *[start],
+*[bottommargin], *[leftmargin], *[rightmargin], *[topmargin], *[marginheight], *[marginwidth],
+*[alink], *[link], *[vlink], *[text],
+*[align], *[valign],
+*[hspace], *[vspace],
+*[size], *[height]:not(img):not(svg), *[width]:not(img):not(svg),
+ul[type],
+ol[type],
+li[type],
+table[summary]
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}
+
+/* Proposed Deprecated Elements */
+/* (none afaik)
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}*/
+
+/* Proposed Deprecated Attributes */
+/* TODO reference */
+*[border],
+table[cellpadding],
+table[cellspacing],
+*[name]:not(form):not(input)
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--deprecated) !important;
+}
+
+/************ ACCESSIBILITY ************/
+
+img:not([alt]):not([title]), /* slightly relaxed, we ask only for one of them */
+/*a:not([title]), No, not really needed */
+/*table:not([summary]), No, attribute is deprecated, use caption instead */
+a[href="#"], a[href="javascript:void(0)"] /* abuse of a as button https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#onclick_events */
+{
+	border: 3px dashed var(--o⋄color⁚diagnostics--accessibility) !important;
+}
+
+/************ BROKEN EXPERIENCE ************/
+
+a[href=""], a:not([href]),
+html:not([lang]) body
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--broken) !important;
+}
+
+/************ SECURITY ************/
+
+iframe:not([sandbox]),
+/* non secure http */
+*[href^="http:"],
+*[src^="http:"],
+a[target=_blank]:not([rel^=noreferrer]):not([rel^=noopener]) /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#security_and_privacy */
+{
+	outline: 5px dashed var(--o⋄color⁚diagnostics--security) !important;
+}

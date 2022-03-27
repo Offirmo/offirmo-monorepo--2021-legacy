@@ -1,0 +1,112 @@
+
+
+
+/* glassmorphism
+ * https://glassmorphism.com/
+ */
+.o⋄glass {
+	background: rgba( 255, 255, 255, 0.25 );
+	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+	backdrop-filter: blur( 4px );
+	-webkit-backdrop-filter: blur( 4px );
+	border-radius: 10px;
+	border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+
+
+
+/* https://tympanus.net/codrops/2020/03/31/css-only-marquee-effect/ */
+
+/******* Checkbox hack *******
+ * https://css-tricks.com/the-checkbox-hack/
+ */
+/*.o⋄checkbox-hacked {
+	position: absolute;
+	opacity: 0.5;
+	pointer-events: none;
+}*/
+
+/******* animated progress *******
+ * See also the progress reset in style--reset.css
+ * https://snook.ca/archives/html_and_css/animating-progress
+ */
+/* animated */
+/*
+progress.o⋄animated::-webkit-progress-value {
+	transition: width 1s;
+}
+progress.o⋄animated::-moz-progress-bar {
+	transition: padding-bottom 1s;
+	padding-left: 60px;
+	padding-bottom: var(--value);
+	height: 0;
+	transform-origin: 0 0;
+	transform: rotate(-90deg) translateX(-60px) ;
+}
+progress.o⋄animated::-ms-fill {
+	border:0;
+}
+*/
+
+
+/* TODO test */
+/* https://medium.com/@matuzo/writing-css-with-accessibility-in-mind-8514a0007939 */
+.o⋄visually-hidden {
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	border: 0;
+	padding: 0;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	margin: -1px;
+}
+
+/* "Automatic" dark mode from a light theme
+ * https://wgtwo.com/blog/hacking-dark-themes-with-css-blend-modes/
+ */
+.o⋄invert-to-dark-mode {
+	mix-blend-mode: difference;
+	filter: brightness(0.67) hue-rotate(180deg);
+}
+
+
+
+
+/* https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886 */
+.o⋄shadow {
+	box-shadow: 0 4px 6px 0 var(--o⋄color⁚shadow);
+}
+.o⋄shadow--subtle {
+	box-shadow: 0 2px 6px 0 var(--o⋄color⁚shadow);
+}
+.o⋄shadow--inset {
+	box-shadow: inset 0 2px 4px 0 var(--o⋄color⁚shadow);
+}
+
+
+/* TODO check if useful */
+.omr⋄filter⁚blurred⁚1 {
+	-webkit-filter: blur(1px);
+	-moz-filter: blur(1px);
+	-ms-filter: blur(1px);
+	-o-filter: blur(1px);
+	filter: blur(1px);
+}
+.omr⋄filter⁚blurred⁚5 {
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-ms-filter: blur(5px);
+	-o-filter: blur(5px);
+	filter: blur(5px);
+}
+.omr⋄filter⁚blurred⁚10 {
+	-webkit-filter: blur(10px);
+	-moz-filter: blur(10px);
+	-ms-filter: blur(10px);
+	-o-filter: blur(10px);
+	filter: blur(10px);
+}

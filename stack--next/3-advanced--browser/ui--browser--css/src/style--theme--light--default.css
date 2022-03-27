@@ -1,0 +1,39 @@
+/* Traditional, most efficient theme
+ */
+
+:root {
+
+}
+
+
+:root, /* this theme is the default */
+[data-o-theme="light--default"] {
+	/* quasi black */
+	--o⋄dtoken⁚fg--h: 0;
+	--o⋄dtoken⁚fg--s: 0%;
+	--o⋄dtoken⁚fg--l: 17%;
+	/* quasi white */
+	--o⋄dtoken⁚bg--h: 0;
+	--o⋄dtoken⁚bg--s: 0%;
+	--o⋄dtoken⁚bg--l: 98%;
+
+	--o⋄color⁚fg--main:       hsl(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l)); /* ex. header and text */
+	--o⋄color⁚fg--secondary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .66); /* ex. date an article was published */
+	--o⋄color⁚fg--ancillary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .33); /* ex. copyright notice in a footer */
+
+	--o⋄color⁚fg--accent: var(--o⋄color⁚fg--main);
+	--o⋄color⁚fg--activity-outline: #7AACFE; /* accent on tab, seldom used */
+
+	--o⋄color⁚bg--main:            hsl(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l));
+	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .9); /* for modals, tooltips etc. tried and tested, 0.9 is the best, see stories */
+
+	--o⋄color⁚bg--highlight--1: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .1); /* bg color visible on normal bg, ex. for buttons */
+	--o⋄color⁚bg--highlight--2: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .3); /* alt, ex. for hovered/clicked buttons */
+
+	--o⋄color⁚shadow: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .2); /* = fg translucent */
+
+	--o⋄color⁚fg--error: hsl(2, 75%, 45%);
+	--o⋄color⁚fg--warning: var(--o⋄color⁚boz__yellow);
+	--o⋄color⁚fg--info: var(--o⋄color⁚boz__blue);
+	--o⋄color⁚fg--success: var(--o⋄color⁚boz__green);
+}

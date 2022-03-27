@@ -1,0 +1,73 @@
+
+/* very convenient container to propagate full height
+ * NOTE: full height applied by default on <html> and <body>
+ * but adding this activates the debug markings
+ */
+.o⋄top-container {
+	display: flex;
+	flex-direction: column;
+
+	height: 100%;
+
+	/* To be able to scroll inside a flexbox
+	 * https://medium.com/@stephenbunch/how-to-make-a-scrollable-container-with-dynamic-height-using-flexbox-5914a26ae336
+	 */
+	flex-grow: 1;
+	min-height: 0; /* or else min-height may be too big */
+}
+
+.o⋄centered-article {
+	max-width: var(--o⋄content-recommended-width);
+	width: 100%; /* avoid lower than max if possible. Possible alternative: inherit */
+
+	margin: 0 auto;/* horizontal centering */
+
+	padding: .7em; /* looks good by default. Use o⋄paddingꘌnone else */
+}
+
+.o⋄body⁚full-viewport {
+	max-width: unset;
+	width: 100%; /* avoid lower than max if possible */
+}
+
+.o⋄input-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.o⋄input-container input[type="checkbox"], .o⋄input-container input[type="radio"] {
+	margin-right: .3em;
+}
+
+.o⋄border⁚default {
+	border: solid var(--o⋄border--thickness) var(--o⋄color⁚fg--main);
+}
+
+.o⋄error-report {
+	font-size: xx-small;
+	font-family: monospace;
+	color: var(--o⋄color⁚fg--error);
+	/*background-color: rgba(0, 0, 0, .3); /* TODO */
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+	margin: auto;
+	z-index: 100000; /* just in case TODO check */
+}
+.o⋄error-report > pre, .o⋄error-report > samp {
+	white-space: pre-wrap;
+	text-align: initial;
+}
+
+
+.o⋄box {
+	padding: .5em;
+	border: solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color⁚fg--main);
+}
+.o⋄bg-colorꘌbackdrop {
+	background-color: var(--o⋄color⁚bg--main--backdrop);
+}
+
+
+.o⋄bg⁚cover {
+	background-size: cover;
+	background-position: center; /* good default */
+}

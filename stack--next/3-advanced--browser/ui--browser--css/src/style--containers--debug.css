@@ -1,0 +1,20 @@
+/*********************/
+/* borders for debug, display only if debug activated */
+
+
+.o⋄top-container {
+	/* debug technique */
+	box-sizing: border-box;
+	border-style: solid;
+	border-width: 0;
+}
+/* comment/uncomment this for debug*/
+/*.o⋄top-container {
+	border-width: 1px;
+}*/
+
+/* Note: will only work if has class o⋄top-container (should) */
+html                                  { border-color: red; }
+body                                  { border-color: greenyellow; }
+body .o⋄top-container:nth-child(odd)  { border-color: greenyellow; }
+body .o⋄top-container:nth-child(even) { border-color: red; }

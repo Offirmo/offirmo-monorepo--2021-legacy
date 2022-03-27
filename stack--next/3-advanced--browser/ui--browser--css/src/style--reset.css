@@ -1,0 +1,174 @@
+
+/*********************/
+
+:root {
+}
+
+/* apply a natural box layout model to all elements, but allowing components to change
+ * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ * https://github.com/mike-engel/a11y-css-reset/pull/12#issuecomment-516582884
+ */
+html                   { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+/* but allow to reset it if needed
+ * https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ */
+.box-sizing-reset {
+	box-sizing: initial;
+}
+
+/*********************/
+
+/* https://css-tricks.com/reset-all-margins-padding/
+ * https://mxstbr.com/thoughts/margin
+ */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/*********************/
+
+html, body {
+	height: 100%;
+	min-height: 100%;
+	width: 100%;
+}
+
+html {
+	/* https://evilmartians.com/chronicles/scroll-to-the-future-modern-javascript-css-scrolling-implementations */
+	scroll-behavior: smooth;
+}
+
+body {
+	padding: .7em; /* good default, cancel it explicitly if needed */
+
+	/* adapted from https://perfectmotherfuckingwebsite.com */
+	max-width: var(--o⋄content-recommended-width);
+	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
+
+	/* defaults, overrides welcome */
+	font-family: var(--o⋄font-family--fast_and_good_enough);
+	color: var(--o⋄color⁚fg--main);
+	background-color: var(--o⋄color⁚bg--main);
+	accent-color: var(--o⋄color⁚fg--accent); /* https://web.dev/accent-color/ https://www.smashingmagazine.com/2021/09/simplifying-form-styles-accent-color/ */
+
+	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
+	text-rendering: optimizeLegibility; /* challenge about perf: https://marco.org/2012/11/15/text-rendering-optimize-legibility
+	                                     * Tested: this options makes a TOO HUGE difference in quality to be missed.
+	                                     * For ex. it enables the computing of lighter/bolder variants.
+	                                     */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	line-height: var(--o⋄line-height--default);
+	font-size: var(--o⋄font-size--default);
+}
+
+/* Note that h4~h6 are smaller than p! usage not recommended */
+
+h1, h2, h3 {
+	/* line-height: 1.2;/* https://perfectmotherfuckingwebsite.com/ */
+}
+h1, h2, h3, p {
+	margin: 0; /* cancel normalize.css. Please use a flow/rhythm class instead! */
+}
+h1 {
+	font-size: calc(var(--o⋄font-size--default) * var(--o⋄header-scale-ratio));
+}
+h2 {
+	font-size: calc(var(--o⋄font-size--default) * (1 + ((var(--o⋄header-scale-ratio) - 1) * .66)));
+}
+h3 {
+	font-size: calc(var(--o⋄font-size--default) * (1 + ((var(--o⋄header-scale-ratio) - 1) * .33)));
+}
+
+
+/* nicer lists */
+ul, ol {
+	/* instead of fixed */
+	padding-inline-start: 1.5em; /* nice and aligns with a <details> */
+}
+
+/* nicer tables */
+table {
+	/* https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Styling_tables */
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+td {
+	text-align: center;
+}
+/* zebra striping */
+tbody tr:nth-child(odd) {
+	background-color: var(--o⋄color⁚bg--highlight--1);
+}
+
+
+/* nicer collapsibles */
+details {
+	border: dashed var(--o⋄border--thickness) transparent;
+	padding-left: .4em;
+}
+details summary {
+	/* https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/ */
+	cursor: pointer;
+}
+details summary > * {
+	/* https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/ */
+	display: inline;
+}
+details[open] {
+	border-color: var(--o⋄color⁚fg--main);
+}
+details > *:nth-child(n+2) { /* assuming the 1st child is the <summary> */
+	padding-left: 1.05em;
+}
+
+/* nicer */
+figure {
+	text-align: center;
+}
+
+
+img {
+	/* src: ? */
+	image-rendering: -webkit-optimize-contrast;
+	/* https://photo.stackexchange.com/questions/104337/how-i-can-losslessly-rotate-photos#comment217649_104340 */
+	image-orientation: from-image;
+}
+
+
+/* Adapt links to the main color.
+ * Better than the defaults.
+ */
+a {
+	text-decoration-color: var(--o⋄color⁚fg--secondary);
+	touch-action: manipulation; /* we assume PWA, https://webkit.org/blog/5610/more-responsive-tapping-on-ios/ */
+}
+a:link,
+a:visited {
+	color: inherit;
+}
+a:hover,
+a:active {
+	color: var(--o⋄color⁚fg--activity-outline);
+}
+
+
+/* Nicer HR
+ * possible ideas: https://css-tricks.com/examples/hrs/
+ */
+hr {
+	/* simple one */
+	width: 100%;
+	border: none;
+	border-top: var(--o⋄border--thickness) solid;
+	background-color: var(--o⋄color⁚fg--ancillary);
+}
+
+iframe {
+	/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes */
+	border: 0;
+}

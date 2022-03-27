@@ -1,0 +1,51 @@
+
+.o⋄text-noselect {
+	cursor:  pointer;
+
+	/* disable text selection, since unclean clicks/taps may select text
+	 * and cause inconvenience (especially on mobile)
+	 * https://stackoverflow.com/a/4407335/587407
+	 */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/******* lists *******/
+
+.o⋄nav-list {
+	list-style-type: none;
+
+	/* helps if we want to do fancy positioning
+	 * ex. combine with .o⋄flex--centered-content
+	 */
+	display: flex;
+	flex-direction: row;
+}
+.o⋄nav-list li {
+}
+.o⋄nav-list a {
+	text-decoration: none; /* usually what we want */
+}
+/* https://stackoverflow.com/a/8185290/587407 */
+.o⋄nav-list li + li  {
+	margin-left: 2em;
+}
+
+
+/* https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html */
+.o⋄plain-list {
+	list-style: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E");
+	padding-left: 0;
+}
+
+
+/* special "inline" button */
+button.o⋄button--inline {
+	--o⋄border--thickness__button: 0; /* override own CSS var for this typeof button */
+	padding: .1em .3em;
+	border-radius: .25em;
+}

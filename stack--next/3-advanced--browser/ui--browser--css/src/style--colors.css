@@ -1,0 +1,54 @@
+
+/* Good tools:
+ * https://www.cssportal.com/css-color-converter/
+ * https://picular.co/quality
+ *
+ * Principles:
+ * - https://ianstormtaylor.com/design-tip-never-use-black/
+ */
+:root {
+	/* modifiers, to be used as overlays */
+	--o⋄color⁚darker--10: rgba(0, 0, 0, .1);
+	--o⋄color⁚darker--20: rgba(0, 0, 0, .2);
+	--o⋄color⁚darker--90: rgba(0, 0, 0, .9);
+
+	--o⋄color⁚lighter--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color⁚lighter--20: rgba(100%, 100%, 100%, .2);
+	--o⋄color⁚lighter--90: rgba(100%, 100%, 100%, .9);
+
+	/*
+	--o⋄color⁚dolt__quasi-black: hsl(0, 0%, 17%);
+	--o⋄color⁚dolt__dark-grey:   hsl(0, 0%, 33%);
+	--o⋄color⁚dolt__medium-grey: hsl(0, 0%, 66%);
+	--o⋄color⁚dolt__quasi-white: hsl(0, 0%, 98%);
+	*/
+
+	/* from https://boz.com/
+	 * Looks good on dark backgrounds
+	 */
+	--o⋄color⁚boz__gray:     hsl(0,    0%, 60%);
+	--o⋄color⁚boz__yellow:   hsl(53,  87%, 57%);
+	--o⋄color⁚boz__pink:     hsl(318, 87%, 69%);
+	--o⋄color⁚boz__green:    hsl(93,  73%, 61%);
+	--o⋄color⁚boz__cyan:     hsl(180, 86%, 52%);
+	--o⋄color⁚boz__blue:     hsl(199, 81%, 56%);
+	--o⋄color⁚boz__purple:   hsl(269, 83%, 77%);
+}
+
+
+
+.o⋄colorꘌmain {
+	color: var(--o⋄color⁚fg--main);
+}
+
+.o⋄colorꘌsecondary {
+	color: var(--o⋄color⁚fg--secondary);
+}
+
+.o⋄colorꘌancillary {
+	color: var(--o⋄color⁚fg--ancillary);
+}
+
+.o⋄border-colorꘌancillary {
+	border-color: var(--o⋄color⁚fg--ancillary);
+}

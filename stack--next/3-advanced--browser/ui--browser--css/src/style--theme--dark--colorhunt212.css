@@ -1,0 +1,44 @@
+/* "colorhunt 212" light on dark theme
+ * https://www.colorhunt.co/c/212
+ */
+
+:root {
+	--o⋄color⁚co212__beige:   hsl(42, 100%, 87%); /* #FFEBBC */
+	--o⋄color⁚co212__blue:    hsl(185, 33%, 52%); /* #5DA7AE */
+	--o⋄color⁚co212__brown:   hsl(337, 16%, 28%); /* #543D46 */
+	--o⋄color⁚co212__dark:    hsl(248,  9%, 17%); /* #292830 */
+
+	/*outline-color: var(--o⋄color⁚co212__beige);*/
+}
+
+
+[data-o-theme="dark--colorhunt212"] {
+	/* light beige */
+	--o⋄dtoken⁚fg--h: 42;
+	--o⋄dtoken⁚fg--s: 100%;
+	--o⋄dtoken⁚fg--l: 87%;
+	/* dark */
+	--o⋄dtoken⁚bg--h: 248;
+	--o⋄dtoken⁚bg--s: 9%;
+	--o⋄dtoken⁚bg--l: 17%;
+
+	--o⋄color⁚fg--main:       hsl(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l));
+	--o⋄color⁚fg--secondary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .66);
+	--o⋄color⁚fg--ancillary: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .33);
+
+	--o⋄color⁚fg--accent: var(--o⋄color⁚fg--main);
+	--o⋄color⁚fg--activity-outline: var(--o⋄color⁚co212__blue);
+
+	--o⋄color⁚bg--main:            hsl(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l));
+	--o⋄color⁚bg--main--backdrop: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .9);
+
+	--o⋄color⁚bg--highlight--1: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .2);
+	--o⋄color⁚bg--highlight--2: hsla(var(--o⋄dtoken⁚fg--h), var(--o⋄dtoken⁚fg--s), var(--o⋄dtoken⁚fg--l), .4);
+
+	--o⋄color⁚shadow: hsla(var(--o⋄dtoken⁚bg--h), var(--o⋄dtoken⁚bg--s), var(--o⋄dtoken⁚bg--l), .2);
+
+	--o⋄color⁚fg--error: red;
+	--o⋄color⁚fg--warning: var(--o⋄color⁚boz__yellow);
+	--o⋄color⁚fg--info: var(--o⋄color⁚boz__blue);
+	--o⋄color⁚fg--success: var(--o⋄color⁚boz__green);
+}

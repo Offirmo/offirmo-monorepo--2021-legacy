@@ -1,0 +1,118 @@
+/******* misc *******/
+
+/* Alter the ugly focus ring
+ * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
+ * TODO UPDATE https://css-tricks.com/platform-news-using-focus-visible-bbcs-new-typeface-declarative-shadow-doms-a11y-and-placeholders/#declarative-shadow-dom-could-help-popularize-style-encapsulation
+ */
+/* 1) no focus style for non-keyboard-inputs elements */
+*:focus {
+	outline: none;
+}
+/* 2) and for keyboard users, override everything with
+ *    a classic ring when focused on any element
+ */
+body.user-is-tabbing *:focus {
+	outline: 5px auto var(--o⋄color⁚fg--activity-outline);
+}
+
+/* TODO style more controls http://filamentgroup.github.io/select-css/demo/ */
+
+
+/************ buttons ************
+ * https://css-tricks.com/overriding-default-button-styles/
+ * https://fvsch.com/code/styling-buttons/
+ */
+
+
+/* Simple styling derived from "button 8" from
+ * https://fdossena.com/?p=html5cool/buttons/i.frag
+ */
+button {
+	touch-action: manipulation; /* we assume PWA, https://webkit.org/blog/5610/more-responsive-tapping-on-ios/ */
+
+	--border--thickness: var(--o⋄border--thickness__button, var(--o⋄border--thickness));
+
+	/* TODO fit-content ? https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content */
+	display: inline-block;
+	padding: .3em 2.1em;
+	margin: .1em; /* TODO remove and move to a container? https://mxstbr.com/thoughts/margin */
+	border: solid calc(var(--border--thickness) * 2) var(--o⋄color⁚fg--main);
+
+	background-color: var(--o⋄color⁚bg--highlight--1);
+	color: var(--o⋄color⁚fg--main);
+	text-decoration: none;
+	text-align: center;
+
+	/* stripe.com
+	box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08); */
+}
+button:hover {
+	background-color: var(--o⋄color⁚bg--highlight--2);
+	/*box-shadow: 0 0 .3em 0 var(--o⋄color⁚bg--main--backdrop);*/
+}
+button:active {
+	background-color: var(--o⋄color⁚bg--highlight--2);
+	border-color: var(--o⋄color⁚fg--activity-outline);
+}
+
+
+/************ progress ************/
+
+/* Reset the default appearance
+ * https://css-tricks.com/html5-progress-element/
+ * https://snook.ca/archives/html_and_css/animating-progress
+ */
+progress {
+	--o⋄color⁚progress--bg: var(--o⋄color⁚bg--highlight--1);
+	--o⋄color⁚progress-border: var(--o⋄color⁚bg--highlight--1);
+	--o⋄color⁚progress-bar: var(--o⋄color⁚fg--main);
+
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	vertical-align: middle;
+	background-color: var(--o⋄color⁚progress--bg);
+	border: solid var(--o⋄border--thickness) var(--o⋄color⁚progress-border);
+	overflow: hidden;
+}
+/* necessary to style the progress bar background */
+progress::-webkit-progress-bar {
+	background-color: var(--o⋄color⁚progress--bg);
+}
+progress::-webkit-progress-value {
+	background-color: var(--o⋄color⁚progress-bar);
+}
+progress::-moz-progress-bar {
+	background-color: var(--o⋄color⁚progress-bar);
+}
+progress::-ms-fill {
+	background-color: var(--o⋄color⁚progress-bar);
+	border: 0;
+}
+
+
+/************ scroll bars ************/
+
+/* Standard
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars
+ */
+html, body {
+	/* <scrollbar color> <scrollbar track color> */
+	scrollbar-color: var(--o⋄color⁚bg--highlight--1) var(--o⋄color⁚bg--main);
+	scrollbar-width: thin;
+}
+*, *::before, *::after { scrollbar-color: inherit; scrollbar-width: inherit; }
+
+
+/* non-standard Chrome
+ * https://stackoverflow.com/a/14150577/587407
+ * https://css-tricks.com/almanac/properties/s/scrollbar/
+ */
+::-webkit-scrollbar {
+	width: .5em;
+}
+::-webkit-scrollbar-thumb {
+	background-color: var(--o⋄color⁚bg--highlight--2);
+	/*-webkit-box-shadow: inset 0 0 .4em var(--o⋄color⁚bg--highlight--2);*/
+}

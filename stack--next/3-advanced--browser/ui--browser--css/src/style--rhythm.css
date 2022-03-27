@@ -1,0 +1,32 @@
+
+/* https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/
+ * https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/
+ */
+
+:root {
+	/* sane default */
+	--flow-space: calc(.75 * var(--o⋄adjusted-em));
+}
+
+.o⋄children-spacing⁚flow {
+}
+.o⋄children-spacing⁚flow > * + * {
+	margin: var(--flow-space) 0;
+}
+.o⋄children-spacing⁚flow > hr {
+	margin: calc(.5 * var(--flow-space)) 0;
+}
+.o⋄children-spacing⁚flow > li {
+	margin: calc(0.1 * var(--flow-space)) 0;
+}
+
+.o⋄children-spacing⁚flow-spaceꘌnone {
+	--flow-space: 0;
+}
+/*
+.o⋄children-spacing⁚flow-spaceꘌdefault {
+	--flow-space: calc(.75 * var(--o⋄adjusted-em));
+}
+.o⋄children-spacing⁚flow-spaceꘌlarge {
+	--flow-space: calc(1 * var(--o⋄adjusted-em));
+}*/

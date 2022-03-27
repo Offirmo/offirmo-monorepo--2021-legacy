@@ -1,0 +1,80 @@
+
+.o⋄text-alignꘌcenter {
+	text-align: center;
+}
+
+.o⋄positionꘌabsolute {
+	position: absolute;
+}
+.o⋄positionꘌrelative {
+	position: relative;
+}
+.o⋄positionꘌfixed {
+	position: fixed;
+}
+
+/******* flex *******/
+
+.o⋄flex--directionꘌrow {
+	display: flex;
+	flex-direction: row;
+}
+.o⋄flex--directionꘌcolumn {
+	display: flex;
+	flex-direction: column;
+}
+
+.o⋄flex--centered-content {
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+/* https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
+.o⋄flex-element--nogrow {
+	flex-grow: 0;
+}
+.o⋄flex-element--grow {
+	flex-grow: 1;
+}
+
+
+.o⋄paddingꘌnone {
+	padding: 0;
+}
+.o⋄paddingꘌsmall {
+	padding: .3em;
+}
+.o⋄paddingꘌmedium {
+	padding: .7em;
+}
+
+
+.o⋄marginꘌnone {
+	margin: 0;
+}
+
+/******* container utils *******/
+
+.o⋄overflow-yꘌauto {
+	overflow-y: auto;
+}
+
+/* XXX NO there is likely an underlying problem!
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+*/
+
+.o⋄widthꘌ100pc {
+	width: 100%;
+}
+.o⋄heightꘌ100pc {
+	height: 100%;
+}
+
+/******* misc *******/
+.o⋄fast-tap {
+	touch-action: manipulation; /* https://webkit.org/blog/5610/more-responsive-tapping-on-ios/ */
+}

@@ -1,0 +1,30 @@
+
+
+:root {
+	/* transfer the env() to variables so that
+	 * - we can programmatically read them
+	 * - we can override them (carefully)
+	 * Of course only the var() version must be used in the framework.
+	 */
+	--safe-area-inset-top:    env(safe-area-inset-top,    0px);
+	--safe-area-inset-right:  env(safe-area-inset-right,  0px);
+	--safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+	--safe-area-inset-left:   env(safe-area-inset-left,   0px);
+}
+
+:root {
+	--o⋄scale: 1.0; /* overall scale of the UI, to allow programmatic scaling TODO calc(var(--o⋄scale) * XXX);*/
+	--o⋄adjusted-em: 1em; /* use this instead of the em unit, to allow each font to slightly adjust its em */
+
+	/* base sizes */
+	--o⋄content-recommended-width: calc(650px * var(--o⋄scale)); /* a suggested good max width for text content. Taken from https://bettermotherfuckingwebsite.com/ */
+	--o⋄font-size--default: calc(14px * var(--o⋄scale));
+	--o⋄line-height--default: 1.5;
+	--o⋄border--thickness: 1px;
+	--o⋄header-scale-ratio: 2; /* the ratio between the h1 font size and the baseFontSize.
+	    So if the scale ratio is 2 and the baseFontSize is 16px then the h1 font size is 32px
+	    inspired by https://kyleamathews.github.io/typography.js/
+	   */
+
+	/* TODO share the padding values? */
+}

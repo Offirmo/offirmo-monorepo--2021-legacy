@@ -1,0 +1,10 @@
+/*
+TODO steal themes from:
+  multiples https://themer.dev/
+  dark: https://github.com/gaearon/subliminal
+ */
+
+@import './style--theme--light--default.css';
+@import './style--theme--dark--default.css';
+
+/* other themes must be imported manually */

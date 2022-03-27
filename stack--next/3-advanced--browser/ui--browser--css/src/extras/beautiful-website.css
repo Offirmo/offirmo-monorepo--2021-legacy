@@ -1,0 +1,11 @@
+/* nice but may not be desirable for perf reasons */
+
+body {
+	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
+	text-rendering: optimizeLegibility; /* challenge about perf: https://marco.org/2012/11/15/text-rendering-optimize-legibility
+	                                     * Tested: this options makes a HUGE difference in quality
+	                                     * TODO screenshot, can't find the diff anymore :-(
+	                                     */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,141 @@
+
+/*********************/
+/* TODO https://equinusocio.dev/blog/web-fonts-in-2018 */
+
+:root {
+	/* https://perfectmotherfuckingwebsite.com/ */
+	--o⋄font-family--fast_and_good_enough: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+	--o⋄font-family--system: "o⋄system", -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+	--o⋄font-family--roboto: "Roboto", -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+	--o⋄font-family--roboto-condensed: "Roboto Condensed", "Roboto", -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+	--o⋄font-family--roboto-mono: "Roboto Mono", monospace;
+}
+
+/*********************/
+
+.o⋄fontꘌfast-and-good-enough {
+	font-family: var(--o⋄font-family--fast_and_good_enough);
+	/* TODO font size */
+}
+
+.o⋄fontꘌsystem {
+	font-family: var(--o⋄font-family--system);
+}
+
+.o⋄fontꘌroboto {
+	font-family: var(--o⋄font-family--roboto);
+}
+
+.o⋄fontꘌroboto-condensed {
+	font-family: var(--o⋄font-family--roboto-condensed);
+}
+
+.o⋄fontꘌroboto-mono {
+	font-family: var(--o⋄font-family--roboto-mono);
+}
+
+/*********************/
+
+
+/* https://css-tricks.com/snippets/css/system-font-stack/ */
+@font-face {
+	font-family: 'o⋄system';
+	font-style: normal;
+	font-weight: 300;
+	src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
+}
+
+/* adapted from:
+ https://fonts.google.com/?selection.family=Roboto|Roboto+Condensed|Roboto+Mono&query=roboto&selection.subset=latin-ext
+ @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Roboto+Mono&subset=latin-ext');
+ */
+/* TODO load from local npm ? */
+
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto'),
+		local('Roboto-Regular'),
+		url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2) format('woff2'),
+		url('font--roboto_regular--latin.v18.woff2') format('woff2');
+	/* latin */
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto'),
+		local('Roboto-Regular'),
+		url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7GxKKTU1Kvnz.woff2) format('woff2'),
+		url('font--roboto_regular--latin-ext.v18.woff2') format('woff2');
+	/* latin-ext */
+	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* https://gist.github.com/mfornos/9991865 */
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Apple Color Emoji'),
+		local('Android Emoji'),
+		local('Segoe UI'),
+		local(EmojiSymbols),
+		local(Symbola);
+	/* Emoji unicode blocks */
+	unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF;
+}
+
+
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto Condensed'),
+		local('RobotoCondensed-Regular'),
+		url(https://fonts.gstatic.com/s/robotocondensed/v16/ieVl2ZhZI2eCN5jzbjEETS9weq8-19K7DQk6YvM.woff2) format('woff2'),
+		url('font--roboto_condensed_regular--latin.v16.woff2') format('woff2');
+	/* latin */
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto Condensed'),
+		local('RobotoCondensed-Regular'),
+		url(https://fonts.gstatic.com/s/robotocondensed/v16/ieVl2ZhZI2eCN5jzbjEETS9weq8-19y7DQk6YvNkeg.woff2) format('woff2'),
+		url('font--roboto_condensed_regular--latin-ext.v16.woff2') format('woff2');
+	/* latin-ext */
+	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+
+@font-face {
+	font-family: 'Roboto Mono';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto Mono'),
+		local('RobotoMono-Regular'),
+		url(https://fonts.gstatic.com/s/robotomono/v5/L0x5DF4xlVMF-BfR8bXMIjhLq3-cXbKD.woff2) format('woff2');
+	/* latin */
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Roboto Mono';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto Mono'),
+		local('RobotoMono-Regular'),
+		url(https://fonts.gstatic.com/s/robotomono/v5/L0x5DF4xlVMF-BfR8bXMIjhFq3-cXbKDO1w.woff2) format('woff2');
+	/* latin-ext */
+	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}

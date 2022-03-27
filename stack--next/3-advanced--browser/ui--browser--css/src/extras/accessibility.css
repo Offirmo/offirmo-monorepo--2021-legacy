@@ -1,0 +1,20 @@
+
+/* https://hankchizljaw.com/wrote/a-modern-css-reset/ */
+/* https://github.com/mike-engel/a11y-css-reset/blob/master/a11y.css */
+/* prettier-ignore */
+@media(prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		/* TODO review, unsure */
+
+		transition: none !important;
+		animation: none !important;
+
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+
+		scroll-behavior: auto !important;
+	}
+}
