@@ -6,21 +6,42 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-	"heroku-run-build-script": false,
-	"engines": {
-		"node": "16.x"
-	},
+
 	"COMMENTS": {
 		"01": "dependencies: Netlify build only installs PROD dependencies, so make sure modules critical for scripts are included!"
 	},
+
+	"heroku-run-build-script": false,
+
+	"engines": {
+		"node": "16.x"
+	},
+
 	"scripts": {
 		"heroku-prebuild": "echo This runs before Heroku nodjs buildback installs dependencies. Ensuring monorepo setup... && pwd && test -f Procfile",
-		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && pwd && ls -l"
+		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies. && pwd && ls -l",
+		"manypkg--check": "manypkg check",
+		"manypkg--fix": "manypkg fix"
 	},
 	"workspaces": [
 		"0-scripts",
+		"0-meta/*",
+		"1-stdlib/*",
+		"2-foundation/*",
+		"3-advanced--browser/*",
+		"3-advanced--isomorphic/*",
+		"3-advanced--multi/*",
+		"3-advanced--node/*",
+		"4-tools/*",
+		"5-incubator/active/*",
+		"9-oh-my-rpg/*",
 		"A-apps--core/immortal-clicker/*",
-		"C-apps--clients/immortal-clicker/*"
+		"A-apps--core/the-boring-rpg/*",
+		"A-apps--core/isekai-capitalist/*",
+		"B-apps--support/online-adventur.es/*",
+		"C-apps--clients/immortal-clicker/*",
+		"C-apps--clients/the-boring-rpg/*",
+		"D-minisites/*"
 	],
 	"dependencies": {
 		"chalk": "^5",
@@ -34,7 +55,7 @@
 		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
-		"@microsoft/rush": "^5.63.0",
+		"@manypkg/cli": "^0.19",
 		"@parcel/config-default": "^2",
 		"@parcel/packager-ts": "^2",
 		"@parcel/transformer-typescript-tsc": "^2",

@@ -13,6 +13,8 @@
 	},
 
 	"dependencies": {
+		"@immortal-clicker/name-generator": "^0",
+		"@offirmo-private/ui--browser--css": "^0"
 	},
 
 	"devDependencies": {

@@ -10,11 +10,15 @@ Why yarn over npm?
 
 
 ## monorepo
-* yarn workspaces
+* **yarn workspaces**
+* complemented by https://github.com/Thinkmill/manypkg
+
+Why not bolt? https://github.com/boltpkg/bolt
+* maintained but sort of dead
+
+Why not rush? https://rushjs.io/
+* too complicated, needs every pkg declared in a huge config
+
 
 
 ## tosort
-
-
-- monorepo
-  - rush
