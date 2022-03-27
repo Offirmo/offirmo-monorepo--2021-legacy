@@ -44,10 +44,14 @@
 		"D-minisites/*"
 	],
 	"dependencies": {
+		"@fontsource/roboto": "^4",
+		"@fontsource/roboto-condensed": "^4",
+		"@fontsource/roboto-mono": "^4",
 		"chalk": "^5",
 		"fs-extra": "^10",
 		"lodash": "^4",
 		"meow": "^10",
+		"normalize.css": "^8",
 		"path-exists": "^5",
 		"tildify": "^3",
 		"tiny-invariant": "^1",
@@ -60,6 +64,7 @@
 		"@parcel/packager-ts": "^2",
 		"@parcel/transformer-typescript-tsc": "^2",
 		"@parcel/transformer-typescript-types": "^2",
+		"cpx": "^1",
 		"npm-run-all": "^4",
 		"parcel": "^2",
 		"typescript": "^4",
