@@ -88,3 +88,6 @@ Trust, but verify
 
 https://cobeats.com/folder/ryfTgPr9H
 https://flinkliv.com/
+https://en.wikipedia.org/wiki/If%E2%80%94
+
+It's not about lowering the bar, it's about helping more people reach it.

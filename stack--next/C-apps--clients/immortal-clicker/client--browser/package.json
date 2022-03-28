@@ -8,6 +8,7 @@
 	"source": "src/index.html",
 
 	"scripts": {
+		"refresh-favicons": "mkdir -p src/favicons && real-favicon generate src2/realfavicongenerator.net/faviconDescription.json src2/realfavicongenerator.net/faviconData.json src/favicons",
 		"start": "parcel --log-level verbose",
 		"build": "parcel build --log-level verbose"
 	},
@@ -20,6 +21,7 @@
 	"devDependencies": {
 		"@parcel/config-default": "^2",
 		"@parcel/transformer-typescript-tsc": "^2",
+		"cli-real-favicon": "^0",
 		"parcel": "^2"
 	}
 }

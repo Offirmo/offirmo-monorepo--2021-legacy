@@ -44,19 +44,10 @@
 		"D-minisites/*"
 	],
 	"dependencies": {
-		"@fontsource/roboto": "^4",
-		"@fontsource/roboto-condensed": "^4",
-		"@fontsource/roboto-mono": "^4",
 		"chalk": "^5",
 		"fs-extra": "^10",
-		"lodash": "^4",
 		"meow": "^10",
-		"normalize.css": "^8",
-		"path-exists": "^5",
-		"tildify": "^3",
-		"tiny-invariant": "^1",
-		"tslib": "^2",
-		"typescript-string-enums": "^1"
+		"tiny-invariant": "^1"
 	},
 	"devDependencies": {
 		"@manypkg/cli": "^0.19",
