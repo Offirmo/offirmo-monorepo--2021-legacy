@@ -47,6 +47,7 @@ cultivation furnace
 cultivation realm
 cultivation realms
 curses
+dantian https://en.wikipedia.org/wiki/Dantian
 dao
 dao protector
 dao reserve
@@ -74,9 +75,9 @@ essence of poison
 essence of rain
 essence of reality
 essence of reincarnation
-essence of space https://writings.stephenwolfram.com/2022/03/on-the-concept-of-motion/
 essence of sea
 essence of slaughter
+essence of space https://writings.stephenwolfram.com/2022/03/on-the-concept-of-motion/
 essence of sun / moon / stars
 essence of sword
 essence of thunder
@@ -99,6 +100,7 @@ meridians
 merits
 mount
 mouthful of blood
+neidan https://en.wikipedia.org/wiki/Neidan
 pair cultivation
 pills
 poison(s)

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's html template v2.0.0 -->
+
+<!-- maximum language hints to prevent Chrome from incorrectly suggesting a translation -->
+<html lang="en" xml:lang="en" class="o⋄top-container" style="">
+
+<head>
+	<!-- https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML -->
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en" />
+	<!-- https://webkit.org/blog/7929/designing-websites-for-iphone-x/ -->
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+
+	<!-- OT⋄CUSTOM BEGIN meta tags + open graph -->
+	<!-- Grouped as to allow copy/paste from https://metatags.io/ -->
+	<!-- Primary Meta Tags -->
+	<title>Immortal Clicker</title>
+	<meta name="title" content="Immortal Clicker">
+	<meta name="description" content="Defy the Heavens to become an Immortal! Or do you like being an ant?">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://metatags.io/">
+	<meta property="og:title" content="Immortal Clicker">
+	<meta property="og:description" content="Defy the Heavens to become an Immortal! Or do you like being an ant?">
+	<meta property="og:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://metatags.io/">
+	<meta property="twitter:title" content="Immortal Clicker">
+	<meta property="twitter:description" content="Defy the Heavens to become an Immortal! Or do you like being an ant?">
+	<meta property="twitter:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+	<!-- OT⋄CUSTOM END meta tags + open graph -->
+
+	<!-- OT⋄CUSTOM END extra meta tags -->
+	<meta name="author" content="Offirmo">
+	<!-- https://webmonetization.org/ -->
+	<meta name="monetization" content="$ilp.uphold.com/26PeD6EzMhYJ">
+	<!-- OT⋄CUSTOM END extra meta tags -->
+
+	<!-- OT⋄CUSTOM BEGIN favicons -->
+	<!-- See:
+		  - modern https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df
+		  - compatible https://realfavicongenerator.net/
+	-->
+	<link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+	<link rel="manifest" href="./favicons/site.webmanifest">
+	<link rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#b91d47">
+	<link rel="shortcut icon" href="./favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#b91d47">
+	<meta name="msapplication-config" content="./favicons/browserconfig.xml">
+	<meta name="theme-color" content="#000000">
+	<!-- OT⋄CUSTOM END favicons -->
+
+	<!-- OT⋄CUSTOM BEGIN app capability -->
+	<!--
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="TODO">
+	<meta name="apple-mobile-web-app-status-bar-style" content="white">
+	-->
+	<!-- OT⋄CUSTOM END app capability -->
+
+	<script>
+		// immediately, synchronously ensure proper canonical url
+		// - proper trailing slash https://www.zachleat.com/web/trailing-slash/
+		// - (optional) clean index.html if unneeded
+		;(function _ensure_canonical_url(should_keep_index_html = true) {
+			const path_segment_after_last_slash = location.pathname.split('/').slice(-1)[0] || ''
+
+			if (!path_segment_after_last_slash) {
+				// we have a trailing slash, all good
+				return
+			}
+
+			// current path doesn't end with a trailing slash
+			// this may be ok, ex. /xyz.html = this file
+			// OR that may be an issue if we are located by our parent folder (implicit file) ex. /app
+			// https://searchfacts.com/url-trailing-slash/
+			// https://ahrefs.com/blog/trailing-slash/
+			const is_last_segment_a_html_file = path_segment_after_last_slash.endsWith('.html') || path_segment_after_last_slash.endsWith('.htm')
+
+			let new_path = location.pathname // no change for now
+
+			if (is_last_segment_a_html_file) {
+				if (path_segment_after_last_slash !== 'index.html') {
+					// all good, needed ✔
+					return
+				}
+
+				// index.html often doesn't bring anything
+				if (should_keep_index_html) {
+					// all good ✔
+					return
+				}
+
+				// remove useless index.html
+				new_path = location.pathname.split('/').slice(0, -1).join('/') + '/'
+			}
+			else {
+				// We are located by a folder without a trailing slash.
+				// We are opinionated towards a trailing slash to ease relative references.
+				// And Netlify has troubles when no trailing slash.
+				// Redirect to the version with slash:
+				// https://love2dev.com/blog/ways-to-use-javascript-redirect-to-another-page/
+				// let's be careful to not lose any part of the URL!
+				new_path = location.pathname + '/'
+			}
+
+			const new_url = location.origin + new_path + location.search + location.hash
+			location.replace(new_url)
+		})()
+	</script>
+
+	<!-- OT⋄CUSTOM BEGIN observability -->
+	<script>
+		// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
+		window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+		//ga('create', 'UA-XXXXX-Y', 'auto')
+		//ga('set', 'anonymizeIp', true)
+		//ga('set', 'transport', 'beacon')
+		//ga('send', 'pageview')
+	</script>
+	<!-- OT⋄CUSTOM END observability -->
+
+	<style>
+		@import "./index.css";
+
+		/* OT⋄CUSTOM BEGIN early styles */
+		.o⋄top-container {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+
+		:root {
+			--bg: black;
+			--fg: hsl(0, 0%, 98%);
+			--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
+
+			background-color: var(--bg);
+			color: var(--fg);
+			font-family: var(--font);
+		}
+
+		html, body {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		/* OT⋄CUSTOM END early styles */
+	</style>
+</head>
+
+<body class="o⋄top-container o⋄body⁚full-viewport" data-o-theme="dark--default" >
+	<noscript>You need to enable JavaScript to run this app.</noscript>
+
+	<!-- OT⋄CUSTOM BEGIN body -->
+	<header>
+		<hgroup>
+			<h1>...</h1>
+			<h3>My HTML5 template for pages and web apps.</h3>
+		</hgroup>
+		<nav>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Something</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<section>
+		<p>
+			Hello, world!
+			<button onclick="console.log('clicked', Date.now())">click me!</button>
+		</p>
+	</section>
+
+	<footer>
+
+		<hgroup>
+			<h3>By Offirmo</h3>
+		</hgroup>
+		<address>
+			<a href="mailto:offirmo.net@gmail.com">Email Me</a>
+		</address>
+	</footer>
+	<!-- OT⋄CUSTOM END body -->
+
+	<!-- OT⋄CUSTOM low priority scripts & misc -->
+
+	<script>
+		document.querySelector('h1').textContent = document.title
+		Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+			el.href || (el.href = el.text)
+		})
+	</script>
+
+	<script type="module">
+	</script>
+
+	<!-- https://github.com/h5bp/html5-boilerplate/blob/v8.0.0/dist/doc/faq.md#why-is-the-google-analytics-code-at-the-bottom-google-recommends-it-be-placed-in-the-head -->
+	<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+	<!-- https://perfops.net/rum -->
+	<script async src="https://cdn.perfops.net/rom3/rom3.min.js"></script>
+</body>
+</html>

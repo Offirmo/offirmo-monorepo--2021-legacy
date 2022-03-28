@@ -8,8 +8,9 @@
 	"source": "src/index.html",
 
 	"scripts": {
-		"refresh-favicons": "mkdir -p src/favicons && real-favicon generate src2/realfavicongenerator.net/faviconDescription.json src2/realfavicongenerator.net/faviconData.json src/favicons",
-		"start": "parcel --log-level verbose",
+		"real-favicon-generator--refresh": "mkdir -p src/favicons && real-favicon generate src2/realfavicongenerator.net/faviconDescription.json src2/realfavicongenerator.net/faviconData.json src/favicons",
+		"real-favicon-generator--inject": "real-favicon inject src2/realfavicongenerator.net/faviconData.json src/favicons src/*.html",
+		"dev": "parcel --log-level verbose  src/*.html --lazy",
 		"build": "parcel build --log-level verbose"
 	},
 
