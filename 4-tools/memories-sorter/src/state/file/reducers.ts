@@ -48,6 +48,7 @@ import {
 } from './selectors'
 import * as NeighborHintsLib from './sub/neighbor-hints'
 import { get_bcd_from_parent_path, get_fs_reliability_score } from './sub/neighbor-hints'
+import { BROKEN_FILE_EXTENSIONS_LC } from '../../consts'
 
 ////////////////////////////////////
 
@@ -262,7 +263,11 @@ export function on_notes_recovered(state: Immutable<State>, recovered_notes: nul
 	if (recovered_notes) {
 		const current_ext‿norm = get_current_extension‿normalized(state)
 		const original_ext‿norm = get_file_basename_extension‿normalized(recovered_notes.historical.basename)
-		assert(current_ext‿norm === original_ext‿norm, `recovered notes should refer to the same file type! "${current_ext‿norm}" vs. "${original_ext‿norm}`)
+		assert(
+			current_ext‿norm === original_ext‿norm
+			|| BROKEN_FILE_EXTENSIONS_LC.includes(original_ext‿norm), // normal to change extension if "broken" file
+			`recovered notes should refer to the same file type! "${current_ext‿norm}" vs. "${original_ext‿norm}`
+		)
 	}
 
 	if (recovered_notes !== state.notes) {
@@ -347,7 +352,7 @@ export function on_moved(state: Immutable<State>, new_id: FileId): Immutable<Sta
 		const new_basename_without_copy_index = get_file_basename_without_copy_index(new_basename)
 		if(new_basename_without_copy_index !== ideal_basename) {
 			// can that happen?
-			assert(new_basename_without_copy_index === ideal_basename, `file renaming should only be a normalization! ~"${new_basename_without_copy_index}"`)
+			assert(new_basename_without_copy_index === ideal_basename, `file renaming should only be a normalization! previous="${previous_basename}", new="${new_basename_without_copy_index}", ideal="${ideal_basename}"`)
 		}
 		else {
 			state = {

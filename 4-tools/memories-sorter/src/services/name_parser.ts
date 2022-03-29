@@ -566,7 +566,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 		}, state.buffer)
 	} while (non_meaningful_part_removed)
 
-	DEBUG  && logger.silly('after buffer cleanup', { state, result: _get_ParseResult_debug_representation(result) })
+	DEBUG && logger.silly('after buffer cleanup', { state, result: _get_ParseResult_debug_representation(result) })
 
 	if (parse_up_to === 'copy_index') {
 		result.meaningful_part = state.buffer
@@ -735,7 +735,7 @@ const _parse_memoized = micro_memoize(function _parse(basename: Basename, type: 
 	}
 
 	let meaningful_part = deep_trim(state.prefix + state.suffix)
-	DEBUG  && logger.silly(`Starting meaningful part last normalization: "${meaningful_part}"…`)
+	DEBUG && logger.silly(`Starting meaningful part last normalization: "${meaningful_part}"…`)
 
 	// normalize the meaningful part
 	if (meaningful_part.startsWith('MM') && result.digits_pattern?.startsWith('xxxx-xx-xx')) {

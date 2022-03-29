@@ -103,9 +103,15 @@ export function has_neighbor_hints(state: Immutable<State>): boolean {
 ///////
 
 export function is_broken_file(state: Immutable<State>): boolean {
-	const parsed_oldest_known_basename = get_oldest_known_basename‿parsed(state)
-	let extension = parsed_oldest_known_basename.extension_lc
-	return BROKEN_FILE_EXTENSIONS_LC.includes(extension)
+
+	if (state.are_notes_restored) {
+		const parsed_oldest_known_basename = get_oldest_known_basename‿parsed(state)
+		let extension = parsed_oldest_known_basename.extension_lc
+		return BROKEN_FILE_EXTENSIONS_LC.includes(extension)
+	}
+
+	const current_ext = get_current_extension‿normalized(state)
+	return BROKEN_FILE_EXTENSIONS_LC.includes(current_ext)
 }
 
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
