@@ -5,6 +5,7 @@ import { Immutable } from '@offirmo-private/ts-types'
 import { enforce_immutability } from '@offirmo-private/state-utils'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
+import { BROKEN_FILE_EXTENSIONS_LC } from '../../consts'
 import { get_params } from '../../params'
 import logger from '../../services/logger'
 import {
@@ -48,7 +49,6 @@ import {
 } from './selectors'
 import * as NeighborHintsLib from './sub/neighbor-hints'
 import { get_bcd_from_parent_path, get_fs_reliability_score } from './sub/neighbor-hints'
-import { BROKEN_FILE_EXTENSIONS_LC } from '../../consts'
 
 ////////////////////////////////////
 
