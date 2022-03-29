@@ -147,6 +147,17 @@ export function on_info_read__exif(state: Immutable<State>, exif_data: Immutable
 		}
 	}
 
+	// TODO
+	/*
+	if (is_broken_file(state)) {
+		if (!has_actual_exif_fields(exif_data)) {
+			return {
+				...state,
+				current_exif_data: null,
+			}
+		}
+	}*/
+
 	// TODO memory optim cherry pick useful fields only
 
 	state = {

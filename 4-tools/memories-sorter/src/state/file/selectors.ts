@@ -103,7 +103,9 @@ export function has_neighbor_hints(state: Immutable<State>): boolean {
 ///////
 
 export function is_broken_file(state: Immutable<State>): boolean {
-	return BROKEN_FILE_EXTENSIONS_LC.includes(get_current_extension‿normalized(state))
+	const parsed_oldest_known_basename = get_oldest_known_basename‿parsed(state)
+	let extension = parsed_oldest_known_basename.extension_lc
+	return BROKEN_FILE_EXTENSIONS_LC.includes(extension)
 }
 
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
@@ -125,6 +127,9 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 }
 
 export function is_recoverable_broken_file(state: Immutable<State>): boolean {
+
+
+
 	if (!is_broken_file(state))
 		return false
 
@@ -1062,6 +1067,11 @@ export function get_ideal_basename(state: Immutable<State>, {
 	if (!result) {
 		// it's possible if nothing meaningful in the name + not confident in date
 		result = 'memory'
+	}
+
+	if (is_recoverable_broken_file(state)) {
+		// TODO improve, good enough for now
+		extension = '.jpg'
 	}
 
 	result += extension
