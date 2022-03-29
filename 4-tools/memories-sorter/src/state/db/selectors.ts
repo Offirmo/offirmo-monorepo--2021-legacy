@@ -82,10 +82,12 @@ export function get_all_media_files(state: Immutable<State>): Immutable<File.Sta
 		.filter(s => File.is_media_file(s))
 }
 
+/*
 export function get_all_media_file_ids(state: Immutable<State>): string[] {
 	return get_all_media_files(state)
 		.map(s => s.id)
 }
+*/
 
 // TODO unicode normalization of folders
 export function is_file_existing(state: Immutable<State>, id: FileId): boolean {

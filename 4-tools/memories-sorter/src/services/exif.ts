@@ -442,6 +442,24 @@ export function has_errors(exif_data: Immutable<Tags>): boolean {
 	return (!!exif_data.errors) && (exif_data.errors.length > 0)
 }
 
+// useful when reading EXIF on files we're not sure are exif-powered
+export function has_actual_exif_fields(exif_data: Immutable<Tags>): boolean {
+	for (let key in exif_data) {
+		if (key === 'errors' || key === 'SourceFile')
+			continue
+
+		if (key.startsWith('File'))
+			continue
+
+		//logger.debug('Found true EXIF field', { key, SourceFile: exif_data.SourceFile })
+
+		return true
+	}
+
+	return false
+}
+
+
 // there are several orientation fields, provision for the future
 export function get_orientation_from_exif(exif_data: Immutable<Tags>): number | undefined {
 	return exif_data[EXIF_FIELD__ORIENTATION] as any

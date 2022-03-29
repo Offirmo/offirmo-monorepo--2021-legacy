@@ -129,7 +129,9 @@ export function on_info_read__fs_stats(state: Immutable<State>, fs_stats_subset:
 }
 
 export function on_info_read__exif(state: Immutable<State>, exif_data: Immutable<EXIFTags>): Immutable<State> {
-	logger.trace(`${LIB} on_info_read__exif(…)`, { })
+	logger.trace(`${LIB} on_info_read__exif(…)`, {
+		//exif_data
+	})
 
 	assert(is_exif_powered_media_file(state), `on_info_read__exif() should expect EXIF`)
 	assert(exif_data, 'on_info_read__exif() params')

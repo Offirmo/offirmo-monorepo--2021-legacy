@@ -9,6 +9,7 @@ import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import {
+	BROKEN_FILE_EXTENSIONS_LC,
 	EXIF_POWERED_FILE_EXTENSIONS_LC,
 	NOTES_BASENAME_SUFFIX_LC,
 	DIGIT_PROTECTION_SEPARATOR,

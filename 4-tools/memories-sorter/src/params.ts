@@ -141,6 +141,7 @@ export const get_params = memoize_once(function get_params(): Params {
 			'.DS_Store',
 			'.picasa.ini',
 			'pspbrwse.jbf', // paint shop pro
+			'Thumbs.db',
 		].map(s => s.toLowerCase()),
 
 		default_timezones: [

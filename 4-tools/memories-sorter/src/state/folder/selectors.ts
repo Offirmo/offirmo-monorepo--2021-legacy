@@ -478,6 +478,7 @@ export function is_date_matching_this_event(state: Immutable<State>, date: Immut
 		&& BetterDateLib.compare_utc(date, end_date) <= 0
 }
 
+/*
 export function is_date_matching_this_event‿symd(state: Immutable<State>, date‿symd: SimpleYYYYMMDD): boolean {
 	assert(state.type === Type.event, `${LIB} is_matching_event‿symd() should be an event`)
 
@@ -486,6 +487,7 @@ export function is_date_matching_this_event‿symd(state: Immutable<State>, date
 
 	return date‿symd >= begin_date‿symd && date‿symd <= end_date‿symd
 }
+*/
 
 ///////////////////// DEBUG /////////////////////
 

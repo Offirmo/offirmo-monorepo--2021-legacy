@@ -43,7 +43,8 @@ Promise.all(cli.input
 				return Promise.all([
 					fs.remove(path.join(PKG_PATH, '.cache')),
 					fs.remove(path.join(PKG_PATH, 'node_modules/.cache')),
-					fs.remove(path.join(PKG_PATH, '.parcel')),
+					fs.remove(path.join(PKG_PATH, '.parcel')), // parcel 1
+					fs.remove(path.join(PKG_PATH, '.parcel-cache')), // parcel 2
 				])
 
 			default:
