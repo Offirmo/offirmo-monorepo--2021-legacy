@@ -336,6 +336,11 @@ export function get_event_begin_date_from_basename_if_present_and_confirmed_by_o
 			// clearly a backup date, ignore it
 			return null
 		}
+		else if ((date__from_basename‿symd - 1) <= date_range_begin‿symd) {
+			// we allow 1 day margin to account for timezones errors
+			// -> accepted as a beginning date
+			return basename_date
+		}
 		else {
 			// folder's date is between the children range (not included)
 			// However we don't want to lose information

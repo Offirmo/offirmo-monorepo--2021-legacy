@@ -28,6 +28,7 @@ import {
 import {
 	get_best_creation_date_from_exif,
 	get_creation_timezone_from_exif,
+	has_actual_exif_fields,
 } from '../../services/exif'
 import {
 	ParseResult,
@@ -101,6 +102,10 @@ export function has_neighbor_hints(state: Immutable<State>): boolean {
 
 ///////
 
+export function is_broken_file(state: Immutable<State>): boolean {
+	return BROKEN_FILE_EXTENSIONS_LC.includes(get_current_extension‿normalized(state))
+}
+
 export function is_media_file(state: Immutable<State>, PARAMS: Immutable<Params> = get_params()): boolean {
 	const path_parsed = get_current_path‿pparsed(state)
 
@@ -117,6 +122,15 @@ export function is_exif_powered_media_file(state: Immutable<State>): boolean {
 	let normalized_extension = get_current_extension‿normalized(state)
 
 	return EXIF_POWERED_FILE_EXTENSIONS_LC.includes(normalized_extension)
+}
+
+export function is_recoverable_broken_file(state: Immutable<State>): boolean {
+	if (!is_broken_file(state))
+		return false
+
+	assert(!!state.current_exif_data, `is_recoverable_broken_file() should have EXIF loaded!`)
+
+	return has_actual_exif_fields(state.current_exif_data)
 }
 
 export function has_all_infos_for_extracting_the_creation_date(state: Immutable<State>, {

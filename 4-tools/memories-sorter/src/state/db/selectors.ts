@@ -17,7 +17,7 @@ import * as Folder from '../folder'
 import * as File from '../file'
 import * as Notes from '../notes'
 import { FolderId } from '../folder'
-import { FileId } from '../file'
+import { FileId, is_recoverable_broken_file } from '../file'
 import { get_params } from '../../params'
 
 import { LIB } from './consts'
@@ -116,7 +116,10 @@ export function get_ideal_file_relative_folder(state: Immutable<State>, id: File
 	const top_parent_id: FolderId = File.get_current_top_parent_folder_id(file_state)
 	const is_top_parent_special = Folder.SPECIAL_FOLDERS_BASENAMES.includes(top_parent_id)
 
-	const is_media_file = File.is_media_file(file_state)
+	let is_media_file = File.is_media_file(file_state)
+	if (File.is_broken_file(file_state) && !File.is_recoverable_broken_file(file_state)) {
+		is_media_file = false
+	}
 
 	logger.trace(`✴️ get_ideal_file_relative_folder() processing…`, {
 		top_parent_id,

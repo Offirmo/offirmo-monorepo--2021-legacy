@@ -8,10 +8,16 @@
 	"source": "src/index.html",
 
 	"scripts": {
-		"real-favicon-generator--refresh": "mkdir -p src/favicons && real-favicon generate src2/realfavicongenerator.net/faviconDescription.json src2/realfavicongenerator.net/faviconData.json src/favicons",
-		"real-favicon-generator--inject": "real-favicon inject src2/realfavicongenerator.net/faviconData.json src/favicons src/*.html",
-		"dev": "parcel --log-level verbose  src/*.html --lazy",
-		"build": "parcel build --log-level verbose"
+		"clean": "monorepo-script--clean-package …dist …cache",
+
+		"real-favicon-generator:refresh": "mkdir -p src/favicons && real-favicon generate src2/realfavicongenerator.net/faviconDescription.json src2/realfavicongenerator.net/faviconData.json src/favicons",
+		"real-favicon-generator:inject": "real-favicon inject src2/realfavicongenerator.net/faviconData.json src/favicons src/*.html",
+
+		"parcel:serve": "parcel       --log-level verbose  src/*.html --lazy",
+		"parcel:build": "parcel build --log-level verbose  src/*.html",
+
+		"dev": "npm-run-all clean --parallel parcel:serve",
+		"build": "npm-run-all clean --parallel parcel:build"
 	},
 
 	"dependencies": {
@@ -22,7 +28,9 @@
 	"devDependencies": {
 		"@parcel/config-default": "^2",
 		"@parcel/transformer-typescript-tsc": "^2",
+		"@size-limit/file": "^5",
 		"cli-real-favicon": "^0",
+		"npm-run-all": "^4",
 		"parcel": "^2"
 	}
 }
