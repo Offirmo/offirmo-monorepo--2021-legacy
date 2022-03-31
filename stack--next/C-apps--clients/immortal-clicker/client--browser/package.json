@@ -14,7 +14,7 @@
 		"real-favicon-generator:inject": "real-favicon inject src2/realfavicongenerator.net/faviconData.json src/favicons src/*.html",
 
 		"parcel:serve": "parcel       --log-level verbose  src/*.html --lazy",
-		"parcel:build": "parcel build --log-level verbose  src/*.html",
+		"parcel:build": "parcel build --log-level verbose  src/*.html --public-url ./",
 
 		"dev": "npm-run-all clean --parallel parcel:serve",
 		"build": "npm-run-all clean --parallel parcel:build"

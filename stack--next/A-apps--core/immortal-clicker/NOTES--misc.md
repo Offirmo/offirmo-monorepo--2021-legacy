@@ -2,6 +2,8 @@
 * deep story -> talent sealed to not be dangerous
 * mortal martial arts -> useless for normal cultivators bc takes too much time, but becomes useful if no need to relearn on subs incarnations
 
+https://vcresearch.berkeley.edu/news/some-black-holes-erase-your-past
+
 https://www.quora.com/Do-you-have-any-tips-for-writing-a-Wuxia-Xianxia
 
 https://www.wuxiaworld.com/page/chinese-idiom-glossary

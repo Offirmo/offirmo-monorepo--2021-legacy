@@ -121,12 +121,14 @@ function _get_valid_exifdate_field(field: keyof Tags, exif_data: Immutable<Tags>
 	// https://github.com/photostructure/exiftool-vendored.js/issues/73
 	// "If date fields aren't parsable, the raw string from exiftool will be provided."
 	if (typeof raw_exiftool_date === 'string') {
-		// TODO log & attach to file
 		if (raw_exiftool_date === '0000:00:00 00:00:00') {
 			// happens a lot, cut the noise
 		}
 		else {
 			logger.warn(`un-parsable exif date`, { SourceFile, field, raw_exiftool_date })
+			// TODO use our own better parser
+			//WARN   › un-parsable exif date {'SourceFile': '…circa--2010/- 2016/2016/20161119 - weekend/MM2016-12-10_10h56m48_IMG_0135.jpg','field': 'CreateDate','raw_exiftool_date': '2016-12-10_16:56:49'}
+			//WARN   › un-parsable exif date {'SourceFile': '…circa--2010/- 2016/2016/20161119 - weekend/MM2016-12-10_10h56m48_IMG_0135.jpg','field': 'DateTimeOriginal','raw_exiftool_date': '2016-12-10_16:56:49'}
 		}
 		return undefined
 	}
