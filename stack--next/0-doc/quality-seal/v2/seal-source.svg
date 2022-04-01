@@ -2,24 +2,24 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="310"
    height="172"
    viewBox="0 0 82.020831 45.508334"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   inkscape:version="1.1.2 (b8e25be8, 2022-02-05)"
    sodipodi:docname="seal-source.svg"
    inkscape:export-filename="/Users/yyy/work/src/off/offirmo-monorepo/0-doc/quality-seal/offirmos_quality_seal.png"
    inkscape:export-xdpi="96.019997"
-   inkscape:export-ydpi="96.019997">
+   inkscape:export-ydpi="96.019997"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2">
     <clipPath
@@ -41,15 +41,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="86.278253"
-     inkscape:cy="97.032869"
+     inkscape:cx="-52.679454"
+     inkscape:cy="96.873626"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
      inkscape:pagecheckerboard="true"
-     inkscape:window-width="1680"
-     inkscape:window-height="1028"
+     inkscape:window-width="1792"
+     inkscape:window-height="1092"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -88,6 +88,45 @@
        height="42.597919"
        x="0.13228953"
        y="254.26976" />
+    <g
+       id="logo-2"
+       transform="matrix(0.01385913,0,0,0.01385913,32.279166,285.62289)"
+       style="display:inline">
+      <rect
+         height="630"
+         width="630"
+         y="0"
+         x="0"
+         id="background-2"
+         style="fill:#ffc0cb;fill-opacity:1" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:763.636px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:19.0909"
+         x="88.295563"
+         y="540.02655"
+         id="text7997"><tspan
+           sodipodi:role="line"
+           id="tspan7995"
+           style="stroke-width:19.0909;fill:#ffffff"
+           x="88.295563"
+           y="540.02655">♥</tspan></text>
+    </g>
+    <text
+       id="text29117-1"
+       y="289.16656"
+       x="42.513512"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:0.198437px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.85208px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+         y="289.16656"
+         x="42.513512"
+         sodipodi:role="line"
+         id="tspan973-2">friendly</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.85208px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+         y="292.54333"
+         x="42.513512"
+         sodipodi:role="line"
+         id="tspan8990">licenses ✔ </tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -133,7 +172,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:-0.05820833px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        x="2.7200043"
        y="13.157553"
        id="text5468"><tspan
@@ -220,40 +259,40 @@
     </g>
     <text
        id="text29117"
-       y="30.048159"
+       y="29.518991"
        x="42.751362"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:0.1984375px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:0.198437px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.85208333px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332"
-         y="30.048159"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.85208px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+         y="29.518991"
          x="42.751362"
          sodipodi:role="line"
-         id="tspan29126">exposing</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.85208333px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332"
-         y="33.133217"
+         id="tspan29126">exposing :</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.85208px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+         y="32.895767"
          x="42.751362"
          sodipodi:role="line"
-         id="tspan975">✔ cjs</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.85208333px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332"
-         y="36.225708"
+         id="tspan975">✔ CommonJS</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.85208px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+         y="36.279972"
          x="42.751362"
          sodipodi:role="line"
-         id="tspan973">✔ ES2018</tspan></text>
+         id="tspan973">✔ ESM</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:0.1984375px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:0.198437px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="42.721737"
-       y="20.333738"
+       y="19.804571"
        id="text29134"><tspan
          sodipodi:role="line"
          x="42.721737"
-         y="20.333738"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.58749998px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332"
+         y="19.804571"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.5875px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
          id="tspan965">TypeScript</tspan><tspan
          sodipodi:role="line"
          x="42.721737"
-         y="23.286507"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.58749998px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332"
+         y="23.049067"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.5875px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
          id="tspan29143">+ typings</tspan></text>
     <image
        y="16.668749"
@@ -265,7 +304,7 @@
        width="20.108334" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:0.1984375px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:0.198437px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="13.144762"
        y="43.080475"
        id="text1770"><tspan
@@ -273,12 +312,12 @@
          sodipodi:role="line"
          x="13.144762"
          y="43.080475"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.58749998px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332">size limit</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.5875px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583">size limit</tspan><tspan
          sodipodi:role="line"
          x="13.144762"
-         y="46.033241"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.58749998px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332"
-         id="tspan1774">enforced</tspan></text>
+         y="46.324963"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1.5875px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+         id="tspan1774">enforced ✔</tspan></text>
     <g
        id="logo-7"
        transform="matrix(0.01385913,0,0,0.01385913,2.6458333,39.422918)">
