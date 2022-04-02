@@ -5,6 +5,9 @@
 * [test] TODO unit tests!
 * ...
 
+## 4.0.1
+* [doc] marked as maintained in 2022! Happy new year!
+
 ## 4.0.0
 2021/01/03
 * [fix][breaking] fixed the interface to follow the fix in TypeScript 4.1 https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html#resolves-parameters-are-no-longer-optional-in-promises
