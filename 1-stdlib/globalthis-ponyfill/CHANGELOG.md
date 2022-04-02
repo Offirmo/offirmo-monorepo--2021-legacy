@@ -3,6 +3,7 @@
 
 ## PENDING
 * [test] TODO unit tests!
+* [chore] improved the TS annotations to use the more precise @ts-expect-error
 * ...
 
 ## v3.0.1
