@@ -2,7 +2,7 @@
 <h1 align="center">
 	Utilities for better error creation and manipulation in JavaScript / TypeScript<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/0-doc/modules-directory/index.html">
-		<img src="https://www.offirmo.net/offirmo-monorepo/0-doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+		<img src="https://www.offirmo.net/offirmo-monorepo/public/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>
 </h1>
 
