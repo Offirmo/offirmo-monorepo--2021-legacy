@@ -3,8 +3,11 @@
 
 ## PENDING
 * [test] TODO unit tests!
-* [chore] improved the TS annotations to use the more precise @ts-expect-error
 * ...
+
+## v3.0.2
+* [chore] improved the TS annotations to use the more precise @ts-expect-error
+* [doc] marked as maintained in 2022! Happy new year!
 
 ## v3.0.1
 2021/01/03
