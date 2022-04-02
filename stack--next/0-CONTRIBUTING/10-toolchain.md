@@ -21,7 +21,15 @@ Why not rush? https://rushjs.io/
 * too complicated, needs every pkg declared in a huge config
 
 
+## isomorphic
+typescript
+
+
+## web
+https://parceljs.org/
+
 
 ## tosort
 
 https://github.com/folke/ultra-runner
+https://blog.logrocket.com/boost-your-productivity-with-typescript-project-references/
