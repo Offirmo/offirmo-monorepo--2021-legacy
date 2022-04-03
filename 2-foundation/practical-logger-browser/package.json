@@ -28,7 +28,7 @@
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/practical-logger-types": "^3",
-		"@offirmo/tiny-singleton": "^0"
+		"@offirmo/tiny-singleton": "^1"
 	},
 
 	"scripts": {

@@ -2,11 +2,12 @@
 **This package follows [semver](https://semver.org/).**
 
 ## pending
-* TODO check the semantic (once?) + duplication handling + global + 1st call wins (regardless of the params)
-  * use golbalThis to ensure there is no accidental duplication due to incorrect bundling or bundle split?
-* [doc]++
-* [chore] bumped deps
+* TODO use golbalThis to ensure there is no accidental duplication due to incorrect bundling or bundle split? (to review)
 * ...
+
+## v1.0.0
+* [doc] reviewed the semantic and usage ✔ It seems valid -> 1.0 + improved doc
+* [doc] marked as maintained in 2022! Happy new year!
 
 ## v0.0.4
 2021/01/03
@@ -34,5 +35,4 @@
 
 ## template
 * [doc] README++
-* [chore] bumped deps
 * [chore] upgraded pre-built code target to latest stable JS (ES2019)

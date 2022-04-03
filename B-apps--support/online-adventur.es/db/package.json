@@ -21,7 +21,7 @@
 		"@offirmo-private/state-utils": "^0",
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo/error-utils": "^0",
-		"@offirmo/tiny-singleton": "^0",
+		"@offirmo/tiny-singleton": "^1",
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"json-stable-stringify": "^1",
 		"knex": "^1",
