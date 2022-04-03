@@ -4,8 +4,12 @@
 ## PENDING
 * TODO remove lodash as a dependency
 * TODO change the interface to use named params
-* [chore] micro-improvement of verbose logs
 * ...
+
+## v2.4.0
+2022/04/03
+* [chore] micro-improvement of verbose logs
+* [doc] marked as maintained in 2022! Happy new year!
 
 ## v2.3.0
 2021/04/16
