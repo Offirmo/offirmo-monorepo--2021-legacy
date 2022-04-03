@@ -6,6 +6,7 @@
 * ...
 
 ## v3.0.2
+2022/04/02
 * [chore] improved the TS annotations to use the more precise @ts-expect-error
 * [doc] marked as maintained in 2022! Happy new year!
 

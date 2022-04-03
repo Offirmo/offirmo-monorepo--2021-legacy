@@ -6,6 +6,7 @@
 * ...
 
 ## 4.0.1
+2022/04/02
 * [doc] marked as maintained in 2022! Happy new year!
 
 ## 4.0.0

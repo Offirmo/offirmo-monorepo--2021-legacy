@@ -6,6 +6,7 @@
 * ...
 
 ## v1.0.0
+2022/04/03
 * [doc] reviewed the semantic and usage ✔ It seems valid -> 1.0 + improved doc
 * [doc] marked as maintained in 2022! Happy new year!
 
