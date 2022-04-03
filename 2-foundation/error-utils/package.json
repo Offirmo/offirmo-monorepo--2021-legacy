@@ -44,7 +44,7 @@
 		"prepublishOnly": "run-s clean build test ensure-size"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^7",
+		"@offirmo/unit-test-toolbox": "^8",
 		"@size-limit/preset-small-lib": "^5",
 		"deep-freeze-strict": "^1",
 		"np": "^7",

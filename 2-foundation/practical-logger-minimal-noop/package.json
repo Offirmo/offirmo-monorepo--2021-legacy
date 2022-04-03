@@ -47,7 +47,7 @@
 	},
 	"devDependencies": {
 		"@offirmo/practical-logger-core": "^3",
-		"@offirmo/unit-test-toolbox": "^7",
+		"@offirmo/unit-test-toolbox": "^8",
 		"@size-limit/preset-small-lib": "^5",
 		"np": "^7",
 		"npm-run-all": "^4",

@@ -2,8 +2,12 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [chore] [breaking] bumped deps: mocha 9, sinon 12, eslint packages + types
 * ...
+
+## v8.0.0
+2022/04/03
+* [chore] [breaking] bumped deps: mocha 9, sinon 13, eslint packages + types
+* [doc] marked as maintained in 2022! Happy new year!
 
 ## v7.0.0
 2021/01/03

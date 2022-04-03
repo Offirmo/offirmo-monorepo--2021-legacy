@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@offirmo-private/uuid": "^0",
-		"@offirmo/unit-test-toolbox": "^7",
+		"@offirmo/unit-test-toolbox": "^8",
 		"npm-run-all": "^4"
 	},
 	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--node/state-migration-tester"

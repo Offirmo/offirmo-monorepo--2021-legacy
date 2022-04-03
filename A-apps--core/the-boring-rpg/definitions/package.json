@@ -41,7 +41,7 @@
 	"devDependencies": {
 		"@offirmo-private/soft-execution-context": "*",
 		"@offirmo-private/ts-types": "^0",
-		"@offirmo/unit-test-toolbox": "^7",
+		"@offirmo/unit-test-toolbox": "^8",
 		"npm-run-all": "^4",
 		"tslib": "^2"
 	},

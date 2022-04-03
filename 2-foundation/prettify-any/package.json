@@ -33,7 +33,7 @@
 		"cheatsheet": "node doc/cheatsheet.js"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^7",
+		"@offirmo/unit-test-toolbox": "^8",
 		"chalk": "^4",
 		"fetch-ponyfill": "^7",
 		"npm-run-all": "^4",

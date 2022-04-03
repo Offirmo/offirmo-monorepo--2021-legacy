@@ -61,7 +61,7 @@
 	"devDependencies": {
 		"@offirmo-private/soft-execution-context": "*",
 		"@offirmo/practical-logger-node": "^0",
-		"@offirmo/unit-test-toolbox": "^7",
+		"@offirmo/unit-test-toolbox": "^8",
 		"fetch-mock": "^9",
 		"localstorage-ponyfill": "^1",
 		"npm-run-all": "^4",
