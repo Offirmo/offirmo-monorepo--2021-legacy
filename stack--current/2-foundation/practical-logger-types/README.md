@@ -2,7 +2,7 @@
 <h1 align="center">
 	Offirmo’s practical logger - TypeScript interfaces<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/0-doc/modules-directory/index.html">
-		<img src="https://www.offirmo.net/offirmo-monorepo/public/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+		<img src="https://www.offirmo.net/offirmo-monorepo/public/offirmos_quality_seal.png" alt="Offirmo’s quality seal" width="333">
 	</a>
 </h1>
 
