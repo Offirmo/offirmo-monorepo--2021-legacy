@@ -1,0 +1,42 @@
+## https://www.atlassian.com/git/tutorials/saving-changes/gitignore#git-ignore-patterns
+
+
+## Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+## Dependency directories
+node_modules
+
+## regenerable
+## standard dist
+**/dist/src.es2019/
+**/dist/src.es2019.cjs/
+**/dist/src.es2021/
+**/dist/src.es2021.cjs/
+
+## misc
+#...
+
+
+## tools folders
+.netlify
+
+
+## Temp files
+## LibreOffice
+.~lock.*
+## caches
+.cache
+## parcel 1
+.parcel
+## parcel 2
+.parcel-cache
+
+
+## may be auto-generated (shouldn't), but not used
+package-lock.json
