@@ -1,0 +1,17 @@
+
+
+/* Adapt links to the main color.
+ * Better than the defaults.
+ */
+a {
+	text-decoration-color: var(--o⋄color⁚fg--secondary);
+	touch-action: manipulation; /* we assume PWA, https://webkit.org/blog/5610/more-responsive-tapping-on-ios/ */
+}
+a:link,
+a:visited {
+	color: inherit;
+}
+a:hover,
+a:active {
+	color: var(--o⋄color⁚fg--activity-outline);
+}

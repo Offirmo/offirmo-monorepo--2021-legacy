@@ -1,0 +1,20 @@
+
+/* nicer collapsibles */
+details {
+	border: dashed var(--o⋄border--thickness) transparent;
+	padding-left: .4em;
+}
+details summary {
+	/* https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/ */
+	cursor: pointer;
+}
+details summary > * {
+	/* https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/ */
+	display: inline;
+}
+details[open] {
+	border-color: var(--o⋄color⁚fg--main);
+}
+details > *:nth-child(n+2) { /* assuming the 1st child is the <summary> */
+	padding-left: 1.05em;
+}

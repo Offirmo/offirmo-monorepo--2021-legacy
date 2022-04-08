@@ -1,0 +1,8 @@
+
+img {
+	/* https://photo.stackexchange.com/questions/104337/how-i-can-losslessly-rotate-photos#comment217649_104340 */
+	image-orientation: from-image;
+
+	/* src: ? */
+	image-rendering: -webkit-optimize-contrast;
+}

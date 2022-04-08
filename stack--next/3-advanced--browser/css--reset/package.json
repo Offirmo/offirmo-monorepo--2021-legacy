@@ -1,0 +1,22 @@
+{
+	"name": "@offirmo-private/css--reset",
+	"description": "My CSS reset",
+	"version": "0.0.1",
+	"license": "Unlicense",
+	"private": true,
+
+	"source": "src/index.css",
+
+	"dependencies": {
+		"normalize.css": "^8"
+	},
+
+	"scripts": {
+	},
+
+	"devDependencies": {
+		"npm-run-all": "^4"
+	},
+
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/ui--browser--css"
+}

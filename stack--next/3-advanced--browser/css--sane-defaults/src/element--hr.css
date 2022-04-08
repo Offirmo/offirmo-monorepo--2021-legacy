@@ -1,0 +1,12 @@
+
+
+/* Nicer HR
+ * possible ideas: https://css-tricks.com/examples/hrs/
+ */
+hr {
+	/* simple one */
+	width: 100%;
+	border: none;
+	border-top: var(--o⋄border--thickness) solid;
+	background-color: var(--o⋄color⁚fg--ancillary);
+}

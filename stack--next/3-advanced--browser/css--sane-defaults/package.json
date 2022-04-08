@@ -1,0 +1,22 @@
+{
+	"name": "@offirmo-private/css--sane-defaults",
+	"description": "A thin layer of universal good semantic CSS",
+	"version": "0.0.1",
+	"license": "Unlicense",
+	"private": true,
+
+	"source": "src/index.css",
+
+	"dependencies": {
+	},
+
+	"scripts": {
+	},
+
+	"devDependencies": {
+		"@offirmo-private/css--reset": "^0",
+		"npm-run-all": "^4"
+	},
+
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/ui--browser--css"
+}

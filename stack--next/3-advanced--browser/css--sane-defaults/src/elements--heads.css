@@ -1,0 +1,18 @@
+
+/* Note that h4~h6 are smaller than p! usage not recommended */
+
+h1, h2, h3 {
+	/* line-height: 1.2;/* https://perfectmotherfuckingwebsite.com/ */
+}
+h1, h2, h3, p {
+	margin: 0; /* cancel normalize.css. Please use a flow/rhythm class instead! */
+}
+h1 {
+	font-size: calc(var(--o⋄font-size--default) * var(--o⋄header-scale-ratio));
+}
+h2 {
+	font-size: calc(var(--o⋄font-size--default) * (1 + ((var(--o⋄header-scale-ratio) - 1) * .66)));
+}
+h3 {
+	font-size: calc(var(--o⋄font-size--default) * (1 + ((var(--o⋄header-scale-ratio) - 1) * .33)));
+}
