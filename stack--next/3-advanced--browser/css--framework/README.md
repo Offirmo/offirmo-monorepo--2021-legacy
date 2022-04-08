@@ -153,8 +153,6 @@ Solution: use a cascade of `class="o⋄top-container"` (optionally starting at `
 * nice hrs https://css-tricks.com/examples/hrs/
 * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
 * nice buttons https://fdossena.com/?p=html5cool/buttons/i.frag
-* https://github.com/mike-engel/a11y-css-reset
-* https://hankchizljaw.com/wrote/a-modern-css-reset/
 
 
 using the fancy
@@ -171,4 +169,3 @@ TODO review scalability
 TODO review font size https://tonsky.me/blog/font-size/
 TODO https://mxstbr.com/thoughts/margin/ https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/
 TODO https://tympanus.net/codrops/2021/10/25/the-process-of-building-a-css-framework/
-TODO ++ https://www.joshwcomeau.com/css/custom-css-reset/
