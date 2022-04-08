@@ -33,3 +33,8 @@ https://parceljs.org/
 
 https://github.com/folke/ultra-runner
 https://blog.logrocket.com/boost-your-productivity-with-typescript-project-references/
+https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c#file-esm-package-md
+
+## to reevaluate
+
+https://rome.tools/#about-rome
