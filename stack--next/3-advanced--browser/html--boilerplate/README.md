@@ -2,6 +2,9 @@
 
 My HTML5 web app boilerplate.
 
+https://en.wikipedia.org/wiki/Boilerplate_code
+
+
 ## Credits
 
 * https://html5boilerplate.com/

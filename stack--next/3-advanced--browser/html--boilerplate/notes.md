@@ -1,5 +1,5 @@
 {
-"name": "@offirmo-private/html-template",
+"name": "@offirmo-private/html--boilerplate",
 "version": "0.0.1",
 "description": "My personal HTML5 template",
 "author": "Offirmo <offirmo.net@gmail.com>",
