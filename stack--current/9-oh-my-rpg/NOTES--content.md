@@ -1117,3 +1117,6 @@ https://en.wikipedia.org/wiki/Mining_and_metallurgy_in_medieval_Europe
 https://worldbuilding.stackexchange.com/questions/219266/if-a-civilization-has-biotechnology-why-do-they-still-prefer-mechanical-augment
 
 https://roadwithoutend.com/43-pieces-of-advice-from-an-ancient-egyptian-vizier-to-his-son-201fbff75a2b
+
+https://fr.wikipedia.org/wiki/Faux_semis
+https://fr.wikipedia.org/wiki/Technique_culturale_simplifi%C3%A9e

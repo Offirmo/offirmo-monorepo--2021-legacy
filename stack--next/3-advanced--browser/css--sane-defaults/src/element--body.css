@@ -1,0 +1,24 @@
+body {
+	padding: .7em; /* good default, cancel it explicitly if needed */
+
+	/* adapted from https://perfectmotherfuckingwebsite.com */
+	max-width: var(--o⋄content-recommended-width);
+	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
+
+	/* defaults, overrides welcome */
+	font-family: var(--o⋄font-family--fast_and_good_enough);
+	color: var(--o⋄color⁚fg--main);
+	background-color: var(--o⋄color⁚bg--main);
+	accent-color: var(--o⋄color⁚fg--accent); /* https://web.dev/accent-color/ https://www.smashingmagazine.com/2021/09/simplifying-form-styles-accent-color/ */
+
+	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
+	text-rendering: optimizeLegibility; /* challenge about perf: https://marco.org/2012/11/15/text-rendering-optimize-legibility
+	                                     * Tested: this options makes a TOO HUGE difference in quality to be missed.
+	                                     * For ex. it enables the computing of lighter/bolder variants.
+	                                     */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	line-height: var(--o⋄line-height--default);
+	font-size: var(--o⋄font-size--default);
+}

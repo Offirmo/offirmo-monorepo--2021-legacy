@@ -1,9 +1,8 @@
 /*! @offirmo-private/ui--browser--css v0.0.1 | Unlicense | github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/ui--browser--css */
 
-@import '../../../node_modules/normalize.css/normalize.css';
+@import '../../../node_modules/@offirmo-private/css--sane-defaults/src/index.css';
 
 @import './style--global_variables.css';
-@import './style--reset.css';
 @import './style--reset--controls.css';
 @import './style--rhythm.css';
 @import './style--colors.css';
