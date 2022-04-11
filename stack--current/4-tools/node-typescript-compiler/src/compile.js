@@ -15,6 +15,7 @@ const { set_banner, display_banner_if_1st_output } = require('./logger')
 
 const spawn_options = {
 	env: process.env,
+	shell: process.platform === 'win32',
 }
 const RADIX = EXECUTABLE
 
