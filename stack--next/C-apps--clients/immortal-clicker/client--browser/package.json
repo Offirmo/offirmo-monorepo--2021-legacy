@@ -32,5 +32,6 @@
 		"cli-real-favicon": "^0",
 		"npm-run-all": "^4",
 		"parcel": "^2"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/C-apps--clients/immortal-clicker/client--browser"
 }

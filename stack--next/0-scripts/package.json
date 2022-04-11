@@ -15,5 +15,6 @@
 		"chalk": "^5",
 		"meow": "^10",
 		"tiny-invariant": "^1"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/0-scripts"
 }

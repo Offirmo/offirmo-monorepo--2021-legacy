@@ -34,5 +34,6 @@
 	"devDependencies": {
 		"npm-run-all": "^4",
 		"tslib": "^2"
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/A-apps--core/immortal-clicker/name-generator"
 }
