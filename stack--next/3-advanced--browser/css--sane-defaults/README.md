@@ -1,6 +1,8 @@
 
 Base CSS improving the default browser stylesheet.
 
+> sand down some of the rough edges in the CSS language. I do this with a functional set of custom baseline styles. https://www.joshwcomeau.com/css/custom-css-reset/
+
 This is not a CSS framework:
 - This thin layer of improvements should be usable on every website.
 - No classes are declared

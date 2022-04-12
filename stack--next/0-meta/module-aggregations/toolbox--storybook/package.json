@@ -1,0 +1,22 @@
+{
+	"name": "@offirmo/toolbox--storybbok",
+	"version": "0.0.1",
+	"description": "An aggregation of npm modules related to Storybook.",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"engines": {
+		"npm": ">=3"
+	},
+
+	"sideEffects": true,
+
+	"dependencies": {
+	},
+	"optionalDependencies": {
+	},
+
+	"scripts": {
+		"test": "echo \"* @offirmo/toolbox--xyz: no need for unit tests for this kind of repo (meta)\""
+	}
+}

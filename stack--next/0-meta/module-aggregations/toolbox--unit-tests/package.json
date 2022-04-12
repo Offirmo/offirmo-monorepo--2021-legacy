@@ -1,0 +1,51 @@
+{
+	"name": "@offirmo/unit-test-toolbox",
+	"version": "8.0.0",
+	"description": "An aggregation of quality npm modules to be used for writing unit tests.",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"engines": {
+		"npm": ">=3"
+	},
+
+	"sideEffects": true,
+
+	"dependencies": {
+		"@types/chai": "^4",
+		"@types/chai-as-promised": "^7",
+		"@types/mocha": "^9",
+		"@types/sinon": "^10",
+		"@types/sinon-chai": "^3",
+		"chai": "^4",
+		"chai-as-promised": "^7",
+		"chai-moment": "^0.1",
+		"chai-subset": "^1",
+		"eslint-plugin-chai-expect": "^3",
+		"eslint-plugin-mocha": "^10",
+		"mocha": "^9",
+		"sinon": "^13",
+		"sinon-chai": "^3"
+	},
+	"optionalDependencies": {
+		"@offirmo/universal-debug-api-node": "^0",
+		"chai-fetch-mock": "^3"
+	},
+
+	"scripts": {
+		"test": "echo \"* @offirmo/unit-test-toolbox: no need for unit tests for this kind of repo (meta)\""
+	},
+
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/unit-test-toolbox",
+	"keywords": [
+		"unit",
+		"test",
+		"aggregation",
+		"module",
+		"npm"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/unit-test-toolbox",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
+}

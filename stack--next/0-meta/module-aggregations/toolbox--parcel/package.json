@@ -1,0 +1,32 @@
+{
+	"name": "@offirmo/toolbox--parcel",
+	"version": "0.0.1",
+	"description": "An aggregation of npm modules related to the parcel bundler.",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"engines": {
+		"npm": ">=3"
+	},
+
+	"sideEffects": true,
+
+	"dependencies": {
+		"@parcel/config-default": "^2",
+		"@parcel/core": "^2",
+		"@parcel/packager-raw-url": "^2",
+		"@parcel/packager-ts": "^2",
+		"@parcel/packager-xml": "^2",
+		"@parcel/transformer-typescript-tsc": "^2",
+		"@parcel/transformer-typescript-types": "^2",
+		"@parcel/transformer-webmanifest": "^2",
+		"@parcel/transformer-xml": "^2",
+		"parcel": "^2"
+	},
+	"optionalDependencies": {
+	},
+
+	"scripts": {
+		"test": "echo \"* @offirmo/toolbox--xyz: no need for unit tests for this kind of repo (meta)\""
+	}
+}
