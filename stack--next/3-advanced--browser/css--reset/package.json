@@ -12,6 +12,7 @@
 	},
 
 	"scripts": {
+		"dev": "parcel src2/*.html"
 	},
 
 	"devDependencies": {
