@@ -1,4 +1,4 @@
-@import '../node_modules/@offirmo-private/css--reset/src/index.css';
+@import 'npm:@offirmo-private/css--reset/src/index.css';
 
 @import 'global--box-layout.css';
 

@@ -5,7 +5,7 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"source": "src/style.css",
+	"source": "src/index.css",
 
 	"dependencies": {
 		"@offirmo-private/css--sane-defaults": "^0"

@@ -1,6 +1,5 @@
 /*! @offirmo-private/css--reset v0.0.1 | Unlicense | github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/ui--browser--css */
 
-
 /* TODO one day: my own CSS reset */
 
-@import '../node_modules/normalize.css/normalize.css';
+@import 'npm:normalize.css/normalize.css';
