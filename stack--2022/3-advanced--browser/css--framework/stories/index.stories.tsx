@@ -9,7 +9,7 @@ import { default_viewport__mobile } from '@offirmo-private/toolbox--storybook/sr
 
 import './index.css'
 
-const LIB = '@offirmo-private/ui--browser--css'
+const LIB = '@offirmo-private/css--framework'
 
 ////////////////////////////////////////////////////////////////////////////////////
 

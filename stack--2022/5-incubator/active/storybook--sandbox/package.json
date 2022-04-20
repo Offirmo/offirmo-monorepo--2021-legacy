@@ -1,0 +1,30 @@
+{
+	"name": "@offirmo-private/incubator--storybook",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"source": "src/index.js",
+	"sideEffects": false,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist …cache",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+
+		"typecheck": "run-s clean build:dev:watch",
+
+		"storybook": "start-storybook -p 6006"
+	},
+	"devDependencies": {
+		"@offirmo-private/toolbox--storybook": "^0",
+		"npm-run-all": "^4"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/storybook--utils"
+}

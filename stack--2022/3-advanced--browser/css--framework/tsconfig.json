@@ -1,0 +1,12 @@
+{
+	"extends": "../../0-meta/tsconfig.json",
+	"compilerOptions": {
+		"lib": [ "ES2019", "DOM" ],
+		"importHelpers": false,
+		"noEmitHelpers": false
+	},
+	"include": [
+		"../../0-typings-custom/**/*.ts",
+		"stories/**/*"
+	]
+}
