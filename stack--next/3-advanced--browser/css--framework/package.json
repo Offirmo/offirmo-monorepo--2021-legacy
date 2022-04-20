@@ -12,13 +12,12 @@
 	},
 
 	"scripts": {
-		"clean": "monorepo-script--clean-package …dist …cache"
+		"clean": "monorepo-script--clean-package …dist …cache",
+
+		"storybook": "start-storybook -p 7306"
 	},
 
 	"devDependencies": {
-		"@fontsource/roboto": "^4",
-		"@fontsource/roboto-condensed": "^4",
-		"@fontsource/roboto-mono": "^4",
 		"@offirmo/toolbox--storybook": "^0",
 		"cpx": "^1",
 		"npm-run-all": "^4"

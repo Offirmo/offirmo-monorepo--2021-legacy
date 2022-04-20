@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/toolbox--storybbok",
+	"name": "@offirmo/toolbox--storybook",
 	"version": "0.0.1",
 	"description": "An aggregation of npm modules related to Storybook.",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -12,6 +12,16 @@
 	"sideEffects": true,
 
 	"dependencies": {
+		"@geometricpanda/storybook-addon-iframe": "^0",
+		"@storybook/addon-actions": "^6",
+		"@storybook/addon-console": "^1",
+		"@storybook/addon-essentials": "^6",
+		"@storybook/addon-links": "^6",
+		"@storybook/react": "^6",
+		"storybook-addon-grid": "^0",
+		"storybook-addon-jsx": "^7",
+		"storybook-dark-mode": "^1",
+		"storybook-mobile": "^1"
 	},
 	"optionalDependencies": {
 	},

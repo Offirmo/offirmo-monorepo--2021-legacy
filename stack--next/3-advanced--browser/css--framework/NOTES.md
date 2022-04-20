@@ -6,6 +6,9 @@
 		"clean-css-cli": "^5",
 
 
+		"@fontsource/roboto": "^4",
+		"@fontsource/roboto-condensed": "^4",
+		"@fontsource/roboto-mono": "^4",
 
 ## Running the local demo:
 

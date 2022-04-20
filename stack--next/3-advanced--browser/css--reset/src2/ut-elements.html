@@ -2,28 +2,45 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>@offirmo-private/css--reset</title>
+	<title>@offirmo-private/css--reset -- Elements</title>
 	<style>
 		@import "npm:@offirmo-private/css--reset/src/index.css";
 	</style>
 </head>
 <body>
-<p>
-	https://developer.mozilla.org/en-US/docs/Web/HTML/Element
-</p>
+<nav>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">HTML elements reference</a>
+</nav>
+
 <hr>
+<h1>Content sectioning</h1>
+
 <code>&lt;address&gt;</code>
 <address>This is an address</address>
 
-<hr>
-<article>This is an article</article>
+<article>
+	This is an article
+	<h1>h1</h1>
+	<h2>h2</h2>
+	<h3>h3</h3>
+	<h4>h4</h4>
+	<h5>h5</h5>
+	<h6>h6</h6>
+</article>
 
-<hr>
 <aside>This is aside</aside>
 
-<footer>This is footer</footer>
+<footer>This is a footer</footer>
 
-<header>This is header</header>
+<header>
+	This is a header
+	<h1>h1</h1>
+	<h2>h2</h2>
+	<h3>h3</h3>
+	<h4>h4</h4>
+	<h5>h5</h5>
+	<h6>h6</h6>
+</header>
 
 <h1>h1</h1>
 <h2>h2</h2>
@@ -32,10 +49,71 @@
 <h5>h5</h5>
 <h6>h6</h6>
 
-<main>This is main</main>
+<main>This is a main</main>
 
 <nav>This is a nav</nav>
 
-<section>This is a section</section>
+<section>
+	This is a section
+	<h1>h1</h1>
+	<h2>h2</h2>
+	<h3>h3</h3>
+	<h4>h4</h4>
+	<h5>h5</h5>
+	<h6>h6</h6>
+</section>
+
+
+<hr>
+<h1>Text content</h1>
+
+<blockquote></blockquote>
+
+<div>This is a div</div>
+
+<dl>
+	<dt>This is a dt</dt>
+	<dd>This is a dd</dd>
+</dl>
+
+
+<figure>
+	This is a figure
+	<figcaption>This is a figcaption</figcaption>
+</figure>
+
+<menu>
+	This is an experimental menu
+	<li>this i a li</li>
+	<li>this is another li</li>
+</menu>
+
+<ol>
+	This is a ol
+	<li>this i a li</li>
+	<li>this is another li</li>
+</ol>
+
+<ul>
+	This is a ul
+	<li>this i a li</li>
+	<li>this is another li</li>
+</ul>
+
+<p>
+	This is a p
+</p>
+
+<pre>This is a pre</pre>
+
+<hr>
+<h1>Inline text semantics</h1>
+
+<b>This is a b = "bring attention"</b>
+<strong>This is a strong</strong>
+<em>This is a em</em>
+<mark>This is a mark</mark>
+
+
 </body>
 </html>
