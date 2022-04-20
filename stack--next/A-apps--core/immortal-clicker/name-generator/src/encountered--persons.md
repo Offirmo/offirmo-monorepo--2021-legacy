@@ -13,25 +13,25 @@ Sun Wukong
 Tang Seng priest in Journey to the west
 Wen Chou
 Wu Zetian # female 1st and only empress of China
+Xi Zhong Minister claimed to have served for the emperor and invented the chariot in some chinese sources https://en.wikipedia.org/wiki/Xi_Zhong
+Xia Wenming
 Yan Liang
+Yu Gun
 Yuan Shao
 Zhang San = John Smith
 Zhu Ge
 Zuo Qiuming author of Zuo Zhuan https://en.wikipedia.org/wiki/Zuo_Zhuan#Authorship
-Yu Gun
-Xia Wenming
-Xi Zhong Minister claimed to have served for the emperor and invented the chariot in some chinese sources https://en.wikipedia.org/wiki/Xi_Zhong
 
 
 ## historical persons
-Sima Qian historian https://en.wikipedia.org/wiki/Sima_Qian
-Yao Nai scholar https://en.wikipedia.org/wiki/Yao_Nai
+Bai Juyi  poet
+Kang Youwei scholar
 Liu Fenglu scholar
 Liu Xin
-Kang Youwei scholar
+Sima Qian historian https://en.wikipedia.org/wiki/Sima_Qian
 Wang Mang #negative usurper https://en.wikipedia.org/wiki/Wang_Mang
-Bai Juyi  poet
 Yan Huang initiator of chines culture
+Yao Nai scholar https://en.wikipedia.org/wiki/Yao_Nai
 Yue Fei   strong warrior from Song dinasty
 
 
@@ -64,6 +64,7 @@ Gongsun
 Gu Ya
 Han Dan
 He Huan
+Heng Yu
 Heng Yue
 Ji Xiantian
 Jiu Di
@@ -75,6 +76,7 @@ Li Qianmei F
 Li Yuan
 Li Yun
 Li Yunzi
+Li Zihao
 Lian Daofei
 Lian Yunjue
 Ling Er F
@@ -95,17 +97,14 @@ Qing Lin
 Qing Shui
 Rou Dei
 Sheng Tianhou
+Shi Luoxing
 Sima Mo
 Situ Nan
-Shi Luoxing
 Su Dao
-Heng Yu
-Teng Li
-Li Zihao
-Xu Liguo
 Sun Tai
 Sun Wukong
 Ta Shan
+Teng Li
 Tu Si
 Tuo Sen
 Wang Lin #MC
@@ -114,6 +113,7 @@ Wu Feng
 Wudo Chan
 Xiang
 Xie Qing
+Xu Liguo
 Xu Liguo
 Xu Mu
 Xu Ting
@@ -142,13 +142,33 @@ Chen Fan
 Chi Yan
 Chu Yuyan
 Dao Fang
-Fang Mu #mC
+Fang Mu #mc
 Fang Xiufeng
 Ji Tian
 Lu Yunli
-Meng Hao #MC
-Meng Li #mC
+Meng Hao #mc
+Meng Li #mc
 Sima Dao
 Wang Tangfei
 Xiaho Yihan
-Xu Qing #mC
+Xu Qing #mc
+
+
+## A Will Eternal
+Bai Xiaochun #mc
+Chen Fei
+Chen Ziang
+Du Lingfei #female
+Han Jianye
+Hei
+Li Qinghou
+Li Shan
+Lu Tianlei
+Qian Dajin
+Shangguan Tianhou #surname--uncommon
+Wang Qingshan
+Xu Baocai
+Xu Meixiang #female
+Zhang
+Zhao Yiduo
+Zhou Xinqi #female
