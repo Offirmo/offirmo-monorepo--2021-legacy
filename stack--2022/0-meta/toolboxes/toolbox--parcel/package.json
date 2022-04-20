@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/toolbox--parcel",
+	"name": "@offirmo-private/toolbox--parcel",
 	"version": "0.0.1",
 	"description": "An aggregation of npm modules related to the parcel bundler.",
 	"author": "Offirmo <offirmo.net@gmail.com>",

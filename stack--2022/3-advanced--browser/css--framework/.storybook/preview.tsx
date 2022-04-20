@@ -1,7 +1,7 @@
 // https://storybook.js.org/docs/react/configure/overview#configure-story-rendering
 
 import '@storybook/addon-console'
-import VIEWPORTS from '../../../0-meta/storybook-viewports'
+import VIEWPORTS from '@offirmo-private/toolbox--storybook/src/custom_viewports.js'
 
 
 export const parameters = {

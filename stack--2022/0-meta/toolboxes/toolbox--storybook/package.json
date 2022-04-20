@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/toolbox--storybook",
+	"name": "@offirmo-private/toolbox--storybook",
 	"version": "0.0.1",
 	"description": "An aggregation of npm modules related to Storybook.",
 	"author": "Offirmo <offirmo.net@gmail.com>",

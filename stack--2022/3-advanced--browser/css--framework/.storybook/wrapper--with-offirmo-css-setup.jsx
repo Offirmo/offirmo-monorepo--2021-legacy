@@ -1,6 +1,6 @@
 import WithAutoDarkMode from './wrapper--with-auto-dark-mode'
 
-import '../src/style.css';
+import '../src/index.css';
 import '../src/style--theme--dark--colorhunt212.css';
 import '../src/extras/beautiful-website.css';
 import '../src/extras/diagnostics.css';

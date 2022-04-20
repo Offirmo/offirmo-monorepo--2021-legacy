@@ -18,7 +18,7 @@
 	},
 
 	"devDependencies": {
-		"@offirmo/toolbox--storybook": "^0",
+		"@offirmo-private/toolbox--storybook": "^0",
 		"cpx": "^1",
 		"npm-run-all": "^4"
 	},

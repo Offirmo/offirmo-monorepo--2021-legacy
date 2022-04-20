@@ -1,0 +1,81 @@
+
+.o⋄mobile-design-helper {
+	--mobile-design-helper-color: black;
+
+	color: var(--mobile-design-helper-color);
+	position: absolute;
+	transform-origin: 50% 50% 0;
+	opacity: 100%;
+	text-align: center;
+}
+.o⋄mobile-design-helper--svg-shape {
+	fill: var(--mobile-design-helper-color);
+}
+.o⋄mobile-design-helper--corner--top-left {
+}
+.o⋄mobile-design-helper--corner--top-right {
+	right: 0;
+	transform: rotate(90deg) translate3d( 0, 0, 0);
+}
+.o⋄mobile-design-helper--corner--bottom-right {
+	right: 0;
+	bottom: 0;
+	transform: rotate(180deg) translate3d( 0, 0, 0);
+}
+.o⋄mobile-design-helper--corner--bottom-left {
+	bottom: 0;
+	transform: rotate(270deg) translate3d( 0, 0, 0);
+}
+
+/* https://www.reddit.com/r/iphone/comments/7bgzvs/iphone_x_whats_the_name_of_that_bar_at_the_bottom/ */
+@media (max-width: 375px) {
+	.o⋄mobile-design-helper--notch {
+		--width: 227px;
+		--height: 34px;
+		--radius: 24px;
+	}
+}
+@media (min-width: 376px) {
+	.o⋄mobile-design-helper--notch {
+		--width: 209px;
+		--height: 32px;
+		--radius: 22px;
+	}
+}
+/*@media (min-width: 428px) {
+	.o⋄mobile-design-helper--notch {
+		--width: 230px;
+		--height: 35px;
+		--radius: 24px;
+	}
+}*/
+.o⋄mobile-design-helper--notch {
+	background-color: var(--mobile-design-helper-color);
+}
+.o⋄mobile-design-helper--notch--portrait {
+	height: var(--height);
+	width: var(--width);
+	border-bottom-left-radius: var(--radius);
+	border-bottom-right-radius: var(--radius);
+	left: 50%;
+	transform: translateX(-50%)
+}
+.o⋄mobile-design-helper--notch--landscape {
+	height: var(--width);
+	width: var(--height);
+	border-top-right-radius: var(--radius);
+	border-bottom-right-radius: var(--radius);
+	top: 50%;
+	transform: translateY(-50%)
+}
+
+.o⋄mobile-design-helper--home-indicator {
+	bottom: 8px;
+	background-color: var(--mobile-design-helper-color);
+	height: 5px;
+	line-height: 5px;
+	/*width: var(--width);*/
+	border-radius: 5px;
+	left: 50%;
+	transform: translateX(-50%)
+}
