@@ -28,7 +28,7 @@
 	},
 	"workspaces": [
 		"0-scripts",
-		"0-meta/module-aggregations/*",
+		"0-meta/toolboxes/*",
 		"1-stdlib/*",
 		"2-foundation/*",
 		"3-advanced--browser/*",
