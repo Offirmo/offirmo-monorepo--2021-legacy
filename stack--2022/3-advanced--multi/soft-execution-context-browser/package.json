@@ -1,0 +1,33 @@
+{
+	"name": "@offirmo-private/soft-execution-context-browser",
+	"description": "browser-specific Software Execution Context",
+	"version": "0.0.2",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"source": "src/index.js",
+	"sideEffects": true,
+
+	"peerDependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
+		"tslib": "^2"
+	},
+	"dependencies": {
+		"@offirmo-private/ensure-device-uuid-browser": "^0"
+	},
+
+	"scripts": {
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo-private/soft-execution-context": "*",
+		"@offirmo/practical-logger-browser": "^3",
+		"bowser": "^2",
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/soft-execution-context-browser"
+}

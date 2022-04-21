@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!-- OT⋄GENERATED-FROM-TEMPLATE html5 micro template v2.0.0 -->
+
+<!-- maximum language hints to prevent Chrome from incorrectly suggesting a translation -->
+<html lang="en" xml:lang="en" class="o⋄top-container">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en" />
+
+	<!-- OT⋄CUSTOM BEGIN meta description -->
+	<meta name="description" content="A demo description">
+	<meta name="keywords" content="demo">
+	<meta name="author" content="Offirmo">
+	<!-- OT⋄CUSTOM END meta description -->
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<title>HTML5 010 - HTML tests micro template</title>
+
+	<!-- OT⋄CUSTOM BEGIN favicons -->
+	<!-- See:
+	     - modern https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df
+	     - compatible https://realfavicongenerator.net/
+	-->
+	<meta name="theme-color" content="#ffffff">
+	<link rel="icon" href="todo.svg">
+	<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+	<link rel="apple-touch-icon" href="apple-touch-icon_180x180.png">
+	<link rel="manifest" href="manifest.json">
+	<!-- OT⋄CUSTOM END favicons -->
+
+	<style type="text/css">
+		/* super early styles while the page is loading */
+		:root {
+			--bg: black;
+			--fg: hsl(0, 0%, 98%);
+			--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
+		}
+
+		html, body {
+			background-color: var(--bg);
+			color: var(--fg);
+			font-family: var(--font);
+		}
+
+		.progressive {
+			display: none;
+		}
+
+		/* OT⋄CUSTOM BEGIN early styles */
+		.foo {
+			/* todo */
+		}
+		/* OT⋄CUSTOM END early styles */
+	</style>
+</head>
+
+<!-- OT⋄CUSTOM BEGIN body -->
+<h1>...</h1>
+<p>
+	A micro template for HTML tests
+	<button onclick="console.log('clicked', Date.now())">click me!</button>
+</p>
+<!-- OT⋄CUSTOM END body -->
+
+<script type="module">
+	document.querySelector('h1').textContent = document.title
+	Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+		el.href || (el.href = el.text)
+	})
+</script>
+
+<!-- https://perfops.net/rum -->
+<script async src="https://cdn.perfops.net/rom3/rom3.min.js"></script>

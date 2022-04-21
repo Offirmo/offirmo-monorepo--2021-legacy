@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XOFF alt</title>
+</head>
+<body>
+<p>Demo… (alt)</p>
+
+<iframe src="./index.html" style="width: 500px; height: 400px">Iframe loading here</iframe>
+<script>
+	window.addEventListener('message', ({data, origin, source}) => {
+		console.log('⬆ALT received', { data, origin, source })
+		if (data?.xoff?.code)
+			eval(data?.xoff?.code) // yeah baby!
+	}, false);
+</script>
+</body>
+</html>

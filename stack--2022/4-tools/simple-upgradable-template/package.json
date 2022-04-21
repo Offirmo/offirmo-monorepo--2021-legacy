@@ -1,0 +1,28 @@
+{
+	"name": "@offirmo-private/simple-upgradable-template",
+	"version": "0.0.1",
+	"description": "Tool/mod to create files from a template then keeping them up to date",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"main": "src/index.js",
+	"bin": {
+		"offirmo-simple-upgradable-template-apply": "src/cli.js"
+	},
+
+	"dependencies": {
+		"memoize-one": "^6",
+		"meow": "^9",
+		"tiny-invariant": "^1"
+	},
+
+	"scripts": {
+		"demo": "node src/cli.js --verbosex --template=./doc/demo/template.html --destination=./doc/demo/result.html",
+		"test": "./node_modules/.bin/mocha --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'src/**/*spec.js' --bail"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^8"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/simple-upgradable-template"
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo dependency injection</title>
+</head>
+<body>
+
+<h1>...</h1>
+
+<script type="module">
+	document.querySelector('h1').textContent = document.title;
+	Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+		el.href || (el.href = el.text);
+	});
+
+	import './demo.js'
+</script>
+
+</body>
+</html>

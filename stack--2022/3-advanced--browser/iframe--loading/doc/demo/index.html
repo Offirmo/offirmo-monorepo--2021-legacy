@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.6.0 -->
+
+<html lang="en" xml:lang="en" class="o⋄top-container">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Language" content="en" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+		<!-- OT⋄CUSTOM BEGIN meta & open graph description -->
+		<title>Treasure World Clicker</title>
+		<meta name="description" content="blah blah">
+		<meta name="keywords" content="HTML, CSS, JavaScript">
+		<meta name="author" content="John Smith">
+		<!-- OT⋄CUSTOM END meta & open graph description -->
+
+		<!-- OT⋄CUSTOM BEGIN favicons -->
+		<!-- See:
+			  - modern https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df
+			  - compatible https://realfavicongenerator.net/
+		-->
+		<meta name="theme-color" content="#ffffff">
+		<!-- OT⋄CUSTOM END favicons -->
+
+		<!-- OT⋄CUSTOM BEGIN head miscs -->
+		<script>
+			console.log('I1', { location, isSecureContext: self.isSecureContext })
+		</script>
+		<!-- OT⋄CUSTOM END head miscs -->
+		<style>
+			:root {
+				--bg: black; /* pure black to look good on smartphones */
+				--fg: hsl(0, 0%, 98%);
+				--font: -apple-system, BlinkMacSystemFont, "lucida grande", roboto, noto, ubuntu, sans-serif;
+			}
+
+			html, body {
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				background-color: var(--bg);
+				color: var(--fg);
+				font-family: var(--font);
+			}
+
+			iframe {
+				position: absolute;
+				width: 100%;
+				border: 0;
+				background-color: white; /* bc loader's bg shouldn't bleed into the frame. TODO adapt to dark mode? */
+			}
+
+			.o⋄top-container {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+			}
+
+			.blinking {
+				animation: blinkingText 1.2s infinite ease-in-out;
+			}
+			@keyframes blinkingText{
+				0%  { opacity: 100%; }
+				33% { opacity: 0; }
+			}
+
+			.progressive {
+				display: none;
+			}
+
+			#loader {
+				position: absolute;
+				width: 100%;
+				background-color: var(--bg);
+
+				/* prep for optional background image */
+				background-size: cover;
+				background-position: center; /* default */
+			}
+			#loader > div {
+				margin: auto;
+				margin-bottom: 5%;
+				text-align: center;
+				font-size: x-large;
+				background-color: rgba(0, 0, 0, .5);
+				padding: 1em;
+				border-radius: .3em;
+			}
+
+			/* OT⋄CUSTOM BEGIN early styles */
+			/* OT⋄CUSTOM END early styles */
+		</style>
+
+		<script>
+			const path_segment_after_last_slash = location.pathname.split('/').slice(-1)[0] || ''
+			if (path_segment_after_last_slash) {
+				// current path doesn't end with a trailing slash
+				// that may be an issue if we are located by our parent folder (implicit file)
+				// https://searchfacts.com/url-trailing-slash/
+				// https://ahrefs.com/blog/trailing-slash/
+				const is_last_segment_a_html_file = path_segment_after_last_slash.endsWith('.html') || path_segment_after_last_slash.endsWith('.htm')
+				if (is_last_segment_a_html_file) {
+					// all good ✔
+				} else {
+					// We are located by a folder without a trailing slash.
+					// We are opinionated towards a trailing slash to ease relative references.
+					// Redirect to the version with slash
+					// https://love2dev.com/blog/ways-to-use-javascript-redirect-to-another-page/
+					const new_path = location.pathname + '/'
+					// let's be careful to not loose any part of the URL
+					const new_url =
+						location.origin
+						+ new_path
+						+ location.search
+						+ location.hash
+					location.replace(new_url)
+				}
+			}
+		</script>
+	</head>
+
+	<body class="o⋄top-container o⋄body⁚full-viewport">
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+
+		<!-- the actual app, initially hidden -->
+		<iframe class="o⋄top-container progressive"
+			importance="high"
+			loading="eager"
+			scrolling="no"
+		>
+			<p>Error. Your app should be here.</p>
+			<!-- TODO link for help -->
+			<p>Check your add blocker?</p>
+		</iframe>
+
+		<!-- the loader (on top) -->
+		<div id="loader" class="o⋄top-container">
+			<div>
+				<p id="legend"></p>
+				<p class="blinking">Loading…</p>
+				<label class="progressive">
+					<progress></progress>
+					0%
+				</label>
+			</div>
+		</div>
+	</body>
+
+	<script>
+		window.user_settings = {}
+		/* OT⋄CUSTOM BEGIN early code */
+		if (document.URL.startsWith('http://localhost:1981/5-incubator/active/iframe-loading/src/index.html')) {
+			user_settings.app_url = '../doc/demo/index-2.html'
+		}
+		//user_settings.app_url = './index-2.html?custom=2'
+		/* OT⋄CUSTOM END early code */
+	</script>
+
+	<script>
+		const PROP = 'oᐧloader'
+		const DEFAULT_RSRC_ID = 'overall'
+		const LIB = 'iframe-loading'
+		const logger = (() => {
+			try {
+				return window._debug.v1.getLogger({name: LIB})
+			} catch {}
+
+			if (!!window.localStorage.getItem(`🛠UDA.override.logger.${LIB}.logLevel`))
+				return console
+
+			return {
+				log() {},
+				info() {},
+				warn() {},
+				error() {},
+			}
+		})()
+		const user_settings = window.user_settings || {}
+		logger.log('[IL] starting…', { location, user_settings })
+
+		/////////////////////
+
+		let state = {
+			settings: {
+				// flat for easy merging
+				bg_color: 'black',
+				fg_color: 'hsl(0, 0%, 98%)',
+				bg_picture: null,
+				// TODO font, bg picture etc.
+				app_queryparams: [
+					// TODO explain???
+					user_settings.app_queryparams,
+					user_settings.app_url && new URLSearchParams(user_settings.app_url.split('?')[1]).toString(),
+					new URLSearchParams(location.search).toString(),
+				].filter(s => !!s).join('&'),
+				legend: undefined,
+				expected_rsrc_count: 1,
+				...user_settings,
+				app_url: (() => {
+
+					let app_url = user_settings.app_url || './index-2.html'
+					app_url = app_url.split('?')[0]
+
+					return app_url
+					})(),
+			},
+
+			is_rsrc_loaded: {
+				[DEFAULT_RSRC_ID]: false,
+			},
+
+			error: null,
+		}
+		const LS_KEY_CACHED_CONFIG = `XOF.${LIB}.config_cache.url(${state.settings.app_url})`
+
+		/////////////////////
+		// SELECTORS
+
+		function get_load_infos(state) {
+			const rsrc_keys = Object.keys(state.is_rsrc_loaded)
+			//logger.log(rsrc_keys)
+			const current_loaded_count = rsrc_keys.reduce((acc, k) => {
+				//logger.log(k, state.is_rsrc_loaded[k])
+				return acc + (state.is_rsrc_loaded[k] ? 1 : 0)
+			}, 0)
+
+			const current_count = rsrc_keys.length
+			const expected_full_count = Math.max(state.settings.expected_rsrc_count, current_count)
+			return {
+				expected_full_count,
+				current_count,
+				current_loaded_count,
+				is_loaded: current_loaded_count === expected_full_count,
+			}
+		}
+
+		/////////////////////
+		// REDUCERS
+
+		function on_error(state, error) {
+			logger.error('[IL] on error', { error, state })
+			state = {
+				...state,
+				error,
+			}
+			return state
+		}
+
+		function update_settings(state, partial) {
+			state = {
+				...state,
+				settings: {
+					...state.settings,
+					...partial,
+				},
+			}
+			return state
+		}
+
+		function on_rsrc_loaded(state, id = DEFAULT_RSRC_ID) {
+			//logger.log(`[IL] on_rsrc_loaded`, id)
+			state = {
+				...state,
+				is_rsrc_loaded: {
+					...state.is_rsrc_loaded,
+					[id]: true,
+				},
+			}
+			return state
+		}
+
+		/////////////////////
+		// EXPOSE API
+
+		if (window[PROP]) {
+			logger.error('[IL] Error! iframe-loading recursion!')
+			// TODO immediately hide our own loader
+		} else {
+			// TODO useful? always postmessage?
+			window[PROP] = {
+				configure({legend, expected_rsrc_count, bg_color, fg_color, bg_picture, ...unrecognized} = {}) {
+					if (Object.keys(unrecognized).length > 0) logger.error(`[IL] configure_loader() unrecognized params:`, unrecognized)
+
+					try {
+						localStorage.setItem(LS_KEY_CACHED_CONFIG, JSON.stringify({
+							legend,
+							expected_rsrc_count,
+							bg_color,
+							fg_color,
+							bg_picture,
+						}))
+					} catch {}
+
+					legend = legend || state.settings.legend
+					expected_rsrc_count = expected_rsrc_count || state.settings.expected_rsrc_count
+					bg_color = bg_color || state.settings.bg_color
+					fg_color = fg_color || state.settings.fg_color
+					bg_picture = bg_picture || state.settings.bg_picture
+
+					state = update_settings(state, {
+						legend,
+						expected_rsrc_count,
+						bg_color,
+						fg_color,
+						bg_picture,
+					})
+					render(state, 'configure')
+				},
+				on_rsrc_loaded(id) {
+					state = on_rsrc_loaded(state, id)
+					render(state, 'on_rsrc_loaded')
+				},
+			}
+		}
+
+		// TODO favicon?
+
+		/////////////////////
+		// UX
+
+		function render(state, caller) {
+			const elt_iframe = document.getElementsByTagName('iframe')[0]
+			const elt_loader = document.getElementById('loader')
+			const elt_legend = document.getElementById('legend')
+			const elt_progress = document.getElementsByTagName('progress')[0]
+			const elt_progress_area = document.getElementsByTagName('label')[0]
+			const sub_frame_window = window.frames[0]
+
+			const load_infos = get_load_infos(state)
+
+			logger.log(`[IL] rendering…`, {
+				caller,
+				state,
+				load_infos,
+				//elt_iframe,
+				//elt_legend,
+				//sub_frame: sub_frame_window,
+			})
+
+			if (load_infos.is_loaded || state.error) {
+				try { window.document.title = sub_frame_window.document.title } catch {}
+				if (elt_iframe.style.display !== 'block') {
+					// transition
+					logger.log('[IL] !!! LOADED !!!')
+					elt_iframe.style.display = 'block'
+					elt_progress_area.display = 'none'
+					elt_loader.style.pointerEvents = 'none'
+					function hide_loader() {
+						elt_loader.style.display = 'none'
+						// bg back to black to avoid bleeding it on notches on mobile devices (seen on cordova iOs)
+						// TODO revisit that, bleeding still looks better than square on notched
+						//document.documentElement.style.setProperty('--bg', 'black')
+					}
+					try {
+						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
+						const animation = elt_loader.animate(
+								[
+									{opacity: 1},
+									{opacity: 0},
+								], {
+									duration: 700,
+									easing: 'ease-out',
+									fill: 'forwards',
+								}
+							)
+						// for easier inspection. Not really needed.
+						setTimeout(hide_loader, 700)
+					} catch (err) {
+						logger.warn('[IL] [optional feature] Web Animation API error:', err)
+						hide_loader()
+					}
+					/*if (state.error) {
+						// TODO improve error handling
+						if (!confirm('Load timeout. Does it look OK? (If not, I’ll try reloading.)'))
+							window.location.reload()
+					}*/
+				}
+				return
+			}
+
+			if (!elt_iframe.src) {
+				logger.log('[IL] 1st render!')
+
+				const searchParams = new URLSearchParams(state.settings.app_queryparams)
+				searchParams.set(PROP, true)
+				searchParams.sort()
+
+				elt_iframe.src = state.settings.app_url + '?' + searchParams.toString()
+
+				// just logging, not reliable since the iframe can rewrite them
+				elt_iframe.onload = (args) => logger.log(`[IL] iframe loaded`, { args })
+				elt_iframe.onerror = (args) => logger.warn(`[IL] iframe something wrong happened`, { args }) // TODO error on this one?
+
+				// cordova support
+				// BUT up to the user to load the cordova script if needed!
+				// https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html
+				document.addEventListener('deviceready', () => {
+					if ('splashscreen' in navigator) {
+						// take over the loading feature
+						setTimeout(() => {
+							logger.log('[IL] hiding cordova loader')
+							navigator.splashscreen.hide()
+						}, 10) // to avoid FOUC
+					}
+				}, false)
+
+				logger.log(`[IL] Now waiting for the iframe to load "${elt_iframe.src}"`)
+			}
+
+			if (state.settings.legend) {
+				elt_legend.innerText = state.settings.legend
+			}
+
+			document.documentElement.style.setProperty(
+				'--fg',
+				state.settings.fg_color
+			)
+			document.documentElement.style.setProperty(
+				'--bg',
+				state.settings.bg_color
+			)
+
+			if (state.settings.bg_picture) {
+				const [ url, positionX = '50%', positionY = '50%' ] = state.settings.bg_picture
+				elt_loader.style.backgroundImage = url
+				elt_loader.style.backgroundPositionX = positionX
+				elt_loader.style.backgroundPositionY = positionY
+			}
+
+			let sub_frame_title = null
+			try { sub_frame_title = sub_frame_window.document.title } catch {}
+			window.document.title = sub_frame_title || state.settings.legend || ''
+		}
+
+		// trigger initial render
+
+		try {
+			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
+			if (cached_config) {
+				logger.log('[IL] found cached config, restoring…', { cached_config })
+				window[PROP].configure(cached_config)
+			}
+		} catch (err) {
+			logger.warn(err)
+		}
+		finally {
+			render(state, 'initial')
+		}
+
+		// TODO re-armable retry / give up timeout on activity
+		setTimeout(() => {
+			let additional_wait_time_s =
+				(!get_load_infos(state).is_loaded && !state.settings.legend)
+					? 10
+					: 20
+
+			setTimeout(() => {
+				if (!get_load_infos(state).is_loaded) {
+					state = on_error(state, new Error('Timeout waiting for sub-frame load!'))
+					render(state)
+				}
+			}, additional_wait_time_s * 1000)
+		}, 10 * 1000)
+
+		/////////////////////
+
+		// PM listener for cross origin sub-frames
+		window.addEventListener('message', ({data, origin, source}) => {
+			if (!data[PROP]) return
+
+			logger.log(`[IL] 📥 PM ["${PROP}"] received`, data[PROP])
+			const { method, args } = data[PROP]
+			window[PROP][method](...args)
+		}, false)
+
+		/////////////////////
+	</script>
+
+	<!-- OT⋄CUSTOM BEGIN low priority scripts & misc -->
+	<!-- OT⋄CUSTOM END low priority scripts & misc -->
+
+	<script type="module">
+		// TODO progressive enhancements
+	</script>
+</html>

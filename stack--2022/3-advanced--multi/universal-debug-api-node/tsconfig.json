@@ -1,0 +1,9 @@
+{
+	"extends": "../../0-meta/tsconfig.json",
+	"compilerOptions": {
+	},
+	"include": [
+		"../../0-typings-custom/**/*.ts",
+		"src/**/*.ts"
+	]
+}

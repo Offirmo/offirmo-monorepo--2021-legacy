@@ -1,0 +1,78 @@
+{
+	"name": "@offirmo/universal-debug-api-placeholder",
+	"description": "Implementation of Offirmo’s Universal Debug Api doing nothing at all, yielding to any other effective implementation",
+	"version": "1.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": true,
+
+	"size-limit": [
+		{
+			"limit": "600b",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "700b",
+			"path": "dist/src.es2019.cjs/index.js"
+		},
+		{
+			"limit": "1.3kb",
+			"path": "dist/index-bundle.js"
+		}
+	],
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"@offirmo/globalthis-ponyfill": "^3",
+		"@offirmo/practical-logger-minimal-noop": "^3",
+		"@offirmo/universal-debug-api-interface": "^1"
+	},
+
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo/practical-logger-core": "^3",
+		"@size-limit/preset-small-lib": "^5",
+		"npm-run-all": "^4",
+		"size-limit": "^5",
+		"ts-node": "^10"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
+		"ensure-size": "size-limit",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-p build:prod build:bundle",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo:node": "./doc/demo.ts",
+		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo-web/index.html",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build ensure-size"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-placeholder",
+	"keywords": [
+		"debug",
+		"logger",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-placeholder",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
+}

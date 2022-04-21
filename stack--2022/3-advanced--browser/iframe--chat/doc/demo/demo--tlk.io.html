@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" class="o⋄top-container">
+	<head>
+		<meta charset="UTF-8">
+		<title>demo--tlk.io.html</title>
+
+		<style>
+			@import "../../../../3-advanced--browser/ui--browser--css/src/style--containers.css";
+			@import "../../../../3-advanced--browser/ui--browser--css/src/style--containers--debug.css";
+
+			body {
+				margin: 0;
+				background-color: cyan;
+			}
+			.o⋄top-container {
+				border-width: 1px;
+			}
+		</style>
+		<script>
+			console.log('Hello')
+			// TODO attach error handlers
+			// TODO read query params and pass them to the div
+		</script>
+	</head>
+
+	<body class="o⋄top-container">
+
+		demo--tlk.io.html
+
+		<!-- note: has a breakpoint at <765px -->
+		<div id="tlkio"
+			data-channel="hey"
+			data-theme="theme--night"
+			data-custom-css="//localhost:1234/overrides.css"
+			style="width:100%;height:100%;">
+		</div>
+
+		<!-- TODO a button to open in a tab -->
+		<script>
+			// alter/fix the defaults above according to params
+			const url = new URL(window.location.href)
+			console.log(url)
+		</script>
+		<script async src="//tlk.io/embed.js" type="text/javascript"></script>
+	</body>
+</html>

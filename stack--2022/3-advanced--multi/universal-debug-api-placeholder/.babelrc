@@ -1,0 +1,14 @@
+{
+	"plugins": [
+		"@babel/plugin-proposal-export-default-from",
+		"@babel/plugin-proposal-object-rest-spread"
+	],
+	"presets": [
+
+		["@babel/preset-env",{
+			"targets": {
+				"browsers": [ "extends @offirmo/browserslist-config" ]
+			}
+		}]
+	]
+}

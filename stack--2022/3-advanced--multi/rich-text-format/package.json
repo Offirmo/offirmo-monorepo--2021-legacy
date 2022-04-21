@@ -1,0 +1,43 @@
+{
+	"name": "@offirmo-private/rich-text-format",
+	"description": "A rich text format for rendering to different platforms: ascii, html...",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"tslib": "^2"
+	},
+	"dependencies": {
+		"memoize-one": "^6",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo-node/index.js"
+	},
+	"devDependencies": {
+		"@offirmo-private/prettify-any": "^0",
+		"@offirmo-private/ts-types": "^0",
+		"@offirmo/practical-logger-browser": "^3",
+		"npm-run-all": "^4",
+		"tiny-invariant": "^1",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/rich-text-format"
+}

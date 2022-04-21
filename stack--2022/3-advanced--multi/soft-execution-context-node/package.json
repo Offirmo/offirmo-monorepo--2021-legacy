@@ -1,0 +1,33 @@
+{
+	"name": "@offirmo-private/soft-execution-context-node",
+	"description": "node-specific Software Execution Context",
+	"version": "0.0.2",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"main":   "src/index.js",
+	"source": "src/index.js",
+	"sideEffects": true,
+
+	"peerDependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
+		"tslib": "^2"
+	},
+	"dependencies": {
+	},
+
+	"scripts": {
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "./doc/demo/demo.js"
+	},
+	"devDependencies": {
+		"@offirmo-private/soft-execution-context": "*",
+		"@offirmo/practical-logger-node": "^0",
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/soft-execution-context-node"
+}

@@ -1,0 +1,75 @@
+{
+	"name": "@offirmo/universal-debug-api-browser",
+	"description": "An implementation of the universal debug API for browsers",
+	"version": "1.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": true,
+
+	"size-limit": [
+		{
+			"limit": "4kb",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "5kb",
+			"path": "dist/src.es2019.cjs/index.js"
+		},
+		{
+			"limit": "6kb",
+			"path": "dist/index-bundle.js"
+		}
+	],
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"@offirmo/globalthis-ponyfill": "^3",
+		"@offirmo/practical-logger-browser": "^3",
+		"@offirmo/practical-logger-core": "^3",
+		"@offirmo/universal-debug-api-interface": "^1"
+	},
+
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@size-limit/preset-small-lib": "^5",
+		"npm-run-all": "^4",
+		"size-limit": "^5"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
+		"ensure-size": "size-limit",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-p build:prod build:bundle",
+		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build ensure-size"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-browser",
+	"keywords": [
+		"debug",
+		"logger",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-browser",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
+}

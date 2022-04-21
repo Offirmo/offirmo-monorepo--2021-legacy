@@ -1,0 +1,66 @@
+{
+	"name": "@offirmo/tiny-singleton",
+	"description": "Typescript simple singleton",
+	"version": "1.0.0",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"size-limit": [
+		{
+			"limit": "200B",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "200B",
+			"path": "dist/src.es2019.cjs/index.js"
+		}
+	],
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"ensure-size": "size-limit",
+
+		"dev": "run-s clean build:dev:watch",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"build": "run-s build:prod",
+		"demo": "node doc/demo/index.js",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^8",
+		"@size-limit/preset-small-lib": "^5",
+		"np": "^7",
+		"npm-run-all": "^4",
+		"size-limit": "^5"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-stdlib/tiny-singleton",
+	"keywords": [
+		"singleton",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-stdlib/tiny-singleton",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
+}

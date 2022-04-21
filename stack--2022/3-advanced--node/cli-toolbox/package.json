@@ -1,0 +1,77 @@
+{
+	"name": "@offirmo/cli-toolbox",
+	"version": "2.0.0",
+	"description": "An aggregation of useful quality modules related to writing CLI node apps",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"main": "index.js",
+	"sideEffects": false,
+
+	"dependencies": {
+		"ansi-escapes": "^4",
+		"boxen": "^5",
+		"chalk": "^4",
+		"cli-columns": "^4",
+		"columnify": "^1",
+		"fs-extra": "^10",
+		"load-json-file": "^6",
+		"log-symbols": "^4",
+		"meow": "^9",
+		"write-json-file": "^4"
+	},
+
+	"scripts": {
+		"demo": "./_doc/demo.js",
+		"test": "npm run demo"
+	},
+	"devDependencies": {
+		"loud-rejection": "^2",
+		"pokemon": "^2",
+		"sum-up": "^3"
+	},
+
+	"files": [
+		"framework",
+		"fs",
+		"stdout",
+		"string"
+	],
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--node/cli-toolbox",
+	"keywords": [
+		"cli",
+		"node",
+		"modules"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--node/cli-toolbox",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	},
+	"toreview": {
+		"bytes": "^2",
+		"cfonts": "^1",
+		"cli-truncate": "^1",
+		"cli-width": "^2",
+		"conf": "^1",
+		"figures": "^2",
+		"humanize-duration": "^3",
+		"humanize-string": "^1",
+		"indent-string": "^3",
+		"json-stringify-safe": "^5",
+		"json3": "^3",
+		"linewrap": "^0.2.1",
+		"listr": "^0.12",
+		"lodash": "^4",
+		"observatory": "^1",
+		"ora": "^1",
+		"prettyjson": "^1",
+		"sparkly": "^3",
+		"string-width": "^2",
+		"supports-color": "^4",
+		"tildify": "^1",
+		"untildify": "^3",
+		"update-notifier": "^2",
+		"vorpal": "^1",
+		"yargs": "^8"
+	}
+}

@@ -1,0 +1,27 @@
+
+<script>
+const executions = []
+
+function callback(id) {
+executions.push(id)
+}
+
+// in reverse order to prove it works
+requestIdleCallback(() => callback('idle'))
+setTimeout(() => callback('timeout--5'), 5)
+setTimeout(() => callback('timeout--4'), 4)
+setTimeout(() => callback('timeout--3'), 3)
+setTimeout(() => callback('timeout--2'), 2)
+setTimeout(() => callback('timeout--1'), 1)
+setTimeout(() => callback('timeout--0'), 0)
+setTimeout(() => callback('timeout--undef'))
+setImmediate(() => callback('immediate'))
+Promise.resolve().then(() => callback('then'))
+queueMicrotask(() => callback('micro'))
+process.nextTick(() => callback('tick'))
+callback('sync')
+
+setTimeout(() => {
+	console.log(executions)
+}, 20)
+</script>

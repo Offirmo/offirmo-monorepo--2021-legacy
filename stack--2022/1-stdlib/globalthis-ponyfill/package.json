@@ -1,0 +1,65 @@
+{
+	"name": "@offirmo/globalthis-ponyfill",
+	"description": "Ponyfill for globalThis",
+	"version": "3.0.2",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"size-limit": [
+		{
+			"limit": "200B",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "200B",
+			"path": "dist/src.es2019.cjs/index.js"
+		}
+	],
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"ensure-size": "size-limit",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+	"devDependencies": {
+		"@size-limit/preset-small-lib": "^5",
+		"np": "^7",
+		"npm-run-all": "^4",
+		"size-limit": "^5"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-stdlib/globalthis-ponyfill",
+	"keywords": [
+		"globalThis",
+		"ponyfill",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-stdlib/globalthis-ponyfill",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
+}

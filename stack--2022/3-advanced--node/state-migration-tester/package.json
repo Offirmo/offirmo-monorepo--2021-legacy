@@ -1,0 +1,30 @@
+{
+	"name": "@offirmo-private/state-migration-tester",
+	"version": "0.0.1",
+	"description": "helper for testing migrations",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"main": "src/index.js",
+	"sideEffects": false,
+
+	"dependencies": {
+		"@offirmo-private/prettify-any": "^0",
+		"@offirmo-private/state-utils": "^0",
+		"@offirmo-private/timestamps": "^0",
+		"@offirmo/cli-toolbox": "^2",
+		"jsondiffpatch": "^0.4",
+		"lodash": "^4"
+	},
+
+	"scripts": {
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'src/**/*spec.js'"
+	},
+	"devDependencies": {
+		"@offirmo-private/uuid": "^0",
+		"@offirmo/unit-test-toolbox": "^8",
+		"npm-run-all": "^4"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--node/state-migration-tester"
+}

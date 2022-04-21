@@ -13,7 +13,7 @@ export type PulseFrequency =
 
 export interface PulseOptions {
 	visual: boolean // means that we don't need pulse if app is not visible
-	cloud: boolean  // means that we don't need pulse if app is no network
+	cloud: boolean  // means that we don't need pulse if app has no network
 
 	ideal_period_ms: number // BEST EFFORT since will be sampled from requestAnimationFrame anyway
 }

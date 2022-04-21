@@ -1,0 +1,38 @@
+{
+	"name": "@offirmo-private/print-error-to-ansi",
+	"description": "nicely print an error object to ansi",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"tslib": "^2"
+	},
+	"dependencies": {
+		"@offirmo/error-utils": "^0",
+		"chalk": "^4"
+	},
+
+	"devDependencies": {
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+		"demo": "node doc/demo.js"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-foundation/print-error-to-ansi"
+}

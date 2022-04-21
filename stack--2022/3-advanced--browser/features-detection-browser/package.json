@@ -1,0 +1,21 @@
+{
+	"name": "@offirmo-private/features-detection-browser",
+	"description": "My own feature detection lib",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"source": "src/index.js",
+	"sideEffects": false,
+
+	"dependencies": {
+		"memoize-one": "^6"
+	},
+
+	"devDependencies": {},
+	"scripts": {},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/features-detection-browser"
+}

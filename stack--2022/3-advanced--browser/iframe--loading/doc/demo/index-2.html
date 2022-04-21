@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- html5_006 : WTE micro template -->
+<html lang="en" xml:lang="en" class="o⋄top-container">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<title>Treasure World Clicker</title>
+
+	<!-- rsrc prio -->
+	<link rel="preload" as="script" href="./index-2.js">
+
+	<!-- thank you https://realfavicongenerator.net/ -->
+	<meta name="theme-color" content="#543d46">
+
+	<link rel="stylesheet" href="../../../../9-oh-my-rpg/ui--browser--css/src/style.css">
+
+	<script>
+		/*console.log(`[I2] hello`, {
+			frameElement, // Returns the element in which the window is embedded, or null if the window is not embedded.
+		})
+		window.onload = () => console.log('[I2] GlobalEventHandlers.onload')*/
+	</script>
+
+	<style>
+		html {
+			--o⋄color⁚co212__brown:  #543D46;
+			--o⋄color⁚co212__beige:  #FFEBBC;
+			--o⋄font-family--fast_and_good_enough: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+
+			background-color: var(--o⋄color⁚co212__brown);
+			color: var(--o⋄color⁚co212__beige);
+			font-family: var(--o⋄font-family--fast_and_good_enough);
+			background-image: url(./adventurers_1920x1080_progressive.jpg);
+		}
+	</style>
+</head>
+
+<body class="o⋄top-container o⋄paddingꘌnone o⋄body⁚full-viewport omr⋄font⁚pixantiqua omr⋄cursorꘌsword--standard" data-o-theme="dark--colorhunt212">
+
+<div id="root" class="o⋄top-container">
+
+	<div class="omr⋄full-size-fixed-layer">
+		<div class="omr⋄full-size-fixed-layer o⋄bg⁚cover" style="background-image: url(./albert-weand-pueblo.jpg);">
+		</div>
+	</div>
+
+	<div class="omr⋄full-size-fixed-layer o⋄paddingꘌmedium">
+		Some content...
+		<button onclick="console.log('clicked', Date.now())">click me!</button>
+	</div>
+</div>
+
+</body>
+
+<script async importance="high" src="./index-2.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script defer importance="auto" src="https://www.googletagmanager.com/gtag/js?id=UA-TEST"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-TEST');
+</script>
+
+<!-- netlify identity, hard to embed in the bundle (babel issues) -->
+<script defer importance="low" type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</html>

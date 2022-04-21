@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" class="o⋄top-container">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>Rich Text Format Demo</title>
+
+		<link href="../../../ui--browser--css/src/style.css" rel="stylesheet">
+
+		<style type="text/css">
+			/* super early styles while the page is loading */
+			body {
+				font-size: 12px;
+				max-width: unset;
+				margin: unset;
+				padding: unset;
+			}
+
+			form {
+				border-bottom: 2px solid black;
+			}
+		</style>
+
+		<script>
+			// ...
+		</script>
+	</head>
+
+	<body class="o⋄fontꘌroboto-condensed o⋄flex--directionꘌcolumn">
+
+	<form name="form" class="o⋄flex-element--nogrow">
+		<fieldset name="fs-style">
+			<legend>Style</legend>
+			<label class="o⋄text-noselect">
+				<input type="radio" name="style_select" onclick="oc()" value="none" >
+				No CSS
+			</label>
+			<label class="o⋄text-noselect">
+				<input type="radio" name="style_select" onclick="oc()" value="base-dol" >
+				base DoL
+			</label>
+			<label class="o⋄text-noselect">
+				<input type="radio" name="style_select" onclick="oc()" value="base-lod" >
+				base LoD
+			</label>
+			<label class="o⋄text-noselect">
+				<input type="radio" name="style_select" onclick="oc()" value="omr-dol" >
+				OMR DoL
+			</label>
+			<label class="o⋄text-noselect">
+				<input type="radio" name="style_select" onclick="oc()" value="omr-lod--c212" >
+				OMR LoD C212
+			</label>
+			<label class="o⋄text-noselect">
+				<input type="radio" name="style_select" onclick="oc()" value="omr-lod" >
+				OMR LoD
+			</label>
+		</fieldset>
+	</form>
+
+	<div id="iframe-container" class="o⋄flex-element--grow o⋄flex--directionꘌcolumn"></div>
+	</body>
+
+
+	<script type="module">
+		const state = {}
+
+		function on_click() {
+			console.log('on click')
+			const form = document.querySelector('form')
+
+			Array.from(form)
+				.filter(e => e instanceof HTMLInputElement)
+				.forEach(element => {
+					const { name, type, value } = element
+					//console.log({ element, name, type, value })
+
+					state[name] = state[name] || localStorage.getItem(`XOF.richtext.demo.${name}`)
+
+					switch (type) {
+						case 'radio':
+							if (element.checked) {
+								//console.log('found checked:', value)
+								state[name] = value
+							}
+							break
+
+						default:
+							console.log('NOT IMPLEMENTED handle type', type)
+							break
+					}
+				})
+
+
+			Array.from(form)
+				.filter(e => e instanceof HTMLInputElement)
+				.forEach(element => {
+					const { name, type, value, checked } = element
+
+					switch (type) {
+						case 'radio':
+							element.checked = state[name] === value
+							break
+
+						default:
+							console.log('NOT IMPLEMENTED handle type', type)
+							break
+					}
+				})
+
+			console.log({state})
+
+			Object.keys(state).forEach(k => {
+				localStorage.setItem(`XOF.richtext.demo.${k}`, state[k])
+			})
+
+			render()
+		}
+		window.oc = on_click
+		on_click()
+
+		function render() {
+			const searchParams = new URLSearchParams()
+			Object.keys(state).forEach(k => {
+				searchParams.set(k, state[k])
+			})
+
+			const url = 'index-iframe.html?' + searchParams
+
+			console.log(`Demo client: using the iframe at`, url);
+
+			document.getElementById('iframe-container').innerHTML = `
+			<iframe
+			class="o⋄flex-element--grow"
+			src="${url}"
+			frameborder="0">
+			Problem. Iframe content should be here.
+			</iframe>
+			`;
+		}
+
+	</script>
+</html>

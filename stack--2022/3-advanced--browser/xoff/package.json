@@ -1,0 +1,40 @@
+{
+	"name": "@offirmo-private/xoff",
+	"version": "0.0.1",
+	"description": "...",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": true,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"@offirmo-private/poll-window-variable": "^0"
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist …cache .demo",
+
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:dev": "parcel build --out-dir .demo --no-autoinstall doc/demo/*.html --public-url ./",
+
+		"demo": "rm -rf cache .parcel && run-s start:parcel",
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-p build:prod"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"npm-run-all": "^4",
+		"typescript": "^4"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/xoff"
+}

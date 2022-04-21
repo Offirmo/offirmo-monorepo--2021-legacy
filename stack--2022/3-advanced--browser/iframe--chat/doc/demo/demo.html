@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" class="o⋄top-container">
+<head>
+	<meta charset="UTF-8">
+	<title>demo.html</title>
+
+	<style>
+		@import "../../../../3-advanced--browser/ui--browser--css/src/style.css";
+
+		/*:root {
+			--bg: transparent;
+		}
+
+		body {
+			margin: 0;
+			background-color: var(--bg);
+		}*/
+
+		.o⋄top-container {
+			xxborder-width: 1px;
+		}
+	</style>
+
+</head>
+<body class="o⋄top-container" data-o-theme="dark--default">
+	Hello I'm an app
+
+	<iframe class="o⋄top-container"
+		title="chat"
+		width="100%"
+		height="800px"
+		referrerpolicy="same-origin"
+		allow=""
+		sandbox="allow-same-origin allow-scripts"
+		xsrc="../../src/single-chat-container.html?id=null"
+		src="../../src/single-chat-container.html?id=test&nickname=dev&theme=night&bg_color=transparent"
+		xxsrc="../../src/single-chat-container.html?id=test&theme=pop&bg_color=yellow&nickname=dev"
+	>The chat should load here</iframe>
+
+	<script>
+		window.addEventListener('message', ({data, origin, source}) => {
+			console.log('📥 PM seen', { data, origin, source })
+		}, false)
+	</script>
+</body>
+</html>

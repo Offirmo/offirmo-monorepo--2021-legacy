@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" class="o⋄top-container">
+	<head>
+		<meta charset="UTF-8">
+		<title>single-chat-container.html</title>
+
+		<link rel="preconnect" href="https://tlk.io">
+
+		<style>
+			/************** excerpt from @offirmo-private/ui--browser--css *******/
+			.o⋄top-container {
+				display: flex;
+				flex-direction: column;
+
+				height: 100%;
+
+				/* To be able to scroll inside a flexbox
+				 * https://medium.com/@stephenbunch/how-to-make-a-scrollable-container-with-dynamic-height-using-flexbox-5914a26ae336
+				 */
+				flex-grow: 1;
+				min-height: 0; /* or else min-height may be too big */
+			}
+
+			.o⋄body⁚full-viewport {
+				max-width: unset;
+				width: 100%; /* avoid lower than max if possible */
+				margin: 0;
+				padding: 0;
+			}
+			/************ debug ************/
+			/*@import "../../../../3-advanced--browser/ui--browser--css/src/style--containers--debug.css";
+			.o⋄top-container {
+				border-width: 1px;
+			}*/
+			/************************************/
+
+			:root {
+				--bg: transparent;
+				--fg: white;
+			}
+			body {
+				background-color: var(--bg);
+				color: var(--fg);
+			}
+		</style>
+		<script>
+			// immediately cut our connection to our parent
+			// so that the foreign tlk.io script can't escape the sandbox
+			// https://stackoverflow.com/questions/67223608/how-can-an-iframe-remove-its-own-sandboxing
+			window.parent = window
+			window.top = window
+
+			const LIB = '@offirmo/🖼💬/📦tlk.io'
+			const DEBUG = {
+				//window,
+				//document,
+				'window.parent': window.parent,
+				'window.location': window.location,
+				'document.referrer': document.referrer,
+				'hasStorageAccess': '(pending…)'
+				//searchParams: new URLSearchParams(window.location.search),
+			}
+			console.log(`[${LIB}] Hello from head`, DEBUG)
+			if (document.hasStorageAccess) {
+				document.hasStorageAccess().then(hasAccess => {
+					DEBUG.hasStorageAccess = hasAccess
+				})
+			}
+
+			// attach error handlers
+			window.addEventListener('error', function(evt) {
+						// https://developer.mozilla.org/en-US/docs/Web/API/ErrorEvent
+						console.error(`[${LIB}] seen error:`, arguments)
+						/*const err = (evt && evt.message === 'Script error.')
+							? new Error('Unreadable error from another origin!')
+							: evt.error || new Error(`Error "${evt.message}" from "${evt.filename}", line ${evt.lineno}.${evt.colno}!`)
+
+						SEC._handleError({
+							SEC,
+							debugId: 'browser/onError',
+							shouldRethrow: false,
+						}, err)*/
+
+						//evt.preventDefault() // XXX should we?
+					})
+			window.addEventListener('unhandledrejection', function(evt) {
+				console.error(`[${LIB}] seen unhandled rejection:`, arguments)
+				// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
+						//console.log(evt.reason)
+						/*const err = evt.reason || new Error('Error: uncaught promise rejection!')
+
+						SEC._handleError({
+							SEC,
+							debugId: 'browser/unhandled rejection',
+							shouldRethrow: false,
+						}, err)*/
+					})
+		</script>
+	</head>
+
+	<body class="o⋄body⁚full-viewport o⋄top-container">
+		<script>
+			//console.log(`[${LIB}] Hello from body`)
+
+			// alter/fix the defaults above according to params
+			const state = (() => {
+				const searchParams = new URLSearchParams(window.location.search)
+
+				const id       = searchParams.get('id') || (() => {
+					let hostname = (
+						document.referrer
+						? new URL(document.referrer)
+						: location
+					).hostname
+					return encodeURIComponent(hostname.replaceAll('.', '-'))
+				})()
+				const theme    = searchParams.get('theme') || 'minimal'
+				const nickname = ((candidate) => {
+					if (!candidate) candidate = 'anonymous' // covers null, undef & ''
+					const has_brackets = candidate.startsWith('[') && candidate.endsWith(']')
+					if (has_brackets)
+						candidate = candidate.slice(1, -1)
+
+					let result = candidate
+					let candidate_lc = candidate.toLowerCase()
+
+					if (candidate_lc === 'anonymous' || candidate_lc === 'new player' || candidate_lc === 'new user') {
+						// https://michalzalecki.com/generate-unique-id-in-the-browser-without-a-library/
+						let anon_uuid = (() => {
+							const anon_uuid = crypto.getRandomValues(new Uint32Array(1))[0].toString(16)
+
+							try { // defensive!
+								const LS_KEY = `@offirmo-private/iframe--chat/anon_uuid`
+								let already_generated_anon_uuid = localStorage.getItem(LS_KEY)
+								if (!!already_generated_anon_uuid && already_generated_anon_uuid.length === anon_uuid.length)
+									return already_generated_anon_uuid
+
+								localStorage.setItem(LS_KEY, anon_uuid)
+							} catch (e) {
+								/* swallow */
+							}
+
+							return anon_uuid
+						})()
+
+						result = result + (has_brackets ? ' ' : '--') + anon_uuid
+					}
+
+					if (has_brackets)
+						result = '[' + result + ']'
+
+					return result
+				})(searchParams.get('nickname'))
+				const bg_color = searchParams.get('bg_color') || ({
+					'day':     '#f4f3f1',
+					'night':   '#26282c',
+					'pop':     '#f9eced',
+					'minimal': 'transparent',
+				}[theme] ?? 'transparent')
+				const css_overrides_url = !!searchParams.get('css_overrides_url')
+					? decodeURIComponent(searchParams.get('css_overrides_url'))
+					: (location.origin + '/tlk.io_overrides.css') // NOTE: should be absolute
+
+				return {
+					id,
+					theme,
+					bg_color,
+					nickname,
+					css_overrides_url,
+				}
+			})()
+
+			function render() {
+				console.log(`[${LIB}] rendering…`, state)
+
+				document.documentElement.style.setProperty( '--bg', state.bg_color )
+				document.documentElement.style.setProperty( '--fg', {
+					'day':     'black',
+					'night':   'white',
+					'pop':     'black',
+					'minimal': 'white',
+				}[state.theme] ?? 'white')
+
+				////////////////////////////////////
+
+				const div = document.createElement('div')
+
+				div.innerHTML = state.id === 'null'
+					? `([${LIB}] waiting for a reload with a channel id)`
+					: `<p>The chat is loading…` // <a href="https://tlk.io/${state.id}">(click here if it takes too long)</a></p>`
+
+				document.body.appendChild(div)
+
+				div.id = 'tlkio' // mandatory for the tlk.io script to work
+				div.className = 'o⋄top-container'
+				div.setAttribute('data-channel', state.id)
+				div.style = 'width:100%;height:100%;' // TODO max-width:762px;
+				div.setAttribute('data-theme', 'theme--' + state.theme)
+				if (state.nickname)
+					div.setAttribute('data-nickname', state.nickname)
+				if (state.css_overrides_url)
+					div.setAttribute('data-custom-css', state.css_overrides_url)
+
+				if (state.id === 'null') {
+					console.log(`[${LIB}] null channel id, not loading further ❌`)
+					return
+				}
+
+				////////////////////////////////////
+
+				// add script
+				// https://stackoverflow.com/a/26478358/587407
+				const script = document.createElement('script')
+				script.type = 'text/javascript'
+				script.async = true
+				script.importance = 'low'
+				script.src = 'https://tlk.io/embed.js'
+
+				// cut off the referrer in case tlk.io script is nosy
+				document.referrer = null
+
+				// note: this doesn't work if in a setTimeout()
+				document.body.appendChild(script)
+				console.log(`[${LIB}] script inserted✔`)
+			}
+
+			render()
+		</script>
+	</body>
+</html>

@@ -1,0 +1,38 @@
+{
+	"name": "@offirmo-private/rich-text-format-to-react",
+	"version": "0.0.1",
+	"description": "Rendering rich text format to React",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"source": "src/index.js",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"react": "^17"
+	},
+	"dependencies": {
+		"@offirmo-private/features-detection-browser": "^0",
+		"@offirmo-private/react-error-boundary": "^0",
+		"@offirmo-private/rich-text-format": "^0",
+		"classnames": "^2",
+		"memoize-one": "^6",
+		"react-overlays": "^5",
+		"react-portal-tooltip": "^2"
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist …cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --no-hmr doc/demo/index.html doc/demo/index-iframe.html",
+		"demo": "run-s clean start:parcel"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"parcel-bundler": "^1",
+		"react": "^17"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/rich-text-format-to-react"
+}

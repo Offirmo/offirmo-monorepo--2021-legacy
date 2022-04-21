@@ -1,0 +1,69 @@
+{
+	"name": "@offirmo/universal-debug-api-node",
+	"description": "Implementation of Offirmo’s Universal Debug Api for node",
+	"version": "0.2.0",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": true,
+
+	"size-limit": [
+		{
+			"limit": "15kb",
+			"path": "dist/src.es2019.cjs/index.js"
+		}
+	],
+
+	"peerDependencies": {
+		"tslib": "^2"
+	},
+	"dependencies": {
+		"@offirmo/globalthis-ponyfill": "^3",
+		"@offirmo/practical-logger-node": "^0",
+		"@offirmo/universal-debug-api-interface": "^1"
+	},
+
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo/practical-logger-core": "^3",
+		"@size-limit/preset-small-lib": "^5",
+		"npm-run-all": "^4",
+		"size-limit": "^5",
+		"tslib": "^2"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
+		"ensure-size": "size-limit",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+		"demo": "UDA_OVERRIDE__LOGGER_FOO_LOGLEVEL=verbose UDA_OVERRIDE__DB_URL=localhost:1234 node ./doc/demo.js",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-node",
+	"keywords": [
+		"debug",
+		"logger",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-node",
+	"bugs": {
+		"url": "https://github.com/Offirmo/offirmo-monorepo/issues"
+	}
+}

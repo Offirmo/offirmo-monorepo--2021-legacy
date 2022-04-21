@@ -1,0 +1,22 @@
+{
+	"name": "@offirmo-private/rich-text-format-to-ansi",
+	"version": "0.0.1",
+	"description": "Rendering rich text format to Ansi (Terminal)",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "index.js",
+	"module": "index.js",
+	"source": "index.js",
+	"sideEffects": false,
+
+	"dependencies": {
+		"@offirmo-private/rich-text-format": "^0",
+		"chalk": "^4"
+	},
+
+	"devDependencies": {},
+	"scripts": {},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/rich-text-format-to-ansi"
+}

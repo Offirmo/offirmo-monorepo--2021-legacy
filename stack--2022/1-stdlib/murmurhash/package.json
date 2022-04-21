@@ -1,0 +1,41 @@
+{
+	"name": "@offirmo-private/murmurhash",
+	"description": "A reliable, typed and clearly exported murmurHash implementation",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"tslib": "^2"
+	},
+	"dependencies": {
+		"json-stable-stringify": "^1",
+		"murmurhash3js-revisited": "^3"
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js …dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"build": "run-s build:prod",
+		"cheatsheet": "node doc/cheatsheet.js"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^8",
+		"npm-run-all": "^4",
+		"tslib": "^2"
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-stdlib/murmurhash"
+}
