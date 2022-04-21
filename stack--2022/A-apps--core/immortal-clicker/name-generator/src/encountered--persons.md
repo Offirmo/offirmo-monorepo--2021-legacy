@@ -71,18 +71,18 @@ Jiu Di
 Kang Ran
 Kang Ren
 Kun Peng
-Li Muwan F
-Li Qianmei F
+Li Muwan #female #mc
+Li Qianmei #female
 Li Yuan
 Li Yun
 Li Yunzi
 Li Zihao
 Lian Daofei
 Lian Yunjue
-Ling Er F
+Ling Er #female
 Ling Tianhou
 Liu Jinbiao
-Liu Mei F
+Liu Mei #female
 Liu Qingyun
 Liu Wen
 Liu Yulong
@@ -90,9 +90,9 @@ Lou Fu
 Lu Jie
 Meng Mu
 Ming Dao
-Mu Bingmei F
-Qian Qin F
-Qin Mei F
+Mu Bingmei #female
+Qian Qin #female
+Qin Mei #female
 Qing Lin
 Qing Shui
 Rou Dei
@@ -161,8 +161,11 @@ Chen Ziang
 Du Lingfei #female
 Han Jianye
 Hei
+Hou Xiaomei #female
+Hou Yunfei
 Li Qinghou
 Li Shan
+Liu Ergou
 Lu Tianlei
 Qian Dajin
 Shangguan Tianhou #surname--uncommon
@@ -170,5 +173,6 @@ Wang Qingshan
 Xu Baocai
 Xu Meixiang #female
 Zhang
+Zhao Fei #female
 Zhao Yiduo
 Zhou Xinqi #female

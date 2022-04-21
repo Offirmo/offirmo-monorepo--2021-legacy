@@ -1,6 +1,5 @@
 import { Story, Meta } from '@storybook/react'
 
-import SwipeableViews from 'react-swipeable-views'
 import Component, { Props } from '.'
 
 ////////////////////////////////////////////////////////////////////////////////////

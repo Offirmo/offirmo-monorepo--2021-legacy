@@ -1,7 +1,6 @@
 import SwipeableViews from 'react-swipeable-views'
 import { virtualize, SlideRendererCallback, SlideRenderProps } from 'react-swipeable-views-utils'
 import { mod } from 'react-swipeable-views-core'
-import HelloWorld from '../hello-world'
 
 const VirtualizeSwipeableViews = virtualize(SwipeableViews)
 

@@ -11,6 +11,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
+		"react-swipeable-views": "^0"
 	},
 
 	"scripts": {
@@ -24,6 +25,9 @@
 	},
 	"devDependencies": {
 		"@offirmo-private/toolbox--storybook": "^0",
+		"@types/react-swipeable-views": "^0",
+		"@types/react-swipeable-views-core": "^0",
+		"@types/react-swipeable-views-utils": "^0",
 		"npm-run-all": "^4"
 	},
 	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--browser/storybook--utils"
