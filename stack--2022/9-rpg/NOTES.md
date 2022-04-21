@@ -626,13 +626,17 @@ sentences
 
 https://medium.com/the-polymath-project/the-abcs-of-fake-empathy-fdbe4555acc5
 Women are taught to use certain phrases to please men and potentially score a future husband:
+    Sa: Sasuga! — As expected!
+    Shi: Shiranakata! — I didn’t know that!
+    Su: Sugoi! — Amazing! Awesome! Wow!
+    Se: Sensu ii desu ne! — You have good taste!
+    So: Sou nan da! — Really? I see! Is that so?
 
-    Sa: Sasuga! — As expected!
-    Shi: Shiranakata! — I didn’t know that!
-    Su: Sugoi! — Amazing! Awesome! Wow!
-    Se: Sensu ii desu ne! — You have good taste!
-    So: Sou nan da! — Really? I see! Is that so?
 
 jungle kid
 
 bride rescued from caravan, doesn't know to whom she was to be married
+
+
+stances
+https://www.thegamer.com/elden-ring-two-hand-power-stance-explained-guide/
