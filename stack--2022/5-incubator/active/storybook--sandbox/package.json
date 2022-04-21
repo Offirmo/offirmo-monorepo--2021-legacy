@@ -15,9 +15,9 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist …cache",
+		"clean": "monorepo-script--clean-package …dist …cache",
 
-		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:dev:watch": "monorepo-script--build-typescript-package --watch",
 
 		"typecheck": "run-s clean build:dev:watch",
 

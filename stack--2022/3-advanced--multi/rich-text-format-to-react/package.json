@@ -25,7 +25,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist …cache",
+		"clean": "monorepo-script--clean-package …dist …cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --no-hmr doc/demo/index.html doc/demo/index-iframe.html",
 		"demo": "run-s clean start:parcel"
 	},

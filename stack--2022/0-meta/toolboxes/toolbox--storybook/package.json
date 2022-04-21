@@ -28,5 +28,6 @@
 
 	"scripts": {
 		"test": "echo \"* @offirmo/toolbox--xyz: no need for unit tests for this kind of repo (meta)\""
-	}
+	},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/0-meta/toolboxes/toolbox--storybook"
 }

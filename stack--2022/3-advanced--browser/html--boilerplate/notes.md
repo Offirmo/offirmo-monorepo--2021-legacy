@@ -13,11 +13,11 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist …cache",
+		"clean": "monorepo-script--clean-package …dist …cache",
 
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
-		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:dev:watch": "monorepo-script--build-typescript-package --watch",
+		"build:prod": "monorepo-script--build-typescript-package",
 
 		"demo-p": "run-s clean start:parcel",
 		"dev": "run-s clean build:dev:watch",

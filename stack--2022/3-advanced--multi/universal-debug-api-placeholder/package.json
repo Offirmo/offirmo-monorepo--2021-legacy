@@ -44,10 +44,10 @@
 		"ts-node": "^10"
 	},
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist",
+		"clean": "monorepo-script--clean-package …dist",
 
-		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:dev:watch": "monorepo-script--build-typescript-package --watch",
+		"build:prod": "monorepo-script--build-typescript-package",
 		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
 		"ensure-size": "size-limit",
 

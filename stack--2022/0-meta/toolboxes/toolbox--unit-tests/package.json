@@ -35,8 +35,7 @@
 	"scripts": {
 		"test": "echo \"* @offirmo/unit-test-toolbox: no need for unit tests for this kind of repo (meta)\""
 	},
-
-	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/unit-test-toolbox",
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/0-meta/toolboxes/toolbox--unit-tests",
 	"keywords": [
 		"unit",
 		"test",

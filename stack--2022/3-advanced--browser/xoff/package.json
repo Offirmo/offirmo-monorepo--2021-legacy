@@ -20,11 +20,11 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist …cache .demo",
+		"clean": "monorepo-script--clean-package …dist …cache .demo",
 
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
-		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"build:dev:watch": "monorepo-script--build-typescript-package --watch",
+		"build:prod": "monorepo-script--build-typescript-package",
 		"build:dev": "parcel build --out-dir .demo --no-autoinstall doc/demo/*.html --public-url ./",
 
 		"demo": "rm -rf cache .parcel && run-s start:parcel",

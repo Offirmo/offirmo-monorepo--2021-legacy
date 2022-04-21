@@ -13,7 +13,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js …dist …cache",
+		"clean": "monorepo-script--clean-package …dist …cache",
 
 		"start:parcel--demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
 
