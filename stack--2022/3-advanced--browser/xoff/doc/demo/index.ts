@@ -12,7 +12,7 @@ import {
 	get_log_symbol,
 }
 //from '../../src'
-from '../../dist/src.es2019.cjs'
+from '../../dist/src.es2021.cjs'
 
 interface LocalExtras {
 	foo: string
@@ -74,4 +74,3 @@ if (window.parent !== window) {
 }
 
 console.groupEnd()
-

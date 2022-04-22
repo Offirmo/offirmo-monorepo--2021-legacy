@@ -10,7 +10,7 @@ import meow from 'meow'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 
-import tsc from '../4-tools/node-typescript-compiler/src/index.mjs'
+import tsc from 'node-typescript-compiler'
 
 /////////////////////
 
@@ -50,7 +50,7 @@ LOCAL_TSCONFIG_JSON.compilerOptions = LOCAL_TSCONFIG_JSON.compilerOptions || {}
 assert(!LOCAL_TSCONFIG_JSON.compilerOptions.target, 'local tsconfig should not override "target"')
 assert(!LOCAL_TSCONFIG_JSON.compilerOptions.module, 'local tsconfig should not override "module"')
 
-const ROOT_TSCONFIG_JSON = JSON.parse(await fs.readFile(path.join(__dirname, '..', '0-meta', 'tsconfig.json')))
+const ROOT_TSCONFIG_JSON = JSON.parse(await fs.readFile(path.join(__dirname, '..', '..', 'tsconfig.json')))
 assert(ROOT_TSCONFIG_JSON.compilerOptions.target === LATEST_CONVENIENT_ES, 'root tsconfig and this script should be in sync: target')
 assert(ROOT_TSCONFIG_JSON.compilerOptions.lib.includes(LATEST_CONVENIENT_ES), 'root tsconfig and this script should be in sync: lib')
 assert(ROOT_TSCONFIG_JSON.compilerOptions.module === LATEST_ES_MODULES, 'root tsconfig and this script should be in sync: module')

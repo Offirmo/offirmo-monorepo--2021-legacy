@@ -25,7 +25,8 @@ TODO  "moduleResolution": "node12",
   * useful for older JS runtimes, we are not concerned
 * ??? https://www.typescriptlang.org/tsconfig#preserveConstEnums
 * TODO https://www.typescriptlang.org/tsconfig#plugins
-
+* composite: disabled for now as it needs rootDir and not sure of the benefits
+*
 This should be the standard
 ```json
 "esModuleInterop": true,

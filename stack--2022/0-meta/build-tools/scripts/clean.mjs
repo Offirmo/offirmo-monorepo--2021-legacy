@@ -8,11 +8,6 @@ import meow from 'meow'
 import stylize_string from 'chalk'
 import fs from 'fs-extra'
 
-/*
-const stylize_string = require('../3-advanced--node/cli-toolbox/string/stylize')
-const fs = require('../3-advanced--node/cli-toolbox/fs/extra')
-*/
-
 /////////////////////
 
 const cli = meow('clean', {

@@ -7,9 +7,9 @@
 
 
 
-	"esnext": "dist/src.es2019/index.js",
-	"module": "dist/src.es2019/index.js",
-	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"esnext": "dist/src.es2021/index.js",
+	"module": "dist/src.es2021/index.js",
+	"typings": "dist/src.es2021.cjs/index.d.ts",
 
 
 https://culturalatlas.sbs.com.au/chinese-culture/chinese-culture-naming

@@ -6,10 +6,10 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"esnext": "dist/src.es2019/index.js",
-	"module": "dist/src.es2019/index.js",
-	"main": "dist/src.es2019.cjs/index.js",
-	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"esnext": "dist/src.es2021/index.js",
+	"module": "dist/src.es2021/index.js",
+	"main": "dist/src.es2021.cjs/index.js",
+	"typings": "dist/src.es2021.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": true,
 

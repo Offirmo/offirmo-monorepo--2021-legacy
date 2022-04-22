@@ -5,17 +5,17 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
-	"esnext": "dist/src.es2019/index.js",
-	"module": "dist/src.es2019/index.js",
-	"main": "dist/src.es2019.cjs/index.js",
-	"typings": "dist/src.es2019.cjs/index.d.ts",
+	"esnext": "dist/src.es2021/index.js",
+	"module": "dist/src.es2021/index.js",
+	"main": "dist/src.es2021.cjs/index.js",
+	"typings": "dist/src.es2021.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
 
 	"size-limit": [
 		{
 			"limit": "10kb",
-			"path": "dist/src.es2019.cjs/index.js"
+			"path": "dist/src.es2021.cjs/index.js"
 		}
 	],
 
@@ -35,7 +35,7 @@
 	"scripts": {
 		"clean": "monorepo-script--clean-package …dist",
 
-		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2021.cjs/**/*spec.js'",
 		"build:dev:watch": "monorepo-script--build-typescript-package --watch",
 		"build:prod": "monorepo-script--build-typescript-package",
 		"ensure-size": "size-limit",

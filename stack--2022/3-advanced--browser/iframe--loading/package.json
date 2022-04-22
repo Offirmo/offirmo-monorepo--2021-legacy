@@ -6,10 +6,10 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"esnext": "dist/src.es2019/client/index.js",
-	"module": "dist/src.es2019/client/index.js",
-	"main": "dist/src.es2019.cjs/client/index.js",
-	"typings": "dist/src.es2019.cjs/client/index.d.ts",
+	"esnext": "dist/src.es2021/client/index.js",
+	"module": "dist/src.es2021/client/index.js",
+	"main": "dist/src.es2021.cjs/client/index.js",
+	"typings": "dist/src.es2021.cjs/client/index.d.ts",
 	"source": "src/client/index.ts",
 	"sideEffects": true,
 

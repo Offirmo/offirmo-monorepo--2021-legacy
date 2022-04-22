@@ -61,7 +61,7 @@
 		"traceResolution": false,
 
 
-		"composite": true,
+		"composite": false,
 
 
 		"noErrorTruncation": true,

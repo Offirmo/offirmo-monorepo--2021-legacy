@@ -24,10 +24,14 @@
 		"manypkg--check": "manypkg check",
 		"manypkg--fix": "manypkg fix",
 
-		"clean": "manypkg exec yarn clean & rm -rf .cache .parcel .parcel-cache node_modules yarn.lock package-lock.json yarn-error.log"
+		"clean--all": "manypkg exec yarn clean",
+		"clean--root": "rm -rf node_modules .npm npm-debug.log package-lock.json yarn.lock yarn-error.log .yalc .awcache .parcel .parcel-cache bower_components typings",
+		"clean": "run-s  clean--all clean--root",
+
+		"build--all": "manypkg exec yarn build"
 	},
 	"workspaces": [
-		"0-scripts",
+		"0-meta/build-tools/*",
 		"0-meta/toolboxes/*",
 		"1-stdlib/*",
 		"x2-foundation/*",
