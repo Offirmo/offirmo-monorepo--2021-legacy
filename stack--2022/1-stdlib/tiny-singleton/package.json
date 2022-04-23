@@ -35,19 +35,17 @@
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
-		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2021.cjs/**/*spec.js'",
-		"build": "run-s build:prod",
-		"demo": "node doc/demo/index.js",
+		"test": "mocha --bail --config ../../node_modules/@offirmo/unit-test-toolbox/mocharc.json ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2021.cjs/**/*spec.js'",
+		"build": "run-s clean build:prod",
 
-		"np": "np --no-publish",
+		"demo": "node doc/demo/index.js",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^8",
-		"@size-limit/preset-small-lib": "^5",
-		"np": "^7",
+		"@size-limit/preset-small-lib": "^7",
 		"npm-run-all": "^4",
-		"size-limit": "^5"
+		"size-limit": "^7"
 	},
 
 	"files": [

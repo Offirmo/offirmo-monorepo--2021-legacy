@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import sinon from 'sinon'
+import * as sinon from 'sinon'
 
 import {
 	get_UTC_timestamp_ms,
@@ -40,10 +40,10 @@ describe('@offirmo-private/timestamps', function() {
 
 			context('when using sinon', function() {
 				beforeEach(function () {
-					this.clock = sinon.useFakeTimers(TEST_TIMESTAMP_MS)
+					;(this as any).clock = sinon.useFakeTimers(TEST_TIMESTAMP_MS)
 				})
 				afterEach(function () {
-					this.clock.restore()
+					;(this as any).clock.restore()
 				})
 
 				it('should be affected by useFakeTimers()', function() {

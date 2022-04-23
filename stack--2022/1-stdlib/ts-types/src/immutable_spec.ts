@@ -2,9 +2,6 @@ import {
 	Immutable,
 	ImmutabilityEnforcer,
 } from './immutable'
-import {
-	JSON
-} from './json'
 
 
 /////////////////////////////////////////////////
@@ -74,4 +71,3 @@ testTuple(['foo'])
 const t2: Immutable<Test> = t
 
 const ie: ImmutabilityEnforcer = <T>(s: T | Immutable<T>) => s as Immutable<T>
-

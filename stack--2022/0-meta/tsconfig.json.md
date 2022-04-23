@@ -16,11 +16,11 @@ Last update: [https://devblogs.microsoft.com/typescript/](update marker) 2022/03
 * VERY IMPORTANT https://www.typescriptlang.org/docs/handbook/module-resolution.html
 
 
-TODO  "moduleResolution": "node12",
 
 
 ### TOSORT
 
+TODO  "moduleResolution": "node12",
 * ??? https://www.typescriptlang.org/tsconfig#downlevelIteration
   * useful for older JS runtimes, we are not concerned
 * ??? https://www.typescriptlang.org/tsconfig#preserveConstEnums

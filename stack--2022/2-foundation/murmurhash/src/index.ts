@@ -1,5 +1,5 @@
 // https://cimi.io/murmurhash3js-revisited/
-import MurmurHash3 from 'murmurhash3js-revisited'
+import * as MurmurHash3 from 'murmurhash3js-revisited'
 import stable_stringify from 'json-stable-stringify'
 
 type TextEncoderConstructor = any
