@@ -15,11 +15,9 @@
 		"xxbuild": "npm-run-all --parallel build:copy build:cleancss"
 	},
 	"dependencies": {
-		"@oh-my-rpg/assets--cursors": "^0"
 	},
 	"devDependencies": {
 		"@offirmo-private/ui--browser--css": "^0",
-		"@oh-my-rpg/assets--background--artbreeder": "^0",
 		"@storybook/react": "^6",
 		"clean-css-cli": "^5",
 		"cpx": "^1",

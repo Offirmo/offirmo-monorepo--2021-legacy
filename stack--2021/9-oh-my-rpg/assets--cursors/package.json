@@ -1,0 +1,12 @@
+{
+	"name": "@oh-my-rpg/assets--cursors",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Graphical assets for an RPG UI: cursors",
+	"license": "Unlicense",
+
+	"dependencies": {},
+	"scripts": {},
+	"devDependencies": {},
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/9-oh-my-rpg/assets--cursors"
+}

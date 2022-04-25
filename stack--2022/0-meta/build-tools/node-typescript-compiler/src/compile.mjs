@@ -3,8 +3,8 @@
 ///////////////////////////////////////////////////////
 
 import path from 'node:path'
-import { spawn } from 'node:child_process'
 
+import { spawn } from 'cross-spawn'
 import tildify from 'tildify'
 import _ from 'lodash'
 const { flatten, map, split, isArray } = _ // 2022/03 lodash is still commonjs

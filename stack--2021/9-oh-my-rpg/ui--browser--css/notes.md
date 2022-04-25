@@ -1,4 +1,9 @@
 
+
+		"@oh-my-rpg/assets--cursors": "^0"
+		"@oh-my-rpg/assets--background--artbreeder": "^0",
+
+
 notched buttons ? https://css-tricks.com/notched-boxes/
 
 scooped corners for discussion https://css-tricks.com/scooped-corners-in-2018/

@@ -7,6 +7,22 @@
 * [chore] micro-improvement of verbose logs
 * ...
 
+## v4.0.0
+* [chore][breaking] turned to ES modules, requires node XX
+
+## v3.0.0
+2022/04/25
+* [feat][breaking] now using [cross-spawn](https://github.com/moxystudio/node-cross-spawn) to hopefully add Windows compatibility
+  * marked as "breaking change" out of safety
+  * credits to [photonstorm](https://github.com/photonstorm) for the [suggestion](https://github.com/Offirmo/offirmo-monorepo/issues/5#issuecomment-879942830)
+  * credits to [MisterLuffy](https://github.com/MisterLuffy) for [reminding me about it](https://github.com/Offirmo/offirmo-monorepo/pull/10)
+* [chore] bumped dependencies (minor)
+
+## v2.4.0
+2022/04/03
+* [chore] micro-improvement of verbose logs
+* [doc] marked as maintained in 2022! Happy new year!
+
 ## v2.3.0
 2021/04/16
 * [feat] added the CWD base in error messages as a hint to the failed compilation. Useful when building several modules in parallel
