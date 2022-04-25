@@ -6,6 +6,14 @@
 * TODO change the interface to use named params
 * ...
 
+## v3.0.0
+2022/04/25
+* [feat][breaking] now using [cross-spawn](https://github.com/moxystudio/node-cross-spawn) to hopefully add Windows compatibility
+  * marked as "breaking change" out of safety
+  * credits to [photonstorm](https://github.com/photonstorm) for the [suggestion](https://github.com/Offirmo/offirmo-monorepo/issues/5#issuecomment-879942830)
+  * credits to [MisterLuffy](https://github.com/MisterLuffy) for [reminding me about it](https://github.com/Offirmo/offirmo-monorepo/pull/10)
+* [chore] bumped dependencies (minor)
+
 ## v2.4.0
 2022/04/03
 * [chore] micro-improvement of verbose logs

@@ -1,6 +1,6 @@
 {
 	"name": "node-typescript-compiler",
-	"version": "2.4.0",
+	"version": "3.0.0",
 	"description": "Exposes typescript compiler (tsc) as a node.js module",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
@@ -15,6 +15,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
+		"cross-spawn": "^7",
 		"lodash": "^4",
 		"path-exists": "^4",
 		"tildify": "^2"

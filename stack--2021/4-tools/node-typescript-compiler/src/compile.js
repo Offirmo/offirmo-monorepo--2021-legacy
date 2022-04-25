@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////
 
 const path = require('path')
-const { spawn } = require('child_process')
+const { spawn } = require('cross-spawn')
 const tildify = require('tildify')
 const { flatten, map, split, isArray } = require('lodash')
 

@@ -210,6 +210,7 @@
 		"chai-subset": "^1",
 		"clean-css-cli": "^5",
 		"cpx": "^1",
+		"cross-spawn": "^7",
 		"eslint-plugin-chai-expect": "^3",
 		"eslint-plugin-mocha": "^10",
 		"icepick": "^2",
