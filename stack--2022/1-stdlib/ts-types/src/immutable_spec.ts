@@ -68,6 +68,8 @@ testTuple(['foo'])
 
 /////////////////////////////////////////////////
 
+// @ts-expect-error TS6133
 const t2: Immutable<Test> = t
 
+// @ts-expect-error TS6133
 const ie: ImmutabilityEnforcer = <T>(s: T | Immutable<T>) => s as Immutable<T>
