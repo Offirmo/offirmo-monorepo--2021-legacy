@@ -39,5 +39,5 @@
 		"cheatsheet": "node doc/cheatsheet.js"
 	},
 
-	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-foundation/ts-utils"
+	"repository": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-stdlib/ts-utils"
 }
