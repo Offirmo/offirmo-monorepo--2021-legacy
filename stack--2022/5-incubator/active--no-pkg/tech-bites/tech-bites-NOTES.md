@@ -20,6 +20,8 @@ Senior Dev tips!
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
 
+http://regex.info/blog/2006-09-15/247
+
 
 In the future I plan on avoiding these mistakes by asking myself two questions:
     Why am I doing this?
