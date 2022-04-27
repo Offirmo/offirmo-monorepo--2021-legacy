@@ -5,6 +5,7 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
+	"type": "module",
 	"esnext": "dist/src.es2021/index.js",
 	"module": "dist/src.es2021/index.js",
 	"main": "dist/src.es2021.cjs/index.js",
