@@ -12,7 +12,7 @@ const { flatten, map, split, isArray } = _ // 2022/03 lodash is still commonjs
 
 import { EXECUTABLE, find_tsc } from './find-tsc.mjs'
 import { LIB } from './consts.mjs'
-import { set_banner, display_banner_if_1st_output } from './logger.mjs'
+import { create_logger_state, display_banner_if_1st_output } from './logger.mjs'
 
 ///////////////////////////////////////////////////////
 
@@ -28,10 +28,10 @@ export async function compile(tscOptions, files, options) {
 	files = files || []
 	options = options || {}
 	options.verbose = Boolean(options.verbose)
-	set_banner(options.banner)
+	let logger_state = create_logger_state(options.banner)
 
 
-	if (options.verbose) display_banner_if_1st_output()
+	if (options.verbose) logger_state = display_banner_if_1st_output(logger_state)
 
 
 	return new Promise((resolve, reject) => {
@@ -60,12 +60,12 @@ export async function compile(tscOptions, files, options) {
 			err.reason = reason
 
 			if (options.verbose) {
-				display_banner_if_1st_output()
+				logger_state = display_banner_if_1st_output(logger_state)
 				console.error(`[${LIB}] ✖ Failure during tsc invocation: ${reason}`)
 				console.error(err)
 			}
 
-			display_banner_if_1st_output()
+			logger_state = display_banner_if_1st_output(logger_state)
 			err.message = `[${LIB}@dir:${path.parse(process.cwd()).base}] ${err.message}`
 			reject(err)
 			already_failed = true
@@ -85,7 +85,9 @@ export async function compile(tscOptions, files, options) {
 
 
 			// not returning due to complex "callback style" async code
-			find_tsc()
+			find_tsc(function _display_banner_if_1st_output() {
+				logger_state = display_banner_if_1st_output(logger_state)
+			})
 				.then(tsc_executable_absolute_path => {
 					if (options.verbose) console.log(`[${LIB}] ✔ found a typescript compiler at this location: "${tsc_executable_absolute_path}" aka. "${tildify(tsc_executable_absolute_path)}"`)
 					if (options.verbose) console.log(`[${LIB}] ► now spawning the compilation command: "${[tsc_executable_absolute_path, ...spawn_params].join(' ')}"...\n`)
@@ -97,7 +99,7 @@ export async function compile(tscOptions, files, options) {
 						on_failure('Spawn: got event "err"', err)
 					})
 					spawn_instance.on('disconnect', () => {
-						display_banner_if_1st_output()
+						logger_state = display_banner_if_1st_output(logger_state)
 						console.log(`[${LIB}] Spawn: got event "disconnect"`)
 					})
 					spawn_instance.on('exit', (code, signal) => {
@@ -115,7 +117,7 @@ export async function compile(tscOptions, files, options) {
 
 					// for debug purpose only
 					spawn_instance.stdin.on('data', data => {
-						display_banner_if_1st_output()
+						logger_state = display_banner_if_1st_output(logger_state)
 						console.log(`[${LIB}] got stdin event "data": "${data}"`)
 					})
 					// mandatory for correct error detection
@@ -124,7 +126,7 @@ export async function compile(tscOptions, files, options) {
 					})
 
 					spawn_instance.stdout.on('data', data => {
-						display_banner_if_1st_output()
+						logger_state = display_banner_if_1st_output(logger_state)
 						split(data, '\n').forEach(line => {
 							if (!line.length) return // convenience for more compact output
 
@@ -144,7 +146,7 @@ export async function compile(tscOptions, files, options) {
 					})
 
 					spawn_instance.stderr.on('data', data => {
-						display_banner_if_1st_output()
+						logger_state = display_banner_if_1st_output(logger_state)
 						split(data, '\n').forEach(line => console.log(RADIX + '! ' + line))
 						stderr += data
 					})

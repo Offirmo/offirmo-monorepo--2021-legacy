@@ -54,8 +54,8 @@ npm i --save-dev typescript
 npm i --save-dev node-typescript-compiler
 ```
 
-Node requirements: unknown. I'm using the latest LTS but I believe it should work for older node >=4,
-thus I'm not enforcing the node version. Not promising anything either.
+Node requirements: **>=12** since this module is now [pure ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
+If needed, the older v3 should work for older node >=4. Not promising anything.
 
 
 ## Usage
@@ -76,21 +76,20 @@ The module exposes a unique function, `compile({tscOptions}, [files], [{options}
 ### Example invocation: Compile current project:
 
 ```js
-const tsc = require('node-typescript-compiler')
-tsc.compile({
+import tsc from 'node-typescript-compiler'
+await tsc.compile({
 	'project': '.'
 })
-.then(...)
 ```
 --> Will spawn `tsc --project .`
 
 ### Example invocation: Compile current project with some options overridden
 
 ```js
-const tsc = require('node-typescript-compiler')
+import tsc from 'node-typescript-compiler'
 const tsconfig = { json: require('../tsconfig.json') }
 
-tsc.compile(
+await tsc.compile(
 	{
 		...tsconfig.json.compilerOptions,
 		declaration: false,
@@ -101,22 +100,22 @@ tsc.compile(
 )
 ```
 --> Will spawn `tsc <…non-overriden tsconfig options> --outDir dist/es6.amd --module amd`
- (boolean "false" values cause the corresponding option to not be added, this is the intended behaviour)
+ (boolean "false" values cause the corresponding option to not be added to the invocation string, this is the intended behaviour)
 
 ### Example invocation: Get help
 
 ```js
-const tsc = require('node-typescript-compiler')
+import tsc from 'node-typescript-compiler'
 
-return tsc.compile({
+await tsc.compile({
 	help: true
 })
 ```
---> Will spawn `tsc --help` (boolean "true" values are not needed thus don't appear, option presence is enough)
+--> Will spawn `tsc --help` (boolean "true" values are not needed thus don't appear on the invocation string, option presence is enough)
 
 ### Usage notes
 
-Except the unclear node requirement, this module should be fairly stable.
+This module should be fairly stable.
 Its behaviour is straightforward and all possible error cases should be caught.
 
 This module will intelligently try to extract the error message from stdout/stderr if possible.
@@ -128,6 +127,8 @@ a convenient separator will be displayed.
 
 Also the `--listFiles` option should lead to a readable output.
 
+This module *should* work on Windows thanks to using the [cross-spawn](https://www.npmjs.com/package/cross-spawn) package.
+However this has NOT been tested personally by the author.
 
 ## Design considerations
 

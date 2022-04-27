@@ -1,17 +1,16 @@
 'use strict'
 
 import path from 'node:path'
-import {fileURLToPath} from 'node:url'
+import { fileURLToPath } from 'node:url'
 import os from 'node:os'
 
 import { pathExists } from 'path-exists'
 
 import { LIB, __dirname } from './consts.mjs'
-import { display_banner_if_1st_output } from './logger.mjs'
 
 export const EXECUTABLE = 'tsc'
 
-export async function find_tsc() {
+export async function find_tsc(display_banner_if_1st_output) {
 
 	// obvious candidate from sibling module,
 	// but won't work if symlinked, with npm link for ex. or with npm-pkgr
@@ -28,8 +27,9 @@ export async function find_tsc() {
 		candidate_from_import = path.dirname(fileURLToPath(await import.meta.resolve('typescript')))
 		candidate_from_import = path.join(candidate_from_import, '..', 'bin', EXECUTABLE)
 	}
-	catch(err) { /* not found, ignore */
-		console.log('from import', err)
+	catch(err) {
+		/* not found, ignore */
+		//console.log('from import', err)
 	}
 
 	// last try: defaulting to an eventual global typescript module

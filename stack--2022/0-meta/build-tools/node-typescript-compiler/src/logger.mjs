@@ -9,16 +9,23 @@ import { LIB, __dirname } from './consts.mjs'
 const { version } = JSON.parse(await fs.readFile(path.join(__dirname, '..', 'package.json')))
 
 
-let banner = `[${LIB}] v${version}:`
-export function set_banner(_banner = banner) {
-	banner = _banner
+const DEFAULT_BANNER = `[${LIB}] v${version}:`
+
+export function create_logger_state(banner = DEFAULT_BANNER) {
+	return {
+		banner,
+		seen_any_output_yet: false,
+	}
 }
 
-let seen_any_output_yet = false
-export function display_banner_if_1st_output() {
-	if (seen_any_output_yet) return
+export function display_banner_if_1st_output(logger_state) {
+	if (!logger_state.seen_any_output_yet) {
+		console.log(banner)
+		logger_state = {
+			...logger_state,
+			seen_any_output_yet: true,
+		}
+	}
 
-	console.log(banner)
-
-	seen_any_output_yet = true
+	return logger_state
 }

@@ -4,16 +4,20 @@
 ## PENDING
 * TODO remove lodash as a dependency
 * TODO change the interface to use named params
-* [chore] micro-improvement of verbose logs
+* [chore][breaking] turned to ES modules, requires node 12+
+  * as such, the typescript module resolution through `require` is now resolved through `import.meta.resolve`
+* [chore][breaking] main functions are now correctly marked async
+* [chore] logger state is no longer leaked between invocations (it was using a global state)
+* [chore] removed a dev dependency
+* [chore] bumped dependencies (minor)
+* [doc]++
 * ...
 
-## v4.0.0
-* [chore][breaking] turned to ES modules, requires node XX
 
 ## v3.0.0
 2022/04/25
 * [feat][breaking] now using [cross-spawn](https://github.com/moxystudio/node-cross-spawn) to hopefully add Windows compatibility
-  * marked as "breaking change" out of safety
+  * marked as "breaking change" out of safety but should not change anything
   * credits to [photonstorm](https://github.com/photonstorm) for the [suggestion](https://github.com/Offirmo/offirmo-monorepo/issues/5#issuecomment-879942830)
   * credits to [MisterLuffy](https://github.com/MisterLuffy) for [reminding me about it](https://github.com/Offirmo/offirmo-monorepo/pull/10)
 * [chore] bumped dependencies (minor)
