@@ -39,7 +39,8 @@ export function dump_prettified_any(msg: string, data: Immutable<any>, options: 
 	console.log(prettify_any(data, options))
 }
 
-
+/* TODO one day
 export function is_pure_json(js: Immutable<any>): boolean {
 	return false
 }
+*/

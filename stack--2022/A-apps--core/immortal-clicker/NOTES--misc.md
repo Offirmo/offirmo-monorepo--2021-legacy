@@ -93,3 +93,6 @@ RI
 - Void Tribulant
 - (4th step)
 - Heaven Trampling
+
+
+he ability to accrue social capital within the organization. Social capital is the healthy network of connections with others that can emerge naturally in a culture of trust and tolerance.

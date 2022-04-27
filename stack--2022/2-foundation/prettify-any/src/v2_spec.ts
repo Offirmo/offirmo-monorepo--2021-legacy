@@ -123,7 +123,7 @@ describe('@offirmo-private/prettify-any', function() {
 					test_to_console(a)
 				})
 
-				it('should work repeated references (not circular)', () => {
+				it('should work with repeated references (NOT circular)', () => {
 					const r: any = { foo: '42' }
 					const a = [ r, r ]
 					test_to_console(a)

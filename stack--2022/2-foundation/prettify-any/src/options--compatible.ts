@@ -8,7 +8,7 @@ import {
 	is_negative_zero,
 	cmp,
 } from './utils'
-import {get_options} from './options'
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const DEFAULTS_STYLE_OPTIONS: StyleOptions = {
