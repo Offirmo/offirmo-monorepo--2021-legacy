@@ -3,6 +3,8 @@
 
 ## PENDING
 * [chore] moved in the monorepo
+* [feat][breaking] added the `fail-zero` option to fail when having 0 tests
+
 * ...
 
 ## v8.0.0
