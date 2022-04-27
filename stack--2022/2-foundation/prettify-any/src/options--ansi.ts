@@ -1,8 +1,5 @@
 import {
-	StyleOptions,
-	PrettifyOptions,
 	StylizeOptions,
-	Options,
 } from './types'
 
 

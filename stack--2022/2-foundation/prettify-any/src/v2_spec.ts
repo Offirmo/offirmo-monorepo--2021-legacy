@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { render as prettify_json } from 'prettyjson'
-import fetch_ponyfill from 'fetch-ponyfill'
+import * as fetch_ponyfill from 'fetch-ponyfill'
 
 import { inject_lib__chalk } from './injectable-lib--chalk'
 inject_lib__chalk(chalk)
@@ -69,11 +69,10 @@ describe('@offirmo-private/prettify-any', function() {
 				test_to_console(.12e3)
 			})
 
-			// TODO uncomment when switching to ES2020
-			it('should work with a single primitive -- bigint') /*, () => {
+			it('should work with a single primitive -- bigint', () => {
 				test_to_console(9007199254740991n)
 				test_to_console(BigInt(Number.MAX_SAFE_INTEGER))
-			})*/
+			})
 
 			it('should work with a single primitive -- boolean', () => {
 				test_to_console(true)

@@ -38,7 +38,7 @@
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
-		"test": "mocha --bail --config ../../node_modules/@offirmo/unit-test-toolbox/mocharc.json ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2021.cjs/**/*spec.js'",
+		"test": "mocha --bail --config ../../node_modules/@offirmo/unit-test-toolbox/mocharc.json --file ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js './dist/src.es2021.cjs/**/*spec.js'",
 		"build": "run-s clean build:prod",
 
 		"cheatsheet": "node doc/cheatsheet.js"
