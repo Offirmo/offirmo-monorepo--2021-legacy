@@ -1,11 +1,12 @@
 {
 	"name": "@offirmo-private/simple-upgradable-template",
-	"version": "0.0.1",
 	"description": "Tool/mod to create files from a template then keeping them up to date",
+	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
 
+	"type": "module",
 	"main": "src/index.js",
 	"bin": {
 		"offirmo-simple-upgradable-template-apply": "src/cli.js"

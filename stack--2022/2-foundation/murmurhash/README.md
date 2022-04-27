@@ -29,3 +29,6 @@ import { setTextEncoder } from '@offirmo-private/murmurhash'
 
 setTextEncoder(TextEncoder)
 ```
+
+
+See also https://opensource.googleblog.com/2014/03/introducing-farmhash.html
